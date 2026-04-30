@@ -6,7 +6,7 @@ extends Control
 var state
 
 func _ready():
-	MyEventBus.subscribe("screenshake", func():
+	MyEventBus.subscribe("screenshake", func(data):
 		shake()
 	)
 func shake():

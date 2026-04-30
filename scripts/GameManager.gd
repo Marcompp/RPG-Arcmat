@@ -47,6 +47,10 @@ func _ready():
 		in_combat = false
 		show_node_actions()
 	)
+	MyEventBus.subscribe("take_damage", func(data):
+		apply_damage(data['damage'])
+		show_node_actions()
+	)
 	#game_state["player"] = null
 	game_state["gold"] = 0
 	game_state["vars"] = {}
@@ -62,7 +66,8 @@ func _ready():
 		push_error("Falha ao carregar o JSON")
 		return
 	
-	MyEventBus.subscribe("choice_selected", _on_choice)
+	MyInputRouter.push(_handle_game_input, "exploration")
+	#MyEventBus.subscribe("choice_selected", _on_choice)
 	#dialogue.choice_selected.connect(_on_choice)
 	
 	dialogue.condition_callback = func(cond):
@@ -354,7 +359,7 @@ func show_exit_choices():
 # INPUT
 # ------------------------
 
-func _on_choice(choice):
+func _handle_game_input(choice):
 	if in_combat:
 		return  # ignora tudo
 
@@ -575,8 +580,8 @@ func get_dynamic_paragraph(node, node_key):
 	return chosen.get("text", "")
 
 func apply_damage(amount):
-	var hp = game_state.get_value("player.stats.hp", 0)
-	game_state.set_value("player.stats.hp", hp - amount)
+	var hp = game_state.get_value("player.curr_stats.hp", 0)
+	game_state.set_value("player.curr_stats.hp", hp - amount)
 
 func apply_effect(effect):
 	var changed = false

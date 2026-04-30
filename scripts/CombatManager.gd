@@ -1,4 +1,3 @@
-
 extends Node
 class_name CombatManager
 
@@ -18,8 +17,37 @@ var state = CombatState.PLAYER_TURN
 var player = null
 var enemy = null
 
-func _ready():
-	MyEventBus.subscribe("choice_selected", _on_choice)
+# ========================
+# ENTRY
+# ========================
+
+func start_combat(p, e):
+	player = p
+	enemy = e
+	
+	MyInputRouter.push(_handle_combat_input, "combat")
+	
+	await _show_intro()
+	await wait_for_continue()
+	
+	start_player_turn()
+
+# ========================
+# FLOW
+# ========================
+
+func start_player_turn():
+	state = CombatState.CHOOSING_ACTION
+	render_player_turn()
+
+func end_player_turn():
+	state = CombatState.ENEMY_TURN
+	await get_tree().create_timer(0.5).timeout
+	await enemy_turn()
+
+# ========================
+# RENDER
+# ========================
 
 func show_text(text, choices = []):
 	MyEventBus.emit("dialogue", {
@@ -27,86 +55,110 @@ func show_text(text, choices = []):
 		"choices": choices
 	})
 
-func start_combat(p, e):
-	player = p
-	enemy = e
+func render_player_turn():
+	var text = "%s: %d hp.\n%s: %d hp.\n\nWhat would you like to do?" % [
+		enemy["name"],
+		enemy["hp"],
+		player["Name"],
+		player["curr_stats"]["hp"]
+	]
 	
-	
-	var text = ""
-	text += "You encounter %s\n\n" % enemy["name"]
-	text += "%s is raring for a fight!" % enemy["name"]
-	
+	show_text(text, _main_choices())
+
+func _show_intro():
+	var text = "You encounter %s\n\n%s is raring for a fight!" % [
+		enemy["name"],
+		enemy["name"]
+	]
 	show_text(text)
-	
-	state = CombatState.PLAYER_TURN
-	
-	await wait_for_continue()
-	
-	start_player_turn()
-	
-func wait_for_continue():
-	MyEventBus.emit("show_choices", {'choices':[
-	{
-		"text": "Continue",
-		"type": "continue"
-	}]})
-	while true:
-		var data = await MyEventBus.await_event_once("choice_selected")
-		print('CONTINUE')
-		if data.get("type") == "continue":
-			print('CONTINUE')
-			return
-	
-func start_player_turn():
-	state = CombatState.CHOOSING_ACTION
-	
-	var p_hp = player["curr_stats"]["hp"]
-	var e_hp = enemy["hp"]
-	
-	var text = ""
-	text += "%s: %d hp.\n" % [enemy["name"], e_hp]
-	text += "%s: %d hp.\n\n" % [player["Name"], p_hp]
-	text += "What would you like to do?"
-	
-	show_text(text, [
+
+# ========================
+# CHOICES BUILDERS
+# ========================
+
+func _main_choices():
+	return [
 		{ "text": "Attack", "type": "attack" },
 		{ "text": "Skill", "type": "skill" },
 		{ "text": "Magic", "type": "magic" },
 		{ "text": "Item", "type": "item" }
-	])
+	]
+
+func _build_list_menu(list, type):
+	var choices = []
 	
-func _on_choice(choice):
+	for item in list:
+		choices.append({
+			"text": str(item),
+			"type": type,
+			"data": item
+		})
+	
+	choices.append({ "text": "Back", "type": "back" })
+	return choices
+
+# ========================
+# INPUT ROUTER
+# ========================
+
+func _handle_combat_input(choice):
 	match state:
 		
 		CombatState.CHOOSING_ACTION:
 			handle_main_action(choice)
 		
 		CombatState.CHOOSING_SKILL:
-			open_skill_menu()
+			handle_list_choice(choice, "skill")
 		
 		CombatState.CHOOSING_MAGIC:
-			print("Magic TBD")
-			open_magic_menu()
+			handle_list_choice(choice, "magic")
 		
 		CombatState.CHOOSING_ITEM:
-			print("Item TBD")
-			open_item_menu()
+			handle_list_choice(choice, "item")
+
+# ========================
+# ACTION HANDLERS
+# ========================
 
 func handle_main_action(choice):
 	match choice["type"]:
 		
 		"attack":
-			perform_attack()
+			await perform_attack()
 		
 		"skill":
-			open_skill_menu()
+			open_menu("skill", player.get("Skills", []))
 		
 		"magic":
-			open_magic_menu()
+			open_menu("magic", player.get("Spells", []))
 		
 		"item":
-			open_item_menu()
+			open_menu("item", player.get("inventory", []))
 
+func open_menu(type, list):
+	match type:
+		"skill": state = CombatState.CHOOSING_SKILL
+		"magic": state = CombatState.CHOOSING_MAGIC
+		"item": state = CombatState.CHOOSING_ITEM
+	
+	show_text("Choose:", _build_list_menu(list, type))
+
+func handle_list_choice(choice, type):
+	if choice["type"] == "back":
+		start_player_turn()
+		return
+	
+	match type:
+		"skill":
+			await use_skill(choice["data"])
+		"magic":
+			await use_magic(choice["data"])
+		"item":
+			await use_item(choice["data"])
+
+# ========================
+# ACTIONS
+# ========================
 
 func perform_attack():
 	state = CombatState.RESOLUTION
@@ -116,136 +168,108 @@ func perform_attack():
 	
 	enemy["hp"] -= dmg
 	
-	var text = ""
-	text += "%s struck with %s!\n" % [player["Name"], weapon]
-	text += "*SCREENSHAKE*\n"
-	text += "[color=red]%d[/color] damage!" % dmg
+	var text = "%s struck with %s!\n*SCREENSHAKE*\n[color=red]%d[/color] damage!" % [
+		player["Name"], weapon, dmg
+	]
 	
 	show_text(text)
-	
-	# 🔥 efeito visual (opcional)
 	MyEventBus.emit("screenshake")
 	
 	await wait_for_continue()
-	
 	check_combat_end()
 
-func open_skill_menu():
-	state = CombatState.CHOOSING_SKILL
-	
-	var skills = player.get("Skills", [])
-	var choices = []
-	
-	for s in skills:
-		choices.append({
-			"text": s,
-			"type": "skill",
-			"data": s
-		})
-	
-	choices.append({
-		"text": "Back",
-		"type": "back"
-	})
-	
-	MyEventBus.emit("show_choices", {'choices':choices})
-
-func handle_skill(choice):
-	if choice["type"] == "back":
-		start_player_turn()
-		return
-	
-	var skill = choice["data"]
-	
-	#use_skill(skill)
+func use_skill(skill):
+	show_text("Used %s!" % skill)
+	await wait_for_continue()
 	end_player_turn()
-	
-func open_magic_menu():
-	state = CombatState.CHOOSING_MAGIC
-	
-	var spells = player.get("Spells", [])
-	var choices = []
-	
-	for s in spells:
-		choices.append({
-			"text": s,
-			"type": "magic",
-			"data": s
-		})
-	
-	choices.append({ "text": "Back", "type": "back" })
-	
-	MyEventBus.emit("show_choices", {'choices':choices})
-	
-func open_item_menu():
-	state = CombatState.CHOOSING_ITEM
-	
-	var items = player.get("inventory", [])
-	var choices = []
-	
-	for i in items:
-		choices.append({
-			"text": i["name"],
-			"type": "item",
-			"data": i
-		})
-	
-	choices.append({ "text": "Back", "type": "back" })
-	
-	MyEventBus.emit("show_choices", {'choices':choices})
-	
-func end_player_turn():
-	state = CombatState.ENEMY_TURN
-	await get_tree().create_timer(0.5).timeout
-	
-	enemy_turn()
-	
+
+func use_magic(spell):
+	show_text("Cast %s!" % spell)
+	await wait_for_continue()
+	end_player_turn()
+
+func use_item(item):
+	show_text("Used %s!" % item)
+	await wait_for_continue()
+	end_player_turn()
+
+# ========================
+# ENEMY
+# ========================
+
 func enemy_turn():
 	var dmg = randi_range(1, 4)
-	player["curr_stats"]["hp"] -= dmg
+	MyEventBus.emit("take_damage",{'damage':dmg})
 	
-	var text = ""
-	text += "[color=yellow]%s[/color] attacks!\n" % enemy["name"]
-	text += "*SCREENSHAKE*\n"
-	text += "%d damage!" % dmg
+	var text = "[color=yellow]%s[/color] attacks!\n*SCREENSHAKE*\n%d damage!" % [
+		enemy["name"], dmg
+	]
 	
 	show_text(text)
-	
 	MyEventBus.emit("screenshake")
 	
 	await wait_for_continue()
-	
+	state = CombatState.PLAYER_TURN
 	check_combat_end()
-	
+
+# ========================
+# END
+# ========================
+
 func check_combat_end():
 	if player["curr_stats"]["hp"] <= 0:
-		end_combat(false)
+		await end_combat(false)
 		return
 	
 	if enemy["hp"] <= 0:
-		end_combat(true)
+		await end_combat(true)
 		return
 	
-	start_player_turn()
-	
-func end_combat(victory):
-	var text = ""
-	
-	if victory:
-		text = "[color=yellow]%s[/color] was defeated!" % enemy["name"]
+	next_turn()
+
+func next_turn():
+	if state == CombatState.PLAYER_TURN:
+		start_player_turn()
 	else:
-		text = "You were defeated..."
+		enemy_turn()
+
+func end_combat(victory):
+	state = CombatState.END
+	
+	var text = "[color=yellow]%s[/color] was defeated!" % enemy["name"] \
+		if  victory else "You were defeated..."
 	
 	show_text(text)
-	
 	await wait_for_continue()
 	
-	MyEventBus.emit("combat_ended", {
-		"victory": victory
-	})
+	MyInputRouter.pop()
+	MyEventBus.emit("combat_ended", { "victory": victory })
+
+# ========================
+# UTILS
+# ========================
+
+func wait_for_continue(): 
+	var state = { "done": false } 
 	
+	MyInputRouter.push(func(choice): 
+		print(choice) 
+		if choice.get("type") == "continue": 
+			state["done"] = true 
+			print("DONE!") 
+			MyInputRouter.pop() , 
+		"wait") 
+		
+	MyEventBus.emit("show_choices", {
+		'choices':[ 
+			{ "text": "Continue", "type": "continue" } 
+		]}) 
+		
+	while not state["done"]: 
+		await get_tree().process_frame
+		
+		
 func calculate_damage(p, e):
 	var atk = p["curr_stats"]["str"]
 	var def = e.get("def", 0)
-	
 	return max(1, atk - def + randi_range(0,2))
