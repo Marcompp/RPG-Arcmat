@@ -1,0 +1,106 @@
+[
+  {
+	"Name": "Agnes",
+	"Class": "Fencer",
+	"Stats": {
+	  "HP": "D",
+	  "MP": "D",
+	  "Str": "C",
+	  "Mag": "C",
+	  "Dex": "A",
+	  "Agi": "B",
+	  "Lck": "B",
+	  "Def": "A"
+	},
+	"Equip": {
+	  "Weapon": "Foil",
+	  "Armor": "Corset"
+	},
+	"Skills": ["Armor Piercer", "Pinpoint Hit"],
+	"Spells": [],
+	"Relationships": {
+	  "Agnes": null,
+	  "Borin": "Rival",
+	  "Chala": "Threat",
+	  "Danil": null
+	}
+  },
+  {
+	"Name": "Borin",
+	"Class": "Warrior",
+	"Stats": {
+	  "HP": "A",
+	  "MP": "D",
+	  "Str": "A",
+	  "Mag": "D",
+	  "Dex": "C",
+	  "Agi": "C",
+	  "Lck": "B",
+	  "Def": "B"
+	},
+	"Equip": {
+	  "Weapon": "Woodcutter Axe",
+	  "Armor": "Tanktop"
+	},
+	"Skills": ["Heavy Blow", "Crush"],
+	"Spells": [],
+	"Relationships": {
+	  "Agnes": "Rival",
+	  "Borin": null,
+	  "Chala": "Sibling",
+	  "Danil": null
+	}
+  },
+  {
+	"Name": "Chala",
+	"Class": "Mage",
+	"Stats": {
+	  "HP": "C",
+	  "MP": "A",
+	  "Str": "D",
+	  "Mag": "A",
+	  "Dex": "B",
+	  "Agi": "B",
+	  "Lck": "C",
+	  "Def": "D"
+	},
+	"Equip": {
+	  "Weapon": "Wooden Rod",
+	  "Armor": "Uniform"
+	},
+	"Skills": ["Meditate", "Mana Explosion"],
+	"Spells": ["Thunder", "Poison"],
+	"Relationships": {
+	  "Agnes": null,
+	  "Borin": "Sibling",
+	  "Chala": null,
+	  "Danil": "Crush"
+	}
+  },
+  {
+	"Name": "Danill",
+	"Class": "Rogue",
+	"Stats": {
+	  "HP": "C",
+	  "MP": "C",
+	  "Str": "D",
+	  "Mag": "B",
+	  "Dex": "B",
+	  "Agi": "A",
+	  "Lck": "A",
+	  "Def": "D"
+	},
+	"Equip": {
+	  "Weapon": "Sling",
+	  "Armor": "Tanktop"
+	},
+	"Skills": ["Poison Spit", "Assassinate"],
+	"Spells": [],
+	"Relationships": {
+	  "Agnes": "Threat",
+	  "Borin": null,
+	  "Chala": null,
+	  "Danil": null
+	}
+  }
+]

@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx50qj2qrnlcv"]
+
+[ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/GameManager.gd" id="1_3s1co"]
+[ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/DialogueSystem.gd" id="2_6mkdx"]
+
+[node name="GameManager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3s1co")
+
+[node name="DialogueSystem" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_6mkdx")
+
+[node name="StoryText" type="Label" parent="DialogueSystem"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 70.0
+offset_right = 1109.0
+offset_bottom = 513.0
+autowrap_mode = 3
+
+[node name="Choices" type="VBoxContainer" parent="DialogueSystem"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 75.0
+offset_top = 504.0
+offset_right = 1055.0
+offset_bottom = 598.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Row1" type="HBoxContainer" parent="DialogueSystem/Choices"]
+layout_mode = 2
+alignment = 1
+
+[node name="Choice1" type="Button" parent="DialogueSystem/Choices/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Choice2" type="Button" parent="DialogueSystem/Choices/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="DialogueSystem/Choices"]
+layout_mode = 2
+alignment = 1
+
+[node name="Choice3" type="Button" parent="DialogueSystem/Choices/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Choice4" type="Button" parent="DialogueSystem/Choices/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Row0" type="HBoxContainer" parent="DialogueSystem/Choices"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.0
+alignment = 1
+
+[node name="Back" type="Button" parent="DialogueSystem/Choices/Row0"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
