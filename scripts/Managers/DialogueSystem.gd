@@ -11,6 +11,10 @@ signal choice_selected(choice_data)
 	$Choices/Row2/Choice4,
 	$Choices/Row0/Back
 ]
+@onready var fade = $LogPanel/Fade
+@onready var log_panel = $LogPanel
+@onready var log_panel_panel = $LogPanel/Panel
+@onready var log_container = $LogPanel/Panel/ScrollContainer/LogContainer
 
 var visible_choice_map = []
 
@@ -24,7 +28,7 @@ var current_choices = []
 
 var condition_callback = null
 
-var accumulated_text = ""
+var dialogue_log = []
 
 # ------------------------
 # PUBLIC API
@@ -52,23 +56,10 @@ func set_choices(choices):
 # ------------------------
 
 func start_typing(text):
+	print('START_TYPING')
 	clear_text()
+	log_add_text(text)
 	append_text(text)
-
-func type_text(id):
-	while visible_chars < full_text.length():
-		if not is_typing or id != typing_id:
-			return
-			
-		story_text.text += full_text[visible_chars]
-		visible_chars += 1
-		await get_tree().create_timer(typing_speed).timeout
-	
-	if id != typing_id:
-		return
-	
-	is_typing = false
-	show_choices()
 
 func finish_typing():
 	if not is_typing:
@@ -77,51 +68,55 @@ func finish_typing():
 	typing_id += 1
 	
 	is_typing = false
-	story_text.text = full_text
-	visible_chars = full_text.length()
+	var total = story_text.get_total_character_count()
+	visible_chars = total
+	story_text.visible_characters = visible_chars
 	
 	show_choices()
 
 func append_text(text):
 	typing_id += 1
+	log_add_text(text)
 	
 	# guarda o que já estava na tela
-	accumulated_text = story_text.text
-	
 	full_text = text
-	visible_chars = 0
+	
 	is_typing = true
 	
 	type_text_append(typing_id)
 	
 func type_text_append(id):
-	while visible_chars < full_text.length():
+	story_text.text += full_text
+	
+	var total = story_text.get_total_character_count()
+	while visible_chars < total:
 		if not is_typing or id != typing_id:
 			return
 		
-		story_text.text = accumulated_text + full_text.substr(0, visible_chars + 1)
 		visible_chars += 1
+		story_text.visible_characters = visible_chars
 		
 		await get_tree().create_timer(typing_speed).timeout
 	
 	if id != typing_id:
 		return
 	
-	# atualiza acumulado ao terminar
-	accumulated_text = story_text.text
 	
 	is_typing = false
+	await get_tree().process_frame # 🔥 garante que o loop antigo morra
 	show_choices()
 
 func clear_text():
 	typing_id += 1
 	
 	is_typing = false
+	
 	full_text = ""
-	accumulated_text = ""
 	visible_chars = 0
+	story_text.visible_characters = 0
 	
 	story_text.text = ""
+	await get_tree().process_frame
 
 # ------------------------
 # CHOICES
@@ -216,11 +211,55 @@ func apply_button_style(button, choice, enabled):
 	if choice.get("highlight", false):
 		button.modulate = Color(1.2, 1.1, 0.6) # leve dourado
 
+#----------------------
+#LOG
+#----------------------
+
+func log_add_text(text):
+	dialogue_log.append({
+		"type": "text",
+		"content": text
+	})
+	
+func log_add_choice(text):
+	dialogue_log.append({
+		"type": "choice",
+		"content": text
+	})
+	
+func rebuild_log_ui():
+	# limpa UI
+	for child in log_container.get_children():
+		child.queue_free()
+	
+	for entry in dialogue_log:
+		var label = Label.new()
+		
+		if entry["type"] == "text":
+			label.text = entry["content"] + "\n"
+			label.modulate = Color(1,1,1)
+		
+		elif entry["type"] == "choice":
+			label.text = "> " + entry["content"]+"\n"
+			label.modulate = Color(0.8, 1.0, 0.6) # verdinho
+		
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		log_container.add_child(label)
+	
+	await get_tree().process_frame
+	
+	# scroll automático pro fim
+	var scroll = log_container.get_parent()
+	scroll.scroll_vertical = scroll.get_v_scroll_bar().max_value
+
 # ---------------------
 # TOOLTIP
 # ---------------------
 
 func _make_custom_tooltip(text):
+	print('WTF TOOLTIP')
+	if text == null or text == "" or text == "null":
+		return null  # 🔥 não cria tooltip
 	var label = Label.new()
 	
 	label.text = text
@@ -296,6 +335,16 @@ func _ready():
 	MyEventBus.subscribe("continue_text", func(data):
 		append_text("\n\n" + data.get("text", ""))
 	)
+	story_text.bbcode_enabled = true
+	$LogButton.pressed.connect(toggle_log)
+	$LogPanel/CloseButton.pressed.connect(close_log)
+	fade.mouse_filter = Control.MOUSE_FILTER_STOP
+	fade.gui_input.connect(_on_fade_clicked)
+	log_panel_panel.resized.connect(_update_pivot)
+	_update_pivot()
+
+func _update_pivot():
+	log_panel_panel.pivot_offset = log_panel_panel.size / 2
 
 # ------------------------
 # BUTTON CLICK
@@ -318,5 +367,50 @@ func _on_button_pressed(index):
 	if not evaluate_choice(choice):
 		return
 		
+	log_add_choice(choice["text"])
 	MyEventBus.emit("choice_selected", choice)
 	#emit_signal("choice_selected", choice)
+	
+#----------------------
+#LOG BUTTONS
+#----------------------
+
+func open_log():
+	log_panel.show()
+	
+	fade.modulate.a = 0
+	log_panel_panel.scale = Vector2(0.9, 0.9)
+	
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	# fade escuro
+	tween.tween_property(fade, "modulate:a", 0.6, 0.2)
+	
+	# painel aparece suave
+	tween.tween_property(log_panel_panel, "scale", Vector2(1,1), 0.2)
+	tween.tween_property(log_panel_panel, "modulate:a", 1.0, 0.2)
+	rebuild_log_ui()
+
+func close_log():
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	tween.tween_property(fade, "modulate:a", 0.0, 0.15)
+	tween.tween_property(log_panel_panel, "scale", Vector2(0.9, 0.9), 0.15)
+	tween.tween_property(log_panel_panel, "modulate:a", 0.0, 0.15)
+	
+	await tween.finished
+	
+	log_panel.hide()
+
+func toggle_log():
+	if log_panel.visible:
+		close_log()
+	else:
+		open_log()
+
+
+func _on_fade_clicked(event):
+	if event is InputEventMouseButton and event.pressed:
+		close_log()

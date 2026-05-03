@@ -172,7 +172,10 @@ func perform_attack():
 		player["Name"], weapon, dmg
 	]
 	
-	show_text(text)
+	#show_text(text)
+	MyEventBus.emit("continue_text", {
+		"text": text + "\n"
+	})
 	MyEventBus.emit("screenshake")
 	
 	await wait_for_continue()
@@ -205,7 +208,10 @@ func enemy_turn():
 		enemy["name"], dmg
 	]
 	
-	show_text(text)
+	#show_text(text)
+	MyEventBus.emit("continue_text", {
+		"text": text + "\n"
+	})
 	MyEventBus.emit("screenshake")
 	
 	await wait_for_continue()
@@ -239,7 +245,10 @@ func end_combat(victory):
 	var text = "[color=yellow]%s[/color] was defeated!" % enemy["name"] \
 		if  victory else "You were defeated..."
 	
-	show_text(text)
+	#show_text(text)
+	MyEventBus.emit("continue_text", {
+		"text": text
+	})
 	await wait_for_continue()
 	
 	MyInputRouter.pop()

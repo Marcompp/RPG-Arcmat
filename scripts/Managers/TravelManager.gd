@@ -40,7 +40,6 @@ func _evaluate_node(condition, curr_node):
 func _set_current_node(node_index, entrance):
 	current_node = node_index
 	current_entrance = entrance
-	print(world_data)
 	var region = world_data[current_region]
 	current_node_data = region[current_node]
 	

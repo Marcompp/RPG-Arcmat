@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://bx50qj2qrnlcv"]
 
-[ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/GameManager.gd" id="1_3s1co"]
-[ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/DialogueSystem.gd" id="2_6mkdx"]
+[ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
+[ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
 [ext_resource type="Script" uid="uid://cngvu4c05o5hn" path="res://scripts/TooltipButton.gd" id="3_6mkdx"]
 [ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
-[ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/CombatManager.gd" id="5_ubeea"]
-[ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/TravelManager.gd" id="6_rki1y"]
+[ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
+[ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -16,19 +16,39 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3s1co")
 
+[node name="GameUI" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 118.0
+offset_bottom = 43.0
+script = ExtResource("4_x2e2c")
+
+[node name="TopLeftPanel" type="VBoxContainer" parent="GameUI"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 46.0
+offset_bottom = 55.0
+
+[node name="NameLabel" type="Label" parent="GameUI/TopLeftPanel"]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="GameUI/TopLeftPanel"]
+layout_mode = 2
+
 [node name="DialogueSystem" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_6mkdx")
 
-[node name="StoryText" type="Label" parent="DialogueSystem"]
+[node name="StoryText" type="RichTextLabel" parent="DialogueSystem"]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 122.0
 offset_right = 1109.0
 offset_bottom = 513.0
-autowrap_mode = 3
 
 [node name="Choices" type="VBoxContainer" parent="DialogueSystem"]
 layout_mode = 1
@@ -93,26 +113,54 @@ offset_right = 1137.0
 offset_bottom = 630.0
 text = "LOG"
 
-[node name="GameUI" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 118.0
-offset_bottom = 43.0
-script = ExtResource("4_x2e2c")
-
-[node name="TopLeftPanel" type="VBoxContainer" parent="GameUI"]
+[node name="LogPanel" type="Panel" parent="DialogueSystem"]
+visible = false
+visibility_layer = 512
 layout_mode = 0
-offset_left = 6.0
-offset_top = 5.0
-offset_right = 46.0
-offset_bottom = 55.0
 
-[node name="NameLabel" type="Label" parent="GameUI/TopLeftPanel"]
-layout_mode = 2
+[node name="Fade" type="ColorRect" parent="DialogueSystem/LogPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.537255)
+metadata/_edit_use_anchors_ = true
 
-[node name="StatsLabel" type="Label" parent="GameUI/TopLeftPanel"]
+[node name="Panel" type="Panel" parent="DialogueSystem/LogPanel"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 58.0
+offset_right = 1099.0
+offset_bottom = 608.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="DialogueSystem/LogPanel/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -523.0
+offset_top = 10.0
+offset_right = 524.0
+offset_bottom = 541.0
+grow_horizontal = 2
+
+[node name="LogContainer" type="VBoxContainer" parent="DialogueSystem/LogPanel/Panel/ScrollContainer"]
+custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 2
+
+[node name="CloseButton" type="Button" parent="DialogueSystem/LogPanel"]
+layout_mode = 0
+offset_left = 1102.0
+offset_top = 58.0
+offset_right = 1120.0
+offset_bottom = 89.0
+text = "X"
 
 [node name="CombatManager" type="Control" parent="."]
 anchors_preset = 0

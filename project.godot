@@ -17,5 +17,5 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-MyEventBus="*res://scripts/EventBus.gd"
-MyInputRouter="*res://scripts/InputRouter.gd"
+MyEventBus="*res://scripts/Globals/EventBus.gd"
+MyInputRouter="*res://scripts/Globals/InputRouter.gd"
