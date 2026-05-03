@@ -1,6 +1,7 @@
 extends Node
 
 @onready var dialogue = $DialogueSystem
+@onready var travel = $TravelManager
 @onready var combat = $CombatManager
 @onready var game_ui = $GameUI
 
@@ -10,8 +11,7 @@ extends Node
 
 enum GameMode {
 	CHARACTER_SELECT,
-	NODE_ACTIONS,
-	CHOOSING_EXIT,
+	TRAVEL,
 	INVENTORY,
 	REST,
 	MONSTERS
@@ -21,15 +21,7 @@ var current_mode = GameMode.CHARACTER_SELECT
 
 var characters = []
 
-var world_data = {}
-
-var current_region = "Apple Woods"
-var current_node = 0
-var current_entrance = 1
-
 var in_combat = false
-
-var current_node_data = null
 
 var game_state = GameState.new()
 
@@ -45,11 +37,25 @@ func get_var(key, default := 0):
 func _ready():
 	MyEventBus.subscribe("combat_ended", func(_data):
 		in_combat = false
-		show_node_actions()
+		travel.show_node_actions()
+	)
+	MyEventBus.subscribe("register_visit", func(data):
+		register_visit(data.get('key',0))
+	)
+	MyEventBus.subscribe("add_progress", func(data):
+		add_progress(data.get('progress',0),data.get('reset',false))
 	)
 	MyEventBus.subscribe("take_damage", func(data):
 		apply_damage(data['damage'])
-		show_node_actions()
+	)
+	MyEventBus.subscribe("apply_effect", func(data):
+		apply_effect(data)
+	)
+	MyEventBus.subscribe("change_vars", func(data):
+		apply_vars_changes(data)
+	)
+	MyEventBus.subscribe("start_combat", func(data):
+		start_combat(data)
 	)
 	#game_state["player"] = null
 	game_state["gold"] = 0
@@ -60,17 +66,13 @@ func _ready():
 	game_state["area_progress"] = 0
 	game_ui.bind(game_state)
 	
-	world_data = load_json("res://Database/area_nodes.json")
-	
-	if world_data.is_empty():
-		push_error("Falha ao carregar o JSON")
-		return
-	
 	MyInputRouter.push(_handle_game_input, "exploration")
 	#MyEventBus.subscribe("choice_selected", _on_choice)
 	#dialogue.choice_selected.connect(_on_choice)
 	
 	dialogue.condition_callback = func(cond):
+		return check_condition(cond, travel.current_node)
+	travel.condition_callback = func(cond, current_node):
 		return check_condition(cond, current_node)
 	
 	characters = load_json("res://Database/protags.json")
@@ -103,56 +105,21 @@ func load_json(path):
 # WRAPPER
 # ------------------------
 func show_text(text):
-	dialogue.play_node({ "text": text })
+	MyEventBus.emit("dialogue", {
+		"text": text
+	})
 
 func show_choices(choices):
-	dialogue.set_choices(choices)
+	MyEventBus.emit("show_choices", {
+		"text": choices
+	})
 # ------------------------
 # GAME FLOW
 # ------------------------
 
 func start_game():
-	enter_node(0, "ROAD")
-
-func _set_current_node(node_index, entrance):
-	current_node = node_index
-	current_entrance = entrance
-	
-	var region = world_data[current_region]
-	current_node_data = region[current_node]
-
-func show_node():
-	show_node_text()
-	current_mode = GameMode.NODE_ACTIONS
-	show_node_actions()
-
-func enter_node(node_index, entrance):
-	_set_current_node(node_index, entrance)
-	
-	register_visit()
-	
-	# 🔔 evento (para UI secundária, som, etc)
-	MyEventBus.emit("node_entered", {
-		"node": current_node_data,
-		"entrance": entrance
-	})
-	
-	# 🎯 fluxo principal continua aqui
-	show_node()
-
-func register_visit():
-	var key = get_node_key()
-	
-	game_state["visited_nodes"][key] = true
-	
-	if not game_state["visited_count"].has(key):
-		game_state["visited_count"][key] = 0
-	
-	game_state["visited_count"][key] += 1
-	
-
-func get_node_key():
-	return current_region + ":" + str(current_node)
+	current_mode = GameMode.TRAVEL
+	travel.enter_node(0, "ROAD")
 
 #-------------------------
 # CHAR SELECT
@@ -296,66 +263,6 @@ func get_rank_color(rank):
 	return "#FFFFFF"
 	
 # ------------------------
-# UI STATES
-# ------------------------
-
-func show_node_text():
-	var key = get_node_key()
-	
-	var text = ""
-	
-	text += get_arrival_text(current_node_data)
-	text += "\n\n" + get_dynamic_paragraph(current_node_data, key)
-	text += "\n\nWhat do you want to do?"
-	
-	dialogue.play_node({
-		"text": text,
-		"choices": []
-	})
-
-func show_node_actions():
-	dialogue.set_choices([
-		{ 
-			"text": "Continue",
-			"type": "action",
-			"tooltip": "Continue your journey"
-		},
-		{ 
-			"text": "Search for Monsters",
-			"type": "action",
-			"tooltip": "Stay in place and look for monsters to fight"
-		},
-		{ 
-			"text": "Inventory",
-			"type": "action",
-			"tooltip": "View your inventory"
-		},
-		{ 
-			"text": "Rest",
-			"type": "action",
-			"tooltip": "Recover health, but risk being attacked"
-		}
-	])
-
-func show_exit_choices():
-	var choices = []
-	
-	for exit in current_node_data.get("exits", []):
-		choices.append({
-			"text": exit.get("choice", "Continue"),
-			"type": "exit",
-			"data": exit
-		})
-	
-	choices.append({
-		"text": "Back",
-		"type": "back",
-		"tooltip": "Cancel choice selection"
-	})
-	
-	dialogue.set_choices(choices)
-
-# ------------------------
 # INPUT
 # ------------------------
 
@@ -367,96 +274,31 @@ func _handle_game_input(choice):
 		GameMode.CHARACTER_SELECT:
 			handle_character_select(choice)
 		
-		GameMode.NODE_ACTIONS:
-			handle_node_action(choice)
-		
-		GameMode.CHOOSING_EXIT:
-			handle_exit_choice(choice)
+		GameMode.TRAVEL:
+			travel.handle_input(choice)
 			
 # ------------------------
 # ACTIONS
 # ------------------------
 
-func handle_node_action(choice):
-	match choice["text"]:
-		
-		"Continue":
-			current_mode = GameMode.CHOOSING_EXIT
-			show_exit_choices()
-		
-		"Search for Monsters":
-			start_combat()
-			print("Combat TBD")
-		
-		"Inventory":
-			print("Inventory TBD")
-		
-		"Rest":
-			print("Rest TBD")
-
-func start_combat():
+func start_combat(data):
 	in_combat = true
-	var enemy = {
+	var enemy = data.get('enemy', {
 		"name": "Slime",
 		"hp": 10,
 		"def": 1
-	}
+	})
 	
 	combat.start_combat(game_state["player"], enemy)
 
-# ------------------------
-# EXITS
-# ------------------------
-
-func handle_exit_choice(choice):
-	if choice.get("type") == "back":
-		current_mode = GameMode.NODE_ACTIONS
-		show_node_actions()
-		return
-	
-	var exit = choice.get("data", {})
-	
-	current_entrance = exit.get("leads_to", current_entrance)
-	
-	game_state["area_progress"] += exit.get("value", 1)
-	
-	apply_exit_vars(exit)
-	
-	var next_node = pick_next_node(current_entrance)
-	
-	enter_node(next_node, current_entrance)
-	
-func get_valid_nodes(entrance):
-	var region = world_data[current_region]
-	var valid = []
-	
-	for i in range(region.size()):
-		var node = region[i]
-		
-		if entrance in node.get("entrances", []):
-			if check_condition(node.get("condition", {}), i):
-				valid.append(i)
-	
-	return valid
-
-func pick_next_node(entrance):
-	var valid = get_valid_nodes(entrance)
-	
-	if valid.is_empty():
-		return current_node
-	
-	return valid.pick_random()
 
 # ------------------------
 # VAR SYSTEM
 # ------------------------
 
-func apply_exit_vars(exit_data):
-	if not exit_data.has("var"):
-		return
-	
-	for key in exit_data["var"].keys():
-		var instruction = exit_data["var"][key]
+func apply_vars_changes(vars_data):
+	for key in vars_data.keys():
+		var instruction = vars_data[key]
 		
 		if not game_state["vars"].has(key):
 			game_state["vars"][key] = 0
@@ -530,54 +372,22 @@ func _check_dict_condition(cond):
 	return true
 
 # ------------------------
-# TEXT SYSTEM
+# CHAR CHANGES
 # ------------------------
 
-func get_arrival_text(node):
-	if not node.has("arrival"):
-		return ""
+func add_progress(progress,reset=false):
+	if reset:
+		game_state['area_progress'] = 0
+	game_state["area_progress"] += progress
 	
-	var arrival = node["arrival"]
+func register_visit(key):
 	
-	if arrival.has(current_entrance):
-		return arrival[current_entrance].pick_random()
+	game_state["visited_nodes"][key] = true
 	
-	if arrival.has("default"):
-		return arrival["default"].pick_random()
+	if not game_state["visited_count"].has(key):
+		game_state["visited_count"][key] = 0
 	
-	return ""
-
-func get_dynamic_paragraph(node, node_key):
-	if not node.has("description"):
-		return node.get("name", "???")
-	
-	var valid = []
-	
-	for p in node["description"]:
-		var ok = true
-		
-		if typeof(p) == TYPE_STRING:
-			valid.append({ "text": p })
-		else:
-			if p.has("condition"):
-				ok = check_condition(p["condition"], node_key)
-			
-			if ok and p.has("chance"):
-				if randf() > p["chance"]:
-					ok = false
-			
-			if ok:
-				valid.append(p)
-	
-	if valid.is_empty():
-		return node.get("name", "???")
-	
-	var chosen = valid.pick_random()
-	
-	if chosen.has("effect"):
-		apply_effect(chosen["effect"])
-	
-	return chosen.get("text", "")
+	game_state["visited_count"][key] += 1
 
 func apply_damage(amount):
 	var hp = game_state.get_value("player.curr_stats.hp", 0)

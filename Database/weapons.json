@@ -1,0 +1,296 @@
+{
+	"Foil": {
+		"name": "Foil",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 6, "acc": 90, "wgt": 4, "crit": 10, "mys": 1 },
+		"effect": "none"
+	},
+	"Hatchet": {
+		"name": "Hatchet",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 8, "acc": 60, "wgt": 8, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Sling": {
+		"name": "Sling",
+		"wpn_type": "Ranged",
+		"stats": { "mgt": 5, "acc": 70, "wgt": 1, "crit": 10, "mys": 0 },
+		"effect": "none"
+	},
+	"Wooden Rod": {
+		"name": "Wooden Rod",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 5, "acc": 80, "wgt": 7, "crit": 0, "mys": 3 },
+		"effect": "none"
+	},
+	"Rapier": {
+		"name": "Rapier",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 8, "acc": 90, "wgt": 5, "crit": 15, "mys": 1 },
+		"effect": "none"
+	},
+	"Broadsword": {
+		"name": "Broadsword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 11, "acc": 65, "wgt": 10, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Poleaxe": {
+		"name": "Poleaxe",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 11, "acc": 65, "wgt": 10, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Sword": {
+		"name": "Iron Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 6, "acc": 80, "wgt": 6, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Lance": {
+		"name": "Iron Lance",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 7, "acc": 70, "wgt": 8, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Axe": {
+		"name": "Iron Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 9, "acc": 60, "wgt": 10, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Dagger": {
+		"name": "Iron Dagger",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 5, "acc": 90, "wgt": 4, "crit": 5, "mys": 1 },
+		"effect": "none"
+	},
+	"Iron Bow": {
+		"name": "Iron Bow",
+		"wpn_type": "Ranged",
+		"stats": { "mgt": 6, "acc": 75, "wgt": 6, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Rod": {
+		"name": "Iron Rod",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 10, "acc": 70, "wgt": 4, "crit": 0, "mys": 3 },
+		"effect": "none"
+	},
+	"Slime Spear": {
+		"name": "Slime Spear",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 5, "acc": 100, "wgt": 6, "crit": 0, "mys": 2 },
+		"effect": "poison"
+	},
+	"Scimitar": {
+		"name": "Scimitar",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 12, "acc": 55, "wgt": 12, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Hand Axe": {
+		"name": "Hand Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 7, "acc": 70, "wgt": 6, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Iron Claws": {
+		"name": "Iron Claws",
+		"wpn_type": "Gauntlet",
+		"stats": { "mgt": 4, "acc": 70, "wgt": 3, "crit": 15, "mys": 1 },
+		"effect": "none"
+	},
+	"Elven Sword": {
+		"name": "Elven Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 8, "acc": 90, "wgt": 5, "crit": 5, "mys": 3 },
+		"effect": "none"
+	},
+	"Thief's Dagger": {
+		"name": "Thief's Dagger",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 6, "acc": 100, "wgt": 2, "crit": 5, "mys": 1 },
+		"effect": "none"
+	},
+	"Bloody Dagger": {
+		"name": "Bloody Dagger",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 5, "acc": 90, "wgt": 2, "crit": 30, "mys": 1 },
+		"effect": "none"
+	},
+	"Spirit Lance": {
+		"name": "Spirit Lance",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 7, "acc": 85, "wgt": 5, "crit": 5, "mys": 3 },
+		"effect": "none"
+	},
+	"Machete": {
+		"name": "Machete",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 12, "acc": 60, "wgt": 6, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Sacrificial Knife": {
+		"name": "Sacrificial Knife",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 7, "acc": 70, "wgt": 3, "crit": 20, "mys": 3 },
+		"effect": "none"
+	},
+	"Greataxe": {
+		"name": "Greataxe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 15, "acc": 60, "wgt": 14, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Bloody Claws": {
+		"name": "Bloody Claws",
+		"wpn_type": "Gauntlet",
+		"stats": { "mgt": 3, "acc": 70, "wgt": 3, "crit": 50, "mys": 1 },
+		"effect": "none"
+	},
+	"Killer Axe": {
+		"name": "Killer Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 10, "acc": 65, "wgt": 9, "crit": 30, "mys": 0 },
+		"effect": "none"
+	},
+	"Skull Staff": {
+		"name": "Skull Staff",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 7, "acc": 90, "wgt": 8, "crit": 30, "mys": 4 },
+		"effect": "none"
+	},
+	"Fairy Bow": {
+		"name": "Fairy Bow",
+		"wpn_type": "Ranged",
+		"stats": { "mgt": 9, "acc": 70, "wgt": 8, "crit": 0, "mys": 3 },
+		"effect": "none"
+	},
+	"Javelin": {
+		"name": "Javelin",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 8, "acc": 80, "wgt": 7, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Winged Spear": {
+		"name": "Winged Spear",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 11, "acc": 75, "wgt": 8, "crit": 5, "mys": 1 },
+		"effect": "none"
+	},
+	"Glaive": {
+		"name": "Glaive",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 13, "acc": 75, "wgt": 12, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Frost Staff": {
+		"name": "Frost Staff",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 13, "acc": 60, "wgt": 8, "crit": 5, "mys": 4 },
+		"effect": "none"
+	},
+	"Fire Staff": {
+		"name": "Fire Staff",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 15, "acc": 50, "wgt": 8, "crit": 5, "mys": 4 },
+		"effect": "none"
+	},
+	"Dragon Blade": {
+		"name": "Dragon Blade",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 10, "acc": 60, "wgt": 10, "crit": 10, "mys": 3 },
+		"effect": "none"
+	},
+	"Falchion": {
+		"name": "Falchion",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 14, "acc": 60, "wgt": 12, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Firesword": {
+		"name": "Firesword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 12, "acc": 90, "wgt": 9, "crit": 0, "mys": 3 },
+		"effect": "none"
+	},
+	"Battle Axe": {
+		"name": "Battle Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 14, "acc": 65, "wgt": 9, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Gauntlet": {
+		"name": "Gauntlet",
+		"wpn_type": "Gauntlet",
+		"stats": { "mgt": 8, "acc": 80, "wgt": 1, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Forest Axe": {
+		"name": "Forest Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 12, "acc": 75, "wgt": 9, "crit": 5, "mys": 2 },
+		"effect": "none"
+	},
+	"Gorgon Sword": {
+		"name": "Gorgon Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 10, "acc": 90, "wgt": 6, "crit": 5, "mys": 1 },
+		"effect": "poison"
+	},
+	"Lost Sword": {
+		"name": "Lost Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 13, "acc": 90, "wgt": 8, "crit": 0, "mys": 2 },
+		"effect": "none"
+	},
+	"Spirit Rod": {
+		"name": "Spirit Rod",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 16, "acc": 40, "wgt": 8, "crit": 5, "mys": 5 },
+		"effect": "none"
+	},
+	"Ent Club": {
+		"name": "Ent Club",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 16, "acc": 60, "wgt": 15, "crit": 5, "mys": 3 },
+		"effect": "none"
+	},
+	"Watcher Spear": {
+		"name": "Watcher Spear",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 11, "acc": 80, "wgt": 10, "crit": 5, "mys": 1 },
+		"effect": "none"
+	},
+	"Relic Sword": {
+		"name": "Relic Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 14, "acc": 100, "wgt": 10, "crit": 10, "mys": 3 },
+		"effect": "none"
+	},
+	"Silver Sword": {
+		"name": "Silver Sword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 10, "acc": 100, "wgt": 7, "crit": 10, "mys": 2 },
+		"effect": "none"
+	},
+	"Stone Axe": {
+		"name": "Stone Axe",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 18, "acc": 55, "wgt": 16, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Ancient Staff": {
+		"name": "Ancient Staff",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 18, "acc": 25, "wgt": 8, "crit": 15, "mys": 5 },
+		"effect": "none"
+	},
+	"Geometry Staff": {
+		"name": "Geometry Staff",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 15, "acc": 60, "wgt": 12, "crit": 0, "mys": 6 },
+		"effect": "none"
+	}
+}

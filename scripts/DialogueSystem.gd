@@ -24,6 +24,8 @@ var current_choices = []
 
 var condition_callback = null
 
+var accumulated_text = ""
+
 # ------------------------
 # PUBLIC API
 # ------------------------
@@ -35,6 +37,8 @@ func play_node(node_data):
 
 # NOVO: usado pelo GameManager
 func set_choices(choices):
+	print('SET CHOICES')
+	print(choices)
 	current_choices = choices
 	
 	# se ainda estiver digitando, espera terminar
@@ -48,14 +52,8 @@ func set_choices(choices):
 # ------------------------
 
 func start_typing(text):
-	typing_id += 1
-	
-	full_text = text
-	story_text.text = ""
-	visible_chars = 0
-	is_typing = true
-	
-	type_text(typing_id)
+	clear_text()
+	append_text(text)
 
 func type_text(id):
 	while visible_chars < full_text.length():
@@ -83,6 +81,47 @@ func finish_typing():
 	visible_chars = full_text.length()
 	
 	show_choices()
+
+func append_text(text):
+	typing_id += 1
+	
+	# guarda o que já estava na tela
+	accumulated_text = story_text.text
+	
+	full_text = text
+	visible_chars = 0
+	is_typing = true
+	
+	type_text_append(typing_id)
+	
+func type_text_append(id):
+	while visible_chars < full_text.length():
+		if not is_typing or id != typing_id:
+			return
+		
+		story_text.text = accumulated_text + full_text.substr(0, visible_chars + 1)
+		visible_chars += 1
+		
+		await get_tree().create_timer(typing_speed).timeout
+	
+	if id != typing_id:
+		return
+	
+	# atualiza acumulado ao terminar
+	accumulated_text = story_text.text
+	
+	is_typing = false
+	show_choices()
+
+func clear_text():
+	typing_id += 1
+	
+	is_typing = false
+	full_text = ""
+	accumulated_text = ""
+	visible_chars = 0
+	
+	story_text.text = ""
 
 # ------------------------
 # CHOICES
@@ -250,6 +289,12 @@ func _ready():
 	)
 	MyEventBus.subscribe("dialogue", func(data):
 		play_node(data)
+	)
+	MyEventBus.subscribe("clear_text", func(data):
+		clear_text()
+	)
+	MyEventBus.subscribe("continue_text", func(data):
+		append_text("\n\n" + data.get("text", ""))
 	)
 
 # ------------------------
