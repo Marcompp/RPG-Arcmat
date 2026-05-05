@@ -1,14 +1,14 @@
 extends Control
 
-@onready var tlpanel = $TopLeftPanel
-@onready var name_label = $TopLeftPanel/VBoxContainer/NameLabel
+@onready var tlpanel = $TopLeftWrapper
+@onready var name_label = $TopLeftWrapper/TopLeftPanel/VBoxContainer/NameLabel
 @onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
-@onready var hp_bar = $TopLeftPanel/VBoxContainer/HPContainer/Control/HPBar
-@onready var hp_text = $TopLeftPanel/VBoxContainer/HPContainer/Control/HPText
+@onready var hp_bar = $TopLeftWrapper/TopLeftPanel/VBoxContainer/HPContainer/Control/HPBar
+@onready var hp_text = $TopLeftWrapper/TopLeftPanel/VBoxContainer/HPContainer/Control/HPText
 
-@onready var mp_bar = $TopLeftPanel/VBoxContainer/MPContainer/Control/MPBar
-@onready var mp_text = $TopLeftPanel/VBoxContainer/MPContainer/Control/MPText
+@onready var mp_bar = $TopLeftWrapper/TopLeftPanel/VBoxContainer/MPContainer/Control/MPBar
+@onready var mp_text = $TopLeftWrapper/TopLeftPanel/VBoxContainer/MPContainer/Control/MPText
 
 var state
 
@@ -30,7 +30,12 @@ const bar_colors = {
 
 var character = null
 
-#func _ready():
+func _ready():
+	tlpanel.tooltip_text = ""
+	tlpanel.mouse_filter = Control.MOUSE_FILTER_STOP
+	for child in tlpanel.get_children():
+		if child is Control:
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	#MyEventBus.subscribe("screenshake", func(data):
 		#shake()
 	#)

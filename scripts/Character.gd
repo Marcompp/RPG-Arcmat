@@ -109,6 +109,25 @@ func heal(amount):
 func equip(slot, item_name):
 	equipment[slot] = item_name
 	recalculate()
+	
+# getters stats
+
+func get_total_stat(stat):
+	var base = base_stats.get(stat, 0)
+	var bonus = get_equipment_bonus(stat)
+	return base + bonus
+
+func get_equipment_bonus(stat):
+	var total = 0
+	
+	for slot in equipment:
+		var item_id = equipment[slot]
+		var item = equipment_db.get(item_id, {})
+		
+		if item.has("stats"):
+			total += item["stats"].get(stat, 0)
+	
+	return total
 
 # getters úteis
 
