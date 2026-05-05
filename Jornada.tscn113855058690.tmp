@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bx50qj2qrnlcv"]
+[gd_scene load_steps=7 format=3 uid="uid://bx50qj2qrnlcv"]
 
 [ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
 [ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
 [ext_resource type="Script" uid="uid://cngvu4c05o5hn" path="res://scripts/TooltipButton.gd" id="3_6mkdx"]
-[ext_resource type="Script" uid="uid://bdjl20mxaqh13" path="res://scripts/TooltipPanel.gd" id="3_ej7wp"]
 [ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
 [ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
 [ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
@@ -31,7 +30,6 @@ offset_left = 6.0
 offset_top = 5.0
 offset_right = 46.0
 offset_bottom = 55.0
-script = ExtResource("3_ej7wp")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeftPanel"]
 layout_mode = 2

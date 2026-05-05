@@ -1,0 +1,28 @@
+{
+	"Corset":{
+		"name": "Corset",
+		"description": "A reinforced corset used by female fighters.",
+		"stats": {
+			"atk": -1,
+			"dex": 1,
+			"def": 4
+		}
+	},
+	"Tanktop": {
+		"name": "Tanktop",
+		"description": "A light, sleeveless shirt to show off the muscles.",
+		"stats": {
+			"atk": 2,
+			"def": 1,
+			"agi": 2
+		}
+	},
+	"Uniform": {
+		"name": "Uniform",
+		"description": "The uniform of a certain institution of magical learning.",
+		"stats": {
+			"def": 2,
+			"mag": 2
+		}
+	}
+}

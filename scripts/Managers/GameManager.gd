@@ -11,6 +11,7 @@ extends Node
 
 enum GameMode {
 	CHARACTER_SELECT,
+	CHARACTER_CONFIRM,
 	TRAVEL,
 	INVENTORY,
 	REST,
@@ -20,8 +21,11 @@ enum GameMode {
 var current_mode = GameMode.CHARACTER_SELECT
 
 var characters = []
+var equipment_db = {}
 
 var in_combat = false
+
+var pending_character = null
 
 var game_state = GameState.new()
 
@@ -76,6 +80,7 @@ func _ready():
 		return check_condition(cond, current_node)
 	
 	characters = load_json("res://Database/protags.json")
+	equipment_db = load_json("res://Database/armors.json")
 	
 
 	start_character_selection()
@@ -210,33 +215,122 @@ func show_character_choices():
 	
 func handle_character_select(choice):
 	var char = choice.get("data", {})
-	game_state["player"] = char
+	pending_character = char
 	
-	apply_character_stats(char)
+	show_character_confirm(char)
+	
+func make_bar(value, max_value):
+	var bars = int((value / float(max_value)) * 10.0)
+	var bar = ""
+	
+	for i in range(10):
+		if i < bars:
+			bar += "█"
+		else:
+			bar += "░"
+	
+	return bar
+	
+func show_character_confirm(char):
+	current_mode = GameMode.CHARACTER_CONFIRM
+	
+	var text = ""
+	
+	# ------------------------
+	# HEADER
+	# ------------------------
+	text += "Are you sure you want to play as this character:\n\n" 
+	
+	text += "[b]" + char["Name"] + "[/b], the " + char["Class"] + "\n"
+	text += "[i]" + char.get("Description", "A wandering adventurer.") + "[/i]\n\n"
+	
+	# ------------------------
+	# HP / MP PREVIEW
+	# ------------------------
+	#var hp = convert_rank_to_value(char["Stats"]["HP"]) + 5
+	#var mp = convert_rank_to_value(char["Stats"]["MP"])
+	#
+	#text += "HP: " + make_bar(hp, 20) + " " + str(hp) + "\n"
+	#text += "MP: " + make_bar(mp, 20) + " " + str(mp) + "\n\n"
+	
+	# ------------------------
+	# STATS GRID
+	# ------------------------
+	text += "[b]Stats[/b]\n"
+	text += "[table=18]"
+	
+	for k in char["Stats"].keys():
+		var v = char["Stats"][k]
+		var c = get_rank_color(v)
+		
+		text += "[cell]" + k + ": [/cell]"
+		text += "[cell][color=" + c + "][b]" + v + "[/b][/color]   [/cell]"
+	
+	text += "[/table]\n\n"
+	
+	# ------------------------
+	# EQUIP
+	# ------------------------
+	if char.has("Equip"):
+		text += "[b]Equipment[/b]\n"
+		for e in char["Equip"]:
+			text += "- " + char["Equip"][e] + "\n"
+		text += "\n"
+	
+	# ------------------------
+	# SKILLS
+	# ------------------------
+	if char["Skills"].size() > 0:
+		text += "[b]Skills[/b]\n"
+		for s in char["Skills"]:
+			text += "- " + s + "\n"
+		text += "\n"
+	
+	# ------------------------
+	# SPELLS
+	# ------------------------
+	if char["Spells"].size() > 0:
+		text += "[b]Spells[/b]\n"
+		for s in char["Spells"]:
+			text += "- " + s + "\n"
+		text += "\n"
+	
+	# ------------------------
+	# WARNING
+	# ------------------------
+	text += "[color=yellow]This choice cannot be undone.[/color]"
+	
+	show_text(text)
+	
+	dialogue.set_choices([
+		{ "text": "▶ Start Journey", "type": "confirm_character" },
+		{ "text": "◀ Choose Another", "type": "back" }
+	])
+	
+func confirm_character():
+	var char = pending_character
+	var character = Character.new(char, equipment_db)
+	game_state["player"] = character
+	
+	#character.stats_changed.connect(_on_character_stats_changed)
 	
 	MyEventBus.emit("character_selected", {
 		"character": char
 	})
 	
+	pending_character = null
+	
 	start_game()
 	
-func apply_character_stats(char):
-	game_state["player"]["curr_stats"] = {}
-	var hp = convert_rank_to_value(char["Stats"]["HP"]) + 5
-	var mp = convert_rank_to_value(char["Stats"]["MP"])
-
-	game_state.set_value("player.curr_stats", {
-		"hp": hp,
-		"mp": mp,
-		"mhp": hp,
-		"mmp": mp
-	})
-	game_state["player"]["curr_stats"]["str"] = convert_rank_to_value(char["Stats"]["Str"])
-	game_state["player"]["curr_stats"]["mag"] = convert_rank_to_value(char["Stats"]["Mag"])
-	game_state["player"]["curr_stats"]["agi"] = convert_rank_to_value(char["Stats"]["Agi"])
-	game_state["player"]["curr_stats"]["dex"] = convert_rank_to_value(char["Stats"]["Dex"])
-	game_state["player"]["curr_stats"]["lck"] = convert_rank_to_value(char["Stats"]["Lck"])
-	game_state["player"]["curr_stats"]["def"] = convert_rank_to_value(char["Stats"]["Def"])
+func cancel_character():
+	pending_character = null
+	current_mode = GameMode.CHARACTER_SELECT
+	
+	show_text(
+		"Very well.\n\nThen, who will you be?"
+	)
+	
+	show_character_choices()
 			
 func convert_rank_to_value(rank):
 	match rank:
@@ -273,6 +367,14 @@ func _handle_game_input(choice):
 	match current_mode:
 		GameMode.CHARACTER_SELECT:
 			handle_character_select(choice)
+			
+		
+		GameMode.CHARACTER_CONFIRM:
+			match choice.get("type", ""):
+				"confirm_character":
+					confirm_character()
+				"back":
+					cancel_character()
 		
 		GameMode.TRAVEL:
 			travel.handle_input(choice)
@@ -390,8 +492,10 @@ func register_visit(key):
 	game_state["visited_count"][key] += 1
 
 func apply_damage(amount):
-	var hp = game_state.get_value("player.curr_stats.hp", 0)
-	game_state.set_value("player.curr_stats.hp", hp - amount)
+	var player = game_state["player"]
+	
+	if player != null:
+		player.take_damage(amount)
 
 func apply_effect(effect):
 	var changed = false

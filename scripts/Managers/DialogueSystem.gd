@@ -30,6 +30,15 @@ var condition_callback = null
 
 var dialogue_log = []
 
+func shake():
+	var original = position
+	
+	for i in range(5):
+		position = original + Vector2(randf_range(-5,5), randf_range(-5,5))
+		await get_tree().create_timer(0.02).timeout
+	
+	position = original
+
 # ------------------------
 # PUBLIC API
 # ------------------------
@@ -75,6 +84,7 @@ func finish_typing():
 	show_choices()
 
 func append_text(text):
+	hide_choices()
 	typing_id += 1
 	log_add_text(text)
 	
@@ -287,7 +297,7 @@ func _get_tooltip_text(choice, enabled):
 	if not enabled and choice.has("condition"):
 		return format_condition_tooltip(choice["condition"])
 	
-	return null
+	return ""
 
 func format_condition_tooltip(cond):
 	if typeof(cond) != TYPE_DICTIONARY:
@@ -321,6 +331,9 @@ func _input(event):
 # ------------------------
 
 func _ready():
+	MyEventBus.subscribe("screenshake", func(data):
+		shake()
+	)
 	for i in range(buttons.size()):
 		buttons[i].pressed.connect(_on_button_pressed.bind(i))
 	MyEventBus.subscribe("show_choices", func(data):

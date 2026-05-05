@@ -168,7 +168,7 @@ func perform_attack():
 	
 	enemy["hp"] -= dmg
 	
-	var text = "%s struck with %s!\n*SCREENSHAKE*\n[color=red]%d[/color] damage!" % [
+	var text = "[b]%s[/b] struck with %s!\n*SCREENSHAKE*\n[color=red]%d[/color] damage!" % [
 		player["Name"], weapon, dmg
 	]
 	
