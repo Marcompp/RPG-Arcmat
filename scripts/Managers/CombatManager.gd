@@ -57,18 +57,18 @@ func show_text(text, choices = []):
 
 func render_player_turn():
 	var text = "%s: %d hp.\n%s: %d hp.\n\nWhat would you like to do?" % [
-		enemy["name"],
-		enemy["hp"],
-		player["Name"],
-		player["curr_stats"]["hp"]
+		enemy.get_name(),
+		enemy.get_hp(),
+		player.get_name(),
+		player.get_hp()
 	]
 	
 	show_text(text, _main_choices())
 
 func _show_intro():
 	var text = "You encounter %s\n\n%s is raring for a fight!" % [
-		enemy["name"],
-		enemy["name"]
+		enemy.get_name(),
+		enemy.get_name()
 	]
 	show_text(text)
 
@@ -163,13 +163,14 @@ func handle_list_choice(choice, type):
 func perform_attack():
 	state = CombatState.RESOLUTION
 	
-	var weapon = player.get("Equip", {}).get("Weapon", "bare hands")
+	var weapon = player.get_weapon()
+	var weapon_name = weapon.get("Name", "bare hands")
 	var dmg = calculate_damage(player, enemy)
 	
-	enemy["hp"] -= dmg
+	enemy.take_damage(dmg)
 	
 	var text = "[b]%s[/b] struck with %s!\n*SCREENSHAKE*\n[color=red]%d[/color] damage!" % [
-		player["Name"], weapon, dmg
+		player.get_name(), weapon_name, dmg
 	]
 	
 	#show_text(text)
@@ -205,7 +206,7 @@ func enemy_turn():
 	MyEventBus.emit("take_damage",{'damage':dmg})
 	
 	var text = "[color=yellow]%s[/color] attacks!\n*SCREENSHAKE*\n%d damage!" % [
-		enemy["name"], dmg
+		enemy.get_name(), dmg
 	]
 	
 	#show_text(text)
@@ -223,11 +224,11 @@ func enemy_turn():
 # ========================
 
 func check_combat_end():
-	if player["curr_stats"]["hp"] <= 0:
+	if player.get_hp() <= 0:
 		await end_combat(false)
 		return
 	
-	if enemy["hp"] <= 0:
+	if enemy.get_hp() <= 0:
 		await end_combat(true)
 		return
 	
@@ -242,7 +243,7 @@ func next_turn():
 func end_combat(victory):
 	state = CombatState.END
 	
-	var text = "[color=yellow]%s[/color] was defeated!" % enemy["name"] \
+	var text = "[color=yellow]%s[/color] was defeated!" % enemy.get_name() \
 		if  victory else "You were defeated..."
 	
 	#show_text(text)
@@ -279,6 +280,6 @@ func wait_for_continue():
 		
 		
 func calculate_damage(p, e):
-	var atk = p["curr_stats"]["str"]
-	var def = e.get("def", 0)
+	var atk = p.get_total_stat("str")
+	var def = e.get_total_stat("def")
 	return max(1, atk - def + randi_range(0,2))

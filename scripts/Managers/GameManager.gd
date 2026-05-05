@@ -386,12 +386,18 @@ func _handle_game_input(choice):
 func start_combat(data):
 	in_combat = true
 	var enemy = data.get('enemy', {
-		"name": "Slime",
-		"hp": 10,
-		"def": 1
+		"Name": "Slime",
+		"Stats": {
+		"Hp": 10,
+		"Def": 1
+		}
 	})
+	var enmy = Character.new(enemy, equipment_db)
 	
-	combat.start_combat(game_state["player"], enemy)
+	# 🔥 ESSENCIAL
+	game_state.set_value("enemy", enmy)
+	
+	combat.start_combat(game_state["player"], enmy)
 
 
 # ------------------------

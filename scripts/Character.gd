@@ -30,14 +30,14 @@ func _init(char_data, equip_db):
 
 func _build_base_stats(char):
 	return {
-		"hp": _rank(char["Stats"]["HP"]) + 5,
-		"mp": _rank(char["Stats"]["MP"]),
-		"str": _rank(char["Stats"]["Str"]),
-		"mag": _rank(char["Stats"]["Mag"]),
-		"agi": _rank(char["Stats"]["Agi"]),
-		"dex": _rank(char["Stats"]["Dex"]),
-		"lck": _rank(char["Stats"]["Lck"]),
-		"def": _rank(char["Stats"]["Def"])
+		"hp": _rank(char["Stats"].get("HP","E")) + 5,
+		"mp": _rank(char["Stats"].get("MP","E")),
+		"str": _rank(char["Stats"].get("Str","E")),
+		"mag": _rank(char["Stats"].get("Mag","E")),
+		"agi": _rank(char["Stats"].get("Agi","E")),
+		"dex": _rank(char["Stats"].get("Dex","E")),
+		"lck": _rank(char["Stats"].get("Lck","E")),
+		"def": _rank(char["Stats"].get("Def","E"))
 	}
 
 func _build_equipment(char):
@@ -58,6 +58,7 @@ func _rank(r):
 		"B": return 8
 		"C": return 6
 		"D": return 4
+		"E": return 2
 	return 5
 
 # ------------------------
@@ -91,8 +92,9 @@ func recalculate():
 			"mhp": final_stats["hp"],
 			"mmp": final_stats["mp"]
 		}
+	stats_changed.emit()
 	
-	emit_signal("stats_changed", self)
+	#emit_signal("stats_changed", self)
 
 # ------------------------
 # API LIMPA
@@ -100,11 +102,13 @@ func recalculate():
 
 func take_damage(amount):
 	curr_stats["hp"] = max(0, curr_stats["hp"] - amount)
-	emit_signal("stats_changed", self)
+	#emit_signal("stats_changed", self)
+	stats_changed.emit()
 
 func heal(amount):
 	curr_stats["hp"] = min(curr_stats["mhp"], curr_stats["hp"] + amount)
-	emit_signal("stats_changed", self)
+	#emit_signal("stats_changed", self)
+	stats_changed.emit()
 
 func equip(slot, item_name):
 	equipment[slot] = item_name
@@ -136,7 +140,7 @@ func get_name():
 	return data["Name"]
 
 func get_char_class():
-	return data["Class"]
+	return data.get("Class","")
 
 func get_hp():
 	return curr_stats["hp"]
@@ -158,3 +162,8 @@ func get_max_mp():
 
 func get_stat(stat):
 	return final_stats.get(stat, 0)
+	
+func get_weapon():
+	var equip = equipment.get("weapon")
+	return {"name":equip}
+	#return weapon_db.get(equip, {"Name":equip})
