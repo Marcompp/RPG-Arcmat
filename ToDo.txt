@@ -1,0 +1,8 @@
+- Melhorar batalha - menos hardcoded
+- Implementar Skills
+- Implementar encontros de batalha
+- Implementar fim da batalha
+- Melhorar text system
+- Implementar regiões
+- Tela inicial
+- Save data

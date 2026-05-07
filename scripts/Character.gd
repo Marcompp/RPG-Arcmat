@@ -9,15 +9,17 @@ var equipment = {}
 var final_stats = {}
 var curr_stats = {}
 
-var equipment_db = {}
+var armor_db = {}
+var weapon_db = {}
 
 # ------------------------
 # INIT
 # ------------------------
 
-func _init(char_data, equip_db):
+func _init(char_data, arm_db, wpn_db):
 	data = char_data
-	equipment_db = equip_db
+	armor_db = arm_db
+	weapon_db = wpn_db
 	
 	base_stats = _build_base_stats(char_data)
 	equipment = _build_equipment(char_data)
@@ -47,8 +49,8 @@ func _build_equipment(char):
 	}
 	
 	if char.has("Equip") and typeof(char["Equip"]) == TYPE_DICTIONARY:
-		eq["weapon"] = char["Equip"].get("Weapon")
-		eq["armor"] = char["Equip"].get("Armor")
+		eq["weapon"] = weapon_db.get(char["Equip"].get("Weapon"))
+		eq["armor"] = armor_db.get(char["Equip"].get("Armor"))
 	
 	return eq
 
@@ -69,14 +71,9 @@ func recalculate():
 	final_stats = base_stats.duplicate()
 	
 	for slot in equipment:
-		var item_name = equipment[slot]
-		if item_name == null:
+		var item = equipment[slot]
+		if not item:
 			continue
-		
-		if not equipment_db.has(item_name):
-			continue
-		
-		var item = equipment_db[item_name]
 		
 		for stat in item.get("stats", {}):
 			if not final_stats.has(stat):
@@ -125,8 +122,7 @@ func get_equipment_bonus(stat):
 	var total = 0
 	
 	for slot in equipment:
-		var item_id = equipment[slot]
-		var item = equipment_db.get(item_id, {})
+		var item = equipment[slot]
 		
 		if item.has("stats"):
 			total += item["stats"].get(stat, 0)

@@ -21,7 +21,8 @@ enum GameMode {
 var current_mode = GameMode.CHARACTER_SELECT
 
 var characters = []
-var equipment_db = {}
+var armor_db = {}
+var weapon_db = {}
 
 var in_combat = false
 
@@ -80,7 +81,8 @@ func _ready():
 		return check_condition(cond, current_node)
 	
 	characters = load_json("res://Database/protags.json")
-	equipment_db = load_json("res://Database/armors.json")
+	armor_db = load_json("res://Database/armors.json")
+	weapon_db = load_json("res://Database/weapons.json")
 	
 
 	start_character_selection()
