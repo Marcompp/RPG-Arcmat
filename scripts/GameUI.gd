@@ -1,9 +1,9 @@
 extends Control
 
-@onready var player_panel = $TopLeftWrapper
+@onready var player_panel = $TopLeft/TopLeftWrapper
 @onready var enemy_panel = $TopRightWrapper
-@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
-
+@onready var gold_label = $TopLeft/MoneyPanel/VBoxContainer/GoldContainer/GoldValue
+@onready var area_label = $TopCenterPanel/VBoxContainer/AreaLabel
 
 var state
 
@@ -18,6 +18,15 @@ func _ready():
 	for child in player_panel.get_children():
 		if child is Control:
 			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	MyEventBus.subscribe("character_defeated", func(data):
+		if data["victory"]:
+			enemy_panel.death_animation()
+		else:
+			player_panel.death_animation()
+	)
+	MyEventBus.subscribe("combat_ended", func(_data):
+		enemy_panel._clear_ui()
+	)
 	#MyEventBus.subscribe("screenshake", func(data):
 		#shake()
 	#)
@@ -75,6 +84,8 @@ func _refresh_all():
 	
 	var gold = state.get_value("gold", 0)
 	_update_gold(gold)
+
+	area_label.text = "[b]"+ state.get_value("region", "") +"[/b]"
 	
 func _update_gold(value):
 	if value > displayed_gold:

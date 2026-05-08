@@ -25,38 +25,33 @@ offset_right = 1152.0
 offset_bottom = 145.0
 script = ExtResource("4_x2e2c")
 
-[node name="TopLeft" type="HBoxContainer" parent="GameUI"]
-custom_minimum_size = Vector2(600, 0)
+[node name="TopLeftWrapper" type="Panel" parent="GameUI"]
 layout_mode = 0
-offset_right = 600.0
-offset_bottom = 40.0
-
-[node name="TopLeftWrapper" type="Panel" parent="GameUI/TopLeft"]
-custom_minimum_size = Vector2(226, 86)
-layout_mode = 2
+offset_right = 226.0
+offset_bottom = 86.0
 script = ExtResource("3_ej7wp")
 
-[node name="Panel" type="VBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper"]
+[node name="Panel" type="VBoxContainer" parent="GameUI/TopLeftWrapper"]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 5.0
 offset_right = 544.0
 offset_bottom = 57.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeftWrapper/Panel"]
 layout_mode = 2
 
-[node name="NameLabel" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+[node name="NameLabel" type="RichTextLabel" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="HPContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+[node name="HPContainer" type="HBoxContainer" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
 custom_minimum_size = Vector2(34, 22)
 layout_mode = 2
 bbcode_enabled = true
@@ -64,11 +59,11 @@ text = "[b]HP [/b] "
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Control" type="Control" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
+[node name="Control" type="Control" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="HPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
+[node name="HPBar" type="ProgressBar" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 offset_left = -8.0
@@ -76,7 +71,7 @@ offset_right = -4.0
 offset_bottom = 22.0
 show_percentage = false
 
-[node name="HPText" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
+[node name="HPText" type="RichTextLabel" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
 layout_mode = 0
 offset_right = 118.0
 offset_bottom = 40.0
@@ -85,10 +80,10 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 
-[node name="MPContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+[node name="MPContainer" type="HBoxContainer" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
 custom_minimum_size = Vector2(34, 22)
 layout_mode = 2
 bbcode_enabled = true
@@ -96,11 +91,11 @@ text = "[b]MP[/b]"
 scroll_active = false
 autowrap_mode = 0
 
-[node name="Control" type="Control" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
+[node name="Control" type="Control" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="MPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
+[node name="MPBar" type="ProgressBar" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 0
 offset_left = -8.0
@@ -108,7 +103,7 @@ offset_right = -4.0
 offset_bottom = 22.0
 show_percentage = false
 
-[node name="MPText" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
+[node name="MPText" type="RichTextLabel" parent="GameUI/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
 layout_mode = 0
 offset_right = 118.0
 offset_bottom = 40.0
@@ -117,25 +112,7 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 
-[node name="MoneyPanel" type="VBoxContainer" parent="GameUI/TopLeft"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeft/MoneyPanel"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="GoldContainer" type="HBoxContainer" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer"]
-layout_mode = 2
-
-[node name="GoldIcon" type="Label" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/GoldContainer"]
-layout_mode = 2
-text = " $"
-
-[node name="GoldValue" type="Label" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/GoldContainer"]
-layout_mode = 2
-
-[node name="TopCenterPanel" type="BoxContainer" parent="GameUI"]
+[node name="TopCenterPanel" type="VBoxContainer" parent="GameUI"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -147,16 +124,17 @@ grow_horizontal = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopCenterPanel"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="AreaLabel" type="RichTextLabel" parent="GameUI/TopCenterPanel/VBoxContainer"]
-custom_minimum_size = Vector2(200, 40)
+[node name="GoldContainer" type="HBoxContainer" parent="GameUI/TopCenterPanel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/bold_font_size = 20
-bbcode_enabled = true
-scroll_active = false
-autowrap_mode = 0
-horizontal_alignment = 1
-vertical_alignment = 2
+
+[node name="GoldIcon" type="Label" parent="GameUI/TopCenterPanel/VBoxContainer/GoldContainer"]
+layout_mode = 2
+text = "$"
+
+[node name="GoldValue" type="Label" parent="GameUI/TopCenterPanel/VBoxContainer/GoldContainer"]
+layout_mode = 2
 
 [node name="TopRightWrapper" type="Panel" parent="GameUI"]
 layout_mode = 1
@@ -294,17 +272,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_6mkdx")
 
-[node name="ChoiceLabel" type="RichTextLabel" parent="DialogueSystem"]
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 0
-offset_left = 49.0
-offset_top = 518.0
-offset_right = 549.0
-offset_bottom = 546.0
-theme_override_font_sizes/bold_font_size = 18
-bbcode_enabled = true
-text = "HELLO WORLD"
-
 [node name="StoryText" type="RichTextLabel" parent="DialogueSystem"]
 layout_mode = 0
 offset_left = 40.0
@@ -320,9 +287,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = 75.0
-offset_top = 508.0
+offset_top = 504.0
 offset_right = 1055.0
-offset_bottom = 602.0
+offset_bottom = 598.0
 grow_horizontal = 2
 grow_vertical = 0
 

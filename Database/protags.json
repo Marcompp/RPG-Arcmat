@@ -18,6 +18,11 @@
 	},
 	"Skills": ["Armor Piercer", "Pinpoint Hit"],
 	"Spells": [],
+	"Money": 100,
+	"Inventory": {
+		"Potion": 5,
+		"Medicine": 5
+	},
 	"Relationships": {
 	  "Agnes": null,
 	  "Borin": "Rival",
@@ -41,6 +46,11 @@
 	"Equip": {
 	  "Weapon": "Hatchet",
 	  "Armor": "Tanktop"
+	},
+	"Money": 40,
+	"Inventory": {
+		"Potion": 2,
+		"Medicine": 4,
 	},
 	"Skills": ["Heavy Blow", "Crush"],
 	"Spells": [],
@@ -70,6 +80,11 @@
 	},
 	"Skills": ["Meditate", "Mana Explosion"],
 	"Spells": ["Thunder", "Poison"],
+	"Money": 65,
+	"Inventory": {
+		"Potion": 3,
+		"Ether": 4
+	},
 	"Relationships": {
 	  "Agnes": null,
 	  "Borin": "Sibling",
@@ -96,6 +111,13 @@
 	},
 	"Skills": ["Poison Spit", "Assassinate"],
 	"Spells": [],
+	"Money": 75,
+	"Inventory": {
+		"Potion": 3,
+		"Ether": 1,
+		"Medicine": 3,
+		"Bomb": 1
+	},
 	"Relationships": {
 	  "Agnes": "Threat",
 	  "Borin": null,

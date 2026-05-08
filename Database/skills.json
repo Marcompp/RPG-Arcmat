@@ -1,0 +1,189 @@
+{
+	"Poison Spit": {
+		"nome": "Poison Spit",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 60,
+			"wgt": 7,
+			"crit": 0
+		},
+		"cooldown": 1,
+		"effect": "poison",
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Armor Piercer": {
+		"nome": "Armor Piercer",
+		"type": "attack",
+		"stats": {
+			"mgt": 0,
+			"acc": 60,
+			"crit": 0
+		},
+		"cooldown": 3,
+		"effect": "ignore_def",
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
+	"Heavy Blow": {
+		"nome": "Heavy Blow",
+		"type": "attack",
+		"stats": {
+			"mgt": 6,
+			"acc": 60,
+			"crit": 0
+		},
+		"cooldown": 3,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
+	"Meditate": {
+		"nome": "Meditate",
+		"type": "self",
+		"stats": {
+			"mp": -100,
+			"wgt": 100
+		},
+		"cooldown": 5,
+		"effect": "none",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Pinpoint Hit": {
+		"nome": "Pinpoint Hit",
+		"type": "attack",
+		"stats": {
+			"mgt": 0,
+			"acc": 95,
+			"crit": 30
+		},
+		"cooldown": 2,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
+	"Crush": {
+		"nome": "Crush",
+		"type": "attack",
+		"stats": {
+			"mgt": 8,
+			"acc": 50,
+			"crit": 0
+		},
+		"cooldown": 3,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Mana Explosion": {
+		"nome": "Mana Explosion",
+		"type": "attack",
+		"stats": {
+			"mgt": 20,
+			"acc": 70,
+			"crit": 0
+		},
+		"cost": 15,
+		"cooldown": 4,
+		"effect": "none",
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Assassinate": {
+		"nome": "Assassinate",
+		"type": "attack",
+		"stats": {
+			"mgt": 5,
+			"acc": 80,
+			"crit": 25
+		},
+		"cooldown": 4,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
+	"Regen": {
+		"nome": "Regen",
+		"type": "self",
+		"stats": {
+			"mgt": -20,
+			"acc": 100
+		},
+		"cooldown": 4,
+		"effect": "regen",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Bite": {
+		"nome": "Bite",
+		"type": "attack",
+		"stats": {
+			"mgt": 3,
+			"acc": 80,
+			"crit": 0
+		},
+		"cooldown": 1,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Claws": {
+		"nome": "Claws",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 75,
+			"crit": 5
+		},
+		"cooldown": 1,
+		"hits": 2,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Gorgon Eye": {
+		"nome": "Gorgon Eye",
+		"type": "attack",
+		"stats": {
+			"mgt": 0,
+			"acc": 60,
+			"crit": 0
+		},
+		"cooldown": 3,
+		"effect": "stun",
+		"chance": 70,
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Shiver": {
+		"nome": "Shiver",
+		"type": "attack",
+		"stats": {
+			"mgt": 4,
+			"acc": 70,
+			"crit": 0
+		},
+		"cooldown": 2,
+		"effect": "freeze",
+		"chance": 40,
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Integer": {
+		"nome": "Integer",
+		"type": "attack",
+		"stats": {
+			"mgt": 6,
+			"acc": 65,
+			"crit": 0
+		},
+		"cooldown": 2,
+		"effect": "none",
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false
+	}
+}

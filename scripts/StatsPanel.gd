@@ -2,8 +2,13 @@
 extends Control
 
 var character = null
-
 var state
+
+var _rest_pos: Vector2 = Vector2.ZERO
+var _death_tween: Tween = null
+var _death_gen: int = 0
+var _bars_tween: Tween = null
+var _shake_count: int = 0
 
 @onready var name_label = $Panel/VBoxContainer/NameLabel
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
@@ -32,6 +37,7 @@ const bar_colors = {
 
 
 func _ready():
+	_rest_pos = position
 	tooltip_text = " "  # obrigatório
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	#tlpanel.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -42,13 +48,15 @@ func _ready():
 	_disable_mouse_on_children(self)
 
 func shake():
-	var original = position
-	
+	if _death_tween != null:
+		return
+	_shake_count += 1
 	for i in range(5):
-		position = original + Vector2(randf_range(-5,5), randf_range(-5,5))
+		position = _rest_pos + Vector2(randf_range(-5, 5), randf_range(-5, 5))
 		await get_tree().create_timer(0.02).timeout
-	
-	position = original
+	_shake_count -= 1
+	if _shake_count == 0:
+		position = _rest_pos
 
 func bind(game_state):
 	state = game_state
@@ -61,17 +69,24 @@ func bind(game_state):
 	_refresh_all()
 	
 func bind_character(char):
+	_cancel_death_anim()
 	_bind_character(char)
 	_refresh_all()
 	
+var _mp_react_next: bool = false
+
 func _bind_character(char):
 	if character:
 		character.stats_changed.disconnect(_refresh_all)
-	
-	character = char  # 🔥 ESSENCIAL
-	
+		if character.mp_hit.is_connected(_on_mp_hit):
+			character.mp_hit.disconnect(_on_mp_hit)
+
 	character = char
 	character.stats_changed.connect(_refresh_all)
+	character.mp_hit.connect(_on_mp_hit)
+
+func _on_mp_hit():
+	_mp_react_next = true
 
 func _on_state_changed(path, value):
 	if path.begins_with("player"):
@@ -83,62 +98,67 @@ func _refresh_all():
 		_clear_ui()
 		return
 	visible = true
-	
+
+	if _bars_tween:
+		_bars_tween.kill()
+	_bars_tween = create_tween().set_parallel(true)
+
 	var name = character.get_name()
 	var cls = character.get_char_class()
-	
 	var hp = character.get_hp()
 	var mhp = character.get_mhp()
 	var mp = character.get_mp()
 	var mmp = character.get_mmp()
-	
+
+	var lv = character.get_level()
 	if cls != "":
-		# Nome
-		name_label.text = "[b]%s[/b]  Lv 1 %s   " % [name, cls]
+		name_label.text = "[b]%s[/b]  Lv %d %s   " % [name, lv, cls]
 	else:
-		name_label.text = "Lv 1 %s   " % name
+		name_label.text = "Lv %d %s   " % [lv, name]
 
-	# resize baseado no max
-	_resize_bar(hp_bar, mhp)
-	_resize_bar(mp_bar, mmp)
-
-	# Barras
-	_update_bar(hp_bar, hp, mhp)
-	_update_bar(mp_bar, mp, mmp)
-
-	# Texto pequeno opcional
-	hp_text.text = "%d/%d" % [hp,mhp]
-	mp_text.text = "%d/%d" % [mp,mmp]
+	_resize_bar(hp_bar, mhp, _bars_tween)
+	_resize_bar(mp_bar, mmp, _bars_tween)
+	_update_bar(hp_bar, hp, mhp, hp_text, true, _bars_tween)
+	_update_bar(mp_bar, mp, mmp, mp_text, _mp_react_next, _bars_tween)
+	_mp_react_next = false
 
 
-func _update_bar(bar, value, max_value):
+func _update_bar(bar, value, max_value, label: RichTextLabel = null, react_to_hit: bool = false, tween: Tween = null):
 	if max_value <= 0:
 		max_value = 1
 	bar.max_value = max_value
-	
+
 	var ratio = float(value) / max_value
-	
-	if value < bar.value:
+
+	if react_to_hit and value < bar.value:
 		shake()
 		flash_red()
-	
+
 	_update_bar_color(bar, ratio)
+
+	var from: float = bar.value
+	if tween:
+		tween.tween_property(bar, "value", float(value), 0.2)
+		if label:
+			tween.tween_method(
+				func(v: float): label.text = "%s/%d" % [_format_stat_value(int(v), max_value), max_value],
+				from, float(value), 0.2
+			)
+	else:
+		bar.value = float(value)
+		if label:
+			label.text = "%s/%d" % [_format_stat_value(int(value), max_value), max_value]
 	
-	var tween = create_tween()
-	tween.tween_property(bar, "value", value, 0.2)
-	
-func _resize_bar(bar, max_value):
+func _resize_bar(bar, max_value, tween: Tween = null):
 	var width = max_value * PIXELS_PER_POINT
-	
-	var scale_factor = 1.0
-	
+
 	if width > MAX_BAR_WIDTH:
-		scale_factor = MAX_BAR_WIDTH / width
 		width = MAX_BAR_WIDTH
-	
-	bar.custom_minimum_size.x = width
-	var tween = create_tween()
-	tween.tween_property(bar, "size:x", width, 0.2)
+
+	if tween:
+		tween.tween_property(bar, "custom_minimum_size:x", width, 0.2)
+	else:
+		bar.custom_minimum_size.x = width
 	
 func _update_bar_color(bar, ratio):
 	var colors = []
@@ -183,12 +203,70 @@ func _format_number(n):
 	
 	return result
 	
+func _format_stat_value(value: int, max_value: int) -> String:
+	var ratio = float(value) / max(max_value, 1)
+
+	var color: String
+	var outline: String
+	if value <= 0:
+		color   = "#6E6E6E"
+		outline = "#000000"
+	elif ratio < 0.05:
+		color   = "#B71C1C"
+		outline = "#000000"
+	elif ratio < 0.25:
+		color   = "#FFD54F"
+		outline = "000000"
+	elif value >= max_value:
+		color   = "#00E676"
+		outline = "#000000"
+		#outline = "#00E676"
+	else:
+		color   = "#FFFFFF"
+		outline = "000000"
+
+	var inner := "[b]%s[/b]" % str(value).pad_zeros(str(max_value).length())
+	if outline != "":
+		inner = "[outline_size=2][outline_color=%s]%s[/outline_color][/outline_size]" % [outline, inner]
+	return "[color=%s]%s[/color]" % [color, inner]
+
+func death_animation():
+	if _death_tween:
+		_death_tween.kill()
+
+	_death_gen += 1
+	var gen = _death_gen
+
+	_death_tween = create_tween().set_parallel(true)
+	_death_tween.tween_property(self, "position:y", _rest_pos.y + 80, 0.45) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_death_tween.tween_property(self, "modulate:a", 0.0, 0.35)
+
+	await get_tree().create_timer(0.45).timeout
+
+	if gen != _death_gen:
+		return
+	_death_tween = null
+	_clear_ui()
+
+func _cancel_death_anim():
+	_death_gen += 1
+	if _death_tween:
+		_death_tween.kill()
+		_death_tween = null
+	position = _rest_pos
+	modulate.a = 1.0
+
 func flash_red():
 	modulate = Color(1, 0.5, 0.5)
 	await get_tree().create_timer(0.1).timeout
 	modulate = Color(1,1,1)
 
 func _clear_ui():
+	_cancel_death_anim()
+	if _bars_tween:
+		_bars_tween.kill()
+		_bars_tween = null
 	visible = false
 	name_label.text = ""
 	hp_bar.value = 0
@@ -234,7 +312,7 @@ func build_character_tooltip(char):
 	# ========================
 	# HEADER
 	# ========================
-	t += "[b]%s[/b]  Lv.1\n" % char.get_name()
+	t += "[b]%s[/b]  Lv.%d\n" % [char.get_name(), char.get_level()]
 	t += "Class: %s\n\n" % char.get_char_class()
 	
 	# ========================

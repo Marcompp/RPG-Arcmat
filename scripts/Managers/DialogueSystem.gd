@@ -4,6 +4,7 @@ class_name DialogueSystem
 signal choice_selected(choice_data)
 
 @onready var story_text = $StoryText
+@onready var choice_label = $ChoiceLabel
 @onready var buttons = [
 	$Choices/Row1/Choice1,
 	$Choices/Row1/Choice2,
@@ -22,7 +23,10 @@ var typing_speed = 0.03
 var typing_id = 0
 var is_typing = false
 
-var full_text = ""
+var _command_map = {}
+var _show_choices_after_typing = true
+var _pending_choices = false
+var choice_header = ""
 var visible_chars = 0
 var current_choices = []
 
@@ -46,18 +50,19 @@ func shake():
 func play_node(node_data):
 	hide_choices()
 	current_choices = node_data.get("choices", [])
+	choice_header = node_data.get("header","")
 	start_typing(node_data.get("text", ""))
 
 # NOVO: usado pelo GameManager
-func set_choices(choices):
-	print('SET CHOICES')
-	print(choices)
+func set_choices(choices, header):
 	current_choices = choices
-	
-	# se ainda estiver digitando, espera terminar
+	choice_header = header
+
 	if is_typing:
+		_pending_choices = true
 		return
-	
+
+	_pending_choices = false
 	show_choices()
 
 # ------------------------
@@ -67,64 +72,154 @@ func set_choices(choices):
 func start_typing(text):
 	print('START_TYPING')
 	clear_text()
-	log_add_text(text)
-	append_text(text)
+	_command_map = {}
+	_show_choices_after_typing = true
+	_pending_choices = false
+	var clean = _parse_commands(text, 0)
+	log_add_text(clean)
+	story_text.text = clean
+	typing_id += 1
+	is_typing = true
+	hide_choices()
+	_type_text(typing_id)
 
 func finish_typing():
 	if not is_typing:
 		return
-	
+
 	typing_id += 1
-	
 	is_typing = false
 	var total = story_text.get_total_character_count()
 	visible_chars = total
 	story_text.visible_characters = visible_chars
-	
-	show_choices()
+
+	MyEventBus.emit("typing_finished", {"done": true})
+	if _show_choices_after_typing or _pending_choices:
+		_pending_choices = false
+		show_choices()
 
 func append_text(text):
 	hide_choices()
+	_show_choices_after_typing = false
+	_pending_choices = false
 	typing_id += 1
-	log_add_text(text)
-	
-	# guarda o que já estava na tela
-	full_text = text
-	
+	var clean = _parse_commands(text, visible_chars)
+	log_add_text(clean)
+	story_text.text += clean
 	is_typing = true
-	
-	type_text_append(typing_id)
-	
-func type_text_append(id):
-	story_text.text += full_text
-	
+	_type_text(typing_id)
+
+func _type_text(id):
 	var total = story_text.get_total_character_count()
 	while visible_chars < total:
 		if not is_typing or id != typing_id:
 			return
-		
-		visible_chars += 1
-		story_text.visible_characters = visible_chars
-		
-		await get_tree().create_timer(typing_speed).timeout
-	
+
+		if _command_map.has(visible_chars):
+			var start_vc = visible_chars
+			for cmd in _command_map[visible_chars]:
+				if not is_typing or id != typing_id:
+					return
+				match cmd["type"]:
+					"screenshake":
+						shake()
+					"wait":
+						await get_tree().create_timer(cmd["duration"]).timeout
+						if not is_typing or id != typing_id:
+							return
+					"instant":
+						visible_chars = cmd["end_pos"]
+						story_text.visible_characters = visible_chars
+			if visible_chars == start_vc:
+				visible_chars += 1
+				story_text.visible_characters = visible_chars
+				await get_tree().create_timer(typing_speed).timeout
+		else:
+			visible_chars += 1
+			story_text.visible_characters = visible_chars
+			await get_tree().create_timer(typing_speed).timeout
+
 	if id != typing_id:
 		return
-	
-	
+
 	is_typing = false
-	await get_tree().process_frame # 🔥 garante que o loop antigo morra
-	show_choices()
+	await get_tree().process_frame
+	MyEventBus.emit("typing_finished", {"done": true})
+	if _show_choices_after_typing or _pending_choices:
+		_pending_choices = false
+		show_choices()
+
+func _parse_commands(raw_text: String, offset: int) -> String:
+	var clean = ""
+	var visible_pos = offset
+	var i = 0
+	while i < raw_text.length():
+		if raw_text[i] != '[':
+			clean += raw_text[i]
+			visible_pos += 1
+			i += 1
+			continue
+		var end = raw_text.find(']', i)
+		if end == -1:
+			clean += raw_text[i]
+			visible_pos += 1
+			i += 1
+			continue
+		var tag = raw_text.substr(i + 1, end - i - 1)
+		if tag.begins_with("screenshake"):
+			if not _command_map.has(visible_pos):
+				_command_map[visible_pos] = []
+			_command_map[visible_pos].append({"type": "screenshake"})
+			i = end + 1
+		elif tag.begins_with("wait="):
+			var duration = tag.substr(5).to_float()
+			if not _command_map.has(visible_pos):
+				_command_map[visible_pos] = []
+			_command_map[visible_pos].append({"type": "wait", "duration": duration})
+			i = end + 1
+		elif tag == "instant":
+			var close_str = "[/instant]"
+			var close = raw_text.find(close_str, end + 1)
+			if close != -1:
+				var inner = raw_text.substr(end + 1, close - end - 1)
+				var inner_visible = _bbcode_visible_length(inner)
+				if not _command_map.has(visible_pos):
+					_command_map[visible_pos] = []
+				_command_map[visible_pos].append({"type": "instant", "end_pos": visible_pos + inner_visible})
+				clean += inner
+				visible_pos += inner_visible
+				i = close + close_str.length()
+			else:
+				clean += raw_text.substr(i, end - i + 1)
+				i = end + 1
+		elif tag == "/instant":
+			i = end + 1
+		else:
+			clean += raw_text.substr(i, end - i + 1)
+			i = end + 1
+	return clean
+
+func _bbcode_visible_length(text: String) -> int:
+	var count = 0
+	var i = 0
+	while i < text.length():
+		if text[i] == '[':
+			var end = text.find(']', i)
+			if end == -1:
+				count += 1
+				i += 1
+			else:
+				i = end + 1
+		else:
+			count += 1
+			i += 1
+	return count
 
 func clear_text():
 	typing_id += 1
-	
 	is_typing = false
-	
-	full_text = ""
 	visible_chars = 0
 	story_text.visible_characters = 0
-	
 	story_text.text = ""
 	await get_tree().process_frame
 
@@ -133,17 +228,21 @@ func clear_text():
 # ------------------------
 
 func evaluate_choice(choice):
+	if choice.get("disabled", false):
+		return false
 	if not choice.has("condition"):
 		return true
-	
+
 	if condition_callback == null:
 		return true
-	
+
 	return condition_callback.call(choice["condition"])
 
 func show_choices():
 	hide_choices()
 	visible_choice_map.clear()
+	
+	choice_label.text = "[b]"+choice_header+"[/b]"
 	
 	var visible_index = 0
 	
@@ -192,7 +291,7 @@ func show_choices():
 	for c in current_choices:
 		if c.get("type", "") == "back":
 			back_button.text = c["text"]
-			back_button.disabled = false
+			# back_button.disabled = false
 			apply_button_style(back_button, c, true)
 			# tooltip
 			back_button.tooltip_text = _get_tooltip_text(c, true)
@@ -204,22 +303,23 @@ func show_choices():
 		back_button.hide()
 
 func hide_choices():
+	choice_label.text = ""
 	for b in buttons:
 		b.hide()
 		b.tooltip_text = ""
 		b.has_tooltip = false
 		
 func apply_button_style(button, choice, enabled):
-	
-	# reset (IMPORTANTE)
 	button.modulate = Color(1,1,1,1)
-	
+	# button.disabled = false
+
 	if not enabled:
 		button.modulate = Color(0.5, 0.5, 0.5)
+		# button.disabled = true
 		return
-	
+
 	if choice.get("highlight", false):
-		button.modulate = Color(1.2, 1.1, 0.6) # leve dourado
+		button.modulate = Color(1.2, 1.1, 0.6)
 
 #----------------------
 #LOG
@@ -294,8 +394,11 @@ func _get_tooltip_text(choice, enabled):
 		return choice["tooltip"]
 	
 	# fallback inteligente (opcional)
-	if not enabled and choice.has("condition"):
-		return format_condition_tooltip(choice["condition"])
+	if not enabled:
+		if choice.has("disabled_tooltip"):
+			return choice["disabled_tooltip"]
+		if choice.has("condition"):
+			return format_condition_tooltip(choice["condition"])
 	
 	return ""
 
@@ -337,7 +440,7 @@ func _ready():
 	for i in range(buttons.size()):
 		buttons[i].pressed.connect(_on_button_pressed.bind(i))
 	MyEventBus.subscribe("show_choices", func(data):
-		set_choices(data.get("choices", []))
+		set_choices(data.get("choices", []), data.get("header", ""))
 	)
 	MyEventBus.subscribe("dialogue", func(data):
 		play_node(data)
@@ -346,7 +449,8 @@ func _ready():
 		clear_text()
 	)
 	MyEventBus.subscribe("continue_text", func(data):
-		append_text("\n\n" + data.get("text", ""))
+		var linebreak = "\n\n" if data.get("linebreak",true) else "\n" 
+		append_text(linebreak + data.get("text", ""))
 	)
 	story_text.bbcode_enabled = true
 	$LogButton.pressed.connect(toggle_log)

@@ -15,7 +15,10 @@
 	"Element": "Earth",
 	"Lvl": 2,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
-	"Weapon": "Hand Axe",
+	"Equip": {
+		"Weapon": "Hand Axe",
+		"Armor": "Tanktop"
+	},
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -26,7 +29,10 @@
 	"Element": "Dark",
 	"Lvl": 3,
 	"Stats": {"HP":"D","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"F","Def":"D"},
-	"Weapon": "Scimitar",
+	"Equip": {
+		"Weapon": "Scimitar",
+		"Armor": "Old Armor"
+	},
 	"Skills": [],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -41,7 +47,7 @@
 	"Skills": [],
 	"Spells": [],
 	"Location": "Caves of Light",
-	"Rarity": null
+	"Rarity": 9
   },
   {
 	"Name": "Spirit",
@@ -52,29 +58,35 @@
 	"Skills": ["Shiver"],
 	"Spells": ["Dark","Light"],
 	"Location": "Caves of Light",
-	"Rarity": null
+	"Rarity": 6
   },
   {
 	"Name": "Renegade",
 	"Element": "Earth",
 	"Lvl": 5,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
-	"Weapon": "Machete",
+	"Equip": {
+		"Weapon": "Machete"
+	},
 	"Skills": [],
 	"Spells": [],
 	"Location": "Caves of Light",
-	"Rarity": null
+	"Rarity": 3
   },
   {
 	"Name": "Cultist",
 	"Element": "Light",
 	"Lvl": 6,
 	"Stats": {"HP":"D","MP":"B","Str":"E","Mag":"C","Skl":"D","Spd":"E","Lck":"B","Def":"E"},
+	"Equip": {
+		"Weapon": "Sacrificial Knife",
+		"Armor": "Cult Robes"
+	},
 	"Weapon": null,
 	"Skills": [],
 	"Spells": ["Light","Heal"],
 	"Location": "Caves of Light",
-	"Rarity": null
+	"Rarity": 5
   },
   {
 	"Name": "Mangy Wolf",
@@ -85,18 +97,20 @@
 	"Skills": ["Bite","Claws"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
-	"Rarity": null
+	"Rarity": 7
   },
   {
 	"Name": "Zombie",
 	"Element": "Dark",
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"F","Def":"F"},
-	"Weapon": "Axe",
+	"Equip": {
+		"Armor": "Old Rags"
+	},
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
-	"Rarity": null
+	"Rarity": 10
   },
   {
 	"Name": "Ghost",
@@ -107,7 +121,7 @@
 	"Skills": ["Shiver"],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
-	"Rarity": null
+	"Rarity": 8
   },
   {
 	"Name": "Frost Fairy",
@@ -118,7 +132,7 @@
 	"Skills": [],
 	"Spells": ["Ice"],
 	"Location": "Mt Legory",
-	"Rarity": null
+	"Rarity": 7
   },
   {
 	"Name": "Bald Eagle",
@@ -129,18 +143,21 @@
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mt Legory",
-	"Rarity": null
+	"Rarity": 8
   },
   {
 	"Name": "Pegasus Knight",
 	"Element": "Wind",
 	"Lvl": 10,
 	"Stats": {"HP":"D","MP":"D","Str":"D","Mag":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
-	"Weapon": "Winged Spear",
+	"Equip": {
+		"Weapon": "Winged Spear",
+		"Armor": "Whitewing Armor"
+	},
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mt Legory",
-	"Rarity": null
+	"Rarity": 6
   },
   {
 	"Name": "Wisp",
@@ -151,7 +168,7 @@
 	"Skills": ["Shiver"],
 	"Spells": [],
 	"Location": "Core Cavern",
-	"Rarity": null
+	"Rarity": 7
   },
   {
 	"Name": "Wyvern",
@@ -162,40 +179,47 @@
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Core Cavern",
-	"Rarity": null
+	"Rarity": 5
   },
   {
 	"Name": "Lizardman",
 	"Element": "Water",
 	"Lvl": 11,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"C"},
-	"Weapon": "Falchion",
+	"Equip": {
+		"Weapon": "Falchion",
+		"Armor": "Lizal Armor"
+	},
 	"Skills": [],
 	"Spells": [],
 	"Location": "Core Cavern",
-	"Rarity": null
+	"Rarity": 7
   },
   {
 	"Name": "Tarvos",
 	"Element": "Earth",
 	"Lvl": 12,
 	"Stats": {"HP":"A","MP":"E","Str":"B","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
-	"Weapon": "Battle Axe",
+	"Equip": {
+		"Weapon": "Battle Axe"
+	},
 	"Skills": [],
 	"Spells": [],
 	"Location": "Core Cavern",
-	"Rarity": null
+	"Rarity": 6
   },
   {
 	"Name": "Ent",
 	"Element": "Earth",
 	"Lvl": 13,
 	"Stats": {"HP":"A","MP":"B","Str":"C","Mag":"C","Skl":"D","Spd":"E","Lck":"E","Def":"C"},
-	"Weapon": "Ent Club",
+	"Equip": {
+		"Weapon": "Ent Club"
+	},
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Lost Swamp",
-	"Rarity": null
+	"Rarity": 8
   },
   {
 	"Name": "Gorgon",
@@ -206,7 +230,7 @@
 	"Skills": ["Gorgon Eye","Poison Spit"],
 	"Spells": [],
 	"Location": "Lost Swamp",
-	"Rarity": null
+	"Rarity": 4
   },
   {
 	"Name": "Lost Soul",
@@ -217,7 +241,7 @@
 	"Skills": ["Shiver"],
 	"Spells": [],
 	"Location": "Lost Swamp",
-	"Rarity": null
+	"Rarity": 10
   },
   {
 	"Name": "Gorgoyle",
@@ -228,40 +252,48 @@
 	"Skills": ["Claws"],
 	"Spells": ["Earth"],
 	"Location": "Arcmat Ruins",
-	"Rarity": null
+	"Rarity": 9
   },
   {
 	"Name": "Treasure Hunter",
 	"Element": "Earth",
 	"Lvl": 15,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"A","Spd":"A","Lck":"D","Def":"C"},
-	"Weapon": "Silver Sword",
+	"Equip": {
+		"Weapon": "Silver Sword",
+		"Armor": "Adventure Clothes"
+	},
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Arcmat Ruins",
-	"Rarity": null
+	"Rarity": 5
   },
   {
 	"Name": "Wizard",
 	"Element": "Dark",
 	"Lvl": 16,
 	"Stats": {"HP":"C","MP":"A","Str":"E","Mag":"A","Skl":"C","Spd":"C","Lck":"E","Def":"E"},
-	"Weapon": null,
+	"Equip": {
+		"Weapon": "Ancient Staff",
+		"Armor": "Wizard Robe"
+	},
 	"Skills": [],
-	"Spells": [],
+	"Spells": ["Fire","Water","Wind","Earth"],
 	"Location": "Arcmat Ruins",
-	"Rarity": null
-  },
+	"Rarity": 4
+  }, 
   {
 	"Name": "Guardian",
 	"Element": "Earth",
 	"Lvl": 16,
 	"Stats": {"HP":"A","MP":"C","Str":"B","Mag":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
-	"Weapon": "Stone Axe",
+	"Equip": {
+		"Weapon": "Stone Axe"
+	},
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Arcmat Ruins",
-	"Rarity": null
+	"Rarity": 6
   },
 
   {
@@ -270,6 +302,9 @@
 	"Lvl": 4,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
+	"Equip": {
+		"Armor": "Old Rags"
+	},
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -291,7 +326,10 @@
 	"Element": "Light",
 	"Lvl": 7,
 	"Stats": {"HP":"B","MP":"B","Str":"D","Mag":"C","Skl":"C","Spd":"C","Lck":"B","Def":"E"},
-	"Weapon": null,
+	"Equip": {
+		"Weapon": "Sacrificial Knife",
+		"Armor": "Cult Robes"
+	},
 	"Skills": [],
 	"Spells": ["Light","Heal"],
 	"Location": "Caves of Light",
@@ -302,7 +340,10 @@
 	"Element": "Dark",
 	"Lvl": 9,
 	"Stats": {"HP":"C","MP":"B","Str":"C","Mag":"B","Skl":"D","Spd":"E","Lck":"E","Def":"E"},
-	"Weapon": null,
+	"Equip": {
+		"Weapon": "Skull Staff",
+		"Armor": "Necromancer Robes"
+	},
 	"Skills": [],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
@@ -357,7 +398,9 @@
 	"Element": "Earth",
 	"Lvl": 15,
 	"Stats": {"HP":"S","MP":"A","Str":"A","Mag":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
-	"Weapon": null,
+	"Equip": {
+		"Weapon": "Ent Club"
+	},
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Lost Swamp",
@@ -368,7 +411,10 @@
 	"Element": "Light",
 	"Lvl": 20,
 	"Stats": {"HP":"S","MP":"A","Str":"D","Mag":"A","Skl":"C","Spd":"D","Lck":"E","Def":"C"},
-	"Weapon": null,
+	"Equip": {
+		"Weapon": "Ent Club",
+		"Armor": "Archmage Robe"
+	},
 	"Skills": ["Integer"],
 	"Spells": ["Earth","Light","Thunder"],
 	"Location": "Arcmat Ruins",

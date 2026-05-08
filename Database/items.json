@@ -1,0 +1,59 @@
+{
+	"Potion": {
+		"nome": "Potion",
+		"type": "self",
+		"stats": {
+			"mgt": -30,
+			"acc": 100,
+			"wgt": 13
+		},
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"price": 15,
+		"effect": "none",
+		"consumable": true
+	},
+	"Ether": {
+		"nome": "Ether",
+		"type": "self",
+		"stats": {
+			"mp": -25,
+			"acc": 100,
+			"wgt": 10
+		},
+		"price": 20,
+		"effect": "none",
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"consumable": true
+	},
+	"Medicine": {
+		"nome": "Medicine",
+		"type": "self",
+		"stats": {
+			"acc": 100,
+			"wgt": 10
+		},
+		"price": 10,
+		"effect": "stat_clear",
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"consumable": true
+	},
+	"Bomb": {
+		"nome": "Bomb",
+		"type": "attack",
+		"stats": {
+			"mgt": 30,
+			"acc": 100,
+			"wgt": 20,
+			"crit": 0
+		},
+		"price": 40,
+		"effect": "burn",
+		"chance": 10,
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"consumable": true
+	}
+}

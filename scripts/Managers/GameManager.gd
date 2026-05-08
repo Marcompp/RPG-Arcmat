@@ -64,11 +64,14 @@ func _ready():
 	)
 	#game_state["player"] = null
 	game_state["gold"] = 0
+	game_state["region"] = ""
 	game_state["vars"] = {}
 	game_state["flags"] = {}
 	game_state["visited_nodes"] = {}
 	game_state["visited_count"] = {}
 	game_state["area_progress"] = 0
+	travel.game_state = game_state
+	game_state["region"] = travel.current_region
 	game_ui.bind(game_state)
 	
 	MyInputRouter.push(_handle_game_input, "exploration")
@@ -147,7 +150,7 @@ func pad_right(text, size):
 	return text
 	
 func build_character_tooltip(char):
-	var t = char["Name"] + "  Lv.1"
+	var t = char["Name"] + "  Lv." + str(char.get("Lvl", 1))
 	#Name
 	t += "\nClass: " + char["Class"]
 	
@@ -198,8 +201,18 @@ func build_character_tooltip(char):
 		t += "\nStarting Spells:\n"
 		for s in char["Spells"]:
 			t += "- " + s + "\n"
+
+	# Money
+	t += "\nGold: " + str(char.get("Money", 0)) + "G\n"
+
+	# Inventory
+	var inv = char.get("Inventory", {})
+	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
+		t += "\nStarting Items:\n"
+		for item in inv:
+			t += "- " + item + " x" + str(inv[item]) + "\n"
 	t += "\n"
-	
+
 	return t.strip_edges()
 
 func show_character_choices():
@@ -213,7 +226,7 @@ func show_character_choices():
 			"tooltip": build_character_tooltip(char)
 		})
 	
-	dialogue.set_choices(choices)
+	dialogue.set_choices(choices, "Select your character")
 	
 func handle_character_select(choice):
 	var char = choice.get("data", {})
@@ -296,7 +309,20 @@ func show_character_confirm(char):
 		for s in char["Spells"]:
 			text += "- " + s + "\n"
 		text += "\n"
-	
+
+	# ------------------------
+	# MONEY & INVENTORY
+	# ------------------------
+	text += "[b]Gold[/b]\n"
+	text += str(char.get("Money", 0)) + "G\n\n"
+
+	var inv = char.get("Inventory", {})
+	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
+		text += "[b]Inventory[/b]\n"
+		for item in inv:
+			text += "- " + item + " x" + str(inv[item]) + "\n"
+		text += "\n"
+
 	# ------------------------
 	# WARNING
 	# ------------------------
@@ -307,12 +333,13 @@ func show_character_confirm(char):
 	dialogue.set_choices([
 		{ "text": "▶ Start Journey", "type": "confirm_character" },
 		{ "text": "◀ Choose Another", "type": "back" }
-	])
+	], "CONFIRM SELECTION?")
 	
 func confirm_character():
 	var char = pending_character
-	var character = Character.new(char, equipment_db)
+	var character = Character.new(char, armor_db, weapon_db)
 	game_state["player"] = character
+	game_state["gold"] = character.get_money()
 	
 	#character.stats_changed.connect(_on_character_stats_changed)
 	
@@ -394,7 +421,7 @@ func start_combat(data):
 		"Def": 1
 		}
 	})
-	var enmy = Character.new(enemy, equipment_db)
+	var enmy = Character.new(enemy, armor_db, weapon_db)
 	
 	# 🔥 ESSENCIAL
 	game_state.set_value("enemy", enmy)

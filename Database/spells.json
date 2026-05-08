@@ -1,0 +1,154 @@
+{
+	"Fire": {
+		"nome": "Fire",
+		"type": "attack",
+		"stats": {
+			"mgt": 15,
+			"acc": 65,
+			"wgt": 13,
+			"crit": 0
+		},
+		"cost": 4,
+		"effect": "burn",
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"chance": 15
+	},
+	"Ice": {
+		"nome": "Ice",
+		"type": "attack",
+		"stats": {
+			"mgt": 12,
+			"acc": 80,
+			"wgt": 11,
+			"crit": 0
+		},
+		"cost": 4,
+		"effect": "freeze",
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"chance": 5
+	},
+	"Wind": {
+		"nome": "Wind",
+		"type": "attack",
+		"stats": {
+			"mgt": 8,
+			"acc": 80,
+			"wgt": 6,
+			"crit": 0
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "none"
+	},
+	"Earth": {
+		"nome": "Earth",
+		"type": "attack",
+		"stats": {
+			"mgt": 11,
+			"acc": 50,
+			"wgt": 6,
+			"crit": 5
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "none"
+	},
+	"Water": {
+		"nome": "Water",
+		"type": "attack",
+		"stats": {
+			"mgt": 11,
+			"acc": 70,
+			"wgt": 9,
+			"crit": 0
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "none"
+	},
+	"Light": {
+		"nome": "Light",
+		"type": "attack",
+		"stats": {
+			"mgt": 5,
+			"acc": 90,
+			"wgt": 2,
+			"crit": 0
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "none"
+	},
+	"Dark": {
+		"nome": "Dark",
+		"type": "attack",
+		"stats": {
+			"mgt": 18,
+			"acc": 55,
+			"wgt": 15,
+			"crit": 0
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "none"
+	},
+	"Thunder": {
+		"nome": "Thunder",
+		"type": "attack",
+		"stats": {
+			"mgt": 10,
+			"acc": 35,
+			"wgt": 7,
+			"crit": 30
+		},
+		"cost": 6,
+		"hits": 3,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "stun",
+		"chance": 5
+	},
+	"Poison": {
+		"nome": "Poison",
+		"type": "attack",
+		"stats": {
+			"mgt": 6,
+			"acc": 60,
+			"wgt": 8,
+			"crit": 0
+		},
+		"cost": 4,
+		"magic": true,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"effect": "poison"
+	},
+	"Heal": {
+		"nome": "Heal",
+		"type": "self",
+		"stats": {
+			"mgt": -30,
+			"acc": 100
+		},
+		"cost": 5,
+		"magic": true,
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"effect": "none"
+	}
+}

@@ -13,8 +13,13 @@ var game_manager
 var game_state
 
 var world_data = {}
+var monster_db = []
 
-var current_region = "Apple Woods"
+var current_region = "Apple Woods":
+	set(value):
+		current_region = value
+		if game_state:
+			game_state["region"] = value
 var current_node = 0
 var current_entrance = 1
 
@@ -22,7 +27,8 @@ var current_node_data = null
 
 func _ready():
 	world_data = load_json("res://Database/area_nodes.json")
-	
+	monster_db = load_json("res://Database/monsters.json")
+
 	if world_data.is_empty():
 		push_error("Falha ao carregar o JSON")
 		return
@@ -171,18 +177,53 @@ func handle_exit_choice(choice):
 		mode = TravelMode.NODE_ACTIONS
 		show_node_actions()
 		return
-	
+
 	var exit = choice.get("data", {})
-	
 	current_entrance = exit.get("leads_to", current_entrance)
-	
-	MyEventBus.emit("add_progress",{"progress":exit.get("value", 1)})
-	
+
+	MyEventBus.emit("add_progress", {"progress": exit.get("value", 1)})
 	apply_exit_vars(exit)
-	
+
 	var next_node = pick_next_node(current_entrance)
-	
-	enter_node(next_node, current_entrance)
+	_set_current_node(next_node, current_entrance)
+	register_visit()
+
+	MyEventBus.emit("node_entered", {
+		"node": current_node_data,
+		"entrance": current_entrance
+	})
+
+	var travel_text = exit.get("travel_text", "You press on for a while.")
+	var text = travel_text + "\n\n...\n[wait=0.2]\n...\n[wait=0.2]"
+
+	var arrival = get_arrival_text(current_node_data)
+	if arrival != "":
+		text += "\n\n" + arrival
+
+	var key = get_node_key()
+	var desc = get_dynamic_paragraph(current_node_data, key)
+	if desc != "":
+		text += "\n\n" + desc
+
+	var encounter_rate = current_node_data.get("encounter_rate", 0.75)
+	var monster = null
+	var encounter_roll = randf()
+	print(encounter_roll)
+	if encounter_roll < encounter_rate:
+		print("entrou")
+		monster = _pick_encounter_monster()  
+	if monster:
+		text += "\n\nSuddenly, a [b]" + monster["Name"] + "[/b] appears!"
+	else:
+		text += "\n\nWhat do you want to do?"
+
+	MyEventBus.emit("dialogue", {"text": text})
+
+	if monster:
+		MyEventBus.emit("start_combat", {"enemy": monster})
+	else:
+		mode = TravelMode.NODE_ACTIONS
+		show_node_actions()
 
 func apply_exit_vars(exit_data):
 	if not exit_data.has("var"):
@@ -214,6 +255,40 @@ func pick_next_node(entrance):
 		return current_node
 	
 	return valid.pick_random()
+
+# ------------------------
+# ENCOUNTER
+# ------------------------
+
+func _pick_encounter_monster():
+	var pool = []
+	for monster in monster_db:
+		print(monster)
+		if monster.get("Location", "") != current_region:
+			print(current_region)
+			print(monster.get("Location", ""))
+			continue
+		var rarity = monster.get("Rarity", null)
+		if rarity == null or (typeof(rarity) != TYPE_INT and typeof(rarity) != TYPE_FLOAT) or rarity <= 0:
+			continue
+		pool.append({"data": monster, "weight": rarity})
+
+	if pool.is_empty():
+		print('EMPTY POOL')
+		return null
+
+	var total = 0
+	for entry in pool:
+		total += int(entry["weight"])
+
+	var roll = randi() % total
+	var cumulative = 0
+	for entry in pool:
+		cumulative += entry["weight"]
+		if roll < cumulative:
+			return entry["data"]
+
+	return pool[-1]["data"]
 
 # ------------------------
 # VISIT
