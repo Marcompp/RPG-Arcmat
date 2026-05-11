@@ -43,6 +43,7 @@
 	"Bomb": {
 		"nome": "Bomb",
 		"type": "attack",
+		"element": "Fire",
 		"stats": {
 			"mgt": 30,
 			"acc": 100,

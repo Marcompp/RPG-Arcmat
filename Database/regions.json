@@ -1,0 +1,89 @@
+{
+	"Apple Woods":{
+		"Name" : "Apple Woods",
+		"Type": "Dungeon",
+		"Enemies" : ["Slime","Skeleton","Bandit"],
+		"Boss" : "Werewolf",
+		"Length" : 4,
+		"loot" : 5,
+		"Treasure" : ["Elven Sword","Book of Fire"],
+		"Events" : ["SwordInStone"],
+		"Backdrop": "apple_woodd.png",
+		"Music": "the_mountain-forest.mp3",
+		"Next": "Bertunia"
+	},
+	"Caves of Light":{
+		"Name" : "Caves of Light",
+		"Type": "Dungeon",
+		"Enemies" : ["Vampire Bat","Lost Spirit","Renegade","Cultist"],
+		"Boss" : "Chimera",
+		"Length" : 7,
+		"loot" : 8,
+		"Treasure" : ["Thief's Dagger","Book of Light"],
+		"Events" : ["Lost","CultHideout"],
+		"Backdrop": "light_caves.png",
+
+		"Next": "Sundown Plateau"
+	},
+	"Sundown Plateau":{
+		"Name" : "Sundown Plateau",
+		"Type": "Dungeon",
+		"Enemies" : ["Hungry Wolf","Zombie"],
+		"Boss" : "Necromancer",
+		"Length" : 6,
+		"loot" : 8,
+		"Treasure" : ["Book of Dark"],
+		"Events" : ["Graveyard"],
+		"Backdrop": "light_caves.png",
+		"Music": "hitslab-halloween-spooky.mp3",
+		"Next": "Mt. Legory"
+	},
+	"Mt. Legory":{
+		"Name" : "Mt. Legory",
+		"Type": "Dungeon",
+		"Enemies" : ["Frost Fairy","Bald Eagle","Pegasus Knight"],
+		"Boss" : "Icelady",
+		"Length" : 5,
+		"loot" : 8,
+		"Treasure" : ["Book of Ice","Glaive"],
+		"Events" : ["Roc"],
+		"Backdrop": "mt_legory2.png",
+		"Next": "Core Cavern"
+	},
+		"Core Cavern":{
+		"Name" : "Core Cavern",
+		"Type": "Dungeon",
+		"Enemies" : ["Wisp","Wyvern","Lizardman","Tarvos"],
+		"Boss" : "Infrit",
+		"Length" : 8,
+		"loot" : 9,
+		"Treasure" : ["Book of Earth","Flamesword"],
+		"Events" : ["CaveIn"],
+		"Backdrop": "core_cavern.png",
+		"Next": "Mugell Town"
+	},
+		"Lost Swamp":{
+		"Name" : "Lost Swamp",
+		"Type": "Dungeon",
+		"Enemies" : ["Ent","Gorgon","Lost Souls"],
+		"Boss" : "King of the Swamp",
+		"Length" : 7,
+		"loot" : 9,
+		"Treasure" : ["Book of Water","Lost Sword"],
+		"Events" : ["Lost"],
+		"Backdrop": "lost_swamp.png",
+		"Next": "Arcmat Ruins"
+	},
+		"Arcmat Ruins":{
+		"Name" : "Arcmat Ruins",
+		"Type": "Dungeon",
+		"Enemies" : ["Gargoyle","Treasure Hunter","Wizard","Guardian"],
+		"Boss" : "Mathemagician",
+		"Length" : 8,
+		"loot" : 9,
+		"Treasure" : ["Relic Sword"],
+		"Events" : ["Spring of Lost Knowledge"],
+		"Backdrop": "arcmat.png",
+		"Next": null
+	} 
+}

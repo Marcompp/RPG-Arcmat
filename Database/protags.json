@@ -50,7 +50,7 @@
 	"Money": 40,
 	"Inventory": {
 		"Potion": 2,
-		"Medicine": 4,
+		"Medicine": 4
 	},
 	"Skills": ["Heavy Blow", "Crush"],
 	"Spells": [],

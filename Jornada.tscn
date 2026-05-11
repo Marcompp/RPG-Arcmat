@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bx50qj2qrnlcv"]
+[gd_scene load_steps=10 format=3 uid="uid://bx50qj2qrnlcv"]
 
 [ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
 [ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
 [ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
 [ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
+[ext_resource type="Script" uid="uid://eldcn6hvcxf3" path="res://scripts/Managers/AudioManager.gd" id="7_audmgr"]
+[ext_resource type="Script" uid="uid://ce0t6js5r3f6u" path="res://scripts/MainMenu.gd" id="9_tt7o1"]
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -16,6 +18,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3s1co")
+
+[node name="TravelManager" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_rki1y")
+
+[node name="Backdrop" type="TextureRect" parent="TravelManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="GameUI" type="Control" parent="."]
 anchors_preset = 0
@@ -32,7 +59,7 @@ offset_right = 600.0
 offset_bottom = 40.0
 
 [node name="TopLeftWrapper" type="Panel" parent="GameUI/TopLeft"]
-custom_minimum_size = Vector2(226, 86)
+custom_minimum_size = Vector2(226, 90)
 layout_mode = 2
 script = ExtResource("3_ej7wp")
 
@@ -117,6 +144,18 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 1
 bbcode_enabled = true
 
+[node name="XPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false
+
 [node name="MoneyPanel" type="VBoxContainer" parent="GameUI/TopLeft"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -124,6 +163,39 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeft/MoneyPanel"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="XPContainer" type="HBoxContainer" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]XP: [/b] "
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="XPBar" type="ProgressBar" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control"]
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+offset_left = -8.0
+offset_right = -4.0
+offset_bottom = 22.0
+show_percentage = false
+
+[node name="XPText" type="RichTextLabel" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
 
 [node name="GoldContainer" type="HBoxContainer" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer"]
 layout_mode = 2
@@ -294,6 +366,53 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_6mkdx")
 
+[node name="Panel" type="Panel" parent="DialogueSystem"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 111.0
+offset_right = 1091.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_right = -1100.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1100.0
+offset_right = 31.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel3" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -111.0
+offset_right = 31.0
+offset_bottom = -537.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="ChoiceLabel" type="RichTextLabel" parent="DialogueSystem"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 0
@@ -424,14 +543,89 @@ offset_right = 1120.0
 offset_bottom = 89.0
 text = "X"
 
+[node name="AudioManager" type="Control" parent="."]
+anchors_preset = 0
+script = ExtResource("7_audmgr")
+
 [node name="CombatManager" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("5_ubeea")
 
-[node name="TravelManager" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("6_rki1y")
+[node name="MainMenu" type="Control" parent="."]
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_tt7o1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Arcmat Adventure"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "New Game"
+
+[node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit"
+
+[node name="SaveContainer" type="VBoxContainer" parent="MainMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="Save Header" type="Label" parent="MainMenu/SaveContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Select Save Data to Load:"
+horizontal_alignment = 1
+
+[node name="SaveContainer" type="VBoxContainer" parent="MainMenu/SaveContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18

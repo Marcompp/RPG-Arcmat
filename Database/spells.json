@@ -2,6 +2,7 @@
 	"Fire": {
 		"nome": "Fire",
 		"type": "attack",
+		"element": "Fire",
 		"stats": {
 			"mgt": 15,
 			"acc": 65,
@@ -18,6 +19,7 @@
 	"Ice": {
 		"nome": "Ice",
 		"type": "attack",
+		"element": "Ice",
 		"stats": {
 			"mgt": 12,
 			"acc": 80,
@@ -34,6 +36,7 @@
 	"Wind": {
 		"nome": "Wind",
 		"type": "attack",
+		"element": "Wind",
 		"stats": {
 			"mgt": 8,
 			"acc": 80,
@@ -49,6 +52,7 @@
 	"Earth": {
 		"nome": "Earth",
 		"type": "attack",
+		"element": "Earth",
 		"stats": {
 			"mgt": 11,
 			"acc": 50,
@@ -64,6 +68,7 @@
 	"Water": {
 		"nome": "Water",
 		"type": "attack",
+		"element": "Water",
 		"stats": {
 			"mgt": 11,
 			"acc": 70,
@@ -79,6 +84,7 @@
 	"Light": {
 		"nome": "Light",
 		"type": "attack",
+		"element": "Light",
 		"stats": {
 			"mgt": 5,
 			"acc": 90,
@@ -94,6 +100,7 @@
 	"Dark": {
 		"nome": "Dark",
 		"type": "attack",
+		"element": "Dark",
 		"stats": {
 			"mgt": 18,
 			"acc": 55,
@@ -109,6 +116,7 @@
 	"Thunder": {
 		"nome": "Thunder",
 		"type": "attack",
+		"element": "Thunder",
 		"stats": {
 			"mgt": 10,
 			"acc": 35,
@@ -126,6 +134,7 @@
 	"Poison": {
 		"nome": "Poison",
 		"type": "attack",
+		"element": "Poison",
 		"stats": {
 			"mgt": 6,
 			"acc": 60,

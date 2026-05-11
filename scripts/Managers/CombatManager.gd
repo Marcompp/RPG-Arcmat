@@ -291,8 +291,13 @@ func _resolve_action(user, target, data) -> Dictionary:
 		base_mgt += atk_stat
 
 	var ignore_def = data.get("effect", "") == "ignore_def"
-	var def_val = 0 if ignore_def else target.get_total_stat("def")
-	var dmg = max(1, base_mgt - def_val + randi_range(0, 2))
+	var def_val = 0
+	if not ignore_def: 
+		if is_magic:
+			def_val = target.get_mp()
+		else: 
+			def_val = target.get_total_stat("def") 
+	var dmg = max(1, base_mgt - floori(def_val / 2) + randi_range(0, 2))
 
 	var crit_chance = stats.get("crit", 0)
 	if inherit_wpn:
@@ -349,6 +354,7 @@ func _do_attack(actor):
 	var weapon     = actor.get_weapon()
 	var target     = enemy if actor == player else player
 	var dmg        = calculate_damage(actor, target)
+	var wpn_type: String = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
 	MyEventBus.emit("continue_text", {
 		"text": "[b]%s[/b] struck with %s![wait=0.1]" % [
 			actor.get_name(), weapon.get("name", "bare hands")
@@ -356,6 +362,7 @@ func _do_attack(actor):
 	})
 	await wait_for_writing()
 	target.take_damage(dmg)
+	MyEventBus.emit("play_sfx", {"sound": wpn_type if wpn_type != "" else "attack"})
 	MyEventBus.emit("continue_text", {
 		"text": "[screenshake][instant][color=red]%d[/color] damage![/instant]" % [dmg],
 		"linebreak": false
@@ -399,13 +406,38 @@ func next_turn():
 
 func end_combat(victory):
 	state = CombatState.END
-	var text = "[color=yellow]%s[/color] was defeated!" % enemy.get_name() \
-		if victory else "You were defeated..."
 	MyEventBus.emit("character_defeated", { "victory": victory })
-	MyEventBus.emit("continue_text", { "text": text })
-	await wait_for_continue()
-	MyInputRouter.pop()
-	MyEventBus.emit("combat_ended", { "victory": victory })
+	if victory:
+		var rewards = _calculate_rewards()
+		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % [enemy.get_name()] })
+		await wait_for_continue()
+		MyEventBus.emit("dialogue", { "text": _format_reward_text(rewards)})
+		await wait_for_continue()
+		MyInputRouter.pop()
+		MyEventBus.emit("combat_ended", { "victory": true, "rewards": rewards })
+	else:
+		MyEventBus.emit("continue_text", { "text": "You were defeated..." })
+		await wait_for_continue()
+		MyInputRouter.pop()
+		MyEventBus.emit("combat_ended", { "victory": false })
+
+func _calculate_rewards() -> Dictionary:
+	var lvl = enemy.get_level()
+	var xp = int(10.0 * pow(1.5, lvl - 1))
+	var gold = enemy.data.get("Gold", 0)
+	var drops = {}
+	for item in enemy.data.get("Drops", {}):
+		if randi_range(1, 100) <= enemy.data["Drops"][item]:
+			drops[item] = 1
+	return { "xp": xp, "gold": gold, "drops": drops }
+
+func _format_reward_text(r: Dictionary) -> String:
+	var lines = ["[b]Rewards[/b]", "[color=cyan]+%d XP[/color]" % r["xp"]]
+	if r["gold"] > 0:
+		lines.append("[color=yellow]+%dG[/color]" % r["gold"])
+	for item in r["drops"]:
+		lines.append("  • %s" % item)
+	return "\n".join(lines)
 
 # ========================
 # STATUS & COOLDOWNS
@@ -469,7 +501,7 @@ func calculate_damage(attacker, defender) -> int:
 	var crit = weapon.get("stats", {}).get("crit", 0)
 	var atk = attacker.get_total_stat("str") + mgt
 	var def = defender.get_total_stat("def")
-	var dmg = max(1, atk - def + randi_range(0, 2))
+	var dmg = max(1, atk - floori(def / 2) + randi_range(0, 2))
 	if randi_range(1, 100) <= crit:
 		dmg = int(dmg * 1.5)
 	return dmg

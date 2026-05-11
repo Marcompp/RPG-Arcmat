@@ -4,6 +4,8 @@ extends Control
 @onready var enemy_panel = $TopRightWrapper
 @onready var gold_label = $TopLeft/MoneyPanel/VBoxContainer/GoldContainer/GoldValue
 @onready var area_label = $TopCenterPanel/VBoxContainer/AreaLabel
+@onready var xp_bar = $TopLeft/TopLeftWrapper/XPBar
+@onready var xp_text = $TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control/XPText
 
 var state
 
@@ -27,6 +29,9 @@ func _ready():
 	MyEventBus.subscribe("combat_ended", func(_data):
 		enemy_panel._clear_ui()
 	)
+	var xp_fill = StyleBoxFlat.new()
+	xp_fill.bg_color = Color(0, 0.8, 1.0)
+	xp_bar.add_theme_stylebox_override("fill", xp_fill)
 	#MyEventBus.subscribe("screenshake", func(data):
 		#shake()
 	#)
@@ -48,6 +53,7 @@ func bind(game_state):
 	var player = state.get_value("player")
 	if player:
 		player_panel.bind_character(player)
+		_bind_character(player)
 	else:
 		player_panel._clear_ui()
 		
@@ -69,7 +75,12 @@ func _bind_character(char):
 	character.stats_changed.connect(_refresh_all)
 
 func _on_state_changed(path, value):
-	if path.begins_with("player"):
+	if path == "player":
+		# Reconnect stats_changed to the new character instance
+		if value != null:
+			_bind_character(value)
+		player_panel.bind_character(value)
+	elif path.begins_with("player"):
 		player_panel.bind_character(value)
 	elif path.begins_with("enemy"):
 		enemy_panel.bind_character(value)
@@ -86,6 +97,12 @@ func _refresh_all():
 	_update_gold(gold)
 
 	area_label.text = "[b]"+ state.get_value("region", "") +"[/b]"
+
+	var xp_to_next = player.get_xp_to_next_level()
+	var cur_xp = player.get_xp()
+	xp_bar.max_value = xp_to_next
+	xp_bar.value = cur_xp
+	xp_text.text = "%d/%d" % [cur_xp, xp_to_next]
 	
 func _update_gold(value):
 	if value > displayed_gold:

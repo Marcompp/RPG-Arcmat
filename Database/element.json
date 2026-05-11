@@ -1,0 +1,134 @@
+{
+	"Fire": {
+		"weak": [
+			"Water", "Wind", "Earth", "Ice", "Mind"
+		],
+		"resist": [
+			"Fire", "Dark", "Light", "Plant", "Metal"
+		],
+		"immune": []
+	},
+	"Water": {
+		"weak": [
+			"Thunder", "Plant"
+		],
+		"resist": [
+			"Fire", "Water", "Metal"
+		],
+		"immune": []
+	},
+	"Wind": {
+		"weak": [
+			"Thunder", "Ice"
+		],
+		"resist": [
+			"Plant"
+		],
+		"immune": ["Earth"]
+	},
+	"Earth": {
+		"weak": [
+			"Water", "Plant", "Metal"
+		],
+		"resist": [
+			"Fire", "Wind", "Poison"
+		],
+		"immune": ["Thunder"]
+	},
+	"Thunder": {
+		"weak": [
+			"Earth", "Mind"
+		],
+		"resist": [
+			"Thunder", "Dark", "Light", "Metal"
+		],
+		"immune": []
+	},
+	"Ice": {
+		"weak": [
+			"Fire", "Metal"
+		],
+		"resist": [
+			"Water", "Wind", "Ice", "Plant"
+		],
+		"immune": []
+	},
+	"Dark": {
+		"weak": [
+			"Fire", "Thunder", "Light"
+		],
+		"resist": [
+			"Dark", "Spirit", "Mind"
+		],
+		"immune": []
+	},
+	"Light": {
+		"weak": [
+			"Dark", "Plant", "Poison"
+		],
+		"resist": [
+			"Fire", "Thunder", "Light", "Spirit", "Ether"
+		],
+		"immune": []
+	},
+	"Plant": {
+		"weak": [
+			"Fire", "Wind", "Ice", "Poison"
+		],
+		"resist": [
+			"Water", "Earth", "Thunder", "Light", "Plant", "Ether"
+		],
+		"immune": []
+	},
+	"Metal": {
+		"weak": [
+			"Fire", "Mind"
+		],
+		"resist": [
+			"Wind", "Earth", "Ice", "Light", "Plant", 
+			"Metal", "Poison", "Ether", "Neutral"
+		],
+		"immune": []
+	},
+	"Poison": {
+		"weak": [
+			"Mind"
+		],
+		"resist": [
+			"Plant", "Poison"
+		],
+		"immune": []
+	},
+	"Spirit": {
+		"weak": [
+			"Fire", "Dark", "Light", "Spirit"
+		],
+		"resist": [
+			"Ice", "Poison", "Mind"
+		],
+		"immune": ["Metal", "Neutral"]
+	},
+	"Mind": {
+		"weak": [
+			"Dark", "Spirit"
+		],
+		"resist": [
+			"Mind", "Ether"
+		],
+		"immune": []
+	},
+	"Ether": {
+		"weak": [
+			"Ether"
+		],
+		"resist": [
+			"Fire", "Water", "Wind", "Earth", "Mind"
+		],
+		"immune": []
+	},
+	"Neutral": {
+		"weak": [],
+		"resist": [],
+		"immune": ["Spirit"]
+	}
+}

@@ -1,0 +1,42 @@
+{
+	"music": {
+		"title":       "res://assets/audio/music/title.ogg",
+		"combat":      "res://assets/audio/music/combat.ogg",
+		"apple_woods": "res://assets/audio/BGM/apple-woods-drift-musicwave.mp3",
+		"caves":       "res://assets/audio/music/caves.ogg",
+		"plateau":     "res://assets/audio/BGM/hitslab-halloween-spooky.mp3",
+		"mountain":    "res://assets/audio/music/mountain.ogg",
+		"core":        "res://assets/audio/music/core.ogg",
+		"swamp":       "res://assets/audio/music/swamp.ogg",
+		"ruins":       "res://assets/audio/music/ruins.ogg"
+	},
+	"ambiance": {
+		"forest": "res://assets/audio/ambiance/forest.ogg",
+		"cave":   "res://assets/audio/ambiance/cave.ogg",
+		"wind":   "res://assets/audio/ambiance/wind.ogg",
+		"swamp":  "res://assets/audio/ambiance/swamp.ogg"
+	},
+	"regions": {
+		"Apple Woods":    { "music": "apple_woods", "ambiance": "forest" },
+		"Caves of Light": { "music": "caves",       "ambiance": "cave"   },
+		"Sundown Plateau":{ "music": "plateau",     "ambiance": "wind"   },
+		"Mt. Legory":     { "music": "mountain",    "ambiance": "wind"   },
+		"Core Cavern":    { "music": "core",        "ambiance": "cave"   },
+		"Lost Swamp":     { "music": "swamp",       "ambiance": "swamp"  },
+		"Arcmat Ruins":   { "music": "ruins",       "ambiance": ""       }
+	},
+	"sfx": {
+		"attack":       "res://assets/audio/SFX/smash.ogg",
+		"sword":       "res://assets/audio/SFX/slash.mp3",
+		"axe":       "res://assets/audio/SFX/slash.mp3",
+		"polearm":       "res://assets/audio/SFX/stab.mp3",
+		"ranged":       "res://assets/audio/SFX/stab.mp3",
+		"staff":       "res://assets/audio/SFX/smash.mp3",
+		"heal":         "res://assets/audio/SFX/heal.ogg",
+		"level_up":     "res://assets/audio/SFX/level_up.ogg",
+		"victory":      "res://assets/audio/SFX/victory.ogg",
+		"item_get":     "res://assets/audio/SFX/item_get.ogg",
+		"menu_confirm": "res://assets/audio/SFX/menu_confirm.ogg",
+		"menu_cancel":  "res://assets/audio/SFX/menu_cancel.ogg"
+	}
+}

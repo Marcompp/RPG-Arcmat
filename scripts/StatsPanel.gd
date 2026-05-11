@@ -98,6 +98,7 @@ func _refresh_all():
 		_clear_ui()
 		return
 	visible = true
+	modulate.a = 1.0
 
 	if _bars_tween:
 		_bars_tween.kill()
@@ -267,7 +268,7 @@ func _clear_ui():
 	if _bars_tween:
 		_bars_tween.kill()
 		_bars_tween = null
-	visible = false
+	modulate.a = 0
 	name_label.text = ""
 	hp_bar.value = 0
 	mp_bar.value = 0

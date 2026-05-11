@@ -12,13 +12,14 @@
 		]
 	  },
 	  "description": [
-		{ "text": "A narrow dirt road cuts through the woods, its surface worn smooth by years of travel." },
+		{ "text": "A narrow dirt road cuts through the woods, its surface worn smooth by years of travel."},
 		{ "text": "Fallen apples lie crushed along the roadside, filling the air with a faintly sweet scent." },
 		{ "text": "Sunlight flickers through the branches overhead.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Continue on the path", "leads_to": "ROAD", "value": 1.2 },
-		{ "choice": "Leave the path", "leads_to": "FOREST" }
+		{ "choice": "Continue on the path", "leads_to": "ROAD", "value": 1.2,
+			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
+		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." }
 	  ]
 	},
 	{
@@ -35,8 +36,8 @@
 		{ "text": "A distant rustling echoes through the trees.", "chance": 0.4 }
 	  ],
 	  "exits": [
-		{ "choice": "Continue deeper into the woods", "leads_to": "FOREST" },
-		{ "choice": "Try to find a trail", "leads_to": "FOREST" }
+		{ "choice": "Continue deeper into the woods", "leads_to": "FOREST", "travel_text": "You push through the tangle of growth, the canopy thickening overhead as the forest deepens around you." },
+		{ "choice": "Try to find a trail", "leads_to": "FOREST", "travel_text": "You search for a break in the undergrowth, weaving between trunks and fallen branches in hopes of finding a path." }
 	  ]
 	},
 	{
@@ -52,8 +53,8 @@
 		{ "text": "The air is still, as if waiting for your decision." }
 	  ],
 	  "exits": [
-		{ "choice": "Go left", "leads_to": "ROAD" },
-		{ "choice": "Go right", "leads_to": "ROAD" }
+		{ "choice": "Go left", "leads_to": "ROAD", "travel_text": "You take the left fork and follow the worn road, the other path disappearing behind you." },
+		{ "choice": "Go right", "leads_to": "ROAD", "travel_text": "You veer right and press on along the road, leaving the fork behind." }
 	  ]
 	},
 	{
@@ -73,9 +74,9 @@
 		{ "text": "Leaves swirl along the surface.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Follow the riverbank", "leads_to": "RIVER" },
-		{ "choice": "Try to cross the river", "leads_to": "FOREST", "value": 0.8 },
-		{ "choice": "Try to go around", "leads_to": "FOREST" }
+		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You walk along the riverbank, the water rushing steadily beside you as you follow its course." },
+		{ "choice": "Try to cross the river", "leads_to": "FOREST", "value": 0.8, "travel_text": "You wade into the current, the cold water rising to your waist. You fight across and emerge on the far bank, dripping and breathless." },
+		{ "choice": "Try to go around", "leads_to": "FOREST", "travel_text": "You backtrack along the edge of the river, searching for a narrower crossing before pressing back into the forest." }
 	  ]
 	},
 	{
@@ -94,8 +95,8 @@
 		{ "text": "Moss clings to the worn planks." }
 	  ],
 	  "exits": [
-		{ "choice": "Follow the riverbank", "leads_to": "RIVER" },
-		{ "choice": "Cross the bridge", "leads_to": "ROAD", "value": 1.2 }
+		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You leave the bridge behind and walk along the riverbank, the current rushing beside you." },
+		{ "choice": "Cross the bridge", "leads_to": "ROAD", "value": 1.2, "travel_text": "You cross the creaking bridge with careful steps, the old planks flexing underfoot before you reach solid ground." }
 	  ]
 	},
 	{
@@ -114,7 +115,7 @@
 		{ "text": "The air feels still here." }
 	  ],
 	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST" }
+		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the open clearing behind and step back into the forest, the trees quickly closing around you." }
 	  ]
 	},
 	{
@@ -133,7 +134,7 @@
 		{ "text": "The sound is calming." }
 	  ],
 	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST" }
+		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You step away from the spring and press deeper into the forest, the sound of trickling water fading behind you." }
 	  ]
 	},
 	{
@@ -155,7 +156,7 @@
 		{ "text": "A faint ripple crosses the water.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Find a way around the lake", "leads_to": "FOREST" }
+		{ "choice": "Find a way around the lake", "leads_to": "FOREST", "travel_text": "You skirt the edge of the lake, weaving through the trees until the water disappears behind you." }
 	  ]
 	},
 	{
@@ -170,7 +171,7 @@
 		{ "text": "The structure creaks softly, aged but standing." }
 	  ],
 	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST" }
+		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the cabin standing in silence and push back into the forest, the shadows swallowing you quickly." }
 	  ]
 	},
 	{
@@ -186,7 +187,7 @@
 		{ "text": "A faint sense of possibility lingers.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST" }
+		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You move on from the disturbed ground and press deeper into the trees." }
 	  ]
 	}
 	],
@@ -205,7 +206,7 @@
 		  { "text": "The air is cool and dry, carrying a faint mineral scent.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
 		]
 	  },
 	  {
@@ -222,9 +223,9 @@
 		  { "text": "Drops of water echo faintly, though no source is visible.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1 },
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You push straight through the grotto and continue into the glowing tunnel beyond." },
+		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You turn right and follow the passage as it curves deeper into the cave." }
 		]
 	  },
 	  {
@@ -241,9 +242,9 @@
 		  { "text": "The silence here feels immense and heavy.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1 },
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows." },
+		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You veer right and follow the tunnel as it winds away from the cavern." }
 		]
 	  },
 	  {
@@ -259,8 +260,8 @@
 		  { "text": "The light here flickers subtly, as if reacting to your presence." }
 		],
 		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1 },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left branch, its walls glowing with the same steady luminescence." },
+		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You choose the right path, stepping into the glowing passage as it curves ahead." }
 		]
 	  },
 	  {
@@ -277,7 +278,7 @@
 		  { "text": "The air feels strangely fresh here.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the glowing spring behind and continue along the passage, the hum of crystal light surrounding you." }
 		]
 	  },
 	  {
@@ -294,7 +295,7 @@
 		  { "text": "The air hums faintly with unseen energy.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You step away from the altar and continue deeper into the cave, the passage narrowing ahead." }
 		]
 	  },
 	  {
@@ -311,7 +312,7 @@
 		  { "text": "Something valuable might be hidden here.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move on from the glittering chamber, the tunnel closing in as you press forward." }
 		]
 	  },
 	  {
@@ -328,7 +329,7 @@
 		  { "text": "A low hum resonates through the chamber.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1 }
+		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view." }
 		]
 	  },
 	  {
@@ -344,7 +345,7 @@
 		  { "text": "The silence is absolute." }
 		],
 		"exits": [
-		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0 }
+		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
 		]
 	  }
 	],
@@ -357,7 +358,7 @@
 				"A vast plateau stretches around you, where the light of the setting sun casts long shadows across uneven ground.",
 				"A vast plateau continues around you, where the sky glows dimly and the earth feels strangely hollow beneath your feet."
 			  ],
-			"default":[ 
+			"default":[
 				"The land rises into a vast plateau, where the light of the setting sun casts long shadows across uneven ground."
 				]
 			},
@@ -367,9 +368,9 @@
 			  { "text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.", "chance": 0.5 }
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you." },
+			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant." },
+			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You veer right and continue across the barren expanse, dust rising faintly with each step." }
 			]
 		  },
 		  {
@@ -385,18 +386,20 @@
 			  { "text": "You hear something shifting beneath the earth.", "chance": 0.4 }
 			],
 			"exits": [
-			  { "choice": "Enter the catacomb", "leads_to": "ENTRANCE", "value": 1 },
-			  { "choice": "Go around", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Enter the catacomb", "leads_to": "CATACOMB", "value": 1,
+				"travel_text": "You descend into the catacombs, the light fading from your surroundings as you make your way down the stone steps. \n In the dark, narrow tunnels stretch beneath the plateau"
+			},
+			  { "choice": "Go around", "leads_to": "SURFACE", "value": 1, "travel_text": "You give the entrance a wide berth and continue across the plateau, leaving the mausoleum behind." }
 			]
 		  },
 		  {
 			"name": "Catacomb Tunnel",
-			"entrances": ["ENTRANCE","CATACOMB"],
+			"entrances": ["CATACOMB"],
 			"arrival": {
 			  "ENTRANCE": [
 				"You descend into the catacombs, where narrow tunnels stretch beneath the plateau."
 			  ],
-			  "ENTRANCE": [
+			  "CATACOMB": [
 				"Your steps echo as the dark tunnel stretches in front of you."
 			  ]
 			},
@@ -406,7 +409,7 @@
 			  { "text": "Faint echoes suggest you are not alone.", "chance": 0.5 }
 			],
 			"exits": [
-			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1 }
+			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
 			]
 		  },
 		  {
@@ -422,8 +425,8 @@
 			  { "text": "A faint draft moves through one of the passages." }
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1 },
-			  { "choice": "Go right", "leads_to": "CATACOMB", "value": 1 }
+			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
+			  { "choice": "Go right", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the right passage, the draft guiding you as you press deeper underground." }
 			]
 		  },
 		  {
@@ -440,7 +443,7 @@
 			  { "text": "The air hums with lingering magic.", "chance": 0.6 }
 			],
 			"exits": [
-			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
 			]
 		  },
 		  {
@@ -457,9 +460,9 @@
 			  { "text": "You feel a faint unease standing here.", "chance": 0.5 }
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You move left across the plateau, leaving the altar standing alone behind you." },
+			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on past the altar, continuing across the barren expanse." },
+			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You turn right and move on, the altar shrinking behind you in the flat landscape." }
 			]
 		  },
 		  {
@@ -479,8 +482,8 @@
 			  { "text": "A cold wind rises from below.", "chance": 0.5 }
 			],
 			"exits": [
-			  { "choice": "Follow the edge", "leads_to": "EDGE", "value": 1 },
-			  { "choice": "Move away from the edge", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Follow the edge", "leads_to": "EDGE", "value": 1, "travel_text": "You move along the rim, the sheer drop always close at your side." },
+			  { "choice": "Move away from the edge", "leads_to": "SURFACE", "value": 1, "travel_text": "You step back from the drop and move inward across the plateau, the edge receding behind you." }
 			]
 		  },
 		  {
@@ -497,9 +500,9 @@
 			  { "text": "For a moment, you think something moved beneath the soil.", "chance": 0.5 }
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1 },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1 }
+			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You weave between the headstones and move left, leaving the graveyard behind." },
+			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You pass through the rows of graves and continue across the plateau." },
+			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You move right through the graveyard and continue on across the open ground." }
 			]
 		  },
 		  {
@@ -515,7 +518,7 @@
 			  { "text": "The silence here feels suffocating." }
 			],
 			"exits": [
-			  { "choice": "Turn back", "leads_to": "CATACOMB", "value": 0 }
+			  { "choice": "Turn back", "leads_to": "CATACOMB", "value": 0, "travel_text": "You turn back into the tunnel, your footsteps retreating the way you came." }
 			]
 		  }
 	],
@@ -540,8 +543,8 @@
 		  { "text": "The air is thin, each breath slightly harder than the last.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }} },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1 }
+		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper." },
+		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the direct path and work your way around the mountainside, moving across the exposed terrain." }
 		]
 	  },
 	  {
@@ -564,9 +567,9 @@
 		  { "text": "The air is still, but bitterly cold.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }} },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1 },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }} }
+		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You leave the cave and continue up the mountainside, the cold wind hitting you immediately." },
+		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You step out of the cave and move along the mountainside, skirting the slope." },
+		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You leave the cave and descend carefully along the path, the ground unsteady beneath you." }
 		]
 	  },
 	  {
@@ -589,9 +592,9 @@
 		  { "text": "The wind howls across the rock face.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }} },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1 },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }} }
+		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push on upward, each step uncertain against the loose rock and snow." },
+		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You traverse the slope sideways, picking your way carefully across the uneven terrain." },
+		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You turn and descend carefully, loose stones skittering away beneath your feet." }
 		]
 	  },
 	  {
@@ -613,7 +616,7 @@
 		  { "text": "The wind here is relentless.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -2 }} }
+		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -2 }}, "travel_text": "You begin the descent, the wind still howling at your back as the peak rises above you once more." }
 		]
 	  },
 	  {
@@ -636,9 +639,9 @@
 		  { "text": "One misstep could send you tumbling.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}},
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1 },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }} }
+		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You press forward along the ridge, the wind buffeting you as you climb."},
+		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the narrow ridge and traverse the mountainside, finding slightly more stable ground." },
+		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend from the ridge carefully, keeping your balance against the relentless wind." }
 		]
 	  },
 	  {
@@ -661,9 +664,9 @@
 		  { "text": "The wind whistles as it passes through the opening.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}},
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1 },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }} }
+		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You pass beneath the arch and continue your climb, the stone frame falling behind you."},
+		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You move out from beneath the arch and continue along the mountainside, circling wider." },
+		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend past the arch, moving carefully along the slope." }
 		]
 	  }
 	],
@@ -685,8 +688,8 @@
 		  { "text": "Small stones shift and tumble into unseen depths.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Descend further", "leads_to": "DEPTHS", "value": 1 },
-		  { "choice": "Climb back", "leads_to": "ASCEND", "value": 1 }
+		  { "choice": "Descend further", "leads_to": "DEPTHS", "value": 1, "travel_text": "You push deeper, the heat intensifying as the glow of magma grows brighter below." },
+		  { "choice": "Climb back", "leads_to": "ASCEND", "value": 1, "travel_text": "You turn and climb back the way you came, the heat pressing against your back as you rise." }
 		]
 	  },
 	  {
@@ -703,8 +706,8 @@
 		  { "text": "Occasional bursts of gas ripple across the surface.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Follow the magma flow", "leads_to": "DEPTHS", "value": 0.9 },
-		  { "choice": "Search for a crossing", "leads_to": "DEPTHS", "value": 0.7 }
+		  { "choice": "Follow the magma flow", "leads_to": "DEPTHS", "value": 0.9, "travel_text": "You follow the edge of the flow, the molten rock churning beside you as you press deeper." },
+		  { "choice": "Search for a crossing", "leads_to": "DEPTHS", "value": 0.7, "travel_text": "You search along the bank for a narrow point, carefully testing the ground before picking your way forward." }
 		]
 	  },
 	  {
@@ -721,8 +724,8 @@
 		  { "text": "The stone creaks faintly under pressure.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Cross the bridge", "leads_to": "DEPTHS", "value": 1 },
-		  { "choice": "Turn back", "leads_to": "ASCEND", "value": 0 }
+		  { "choice": "Cross the bridge", "leads_to": "DEPTHS", "value": 1, "travel_text": "You cross the basalt bridge with careful steps, the heat rising beneath you until you reach the other side." },
+		  { "choice": "Turn back", "leads_to": "ASCEND", "value": 0, "travel_text": "You step back from the bridge and begin the climb upward, leaving the magma behind." }
 		]
 	  },
 	  {
@@ -739,8 +742,8 @@
 		  { "text": "A deep rumble echoes through the chamber.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Press deeper", "leads_to": "CORE", "value": 1 },
-		  { "choice": "Retreat", "leads_to": "ASCEND", "value": 0 }
+		  { "choice": "Press deeper", "leads_to": "CORE", "value": 1, "travel_text": "You move deeper into the cavern, the walls narrowing as the heat becomes almost unbearable." },
+		  { "choice": "Retreat", "leads_to": "ASCEND", "value": 0, "travel_text": "You back away from the glassy walls and begin climbing upward, the distorted reflections fading behind you." }
 		]
 	  },
 	  {
@@ -760,8 +763,8 @@
 		  { "text": "Heat pulses from below in uneven waves.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Push deeper", "leads_to": "CORE", "value": 1 },
-		  { "choice": "Climb upward", "leads_to": "ASCEND", "value": 1 }
+		  { "choice": "Push deeper", "leads_to": "CORE", "value": 1, "travel_text": "You wade through the ash, each step sinking slightly as you press further toward the core." },
+		  { "choice": "Climb upward", "leads_to": "ASCEND", "value": 1, "travel_text": "You turn away from the deep and begin climbing, the ash thinning as the heat slowly lessens." }
 		]
 	  },
 	  {
@@ -769,7 +772,7 @@
 		"entrances": ["CORE"],
 		"arrival": {
 		  "CORE": [
-			"You stand before the mountain’s heart—a vast chamber of churning magma and blinding light."
+			"You stand before the mountain's heart—a vast chamber of churning magma and blinding light."
 		  ]
 		},
 		"description": [
@@ -778,8 +781,8 @@
 		  { "text": "The air vibrates with raw, destructive energy.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Step closer", "leads_to": "CORE", "value": 1 },
-		  { "choice": "Retreat", "leads_to": "DEPTHS", "value": 1 }
+		  { "choice": "Step closer", "leads_to": "CORE", "value": 1, "travel_text": "You push forward despite the overwhelming heat, drawn toward the churning magma at the mountain's heart." },
+		  { "choice": "Retreat", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pull back from the core, retreating toward the outer chambers as the roar of magma fades slightly behind you." }
 		]
 	  }
 	],
@@ -801,8 +804,8 @@
 		  { "text": "Shapes seem to move just beyond your vision.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Wade forward", "leads_to": "DEEP", "value": 0.9 },
-		  { "choice": "Turn back", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Wade forward", "leads_to": "DEEP", "value": 0.9, "travel_text": "You push forward through the fog and the shallow water, each step pulling against the mud beneath." },
+		  { "choice": "Turn back", "leads_to": "SWAMP", "value": 1, "travel_text": "You turn and push back through the fog, retracing your steps as best you can." }
 		]
 	  },
 	  {
@@ -819,8 +822,8 @@
 		  { "text": "You are not sure if it leads anywhere at all.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Follow the path", "leads_to": "DEEP", "value": 1.1 },
-		  { "choice": "Step off into the swamp", "leads_to": "SWAMP", "value": 0.8 }
+		  { "choice": "Follow the path", "leads_to": "DEEP", "value": 1.1, "travel_text": "You continue carefully along the submerged stones, testing each step before moving forward." },
+		  { "choice": "Step off into the swamp", "leads_to": "SWAMP", "value": 0.8, "travel_text": "You leave the path and step into the murky water, the ground immediately less certain beneath you." }
 		]
 	  },
 	  {
@@ -840,8 +843,8 @@
 		  { "text": "You feel watched.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Push through the trees", "leads_to": "DEEP", "value": 0.9 },
-		  { "choice": "Retreat carefully", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Push through the trees", "leads_to": "DEEP", "value": 0.9, "travel_text": "You force your way between the gnarled trunks, roots snagging at your feet as you press deeper." },
+		  { "choice": "Retreat carefully", "leads_to": "SWAMP", "value": 1, "travel_text": "You back away through the twisted trees, moving slowly to avoid the grasping roots." }
 		]
 	  },
 	  {
@@ -858,8 +861,8 @@
 		  { "text": "Something disturbs the water far from you.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Skirt the edge", "leads_to": "DEEP", "value": 0.9 },
-		  { "choice": "Wade through", "leads_to": "DEEP", "value": 0.7 }
+		  { "choice": "Skirt the edge", "leads_to": "DEEP", "value": 0.9, "travel_text": "You move carefully along the edge of the still water, keeping to the firmer ground." },
+		  { "choice": "Wade through", "leads_to": "DEEP", "value": 0.7, "travel_text": "You step into the dark water, its stillness broken around you as you wade forward." }
 		]
 	  },
 	  {
@@ -876,11 +879,11 @@
 		"description": [
 		  { "text": "The reeds brush softly against you as you pass." },
 		  { "text": "The sound almost resembles voices." },
-		  { "text": "You almost understand what they’re saying.", "chance": 0.5 }
+		  { "text": "You almost understand what they're saying.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Follow the whispers", "leads_to": "DEEP", "value": 0.8 },
-		  { "choice": "Ignore them and move on", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Follow the whispers", "leads_to": "DEEP", "value": 0.8, "travel_text": "You let the sound draw you forward, pressing deeper through the swaying reeds." },
+		  { "choice": "Ignore them and move on", "leads_to": "SWAMP", "value": 1, "travel_text": "You push through the reeds without listening, focusing on finding firmer ground." }
 		]
 	  },
 	  {
@@ -897,8 +900,8 @@
 		  { "text": "It feels like this place should not be found.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Search the shrine", "leads_to": "DEEP", "value": 1 },
-		  { "choice": "Leave quickly", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Search the shrine", "leads_to": "DEEP", "value": 1, "travel_text": "You circle the shrine carefully, probing its crumbling structure before moving on." },
+		  { "choice": "Leave quickly", "leads_to": "SWAMP", "value": 1, "travel_text": "You turn from the shrine and move quickly back into the fog, the structure disappearing behind you." }
 		]
 	  },
 	  {
@@ -915,8 +918,8 @@
 		  { "text": "You are no longer sure which way you came from.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Keep moving", "leads_to": "DEEP", "value": 0.8 },
-		  { "choice": "Stand still", "leads_to": "SWAMP", "value": 0.6 }
+		  { "choice": "Keep moving", "leads_to": "DEEP", "value": 0.8, "travel_text": "You press forward blindly, one hand outstretched, hoping the fog will thin." },
+		  { "choice": "Stand still", "leads_to": "SWAMP", "value": 0.6, "travel_text": "You stop and wait, listening to the muffled silence until some sense of direction returns." }
 		]
 	  },
 	  {
@@ -932,12 +935,12 @@
 		},
 		"description": [
 		  { "text": "The wood is rotted and waterlogged." },
-		  { "text": "It looks like it hasn’t moved in years." },
+		  { "text": "It looks like it hasn't moved in years." },
 		  { "text": "Someone must have come this way before.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Inspect the boat", "leads_to": "DEEP", "value": 1 },
-		  { "choice": "Move on", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Inspect the boat", "leads_to": "DEEP", "value": 1, "travel_text": "You wade closer to the wreck and look it over, searching the waterlogged hull before moving on." },
+		  { "choice": "Move on", "leads_to": "SWAMP", "value": 1, "travel_text": "You leave the broken boat behind and continue through the fog." }
 		]
 	  }
 	],
@@ -959,8 +962,8 @@
 		  { "text": "The fog does not enter here.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Enter the ruins", "leads_to": "RUINS", "value": 1 },
-		  { "choice": "Return to the swamp", "leads_to": "SWAMP", "value": 1 }
+		  { "choice": "Enter the ruins", "leads_to": "RUINS", "value": 1, "travel_text": "You step through the threshold, the fog cutting away as the black geometry of the ruins closes around you." },
+		  { "choice": "Return to the swamp", "leads_to": "SWAMP", "value": 1, "travel_text": "You step back through the threshold, and the fog rushes in immediately, swallowing the ruins behind you." }
 		]
 	  },
 	  {
@@ -977,8 +980,8 @@
 		  { "text": "The air vibrates faintly, like a held breath.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Move deeper", "leads_to": "RUINS", "value": 1 },
-		  { "choice": "Examine the floating blocks", "leads_to": "RUINS", "value": 0.9 }
+		  { "choice": "Move deeper", "leads_to": "RUINS", "value": 1, "travel_text": "You move through the hall, navigating between floating blocks, and press deeper into the ruins." },
+		  { "choice": "Examine the floating blocks", "leads_to": "RUINS", "value": 0.9, "travel_text": "You study the suspended cubes up close, then continue deeper into the ruins." }
 		]
 	  },
 	  {
@@ -995,8 +998,8 @@
 		  { "text": "You cannot decipher their meaning.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Follow the corridor", "leads_to": "RUINS", "value": 1 },
-		  { "choice": "Trace the symbols", "leads_to": "RUINS", "value": 0.8 }
+		  { "choice": "Follow the corridor", "leads_to": "RUINS", "value": 1, "travel_text": "You walk the length of the corridor, the glowing glyphs shifting at the edges of your vision as you pass." },
+		  { "choice": "Trace the symbols", "leads_to": "RUINS", "value": 0.8, "travel_text": "You run your fingers along the pulsing inscriptions, then press on through the corridor." }
 		]
 	  },
 	  {
@@ -1013,8 +1016,8 @@
 		  { "text": "The system appears self-sustaining.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Observe the mechanisms", "leads_to": "RUINS", "value": 1 },
-		  { "choice": "Move on carefully", "leads_to": "RUINS", "value": 1 }
+		  { "choice": "Observe the mechanisms", "leads_to": "RUINS", "value": 1, "travel_text": "You watch the intricate components turn in silence before carefully moving on." },
+		  { "choice": "Move on carefully", "leads_to": "RUINS", "value": 1, "travel_text": "You pick your way through the moving parts and continue deeper into the ruins." }
 		]
 	  },
 	  {
@@ -1031,8 +1034,8 @@
 		  { "text": "Gravity feels uncertain here.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Cross the atrium", "leads_to": "RUINS", "value": 0.8 },
-		  { "choice": "Turn back", "leads_to": "RUINS", "value": 1 }
+		  { "choice": "Cross the atrium", "leads_to": "RUINS", "value": 0.8, "travel_text": "You step out onto the drifting stones, moving carefully from block to block until you reach the far side." },
+		  { "choice": "Turn back", "leads_to": "RUINS", "value": 1, "travel_text": "You pull back from the atrium and find another path through the ruins." }
 		]
 	  },
 	  {
@@ -1049,8 +1052,8 @@
 		  { "text": "Standing too close makes your skin tingle painfully.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Follow the conduit", "leads_to": "CORE", "value": 0.7 },
-		  { "choice": "Step away", "leads_to": "RUINS", "value": 1 }
+		  { "choice": "Follow the conduit", "leads_to": "CORE", "value": 0.7, "travel_text": "You follow the stream of energy as it leads you inward, the crackling power growing stronger with every step." },
+		  { "choice": "Step away", "leads_to": "RUINS", "value": 1, "travel_text": "You move back from the conduit and continue through the ruins, the prickling sensation in your skin fading slowly." }
 		]
 	  },
 	  {
@@ -1067,8 +1070,8 @@
 		  { "text": "The knowledge here feels vast—and unreachable.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Study the writings", "leads_to": "RUINS", "value": 0.9 },
-		  { "choice": "Leave the chamber", "leads_to": "RUINS", "value": 1 }
+		  { "choice": "Study the writings", "leads_to": "RUINS", "value": 0.9, "travel_text": "You spend a long moment trying to decipher the shifting script, then move on through the ruins." },
+		  { "choice": "Leave the chamber", "leads_to": "RUINS", "value": 1, "travel_text": "You step out of the scriptorium and continue deeper into the ruins." }
 		]
 	  },
 	  {
@@ -1085,9 +1088,9 @@
 		  { "text": "This feels like the origin of something vast.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Approach the nexus", "leads_to": "CORE", "value": 0.6 },
-		  { "choice": "Retreat", "leads_to": "RUINS", "value": 1 }
+		  { "choice": "Approach the nexus", "leads_to": "CORE", "value": 0.6, "travel_text": "You step closer to the pulsing structure, the energy arcing around you as the air vibrates with its power." },
+		  { "choice": "Retreat", "leads_to": "RUINS", "value": 1, "travel_text": "You back away from the nexus and retreat through the ruins, the geometric patterns fading behind you." }
 		]
 	  }
-	],
+	]
 }

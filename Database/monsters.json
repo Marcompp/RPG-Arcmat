@@ -5,6 +5,11 @@
 	"Lvl": 1,
 	"Stats": {"HP":"E","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 90,
+		"Slime Spear": 10
+	},
+	"Gold": 10,
 	"Skills": ["Regen"],
 	"Spells": ["Water","Poison"],
 	"Location": "Apple Woods",
@@ -19,6 +24,12 @@
 		"Weapon": "Hand Axe",
 		"Armor": "Tanktop"
 	},
+	"Drops": {
+		"Medicine": 60,
+		"Hand Axe": 10,
+		"Tanktop": 5
+	},
+	"Gold": 50,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -33,6 +44,12 @@
 		"Weapon": "Scimitar",
 		"Armor": "Old Armor"
 	},
+	"Drops": {
+		"Ether": 30,
+		"Scimitar": 10,
+		"Old Armor": 15
+	},
+	"Gold":30,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -44,17 +61,27 @@
 	"Lvl": 4,
 	"Stats": {"HP":"D","MP":"E","Str":"E","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
-	"Skills": [],
+	"Drops": {
+		"Medicine": 60,
+		"Bloody Dagger": 5
+	},
+	"Gold":20,
+	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Caves of Light",
 	"Rarity": 9
   },
   {
-	"Name": "Spirit",
+	"Name": "Restless Spirit",
 	"Element": "Dark",
 	"Lvl": 5,
 	"Stats": {"HP":"E","MP":"C","Str":"F","Mag":"C","Skl":"D","Spd":"B","Lck":"F","Def":"F"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 70,
+		"Spirit Lance": 5
+	},
+	"Gold":40,
 	"Skills": ["Shiver"],
 	"Spells": ["Dark","Light"],
 	"Location": "Caves of Light",
@@ -68,6 +95,11 @@
 	"Equip": {
 		"Weapon": "Machete"
 	},
+	"Drops": {
+		"Ether": 70,
+		"Machete":10
+	},
+	"Gold":40,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Caves of Light",
@@ -82,7 +114,13 @@
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
 	},
-	"Weapon": null,
+	"Drops": {
+		"Potion": 40,
+		"Ether": 40,
+		"Sacrificial Knife": 10,
+		"Cult Robes": 20
+	},
+	"Gold":40,
 	"Skills": [],
 	"Spells": ["Light","Heal"],
 	"Location": "Caves of Light",
@@ -94,6 +132,11 @@
 	"Lvl": 7,
 	"Stats": {"HP":"C","MP":"F","Str":"C","Mag":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 40,
+		"Bloody Claws": 10
+	},
+	"Gold":40,
 	"Skills": ["Bite","Claws"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
@@ -107,6 +150,11 @@
 	"Equip": {
 		"Armor": "Old Rags"
 	},
+	"Drops": {
+		"Old Rags": 20,
+		"Killer Axe": 5
+	},
+	"Gold":50,
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
@@ -118,6 +166,11 @@
 	"Lvl": 8,
 	"Stats": {"HP":"E","MP":"B","Str":"F","Mag":"B","Skl":"D","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 30,
+		"Old Rags": 5
+	},
+	"Gold":50,
 	"Skills": ["Shiver"],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
@@ -129,6 +182,11 @@
 	"Lvl": 9,
 	"Stats": {"HP":"E","MP":"A","Str":"E","Mag":"B","Skl":"C","Spd":"B","Lck":"C","Def":"E"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 60,
+		"Fairy Bow": 10
+	},
+	"Gold":80,
 	"Skills": [],
 	"Spells": ["Ice"],
 	"Location": "Mt Legory",
@@ -140,6 +198,11 @@
 	"Lvl": 9,
 	"Stats": {"HP":"D","MP":"F","Str":"C","Mag":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
+	"Drops": {
+		"Medicine": 70,
+		"Javelin": 5
+	},
+	"Gold":80,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mt Legory",
@@ -154,6 +217,12 @@
 		"Weapon": "Winged Spear",
 		"Armor": "Whitewing Armor"
 	},
+	"Drops": {
+		"Potion": 70,
+		"Winged Spear": 10,
+		"Whitewing Armor": 10
+	},
+	"Gold":110,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mt Legory",
@@ -165,6 +234,11 @@
 	"Lvl": 11,
 	"Stats": {"HP":"E","MP":"B","Str":"F","Mag":"B","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 70,
+		"Fire Staff": 5
+	},
+	"Gold":50,
 	"Skills": ["Shiver"],
 	"Spells": [],
 	"Location": "Core Cavern",
@@ -176,6 +250,12 @@
 	"Lvl": 12,
 	"Stats": {"HP":"B","MP":"C","Str":"C","Mag":"C","Skl":"D","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 40,
+		"Ether": 20,
+		"Dragon Blade": 5
+	},
+	"Gold":90,
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Core Cavern",
@@ -190,6 +270,12 @@
 		"Weapon": "Falchion",
 		"Armor": "Lizal Armor"
 	},
+	"Drops": {
+		"Medicine": 40,
+		"Falchion": 10,
+		"Lizal Armor": 10
+	},
+	"Gold":90,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Core Cavern",
@@ -203,6 +289,11 @@
 	"Equip": {
 		"Weapon": "Battle Axe"
 	},
+	"Drops": {
+		"Potion": 40,
+		"Battle Axe": 15
+	},
+	"Gold":80,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Core Cavern",
@@ -216,6 +307,12 @@
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
+	"Drops": {
+		"Medicine": 50,
+		"Ent Club": 15,
+		"Forest Axe": 5
+	},
+	"Gold":40,
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Lost Swamp",
@@ -227,6 +324,13 @@
 	"Lvl": 14,
 	"Stats": {"HP":"C","MP":"B","Str":"C","Mag":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 40,
+		"Medicine": 90,
+		"Gorgon Sword": 10,
+		"Scale Mail": 5
+	},
+	"Gold":100,
 	"Skills": ["Gorgon Eye","Poison Spit"],
 	"Spells": [],
 	"Location": "Lost Swamp",
@@ -238,6 +342,11 @@
 	"Lvl": 13,
 	"Stats": {"HP":"E","MP":"A","Str":"F","Mag":"A","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 40,
+		"Spirit Rod": 10
+	},
+	"Gold":40,
 	"Skills": ["Shiver"],
 	"Spells": [],
 	"Location": "Lost Swamp",
@@ -249,6 +358,11 @@
 	"Lvl": 15,
 	"Stats": {"HP":"B","MP":"C","Str":"B","Mag":"C","Skl":"C","Spd":"C","Lck":"E","Def":"B"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 30,
+		"Watcher Spear": 10
+	},
+	"Gold":40,
 	"Skills": ["Claws"],
 	"Spells": ["Earth"],
 	"Location": "Arcmat Ruins",
@@ -263,6 +377,14 @@
 		"Weapon": "Silver Sword",
 		"Armor": "Adventure Clothes"
 	},
+	"Drops": {
+		"Potion": 70,
+		"Medicine": 70,
+		"Bomb": 30,
+		"Silver Sword": 10,
+		"Adventure Clothes": 5
+	},
+	"Gold":120,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Arcmat Ruins",
@@ -277,6 +399,13 @@
 		"Weapon": "Ancient Staff",
 		"Armor": "Wizard Robe"
 	},
+	"Drops": {
+		"Ether": 70,
+		"Medicine": 20,
+		"Ancient Staff": 10,
+		"Wizard Robe": 15
+	},
+	"Gold":100,
 	"Skills": [],
 	"Spells": ["Fire","Water","Wind","Earth"],
 	"Location": "Arcmat Ruins",
@@ -290,6 +419,11 @@
 	"Equip": {
 		"Weapon": "Stone Axe"
 	},
+	"Drops": {
+		"Ether": 30,
+		"Stone Axe": 15
+	},
+	"Gold":90,
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Arcmat Ruins",
@@ -305,6 +439,12 @@
 	"Equip": {
 		"Armor": "Old Rags"
 	},
+	"Drops": {
+		"Potion": 100,
+		"Iron Claws": 15,
+		"Old Rags": 15
+	},
+	"Gold":100,
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -316,6 +456,12 @@
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"C"},
 	"Weapon": null,
+	"Drops": {
+		"Potion": 100,
+		"Medicine": 100,
+		"Greataxe": 15
+	},
+	"Gold":200,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Caves of Light",
@@ -330,6 +476,12 @@
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
 	},
+	"Drops": {
+		"Ether": 100,
+		"Sacrificial Knife": 100,
+		"Cult Robes": 100
+	},
+	"Gold":300,
 	"Skills": [],
 	"Spells": ["Light","Heal"],
 	"Location": "Caves of Light",
@@ -344,6 +496,12 @@
 		"Weapon": "Skull Staff",
 		"Armor": "Necromancer Robes"
 	},
+	"Drops": {
+		"Ether": 100,
+		"Skull Staff": 20,
+		"Necromancer Robes": 20
+	},
+	"Gold":300,
 	"Skills": [],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
@@ -355,6 +513,14 @@
 	"Lvl": 9,
 	"Stats": {"HP":"S","MP":"C","Str":"C","Mag":"C","Skl":"F","Spd":"F","Lck":"F","Def":"E"},
 	"Weapon": "Axe",
+	"Equip": {
+		"Weapon": "Killer Axe"
+	},
+	"Drops": {
+		"Ether": 100,
+		"Killer Axe": 30
+	},
+	"Gold":100,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Sundown Plateau",
@@ -366,6 +532,11 @@
 	"Lvl": 11,
 	"Stats": {"HP":"B","MP":"A","Str":"C","Mag":"B","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
 	"Weapon": null,
+	"Drops": {
+		"Ether": 100,
+		"Frost Staff": 20
+	},
+	"Gold":200,
 	"Skills": [],
 	"Spells": ["Ice"],
 	"Location": "Mt Legory",
@@ -377,6 +548,11 @@
 	"Lvl": 11,
 	"Stats": {"HP":"A","MP":"E","Str":"C","Mag":"E","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
+	"Drops": {
+		"Medicine": 100,
+		"Javelin": 10
+	},
+	"Gold":250,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mt Legory",
@@ -388,6 +564,11 @@
 	"Lvl": 13,
 	"Stats": {"HP":"A","MP":"A","Str":"B","Mag":"B","Skl":"D","Spd":"D","Lck":"E","Def":"D"},
 	"Weapon": null,
+	"Drops": {
+		"Bomb": 100,
+		"Gauntlet": 10
+	},
+	"Gold":250,
 	"Skills": [],
 	"Spells": ["Fire"],
 	"Location": "Core Cavern",
@@ -401,6 +582,12 @@
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
+	"Drops": {
+		"Medicine": 100,
+		"Ent Club": 10,
+		"Forest Axe": 10
+	},
+	"Gold":150,
 	"Skills": [],
 	"Spells": ["Earth"],
 	"Location": "Lost Swamp",
@@ -412,9 +599,13 @@
 	"Lvl": 20,
 	"Stats": {"HP":"S","MP":"A","Str":"D","Mag":"A","Skl":"C","Spd":"D","Lck":"E","Def":"C"},
 	"Equip": {
-		"Weapon": "Ent Club",
+		"Weapon": "Geometry Staff",
 		"Armor": "Archmage Robe"
 	},
+	"Drops": {
+		"Geometry Staff": 100
+	},
+	"Gold":150,
 	"Skills": ["Integer"],
 	"Spells": ["Earth","Light","Thunder"],
 	"Location": "Arcmat Ruins",

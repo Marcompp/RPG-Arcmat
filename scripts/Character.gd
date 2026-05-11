@@ -11,6 +11,7 @@ var final_stats = {}
 var curr_stats = {}
 var money = 0
 var level = 1
+var xp = 0
 
 var armor_db = {}
 var weapon_db = {}
@@ -236,6 +237,19 @@ func get_spells() -> Array:
 func get_level() -> int:
 	return level
 
+func get_xp() -> int:
+	return xp
+
+func get_xp_to_next_level() -> int:
+	return int(100.0 * pow(1.5, level-1))
+
+func gain_exp(amount: int):
+	xp += amount
+	while xp >= get_xp_to_next_level():
+		xp -= get_xp_to_next_level()
+		level += 1
+	stats_changed.emit()
+
 func get_money() -> int:
 	return money
 
@@ -248,3 +262,33 @@ func consume_item(item_name: String):
 		inv[item_name] = max(0, inv[item_name] - 1)
 		if inv[item_name] == 0:
 			inv.erase(item_name)
+
+# ------------------------
+# SAVE / LOAD
+# ------------------------
+
+func serialize() -> Dictionary:
+	return {
+		"data": data,
+		"level": level,
+		"xp": xp,
+		"money": money,
+		"base_stats": base_stats.duplicate(),
+		"curr_stats": curr_stats.duplicate(),
+		"equipment": equipment.duplicate(true)
+	}
+
+func load_from_save(save_data: Dictionary):
+	level = save_data.get("level", 1)
+	xp = save_data.get("xp", 0)
+	money = save_data.get("money", 0)
+	base_stats = save_data.get("base_stats", base_stats)
+	equipment = save_data.get("equipment", equipment)
+	# Clear curr_stats so recalculate initialises mhp/mmp from final_stats,
+	# then restore the actual saved hp/mp on top.
+	curr_stats = {}
+	recalculate()
+	var saved_curr = save_data.get("curr_stats", {})
+	if not saved_curr.is_empty():
+		curr_stats["hp"] = saved_curr.get("hp", curr_stats["hp"])
+		curr_stats["mp"] = saved_curr.get("mp", curr_stats["mp"])

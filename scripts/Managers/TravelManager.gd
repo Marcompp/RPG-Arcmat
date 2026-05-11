@@ -1,5 +1,7 @@
 extends Node
 
+@onready var backdrop = $Backdrop
+
 enum TravelMode {
 	NODE_ACTIONS,
 	CHOOSING_EXIT
@@ -14,12 +16,15 @@ var game_state
 
 var world_data = {}
 var monster_db = []
+var region_db = {}
 
-var current_region = "Apple Woods":
+var current_region = "":
 	set(value):
 		current_region = value
 		if game_state:
 			game_state["region"] = value
+		_transition_backdrop(value)
+		MyEventBus.emit("region_changed", {"region": value})
 var current_node = 0
 var current_entrance = 1
 
@@ -28,6 +33,11 @@ var current_node_data = null
 func _ready():
 	world_data = load_json("res://Database/area_nodes.json")
 	monster_db = load_json("res://Database/monsters.json")
+	region_db = load_json("res://Database/regions.json")
+
+	MyEventBus.subscribe("character_selected", func(_data):
+		current_region = "Apple Woods"
+	)
 
 	if world_data.is_empty():
 		push_error("Falha ao carregar o JSON")
@@ -73,17 +83,18 @@ func show_node():
 	mode = TravelMode.NODE_ACTIONS
 	show_node_actions()
 
-func enter_node(node_index, entrance):
+func enter_node(node_index, entrance, register: bool = true):
 	_set_current_node(node_index, entrance)
-	
-	register_visit()
-	
+
+	if register:
+		register_visit()
+
 	# 🔔 evento (para UI secundária, som, etc)
 	MyEventBus.emit("node_entered", {
 		"node": current_node_data,
 		"entrance": entrance
 	})
-	
+
 	# 🎯 fluxo principal continua aqui
 	show_node()
 
@@ -102,6 +113,8 @@ func show_node_text():
 	})
 
 func show_node_actions():
+	if game_manager:
+		SaveManager.save(game_manager.current_slot, game_manager)
 	MyEventBus.emit("show_choices",{'choices':[
 		{ 
 			"text": "Continue",
@@ -123,7 +136,7 @@ func show_node_actions():
 			"type": "action",
 			"tooltip": "Recover health, but risk being attacked"
 		}
-	]})
+	], "header": "What would you like to do?"})
 
 # ------------------------
 # ACTIONS
@@ -208,7 +221,7 @@ func handle_exit_choice(choice):
 	var encounter_rate = current_node_data.get("encounter_rate", 0.75)
 	var monster = null
 	var encounter_roll = randf()
-	print(encounter_roll)
+	#print(encounter_roll)
 	if encounter_roll < encounter_rate:
 		print("entrou")
 		monster = _pick_encounter_monster()  
@@ -263,7 +276,7 @@ func pick_next_node(entrance):
 func _pick_encounter_monster():
 	var pool = []
 	for monster in monster_db:
-		print(monster)
+		#print(monster)
 		if monster.get("Location", "") != current_region:
 			print(current_region)
 			print(monster.get("Location", ""))
@@ -348,6 +361,28 @@ func get_dynamic_paragraph(node, node_key):
 	
 	return chosen.get("text", "")
 
+
+# ------------------------
+# BACKDROP
+# ------------------------
+
+func _transition_backdrop(region_name):
+	if not is_node_ready() or backdrop == null:
+		return
+	if not region_db.has(region_name):
+		return
+	var filename = region_db[region_name].get("Backdrop", "")
+	if filename == "":
+		return
+	var path = "res://assets/backgrounds/" + filename
+	if not ResourceLoader.exists(path):
+		push_error("Backdrop não encontrado: " + path)
+		return
+	var texture = load(path)
+	var tween = create_tween()
+	tween.tween_property(backdrop, "modulate:a", 0.0, 0.4)
+	tween.tween_callback(func(): backdrop.texture = texture)
+	tween.tween_property(backdrop, "modulate:a", 1.0, 0.4)
 
 # ------------------------
 # UTILS

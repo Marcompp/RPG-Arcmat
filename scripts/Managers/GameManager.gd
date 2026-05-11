@@ -4,12 +4,15 @@ extends Node
 @onready var travel = $TravelManager
 @onready var combat = $CombatManager
 @onready var game_ui = $GameUI
+@onready var audio = $AudioManager
+@onready var main_menu = $MainMenu
 
 # ========================
 # CORE
 # ========================
 
 enum GameMode {
+	MAIN_MENU,
 	CHARACTER_SELECT,
 	CHARACTER_CONFIRM,
 	TRAVEL,
@@ -18,7 +21,7 @@ enum GameMode {
 	MONSTERS
 }
 
-var current_mode = GameMode.CHARACTER_SELECT
+var current_mode = GameMode.MAIN_MENU
 
 var characters = []
 var armor_db = {}
@@ -27,6 +30,7 @@ var weapon_db = {}
 var in_combat = false
 
 var pending_character = null
+var current_slot = 1
 
 var game_state = GameState.new()
 
@@ -40,8 +44,21 @@ func get_var(key, default := 0):
 # ------------------------
 
 func _ready():
-	MyEventBus.subscribe("combat_ended", func(_data):
+	MyEventBus.subscribe("combat_ended", func(data):
 		in_combat = false
+		if not data.get("victory", false):
+			show_main_menu()
+			return
+		var rewards = data.get("rewards", {})
+		var player = game_state["player"]
+		if player:
+			player.gain_exp(rewards.get("xp", 0))
+			game_state["gold"] = game_state["gold"] + rewards.get("gold", 0)
+			if not player.data.has("Inventory"):
+				player.data["Inventory"] = {}
+			var inv = player.data["Inventory"]
+			for item in rewards.get("drops", {}):
+				inv[item] = inv.get(item, 0) + 1
 		travel.show_node_actions()
 	)
 	MyEventBus.subscribe("register_visit", func(data):
@@ -71,6 +88,7 @@ func _ready():
 	game_state["visited_count"] = {}
 	game_state["area_progress"] = 0
 	travel.game_state = game_state
+	travel.game_manager = self
 	game_state["region"] = travel.current_region
 	game_ui.bind(game_state)
 	
@@ -86,9 +104,11 @@ func _ready():
 	characters = load_json("res://Database/protags.json")
 	armor_db = load_json("res://Database/armors.json")
 	weapon_db = load_json("res://Database/weapons.json")
-	
 
-	start_character_selection()
+	dialogue.visible = false
+	main_menu.new_game_requested.connect(_on_main_menu_new_game)
+	main_menu.continue_requested.connect(_on_main_menu_continue)
+	show_main_menu()
 
 # ------------------------
 # JSON
@@ -130,6 +150,29 @@ func show_choices(choices):
 func start_game():
 	current_mode = GameMode.TRAVEL
 	travel.enter_node(0, "ROAD")
+
+# ------------------------
+# MAIN MENU
+# ------------------------
+
+func show_main_menu():
+	current_mode = GameMode.MAIN_MENU
+	dialogue.visible = false
+	game_ui._clear_ui()
+	main_menu.visible = true
+	main_menu.setup(SaveManager.list_saves().size() > 0)
+
+func _on_main_menu_new_game():
+	current_slot = SaveManager.next_slot()
+	main_menu.visible = false
+	dialogue.visible = true
+	start_character_selection()
+
+func _on_main_menu_continue(slot: int):
+	current_slot = slot
+	main_menu.visible = false
+	dialogue.visible = true
+	load_game(slot)
 
 #-------------------------
 # CHAR SELECT
@@ -288,52 +331,55 @@ func show_character_confirm(char):
 	# ------------------------
 	if char.has("Equip"):
 		text += "[b]Equipment[/b]\n"
-		for e in char["Equip"]:
-			text += "- " + char["Equip"][e] + "\n"
-		text += "\n"
+		text += "[table=5]"
+		for s in char["Equip"]:
+			text += "[cell]+" + s + ": " + char["Equip"][s] + "[/cell][cell]  [/cell]"
+		text += "[/table]\n\n"
 	
 	# ------------------------
 	# SKILLS
 	# ------------------------
 	if char["Skills"].size() > 0:
 		text += "[b]Skills[/b]\n"
+		text += "[table=5]"
 		for s in char["Skills"]:
-			text += "- " + s + "\n"
-		text += "\n"
+			text += "[cell]- " + s + "[/cell][cell]  [/cell]"
+		text += "[/table]\n\n"
 	
 	# ------------------------
 	# SPELLS
 	# ------------------------
 	if char["Spells"].size() > 0:
 		text += "[b]Spells[/b]\n"
+		text += "[table=5]"
 		for s in char["Spells"]:
-			text += "- " + s + "\n"
-		text += "\n"
+			text += "[cell]- " + s + "[/cell][cell]  [/cell]"
+		text += "[/table]\n\n"
 
 	# ------------------------
 	# MONEY & INVENTORY
 	# ------------------------
 	text += "[b]Gold[/b]\n"
-	text += str(char.get("Money", 0)) + "G\n\n"
+	text += str(int(char.get("Money", 0))) + "G\n\n"
 
 	var inv = char.get("Inventory", {})
 	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
 		text += "[b]Inventory[/b]\n"
 		for item in inv:
-			text += "- " + item + " x" + str(inv[item]) + "\n"
+			text += "- " + item + " x" + str(int(inv[item])) + "\n"
 		text += "\n"
 
 	# ------------------------
 	# WARNING
 	# ------------------------
-	text += "[color=yellow]This choice cannot be undone.[/color]"
+	text += ""
 	
 	show_text(text)
 	
 	dialogue.set_choices([
 		{ "text": "▶ Start Journey", "type": "confirm_character" },
 		{ "text": "◀ Choose Another", "type": "back" }
-	], "CONFIRM SELECTION?")
+	], "[color=yellow]This choice cannot be undone.[/color]")
 	
 func confirm_character():
 	var char = pending_character
@@ -346,6 +392,7 @@ func confirm_character():
 	MyEventBus.emit("character_selected", {
 		"character": char
 	})
+	travel.current_region = "Apple Woods"
 	
 	pending_character = null
 	
@@ -507,6 +554,62 @@ func _check_dict_condition(cond):
 				return false
 	
 	return true
+
+# ------------------------
+# SAVE / LOAD
+# ------------------------
+
+func save_game(slot: int):
+	if current_mode != GameMode.TRAVEL:
+		return
+	if in_combat:
+		show_text("Cannot save during combat.")
+		return
+	if SaveManager.save(slot, self):
+		show_text("Game saved to slot %d." % slot)
+	else:
+		show_text("Save failed.")
+
+func load_game(slot: int):
+	var save_data = SaveManager.load_save(slot)
+	if save_data.is_empty():
+		show_text("No save found in slot %d." % slot)
+		return
+
+	var gs = save_data.get("game_state", {})
+	game_state["gold"]          = gs.get("gold", 0)
+	game_state["vars"]          = gs.get("vars", {})
+	game_state["flags"]         = gs.get("flags", {})
+	game_state["visited_nodes"] = gs.get("visited_nodes", {})
+	game_state["visited_count"] = gs.get("visited_count", {})
+	game_state["area_progress"] = gs.get("area_progress", 0)
+
+	var player_data = save_data.get("player", {})
+	if not player_data.is_empty():
+		var char_data = player_data.get("data", {})
+		var character = Character.new(char_data, armor_db, weapon_db)
+		character.load_from_save(player_data)
+		game_state["player"] = character
+
+	var travel_data = save_data.get("travel", {})
+	in_combat = false
+	current_mode = GameMode.TRAVEL
+	travel.current_region = travel_data.get("current_region", "Apple Woods")
+	travel.enter_node(
+		travel_data.get("current_node", 0),
+		travel_data.get("current_entrance", "ROAD"),
+		false  # don't re-register the visit we already counted
+	)
+
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_F5:
+				save_game(current_slot)
+				get_viewport().set_input_as_handled()
+			KEY_F9:
+				load_game(current_slot)
+				get_viewport().set_input_as_handled()
 
 # ------------------------
 # CHAR CHANGES

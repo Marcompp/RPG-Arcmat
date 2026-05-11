@@ -19,3 +19,4 @@ config/icon="res://icon.svg"
 
 MyEventBus="*res://scripts/Globals/EventBus.gd"
 MyInputRouter="*res://scripts/Globals/InputRouter.gd"
+SaveManager="*res://scripts/Managers/SaveManager.gd"

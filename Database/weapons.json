@@ -2,25 +2,26 @@
 	"Foil": {
 		"name": "Foil",
 		"wpn_type": "Sword",
-		"stats": { "mgt": 6, "acc": 90, "wgt": 4, "crit": 10, "mys": 1 },
+		"stats": { "mgt": 4, "acc": 90, "wgt": 4, "crit": 10, "mys": 1 },
 		"effect": "none"
 	},
 	"Hatchet": {
 		"name": "Hatchet",
 		"wpn_type": "Axe",
-		"stats": { "mgt": 8, "acc": 60, "wgt": 8, "crit": 0, "mys": 0 },
+		"stats": { "mgt": 6, "acc": 60, "wgt": 8, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Sling": {
 		"name": "Sling",
 		"wpn_type": "Ranged",
-		"stats": { "mgt": 5, "acc": 70, "wgt": 1, "crit": 10, "mys": 0 },
+		"stats": { "mgt": 3, "acc": 70, "wgt": 1, "crit": 10, "mys": 0 },
 		"effect": "none"
 	},
 	"Wooden Rod": {
 		"name": "Wooden Rod",
+		"element": "Plant",
 		"wpn_type": "Staff",
-		"stats": { "mgt": 5, "acc": 80, "wgt": 7, "crit": 0, "mys": 3 },
+		"stats": { "mgt": 3, "acc": 80, "wgt": 7, "crit": 0, "mys": 3 },
 		"effect": "none"
 	},
 	"Rapier": {
@@ -79,6 +80,7 @@
 	},
 	"Slime Spear": {
 		"name": "Slime Spear",
+		"element": "Water",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 5, "acc": 100, "wgt": 6, "crit": 0, "mys": 2 },
 		"effect": "poison"
@@ -157,12 +159,14 @@
 	},
 	"Skull Staff": {
 		"name": "Skull Staff",
+		"element": "Dark",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 7, "acc": 90, "wgt": 8, "crit": 30, "mys": 4 },
 		"effect": "none"
 	},
 	"Fairy Bow": {
 		"name": "Fairy Bow",
+		"element": "Light",
 		"wpn_type": "Ranged",
 		"stats": { "mgt": 9, "acc": 70, "wgt": 8, "crit": 0, "mys": 3 },
 		"effect": "none"
@@ -187,12 +191,14 @@
 	},
 	"Frost Staff": {
 		"name": "Frost Staff",
+		"element": "Ice",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 13, "acc": 60, "wgt": 8, "crit": 5, "mys": 4 },
 		"effect": "none"
 	},
 	"Fire Staff": {
 		"name": "Fire Staff",
+		"element": "Fire",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 15, "acc": 50, "wgt": 8, "crit": 5, "mys": 4 },
 		"effect": "none"
@@ -211,6 +217,7 @@
 	},
 	"Firesword": {
 		"name": "Firesword",
+		"element": "Fire",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 12, "acc": 90, "wgt": 9, "crit": 0, "mys": 3 },
 		"effect": "none"
@@ -235,6 +242,7 @@
 	},
 	"Gorgon Sword": {
 		"name": "Gorgon Sword",
+		"element": "Poison",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 10, "acc": 90, "wgt": 6, "crit": 5, "mys": 1 },
 		"effect": "poison"
@@ -247,12 +255,14 @@
 	},
 	"Spirit Rod": {
 		"name": "Spirit Rod",
+		"element": "Light",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 16, "acc": 40, "wgt": 8, "crit": 5, "mys": 5 },
 		"effect": "none"
 	},
 	"Ent Club": {
 		"name": "Ent Club",
+		"element": "Plant",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 16, "acc": 60, "wgt": 15, "crit": 5, "mys": 3 },
 		"effect": "none"
@@ -277,6 +287,7 @@
 	},
 	"Stone Axe": {
 		"name": "Stone Axe",
+		"element": "Earth",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 18, "acc": 55, "wgt": 16, "crit": 0, "mys": 0 },
 		"effect": "none"
