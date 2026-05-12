@@ -10,6 +10,8 @@
 		"Events" : ["SwordInStone"],
 		"Backdrop": "apple_woodd.png",
 		"Music": "the_mountain-forest.mp3",
+		"BossTxt": "You hear a loud howl echo through the woods.",
+		"ExitTxt": "Through an opening amidst the trees, you spot the walls of Bertunia Castle Town.",
 		"Next": "Bertunia"
 	},
 	"Caves of Light":{
@@ -22,7 +24,7 @@
 		"Treasure" : ["Thief's Dagger","Book of Light"],
 		"Events" : ["Lost","CultHideout"],
 		"Backdrop": "light_caves.png",
-
+		"ExitTxt": "After endless venturing through the mazelike caves, \nyou finally arrive at the exit, emerging onto the Sundown Plateau.",
 		"Next": "Sundown Plateau"
 	},
 	"Sundown Plateau":{
@@ -36,6 +38,7 @@
 		"Events" : ["Graveyard"],
 		"Backdrop": "light_caves.png",
 		"Music": "hitslab-halloween-spooky.mp3",
+		"ExitTxt": "After a long treck through the plateau, you arrive at the foothills of Mt. Legory.",
 		"Next": "Mt. Legory"
 	},
 	"Mt. Legory":{
@@ -48,6 +51,7 @@
 		"Treasure" : ["Book of Ice","Glaive"],
 		"Events" : ["Roc"],
 		"Backdrop": "mt_legory2.png",
+		"ExitTxt": "You find an entrance on the cliffside and delve into it until you discover the Core Cavern.",
 		"Next": "Core Cavern"
 	},
 		"Core Cavern":{
@@ -60,6 +64,7 @@
 		"Treasure" : ["Book of Earth","Flamesword"],
 		"Events" : ["CaveIn"],
 		"Backdrop": "core_cavern.png",
+		"ExitTxt": "At the exit of the Cavern you find yourself at the Lost Swamp,\n But first, you head Mugell Town, a small town elevated on ricketty wood platforms above the murky swamp water.",
 		"Next": "Mugell Town"
 	},
 		"Lost Swamp":{
@@ -72,6 +77,7 @@
 		"Treasure" : ["Book of Water","Lost Sword"],
 		"Events" : ["Lost"],
 		"Backdrop": "lost_swamp.png",
+		"ExitTxt": "Treading through the accursed swamp, you find your final destination,\n the Arcmat Ruins, said to be the birthplace of all magic.",
 		"Next": "Arcmat Ruins"
 	},
 		"Arcmat Ruins":{
@@ -84,6 +90,7 @@
 		"Treasure" : ["Relic Sword"],
 		"Events" : ["Spring of Lost Knowledge"],
 		"Backdrop": "arcmat.png",
+		"ExitTxt": "After finishing your epic quest,\n you decide to chill and kill monsters and let off some steam at the ARENA!!!",
 		"Next": null
 	} 
 }

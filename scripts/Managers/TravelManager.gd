@@ -80,7 +80,8 @@ func handle_input(choice):
 # ------------------------
 
 func show_node():
-	show_node_text()
+	MyEventBus.emit("clear_text",{})
+	show_node_text(true)
 	current_entrance = "default"
 	mode = TravelMode.NODE_ACTIONS
 	show_node_actions()
@@ -100,19 +101,26 @@ func enter_node(node_index, entrance, register: bool = true):
 	# 🎯 fluxo principal continua aqui
 	show_node()
 
-func show_node_text():
+func get_node_text(use_default=false):
 	var key = get_node_key()
 	
 	var text = ""
 	
-	text += get_arrival_text(current_node_data)
+	text += get_arrival_text(current_node_data, use_default)
 	text += "\n\n" + get_dynamic_paragraph(current_node_data, key)
 	#text += "\n\nWhat do you want to do?"
 	
 	current_entrance = 0
+	return text
+
+func show_node_text(use_default=false):
+	var text = get_node_text(use_default)
+	
+	current_entrance = 0
 	MyEventBus.emit("dialogue", {
 		"text": text,
-		"choices": []
+		"choices": [],
+		"linebreak": false
 	})
 
 func show_node_actions():
@@ -210,16 +218,9 @@ func handle_exit_choice(choice):
 	})
 
 	var travel_text = exit.get("travel_text", "You press on for a while.")
-	var text = travel_text + "\n\n...\n[wait=0.2]\n...\n[wait=0.2]"
-
-	var arrival = get_arrival_text(current_node_data)
-	if arrival != "":
-		text += "\n\n" + arrival
-
-	var key = get_node_key()
-	var desc = get_dynamic_paragraph(current_node_data, key)
-	if desc != "":
-		text += "\n\n" + desc
+	var text = travel_text + "\n\n...\n[wait=0.2]\n...\n[wait=0.2]\n\n"
+	text += get_node_text(false)
+	MyEventBus.emit("dialogue", {"text": text})
 
 	var encounter_rate = current_node_data.get("encounter_rate", 0.75)
 	var monster = null
@@ -229,13 +230,9 @@ func handle_exit_choice(choice):
 		print("entrou")
 		monster = _pick_encounter_monster()  
 	if monster:
-		text += "\n\nSuddenly, a [b]" + monster["Name"] + "[/b] appears!"
-	#else:
-		#text += "\n\nWhat do you want to do?"
-
-	MyEventBus.emit("dialogue", {"text": text})
-
-	if monster:
+		MyEventBus.emit("continue_text", {
+			"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
+		})
 		await game_manager._gm_wait_for_continue()
 		MyEventBus.emit("start_combat", {"enemy": monster})
 	else:
@@ -319,13 +316,13 @@ func register_visit():
 # TEXT SYSTEM
 # ------------------------
 
-func get_arrival_text(node):
+func get_arrival_text(node, use_default=false):
 	if not node.has("arrival"):
 		return ""
 	
 	var arrival = node["arrival"]
 	
-	if arrival.has(current_entrance):
+	if arrival.has(current_entrance) and not use_default:
 		return arrival[current_entrance].pick_random()
 	
 	if arrival.has("default"):

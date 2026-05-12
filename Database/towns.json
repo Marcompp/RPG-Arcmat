@@ -1,0 +1,90 @@
+{
+	"Bertunia":{
+		"Name" : "Bertunia",
+		"Type": "Town",
+		"Shops": {
+			"Kacha's Shop":{
+				"Name": "Kacha's Shop",
+				"Kind": "Shop",
+				"Stock": {
+					"Potion":30,
+					"Ether":20,
+					"Medicine":30,
+					"Bomb":5
+				}
+			},
+			"Arms and Armaments":{
+				"Name": "Arms and Armaments",
+				"Kind": "Shop",
+				"Stock": {
+					"Longsword": 1,
+					"Battleaxe": 1,
+					"Spear": 1,
+					"Recurve Bow": 1
+				}
+			},
+			"Everyman's Clothier":{
+				"Name": "Everyman's Clothier",
+				"Kind": "Shop",
+				"Stock": {
+					"Traveler's Tunic": 1,
+					"Dress": 1,
+					"Mage's Robe": 1,
+					"Chainmail": 1
+				}
+			},
+			"The Tipsy Ghost":{
+				"Name": "Everyman's Clothier",
+				"Kind": "Pub",
+				"Patrons": {
+				}
+			},
+		},
+		"ExitTxt": "As you leave Bertunia's gates behind, you spot the entrance to the Caves of Light and make your way inside.",
+		"Next": "Caves of Light"
+	},
+	"Mugell Town":{
+		"Name" : "Mugell Town",
+		"Type": "Town",
+		"Shops": {
+			"Madam Bernadetta's Mysthical Emporium":{
+				"Name": "Madam Bernadetta's Mysthical Emporium",
+				"Kind": "Shop",
+				"Stock": {
+					"Potion":30,
+					"Ether":20,
+					"Medicine":30,
+					"Bomb":5
+				}
+			},
+			"Merrill's Satin Threads":{
+				"Name": "Satin Threads",
+				"Kind": "Shop",
+				"Stock": {
+					"Dress": 1,
+					"Traveler's Tunic": 1,
+					"Uniform": 1,
+					"Arcward Armor": 1
+				}
+			},
+			"Pages Without End":{
+				"Name": "Pages Without End",
+				"Kind": "Shop",
+				"Stock": {
+					"Book of Fire": 1,
+					"Book of Water": 1,
+					"Book of Earth": 1,
+					"Book of Wind": 1
+				}
+			},
+			"The Gurgling Gorgon":{
+				"Name": "Everyman's Clothier",
+				"Kind": "Pub",
+				"Patrons": {
+				}
+			}
+		},
+		"ExitTxt": "You step out of town into the Lost Swamp,\n where many have been known to have been lost in its dull white fog forever.",
+		"Next": "Lost Swamp"
+	}
+}
