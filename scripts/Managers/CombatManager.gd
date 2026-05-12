@@ -411,10 +411,11 @@ func end_combat(victory):
 		var rewards = _calculate_rewards()
 		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % [enemy.get_name()] })
 		await wait_for_continue()
-		MyEventBus.emit("dialogue", { "text": _format_reward_text(rewards)})
+		MyEventBus.emit("combat_rewards", { "rewards": rewards })
+		MyEventBus.emit("dialogue", { "text": _format_reward_text(rewards) })
 		await wait_for_continue()
 		MyInputRouter.pop()
-		MyEventBus.emit("combat_ended", { "victory": true, "rewards": rewards })
+		MyEventBus.emit("combat_ended", { "victory": true })
 	else:
 		MyEventBus.emit("continue_text", { "text": "You were defeated..." })
 		await wait_for_continue()

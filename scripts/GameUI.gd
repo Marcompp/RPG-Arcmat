@@ -136,3 +136,56 @@ func _format_number(n):
 
 func _clear_ui():
 	visible = false
+
+var _xp_tween: Tween = null
+var _xp_skip := false
+
+func animate_xp_gain(old_xp: int, old_level: int, level_ups: Array) -> void:
+	_xp_skip = false
+	var cur_xp = float(old_xp)
+	var cur_level = old_level
+
+	xp_bar.max_value = float(int(100.0 * pow(1.5, cur_level - 1)))
+	xp_bar.value = cur_xp
+
+	for _lvl in level_ups:
+		var threshold = float(int(100.0 * pow(1.5, cur_level - 1)))
+		xp_bar.max_value = threshold
+		_xp_tween = create_tween()
+		_xp_tween.tween_property(xp_bar, "value", threshold, 0.6)
+		while _xp_tween and _xp_tween.is_running():
+			if _xp_skip:
+				return
+			await get_tree().process_frame
+		if _xp_skip:
+			return
+		await get_tree().create_timer(0.15).timeout
+		if _xp_skip:
+			return
+		xp_bar.value = 0.0
+		cur_level += 1
+
+	var player = state.get_value("player")
+	if not player:
+		return
+	xp_bar.max_value = float(player.get_xp_to_next_level())
+	_xp_tween = create_tween()
+	_xp_tween.tween_property(xp_bar, "value", float(player.get_xp()), 0.5)
+	while _xp_tween and _xp_tween.is_running():
+		if _xp_skip:
+			return
+		await get_tree().process_frame
+	xp_bar.value = float(player.get_xp())
+	xp_text.text = "%d/%d" % [player.get_xp(), player.get_xp_to_next_level()]
+	_xp_tween = null
+
+func skip_xp_animation() -> void:
+	_xp_skip = true
+	if _xp_tween and _xp_tween.is_running():
+		_xp_tween.kill()
+	_xp_tween = null
+	var player = state.get_value("player")
+	if player:
+		xp_bar.max_value = float(player.get_xp_to_next_level())
+		xp_bar.value = float(player.get_xp())
+		xp_text.text = "%d/%d" % [player.get_xp(), player.get_xp_to_next_level()]

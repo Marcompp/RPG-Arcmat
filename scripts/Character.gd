@@ -71,7 +71,7 @@ func _apply_level_growth(char, base: Dictionary) -> Dictionary:
 	for _level in range(1, lvl):
 		for stat in result:
 			var rank = stat_ranks.get(rank_keys.get(stat, ""), "E")
-			var growth = _growth(rank) + (20 if stat == "hp" else 0)
+			var growth = _get_growth(rank,stat)
 			if randi() % 100 < growth:
 				result[stat] += 1
 
@@ -98,6 +98,9 @@ func _rank(r):
 		"E": return 2
 		"F": return 2
 	return 5
+
+func _get_growth(rank,stat):
+	return _growth(rank) + (20 if stat == "hp" else 0)
 
 
 func _growth(r):
@@ -243,12 +246,38 @@ func get_xp() -> int:
 func get_xp_to_next_level() -> int:
 	return int(100.0 * pow(1.5, level-1))
 
-func gain_exp(amount: int):
+func gain_exp(amount: int) -> Array:
+	var level_ups = []
 	xp += amount
 	while xp >= get_xp_to_next_level():
 		xp -= get_xp_to_next_level()
 		level += 1
-	stats_changed.emit()
+		var gains = _roll_level_gains()
+		for stat in gains:
+			base_stats[stat] += 1
+		if gains.has("hp"):
+			curr_stats["mhp"] += gains["hp"]
+			curr_stats["hp"] = min(curr_stats["hp"] + gains["hp"], curr_stats["mhp"])
+		if gains.has("mp"):
+			curr_stats["mmp"] += gains["mp"]
+			curr_stats["mp"] = min(curr_stats["mp"] + gains["mp"], curr_stats["mmp"])
+		level_ups.append({"level": level, "gains": gains})
+	recalculate()
+	return level_ups
+
+func _roll_level_gains() -> Dictionary:
+	var gains = {}
+	var stat_ranks = data.get("Stats", {})
+	var rank_keys = {
+		"hp": "HP", "mp": "MP", "str": "Str", "mag": "Mag",
+		"agi": "Agi", "dex": "Dex", "lck": "Lck", "def": "Def"
+	}
+	for stat in base_stats:
+		var rank = stat_ranks.get(rank_keys.get(stat, ""), "E")
+		var growth = _growth(rank) + (20 if stat == "hp" else 0)
+		if randi() % 100 < growth:
+			gains[stat] = 1
+	return gains
 
 func get_money() -> int:
 	return money

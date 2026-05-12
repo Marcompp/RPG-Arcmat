@@ -72,6 +72,7 @@ func handle_input(choice):
 			handle_node_action(choice)
 
 		TravelMode.CHOOSING_EXIT:
+			print('EXIT CHOICE')
 			handle_exit_choice(choice)
 
 # ------------------------
@@ -80,6 +81,7 @@ func handle_input(choice):
 
 func show_node():
 	show_node_text()
+	current_entrance = "default"
 	mode = TravelMode.NODE_ACTIONS
 	show_node_actions()
 
@@ -105,8 +107,9 @@ func show_node_text():
 	
 	text += get_arrival_text(current_node_data)
 	text += "\n\n" + get_dynamic_paragraph(current_node_data, key)
-	text += "\n\nWhat do you want to do?"
+	#text += "\n\nWhat do you want to do?"
 	
+	current_entrance = 0
 	MyEventBus.emit("dialogue", {
 		"text": text,
 		"choices": []
@@ -227,12 +230,13 @@ func handle_exit_choice(choice):
 		monster = _pick_encounter_monster()  
 	if monster:
 		text += "\n\nSuddenly, a [b]" + monster["Name"] + "[/b] appears!"
-	else:
-		text += "\n\nWhat do you want to do?"
+	#else:
+		#text += "\n\nWhat do you want to do?"
 
 	MyEventBus.emit("dialogue", {"text": text})
 
 	if monster:
+		await game_manager._gm_wait_for_continue()
 		MyEventBus.emit("start_combat", {"enemy": monster})
 	else:
 		mode = TravelMode.NODE_ACTIONS

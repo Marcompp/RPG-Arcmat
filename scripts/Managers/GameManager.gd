@@ -28,6 +28,8 @@ var armor_db = {}
 var weapon_db = {}
 
 var in_combat = false
+var _pending_level_ups: Array = []
+var _pending_rewards: Dictionary = {}
 
 var pending_character = null
 var current_slot = 1
@@ -44,22 +46,15 @@ func get_var(key, default := 0):
 # ------------------------
 
 func _ready():
-	MyEventBus.subscribe("combat_ended", func(data):
-		in_combat = false
-		if not data.get("victory", false):
-			show_main_menu()
-			return
-		var rewards = data.get("rewards", {})
+	MyEventBus.subscribe("combat_ended", _on_combat_ended)
+	MyEventBus.subscribe("combat_rewards", func(data):
 		var player = game_state["player"]
 		if player:
-			player.gain_exp(rewards.get("xp", 0))
-			game_state["gold"] = game_state["gold"] + rewards.get("gold", 0)
-			if not player.data.has("Inventory"):
-				player.data["Inventory"] = {}
-			var inv = player.data["Inventory"]
-			for item in rewards.get("drops", {}):
-				inv[item] = inv.get(item, 0) + 1
-		travel.show_node_actions()
+			var old_xp = player.get_xp()
+			var old_level = player.get_level()
+			_pending_rewards = data.get("rewards", {})
+			_pending_level_ups = player.gain_exp(_pending_rewards.get("xp", 0))
+			game_ui.animate_xp_gain(old_xp, old_level, _pending_level_ups)
 	)
 	MyEventBus.subscribe("register_visit", func(data):
 		register_visit(data.get('key',0))
@@ -645,3 +640,160 @@ func apply_effect(effect):
 			
 	if changed:
 		MyEventBus.emit("stats_changed", game_state["player"]["curr_stats"])
+
+# ------------------------
+# COMBAT ENDED
+# ------------------------
+
+func _on_combat_ended(data: Dictionary):
+	in_combat = false
+	if not data.get("victory", false):
+		show_main_menu()
+		return
+	game_ui.skip_xp_animation()
+	for lvl_up in _pending_level_ups:
+		show_text(_format_level_up_text(lvl_up))
+		await _gm_wait_for_continue()
+	var player = game_state["player"]
+	if player and not _pending_rewards.is_empty():
+		game_state["gold"] = game_state["gold"] + _pending_rewards.get("gold", 0)
+		if not player.data.has("Inventory"):
+			player.data["Inventory"] = {}
+		for item_name in _pending_rewards.get("drops", {}):
+			if weapon_db.has(item_name) or armor_db.has(item_name):
+				await _offer_equip(item_name, player)
+			else:
+				player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+	_pending_rewards = {}
+	_pending_level_ups = []
+	travel.show_node()
+	#travel.show_node_actions()
+
+func _format_level_up_text(lvl_up: Dictionary) -> String:
+	var lines = ["[b][color=yellow]LEVEL UP![/color][/b]  Lv.%d" % lvl_up["level"]]
+	var gains = lvl_up["gains"]
+	if gains.is_empty():
+		lines.append("No stat gains.")
+	else:
+		for stat in gains:
+			lines.append("[color=cyan]+1 %s[/color]" % stat.to_upper())
+	return "\n".join(lines)
+
+func _offer_equip(item_name: String, player: Character):
+	var slot: String
+	var new_item: Dictionary
+	if weapon_db.has(item_name):
+		slot = "weapon"
+		new_item = weapon_db[item_name]
+	else:
+		slot = "armor"
+		new_item = armor_db[item_name]
+
+	var old_item = player.equipment.get(slot)
+	if typeof(old_item) != TYPE_DICTIONARY or old_item.is_empty():
+		old_item = null
+
+	MyEventBus.emit("dialogue", { "text": _build_equip_comparison_text(item_name, new_item, old_item, slot) })
+
+	var state = { "chosen": "", "done": false }
+	MyInputRouter.push(func(choice):
+		var t = choice.get("type", "")
+		if t == "equip" or t == "keep":
+			state["chosen"] = t
+			state["done"] = true
+			MyInputRouter.pop()
+	, "equip_prompt")
+
+	MyEventBus.emit("show_choices", {
+		"choices": [
+			{ "text": "Equip", "type": "equip", "highlight": true },
+			{ "text": "Keep in Bag", "type": "keep" }
+		],
+		"header": "New Equipment Found!"
+	})
+
+	while not state["done"]:
+		await get_tree().process_frame
+
+	var inv = player.data["Inventory"]
+	if state["chosen"] == "equip":
+		if old_item and old_item.has("name"):
+			inv[old_item["name"]] = inv.get(old_item["name"], 0) + 1
+		player.equip(slot, new_item)
+		MyEventBus.emit("continue_text", { "text": "[color=#00E676]%s equipped![/color]" % new_item.get("name", item_name) })
+	else:
+		inv[item_name] = inv.get(item_name, 0) + 1
+		MyEventBus.emit("continue_text", { "text": "[color=#AAAAAA]%s added to bag, check inventory out of battle to equip.[/color]" % item_name })
+
+	await _gm_wait_for_continue()
+
+func _gm_wait_for_continue():
+	var state = { "done": false }
+	MyInputRouter.push(func(choice):
+		if choice.get("type") == "continue":
+			state["done"] = true
+			MyInputRouter.pop()
+	, "gm_wait")
+	MyEventBus.emit("show_choices", {
+		"choices": [{ "text": "Continue", "type": "continue" }]
+	})
+	while not state["done"]:
+		await get_tree().process_frame
+
+func _build_equip_comparison_text(item_name: String, new_item: Dictionary, old_item, slot: String) -> String:
+	var new_name = new_item.get("name", item_name)
+	var old_name = "None" if not old_item else old_item.get("name", "?")
+
+	var text = "[b]New %s Found![/b]\n" % slot.capitalize()
+	text += "[b]%s[/b]" % new_name
+	if new_item.has("wpn_type"):
+		text += "  [i](%s)[/i]" % new_item["wpn_type"]
+	if new_item.has("element"):
+		text += "  [color=orange][%s][/color]" % new_item["element"]
+	text += "\n\n"
+
+	var new_stats: Dictionary = new_item.get("stats", {})
+	var old_stats: Dictionary = {} if not old_item else old_item.get("stats", {})
+
+	var all_stats: Array = []
+	for s in new_stats:
+		if not s in all_stats:
+			all_stats.append(s)
+	for s in old_stats:
+		if not s in all_stats:
+			all_stats.append(s)
+
+	if all_stats.size() > 0:
+		text += "[instant][table=5]"
+		text += "[cell][/cell][cell][b]%s[/b][/cell][cell][/cell][cell][b]%s[/b][/cell][cell][/cell]" % [old_name, new_name]
+		for stat in all_stats:
+			var old_v: int = old_stats.get(stat, 0)
+			var new_v: int = new_stats.get(stat, 0)
+			var diff: int = new_v - old_v
+			var new_v_str: String
+			var diff_str: String
+			if diff > 0:
+				new_v_str = "[color=#00E676]%s[/color]" % str(new_v)
+				diff_str = "[color=#00E676]+%d[/color]" % diff
+			elif diff < 0:
+				new_v_str = "[color=#F44336]%s[/color]" % str(new_v)
+				diff_str = "[color=#F44336]%d[/color]" % diff
+			else:
+				new_v_str = str(new_v)
+				diff_str = ""
+			text += "[cell]%s:[/cell][cell][center]%s[/center][/cell][cell]→[/cell][cell][center]%s[/center][/cell][cell][center]%s[/center][/cell]" % [
+				stat.to_upper(), str(old_v), new_v_str, diff_str
+			]
+		var oeffect = "N/A"
+		if old_item.has("effect") and old_item["effect"] != "none":
+			oeffect = "[color=cyan]%s[/color]" % old_item["effect"]
+		var neffect = "N/A"
+		if new_item.has("effect") and new_item["effect"] != "none":
+			neffect = "[color=cyan]%s[/color]" % new_item["effect"]
+			
+		text += "[cell][b]Effect:[/b][/cell][cell][center]%s[/center][/cell][cell][/cell][cell][center]%s[/center][cell][/cell]" % [
+			oeffect, neffect
+		]
+		text += "[/table][/instant]"
+
+	return text
