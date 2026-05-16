@@ -51,10 +51,16 @@ func _show_save_list():
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_save_list.add_child(scroll)
 
+	var margin = MarginContainer.new()
+	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	scroll.add_child(margin)
+
 	var rows = VBoxContainer.new()
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rows.add_theme_constant_override("separation", 10)
-	scroll.add_child(rows)
+	margin.add_child(rows)
 
 	var saves = SaveManager.list_saves()
 	var first_load_btn: Button = null
@@ -84,8 +90,9 @@ func _make_save_row(info: Dictionary) -> HBoxContainer:
 
 	# Load button
 	var load_btn = Button.new()
-	load_btn.text = "Slot %d   %s, %s  Lv.%d\n%s" % [
+	load_btn.text = "Slot %d   %s - %s, %s  Lv.%d\n%s" % [
 		slot,
+		meta.get("current_region", "Unknown"),
 		meta.get("character_name", "Unknown"),
 		meta.get("character_class", ""),
 		meta.get("level", 1),

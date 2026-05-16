@@ -236,7 +236,7 @@ func show_town_actions():
 	for shop_name in current_town_data.get("Shops", {}):
 		choices.append({"text": shop_name, "type": "action", "tooltip": "Visit " + shop_name})
 	choices.append({"text": "Leave", "type": "back", "tooltip": "Leave " + current_town})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": current_town})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Where would you like to go?"})
 	mode = TravelMode.TOWN
 
 func _handle_town_action(choice):

@@ -17,7 +17,8 @@ func save(slot: int, game_manager) -> bool:
 			"datetime": Time.get_datetime_string_from_system(),
 			"character_name": player.get_name(),
 			"character_class": player.get_char_class(),
-			"level": player.get_level()
+			"level": player.get_level(),
+			"current_region": game_manager.travel.current_region
 		},
 		"player": player.serialize(),
 		"game_state": {
