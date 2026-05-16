@@ -36,10 +36,10 @@
 		"loot" : 8,
 		"Treasure" : ["Book of Dark"],
 		"Events" : ["Graveyard"],
-		"Backdrop": "light_caves.png",
-		"Music": "hitslab-halloween-spooky.mp3",
-		"ExitTxt": "After a long treck through the plateau, you arrive at the foothills of Mt. Legory.",
-		"Next": "Mt. Legory"
+		"Backdrop": "sundown_plateau.png",
+		"Music": "SunsetPlateau_placeholder.mp3",
+		"ExitTxt": "After a long treck through the plateau, you arrive at the foothills of Mt. Legory. Before the climb, you stop at the small settlement of Lantern's Reach.",
+		"Next": "Lantern's Reach"
 	},
 	"Mt. Legory":{
 		"Name" : "Mt. Legory",
@@ -51,6 +51,7 @@
 		"Treasure" : ["Book of Ice","Glaive"],
 		"Events" : ["Roc"],
 		"Backdrop": "mt_legory2.png",
+		"Music": "MtLegory_placeholder.mp3",
 		"ExitTxt": "You find an entrance on the cliffside and delve into it until you discover the Core Cavern.",
 		"Next": "Core Cavern"
 	},

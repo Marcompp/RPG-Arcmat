@@ -1,11 +1,30 @@
 {
 	"Bertunia":{
-		"Name" : "Bertunia",
+		"Name": "Bertunia",
 		"Type": "Town",
+		"arrival": [
+			"Through an opening amidst the trees, the walls of Bertunia Castle Town rise into view. The smell of woodsmoke and fresh bread drifts out to meet you.",
+			"The forest thins and the dirt path gives way to cobblestone as the gates of Bertunia come into sight."
+		],
+		"ambience": [
+			"Merchants call out from their stalls along the main street, their voices blending into a familiar hum.",
+			"Children chase each other across the square, weaving between the legs of passing soldiers.",
+			"A town crier reads aloud from a broadsheet near the fountain, his voice carrying across the plaza.",
+			"The clang of a blacksmith's hammer echoes from a side street, steady and rhythmic.",
+			"Pigeons scatter as a cart rolls past, its driver cursing at the narrow lane."
+		],
+		"Backdrop": "bertunia.png",
+		"Music": "Bertunia_placeholder.mp3",
 		"Shops": {
 			"Kacha's Shop":{
 				"Name": "Kacha's Shop",
 				"Kind": "Shop",
+				"ShopType": "Item",
+				"WelcomeText":"A familiar blue-haired woman in a frilly apron greets you at the counter:\n 'Welcome, ka-ching!'\n'I'm Kacha, give me a call if you need anything!'",
+				"OtherText": ["'Be sure to buy something before you leave, ka-ching!'", "'Welcome back to Kacha's Shop, ka-ching!'", "'See anything you like, ka-ching!'"],
+				"ambience":["A selection of potions and other items glint behind the counter.",
+							"Rows of merchandise line the stalls.",
+							"Fellow customers flit about the shop."],
 				"Stock": {
 					"Potion":30,
 					"Ether":20,
@@ -16,6 +35,7 @@
 			"Arms and Armaments":{
 				"Name": "Arms and Armaments",
 				"Kind": "Shop",
+				"ShopType": "Equip",
 				"Stock": {
 					"Longsword": 1,
 					"Battleaxe": 1,
@@ -26,6 +46,7 @@
 			"Everyman's Clothier":{
 				"Name": "Everyman's Clothier",
 				"Kind": "Shop",
+				"ShopType": "Equip",
 				"Stock": {
 					"Traveler's Tunic": 1,
 					"Dress": 1,
@@ -33,23 +54,100 @@
 					"Chainmail": 1
 				}
 			},
-			"The Tipsy Ghost":{
-				"Name": "Everyman's Clothier",
+			"Drink of Fortune":{
+				"Name": "Drink of Fortune",
 				"Kind": "Pub",
-				"Patrons": {
-				}
-			},
+				"Patrons": {}
+			}
 		},
 		"ExitTxt": "As you leave Bertunia's gates behind, you spot the entrance to the Caves of Light and make your way inside.",
 		"Next": "Caves of Light"
 	},
-	"Mugell Town":{
-		"Name" : "Mugell Town",
+	"Lantern's Reach":{
+		"Name": "Lantern's Reach",
 		"Type": "Town",
+		"arrival": [
+			"At the end of the plateau, lies a Lantern's Reach, the last settlement on the foothills of Mount Legory."
+		],
+		"ambience": [
+			
+		],
+		"Backdrop": "lantern_reach.png",
+		"Music": "LanternReach_placeholder.mp3",
 		"Shops": {
-			"Madam Bernadetta's Mysthical Emporium":{
-				"Name": "Madam Bernadetta's Mysthical Emporium",
+			"Kacha Outpost":{
+				"Name": "Kacha Outpost",
 				"Kind": "Shop",
+				"ShopType": "Item",
+				"WelcomeText":"",
+				"Stock": {
+					"Potion":30,
+					"Ether":20,
+					"Medicine":30,
+					"Bomb":5
+				}
+			},
+			"The Last Anvil":{
+				"Name": "The Last Anvil",
+				"Kind": "Shop",
+				"ShopType": "Equip",
+				"WelcomeText":"A gruff-looking blacksmith is hammering a glowing piece of metal at the back.\n He looks up at you with a grunt:\n 'You lookin' for something?'",
+				"OtherText": ["'Lookin' to protect yourself? Or deal some damage?'", "*CLANG CLANG*\n The blacksmith doesn't even look up from his work.", "'I'm busy. Tell me if you gonna buy something.'"],
+				"ambience":["The hammering of the anvil echoes through the shop",
+							"The warm glow of the forge glints off the merchandise.",
+							"Warm embers chase the cold away."],
+				"Stock": {
+					"Longsword": 1,
+					"Battleaxe": 1,
+					"Spear": 1,
+					"Chainmail": 1
+				}
+			},
+			"Adventurer's Guild":{
+				"Name": "Adventurer's Guild",
+				"Kind": "Shop",
+				"ShopType": "Skill",
+				"Stock": {
+					"Block Scroll": 1,
+					"Dodge Scroll": 1,
+					"Combo Scroll": 1,
+					"First Aid Scroll": 1
+				}
+			},
+			"The Tipsy Ghost":{
+				"Name": "The Tipsy Ghost",
+				"Kind": "Pub",
+				"Patrons": {}
+			}
+		},
+		"ExitTxt": "You start making your way up the trail up Mount Legory.",
+		"Next": "Mt. Legory"
+	},
+	"Mugell Town":{
+		"Name": "Mugell Town",
+		"Type": "Town",
+		"arrival": [
+			"Rickety wooden platforms rise above the murky swamp water, lashed together with rope and necessity. This is Mugell Town — precarious, but standing.",
+			"You climb a rope ladder up from the swamp floor and step onto the creaking boardwalks of Mugell Town, the fog still clinging to your boots."
+		],
+		"ambience": [
+			"The planks underfoot flex with each step, and somewhere below, something large moves through the water.",
+			"Lanterns strung between posts cast a warm glow over the narrow walkways, keeping the swamp dark at bay.",
+			"A fisherman lowers a line through a gap in the boards, waiting in silence.",
+			"The whole town sways faintly in the wind, the ropes groaning in protest.",
+			"A child peers over the railing at the dark water below, until her mother pulls her back."
+		],
+		"Backdrop": "mugell.png",
+		"Music": "the_mountain-forest.mp3",
+		"Shops": {
+			"Madam Bernadetta's Mystical Emporium":{
+				"Name": "Madam Bernadetta's Mystical Emporium",
+				"Kind": "Shop",
+				"WelcomeText":"An old hag, shrunk and hunchback with age, greets you from behind the counter:\n'Hee hee hee, welcome to Madam Bernadetta's, dearie.'\n 'Give a holler if anything catches your eye!'",
+				"OtherText": ["'Hee hee hee, looking for something, dearie?'", "'Hee hee hee, here again?'", "'Those potions are my own work, dearie.'"],
+				"ambience":["The smell of burning incense assaults your nostrils.",
+							"Various monster body parts float in vials on the back shelves.",
+							"You see shelves upon shelves of herbs and various parts of exotic beasts."],
 				"Stock": {
 					"Potion":30,
 					"Ether":20,
@@ -58,8 +156,13 @@
 				}
 			},
 			"Merrill's Satin Threads":{
-				"Name": "Satin Threads",
+				"Name": "Merrill's Satin Threads",
 				"Kind": "Shop",
+				"WelcomeText":"A scowling heavyset woman greets you at the door:\n'This is Satin Threads.'\nTalk to me if you want to buy something, or if you need something tailor-made.'",
+				"OtherText": ["'We don't want window shopers here!'", "'Here again, brat?'", "'You just going to look, or are you going to buy something?'"],
+				"ambience":["A large selection of fine clothing lines the walls.",
+							"The shopkeeper glares at you.",
+							"'We get more than enough spoiled brats around here.'"],
 				"Stock": {
 					"Dress": 1,
 					"Traveler's Tunic": 1,
@@ -78,13 +181,12 @@
 				}
 			},
 			"The Gurgling Gorgon":{
-				"Name": "Everyman's Clothier",
+				"Name": "The Gurgling Gorgon",
 				"Kind": "Pub",
-				"Patrons": {
-				}
+				"Patrons": {}
 			}
 		},
-		"ExitTxt": "You step out of town into the Lost Swamp,\n where many have been known to have been lost in its dull white fog forever.",
+		"ExitTxt": "You step out of town into the Lost Swamp, where many have been known to vanish forever into its dull white fog.",
 		"Next": "Lost Swamp"
 	}
 }

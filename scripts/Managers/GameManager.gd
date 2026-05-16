@@ -651,10 +651,11 @@ func _on_combat_ended(data: Dictionary):
 		show_main_menu()
 		return
 	game_ui.skip_xp_animation()
+	var player = game_state["player"]
 	for lvl_up in _pending_level_ups:
+		player.apply_level_up(lvl_up["gains"])
 		show_text(_format_level_up_text(lvl_up))
 		await _gm_wait_for_continue()
-	var player = game_state["player"]
 	if player and not _pending_rewards.is_empty():
 		game_state["gold"] = game_state["gold"] + _pending_rewards.get("gold", 0)
 		if not player.data.has("Inventory"):

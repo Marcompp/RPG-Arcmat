@@ -208,7 +208,10 @@ func get_stat(stat):
 	return final_stats.get(stat, 0)
 	
 func get_weapon():
-	return equipment.get("weapon", {})
+	if equipment.get("weapon"):
+		return equipment.get("weapon")
+	else:
+		return {}
 
 func get_equipment() -> Dictionary:
 	var result = {}
@@ -252,18 +255,20 @@ func gain_exp(amount: int) -> Array:
 	while xp >= get_xp_to_next_level():
 		xp -= get_xp_to_next_level()
 		level += 1
-		var gains = _roll_level_gains()
-		for stat in gains:
-			base_stats[stat] += 1
-		if gains.has("hp"):
-			curr_stats["mhp"] += gains["hp"]
-			curr_stats["hp"] = min(curr_stats["hp"] + gains["hp"], curr_stats["mhp"])
-		if gains.has("mp"):
-			curr_stats["mmp"] += gains["mp"]
-			curr_stats["mp"] = min(curr_stats["mp"] + gains["mp"], curr_stats["mmp"])
-		level_ups.append({"level": level, "gains": gains})
-	recalculate()
+		level_ups.append({"level": level, "gains": _roll_level_gains()})
+	stats_changed.emit()
 	return level_ups
+
+func apply_level_up(gains: Dictionary) -> void:
+	for stat in gains:
+		base_stats[stat] += gains[stat]
+	if gains.has("hp"):
+		curr_stats["mhp"] += gains["hp"]
+		curr_stats["hp"] = min(curr_stats["hp"] + gains["hp"], curr_stats["mhp"])
+	if gains.has("mp"):
+		curr_stats["mmp"] += gains["mp"]
+		curr_stats["mp"] = min(curr_stats["mp"] + gains["mp"], curr_stats["mmp"])
+	recalculate()
 
 func _roll_level_gains() -> Dictionary:
 	var gains = {}

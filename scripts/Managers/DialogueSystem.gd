@@ -12,6 +12,8 @@ signal choice_selected(choice_data)
 	$Choices/Row2/Choice4,
 	$Choices/Row0/Back
 ]
+@onready var left_button  = $Choices/Row0/Left
+@onready var right_button = $Choices/Row0/Right
 @onready var fade = $LogPanel/Fade
 @onready var log_panel = $LogPanel
 @onready var log_panel_panel = $LogPanel/Panel

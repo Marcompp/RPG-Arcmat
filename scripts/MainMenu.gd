@@ -30,11 +30,12 @@ func setup(has_saves: bool):
 
 func _show_save_list():
 	main_buttons.visible = false
+	_clear_save_list()
 
+	# Outer wrapper: title (fixed) + scroll (expanding) + back (fixed)
 	_save_list = VBoxContainer.new()
-	_save_list.layout_mode = 1
 	_save_list.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_save_list.add_theme_constant_override("separation", 14)
+	_save_list.add_theme_constant_override("separation", 10)
 	add_child(_save_list)
 
 	var title = Label.new()
@@ -44,35 +45,104 @@ func _show_save_list():
 	title.custom_minimum_size = Vector2(0, 60)
 	_save_list.add_child(title)
 
+	# Scroll area expands to fill remaining vertical space
+	var scroll = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_save_list.add_child(scroll)
+
+	var rows = VBoxContainer.new()
+	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rows.add_theme_constant_override("separation", 10)
+	scroll.add_child(rows)
+
 	var saves = SaveManager.list_saves()
-	var first_btn: Button = null
+	var first_load_btn: Button = null
 	for info in saves:
-		var meta = info["meta"]
-		var btn = Button.new()
-		btn.text = "Slot %d –  %s, Lv.%d %s\n%s" % [
-			info["slot"],
-			meta.get("character_name", "Unknown"),
-			meta.get("level", 1),
-			meta.get("character_class", "Unknown"),
-			meta.get("datetime", "")
-		]
-		btn.custom_minimum_size = Vector2(400, 64)
-		btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		var slot = info["slot"]
-		btn.pressed.connect(func(): continue_requested.emit(slot))
-		_save_list.add_child(btn)
-		if first_btn == null:
-			first_btn = btn
+		var row = _make_save_row(info)
+		rows.add_child(row)
+		if first_load_btn == null:
+			first_load_btn = row.get_child(0)
 
 	var back = Button.new()
 	back.text = "Back"
-	back.custom_minimum_size = Vector2(400, 52)
+	back.custom_minimum_size = Vector2(400, 48)
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	back.pressed.connect(func(): setup(true))
+	back.pressed.connect(func(): setup(SaveManager.list_saves().size() > 0))
 	_save_list.add_child(back)
 
-	if first_btn:
-		first_btn.grab_focus()
+	if first_load_btn:
+		first_load_btn.grab_focus()
+
+func _make_save_row(info: Dictionary) -> HBoxContainer:
+	var meta = info["meta"]
+	var slot: int = info["slot"]
+
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+
+	# Load button
+	var load_btn = Button.new()
+	load_btn.text = "Slot %d   %s, %s  Lv.%d\n%s" % [
+		slot,
+		meta.get("character_name", "Unknown"),
+		meta.get("character_class", ""),
+		meta.get("level", 1),
+		meta.get("datetime", "")
+	]
+	load_btn.custom_minimum_size = Vector2(480, 64)
+	load_btn.pressed.connect(func(): continue_requested.emit(slot))
+	row.add_child(load_btn)
+
+	# Duplicate button
+	var dup_btn = Button.new()
+	dup_btn.text = "Copy"
+	dup_btn.custom_minimum_size = Vector2(64, 0)
+	dup_btn.pressed.connect(func():
+		SaveManager.duplicate_save(slot)
+		_show_save_list()
+	)
+	row.add_child(dup_btn)
+
+	# Delete button (shown first)
+	var del_btn = Button.new()
+	del_btn.text = "Delete"
+	del_btn.custom_minimum_size = Vector2(72, 0)
+
+	# Confirmation buttons (hidden until Delete is pressed)
+	var confirm_btn = Button.new()
+	confirm_btn.text = "Sure?"
+	confirm_btn.custom_minimum_size = Vector2(72, 0)
+	confirm_btn.visible = false
+
+	var cancel_btn = Button.new()
+	cancel_btn.text = "No"
+	cancel_btn.custom_minimum_size = Vector2(48, 0)
+	cancel_btn.visible = false
+
+	del_btn.pressed.connect(func():
+		del_btn.visible = false
+		confirm_btn.visible = true
+		cancel_btn.visible = true
+		confirm_btn.grab_focus()
+	)
+	confirm_btn.pressed.connect(func():
+		SaveManager.delete_save(slot)
+		_show_save_list()
+	)
+	cancel_btn.pressed.connect(func():
+		confirm_btn.visible = false
+		cancel_btn.visible = false
+		del_btn.visible = true
+		del_btn.grab_focus()
+	)
+
+	row.add_child(del_btn)
+	row.add_child(confirm_btn)
+	row.add_child(cancel_btn)
+
+	return row
 
 func _clear_save_list():
 	if _save_list:

@@ -110,3 +110,18 @@ func next_slot() -> int:
 	while has_save(slot):
 		slot += 1
 	return slot
+
+func duplicate_save(from_slot: int) -> bool:
+	var save_data = load_save(from_slot)
+	if save_data.is_empty():
+		return false
+	var to_slot = next_slot()
+	save_data["meta"]["datetime"] = Time.get_datetime_string_from_system()
+	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
+	var path = SAVE_DIR + "save_%02d" % to_slot + SAVE_EXT
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify(save_data, "\t"))
+	print("[SaveManager] Slot %d duplicated to slot %d" % [from_slot, to_slot])
+	return true

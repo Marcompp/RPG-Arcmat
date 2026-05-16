@@ -9,6 +9,9 @@
 		],
 		"ROAD": [
 		  "The familiar road stretches on, its surface worn smooth by countless footsteps."
+		],
+		"default": [
+		  "A worn dirt road cuts through the apple woods here, the trees pressing close on either side."
 		]
 	  },
 	  "description": [
@@ -28,6 +31,9 @@
 	  "arrival": {
 		"FOREST": [
 		  "The trees close in around you, swallowing the last traces of any clear path."
+		],
+		"default": [
+		  "You are deep in the apple woods, surrounded by tall trees and thick undergrowth."
 		]
 	  },
 	  "description": [
@@ -46,6 +52,9 @@
 	  "arrival": {
 		"ROAD": [
 		  "The path ahead splits cleanly in two, each direction equally worn."
+		],
+		"default": [
+		  "The road splits here, its two branches equally worn and equally uncertain."
 		]
 	  },
 	  "description": [
@@ -66,6 +75,9 @@
 		],
 		"RIVER": [
 		  "You continue along the riverbank, the current rushing beside you."
+		],
+		"default": [
+		  "A wide river runs through the woods here, its current swift and cold."
 		]
 	  },
 	  "description": [
@@ -88,6 +100,9 @@
 		],
 		"RIVER": [
 		  "Following the river, you come upon a creaking wooden bridge."
+		],
+		"default": [
+		  "An old wooden bridge spans the river here, its moss-covered planks worn smooth."
 		]
 	  },
 	  "description": [
@@ -108,6 +123,9 @@
 		],
 		"ROAD": [
 		  "The road widens into a quiet clearing."
+		],
+		"default": [
+		  "A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
 		]
 	  },
 	  "description": [
@@ -127,6 +145,9 @@
 		],
 		"RIVER": [
 		  "Breaking from the riverbank, you find a quiet spring nearby."
+		],
+		"default": [
+		  "A small spring wells up from the earth here, its sound soft and constant."
 		]
 	  },
 	  "description": [
@@ -165,6 +186,9 @@
 	  "arrival": {
 		"FOREST": [
 		  "Through the trees, a lone wooden cabin comes into view."
+		],
+		"default": [
+		  "A lone wooden cabin stands among the trees here, weathered but intact."
 		]
 	  },
 	  "description": [
@@ -180,6 +204,9 @@
 	  "arrival": {
 		"FOREST": [
 		  "Something about the ground here seems disturbed."
+		],
+		"default": [
+		  "A patch of recently disturbed earth marks this spot in the forest."
 		]
 	  },
 	  "description": [
@@ -188,6 +215,50 @@
 	  ],
 	  "exits": [
 		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You move on from the disturbed ground and press deeper into the trees." }
+	  ]
+	}, 
+	{
+	  "name": "Bear Den",
+	  "boss": "Bandit",
+	  "encounter_rate": 0,
+	  "entrances": ["FOREST"],
+	  "arrival": {
+		"FOREST": [
+		  "You come upon a dark hollow in an ancient tree — a crude camp littered with stolen goods."
+		],
+		"default": [
+		  "A crude camp sits within a hollow tree. Someone is here."
+		]
+	  },
+	  "description": [
+		{ "text": "The camp is occupied. There is no element of surprise." }
+	  ],
+	  "exits": [
+		{ "choice": "Flee into the woods", "leads_to": "FOREST", "travel_text": "You turn and run back into the undergrowth." }
+	  ]
+	},
+	{
+	  "name": "Forest Edge",
+	  "type": "EXIT",
+	  "entrances": ["ROAD", "FOREST"],
+	  "boss": "Werewolf",
+	  "encounter_rate": 0,
+	  "arrival": {
+		"FOREST": [
+		  "As you traipse through the trees, the edge of the woods is starting to come into sight."
+		],
+		"ROAD": [
+		  "As you follow the well-trodden path, the edge of the woods is starting to come into sight."
+		],
+		"default": [
+		  "A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
+		]
+	  },
+	  "description": [
+		{ "text": "You feel as though as you are being watched." }
+	  ],
+	  "exits": [
+		{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make for the edge of the Apple Woods." }
 	  ]
 	}
 	],
@@ -198,6 +269,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The narrow passage continues, its walls shimmering faintly with a silvery-yellow glow."
+		  ],
+		  "default": [
+			"A glowing tunnel stretches before you, its walls lined with faintly pulsing crystals."
 		  ]
 		},
 		"description": [
@@ -215,6 +289,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The passage opens into a grotto, its walls glittering with luminous blue crystals."
+		  ],
+		  "default": [
+			"You stand in a crystal grotto, its curved walls alive with shifting blue light."
 		  ]
 		},
 		"description": [
@@ -234,6 +311,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The tunnel widens into a vast cavern, its glowing walls stretching into the distance."
+		  ],
+		  "default": [
+			"A vast cavern surrounds you, its glowing walls rising into shadow far overhead."
 		  ]
 		},
 		"description": [
@@ -253,6 +333,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The glowing passage splits, each branch lit by the same eerie radiance."
+		  ],
+		  "default": [
+			"The passage forks here, both branches glowing with the same steady, eerie light."
 		  ]
 		},
 		"description": [
@@ -270,6 +353,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"A faint glow intensifies ahead, revealing a luminous underground spring."
+		  ],
+		  "default": [
+			"A luminous underground spring rests here, its waters glowing faintly with crystal light."
 		  ]
 		},
 		"description": [
@@ -287,6 +373,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The passage leads to a raised stone altar, illuminated by concentrated crystal light."
+		  ],
+		  "default": [
+			"A stone altar stands at the center of this chamber, bathed in concentrated crystal light."
 		  ]
 		},
 		"description": [
@@ -304,6 +393,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"Light intensifies as you enter a chamber where crystals cluster densely along the walls."
+		  ],
+		  "default": [
+			"A chamber dense with crystals surrounds you, small objects glinting among the stones."
 		  ]
 		},
 		"description": [
@@ -321,6 +413,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"Strange symbols glow faintly as you step into a hidden sanctum."
+		  ],
+		  "default": [
+			"Carved symbols cover the walls of this hidden sanctum, each one pulsing with dim blue energy."
 		  ]
 		},
 		"description": [
@@ -338,6 +433,9 @@
 		"arrival": {
 		  "TUNNEL": [
 			"The glowing passage abruptly ends in a smooth wall of stone."
+		  ],
+		  "default": [
+			"The passage ends here in a solid wall of stone, the crystal light dimmer than before."
 		  ]
 		},
 		"description": [
@@ -347,7 +445,25 @@
 		"exits": [
 		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
 		]
-	  }
+	  },	
+		{
+		  "name": "Cave Exit",
+		  "type": "EXIT",
+		  "entrances": ["TUNNEL"],
+		  "boss": "Chimera",
+		  "encounter_rate": 0,
+		  "arrival": {
+			"TUNNEL": [
+			  "As you follow the tunnel you spot an exit up ahead."
+			]
+		  },
+		  "description": [
+			{ "text": "You feel as though as you are being watched." }
+		  ],
+		  "exits": [
+			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
+		  ]
+		}
 	],
 	"Sundown Plateau": [
 		  {
@@ -379,6 +495,9 @@
 			"arrival": {
 			  "SURFACE": [
 				"You chance upon a small mausoleum demarcating the entrance to an underground catacomb."
+			  ],
+			  "default": [
+				"A small mausoleum rises from the plateau here, its stone entrance descending into darkness below."
 			  ]
 			},
 			"description": [
@@ -401,6 +520,9 @@
 			  ],
 			  "CATACOMB": [
 				"Your steps echo as the dark tunnel stretches in front of you."
+			  ],
+			  "default": [
+				"A narrow tunnel stretches around you, its old stone walls worn and crumbling in the dark."
 			  ]
 			},
 			"description": [
@@ -418,6 +540,9 @@
 			"arrival": {
 			  "CATACOMB": [
 				"The underground passage splits, its branches vanishing into darkness."
+			  ],
+			  "default": [
+				"The tunnel splits here, two passages disappearing separately into the dark."
 			  ]
 			},
 			"description": [
@@ -435,6 +560,9 @@
 			"arrival": {
 			  "CATACOMB": [
 				"You step into a circular chamber where something long forgotten was once worshipped."
+			  ],
+			  "default": [
+				"A circular stone chamber opens around you, its pillars etched with old symbols and a faint glow seeping up from the floor."
 			  ]
 			},
 			"description": [
@@ -452,6 +580,9 @@
 			"arrival": {
 			  "SURFACE": [
 				"A crumbling altar rises among the graves, its stone darkened by time."
+			  ],
+			  "default": [
+				"A crumbling stone altar stands here on the plateau, its surface darkened by time and long abandoned."
 			  ]
 			},
 			"description": [
@@ -474,6 +605,9 @@
 			  ],
 			  "EDGE": [
 				"You follow the edge, the drop always just within sight."
+			  ],
+			  "default": [
+				"The plateau ends abruptly here, the ground dropping away into darkness far below."
 			  ]
 			},
 			"description": [
@@ -492,6 +626,9 @@
 			"arrival": {
 			  "SURFACE": [
 				"Rows of gravestones stretch across the plateau, their shadows long and uneven."
+			  ],
+			  "default": [
+				"Rows of old gravestones stretch across the plateau around you, many broken or sunken into the cracked earth."
 			  ]
 			},
 			"description": [
@@ -511,6 +648,9 @@
 			"arrival": {
 			  "CATACOMB": [
 				"The tunnel narrows until it ends in a collapsed wall of stone."
+			  ],
+			  "default": [
+				"The tunnel ends here in a collapsed wall of loose rubble, the silence total."
 			  ]
 			},
 			"description": [
@@ -535,6 +675,9 @@
 		  ],
 		  "DOWN": [
 			"You descend onto a more stable stretch of path, though the cold still bites at your skin."
+		  ],
+		  "default": [
+			"A narrow path cuts across the mountainside here, edged by loose stones and swept by cold wind."
 		  ]
 		},
 		"description": [
@@ -559,6 +702,9 @@
 		  ],
 		  "DOWN": [
 			"The cave mouth appears below, a brief refuge from the cold."
+		  ],
+		  "default": [
+			"A rough cave carved into the rock offers a break from the wind and the cold of the mountainside."
 		  ]
 		},
 		"description": [
@@ -584,6 +730,9 @@
 		  ],
 		  "DOWN": [
 			"You descend carefully along the slope, each step uncertain."
+		  ],
+		  "default": [
+			"The open mountainside stretches around you, the slope steep and the footing uncertain beneath the snow."
 		  ]
 		},
 		"description": [
@@ -608,6 +757,9 @@
 		"arrival": {
 		  "UP": [
 			"At last, you reach the summit. The world stretches endlessly below, half-hidden beneath drifting clouds."
+		  ],
+		  "default": [
+			"You stand at the summit of Mount Legory, the world spread far below beneath drifting clouds and relentless wind."
 		  ]
 		},
 		"description": [
@@ -631,6 +783,9 @@
 		  ],
 		  "DOWN": [
 			"The ridge widens slightly as you descend onto it."
+		  ],
+		  "default": [
+			"A narrow ridge of rock runs beneath your feet, steep drops falling away on both sides."
 		  ]
 		},
 		"description": [
@@ -656,6 +811,9 @@
 		  ],
 		  "DOWN": [
 			"The arch looms ahead as you descend, framing the path forward."
+		  ],
+		  "default": [
+			"A natural stone arch rises from the mountainside here, worn smooth by centuries of wind and ice."
 		  ]
 		},
 		"description": [
@@ -680,6 +838,9 @@
 		  ],
 		  "DEPTHS": [
 			"You press deeper into the cavern, the glow of magma intensifying with every step."
+		  ],
+		  "default": [
+			"The stone around you is fractured and glowing, heat rising steadily from the depths below."
 		  ]
 		},
 		"description": [
@@ -698,6 +859,9 @@
 		"arrival": {
 		  "DEPTHS": [
 			"A river of molten rock cuts across your path, its surface churning with unbearable heat."
+		  ],
+		  "default": [
+			"A slow river of molten rock cuts across the cavern here, its surface churning and its light fierce."
 		  ]
 		},
 		"description": [
@@ -716,6 +880,9 @@
 		"arrival": {
 		  "DEPTHS": [
 			"A narrow bridge of hardened basalt stretches across a glowing magma channel."
+		  ],
+		  "default": [
+			"A narrow basalt bridge spans a channel of glowing magma here, cracked but holding against the heat."
 		  ]
 		},
 		"description": [
@@ -734,6 +901,9 @@
 		"arrival": {
 		  "DEPTHS": [
 			"The cavern opens into a chamber of smooth, black obsidian reflecting the glow of molten light."
+		  ],
+		  "default": [
+			"Smooth obsidian walls surround you, reflecting the magma glow in distorted, shifting images."
 		  ]
 		},
 		"description": [
@@ -755,6 +925,9 @@
 		  ],
 		  "CORE": [
 			"You pull away from the core, the ash dulling the glow of the magma behind you."
+		  ],
+		  "default": [
+			"A field of deep ash stretches around you, the ground unstable and the air thick with dry heat."
 		  ]
 		},
 		"description": [
@@ -773,6 +946,9 @@
 		"arrival": {
 		  "CORE": [
 			"You stand before the mountain's heart—a vast chamber of churning magma and blinding light."
+		  ],
+		  "default": [
+			"You stand at the heart of the cavern, surrounded by churning magma and the blinding light of the core."
 		  ]
 		},
 		"description": [
@@ -796,6 +972,9 @@
 		  ],
 		  "DEEP": [
 			"You push through the mist, but nothing changes—the swamp stretches endlessly in all directions."
+		  ],
+		  "default": [
+			"You stand in the foggy marsh, shallow water pooling around your feet and thick mist obscuring everything beyond a few steps."
 		  ]
 		},
 		"description": [
@@ -814,6 +993,9 @@
 		"arrival": {
 		  "DEEP": [
 			"Your foot finds something solid beneath the water—a submerged path, barely visible through the fog."
+		  ],
+		  "default": [
+			"Old stones form a path just beneath the murky water here, appearing and disappearing unpredictably."
 		  ]
 		},
 		"description": [
@@ -835,6 +1017,9 @@
 		  ],
 		  "DEEP": [
 			"The trees close in tighter, their forms warped and unnatural."
+		  ],
+		  "default": [
+			"Dark, gnarled trees press close around you, their trunks bent at impossible angles and their roots rising from the water."
 		  ]
 		},
 		"description": [
@@ -853,6 +1038,9 @@
 		"arrival": {
 		  "DEEP": [
 			"The ground gives way to a wide expanse of still, dark water."
+		  ],
+		  "default": [
+			"A wide expanse of perfectly still, dark water stretches before you, its depth impossible to read."
 		  ]
 		},
 		"description": [
@@ -874,6 +1062,9 @@
 		  ],
 		  "DEEP": [
 			"The reeds close around you, their soft rustling forming indistinct whispers."
+		  ],
+		  "default": [
+			"Tall reeds surround you on all sides, their rustling carrying sounds almost like voices."
 		  ]
 		},
 		"description": [
@@ -892,6 +1083,9 @@
 		"arrival": {
 		  "DEEP": [
 			"A crumbling shrine emerges from the fog, half-sunken into the swamp."
+		  ],
+		  "default": [
+			"A crumbling stone shrine rises half-sunken from the swamp here, its carvings worn beyond recognition."
 		  ]
 		},
 		"description": [
@@ -910,6 +1104,9 @@
 		"arrival": {
 		  "DEEP": [
 			"The fog thickens until even the ground beneath you fades from view."
+		  ],
+		  "default": [
+			"The fog is total here—you can barely see your own hands, and every sound is swallowed by the mist."
 		  ]
 		},
 		"description": [
@@ -931,6 +1128,9 @@
 		  ],
 		  "DEEP": [
 			"You almost miss it—a half-sunken boat drifting silently in the water."
+		  ],
+		  "default": [
+			"A half-sunken wooden boat lists in the water nearby, its hull rotted and waterlogged."
 		  ]
 		},
 		"description": [
@@ -954,6 +1154,9 @@
 		  ],
 		  "RUINS": [
 			"The silent geometry of the ruins surrounds you once more, their surfaces humming faintly with power."
+		  ],
+		  "default": [
+			"You stand at the edge of the Arcmat Ruins, where the swamp fog ends and precise black geometric structures begin."
 		  ]
 		},
 		"description": [
@@ -972,6 +1175,9 @@
 		"arrival": {
 		  "RUINS": [
 			"A vast hall stretches ahead, its walls partially collapsed—yet the fallen cubes hang suspended in midair."
+		  ],
+		  "default": [
+			"A vast hall surrounds you, its walls fragmented and floating, bound together by threads of violet energy."
 		  ]
 		},
 		"description": [
@@ -990,6 +1196,9 @@
 		"arrival": {
 		  "RUINS": [
 			"A narrow corridor lined with glowing inscriptions stretches into the distance."
+		  ],
+		  "default": [
+			"A narrow corridor surrounds you, its walls covered in glowing symbols that shift whenever you look away."
 		  ]
 		},
 		"description": [
@@ -1008,6 +1217,9 @@
 		"arrival": {
 		  "RUINS": [
 			"A chamber filled with intricate moving parts reveals itself, each piece rotating with silent precision."
+		  ],
+		  "default": [
+			"Interlocking mechanisms fill the chamber around you, their components turning in silent, endless motion."
 		  ]
 		},
 		"description": [
@@ -1026,6 +1238,9 @@
 		"arrival": {
 		  "RUINS": [
 			"The space opens upward into a vast atrium, where entire sections of structure float freely."
+		  ],
+		  "default": [
+			"An open atrium rises around you, cubic stones drifting slowly through the air, held by unseen forces."
 		  ]
 		},
 		"description": [
@@ -1044,6 +1259,9 @@
 		"arrival": {
 		  "RUINS": [
 			"A concentrated stream of violet energy flows through a central channel, humming with immense power."
+		  ],
+		  "default": [
+			"A channel of raw violet energy runs through the center of this space, crackling with unstable, immense power."
 		  ]
 		},
 		"description": [
@@ -1062,6 +1280,9 @@
 		"arrival": {
 		  "RUINS": [
 			"Rows of carved surfaces line the chamber, each filled with dense, unreadable writing."
+		  ],
+		  "default": [
+			"Dense, shifting script covers every surface of this chamber, layer upon layer of indecipherable writing."
 		  ]
 		},
 		"description": [
@@ -1080,6 +1301,9 @@
 		"arrival": {
 		  "CORE": [
 			"At the heart of the ruins, a perfect geometric structure pulses with overwhelming magical energy."
+		  ],
+		  "default": [
+			"You stand before the Core Nexus—a perfect geometric structure at the heart of the ruins, pulsing with overwhelming energy."
 		  ]
 		},
 		"description": [

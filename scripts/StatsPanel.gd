@@ -19,8 +19,8 @@ var _shake_count: int = 0
 @onready var mp_bar = $Panel/VBoxContainer/MPContainer/Control/MPBar
 @onready var mp_text = $Panel/VBoxContainer/MPContainer/Control/MPText
 
-const PIXELS_PER_POINT = 10
-const MAX_BAR_WIDTH = 500
+const PIXELS_PER_POINT = 5
+const MAX_BAR_WIDTH = 200
 
 const bar_colors = {
 	"hp": [
