@@ -37,10 +37,10 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"Stock": {
-					"Longsword": 1,
-					"Battleaxe": 1,
-					"Spear": 1,
-					"Recurve Bow": 1
+					"Longsword": 150,
+					"Battleaxe": 180,
+					"Spear": 160,
+					"Recurve Bow": 140
 				}
 			},
 			"Everyman's Clothier":{
@@ -48,10 +48,10 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"Stock": {
-					"Traveler's Tunic": 1,
-					"Dress": 1,
-					"Mage's Robe": 1,
-					"Chainmail": 1
+					"Traveler's Tunic": 80,
+					"Dress": 100,
+					"Mage's Robe": 130,
+					"Chainmail": 200
 				}
 			},
 			"Drink of Fortune":{
@@ -97,10 +97,10 @@
 							"The warm glow of the forge glints off the merchandise.",
 							"Warm embers chase the cold away."],
 				"Stock": {
-					"Longsword": 1,
-					"Battleaxe": 1,
-					"Spear": 1,
-					"Chainmail": 1
+					"Longsword": 150,
+					"Battleaxe": 180,
+					"Spear": 160,
+					"Chainmail": 200
 				}
 			},
 			"Adventurer's Guild":{
@@ -143,6 +143,7 @@
 			"Madam Bernadetta's Mystical Emporium":{
 				"Name": "Madam Bernadetta's Mystical Emporium",
 				"Kind": "Shop",
+				"ShopType": "Item",
 				"WelcomeText":"An old hag, shrunk and hunchback with age, greets you from behind the counter:\n'Hee hee hee, welcome to Madam Bernadetta's, dearie.'\n 'Give a holler if anything catches your eye!'",
 				"OtherText": ["'Hee hee hee, looking for something, dearie?'", "'Hee hee hee, here again?'", "'Those potions are my own work, dearie.'"],
 				"ambience":["The smell of burning incense assaults your nostrils.",
@@ -158,16 +159,17 @@
 			"Merrill's Satin Threads":{
 				"Name": "Merrill's Satin Threads",
 				"Kind": "Shop",
+				"ShopType": "Equip",
 				"WelcomeText":"A scowling heavyset woman greets you at the door:\n'This is Satin Threads.'\nTalk to me if you want to buy something, or if you need something tailor-made.'",
 				"OtherText": ["'We don't want window shopers here!'", "'Here again, brat?'", "'You just going to look, or are you going to buy something?'"],
 				"ambience":["A large selection of fine clothing lines the walls.",
 							"The shopkeeper glares at you.",
 							"'We get more than enough spoiled brats around here.'"],
 				"Stock": {
-					"Dress": 1,
-					"Traveler's Tunic": 1,
-					"Uniform": 1,
-					"Arcward Armor": 1
+					"Dress": 100,
+					"Traveler's Tunic": 80,
+					"Uniform": 150,
+					"Arcward Armor": 250
 				}
 			},
 			"Pages Without End":{

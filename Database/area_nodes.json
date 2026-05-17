@@ -660,6 +660,29 @@
 			"exits": [
 			  { "choice": "Turn back", "leads_to": "CATACOMB", "value": 0, "travel_text": "You turn back into the tunnel, your footsteps retreating the way you came." }
 			]
+		  },
+		  {
+			"name": "Foothills",
+			"type": "EXIT",
+			"boss": "Necromancer",
+			"entrances": ["SURFACE","EDGE"],
+			"arrival": {
+			  "SURFACE": [
+				"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
+			  ],
+			  "EDGE": [
+				"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
+			  ],
+			  "default": [
+				"You are at the foothills of Mt. Legory."
+			  ]
+			},
+			"description": [
+			  { "text": "Mt. Legory looms ahead." },
+			],
+			"exits": [
+				{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
+			]
 		  }
 	],
 	"Mount Legory": [

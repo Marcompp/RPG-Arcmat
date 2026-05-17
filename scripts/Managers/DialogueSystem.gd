@@ -6,14 +6,16 @@ signal choice_selected(choice_data)
 @onready var story_text = $StoryText
 @onready var choice_label = $ChoiceLabel
 @onready var buttons = [
-	$Choices/Row1/Choice1,
-	$Choices/Row1/Choice2,
-	$Choices/Row2/Choice3,
-	$Choices/Row2/Choice4,
+	$Choices/ChoicesClip/ChoicesInner/Row1/Choice1,
+	$Choices/ChoicesClip/ChoicesInner/Row1/Choice2,
+	$Choices/ChoicesClip/ChoicesInner/Row2/Choice3,
+	$Choices/ChoicesClip/ChoicesInner/Row2/Choice4,
 	$Choices/Row0/Back
 ]
-@onready var left_button  = $Choices/Row0/Left
-@onready var right_button = $Choices/Row0/Right
+@onready var left_button   = $Choices/Row0/Left
+@onready var right_button  = $Choices/Row0/Right
+@onready var choices_clip  = $Choices/ChoicesClip
+@onready var choices_inner = $Choices/ChoicesClip/ChoicesInner
 @onready var fade = $LogPanel/Fade
 @onready var log_panel = $LogPanel
 @onready var log_panel_panel = $LogPanel/Panel
@@ -31,6 +33,8 @@ var _pending_choices = false
 var choice_header = ""
 var visible_chars = 0
 var current_choices = []
+var current_page: int = 0
+var _is_sliding: bool = false
 
 var condition_callback = null
 
@@ -53,12 +57,14 @@ func play_node(node_data):
 	hide_choices()
 	current_choices = node_data.get("choices", [])
 	choice_header = node_data.get("header","")
+	current_page = 0
 	start_typing(node_data.get("text", ""))
 
 # NOVO: usado pelo GameManager
 func set_choices(choices, header):
 	current_choices = choices
 	choice_header = header
+	current_page = 0
 
 	if is_typing:
 		_pending_choices = true
@@ -243,64 +249,56 @@ func evaluate_choice(choice):
 func show_choices():
 	hide_choices()
 	visible_choice_map.clear()
-	
-	choice_label.text = "[b]"+choice_header+"[/b]"
-	
-	var visible_index = 0
-	
-	# primeiros 4 botões = escolhas normais
-	for i in range(4):
-		if i < current_choices.size() and current_choices[i].get("type", "") != "back":
-			var choice = current_choices[i]
-			
-			var enabled = evaluate_choice(choice)
-			
-			if not enabled and not (choice.has("disabled_text") or choice.has("disabled_tooltip")):
-				continue
-			# não passar de 4 botões visíveis
-			if visible_index >= 4:
-				break
-			
-			var button = buttons[visible_index]
-			# texto
-			if not enabled and choice.has("disabled_text"):
-				button.text = choice["disabled_text"]
-			else:
-				button.text = choice["text"]
-			# visual highlight
-			apply_button_style(button, choice, enabled)
-			
-			# tooltip
-			var tooltip = _get_tooltip_text(choice, enabled)
 
-			if tooltip == "" or tooltip == null:
-				button.tooltip_text = ""
-				button.has_tooltip = false
-			else:
-				button.tooltip_text = tooltip
-				button.has_tooltip = true
-			
+	choice_label.text = "[b]" + choice_header + "[/b]"
+
+	# Separate displayable normal choices from the back choice
+	var displayable: Array = []
+	for c in current_choices:
+		if c.get("type", "") == "back":
+			continue
+		var enabled = evaluate_choice(c)
+		if enabled or c.has("disabled_text") or c.has("disabled_tooltip"):
+			displayable.append(c)
+
+	var total_pages: int = max(1, ceili(float(displayable.size()) / 4.0))
+	current_page = clamp(current_page, 0, total_pages - 1)
+
+	var page_start: int = current_page * 4
+	var page_choices: Array = displayable.slice(page_start, page_start + 4)
+
+	left_button.visible  = current_page > 0
+	right_button.visible = current_page < total_pages - 1
+
+	for i in range(4):
+		if i < page_choices.size():
+			var choice = page_choices[i]
+			var enabled = evaluate_choice(choice)
+			var button = buttons[i]
+
+			button.text = choice["disabled_text"] if (not enabled and choice.has("disabled_text")) else choice["text"]
+			apply_button_style(button, choice, enabled)
+
+			var tooltip = _get_tooltip_text(choice, enabled)
+			button.tooltip_text = tooltip if tooltip else ""
+			button.has_tooltip  = tooltip != "" and tooltip != null
+
 			button.show()
 			visible_choice_map.append(choice)
-			visible_index += 1
 		else:
 			buttons[i].hide()
-	
-	# botão 4 = Back (especial)
+
+	# Back button — always stays in Row0
 	var back_button = buttons[4]
 	var has_back = false
-	
 	for c in current_choices:
 		if c.get("type", "") == "back":
 			back_button.text = c["text"]
-			# back_button.disabled = false
 			apply_button_style(back_button, c, true)
-			# tooltip
 			back_button.tooltip_text = _get_tooltip_text(c, true)
 			back_button.show()
 			has_back = true
 			break
-	
 	if not has_back:
 		back_button.hide()
 
@@ -322,6 +320,46 @@ func apply_button_style(button, choice, enabled):
 
 	if choice.get("highlight", false):
 		button.modulate = Color(1.2, 1.1, 0.6)
+
+# ------------------------
+# PAGINATION / SLIDE
+# ------------------------
+
+const CLIP_PADDING = 1
+
+func _sync_choices_size():
+	var min_h = choices_inner.get_minimum_size().y
+	choices_clip.custom_minimum_size = Vector2(0, min_h + CLIP_PADDING * 2)
+	choices_inner.size = Vector2(max(0.0, choices_clip.size.x - CLIP_PADDING * 2), min_h)
+	if not _is_sliding:
+		choices_inner.position = Vector2(CLIP_PADDING, CLIP_PADDING)
+
+func _on_left_pressed():
+	if not _is_sliding:
+		_slide_to_page(current_page - 1, -1)
+
+func _on_right_pressed():
+	if not _is_sliding:
+		_slide_to_page(current_page + 1, 1)
+
+func _slide_to_page(new_page: int, direction: int):
+	_is_sliding = true
+	var w = choices_clip.size.x
+
+	var tween_out = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween_out.tween_property(choices_inner, "position:x", CLIP_PADDING - direction * w, 0.15)
+	await tween_out.finished
+
+	current_page = new_page
+	show_choices()
+	choices_inner.position.x = CLIP_PADDING + direction * w
+	_sync_choices_size()
+
+	var tween_in = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween_in.tween_property(choices_inner, "position:x", float(CLIP_PADDING), 0.15)
+	await tween_in.finished
+
+	_is_sliding = false
 
 #----------------------
 #LOG
@@ -454,6 +492,10 @@ func _ready():
 		var linebreak = "\n\n" if data.get("linebreak",true) else "\n" 
 		append_text(linebreak + data.get("text", ""))
 	)
+	left_button.pressed.connect(_on_left_pressed)
+	right_button.pressed.connect(_on_right_pressed)
+	choices_inner.minimum_size_changed.connect(_sync_choices_size)
+	choices_clip.resized.connect(_sync_choices_size)
 	story_text.bbcode_enabled = true
 	$LogButton.pressed.connect(toggle_log)
 	$LogPanel/CloseButton.pressed.connect(close_log)

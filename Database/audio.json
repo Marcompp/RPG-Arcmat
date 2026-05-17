@@ -6,12 +6,12 @@
 		"caves":       "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",
 		"plateau":     "res://assets/audio/BGM/SunsetPlateau_placeholder.mp3",
 		"mountain":    "res://assets/audio/BGM/MtLegory_placeholder.mp3",
-		"core":        "res://assets/audio/music/CoreCavern_placeholder.ogg",
-		"swamp":       "res://assets/audio/music/swamp.ogg",
-		"ruins":       "res://assets/audio/music/ruins.ogg",
+		"core":        "res://assets/audio/BGM/CoreCavern_placeholder.mp3",
+		"swamp":       "res://assets/audio/BGM/LostSwamp_placeholder2.mp3",
+		"ruins":       "res://assets/audio/BGM/Arcmat_placeholder2.mp3",
 		"castletown":  "res://assets/audio/BGM/Bertunia_placeholder.mp3",
 		"hilltown":    "res://assets/audio/BGM/LanternsReach_placeholder.mp3",
-		"village":     "res://assets/audio/BGM/Bertunia_placeholder.mp3"
+		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3"
 	},
 	"ambiance": {
 		"forest": "res://assets/audio/ambiance/forest.ogg",

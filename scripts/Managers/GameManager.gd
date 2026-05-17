@@ -589,12 +589,16 @@ func load_game(slot: int):
 	var travel_data = save_data.get("travel", {})
 	in_combat = false
 	current_mode = GameMode.TRAVEL
-	travel.current_region = travel_data.get("current_region", "Apple Woods")
-	travel.enter_node(
-		travel_data.get("current_node", 0),
-		travel_data.get("current_entrance", "ROAD"),
-		false  # don't re-register the visit we already counted
-	)
+	var saved_region = travel_data.get("current_region", "Apple Woods")
+	travel.current_region = saved_region
+	if travel.town_db.has(saved_region):
+		travel.enter_town(saved_region)
+	else:
+		travel.enter_node(
+			travel_data.get("current_node", 0),
+			travel_data.get("current_entrance", "ROAD"),
+			false  # don't re-register the visit we already counted
+		)
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed and not event.echo:

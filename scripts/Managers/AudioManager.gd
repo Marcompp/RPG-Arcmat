@@ -33,7 +33,7 @@ var _ambiance_tween: Tween = null
 func _ready():
 	_setup_players()
 	audio_db = load_json("res://Database/audio.json")
-
+	play_bgm("title")
 	MyEventBus.subscribe("character_selected", func(_d):
 		play_bgm("title")
 	)

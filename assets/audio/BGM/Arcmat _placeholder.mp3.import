@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cs8jjnrxqrpn2"
+path="res://.godot/imported/Arcmat _placeholder.mp3-c8636987a606855ef51dd07332bb2119.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/BGM/Arcmat _placeholder.mp3"
+dest_files=["res://.godot/imported/Arcmat _placeholder.mp3-c8636987a606855ef51dd07332bb2119.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

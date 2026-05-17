@@ -35,6 +35,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+expand_mode = 3
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -417,9 +418,9 @@ grow_vertical = 2
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 0
 offset_left = 49.0
-offset_top = 518.0
+offset_top = 513.0
 offset_right = 549.0
-offset_bottom = 546.0
+offset_bottom = 541.0
 theme_override_font_sizes/bold_font_size = 18
 bbcode_enabled = true
 text = "HELLO WORLD"
@@ -445,30 +446,39 @@ offset_bottom = 602.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Row1" type="HBoxContainer" parent="DialogueSystem/Choices"]
+[node name="ChoicesClip" type="Control" parent="DialogueSystem/Choices"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChoicesInner" type="VBoxContainer" parent="DialogueSystem/Choices/ChoicesClip"]
+layout_mode = 0
+offset_right = 980.0
+
+[node name="Row1" type="HBoxContainer" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner"]
 layout_mode = 2
 alignment = 1
 
-[node name="Choice1" type="Button" parent="DialogueSystem/Choices/Row1"]
+[node name="Choice1" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_6mkdx")
 
-[node name="Choice2" type="Button" parent="DialogueSystem/Choices/Row1"]
+[node name="Choice2" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_6mkdx")
 
-[node name="Row2" type="HBoxContainer" parent="DialogueSystem/Choices"]
+[node name="Row2" type="HBoxContainer" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner"]
 layout_mode = 2
 alignment = 1
 
-[node name="Choice3" type="Button" parent="DialogueSystem/Choices/Row2"]
+[node name="Choice3" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_6mkdx")
 
-[node name="Choice4" type="Button" parent="DialogueSystem/Choices/Row2"]
+[node name="Choice4" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_6mkdx")

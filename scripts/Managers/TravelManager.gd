@@ -7,7 +7,13 @@ enum TravelMode {
 	CHOOSING_EXIT,
 	REGION_EXIT,
 	TOWN,
-	TOWN_LEAVE_CONFIRM
+	TOWN_LEAVE_CONFIRM,
+	SHOP,
+	INVENTORY_MENU,
+	INVENTORY_ITEMS,
+	INVENTORY_WEAPONS,
+	INVENTORY_ARMOR,
+	INVENTORY_MISC
 }
 
 var condition_callback = null
@@ -21,9 +27,14 @@ var world_data = {}
 var monster_db = []
 var region_db = {}
 var town_db = {}
+var items_db = {}
 
 var current_town = ""
 var current_town_data = null
+
+var current_shop_name = ""
+var current_shop_data = null
+var _greeted_shops: Dictionary = {}
 
 var current_region = "":
 	set(value):
@@ -42,6 +53,7 @@ func _ready():
 	monster_db = load_json("res://Database/monsters.json")
 	region_db = load_json("res://Database/regions.json")
 	town_db = load_json("res://Database/towns.json")
+	items_db = load_json("res://Database/items.json")
 
 	MyEventBus.subscribe("character_selected", func(_data):
 		current_region = "Apple Woods"
@@ -91,6 +103,24 @@ func handle_input(choice):
 
 		TravelMode.TOWN_LEAVE_CONFIRM:
 			_handle_leave_confirm(choice)
+
+		TravelMode.SHOP:
+			_handle_shop_action(choice)
+
+		TravelMode.INVENTORY_MENU:
+			_handle_inventory_menu(choice)
+
+		TravelMode.INVENTORY_ITEMS:
+			_handle_inventory_items(choice)
+
+		TravelMode.INVENTORY_WEAPONS:
+			_handle_inventory_weapons(choice)
+
+		TravelMode.INVENTORY_ARMOR:
+			_handle_inventory_armor(choice)
+
+		TravelMode.INVENTORY_MISC:
+			_handle_inventory_misc(choice)
 
 # ------------------------
 # NODES
@@ -207,7 +237,7 @@ func handle_node_action(choice):
 			print("Combat TBD")
 		
 		"Inventory":
-			print("Inventory TBD")
+			_show_inventory_menu()
 		
 		"Rest":
 			print("Rest TBD")
@@ -243,7 +273,14 @@ func _handle_town_action(choice):
 	if choice.get("type") == "back":
 		_show_leave_confirm()
 		return
-	print("Shop TBD: " + choice.get("text", ""))
+	var shop_name = choice.get("text", "")
+	var shops = current_town_data.get("Shops", {})
+	if shops.has(shop_name):
+		var shop = shops[shop_name]
+		if shop.get("Kind", "") == "Shop":
+			enter_shop(shop_name, shop)
+			return
+	print("Unhandled town action: " + shop_name)
 
 func _show_leave_confirm():
 	MyEventBus.emit("show_choices", {"choices": [
@@ -266,6 +303,137 @@ func _handle_leave_confirm(choice):
 		enter_node(0, "default")
 	else:
 		show_town_actions()
+
+# ------------------------
+# SHOP
+# ------------------------
+
+func enter_shop(shop_name: String, shop_data: Dictionary):
+	current_shop_name = shop_name
+	current_shop_data = shop_data
+	mode = TravelMode.SHOP
+
+	MyEventBus.emit("clear_text", {})
+
+	var greeted = _greeted_shops.get(current_town + ":" + shop_name, false)
+	var text = ""
+	if not greeted:
+		text = shop_data.get("WelcomeText", "")
+		_greeted_shops[current_town + ":" + shop_name] = true
+	else:
+		var other = shop_data.get("OtherText", [])
+		if not other.is_empty():
+			text = other.pick_random()
+
+	var ambience = shop_data.get("ambience", [])
+	if not ambience.is_empty():
+		var amb = ambience.pick_random()
+		text = (text + "\n\n" + amb) if text != "" else amb
+
+	if text == "":
+		text = "Welcome to " + shop_name + "."
+
+	MyEventBus.emit("dialogue", {"text": text, "choices": [], "linebreak": false})
+	show_shop_stock()
+
+func show_shop_stock():
+	var stock = current_shop_data.get("Stock", {})
+	var shop_type = current_shop_data.get("ShopType", "Item")
+	var gold = game_state["gold"] if game_state else 0
+	var choices = []
+
+	for item_name in stock:
+		var price: int = int(stock[item_name])
+		var data = _get_shop_item_data(item_name, shop_type)
+		var label = "%s — %dG" % [item_name, price]
+
+		if shop_type == "Equip" and _player_has_equip(item_name):
+			choices.append({
+				"text": item_name + " — SOLD OUT",
+				"type": "shop_sold_out",
+				"disabled": true,
+				"disabled_text": item_name + " — SOLD OUT",
+				"disabled_tooltip": "You already own this item"
+			})
+		elif gold >= price:
+			choices.append({
+				"text": label,
+				"type": "shop_buy",
+				"data": {"item": item_name, "price": price, "shop_type": shop_type},
+				"tooltip": _format_shop_tooltip(item_name, data, shop_type)
+			})
+		else:
+			choices.append({
+				"text": label,
+				"type": "shop_buy_disabled",
+				"disabled": true,
+				"disabled_text": label,
+				"disabled_tooltip": "Not enough gold (you have %dG)" % gold
+			})
+
+	choices.append({"text": "Leave", "type": "back", "tooltip": "Return to " + current_town})
+	MyEventBus.emit("show_choices", {
+		"choices": choices,
+		"header": "%s   [color=yellow]%dG[/color]" % [current_shop_name, gold]
+	})
+
+func _handle_shop_action(choice):
+	if choice.get("type") == "back":
+		mode = TravelMode.TOWN
+		show_town_actions()
+		return
+	if choice.get("type") == "shop_buy":
+		var data = choice.get("data", {})
+		await _buy_item(data["item"], data["price"])
+
+func _buy_item(item_name: String, price: int):
+	if not game_state or game_state["gold"] < price:
+		return
+
+	game_state["gold"] -= price
+
+	var player = game_state["player"]
+	if not player.data.has("Inventory"):
+		player.data["Inventory"] = {}
+	player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+
+	var remaining = game_state["gold"]
+	MyEventBus.emit("continue_text", {
+		"text": "Bought [b]%s[/b] for [color=yellow]%dG[/color].\n[color=yellow]Gold: %dG[/color]" % [item_name, price, remaining]
+	})
+	await game_manager._gm_wait_for_continue()
+	show_shop_stock()
+
+func _player_has_equip(item_name: String) -> bool:
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	if inv.get(item_name, 0) > 0:
+		return true
+	for slot in player.equipment:
+		var item = player.equipment[slot]
+		if typeof(item) == TYPE_DICTIONARY and item.get("name", "") == item_name:
+			return true
+	return false
+
+func _get_shop_item_data(item_name: String, shop_type: String) -> Dictionary:
+	match shop_type:
+		"Item":
+			return items_db.get(item_name, {})
+		"Equip":
+			if game_manager.weapon_db.has(item_name):
+				return game_manager.weapon_db[item_name]
+			return game_manager.armor_db.get(item_name, {})
+	return {}
+
+func _format_shop_tooltip(item_name: String, data: Dictionary, shop_type: String) -> String:
+	if data.is_empty():
+		return item_name
+	match shop_type:
+		"Item":
+			return _format_item_tooltip(item_name, data)
+		"Equip":
+			return _format_equip_tooltip(data)
+	return item_name
 
 # ------------------------
 # EXITS
@@ -506,6 +674,257 @@ func _set_backdrop(filename):
 	tween.tween_property(backdrop, "modulate:a", 0.0, 0.4)
 	tween.tween_callback(func(): backdrop.texture = texture)
 	tween.tween_property(backdrop, "modulate:a", 1.0, 0.4)
+
+# ------------------------
+# INVENTORY
+# ------------------------
+
+func _show_inventory_menu():
+	mode = TravelMode.INVENTORY_MENU
+	MyEventBus.emit("show_choices", {
+		"choices": [
+			{"text": "Items",   "type": "action", "tooltip": "Use consumable items"},
+			{"text": "Weapons", "type": "action", "tooltip": "Change your equipped weapon"},
+			{"text": "Armor",   "type": "action", "tooltip": "Change your equipped armor"},
+			{"text": "Misc",    "type": "action", "tooltip": "View other items"},
+			{"text": "Back",    "type": "back",   "tooltip": "Return"}
+		],
+		"header": "Inventory"
+	})
+
+func _handle_inventory_menu(choice):
+	if choice.get("type") == "back":
+		mode = TravelMode.NODE_ACTIONS
+		show_node_actions()
+		return
+	match choice["text"]:
+		"Items":   _show_inventory_items()
+		"Weapons": _show_inventory_weapons()
+		"Armor":   _show_inventory_armor()
+		"Misc":    _show_inventory_misc()
+
+# --- Items ---
+
+func _show_inventory_items():
+	mode = TravelMode.INVENTORY_ITEMS
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	var choices = []
+	for item_name in inv:
+		var data = items_db.get(item_name, {})
+		if data.is_empty() or not data.get("consumable", false):
+			continue
+		var count = inv[item_name]
+		var label = data.get("nome", item_name) + " x%d" % count
+		if data.get("type", "self") != "self":
+			choices.append({
+				"text": label, "type": "item_disabled",
+				"disabled": true, "disabled_text": label,
+				"disabled_tooltip": "Can only be used in combat"
+			})
+		else:
+			choices.append({
+				"text": label, "type": "item", "data": item_name,
+				"tooltip": _format_item_tooltip(item_name, data)
+			})
+	if choices.is_empty():
+		choices.append({
+			"text": "(No items)", "type": "none",
+			"disabled": true, "disabled_text": "(No items)"
+		})
+	choices.append({"text": "Back", "type": "back"})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Items"})
+
+func _handle_inventory_items(choice):
+	if choice.get("type") == "back":
+		_show_inventory_menu()
+		return
+	if choice.get("type") == "item":
+		await _use_item_overworld(choice.get("data", ""))
+		_show_inventory_items()
+
+func _use_item_overworld(item_name: String):
+	var player = game_state["player"]
+	var data = items_db.get(item_name, {})
+	if data.is_empty():
+		return
+	var stats = data.get("stats", {})
+	var lines = ["Used [color=cyan]%s[/color]!" % data.get("nome", item_name)]
+	var mgt = stats.get("mgt", 0)
+	if mgt < 0:
+		var heal_amt = abs(mgt)
+		player.heal(heal_amt)
+		lines.append("[color=green]+%d HP[/color]" % heal_amt)
+	var mp = stats.get("mp", 0)
+	if mp < 0:
+		var mp_amt = abs(mp)
+		player.restore_mp(mp_amt)
+		lines.append("[color=cyan]+%d MP[/color]" % mp_amt)
+	var effect = data.get("effect", "none")
+	if effect == "stat_clear":
+		lines.append("[color=green]Status effects cleared![/color]")
+	player.consume_item(item_name)
+	MyEventBus.emit("continue_text", {"text": "\n".join(lines)})
+	await game_manager._gm_wait_for_continue()
+
+func _format_item_tooltip(item_name: String, data: Dictionary) -> String:
+	var lines = []
+	var stats = data.get("stats", {})
+	var mgt = stats.get("mgt", 0)
+	if mgt < 0:
+		lines.append("Heals %d HP" % abs(mgt))
+	var mp = stats.get("mp", 0)
+	if mp < 0:
+		lines.append("Restores %d MP" % abs(mp))
+	var effect = data.get("effect", "none")
+	if effect == "stat_clear":
+		lines.append("Clears status effects")
+	elif effect != "none" and effect != "":
+		lines.append("Effect: " + effect.capitalize())
+	return "\n".join(lines) if not lines.is_empty() else item_name
+
+# --- Weapons ---
+
+func _show_inventory_weapons():
+	mode = TravelMode.INVENTORY_WEAPONS
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	var equipped = player.get_weapon()
+	var equipped_name = equipped.get("name", "") if equipped and not equipped.is_empty() else ""
+	var choices = []
+	if not equipped_name.is_empty():
+		choices.append({
+			"text": "[Equipped] " + equipped_name, "type": "none",
+			"disabled": true, "disabled_text": "[Equipped] " + equipped_name,
+			"disabled_tooltip": _format_equip_tooltip(equipped)
+		})
+	for item_name in inv:
+		if not game_manager.weapon_db.has(item_name):
+			continue
+		choices.append({
+			"text": item_name, "type": "weapon", "data": item_name,
+			"tooltip": _format_equip_tooltip(game_manager.weapon_db[item_name])
+		})
+	if choices.is_empty() or (choices.size() == 1 and choices[0]["type"] == "none"):
+		choices.append({
+			"text": "(No other weapons)", "type": "none",
+			"disabled": true, "disabled_text": "(No other weapons)"
+		})
+	choices.append({"text": "Back", "type": "back"})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Weapons"})
+
+func _handle_inventory_weapons(choice):
+	if choice.get("type") == "back":
+		_show_inventory_menu()
+		return
+	if choice.get("type") == "weapon":
+		await _equip_item("weapon", choice.get("data", ""))
+		_show_inventory_weapons()
+
+# --- Armor ---
+
+func _show_inventory_armor():
+	mode = TravelMode.INVENTORY_ARMOR
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	var equipped = player.equipment.get("armor", {})
+	var equipped_name = ""
+	if equipped and typeof(equipped) == TYPE_DICTIONARY and not equipped.is_empty():
+		equipped_name = equipped.get("name", "")
+	var choices = []
+	if not equipped_name.is_empty():
+		choices.append({
+			"text": "[Equipped] " + equipped_name, "type": "none",
+			"disabled": true, "disabled_text": "[Equipped] " + equipped_name,
+			"disabled_tooltip": _format_equip_tooltip(equipped)
+		})
+	for item_name in inv:
+		if not game_manager.armor_db.has(item_name):
+			continue
+		choices.append({
+			"text": item_name, "type": "armor", "data": item_name,
+			"tooltip": _format_equip_tooltip(game_manager.armor_db[item_name])
+		})
+	if choices.is_empty() or (choices.size() == 1 and choices[0]["type"] == "none"):
+		choices.append({
+			"text": "(No other armor)", "type": "none",
+			"disabled": true, "disabled_text": "(No other armor)"
+		})
+	choices.append({"text": "Back", "type": "back"})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Armor"})
+
+func _handle_inventory_armor(choice):
+	if choice.get("type") == "back":
+		_show_inventory_menu()
+		return
+	if choice.get("type") == "armor":
+		await _equip_item("armor", choice.get("data", ""))
+		_show_inventory_armor()
+
+# --- Equip shared ---
+
+func _equip_item(slot: String, item_name: String):
+	var player = game_state["player"]
+	var db = game_manager.weapon_db if slot == "weapon" else game_manager.armor_db
+	var new_item = db.get(item_name, {})
+	if new_item.is_empty():
+		return
+	var old_item = player.equipment.get(slot, {})
+	if old_item and typeof(old_item) == TYPE_DICTIONARY and not old_item.is_empty():
+		var old_name = old_item.get("name", "")
+		if not old_name.is_empty():
+			player.data["Inventory"][old_name] = player.data["Inventory"].get(old_name, 0) + 1
+	player.consume_item(item_name)
+	player.equip(slot, new_item)
+	MyEventBus.emit("continue_text", {
+		"text": "[color=#00E676]%s equipped![/color]" % new_item.get("name", item_name)
+	})
+	await game_manager._gm_wait_for_continue()
+
+func _format_equip_tooltip(item: Dictionary) -> String:
+	var lines = [item.get("name", "?")]
+	if item.has("wpn_type"):
+		lines.append("Type: " + item["wpn_type"])
+	if item.has("element"):
+		lines.append("Element: " + item["element"])
+	var stats = item.get("stats", {})
+	var stat_parts = []
+	for s in ["mgt", "acc", "wgt", "crit", "mys", "def"]:
+		if stats.has(s):
+			stat_parts.append("%s: %d" % [s.to_upper(), stats[s]])
+	if not stat_parts.is_empty():
+		lines.append("  ".join(stat_parts))
+	var effect = item.get("effect", "none")
+	if effect != "none" and effect != "":
+		lines.append("Effect: " + effect.capitalize())
+	return "\n".join(lines)
+
+# --- Misc ---
+
+func _show_inventory_misc():
+	mode = TravelMode.INVENTORY_MISC
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	var choices = []
+	for item_name in inv:
+		if items_db.has(item_name) or game_manager.weapon_db.has(item_name) or game_manager.armor_db.has(item_name):
+			continue
+		var count = inv[item_name]
+		choices.append({
+			"text": "%s x%d" % [item_name, count], "type": "none",
+			"disabled": true, "disabled_text": "%s x%d" % [item_name, count]
+		})
+	if choices.is_empty():
+		choices.append({
+			"text": "(Nothing here)", "type": "none",
+			"disabled": true, "disabled_text": "(Nothing here)"
+		})
+	choices.append({"text": "Back", "type": "back"})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Misc"})
+
+func _handle_inventory_misc(choice):
+	if choice.get("type") == "back":
+		_show_inventory_menu()
 
 # ------------------------
 # UTILS
