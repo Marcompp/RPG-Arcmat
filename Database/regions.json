@@ -41,8 +41,8 @@
 		"ExitTxt": "After a long treck through the plateau, you arrive at the foothills of Mt. Legory. Before the climb, you stop at the small settlement of Lantern's Reach.",
 		"Next": "Lantern's Reach"
 	},
-	"Mt. Legory":{
-		"Name" : "Mt. Legory",
+	"Mount Legory":{
+		"Name" : "Mount Legory",
 		"Type": "Dungeon",
 		"Enemies" : ["Frost Fairy","Bald Eagle","Pegasus Knight"],
 		"Boss" : "Icelady",

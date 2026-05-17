@@ -71,6 +71,21 @@ func _evaluate_node(condition, curr_node):
 	if condition_callback == null:
 		return true
 	
+	if typeof(condition) == TYPE_DICTIONARY:
+		if condition.get("visit_once", false):
+			var key = current_region + ":" + str(curr_node)
+			if game_state and game_state["visited_nodes"].get(key, false):
+				return false
+		
+		if condition.get("no_repeat", false) and curr_node == current_node:
+			return false
+		var filtered = condition.duplicate()
+		filtered.erase("visit_once")
+		filtered.erase("no_repeat")
+		if filtered.is_empty():
+			return true
+		return condition_callback.call(filtered, curr_node)
+	
 	return condition_callback.call(condition,curr_node)
 
 func _set_current_node(node_index, entrance):
@@ -292,7 +307,7 @@ func _show_leave_confirm():
 func _handle_leave_confirm(choice):
 	if choice.get("text") == "Yes":
 		var next_name = current_town_data.get("Next", "")
-		if next_name == "" or not world_data.has(next_name):
+		if next_name == "" or (not world_data.has(next_name) and not town_db.has(next_name)):
 			push_error("Próxima região inválida para " + current_town + ": " + next_name)
 			return
 		var exit_text = current_town_data.get("ExitTxt", "")
@@ -525,7 +540,7 @@ func get_valid_nodes(entrance):
 		if entrance in node.get("entrances", []):
 			if _evaluate_node(node.get("condition", {}), i):
 				valid.append(i)
-	
+
 	return valid
 
 func pick_next_node(entrance):

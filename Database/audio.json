@@ -23,7 +23,7 @@
 		"Apple Woods":    { "music": "apple_woods", "ambiance": "forest" },
 		"Caves of Light": { "music": "caves",       "ambiance": "cave"   },
 		"Sundown Plateau":{ "music": "plateau",     "ambiance": "wind"   },
-		"Mt. Legory":     { "music": "mountain",    "ambiance": "wind"   },
+		"Mount Legory":   { "music": "mountain",    "ambiance": "wind"   },
 		"Core Cavern":    { "music": "core",        "ambiance": "cave"   },
 		"Lost Swamp":     { "music": "swamp",       "ambiance": "swamp"  },
 		"Arcmat Ruins":   { "music": "ruins",       "ambiance": ""       },

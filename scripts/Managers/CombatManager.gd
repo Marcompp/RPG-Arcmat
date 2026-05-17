@@ -23,6 +23,9 @@ var items_db: Dictionary = {}
 var status_effects: Dictionary = { "player": [], "enemy": [] }
 var cooldowns: Dictionary = { "player": {}, "enemy": {} }
 
+var enemy_action_timer: int = 0
+var enemy_first_action: bool = true
+
 # ========================
 # ENTRY
 # ========================
@@ -35,6 +38,18 @@ func start_combat(p, e):
 	items_db  = _load_json("res://Database/items.json")
 	status_effects = { "player": [], "enemy": [] }
 	cooldowns = { "player": {}, "enemy": {} }
+
+	for skill in p.get_skills():
+		var skill_data = skills_db.get(skill, {})
+		if skill_data.has("startup"):
+			cooldowns["player"][skill] = skill_data["startup"]
+	for skill in e.get_skills():
+		var skill_data = skills_db.get(skill, {})
+		if skill_data.has("startup"):
+			cooldowns["enemy"][skill] = skill_data["startup"]
+
+	enemy_action_timer = e.data.get("Startup", 0)
+	enemy_first_action = true
 
 	MyInputRouter.push(_handle_combat_input, "combat")
 
@@ -328,18 +343,34 @@ func _resolve_turn_pair(player_action: Dictionary):
 		check_combat_end()
 		return
 
-	var enemy_action = _enemy_choose_action()
-	var p_speed = _get_action_speed(player, player_action)
-	var e_speed = _get_action_speed(enemy, enemy_action)
+	if enemy_action_timer > 0:
+		enemy_action_timer -= 1
+		var phase_msg = "is preparing to attack!" if enemy_first_action else "is catching its breath."
+		await _execute_turn_action(player_action)
+		if player.get_hp() <= 0 or enemy.get_hp() <= 0:
+			check_combat_end()
+			return
+		MyEventBus.emit("continue_text", {
+			"text": "[b]%s[/b] %s" % [enemy.get_name(), phase_msg]
+		})
+		await wait_for_continue()
+	else:
+		var enemy_action = _enemy_choose_action()
+		enemy_first_action = false
+		enemy_action_timer = enemy.data.get("Cooldown", 0)
 
-	var first  = player_action if p_speed >= e_speed else enemy_action
-	var second = enemy_action  if p_speed >= e_speed else player_action
+		var p_speed = _get_action_speed(player, player_action)
+		var e_speed = _get_action_speed(enemy, enemy_action)
 
-	await _execute_turn_action(first)
-	if player.get_hp() <= 0 or enemy.get_hp() <= 0:
-		check_combat_end()
-		return
-	await _execute_turn_action(second)
+		var first  = player_action if p_speed >= e_speed else enemy_action
+		var second = enemy_action  if p_speed >= e_speed else player_action
+
+		await _execute_turn_action(first)
+		if player.get_hp() <= 0 or enemy.get_hp() <= 0:
+			check_combat_end()
+			return
+		await _execute_turn_action(second)
+
 	state = CombatState.PLAYER_TURN
 	check_combat_end()
 

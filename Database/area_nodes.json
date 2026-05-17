@@ -94,6 +94,9 @@
 	{
 	  "name": "Bridge",
 	  "entrances": ["ROAD", "RIVER"],
+	  "condition": {
+			"no_repeat":true
+		  },
 	  "arrival": {
 		"ROAD": [
 		  "The road leads you to an old wooden bridge spanning the river."
@@ -117,6 +120,9 @@
 	{
 	  "name": "Clearing",
 	  "entrances": ["ROAD", "FOREST"],
+	  "condition": {
+			"no_repeat":true
+		  },
 	  "arrival": {
 		"FOREST": [
 		  "The dense trees suddenly part, revealing an open clearing."
@@ -139,6 +145,9 @@
 	{
 	  "name": "Spring",
 	  "entrances": ["FOREST", "RIVER"],
+	  "condition": {
+			"no_repeat":true
+		  },
 	  "arrival": {
 		"FOREST": [
 		  "A soft trickling sound draws you toward a small spring."
@@ -161,6 +170,9 @@
 	{
 	  "name": "Lake",
 	  "entrances": ["FOREST", "RIVER"],
+	  "condition": {
+			"no_repeat":true
+		  },
 	  "arrival": {
 		"FOREST": [
 		  "The trees begin to thin until the forest opens onto a crystal-clear lake."
@@ -183,6 +195,9 @@
 	{
 	  "name": "Cabin",
 	  "entrances": ["FOREST"],
+	  "condition": {
+			"no_repeat":true
+		  },
 	  "arrival": {
 		"FOREST": [
 		  "Through the trees, a lone wooden cabin comes into view."
@@ -201,6 +216,9 @@
 	{
 	  "name": "Treasure Spot",
 	  "entrances": ["FOREST"],
+	  "condition": {
+			"visit_count":{"max":0}
+		  },
 	  "arrival": {
 		"FOREST": [
 		  "Something about the ground here seems disturbed."
@@ -220,6 +238,9 @@
 	{
 	  "name": "Bear Den",
 	  "boss": "Bandit",
+	  "condition": {
+			"visit_count":{"max":0}
+		  },
 	  "encounter_rate": 0,
 	  "entrances": ["FOREST"],
 	  "arrival": {
@@ -350,6 +371,9 @@
 	  {
 		"name": "Spring",
 		"entrances": ["TUNNEL"],
+	  	"condition": {
+			"no_repeat":true
+		  },
 		"arrival": {
 		  "TUNNEL": [
 			"A faint glow intensifies ahead, revealing a luminous underground spring."
@@ -370,6 +394,9 @@
 	  {
 		"name": "Altar",
 		"entrances": ["TUNNEL"],
+		"condition": {
+				"visit_count":{"max":0}
+			},
 		"arrival": {
 		  "TUNNEL": [
 			"The passage leads to a raised stone altar, illuminated by concentrated crystal light."
@@ -390,6 +417,9 @@
 	  {
 		"name": "Treasure Chamber",
 		"entrances": ["TUNNEL"],
+	  	"condition": {
+			"visit_count":{"max":0}
+		  },
 		"arrival": {
 		  "TUNNEL": [
 			"Light intensifies as you enter a chamber where crystals cluster densely along the walls."
@@ -410,6 +440,9 @@
 	  {
 		"name": "Cult Sanctum",
 		"entrances": ["TUNNEL"],
+	  	"condition": {
+			"visit_count":{"max":0}
+		  },
 		"arrival": {
 		  "TUNNEL": [
 			"Strange symbols glow faintly as you step into a hidden sanctum."
@@ -430,6 +463,9 @@
 	  {
 		"name": "Dead End",
 		"entrances": ["TUNNEL"],
+	  	"condition": {
+			"no_repeat":true
+		  },
 		"arrival": {
 		  "TUNNEL": [
 			"The glowing passage abruptly ends in a smooth wall of stone."
@@ -492,6 +528,9 @@
 		  {
 			"name": "Catacomb",
 			"entrances": ["SURFACE"],
+	  		"condition": {
+				"visit_count":{"max":0}
+			},
 			"arrival": {
 			  "SURFACE": [
 				"You chance upon a small mausoleum demarcating the entrance to an underground catacomb."
@@ -577,6 +616,9 @@
 		  {
 			"name": "Altar",
 			"entrances": ["SURFACE"],
+			"condition": {
+					"no_repeat":true
+				},
 			"arrival": {
 			  "SURFACE": [
 				"A crumbling altar rises among the graves, its stone darkened by time."
@@ -645,6 +687,9 @@
 		  {
 			"name": "Dead End",
 			"entrances": ["CATACOMB"],
+			"condition": {
+					"no_repeat":true
+				},
 			"arrival": {
 			  "CATACOMB": [
 				"The tunnel narrows until it ends in a collapsed wall of stone."
@@ -678,7 +723,7 @@
 			  ]
 			},
 			"description": [
-			  { "text": "Mt. Legory looms ahead." },
+			  { "text": "Mt. Legory looms ahead." }
 			],
 			"exits": [
 				{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
@@ -716,6 +761,9 @@
 	  {
 		"name": "Mountain Cave",
 		"entrances": ["SKIRT", "UP", "DOWN"],
+		"condition": {
+				"no_repeat":true
+			},
 		"arrival": {
 		  "SKIRT": [
 			"A dark opening in the rock offers shelter from the wind."
@@ -773,6 +821,7 @@
 		"name": "Summit",
 		"entrances": ["UP"],
 		"condition": {
+			"visit_count":{"max":0},
 			"var": {
 				"height": { "min": 7 }
 			}
@@ -825,6 +874,9 @@
 	  {
 		"name": "Archway",
 		"entrances": ["SKIRT", "UP", "DOWN"],
+		"condition": {
+				"no_repeat":true
+			},
 		"arrival": {
 		  "SKIRT": [
 			"A natural stone arch rises from the mountainside, shaped by wind and time."

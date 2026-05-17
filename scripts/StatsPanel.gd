@@ -294,7 +294,7 @@ func _get_tooltip(at_position):
 func _make_custom_tooltip(text):
 	var label = RichTextLabel.new()
 	label.bbcode_enabled = true
-	label.bbcode_text = text
+	label.text = text
 	
 	
 	# 🔥 ESSENCIAL

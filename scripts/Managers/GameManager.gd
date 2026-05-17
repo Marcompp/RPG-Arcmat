@@ -522,23 +522,29 @@ func evaluate_condition(cond, node_index):
 					return true
 			return false
 		
-		return _check_dict_condition(cond)
-	
+		return _check_dict_condition(cond, node_index)
+
 	return true
 
-func _check_dict_condition(cond):
+func _check_dict_condition(cond, node_index):
 	for key in cond.keys():
+		var req = cond[key]
 		var value = 0
-		
-		if game_state["vars"].has(key):
+
+		if key == "visit_count":
+			var node_key = travel.current_region + ":" + str(node_index)
+			value = game_state["visited_count"].get(node_key, 0)
+		elif key == "no_repeat":
+			if req == true and node_index == travel.current_node:
+				return false
+			continue
+		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
 		elif game_state.has(key):
 			value = game_state[key]
 		else:
 			return false
-		
-		var req = cond[key]
-		
+
 		if typeof(req) == TYPE_DICTIONARY:
 			if req.has("min") and value < req["min"]:
 				return false
@@ -547,7 +553,7 @@ func _check_dict_condition(cond):
 		else:
 			if value != req:
 				return false
-	
+
 	return true
 
 # ------------------------
