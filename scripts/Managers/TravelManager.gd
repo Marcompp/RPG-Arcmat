@@ -28,6 +28,7 @@ var monster_db = []
 var region_db = {}
 var town_db = {}
 var items_db = {}
+var events_db = {}
 
 var current_town = ""
 var current_town_data = null
@@ -54,9 +55,13 @@ func _ready():
 	region_db = load_json("res://Database/regions.json")
 	town_db = load_json("res://Database/towns.json")
 	items_db = load_json("res://Database/items.json")
+	events_db = load_json("res://Database/events.json")
 
 	MyEventBus.subscribe("character_selected", func(_data):
 		current_region = "Apple Woods"
+	)
+	MyEventBus.subscribe("show_node_text", func(_data):
+		show_node_text()
 	)
 
 	if world_data.is_empty():
@@ -229,6 +234,7 @@ func _handle_region_exit():
 		push_error("Próxima área inválida: " + next_name)
 		return
 	MyEventBus.emit("add_progress", {"progress": 0, "reset": true})
+	_full_heal_player()
 	if town_db.has(next_name):
 		enter_town(next_name)
 	else:
@@ -314,10 +320,18 @@ func _handle_leave_confirm(choice):
 		if exit_text != "":
 			MyEventBus.emit("continue_text", {"text": exit_text})
 			await game_manager._gm_wait_for_continue()
+		_full_heal_player()
 		current_region = next_name
 		enter_node(0, "default")
 	else:
 		show_town_actions()
+
+func _full_heal_player():
+	if not game_state or not game_state.has("player"):
+		return
+	var player = game_state["player"]
+	player.heal(player.get_mhp())
+	player.restore_mp(player.get_mmp())
 
 # ------------------------
 # SHOP
@@ -517,6 +531,7 @@ func handle_exit_choice(choice):
 		await game_manager._gm_wait_for_continue()
 		MyEventBus.emit("start_combat", {"enemy": monster})
 	else:
+		await _try_node_event(current_node_data)
 		mode = TravelMode.NODE_ACTIONS
 		show_node_actions()
 
@@ -607,6 +622,43 @@ func _pick_encounter_monster():
 			return entry["data"]
 
 	return pool[-1]["data"]
+
+func _try_node_event(node_data: Dictionary) -> void:
+	var event_refs: Array = node_data.get("events", [])
+	if event_refs.is_empty():
+		return
+
+	# Filter by condition and resolve each ref to its event definition
+	var valid := []
+	for ref in event_refs:
+		var cond = ref.get("condition", {})
+		if not (cond as Dictionary).is_empty() and not _evaluate_node(cond, current_node):
+			continue
+		var event_def: Dictionary = events_db.get(ref.get("event", ""), {})
+		if event_def.is_empty():
+			push_warning("EventReader: unknown event '%s'" % ref.get("event", ""))
+			continue
+		valid.append({"chance": ref.get("chance", 1.0), "def": event_def})
+
+	# Roll each entry's chance independently, collect those that trigger
+	var triggered := valid.filter(func(e) -> bool:
+		return randf() < e["chance"]
+	)
+
+	if triggered.is_empty():
+		return
+
+	var chosen: Dictionary = triggered.pick_random()["def"]
+	var steps: Array = chosen.get("steps", [])
+	if steps.is_empty():
+		return
+
+	var reader := EventReader.new()
+	add_child(reader)
+	if condition_callback != null:
+		reader.condition_callback = func(cond): return condition_callback.call(cond, current_node)
+	await reader.run(steps)
+	reader.queue_free()
 
 # ------------------------
 # VISIT

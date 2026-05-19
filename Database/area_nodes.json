@@ -49,6 +49,10 @@
 	{
 	  "name": "Fork in the Road",
 	  "entrances": ["ROAD"],
+	  "encounter_rate": 0,
+	  "events": [
+			{"chance": 1, "event": "treasure_chest"}
+	  ],
 	  "arrival": {
 		"ROAD": [
 		  "The path ahead splits cleanly in two, each direction equally worn."
@@ -94,6 +98,10 @@
 	{
 	  "name": "Bridge",
 	  "entrances": ["ROAD", "RIVER"],
+	  
+	  "encounter_rate": 0,
+		"events":[
+			{"chance": 1, "event": "treasure_chest"}],
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -219,6 +227,10 @@
 	  "condition": {
 			"visit_count":{"max":0}
 		  },
+	  "encounter_rate": 0,
+	  "events": [
+			{"chance": 1, "event": "treasure_chest"}
+	  ],
 	  "arrival": {
 		"FOREST": [
 		  "Something about the ground here seems disturbed."

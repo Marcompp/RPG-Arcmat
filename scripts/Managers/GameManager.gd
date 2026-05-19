@@ -74,6 +74,23 @@ func _ready():
 	MyEventBus.subscribe("start_combat", func(data):
 		start_combat(data)
 	)
+	MyEventBus.subscribe("give_gold", func(data):
+		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
+	)
+	MyEventBus.subscribe("give_item", func(data):
+		var item_name: String = data.get("item", "")
+		var player = game_state["player"]
+		if player == null or item_name == "":
+			MyEventBus.emit("give_item_done", {})
+			return
+		if not player.data.has("Inventory"):
+			player.data["Inventory"] = {}
+		if weapon_db.has(item_name) or armor_db.has(item_name):
+			await _offer_equip(item_name, player)
+		else:
+			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+		MyEventBus.emit("give_item_done", {})
+	)
 	#game_state["player"] = null
 	game_state["gold"] = 0
 	game_state["region"] = ""

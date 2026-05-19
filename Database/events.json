@@ -1,0 +1,40 @@
+{
+	"treasure_chest": {
+		"steps": [
+			{"type": "text", "text": "You spot something up ahead.", "clear":false},
+			{"type": "text", "text": "You find a chest out in the open.", "no_wait":true},
+			{"type": "choice", "header": "Open it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "sfx",  "sound": "chest_open"},
+                        {"type": "give_gold", "amount":100},
+						{"type": "text", "text": "You got 100 gold!", "no_wait":true, "clear": false},
+                        {"type": "show_node_text"}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it alone.", "clear": false},
+                        {"type": "show_node_text"}
+					]
+				}
+			}
+		]
+	},
+	"find_mushroom": {
+		"steps": [
+			{"type": "text", "text": "You notice a small cluster of mushrooms growing at the base of a mossy rock."}
+		]
+	},
+    "stranger_encounter": {
+        "steps": [
+            {"type": "text", "text": "A stranger steps out from behind a tree."},
+            {"type": "choice", "header": "What do you do?",
+            "choices": [{"choice": "Talk", "key": "talk"}, {"choice": "Ignore", "key": "ignore"}],
+            "branches": {
+                "talk":   [{"type": "text", "text": "He nods and walks away."}],
+                "ignore": [{"type": "text", "text": "You walk past without a word."}]
+            }},
+            {"type": "show_node_text"}
+        ]
+    }
+}

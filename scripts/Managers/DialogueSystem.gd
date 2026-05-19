@@ -489,7 +489,7 @@ func _ready():
 		clear_text()
 	)
 	MyEventBus.subscribe("continue_text", func(data):
-		var linebreak = "\n\n" if data.get("linebreak",true) else "\n" 
+		var linebreak = "\n\n" if data.get("linebreak",true) else "\n" if story_text.text != "" else ""
 		append_text(linebreak + data.get("text", ""))
 	)
 	left_button.pressed.connect(_on_left_pressed)

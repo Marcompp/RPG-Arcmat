@@ -10,7 +10,7 @@ var _death_gen: int = 0
 var _bars_tween: Tween = null
 var _shake_count: int = 0
 
-@onready var name_label = $Panel/VBoxContainer/NameLabel
+@onready var name_label = $Panel/VBoxContainer/NameContainer/NameLabel
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
 @onready var hp_bar = $Panel/VBoxContainer/HPContainer/Control/HPBar
@@ -37,26 +37,26 @@ const bar_colors = {
 
 
 func _ready():
-	_rest_pos = position
 	tooltip_text = " "  # obrigatório
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	#tlpanel.mouse_filter = Control.MOUSE_FILTER_STOP
 	#for child in tlpanel.get_children():
 		#if child is Control:
 			#child.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
+
 	_disable_mouse_on_children(self)
 
 func shake():
 	if _death_tween != null:
 		return
+	var base_pos = position  # captura posição real no momento do shake
 	_shake_count += 1
 	for i in range(5):
-		position = _rest_pos + Vector2(randf_range(-5, 5), randf_range(-5, 5))
+		position = base_pos + Vector2(randf_range(-5, 5), randf_range(-5, 5))
 		await get_tree().create_timer(0.02).timeout
 	_shake_count -= 1
 	if _shake_count == 0:
-		position = _rest_pos
+		position = base_pos
 
 func bind(game_state):
 	state = game_state
@@ -235,6 +235,7 @@ func death_animation():
 	if _death_tween:
 		_death_tween.kill()
 
+	_rest_pos = position  # captura posição real AGORA, após o container ter feito layout
 	_death_gen += 1
 	var gen = _death_gen
 
@@ -255,7 +256,7 @@ func _cancel_death_anim():
 	if _death_tween:
 		_death_tween.kill()
 		_death_tween = null
-	position = _rest_pos
+		position = _rest_pos  # só reseta se havia animação rodando
 	modulate.a = 1.0
 
 func flash_red():

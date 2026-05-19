@@ -1,0 +1,23 @@
+{
+	"poison": {
+		"name": "Poison",
+		"color": "purple",
+		"icon": "poison.png",
+		"description": "Deals damage at the end of every turn",
+		"duration": 4,
+		"damage": 0.1,
+		"inflict_text": "[color=purple]%s is poisoned![/color]",
+		"upkeep_text": "[color=purple]%s suffers from poison! -%d HP[/color]",
+		"end_text": "%s is no longer poisoned!"
+	},
+	"regen": {
+		"name": "Regen",
+		"color": "green",
+		"icon": "regen.png",
+		"description": "Heals HP at the end of every turn",
+		"duration": 3,
+		"heal": 0.125,
+		"upkeep_text": "[color=green]%s regenerates +%d HP[/color]",
+		"end_text": "%s is no longer regenerating!"
+	}
+}

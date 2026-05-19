@@ -1,7 +1,7 @@
 extends Control
 
 @onready var player_panel = $TopLeft/TopLeftWrapper
-@onready var enemy_panel = $TopRightWrapper
+@onready var enemy_panel = $TopRight/TopRightWrapper
 @onready var gold_label = $TopLeft/MoneyPanel/VBoxContainer/GoldContainer/GoldValue
 @onready var area_label = $TopCenterPanel/VBoxContainer/AreaLabel
 @onready var xp_bar = $TopLeft/TopLeftWrapper/XPBar

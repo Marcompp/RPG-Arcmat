@@ -20,6 +20,7 @@ var enemy = null
 var skills_db: Dictionary = {}
 var spells_db: Dictionary = {}
 var items_db: Dictionary = {}
+var status_db: Dictionary = {}
 var status_effects: Dictionary = { "player": [], "enemy": [] }
 var cooldowns: Dictionary = { "player": {}, "enemy": {} }
 
@@ -33,9 +34,10 @@ var enemy_first_action: bool = true
 func start_combat(p, e):
 	player = p
 	enemy = e
-	skills_db = _load_json("res://Database/skills.json")
-	spells_db = _load_json("res://Database/spells.json")
-	items_db  = _load_json("res://Database/items.json")
+	skills_db  = _load_json("res://Database/skills.json")
+	spells_db  = _load_json("res://Database/spells.json")
+	items_db   = _load_json("res://Database/items.json")
+	status_db  = _load_json("res://Database/status.json")
 	status_effects = { "player": [], "enemy": [] }
 	cooldowns = { "player": {}, "enemy": {} }
 
@@ -91,11 +93,17 @@ func show_choices(choices = []):
 	})
 
 func render_player_turn():
-	var text = "%s: %d hp.\n%s: %d hp.\n\nWhat would you like to do?" % [
+	var enemy_timer_text: String
+	match enemy_action_timer:
+		0: enemy_timer_text = "[color=red]%s will act this turn![/color]" % enemy.get_name()
+		1: enemy_timer_text = "[color=yellow]%s will act next turn.[/color]" % enemy.get_name()
+		_: enemy_timer_text = "[color=green]%s will act in %d turns.[/color]" % [enemy.get_name(), enemy_action_timer]
+	var text = "%s: %d hp.\n%s: %d hp.\n%s\n\nWhat would you like to do?" % [
 		enemy.get_name(),
 		enemy.get_hp(),
 		player.get_name(),
-		player.get_hp()
+		player.get_hp(),
+		enemy_timer_text
 	]
 	show_text(text, _main_choices())
 
@@ -257,8 +265,10 @@ func _execute_action(user, who: String, name: String, db: Dictionary):
 				status_effects[target_side] = []
 				lines.append("[color=green]%s's status effects cleared![/color]" % target.get_name())
 			else:
-				_add_status(target, result["status"], 3)
-				lines.append("[color=yellow]%s is %s![/color]" % [target.get_name(), result["status"]])
+				_add_status(target, result["status"])
+				var sdata = status_db.get(result["status"], {})
+				var inflict = sdata.get("inflict_text", "[color=yellow]%s gained a status effect![/color]")
+				lines.append(inflict % [target.get_name()])
 
 	if data.get("consumable", false):
 		user.consume_item(name)
@@ -326,7 +336,7 @@ func _resolve_action(user, target, data) -> Dictionary:
 
 	var effect = data.get("effect", "none")
 	var chance = data.get("chance", 100)
-	if effect != "none" and effect != "" and randi_range(1, 100) <= chance:
+	if effect != "none" and effect != "" and effect != "ignore_def" and randi_range(1, 100) <= chance:
 		result["status"] = effect
 
 	return result
@@ -479,30 +489,41 @@ func _tick_cooldowns(who: String):
 	for skill in cooldowns[who]:
 		cooldowns[who][skill] = max(0, cooldowns[who][skill] - 1)
 
-func _add_status(target, effect: String, duration: int):
+func _add_status(target, effect: String):
 	var who = "player" if target == player else "enemy"
+	var duration = status_db.get(effect, {}).get("duration", 3)
+	for s in status_effects[who]:
+		if s["type"] == effect:
+			s["duration"] = max(s["duration"], duration)
+			return
 	status_effects[who].append({ "type": effect, "duration": duration })
 
 func _process_statuses(who: String):
 	var target = player if who == "player" else enemy
 	var remaining = []
 	for s in status_effects[who]:
-		match s["type"]:
-			"poison":
-				var dmg = max(1, target.get_max_hp() / 10)
+		var data = status_db.get(s["type"], {})
+		if not data.is_empty():
+			var damage_frac: float = data.get("damage", 0.0)
+			var heal_frac: float   = data.get("heal",   0.0)
+			var upkeep: String     = data.get("upkeep_text", "")
+			if damage_frac > 0.0:
+				var dmg = max(1, int(target.get_max_hp() * damage_frac))
 				target.take_damage(dmg)
-				MyEventBus.emit("continue_text", {
-					"text": "[color=purple]%s is poisoned! -%d HP[/color]\n" % [target.get_name(), dmg]
-				})
-			"regen":
-				var hp = max(1, target.get_max_hp() / 8)
+				if upkeep != "":
+					MyEventBus.emit("continue_text", { "text": upkeep % [target.get_name(), dmg] + "\n" })
+			elif heal_frac > 0.0:
+				var hp = max(1, int(target.get_max_hp() * heal_frac))
 				target.heal(hp)
-				MyEventBus.emit("continue_text", {
-					"text": "[color=green]%s regenerates +%d HP[/color]\n" % [target.get_name(), hp]
-				})
+				if upkeep != "":
+					MyEventBus.emit("continue_text", { "text": upkeep % [target.get_name(), hp] + "\n" })
 		s["duration"] -= 1
 		if s["duration"] > 0:
 			remaining.append(s)
+		else:
+			var end_text: String = data.get("end_text", "")
+			if end_text != "":
+				MyEventBus.emit("continue_text", { "text": end_text % [target.get_name()] + "\n" })
 	status_effects[who] = remaining
 
 # ========================
