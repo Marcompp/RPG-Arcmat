@@ -19,5 +19,19 @@
 		"heal": 0.125,
 		"upkeep_text": "[color=green]%s regenerates +%d HP[/color]",
 		"end_text": "%s is no longer regenerating!"
+	},
+	"burn": {
+		"name": "Burn",
+		"color": "red",
+		"icon": "burn.png",
+		"description": "Lowers attack and deals damage at the end of every turn",
+		"duration": 2,
+		"damage": 0.05,
+		"inflict_text": "[color=red]%s is burned![/color]",
+		"upkeep_text": "[color=red]%s suffers from burn! -%d HP[/color]",
+		"end_text": "%s is no longer burning!",
+		"stats": {
+			"str": 0.75
+		}
 	}
 }

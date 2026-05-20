@@ -11,6 +11,9 @@ var _bars_tween: Tween = null
 var _shake_count: int = 0
 
 @onready var name_label = $Panel/VBoxContainer/NameContainer/NameLabel
+@onready var status_container = $Panel/VBoxContainer/NameContainer/StatusContainer
+
+var _status_db: Dictionary = {}
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
 @onready var hp_bar = $Panel/VBoxContainer/HPContainer/Control/HPBar
@@ -39,12 +42,63 @@ const bar_colors = {
 func _ready():
 	tooltip_text = " "  # obrigatório
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	#tlpanel.mouse_filter = Control.MOUSE_FILTER_STOP
-	#for child in tlpanel.get_children():
-		#if child is Control:
-			#child.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
 	_disable_mouse_on_children(self)
+	_status_db = _load_status_db()
+
+func _load_status_db() -> Dictionary:
+	if not FileAccess.file_exists("res://Database/status.json"):
+		return {}
+	var file = FileAccess.open("res://Database/status.json", FileAccess.READ)
+	var json = JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		return {}
+	return json.data
+
+func update_statuses(effects: Array) -> void:
+	for child in status_container.get_children():
+		child.queue_free()
+	for s in effects:
+		status_container.add_child(_make_status_icon(s["type"], s["duration"]))
+
+func _make_status_icon(key: String, duration: int) -> Control:
+	var data: Dictionary = _status_db.get(key, {})
+	const ICON_SIZE := 28
+
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+	root.tooltip_text = "%s (%d turn%s)" % [
+		data.get("name", key), duration, "s" if duration != 1 else ""
+	]
+
+	var tex_rect := TextureRect.new()
+	tex_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var icon_file: String = data.get("icon", "")
+	var tex_path := "res://assets/icons/" + icon_file
+	if icon_file != "" and ResourceLoader.exists(tex_path):
+		tex_rect.texture = load(tex_path)
+	root.add_child(tex_rect)
+
+	if duration > 0:
+		var badge := Label.new()
+		badge.text = str(duration)
+		badge.add_theme_font_size_override("font_size", 8)
+		badge.add_theme_color_override("font_color", Color.WHITE)
+		badge.add_theme_color_override("font_outline_color", Color.BLACK)
+		badge.add_theme_constant_override("outline_size", 2)
+		badge.anchor_left     = 1.0
+		badge.anchor_right    = 1.0
+		badge.anchor_top      = 1.0
+		badge.anchor_bottom   = 1.0
+		badge.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		badge.grow_vertical   = Control.GROW_DIRECTION_BEGIN
+		badge.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+		root.add_child(badge)
+
+	return root
 
 func shake():
 	if _death_tween != null:
@@ -275,6 +329,8 @@ func _clear_ui():
 	mp_bar.value = 0
 	hp_text.text = ""
 	mp_text.text = ""
+	for child in status_container.get_children():
+		child.queue_free()
 	
 #----------------
 #Funcionalidades Tooltip:

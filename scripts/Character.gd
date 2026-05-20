@@ -15,6 +15,7 @@ var xp = 0
 
 var armor_db = {}
 var weapon_db = {}
+var stat_multipliers: Dictionary = {}
 
 # ------------------------
 # INIT
@@ -38,17 +39,27 @@ func _init(char_data, arm_db, wpn_db):
 
 func _build_base_stats(char):
 	var stats = char.get("Stats", {})
+	var override = char.get("TrueStats", {})
 	var base = {
-		"hp":  _rank(stats.get("HP",  "E")) + 5,
-		"mp":  _rank(stats.get("MP",  "E")),
-		"str": _rank(stats.get("Str", "E")),
-		"mag": _rank(stats.get("Mag", "E")),
-		"agi": _rank(stats.get("Agi", "E")),
-		"dex": _rank(stats.get("Dex", "E")),
-		"lck": _rank(stats.get("Lck", "E")),
-		"def": _rank(stats.get("Def", "E"))
+		"hp":  override.get("HP", _define_base_stat(stats.get("HP",  "E"),"hp")),
+		"mp":  override.get("MP", _define_base_stat(stats.get("MP",  "E"),"mp")),
+		"str": override.get("Str",_define_base_stat(stats.get("Str", "E"),"str")),
+		"mag": override.get("Mag",_define_base_stat(stats.get("Mag", "E"),"mag")),
+		"agi": override.get("Agi",_define_base_stat(stats.get("Agi", "E"),"agi")),
+		"dex": override.get("Dex",_define_base_stat(stats.get("Dex", "E"),"dex")),
+		"lck": override.get("Lck",_define_base_stat(stats.get("Lck", "E"),"lck")),
+		"def": override.get("Def",_define_base_stat(stats.get("Def", "E"),"def"))
 	}
 	return _apply_level_growth(char, base)
+
+func _define_base_stat(stat, which):
+	if typeof(stat) == TYPE_STRING:
+		if which == "hp":
+			return _rank(stat) * 2 +5
+		else:
+			return _rank(stat)
+	else:
+		return stat
 
 func _apply_level_growth(char, base: Dictionary) -> Dictionary:
 	var lvl = int(char.get("Lvl", 1))
@@ -167,7 +178,14 @@ func equip(slot, item_name):
 func get_total_stat(stat):
 	var base = base_stats.get(stat, 0)
 	var bonus = get_equipment_bonus(stat)
-	return base + bonus
+	var raw = base + bonus
+	if stat_multipliers.has(stat):
+		return int(raw * stat_multipliers[stat])
+	return raw
+
+func set_stat_multipliers(mults: Dictionary) -> void:
+	stat_multipliers = mults
+	stats_changed.emit()
 
 func get_equipment_bonus(stat):
 	var total = 0

@@ -6,6 +6,7 @@ extends Control
 @onready var area_label = $TopCenterPanel/VBoxContainer/AreaLabel
 @onready var xp_bar = $TopLeft/TopLeftWrapper/XPBar
 @onready var xp_text = $TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control/XPText
+@onready var cooldown_label = $TopRight/TopRightWrapper/CooldownLabel
 
 var state
 
@@ -28,6 +29,19 @@ func _ready():
 	)
 	MyEventBus.subscribe("combat_ended", func(_data):
 		enemy_panel._clear_ui()
+	)
+	MyEventBus.subscribe("enemy_timer_update", func(data):
+		var t: int = data["timer"]
+		if t < 0:
+			cooldown_label.text = ""
+		elif t == 0:
+			cooldown_label.text = "!"
+		else:
+			cooldown_label.text = str(t)
+	)
+	MyEventBus.subscribe("status_changed", func(data):
+		var panel = player_panel if data["who"] == "player" else enemy_panel
+		panel.update_statuses(data["effects"])
 	)
 	var xp_fill = StyleBoxFlat.new()
 	xp_fill.bg_color = Color(0, 0.8, 1.0)

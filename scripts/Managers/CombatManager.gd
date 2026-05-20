@@ -40,6 +40,10 @@ func start_combat(p, e):
 	status_db  = _load_json("res://Database/status.json")
 	status_effects = { "player": [], "enemy": [] }
 	cooldowns = { "player": {}, "enemy": {} }
+	p.set_stat_multipliers({})
+	e.set_stat_multipliers({})
+	_emit_status_update("player")
+	_emit_status_update("enemy")
 
 	for skill in p.get_skills():
 		var skill_data = skills_db.get(skill, {})
@@ -66,10 +70,6 @@ func start_combat(p, e):
 
 func start_player_turn():
 	_tick_cooldowns("player")
-	await _process_statuses("player")
-	if player.get_hp() <= 0:
-		check_combat_end()
-		return
 	state = CombatState.CHOOSING_ACTION
 	render_player_turn()
 	
@@ -93,6 +93,7 @@ func show_choices(choices = []):
 	})
 
 func render_player_turn():
+	MyEventBus.emit("enemy_timer_update", { "timer": enemy_action_timer })
 	var enemy_timer_text: String
 	match enemy_action_timer:
 		0: enemy_timer_text = "[color=red]%s will act this turn![/color]" % enemy.get_name()
@@ -135,11 +136,11 @@ func _build_list_menu(list, type: String, db: Dictionary = {}) -> Array:
 	choices.append({ "text": "Back", "type": "back" })
 	return choices
 
-func _build_action_choice(name: String, type: String, data) -> Variant:
+func _build_action_choice(item_name: String, type: String, data) -> Variant:
 	if data == null:
-		return { "text": name, "type": type, "data": name }
+		return { "text": item_name, "type": type, "data": item_name }
 
-	var label = data.get("nome", name)
+	var label = data.get("nome", item_name)
 	var disabled = false
 	var tooltip = ""
 
@@ -151,13 +152,13 @@ func _build_action_choice(name: String, type: String, data) -> Variant:
 			tooltip = "Insufficient MP"
 
 	if data.get("consumable", false):
-		var count = player.get_inventory().get(name, 0)
+		var count = player.get_inventory().get(item_name, 0)
 		if count <= 0:
 			return null
 		label += " (On Hand: %d)" % count
 
 	if data.has("cooldown"):
-		var remaining = cooldowns["player"].get(name, 0)
+		var remaining = cooldowns["player"].get(item_name, 0)
 		if remaining > 0:
 			label += " (%d Turns)" % remaining
 			disabled = true
@@ -165,14 +166,14 @@ func _build_action_choice(name: String, type: String, data) -> Variant:
 		else:
 			label += " (Cooldown: %d)" % data["cooldown"]
 
-	var choice = { "text": label, "type": type, "data": name }
+	var choice = { "text": label, "type": type, "data": item_name }
 	if disabled:
 		choice["disabled"] = true
 		choice["disabled_text"] = label
 		if tooltip != "":
 			choice["disabled_tooltip"] = tooltip
 	else:
-		choice["tooltip"] = _format_action_tooltip(name, data)
+		choice["tooltip"] = _format_action_tooltip(item_name, data)
 	return choice
 
 # ========================
@@ -223,10 +224,10 @@ func handle_list_choice(choice, type):
 # EXECUTE ACTION
 # ========================
 
-func _execute_action(user, who: String, name: String, db: Dictionary):
-	var data = db.get(name, null)
+func _execute_action(user, who: String, action_name: String, db: Dictionary):
+	var data = db.get(action_name, null)
 	if not data:
-		MyEventBus.emit("continue_text", { "text": "...%s?\n" % name })
+		MyEventBus.emit("continue_text", { "text": "...%s?\n" % action_name })
 		await wait_for_continue()
 		return
 
@@ -243,9 +244,9 @@ func _execute_action(user, who: String, name: String, db: Dictionary):
 		user.use_mp(data["cost"])
 
 	if data.has("cooldown") and who != "":
-		cooldowns[who][name] = data["cooldown"]
+		cooldowns[who][action_name] = data["cooldown"]
 
-	var lines = ["[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", name)]]
+	var lines = ["[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)]]
 	var did_damage = false
 
 	var hit_count = data.get("hits", 1)
@@ -271,7 +272,7 @@ func _execute_action(user, who: String, name: String, db: Dictionary):
 				lines.append(inflict % [target.get_name()])
 
 	if data.get("consumable", false):
-		user.consume_item(name)
+		user.consume_item(action_name)
 
 	MyEventBus.emit("continue_text", { "text": "\n".join(lines) + "\n" })
 	if did_damage:
@@ -293,9 +294,9 @@ func _resolve_action(user, target, data) -> Dictionary:
 		if mp < 0:
 			result["mp_restore"] = abs(mp)
 			result["text"] += " [color=cyan]+%d MP[/color]" % result["mp_restore"]
-		var effect = data.get("effect", "none")
-		if effect != "none" and effect != "":
-			result["status"] = effect
+		var self_effect = data.get("effect", "none")
+		if self_effect != "none" and self_effect != "":
+			result["status"] = self_effect
 		if result["text"] == "":
 			result["text"] = "..."
 		return result
@@ -348,10 +349,6 @@ func _resolve_action(user, target, data) -> Dictionary:
 func _resolve_turn_pair(player_action: Dictionary):
 	state = CombatState.RESOLUTION
 	_tick_cooldowns("enemy")
-	await _process_statuses("enemy")
-	if enemy.get_hp() <= 0:
-		check_combat_end()
-		return
 
 	if enemy_action_timer > 0:
 		enemy_action_timer -= 1
@@ -381,6 +378,8 @@ func _resolve_turn_pair(player_action: Dictionary):
 			return
 		await _execute_turn_action(second)
 
+	_process_statuses("player")
+	_process_statuses("enemy")
 	state = CombatState.PLAYER_TURN
 	check_combat_end()
 
@@ -447,6 +446,7 @@ func next_turn():
 
 func end_combat(victory):
 	state = CombatState.END
+	MyEventBus.emit("enemy_timer_update", { "timer": -1 })
 	MyEventBus.emit("character_defeated", { "victory": victory })
 	if victory:
 		var rewards = _calculate_rewards()
@@ -495,8 +495,23 @@ func _add_status(target, effect: String):
 	for s in status_effects[who]:
 		if s["type"] == effect:
 			s["duration"] = max(s["duration"], duration)
+			_emit_status_update(who)
 			return
 	status_effects[who].append({ "type": effect, "duration": duration })
+	_apply_stat_modifiers(who)
+	_emit_status_update(who)
+
+func _emit_status_update(who: String) -> void:
+	MyEventBus.emit("status_changed", { "who": who, "effects": status_effects[who] })
+
+func _apply_stat_modifiers(who: String) -> void:
+	var target = player if who == "player" else enemy
+	var combined: Dictionary = {}
+	for s in status_effects[who]:
+		var data = status_db.get(s["type"], {})
+		for stat in data.get("stats", {}):
+			combined[stat] = combined.get(stat, 1.0) * float(data["stats"][stat])
+	target.set_stat_multipliers(combined)
 
 func _process_statuses(who: String):
 	var target = player if who == "player" else enemy
@@ -525,6 +540,8 @@ func _process_statuses(who: String):
 			if end_text != "":
 				MyEventBus.emit("continue_text", { "text": end_text % [target.get_name()] + "\n" })
 	status_effects[who] = remaining
+	_apply_stat_modifiers(who)
+	_emit_status_update(who)
 
 # ========================
 # UTILS
@@ -563,16 +580,16 @@ func _format_weapon_tooltip() -> String:
 	var weapon = player.get_weapon()
 	if not weapon or weapon.is_empty():
 		return "Current Weapon: Bare Hands"
-	var name = weapon.get("name", "Unknown")
+	var wpn_name = weapon.get("name", "Unknown")
 	var stats = weapon.get("stats", {})
 	var mgt  = stats.get("mgt",  0)
 	var crit = stats.get("crit", 0)
 	var wgt  = stats.get("wgt",  0)
-	return "Current Weapon: %s\nMgt: %d  |  Crit: %d%%  |  Wgt: %d" % [name, mgt, crit, wgt]
+	return "Current Weapon: %s\nMgt: %d  |  Crit: %d%%  |  Wgt: %d" % [wpn_name, mgt, crit, wgt]
 
-func _format_action_tooltip(name: String, data: Dictionary) -> String:
+func _format_action_tooltip(action_key: String, data: Dictionary) -> String:
 	var lines = []
-	var action_name = data.get("nome", name)
+	var action_name = data.get("nome", action_key)
 	lines.append(action_name)
 
 	var stats = data.get("stats", {})
