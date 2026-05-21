@@ -33,7 +33,6 @@ var _ambiance_tween: Tween = null
 func _ready():
 	_setup_players()
 	audio_db = load_json("res://Database/audio.json")
-	play_bgm("title")
 	MyEventBus.subscribe("character_selected", func(_d):
 		play_bgm("title")
 	)
@@ -53,6 +52,9 @@ func _ready():
 	)
 	MyEventBus.subscribe("play_sfx", func(data):
 		play_sfx(data.get("sound", ""))
+	)
+	MyEventBus.subscribe("play_bgm", func(data):
+		play_bgm(data.get("song", data.get("bgm", "")))
 	)
 
 func _setup_players():

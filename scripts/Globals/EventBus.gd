@@ -35,35 +35,47 @@ func emit(event_name: String, data := {}):
 	for callback in listeners[event_name]:
 		callback.call(data)
 
+func emit_and_await(emit_name: String, emit_data: Dictionary, await_name: String) -> Variant:
+	var state = {"result": null, "done": false}
+	var cb: Callable
+	cb = func(data):
+		unsubscribe(await_name, cb)
+		state.result = data
+		state.done = true
+	subscribe(await_name, cb)
+	emit(emit_name, emit_data)
+	while not state.done:
+		await get_tree().process_frame
+	return state.result
+
 func await_event(event_name: String) -> Variant:
-	var result = null
-	var done = false
-	
-	var wrapper : Callable
+	var state = {"result": null, "done": false}
+
+	var wrapper: Callable
 	wrapper = func(data):
 		unsubscribe(event_name, wrapper)
-		result = data
-		done = true
-	
+		state.result = data
+		state.done = true
+
 	subscribe(event_name, wrapper)
-	
-	while not done:
+
+	while not state.done:
 		await get_tree().process_frame
-	
-	return result
-	
+
+	return state.result
+
 func await_event_once(event_name: String) -> Variant:
-	var result = null
-	var received = false
-	
-	var callback : Callable
+	var state = {"result": null, "done": false}
+
+	var callback: Callable
 	callback = func(data):
-		result = data
-		received = true
 		unsubscribe(event_name, callback)
-	
+		state.result = data
+		state.done = true
+
 	subscribe(event_name, callback)
-	while not received:
+
+	while not state.done:
 		await get_tree().process_frame
-	
-	return result
+
+	return state.result

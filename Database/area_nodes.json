@@ -26,6 +26,26 @@
 	  ]
 	},
 	{
+	  "name": "Debug",
+	  "entrances": ["DEBUG"],
+	  "encounter_rate": 0,
+	  "events": [
+			{"chance": 1, "event": "treasure_chest"}
+	  ],
+	  "arrival": {
+		"ROAD": [
+		  "Debug."
+		],
+		"default": [
+		  "Debug."
+		]
+	  },
+	  "exits": [
+		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 0,
+			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
+	  ]
+	},
+	{
 	  "name": "Woods",
 	  "entrances": ["FOREST"],
 	  "arrival": {
@@ -49,10 +69,6 @@
 	{
 	  "name": "Fork in the Road",
 	  "entrances": ["ROAD"],
-	  "encounter_rate": 0,
-	  "events": [
-			{"chance": 1, "event": "treasure_chest"}
-	  ],
 	  "arrival": {
 		"ROAD": [
 		  "The path ahead splits cleanly in two, each direction equally worn."

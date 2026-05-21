@@ -26,6 +26,8 @@ var current_mode = GameMode.MAIN_MENU
 var characters = []
 var armor_db = {}
 var weapon_db = {}
+var spell_db = {}
+var skill_db = {}
 
 var in_combat = false
 var _pending_level_ups: Array = []
@@ -78,17 +80,14 @@ func _ready():
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
 	)
 	MyEventBus.subscribe("give_item", func(data):
+		print('GIVING ITEM')
+		print(data)
 		var item_name: String = data.get("item", "")
 		var player = game_state["player"]
 		if player == null or item_name == "":
 			MyEventBus.emit("give_item_done", {})
 			return
-		if not player.data.has("Inventory"):
-			player.data["Inventory"] = {}
-		if weapon_db.has(item_name) or armor_db.has(item_name):
-			await _offer_equip(item_name, player)
-		else:
-			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+		await _process_item_acquisition(item_name, player)
 		MyEventBus.emit("give_item_done", {})
 	)
 	#game_state["player"] = null
@@ -116,6 +115,8 @@ func _ready():
 	characters = load_json("res://Database/protags.json")
 	armor_db = load_json("res://Database/armors.json")
 	weapon_db = load_json("res://Database/weapons.json")
+	spell_db = load_json("res://Database/spells.json")
+	skill_db = load_json("res://Database/skills.json")
 
 	dialogue.visible = false
 	main_menu.new_game_requested.connect(_on_main_menu_new_game)
@@ -169,6 +170,7 @@ func start_game():
 
 func show_main_menu():
 	current_mode = GameMode.MAIN_MENU
+	MyEventBus.emit("play_bgm",{"song":"title"})
 	dialogue.visible = false
 	game_ui._clear_ui()
 	main_menu.visible = true
@@ -204,23 +206,23 @@ func pad_right(text, size):
 		text += " "
 	return text
 	
-func build_character_tooltip(char):
-	var t = char["Name"] + "  Lv." + str(char.get("Lvl", 1))
+func build_character_tooltip(chara):
+	var t = chara["Name"] + "  Lv." + str(chara.get("Lvl", 1))
 	#Name
-	t += "\nClass: " + char["Class"]
+	t += "\nClass: " + chara["Class"]
 	
 	# ------------------------
 	# STATS (2 por linha)
 	# ------------------------
 	t += "\n\nStats:\n"
 	
-	var stat_keys = char["Stats"].keys()
+	var stat_keys = chara["Stats"].keys()
 	
 	t += "[table=5]"
 
 	for i in range(0, stat_keys.size(), 2):
 		var k1 = stat_keys[i]
-		var r1 = str(char["Stats"][k1])
+		var r1 = str(chara["Stats"][k1])
 		var c1 = get_rank_color(r1)
 		
 		t += "[cell]" + k1 + ": [/cell]"
@@ -229,7 +231,7 @@ func build_character_tooltip(char):
 		
 		if i + 1 < stat_keys.size():
 			var k2 = stat_keys[i + 1]
-			var r2 = str(char["Stats"][k2])
+			var r2 = str(chara["Stats"][k2])
 			var c2 = get_rank_color(r2)
 			
 			t += "[cell]" + k2 + ": [/cell]"
@@ -240,28 +242,28 @@ func build_character_tooltip(char):
 	t += "[/table]"
 	
 	# Equip
-	if char.has("Equip") and typeof(char["Equip"]) == TYPE_DICTIONARY:
+	if chara.has("Equip") and typeof(chara["Equip"]) == TYPE_DICTIONARY:
 		t += "\nStarting Equipment:\n"
-		for e in char["Equip"]:
-			t += e + ": " + char["Equip"][e] + "\n"
+		for e in chara["Equip"]:
+			t += e + ": " + chara["Equip"][e] + "\n"
 	
 	# Skills
-	if char["Skills"].size() > 0:
+	if chara["Skills"].size() > 0:
 		t += "\nStarting Skill:\n"
-		for s in char["Skills"]:
+		for s in chara["Skills"]:
 			t += "- " + s + "\n"
 	
 	# Spells
-	if char["Spells"].size() > 0:
+	if chara["Spells"].size() > 0:
 		t += "\nStarting Spells:\n"
-		for s in char["Spells"]:
+		for s in chara["Spells"]:
 			t += "- " + s + "\n"
 
 	# Money
-	t += "\nGold: " + str(char.get("Money", 0)) + "G\n"
+	t += "\nGold: " + str(chara.get("Money", 0)) + "G\n"
 
 	# Inventory
-	var inv = char.get("Inventory", {})
+	var inv = chara.get("Inventory", {})
 	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
 		t += "\nStarting Items:\n"
 		for item in inv:
@@ -273,21 +275,21 @@ func build_character_tooltip(char):
 func show_character_choices():
 	var choices = []
 	
-	for char in characters:
+	for chara in characters:
 		choices.append({
-			"text": char["Name"] + ", the " + char["Class"],
+			"text": chara["Name"] + ", the " + chara["Class"],
 			"type": "character",
-			"data": char,
-			"tooltip": build_character_tooltip(char)
+			"data": chara,
+			"tooltip": build_character_tooltip(chara)
 		})
 	
 	dialogue.set_choices(choices, "Select your character")
 	
 func handle_character_select(choice):
-	var char = choice.get("data", {})
-	pending_character = char
+	var chara = choice.get("data", {})
+	pending_character = chara
 	
-	show_character_confirm(char)
+	show_character_confirm(chara)
 	
 func make_bar(value, max_value):
 	var bars = int((value / float(max_value)) * 10.0)
@@ -394,15 +396,15 @@ func show_character_confirm(char):
 	], "[color=yellow]This choice cannot be undone.[/color]")
 	
 func confirm_character():
-	var char = pending_character
-	var character = Character.new(char, armor_db, weapon_db)
+	var chara = pending_character
+	var character = Character.new(chara, armor_db, weapon_db)
 	game_state["player"] = character
 	game_state["gold"] = character.get_money()
 	
 	#character.stats_changed.connect(_on_character_stats_changed)
 	
 	MyEventBus.emit("character_selected", {
-		"character": char
+		"character": chara
 	})
 	travel.current_region = "Apple Woods"
 	
@@ -688,10 +690,7 @@ func _on_combat_ended(data: Dictionary):
 		if not player.data.has("Inventory"):
 			player.data["Inventory"] = {}
 		for item_name in _pending_rewards.get("drops", {}):
-			if weapon_db.has(item_name) or armor_db.has(item_name):
-				await _offer_equip(item_name, player)
-			else:
-				player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+			await _process_item_acquisition(item_name, player)
 	_pending_rewards = {}
 	_pending_level_ups = []
 	travel.show_node()
@@ -825,3 +824,139 @@ func _build_equip_comparison_text(item_name: String, new_item: Dictionary, old_i
 		text += "[/table][/instant]"
 
 	return text
+
+# ------------------------
+# ITEM ACQUISITION
+# ------------------------
+
+func _process_item_acquisition(item_name: String, player: Character):
+	print('ITEMT')
+	if not player.data.has("Inventory"):
+		player.data["Inventory"] = {}
+	if weapon_db.has(item_name) or armor_db.has(item_name):
+		await _offer_equip(item_name, player)
+	elif item_name.begins_with("Book of "):
+		var spell_name = item_name.substr(8)
+		if spell_db.has(spell_name):
+			await _offer_learn(spell_name, spell_db[spell_name], "spell", player, item_name)
+		else:
+			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+	elif item_name.ends_with(" Scroll"):
+		var skill_name = item_name.substr(0, item_name.length() - 7)
+		if skill_db.has(skill_name):
+			await _offer_learn(skill_name, skill_db[skill_name], "skill", player, item_name)
+		else:
+			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+	else:
+		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+
+func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: Character, item_name: String):
+	var known: bool
+	if kind == "spell":
+		known = player.get_spells().has(learn_name)
+	else:
+		known = player.get_skills().has(learn_name)
+
+	MyEventBus.emit("dialogue", { "text": _build_learn_preview_text(learn_name, entry, kind, known) })
+
+	var choices: Array
+	var header: String
+	if known:
+		choices = [{ "text": "Keep in Bag", "type": "learn_keep" }]
+		header = "[color=yellow]Already Known[/color]"
+	else:
+		choices = [
+			{ "text": "Learn!", "type": "learn_confirm", "highlight": true },
+			{ "text": "Keep in Bag", "type": "learn_keep" }
+		]
+		header = "New %s Found!" % kind.capitalize()
+
+	var state = { "chosen": "", "done": false }
+	MyInputRouter.push(func(choice):
+		var t = choice.get("type", "")
+		if t in ["learn_confirm", "learn_keep"]:
+			state["chosen"] = t
+			state["done"] = true
+			MyInputRouter.pop()
+	, "learn_prompt")
+
+	MyEventBus.emit("show_choices", {
+		"choices": choices,
+		"header": header
+	})
+
+	while not state["done"]:
+		await get_tree().process_frame
+
+	if state["chosen"] == "learn_confirm":
+		var list_key = "Spells" if kind == "spell" else "Skills"
+		if not player.data.has(list_key):
+			player.data[list_key] = []
+		player.data[list_key].append(learn_name)
+		MyEventBus.emit("continue_text", { "text": "[color=#00E676]You learned [b]%s[/b]![/color]" % learn_name })
+	else:
+		var inv = player.data["Inventory"]
+		inv[item_name] = inv.get(item_name, 0) + 1
+		MyEventBus.emit("continue_text", { "text": "[color=#AAAAAA]%s kept in bag.[/color]" % item_name })
+
+	await _gm_wait_for_continue()
+
+func _build_learn_preview_text(learn_name: String, entry: Dictionary, kind: String, already_known: bool) -> String:
+	var text = ""
+
+	if already_known:
+		text += "[color=yellow]You already know [b]%s[/b].[/color]\n\n" % learn_name
+
+	text += "[b]%s[/b]" % learn_name
+
+	if kind == "spell" and entry.has("element"):
+		text += "  [color=%s][%s][/color]" % [_get_element_color(entry["element"]), entry["element"]]
+
+	text += "  [i](%s)[/i]\n" % kind.capitalize()
+
+	var type_str: String = entry.get("type", "attack")
+	text += "Type: %s" % type_str.capitalize()
+
+	if entry.has("cost") and int(entry["cost"]) > 0:
+		text += "   MP Cost: [color=#4FC3F7]%d[/color]" % int(entry["cost"])
+
+	if entry.has("cooldown") and int(entry["cooldown"]) > 0:
+		text += "   Cooldown: [color=#FFB74D]%d turns[/color]" % int(entry["cooldown"])
+
+	text += "\n\n"
+
+	var stats: Dictionary = entry.get("stats", {})
+	if stats.size() > 0:
+		text += "[instant][table=4]"
+		for stat in stats:
+			text += "[cell][b]%s:[/b][/cell][cell]%s  [/cell]" % [stat.to_upper(), str(stats[stat])]
+		text += "[/table][/instant]\n"
+
+	var effect: String = entry.get("effect", "none")
+	if effect != "none" and effect != "":
+		var chance = entry.get("chance", 100)
+		if int(chance) < 100:
+			text += "Effect: [color=cyan]%s[/color] (%d%% chance)\n" % [effect.capitalize(), int(chance)]
+		else:
+			text += "Effect: [color=cyan]%s[/color]\n" % effect.capitalize()
+
+	if entry.has("hits") and int(entry["hits"]) > 1:
+		text += "Hits: [b]%d[/b]x\n" % int(entry["hits"])
+
+	if not already_known:
+		text += "\n[color=#CCCCCC]Learn this %s?[/color]" % kind
+
+	return text
+
+func _get_element_color(element: String) -> String:
+	match element:
+		"Fire":    return "#FF6E40"
+		"Ice":     return "#80D8FF"
+		"Wind":    return "#B9F6CA"
+		"Earth":   return "#BCAAA4"
+		"Water":   return "#40C4FF"
+		"Light":   return "#FFF9C4"
+		"Dark":    return "#CE93D8"
+		"Thunder": return "#FFD740"
+		"Poison":  return "#B39DDB"
+	return "#FFFFFF"

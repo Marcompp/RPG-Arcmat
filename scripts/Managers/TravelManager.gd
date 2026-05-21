@@ -63,6 +63,9 @@ func _ready():
 	MyEventBus.subscribe("show_node_text", func(_data):
 		show_node_text()
 	)
+	MyEventBus.subscribe("show_node", func(_data):
+		show_node()
+	)
 
 	if world_data.is_empty():
 		push_error("Falha ao carregar o JSON")
@@ -150,7 +153,6 @@ func show_node():
 	MyEventBus.emit("clear_text",{})
 	show_node_text(true)
 	current_entrance = "default"
-	mode = TravelMode.NODE_ACTIONS
 	if current_node_data.get("type", "") == "EXIT":
 		_show_region_exit_prompt()
 	else:
@@ -194,6 +196,7 @@ func show_node_text(use_default=false):
 	})
 
 func show_node_actions():
+	mode = TravelMode.NODE_ACTIONS
 	if game_manager:
 		SaveManager.save(game_manager.current_slot, game_manager)
 	MyEventBus.emit("show_choices",{'choices':[
@@ -275,6 +278,16 @@ func enter_town(town_name):
 	var arrival = current_town_data.get("arrival", [])
 	var ambience = current_town_data.get("ambience", [])
 	var text = arrival.pick_random() if not arrival.is_empty() else town_name
+	if not ambience.is_empty():
+		text += "\n\n" + ambience.pick_random()
+	MyEventBus.emit("dialogue", {"text": text, "choices": [], "linebreak": false})
+	show_town_actions()
+
+func return_to_town():
+	MyEventBus.emit("clear_text", {})
+	var arrival = current_town_data.get("shop_exit", [])
+	var ambience = current_town_data.get("ambience", [])
+	var text = arrival.pick_random() if not arrival.is_empty() else "You go back out into %s." % [current_town]
 	if not ambience.is_empty():
 		text += "\n\n" + ambience.pick_random()
 	MyEventBus.emit("dialogue", {"text": text, "choices": [], "linebreak": false})
@@ -409,7 +422,7 @@ func show_shop_stock():
 func _handle_shop_action(choice):
 	if choice.get("type") == "back":
 		mode = TravelMode.TOWN
-		show_town_actions()
+		return_to_town()
 		return
 	if choice.get("type") == "shop_buy":
 		var data = choice.get("data", {})
@@ -424,12 +437,14 @@ func _buy_item(item_name: String, price: int):
 	var player = game_state["player"]
 	if not player.data.has("Inventory"):
 		player.data["Inventory"] = {}
-	player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+	# player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 
 	var remaining = game_state["gold"]
 	MyEventBus.emit("continue_text", {
 		"text": "Bought [b]%s[/b] for [color=yellow]%dG[/color].\n[color=yellow]Gold: %dG[/color]" % [item_name, price, remaining]
 	})
+	MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
+	
 	await game_manager._gm_wait_for_continue()
 	show_shop_stock()
 
@@ -491,7 +506,6 @@ func show_exit_choices():
 
 func handle_exit_choice(choice):
 	if choice.get("type") == "back":
-		mode = TravelMode.NODE_ACTIONS
 		show_node_actions()
 		return
 
@@ -517,6 +531,7 @@ func handle_exit_choice(choice):
 
 	var boss_monster = _get_boss_encounter(current_node_data)
 	var monster = null
+	var event = null
 	if boss_monster:
 		monster = boss_monster
 	else:
@@ -531,9 +546,11 @@ func handle_exit_choice(choice):
 		await game_manager._gm_wait_for_continue()
 		MyEventBus.emit("start_combat", {"enemy": monster})
 	else:
-		await _try_node_event(current_node_data)
-		mode = TravelMode.NODE_ACTIONS
-		show_node_actions()
+		event = _pick_node_event(current_node_data)
+		if event:
+			await _run_node_event(event)
+		else:
+			show_node_actions()
 
 func apply_exit_vars(exit_data):
 	if not exit_data.has("var"):
@@ -623,12 +640,11 @@ func _pick_encounter_monster():
 
 	return pool[-1]["data"]
 
-func _try_node_event(node_data: Dictionary) -> void:
+func _pick_node_event(node_data: Dictionary) -> Dictionary:
 	var event_refs: Array = node_data.get("events", [])
 	if event_refs.is_empty():
-		return
+		return {}
 
-	# Filter by condition and resolve each ref to its event definition
 	var valid := []
 	for ref in event_refs:
 		var cond = ref.get("condition", {})
@@ -640,16 +656,17 @@ func _try_node_event(node_data: Dictionary) -> void:
 			continue
 		valid.append({"chance": ref.get("chance", 1.0), "def": event_def})
 
-	# Roll each entry's chance independently, collect those that trigger
 	var triggered := valid.filter(func(e) -> bool:
 		return randf() < e["chance"]
 	)
 
 	if triggered.is_empty():
-		return
+		return {}
 
-	var chosen: Dictionary = triggered.pick_random()["def"]
-	var steps: Array = chosen.get("steps", [])
+	return triggered.pick_random()["def"]
+
+func _run_node_event(event_def: Dictionary) -> void:
+	var steps: Array = event_def.get("steps", [])
 	if steps.is_empty():
 		return
 
@@ -659,6 +676,11 @@ func _try_node_event(node_data: Dictionary) -> void:
 		reader.condition_callback = func(cond): return condition_callback.call(cond, current_node)
 	await reader.run(steps)
 	reader.queue_free()
+
+func _try_node_event(node_data: Dictionary) -> void:
+	var event_def = _pick_node_event(node_data)
+	if not event_def.is_empty():
+		await _run_node_event(event_def)
 
 # ------------------------
 # VISIT
@@ -761,7 +783,6 @@ func _show_inventory_menu():
 
 func _handle_inventory_menu(choice):
 	if choice.get("type") == "back":
-		mode = TravelMode.NODE_ACTIONS
 		show_node_actions()
 		return
 	match choice["text"]:

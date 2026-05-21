@@ -33,5 +33,16 @@
 		"stats": {
 			"str": 0.75
 		}
+	},
+	"brace": {
+		"name": "Brace",
+		"icon": "shield.png",
+		"description": "Doubles defense",
+		"duration": 3,
+		"inflict_text": "%s's defense rose!",
+		"end_text": "%s is no longer bracing!",
+		"stats": {
+			"def": 2
+		}
 	}
 }

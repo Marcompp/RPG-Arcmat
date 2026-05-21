@@ -98,6 +98,7 @@ func _run_sequence(steps: Array) -> void:
 
 
 func _run_step(step: Dictionary) -> void:
+	print(step.get("type", ""))
 	match step.get("type", ""):
 		"text":
 			var evtxt = "dialogue"
@@ -125,6 +126,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("show_node_text", {})
 			if not step.get("no_wait", true):
 				await _wait_for_continue()
+		"show_node":
+			MyEventBus.emit("show_node", {})
 		"wait":
 			await _wait_for_continue()
 		"choice":
@@ -141,8 +144,7 @@ func _run_step(step: Dictionary) -> void:
 		"give_gold":
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
-			MyEventBus.emit("give_item", {"item": step.get("item", "")})
-			await MyEventBus.await_event("give_item_done")
+			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
 		"if":
 			await _run_if(step)
 		"random":
