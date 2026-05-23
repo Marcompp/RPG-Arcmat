@@ -116,7 +116,8 @@
 		"Potion": 3,
 		"Ether": 1,
 		"Medicine": 3,
-		"Bomb": 1
+		"Bomb": 1,
+		"Stimulant":2
 	},
 	"Relationships": {
 	  "Agnes": "Threat",

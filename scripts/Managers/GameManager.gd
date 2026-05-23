@@ -171,6 +171,7 @@ func start_game():
 func show_main_menu():
 	current_mode = GameMode.MAIN_MENU
 	MyEventBus.emit("play_bgm",{"song":"title"})
+	MyEventBus.emit("set_backdrop",{"backdrop":"title_backdrop2.png"})
 	dialogue.visible = false
 	game_ui._clear_ui()
 	main_menu.visible = true

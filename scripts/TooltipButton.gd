@@ -24,11 +24,23 @@ func _make_custom_tooltip(text):
 	var label = RichTextLabel.new()
 	label.text = text
 	label.custom_minimum_size = Vector2(250, 0)
-	
+
 	var font = load("res://Fonts/JetBrainsMono-Regular.ttf")
 	label.add_theme_font_override("normal_font", font)
 	label.bbcode_enabled = true
 	label.fit_content = true
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	
+
+	label.ready.connect(func():
+		await get_tree().process_frame
+		var popup = label.get_parent()
+		if popup is Window:
+			var vp_size = get_viewport().get_visible_rect().size
+			var pos = popup.position
+			var size = popup.size
+			pos.x = clamp(pos.x, 0, vp_size.x - size.x)
+			pos.y = clamp(pos.y, 0, vp_size.y - size.y)
+			popup.position = pos
+	)
+
 	return label

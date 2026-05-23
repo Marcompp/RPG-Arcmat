@@ -42,12 +42,13 @@
 	  },
 	  "exits": [
 		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 0,
-			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
+			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
 	  ]
 	},
 	{
 	  "name": "Woods",
 	  "entrances": ["FOREST"],
+	  "backdrop": "apple_deep.png",
 	  "arrival": {
 		"FOREST": [
 		  "The trees close in around you, swallowing the last traces of any clear path."
@@ -69,6 +70,7 @@
 	{
 	  "name": "Fork in the Road",
 	  "entrances": ["ROAD"],
+	  "backdrop": "apple_fork.png",
 	  "arrival": {
 		"ROAD": [
 		  "The path ahead splits cleanly in two, each direction equally worn."
@@ -89,6 +91,7 @@
 	{
 	  "name": "River",
 	  "entrances": ["FOREST", "RIVER"],
+	  "backdrop": "apple_river.png",
 	  "arrival": {
 		"FOREST": [
 		  "The sound of rushing water grows louder until the trees part, revealing a wide river."
@@ -114,7 +117,7 @@
 	{
 	  "name": "Bridge",
 	  "entrances": ["ROAD", "RIVER"],
-	  
+	  "backdrop": "apple_river.png",
 	  "encounter_rate": 0,
 		"events":[
 			{"chance": 1, "event": "treasure_chest"}],
@@ -144,6 +147,7 @@
 	{
 	  "name": "Clearing",
 	  "entrances": ["ROAD", "FOREST"],
+	  "backdrop": "apple_clearing.png",
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -169,6 +173,7 @@
 	{
 	  "name": "Spring",
 	  "entrances": ["FOREST", "RIVER"],
+	  "backdrop": "apple_spring.png",
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -194,6 +199,7 @@
 	{
 	  "name": "Lake",
 	  "entrances": ["FOREST", "RIVER"],
+	  "backdrop": "apple_lake.png",
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -219,6 +225,7 @@
 	{
 	  "name": "Cabin",
 	  "entrances": ["FOREST"],
+	  "backdrop": "apple_cabin.png",
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -240,6 +247,7 @@
 	{
 	  "name": "Treasure Spot",
 	  "entrances": ["FOREST"],
+	  "backdrop": "apple_clearing.png",
 	  "condition": {
 			"visit_count":{"max":0}
 		  },

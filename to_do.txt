@@ -38,10 +38,21 @@
   FEATURES NOVAS
 ----------------------------------------------------------------
 
+[ ] Context Sensitive Actions (no lugar de Search for Monsters)
+      chamar um evento específico ao node
+
+[ ] Mais de 1 inimígo no combate
+      resolver UI e método de escolha de alvo
+
+[ ] Eventos em exits de node
+      ex: possibilidade de evento bridge - bridge quebrar
+
 [ ] Sistema de Rest
       A acao "Rest" aparece no menu de exploracao mas so tem
       print("Rest TBD"). Implementar: recuperar HP/MP parcialmente
       com chance de ser atacado por um monstro da regiao.
+
+[ ] Pubs nas cidades
 
 [ ] Fuga do combate (Flee)
       Nao existe opcao de escapar de uma batalha. Adicionar no
@@ -58,9 +69,21 @@
       "Sell" no show_shop_stock() para vender consumaveis e
       equipamentos em excesso por metade do preco de compra.
 
+[ ] Ending e arena
+
+[ ] Efetividade de elementos
+
+[ ] Fazer ataques multihit funcionar corretamente
+
 ----------------------------------------------------------------
   MELHORIAS DE SISTEMA
 ----------------------------------------------------------------
+
+[ ] Backdrop tela inicial e tela de seleção de personagem
+
+[ ] Backdrops para diferentes nodes
+
+[ ] Boss battles no fim da cidade
 
 [ ] Aprender skills/spells ao subir de nivel
       Ao ganhar nivel, checar no JSON do personagem se ha
@@ -77,23 +100,58 @@
       CombatManager. Centralizar em Utils.gd (ja existe o arquivo)
       ou em um autoload para evitar repeticao.
 
+[ ] Sound Design
+      [ ] Som typewrite
+      [ ] Etc
+
 ----------------------------------------------------------------
   CONTEUDO / DADOS
 ----------------------------------------------------------------
 
-[ ] Segunda regiao jogavel
+[X] Segunda regiao jogavel
       Apple Woods e a unica regiao com nos, monstros e eventos.
       Criar nova regiao em area_nodes.json + regions.json com
       monstros proprios e pelo menos 5 nos de exploracao.
 
-[ ] Mais personagens jogaveis
+[X] Mais personagens jogaveis
       So Agnes esta confirmada em protags.json. Adicionar pelo
       menos mais 2 personagens com classes, stats e equipamentos
       iniciais distintos.
 
-[ ] Mais monstros
-      Expandir monsters.json com inimigos para a segunda regiao
+[ ] Terminar de refazer area_nodes de regiões
+A fazer
+      [ ] Core Cavern
+      [ ] Lost Swamp
+      [ ] Arcmat Ruins
+
+[ ] Melhorar monstros
+      Melhor variedade de estratégias em luta contra 
       e variedade maior de skills/drops na Apple Woods.
+      [ ] Apple Woods
+      [ ] Caves of Light
+      [ ] Sundown Plateau
+      [ ] Mt. Legory
+      [ ] Core Cavern
+      [ ] Lost Swamp
+      [ ] Arcmat Ruins
+
+[ ] Implementar Eventos
+      [ ] Apple Woods
+      [ ] Caves of Light
+      [ ] Sundown Plateau
+      [ ] Mt. Legory
+      [ ] Core Cavern
+      [ ] Lost Swamp
+      [ ] Arcmat Ruins
+
+[ ] Terminar de definir as lojas de vilarejos
+      [ ] Bertunia
+      [ ] Lantern's Reach
+      [ ] Mugell Town
+
+[ ] Musica batalha
+
+[ ] Musica boss
 
 [ ] Mais magias em spells.json
       Adicionar spells dos elementos Fire, Ice, Thunder e Wind

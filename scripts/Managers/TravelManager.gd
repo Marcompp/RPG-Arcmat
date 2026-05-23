@@ -48,6 +48,7 @@ var current_node = 0
 var current_entrance = 1
 
 var current_node_data = null
+var current_backdrop = ""
 
 func _ready():
 	world_data = load_json("res://Database/area_nodes.json")
@@ -65,6 +66,9 @@ func _ready():
 	)
 	MyEventBus.subscribe("show_node", func(_data):
 		show_node()
+	)
+	MyEventBus.subscribe("set_backdrop", func(data):
+		_set_backdrop(data.get('backdrop',''))
 	)
 
 	if world_data.is_empty():
@@ -101,6 +105,11 @@ func _set_current_node(node_index, entrance):
 	current_entrance = entrance
 	var region = world_data[current_region]
 	current_node_data = region[current_node]
+	var node_backdrop = current_node_data.get("backdrop", "")
+	if node_backdrop != "":
+		_set_backdrop(node_backdrop)
+	else:
+		_transition_backdrop(current_region)
 	
 func get_node_key():
 	return current_region + ":" + str(current_node)
@@ -759,12 +768,15 @@ func _transition_backdrop(region_name):
 		_set_backdrop(town_db[region_name].get("Backdrop", ""))
 
 func _set_backdrop(filename):
-	if not is_node_ready() or backdrop == null or filename == "":
+	if filename == "" or filename == current_backdrop:
+		return
+	if not is_node_ready() or backdrop == null:
 		return
 	var path = "res://assets/backgrounds/" + filename
 	if not ResourceLoader.exists(path):
 		push_error("Backdrop não encontrado: " + path)
 		return
+	current_backdrop = filename
 	var texture = load(path)
 	var tween = create_tween()
 	tween.tween_property(backdrop, "modulate:a", 0.0, 0.4)

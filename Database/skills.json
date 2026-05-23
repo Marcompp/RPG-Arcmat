@@ -51,6 +51,17 @@
 		"inherit_stats": false,
 		"inherit_wpn": false
 	},
+	"Flourish": {
+		"nome": "Flourish",
+		"type": "self",
+		"stats": {
+			"wgt": 4
+		},
+		"cooldown": 3,
+		"effect": "recharge",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
 	"Pinpoint Hit": {
 		"nome": "Pinpoint Hit",
 		"type": "attack",

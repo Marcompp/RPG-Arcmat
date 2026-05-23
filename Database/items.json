@@ -40,6 +40,18 @@
 		"inherit_wpn": false,
 		"consumable": true
 	},
+	"Stimulant": {
+		"nome": "Stimulant",
+		"type": "self",
+		"stats": {
+			"wgt": 20
+		},
+		"cooldown": 3,
+		"effect": "recharge",
+		"magnitude":2,
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
 	"Bomb": {
 		"nome": "Bomb",
 		"type": "attack",
