@@ -222,8 +222,8 @@
 		"stats": { "mgt": 12, "acc": 90, "wgt": 9, "crit": 0, "mys": 3 },
 		"effect": "none"
 	},
-	"Battle Axe": {
-		"name": "Battle Axe",
+	"Battleaxe": {
+		"name": "Battleaxe",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 14, "acc": 65, "wgt": 9, "crit": 0, "mys": 0 },
 		"effect": "none"
@@ -302,6 +302,24 @@
 		"name": "Geometry Staff",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 15, "acc": 60, "wgt": 12, "crit": 0, "mys": 6 },
+		"effect": "none"
+	},
+	"Longsword": {
+		"name": "Longsword",
+		"wpn_type": "Sword",
+		"stats": { "mgt": 8, "acc": 75, "wgt": 8, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
+	"Spear": {
+		"name": "Spear",
+		"wpn_type": "Polearm",
+		"stats": { "mgt": 9, "acc": 70, "wgt": 9, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
+	"Recurve Bow": {
+		"name": "Recurve Bow",
+		"wpn_type": "Ranged",
+		"stats": { "mgt": 7, "acc": 80, "wgt": 5, "crit": 10, "mys": 0 },
 		"effect": "none"
 	}
 }

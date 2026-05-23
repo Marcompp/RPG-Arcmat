@@ -255,10 +255,17 @@ func handle_node_action(choice):
 			show_exit_choices()
 		
 		"Search for Monsters":
-			MyEventBus.emit(
-				"start_combat", {}
-			)
-			print("Combat TBD")
+			var monster = _pick_encounter_monster()
+			if monster:
+				MyEventBus.emit("continue_text", {
+					"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
+				})
+				await game_manager._gm_wait_for_continue()
+				MyEventBus.emit("start_combat", {"enemy": monster})
+			else:
+				MyEventBus.emit("continue_text", {"text": "You search the area, but find nothing..."})
+				await game_manager._gm_wait_for_continue()
+				show_node_actions()
 		
 		"Inventory":
 			_show_inventory_menu()

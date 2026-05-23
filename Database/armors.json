@@ -24,5 +24,121 @@
 			"def": 2,
 			"mag": 2
 		}
+	},
+	"Old Rags": {
+		"name": "Old Rags",
+		"description": "Tattered strips of cloth barely holding together.",
+		"stats": {
+			"def": 1
+		}
+	},
+	"Old Armor": {
+		"name": "Old Armor",
+		"description": "Dented and rusted armor that has seen better days.",
+		"stats": {
+			"def": 3
+		}
+	},
+	"Traveler's Tunic": {
+		"name": "Traveler's Tunic",
+		"description": "A sturdy tunic made for long journeys. Light and practical.",
+		"stats": {
+			"def": 3,
+			"agi": 1
+		}
+	},
+	"Dress": {
+		"name": "Dress",
+		"description": "An elegant dress that conceals a thin layer of protective lining.",
+		"stats": {
+			"def": 2,
+			"mag": 2
+		}
+	},
+	"Cult Robes": {
+		"name": "Cult Robes",
+		"description": "Ceremonial robes worn by members of a shadowy order.",
+		"stats": {
+			"def": 2,
+			"mag": 3
+		}
+	},
+	"Mage's Robe": {
+		"name": "Mage's Robe",
+		"description": "A flowing robe woven with mana-conducting thread.",
+		"stats": {
+			"def": 1,
+			"mag": 4
+		}
+	},
+	"Necromancer Robes": {
+		"name": "Necromancer Robes",
+		"description": "Dark robes imbued with the residue of death magic.",
+		"stats": {
+			"def": 2,
+			"mag": 4
+		}
+	},
+	"Whitewing Armor": {
+		"name": "Whitewing Armor",
+		"description": "Lightweight armor worn by Pegasus Knights. Allows freedom of movement.",
+		"stats": {
+			"def": 5,
+			"agi": 2
+		}
+	},
+	"Chainmail": {
+		"name": "Chainmail",
+		"description": "Interlocking iron rings offering solid all-around protection.",
+		"stats": {
+			"def": 7
+		}
+	},
+	"Lizal Armor": {
+		"name": "Lizal Armor",
+		"description": "Armor fashioned from the thick scales of a Lizardman.",
+		"stats": {
+			"def": 8
+		}
+	},
+	"Scale Mail": {
+		"name": "Scale Mail",
+		"description": "Overlapping metal scales riveted onto a leather backing.",
+		"stats": {
+			"def": 9
+		}
+	},
+	"Arcward Armor": {
+		"name": "Arcward Armor",
+		"description": "Heavy armor etched with sigils that deflect magical attacks.",
+		"stats": {
+			"def": 5,
+			"mag": 3
+		}
+	},
+	"Adventure Clothes": {
+		"name": "Adventure Clothes",
+		"description": "Reinforced clothing favored by treasure hunters. Built for speed and survival.",
+		"stats": {
+			"def": 5,
+			"agi": 2,
+			"dex": 2
+		}
+	},
+	"Wizard Robe": {
+		"name": "Wizard Robe",
+		"description": "An ancient robe that greatly amplifies the wearer's magical power.",
+		"stats": {
+			"def": 2,
+			"mag": 6
+		}
+	},
+	"Archmage Robe": {
+		"name": "Archmage Robe",
+		"description": "The ultimate mage's garment, said to have been worn by the Arcmat sages.",
+		"stats": {
+			"def": 2,
+			"mag": 8
+		}
 	}
 }

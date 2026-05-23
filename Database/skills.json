@@ -185,5 +185,16 @@
 		"magic": true,
 		"inherit_stats": true,
 		"inherit_wpn": false
+	},
+	"Recharge": {
+		"nome": "Recharge",
+		"type": "self",
+		"stats": {
+			"wgt": 4
+		},
+		"cooldown": 3,
+		"effect": "recharge",
+		"inherit_stats": false,
+		"inherit_wpn": false
 	}
 }

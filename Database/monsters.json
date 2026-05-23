@@ -4,7 +4,9 @@
 	"Element": "Water",
 	"Lvl": 1,
 	"Stats": {"HP":"E","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
-	"Weapon": null,
+	"TrueStats":{
+		"HP": 20
+	},
 	"Drops": {
 		"Potion": 90,
 		"Slime Spear": 10
@@ -287,11 +289,11 @@
 	"Lvl": 12,
 	"Stats": {"HP":"A","MP":"E","Str":"B","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
 	"Equip": {
-		"Weapon": "Battle Axe"
+		"Weapon": "Battleaxe"
 	},
 	"Drops": {
 		"Potion": 40,
-		"Battle Axe": 15
+		"Battleaxe": 15
 	},
 	"Gold":80,
 	"Skills": [],

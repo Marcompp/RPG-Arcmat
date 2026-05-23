@@ -1,0 +1,106 @@
+================================================================================
+  RPG-ARCMAT — TO DO
+================================================================================
+
+----------------------------------------------------------------
+  BUGS
+----------------------------------------------------------------
+
+[ ] Remover prints de debug espalhados pelo codigo
+      - Character.gd:201         print(data) em get_name()
+      - TravelManager.gd:487     print('SHOW_EXIT_CHOICES')
+      - TravelManager.gd:618-619 print() dentro de _pick_encounter_monster()
+      - TravelManager.gd:624     print('EMPTY POOL')
+      - GameManager.gd:83        print('GIVING ITEM') + print(data)
+      - GameManager.gd:833-834   print('ITEMT') + print(data)
+
+[x] "Search for Monsters" envia {} para start_combat
+      Cai no inimigo padrao (Slime) em vez de sortear um monstro
+      da regiao atual. Usar _pick_encounter_monster() igual ao
+      handle_exit_choice() faz.
+
+[ ] GameManager.apply_effect nunca emite stats_changed
+      A variavel 'changed' e declarada como false e nunca vira true
+      dentro do loop. O sinal de stats nunca dispara.
+      Arquivo: GameManager.gd, linhas 663-671
+
+[ ] Character.level nao sincroniza data["Lvl"] ao subir de nivel
+      Apos level up, level (int) sobe mas data["Lvl"] fica com o
+      valor original do JSON. Podem divergir em saves/reloads.
+      Arquivo: Character.gd, linhas 280-289
+
+[ ] Campo "acc" (precisao) ignorado no combate
+      acc existe em skills.json e spells.json e e exibido no tooltip,
+      mas CombatManager nunca checa esse valor. Todos os ataques
+      acertam 100% das vezes independente do acc.
+
+----------------------------------------------------------------
+  FEATURES NOVAS
+----------------------------------------------------------------
+
+[ ] Sistema de Rest
+      A acao "Rest" aparece no menu de exploracao mas so tem
+      print("Rest TBD"). Implementar: recuperar HP/MP parcialmente
+      com chance de ser atacado por um monstro da regiao.
+
+[ ] Fuga do combate (Flee)
+      Nao existe opcao de escapar de uma batalha. Adicionar no
+      _main_choices() do CombatManager com chance de sucesso
+      baseada em AGI do jogador vs do inimigo.
+
+[ ] Tela de Stats na exploracao
+      Nao ha como ver a ficha completa do personagem fora de combate.
+      Adicionar opcao "Stats" no menu de no (show_node_actions) que
+      exibe todos os atributos, equipamentos atuais e nivel/XP.
+
+[ ] Venda de itens nas lojas
+      TravelManager implementa apenas compra. Adicionar opcao
+      "Sell" no show_shop_stock() para vender consumaveis e
+      equipamentos em excesso por metade do preco de compra.
+
+----------------------------------------------------------------
+  MELHORIAS DE SISTEMA
+----------------------------------------------------------------
+
+[ ] Aprender skills/spells ao subir de nivel
+      Ao ganhar nivel, checar no JSON do personagem se ha
+      habilidades ou magias associadas aquele level e oferecer
+      aprendizado automatico apos o level up.
+
+[ ] Aba Misc do inventario sem interacao
+      _show_inventory_misc() so exibe itens como lista desabilitada.
+      Adicionar descricoes via tooltip e, quando couber, permitir
+      usar itens de missao com efeito definido.
+
+[ ] load_json() duplicado em 3 scripts
+      A mesma funcao existe em GameManager, TravelManager e
+      CombatManager. Centralizar em Utils.gd (ja existe o arquivo)
+      ou em um autoload para evitar repeticao.
+
+----------------------------------------------------------------
+  CONTEUDO / DADOS
+----------------------------------------------------------------
+
+[ ] Segunda regiao jogavel
+      Apple Woods e a unica regiao com nos, monstros e eventos.
+      Criar nova regiao em area_nodes.json + regions.json com
+      monstros proprios e pelo menos 5 nos de exploracao.
+
+[ ] Mais personagens jogaveis
+      So Agnes esta confirmada em protags.json. Adicionar pelo
+      menos mais 2 personagens com classes, stats e equipamentos
+      iniciais distintos.
+
+[ ] Mais monstros
+      Expandir monsters.json com inimigos para a segunda regiao
+      e variedade maior de skills/drops na Apple Woods.
+
+[ ] Mais magias em spells.json
+      Adicionar spells dos elementos Fire, Ice, Thunder e Wind
+      com custos de MP e efeitos de status variados.
+
+[ ] Mais itens consumaveis
+      Expandir items.json com itens de recuperacao de MP, cura de
+      status e itens ofensivos para uso em combate.
+
+================================================================================
