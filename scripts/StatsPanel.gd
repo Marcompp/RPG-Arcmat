@@ -329,6 +329,7 @@ func _clear_ui():
 	mp_bar.value = 0
 	hp_text.text = ""
 	mp_text.text = ""
+	position = _rest_pos
 	for child in status_container.get_children():
 		child.queue_free()
 	

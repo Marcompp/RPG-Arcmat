@@ -57,7 +57,7 @@
 		"stats": {
 			"mgt": 0,
 			"acc": 95,
-			"crit": 30
+			"crit": 100
 		},
 		"cooldown": 2,
 		"effect": "none",
@@ -109,11 +109,21 @@
 		"nome": "Regen",
 		"type": "self",
 		"stats": {
-			"mgt": -20,
 			"acc": 100
 		},
 		"cooldown": 4,
 		"effect": "regen",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"First Aid": {
+		"nome": "First Aid",
+		"type": "self",
+		"stats": {
+			"mgt": -10,
+			"acc": 100
+		},
+		"cooldown": 4,
 		"inherit_stats": false,
 		"inherit_wpn": false
 	},
