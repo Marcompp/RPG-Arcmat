@@ -38,6 +38,7 @@
 		"effect": "stat_clear",
 		"inherit_stats": false,
 		"inherit_wpn": false,
+		"battle_only": true,
 		"consumable": true
 	},
 	"Stimulant": {
@@ -50,7 +51,9 @@
 		"effect": "recharge",
 		"magnitude":2,
 		"inherit_stats": false,
-		"inherit_wpn": false
+		"inherit_wpn": false,
+		"battle_only": true,
+		"consumable": true
 	},
 	"Bomb": {
 		"nome": "Bomb",
@@ -67,6 +70,7 @@
 		"chance": 10,
 		"inherit_stats": false,
 		"inherit_wpn": false,
+		"battle_only": true,
 		"consumable": true
 	}
 }

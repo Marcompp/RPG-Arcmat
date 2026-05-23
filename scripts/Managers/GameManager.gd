@@ -768,6 +768,10 @@ func _gm_wait_for_continue():
 	while not state["done"]:
 		await get_tree().process_frame
 
+func _gm_wait_for_writing():
+	while dialogue.is_typing:
+		await get_tree().process_frame
+
 func _build_equip_comparison_text(item_name: String, new_item: Dictionary, old_item, slot: String) -> String:
 	var new_name = new_item.get("name", item_name)
 	var old_name = "None" if not old_item else old_item.get("name", "?")

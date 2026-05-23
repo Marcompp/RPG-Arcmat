@@ -117,7 +117,7 @@
 	{
 	  "name": "Bridge",
 	  "entrances": ["ROAD", "RIVER"],
-	  "backdrop": "apple_river.png",
+	  "backdrop": "apple_bridge.png",
 	  "encounter_rate": 0,
 		"events":[
 			{"chance": 1, "event": "treasure_chest"}],

@@ -123,7 +123,7 @@ func show_text(text, choices = []):
 	MyEventBus.emit("dialogue", { "text": text, "choices": choices })
 
 func show_choices(choices = []):
-	MyEventBus.emit("show_choices", { "choices": choices })
+	MyEventBus.emit("show_choices", { "choices": choices, "fixed_sizes": len(choices) > 2 })
 
 func _show_intro():
 	show_text("You encounter %s\n\n%s is raring for a fight!" % [enemy.get_name(), enemy.get_name()])

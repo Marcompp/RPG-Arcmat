@@ -35,6 +35,7 @@ var visible_chars = 0
 var current_choices = []
 var current_page: int = 0
 var _is_sliding: bool = false
+var _fixed_sizes: bool = false
 
 var condition_callback = null
 
@@ -56,12 +57,13 @@ func shake():
 func play_node(node_data):
 	hide_choices()
 	current_choices = node_data.get("choices", [])
+	_fixed_sizes = node_data.get("fixed_sizes", false)
 	choice_header = node_data.get("header","")
 	current_page = 0
 	start_typing(node_data.get("text", ""))
 
 # NOVO: usado pelo GameManager
-func set_choices(choices, header):
+func set_choices(choices, header, fixed_sizes = false):
 	current_choices = choices
 	choice_header = header
 	current_page = 0
@@ -71,7 +73,7 @@ func set_choices(choices, header):
 		return
 
 	_pending_choices = false
-	show_choices()
+	show_choices(fixed_sizes)
 
 # ------------------------
 # TYPEWRITER
@@ -110,6 +112,7 @@ func append_text(text):
 	hide_choices()
 	_show_choices_after_typing = false
 	_pending_choices = false
+	_fixed_sizes = false
 	typing_id += 1
 	var clean = _parse_commands(text, visible_chars)
 	log_add_text(clean)
@@ -246,7 +249,8 @@ func evaluate_choice(choice):
 
 	return condition_callback.call(choice["condition"])
 
-func show_choices():
+func show_choices(fixed_sizes: bool = false):
+	_fixed_sizes = fixed_sizes
 	hide_choices()
 	visible_choice_map.clear()
 
@@ -267,8 +271,19 @@ func show_choices():
 	var page_start: int = current_page * 4
 	var page_choices: Array = displayable.slice(page_start, page_start + 4)
 
-	left_button.visible  = current_page > 0
-	right_button.visible = current_page < total_pages - 1
+	if total_pages > 1:
+		_fixed_sizes = true
+		left_button.show()
+		right_button.show()
+		left_button.disabled  = current_page <= 0
+		right_button.disabled = current_page >= total_pages - 1
+		left_button.modulate  = Color(1, 1, 1, 0.35) if left_button.disabled  else Color(1, 1, 1, 1)
+		right_button.modulate = Color(1, 1, 1, 0.35) if right_button.disabled else Color(1, 1, 1, 1)
+	else:
+		left_button.hide()
+		right_button.hide()
+
+	print(current_choices)
 
 	for i in range(4):
 		if i < page_choices.size():
@@ -283,10 +298,18 @@ func show_choices():
 			button.tooltip_text = tooltip if tooltip else ""
 			button.has_tooltip  = tooltip != "" and tooltip != null
 
+			button.modulate.a = 1.0
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
 			button.show()
 			visible_choice_map.append(choice)
 		else:
-			buttons[i].hide()
+			var b = buttons[i]
+			if fixed_sizes:
+				b.show()
+				b.modulate.a = 0.0
+				b.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			else:
+				b.hide()
 
 	# Back button — always stays in Row0
 	var back_button = buttons[4]
@@ -305,9 +328,13 @@ func show_choices():
 func hide_choices():
 	choice_label.text = ""
 	for b in buttons:
+		b.modulate.a = 1.0
+		b.mouse_filter = Control.MOUSE_FILTER_STOP
 		b.hide()
 		b.tooltip_text = ""
 		b.has_tooltip = false
+	left_button.hide()
+	right_button.hide()
 		
 func apply_button_style(button, choice, enabled):
 	button.modulate = Color(1,1,1,1)
@@ -351,7 +378,7 @@ func _slide_to_page(new_page: int, direction: int):
 	await tween_out.finished
 
 	current_page = new_page
-	show_choices()
+	show_choices(_fixed_sizes)
 	choices_inner.position.x = CLIP_PADDING + direction * w
 	_sync_choices_size()
 
@@ -480,7 +507,7 @@ func _ready():
 	for i in range(buttons.size()):
 		buttons[i].pressed.connect(_on_button_pressed.bind(i))
 	MyEventBus.subscribe("show_choices", func(data):
-		set_choices(data.get("choices", []), data.get("header", ""))
+		set_choices(data.get("choices", []), data.get("header", ""), data.get("fixed_sizes",false))
 	)
 	MyEventBus.subscribe("dialogue", func(data):
 		play_node(data)

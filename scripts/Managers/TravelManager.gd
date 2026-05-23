@@ -532,6 +532,11 @@ func handle_exit_choice(choice):
 	apply_exit_vars(exit)
 
 	var next_node = pick_next_node(current_entrance)
+	
+	var travel_text = exit.get("travel_text", "You press on for a while.")
+	var text = travel_text + "\n\n...\n[wait=0.2]\n...[wait=0.2]"
+	MyEventBus.emit("dialogue", {"text": text})
+	await game_manager._gm_wait_for_writing()
 	_set_current_node(next_node, current_entrance)
 	register_visit()
 
@@ -539,11 +544,8 @@ func handle_exit_choice(choice):
 		"node": current_node_data,
 		"entrance": current_entrance
 	})
-
-	var travel_text = exit.get("travel_text", "You press on for a while.")
-	var text = travel_text + "\n\n...\n[wait=0.2]\n...\n[wait=0.2]\n\n"
-	text += get_node_text(false)
-	MyEventBus.emit("dialogue", {"text": text})
+	text = get_node_text(false)
+	MyEventBus.emit("continue_text", {"text": text})
 
 	var boss_monster = _get_boss_encounter(current_node_data)
 	var monster = null
@@ -817,14 +819,15 @@ func _show_inventory_items():
 	var player = game_state["player"]
 	var inv = player.get_inventory()
 	var choices = []
+	var invalid_choices = []
 	for item_name in inv:
 		var data = items_db.get(item_name, {})
 		if data.is_empty() or not data.get("consumable", false):
 			continue
 		var count = inv[item_name]
 		var label = data.get("nome", item_name) + " x%d" % count
-		if data.get("type", "self") != "self":
-			choices.append({
+		if data.get("type", "self") != "self" or data.get("battle_only", false):
+			invalid_choices.append({
 				"text": label, "type": "item_disabled",
 				"disabled": true, "disabled_text": label,
 				"disabled_tooltip": "Can only be used in combat"
@@ -834,13 +837,15 @@ func _show_inventory_items():
 				"text": label, "type": "item", "data": item_name,
 				"tooltip": _format_item_tooltip(item_name, data)
 			})
+	choices = choices + invalid_choices
 	if choices.is_empty():
 		choices.append({
 			"text": "(No items)", "type": "none",
 			"disabled": true, "disabled_text": "(No items)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": "Items"})
+	var fixed_sizes = len(choices) > 2
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Items", "fixed_sizes": fixed_sizes})
 
 func _handle_inventory_items(choice):
 	if choice.get("type") == "back":
@@ -918,7 +923,8 @@ func _show_inventory_weapons():
 			"disabled": true, "disabled_text": "(No other weapons)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": "Weapons"})
+	var fixed_sizes = len(choices) > 2
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Weapons", "fixed_sizes":fixed_sizes})
 
 func _handle_inventory_weapons(choice):
 	if choice.get("type") == "back":
@@ -958,7 +964,8 @@ func _show_inventory_armor():
 			"disabled": true, "disabled_text": "(No other armor)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": "Armor"})
+	var fixed_sizes = len(choices) > 2
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Armor", "fixed_sizes":fixed_sizes})
 
 func _handle_inventory_armor(choice):
 	if choice.get("type") == "back":
