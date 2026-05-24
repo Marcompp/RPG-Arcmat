@@ -20,7 +20,7 @@
 		{ "text": "Sunlight flickers through the branches overhead.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Continue on the path", "leads_to": "ROAD", "value": 1.2,
+		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 1.2,
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
 		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." }
 	  ]
@@ -32,6 +32,7 @@
 	  "events": [
 			{"chance": 1, "event": "treasure_chest"}
 	  ],
+	  "enemies": ["Slime Duo"],
 	  "arrival": {
 		"ROAD": [
 		  "Debug."
@@ -43,7 +44,14 @@
 	  "exits": [
 		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 0,
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
-	  ]
+	  ],
+	  "action": {
+		"name": "Test Fight",
+		"tooltip": "Choose enemy to fight",
+		"event": "debug_apple_woods",
+		"disabled_tooltip": "You already fought an enemy here",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Woods",

@@ -9,6 +9,7 @@ var _death_tween: Tween = null
 var _death_gen: int = 0
 var _bars_tween: Tween = null
 var _shake_count: int = 0
+var _dead: bool = false
 
 @onready var name_label = $Panel/VBoxContainer/NameContainer/NameLabel
 @onready var status_container = $Panel/VBoxContainer/NameContainer/StatusContainer
@@ -123,6 +124,7 @@ func bind(game_state):
 	_refresh_all()
 	
 func bind_character(char):
+	_dead = false
 	_cancel_death_anim()
 	_bind_character(char)
 	_refresh_all()
@@ -150,6 +152,8 @@ func _on_state_changed(path, value):
 func _refresh_all():
 	if character == null:
 		_clear_ui()
+		return
+	if _dead:
 		return
 	visible = true
 	modulate.a = 1.0
@@ -286,6 +290,7 @@ func _format_stat_value(value: int, max_value: int) -> String:
 	return "[color=%s]%s[/color]" % [color, inner]
 
 func death_animation():
+	_dead = true
 	if _death_tween:
 		_death_tween.kill()
 

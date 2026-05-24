@@ -24,25 +24,38 @@ func _ready():
 		if child is Control:
 			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	MyEventBus.subscribe("character_defeated", func(data):
-		if data["victory"]:
-			enemy_panel.death_animation()
-		else:
+		if not data["victory"]:
 			player_panel.death_animation()
+	)
+	MyEventBus.subscribe("enemy_died", func(data):
+		if data["who"] == "enemy_1":
+			enemy2_panel.death_animation()
+		else:
+			enemy_panel.death_animation()
 	)
 	MyEventBus.subscribe("combat_ended", func(_data):
 		enemy_panel._clear_ui()
+		enemy2_panel._clear_ui()
 	)
 	MyEventBus.subscribe("enemy_timer_update", func(data):
-		var t: int = data["timer"]
-		if t < 0:
-			cooldown_label.text = ""
-		elif t == 0:
-			cooldown_label.text = "!"
-		else:
-			cooldown_label.text = str(t)
+		var timers: Array = data.get("timers", [])
+		var labels = [cooldown_label, cooldown_label2]
+		for i in range(labels.size()):
+			var t: int = timers[i] if i < timers.size() else -1
+			if t < 0:
+				labels[i].text = ""
+			elif t == 0:
+				labels[i].text = "!"
+			else:
+				labels[i].text = str(t)
 	)
 	MyEventBus.subscribe("status_changed", func(data):
-		var panel = player_panel if data["who"] == "player" else enemy_panel
+		var panel
+
+		match data["who"]:
+			"player":  panel = player_panel
+			"enemy_1": panel = enemy2_panel
+			_:         panel = enemy_panel
 		panel.update_statuses(data["effects"])
 	)
 	var xp_fill = StyleBoxFlat.new()
@@ -73,12 +86,17 @@ func bind(game_state):
 	else:
 		player_panel._clear_ui()
 		
-	var enemy = state.get_value("enemy")
-	if enemy:
-		enemy_panel.bind_character(enemy)
+	var enemy0 = state.get_value("enemy_0", state.get_value("enemy"))
+	if enemy0:
+		enemy_panel.bind_character(enemy0)
 	else:
 		enemy_panel._clear_ui()
-	
+
+	var enemy1 = state.get_value("enemy_1")
+	if enemy1:
+		enemy2_panel.bind_character(enemy1)
+	else:
+		enemy2_panel._clear_ui()
 
 	state.changed.connect(_on_state_changed)
 	_refresh_all()
@@ -98,8 +116,10 @@ func _on_state_changed(path, value):
 		player_panel.bind_character(value)
 	elif path.begins_with("player"):
 		player_panel.bind_character(value)
-	elif path.begins_with("enemy"):
+	elif path == "enemy_0" or path == "enemy":
 		enemy_panel.bind_character(value)
+	elif path == "enemy_1":
+		enemy2_panel.bind_character(value)
 	_refresh_all()
 
 func _refresh_all():

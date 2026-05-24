@@ -208,23 +208,40 @@ func show_node_actions():
 	mode = TravelMode.NODE_ACTIONS
 	if game_manager:
 		SaveManager.save(game_manager.current_slot, game_manager)
+	var node_action = current_node_data.get("action", {}) if current_node_data else {}
+	var action_name = node_action.get("name", "Search for Monsters")
+	var action_tooltip = node_action.get("tooltip", "Stay in place and look for monsters to fight")
+	var action_used = game_state and not node_action.get("repeatable", true) and \
+		game_state["used_node_actions"].get(get_node_key(), false)
+	var action_choice: Dictionary
+	if action_used:
+		action_choice = {
+			"text": action_name,
+			"type": "node_action_done",
+			"disabled": true,
+			"disabled_text": action_name,
+			"disabled_tooltip": node_action.get("disabled_tooltip", "Already done"),
+		}
+	else:
+		action_choice = {
+			"text": action_name,
+			"type": "node_action",
+			"tooltip": action_tooltip,
+			"data": node_action
+		}
 	MyEventBus.emit("show_choices",{'choices':[
-		{ 
+		{
 			"text": "Continue",
 			"type": "action",
 			"tooltip": "Continue your journey"
 		},
-		{ 
-			"text": "Search for Monsters",
-			"type": "action",
-			"tooltip": "Stay in place and look for monsters to fight"
-		},
-		{ 
+		action_choice,
+		{
 			"text": "Inventory",
 			"type": "action",
 			"tooltip": "View your inventory"
 		},
-		{ 
+		{
 			"text": "Rest",
 			"type": "action",
 			"tooltip": "Recover health, but risk being attacked"
@@ -258,29 +275,48 @@ func _handle_region_exit():
 # ------------------------
 
 func handle_node_action(choice):
+	print(choice)
+	if choice.get("type") == "node_action":
+		await _handle_node_specific_action(choice.get("data", {}))
+		return
 	match choice["text"]:
 		"Continue":
 			mode = TravelMode.CHOOSING_EXIT
 			show_exit_choices()
-		
-		"Search for Monsters":
-			var monster = _pick_encounter_monster()
-			if monster:
-				MyEventBus.emit("continue_text", {
-					"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
-				})
-				await game_manager._gm_wait_for_continue()
-				MyEventBus.emit("start_combat", {"enemy": monster})
-			else:
-				MyEventBus.emit("continue_text", {"text": "You search the area, but find nothing..."})
-				await game_manager._gm_wait_for_continue()
-				show_node_actions()
-		
+
 		"Inventory":
 			_show_inventory_menu()
-		
+
 		"Rest":
 			print("Rest TBD")
+
+func _handle_node_specific_action(action_data: Dictionary) -> void:
+	var event_name = action_data.get("event", "")
+	if event_name != "":
+		var event_def = events_db.get(event_name, {})
+		if not event_def.is_empty():
+			await _run_node_event(event_def)
+			if not action_data.get("repeatable", true):
+				game_state["used_node_actions"][get_node_key()] = true
+			show_node_actions()
+			return
+		push_warning("Node action event not found: " + event_name)
+	if not action_data.get("repeatable", true):
+		game_state["used_node_actions"][get_node_key()] = true
+	var monster = _pick_encounter_monster()
+	if monster:
+		MyEventBus.emit("continue_text", {
+			"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
+		})
+		await game_manager._gm_wait_for_continue()
+		MyEventBus.emit("start_combat", {"enemy":monster})
+		var result = await MyEventBus.await_event("post_combat")
+		if result.get("victory", false):
+			show_node()
+	else:
+		MyEventBus.emit("continue_text", {"text": "You search the area, but find nothing..."})
+		await game_manager._gm_wait_for_continue()
+		show_node_actions()
 
 # ------------------------
 # TOWN
@@ -562,7 +598,10 @@ func handle_exit_choice(choice):
 			"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
 		})
 		await game_manager._gm_wait_for_continue()
-		MyEventBus.emit("start_combat", {"enemy": monster})
+		MyEventBus.emit("start_combat", {"enemy":monster})
+		var result = await MyEventBus.await_event("post_combat")
+		if result.get("victory", false):
+			show_node()
 	else:
 		event = _pick_node_event(current_node_data)
 		if event:
@@ -629,17 +668,19 @@ func _get_boss_encounter(node_data) -> Variant:
 	return null
 
 func _pick_encounter_monster():
+	var node_enemies: Array = current_node_data.get("enemies", []) if current_node_data else []
 	var pool = []
 	for monster in monster_db:
-		#print(monster)
-		if monster.get("Location", "") != current_region:
-			print(current_region)
-			print(monster.get("Location", ""))
-			continue
 		var rarity = monster.get("Rarity", null)
 		if rarity == null or (typeof(rarity) != TYPE_INT and typeof(rarity) != TYPE_FLOAT) or rarity <= 0:
 			continue
-		pool.append({"data": monster, "weight": rarity})
+		if not node_enemies.is_empty():
+			if monster.get("Name", "") in node_enemies:
+				pool.append({"data": monster, "weight": rarity})
+		else:
+			if monster.get("Location", "") != current_region:
+				continue
+			pool.append({"data": monster, "weight": rarity})
 
 	if pool.is_empty():
 		print('EMPTY POOL')
@@ -844,7 +885,7 @@ func _show_inventory_items():
 			"disabled": true, "disabled_text": "(No items)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	var fixed_sizes = len(choices) > 2
+	var fixed_sizes = len(choices) > 3
 	MyEventBus.emit("show_choices", {"choices": choices, "header": "Items", "fixed_sizes": fixed_sizes})
 
 func _handle_inventory_items(choice):
@@ -923,7 +964,7 @@ func _show_inventory_weapons():
 			"disabled": true, "disabled_text": "(No other weapons)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	var fixed_sizes = len(choices) > 2
+	var fixed_sizes = len(choices) > 3
 	MyEventBus.emit("show_choices", {"choices": choices, "header": "Weapons", "fixed_sizes":fixed_sizes})
 
 func _handle_inventory_weapons(choice):
@@ -964,7 +1005,7 @@ func _show_inventory_armor():
 			"disabled": true, "disabled_text": "(No other armor)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	var fixed_sizes = len(choices) > 2
+	var fixed_sizes = len(choices) > 3
 	MyEventBus.emit("show_choices", {"choices": choices, "header": "Armor", "fixed_sizes":fixed_sizes})
 
 func _handle_inventory_armor(choice):

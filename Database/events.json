@@ -58,5 +58,40 @@
 			}},
 			{"type": "show_node"}
 		]
+	},
+	"debug_apple_woods": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Slime", "key": "slime"}, 
+					{"choice": "Bandit", "key": "bandit"},
+					{"choice": "Skeleton", "key": "skeleton"},
+					{"choice": "Slime Duo", "key": "slime2"},
+					{"choice": "Werewolf", "key": "werewolf"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"slime": [
+						{"type":"combat", "enemy": "Slime"}
+					],
+					"bandit": [
+						{"type":"combat", "enemy": "Bandit"}
+					],
+					"skeleton": [
+						{"type":"combat", "enemy": "Skeleton"}
+					],
+					"slime2": [
+						{"type":"combat", "enemy": "Slime Duo"}
+					],
+					"werewolf": [
+						{"type":"combat", "enemy": "Werewolf"}
+					],
+					"back": [
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
 	}
 }

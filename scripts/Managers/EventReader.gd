@@ -180,7 +180,7 @@ func _run_choice(step: Dictionary) -> void:
 
 func _run_combat(step: Dictionary) -> void:
 	MyEventBus.emit("start_combat", {"enemy": step.get("enemy", {})})
-	var result: Dictionary = await MyEventBus.await_event("combat_ended")
+	var result: Dictionary = await MyEventBus.await_event("post_combat")
 
 	if result.get("victory", false) and step.has("on_victory"):
 		await _run_sequence(step["on_victory"])

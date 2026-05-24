@@ -12,16 +12,29 @@
 		"Slime Spear": 10
 	},
 	"Gold": 10,
-	"Skills": ["Regen"],
+	"Startup":1,
+	"Cooldown":2,
+	"Skill_Chance": 80,
+	"Start":"Regen",
+	"Skills": [],
 	"Spells": ["Water","Poison"],
 	"Location": "Apple Woods",
 	"Rarity": 10
   },
   {
+	"Name":"Slime Duo",
+  	"Enemies":["Slime","Slime"],
+	"Location": "Apple Woods",
+	"Rarity":2
+	},
+  {
 	"Name": "Bandit",
 	"Element": "Earth",
 	"Lvl": 2,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP": 30
+	},
 	"Equip": {
 		"Weapon": "Hand Axe",
 		"Armor": "Tanktop"
@@ -32,6 +45,8 @@
 		"Tanktop": 5
 	},
 	"Gold": 50,
+	"Startup":2,
+	"Cooldown":1,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -42,6 +57,9 @@
 	"Element": "Dark",
 	"Lvl": 3,
 	"Stats": {"HP":"D","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"F","Def":"D"},
+	"TrueStats":{
+		"HP": 25
+	},
 	"Equip": {
 		"Weapon": "Scimitar",
 		"Armor": "Old Armor"
@@ -52,6 +70,8 @@
 		"Old Armor": 15
 	},
 	"Gold":30,
+	"Startup":2,
+	"Cooldown":2,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Apple Woods",
@@ -62,6 +82,9 @@
 	"Element": "Wind",
 	"Lvl": 4,
 	"Stats": {"HP":"D","MP":"E","Str":"E","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP": 19
+	},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 60,
@@ -437,6 +460,9 @@
 	"Element": "Earth",
 	"Lvl": 4,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"C","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP":60
+	},
 	"Weapon": null,
 	"Equip": {
 		"Armor": "Old Rags"
@@ -447,6 +473,9 @@
 		"Old Rags": 15
 	},
 	"Gold":100,
+	"Startup":1,
+	"Cooldown":2,
+	"Skill_Chance":70,
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Apple Woods",

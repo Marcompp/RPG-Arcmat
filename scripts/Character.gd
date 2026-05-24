@@ -22,7 +22,7 @@ var stat_multipliers: Dictionary = {}
 # ------------------------
 
 func _init(char_data, arm_db, wpn_db):
-	data = char_data
+	data = char_data.duplicate()
 	armor_db = arm_db
 	weapon_db = wpn_db
 	

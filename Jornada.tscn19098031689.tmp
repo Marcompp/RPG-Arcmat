@@ -78,11 +78,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="NameLabel" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/NameContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
-autowrap_mode = 0
 
 [node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/NameContainer"]
 layout_mode = 2
@@ -247,7 +247,6 @@ anchor_right = 1.0
 offset_left = -500.0
 offset_bottom = 90.0
 grow_horizontal = 0
-theme_override_constants/separation = 10
 alignment = 2
 
 [node name="TopRightWrapper2" type="Panel" parent="GameUI/TopRight"]
@@ -278,11 +277,11 @@ alignment = 2
 
 [node name="NameLabel" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
 clip_contents = false
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
-autowrap_mode = 0
 horizontal_alignment = 2
 
 [node name="HPContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer"]
@@ -613,7 +612,6 @@ offset_left = 40.0
 offset_top = 122.0
 offset_right = 1109.0
 offset_bottom = 513.0
-scroll_following = true
 
 [node name="Choices" type="VBoxContainer" parent="DialogueSystem"]
 layout_mode = 1

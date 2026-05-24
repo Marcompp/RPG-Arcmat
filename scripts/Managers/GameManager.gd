@@ -24,6 +24,7 @@ enum GameMode {
 var current_mode = GameMode.MAIN_MENU
 
 var characters = []
+var monster_db = {}
 var armor_db = {}
 var weapon_db = {}
 var spell_db = {}
@@ -98,6 +99,7 @@ func _ready():
 	game_state["visited_nodes"] = {}
 	game_state["visited_count"] = {}
 	game_state["area_progress"] = 0
+	game_state["used_node_actions"] = {}
 	travel.game_state = game_state
 	travel.game_manager = self
 	game_state["region"] = travel.current_region
@@ -113,6 +115,7 @@ func _ready():
 		return check_condition(cond, current_node)
 	
 	characters = load_json("res://Database/protags.json")
+	monster_db = load_json("res://Database/monsters.json")
 	armor_db = load_json("res://Database/armors.json")
 	weapon_db = load_json("res://Database/weapons.json")
 	spell_db = load_json("res://Database/spells.json")
@@ -171,7 +174,7 @@ func start_game():
 func show_main_menu():
 	current_mode = GameMode.MAIN_MENU
 	MyEventBus.emit("play_bgm",{"song":"title"})
-	MyEventBus.emit("set_backdrop",{"backdrop":"title_backdrop2.png"})
+	MyEventBus.emit("set_backdrop",{"backdrop":"title_backdrop4.png"})
 	dialogue.visible = false
 	game_ui._clear_ui()
 	main_menu.visible = true
@@ -474,21 +477,45 @@ func _handle_game_input(choice):
 # ACTIONS
 # ------------------------
 
+func _build_start_combat_data(monster) -> Array:
+	if monster is String:
+		for m in monster_db:
+			if m.get("Name", "") == monster:
+				monster = m
+				break
+		if monster is String:
+			push_error("Monster not found: " + monster)
+			return []
+	if not monster.has("Enemies"):
+		return [monster]
+	var enemy_list: Array = []
+	for name in monster["Enemies"]:
+		for m in monster_db:
+			if m.get("Name", "") == name:
+				enemy_list.append(m)
+				break
+	return enemy_list
+
 func start_combat(data):
 	in_combat = true
-	var enemy = data.get('enemy', {
-		"Name": "Slime",
-		"Stats": {
-		"Hp": 10,
-		"Def": 1
-		}
-	})
-	var enmy = Character.new(enemy, armor_db, weapon_db)
-	
-	# 🔥 ESSENCIAL
-	game_state.set_value("enemy", enmy)
-	
-	combat.start_combat(game_state["player"], enmy)
+
+	var enemy_data_list: Array
+	if data.has("enemies"):
+		enemy_data_list = data["enemies"]
+	else:
+		enemy_data_list = _build_start_combat_data(
+			data.get("enemy", { "Name": "Slime", "Stats": { "Hp": 10, "Def": 1 } })
+		)	
+
+	var enemy_chars: Array = []
+	for i in range(enemy_data_list.size()):
+		var enmy = Character.new(enemy_data_list[i], armor_db, weapon_db)
+		game_state.set_value("enemy_%d" % i, enmy)
+		enemy_chars.append(enmy)
+
+	game_state.set_value("enemy", enemy_chars[0])
+
+	combat.start_combat(game_state["player"], enemy_chars)
 
 
 # ------------------------
@@ -678,6 +705,7 @@ func apply_effect(effect):
 func _on_combat_ended(data: Dictionary):
 	in_combat = false
 	if not data.get("victory", false):
+		MyEventBus.emit("post_combat", {"victory": false})
 		show_main_menu()
 		return
 	game_ui.skip_xp_animation()
@@ -694,8 +722,7 @@ func _on_combat_ended(data: Dictionary):
 			await _process_item_acquisition(item_name, player)
 	_pending_rewards = {}
 	_pending_level_ups = []
-	travel.show_node()
-	#travel.show_node_actions()
+	MyEventBus.emit("post_combat", {"victory": true})
 
 func _format_level_up_text(lvl_up: Dictionary) -> String:
 	var lines = ["[b][color=yellow]LEVEL UP![/color][/b]  Lv.%d" % lvl_up["level"]]

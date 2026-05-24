@@ -16,7 +16,7 @@
 	  "Weapon": "Foil",
 	  "Armor": "Corset"
 	},
-	"Skills": ["Armor Piercer", "Pinpoint Hit"],
+	"Skills": ["Armor Piercer", "Lunge", "Flourish"],
 	"Spells": [],
 	"Money": 100,
 	"Inventory": {
@@ -52,7 +52,7 @@
 		"Potion": 2,
 		"Medicine": 4
 	},
-	"Skills": ["Heavy Blow", "Crush"],
+	"Skills": ["Cleave", "Brace"],
 	"Spells": [],
 	"Relationships": {
 	  "Agnes": "Rival",

@@ -2,7 +2,7 @@
 	"Apple Woods":{
 		"Name" : "Apple Woods",
 		"Type": "Dungeon",
-		"Enemies" : ["Slime","Skeleton","Bandit"],
+		"Enemies" : ["Slime","Skeleton","Bandit","Slime Duo"],
 		"Boss" : "Werewolf",
 		"Length" : 4,
 		"loot" : 5,

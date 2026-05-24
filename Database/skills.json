@@ -57,8 +57,48 @@
 		"stats": {
 			"wgt": 4
 		},
+		"startup": 1, 
 		"cooldown": 3,
 		"effect": "recharge",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Lunge": {
+		"nome": "Lunge",
+		"type": "attack",
+		"stats": {
+			"wgt": 4
+		},
+		"startup": 3, 
+		"cooldown": 5,
+		"effect": "delay",
+		"magnitude": 1,
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
+	"Cleave": {
+		"nome": "Cleave",
+		"type": "all",
+		"stats": {
+			"mgt": 7,
+			"acc": 70,
+			"crit": 0
+		},
+		"startup": 1,
+		"cooldown": 3,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": false
+	},
+	"Brace": {
+		"nome": "Brace",
+		"type": "self",
+		"stats": {
+			"acc": 100
+		},
+		"startup": 2,
+		"cooldown": 5,
+		"effect": "brace",
 		"inherit_stats": false,
 		"inherit_wpn": false
 	},
