@@ -1,6 +1,7 @@
 {
 	"music": {
 		"title":       "res://assets/audio/BGM/Title_placeholder.mp3",
+		"gameover":    "res://assets/audio/BGM/gameover.mp3",
 		"combat":      "res://assets/audio/music/combat.ogg",
 		"apple_woods": "res://assets/audio/BGM/AppleWoods_placeholder.mp3",
 		"caves":       "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",

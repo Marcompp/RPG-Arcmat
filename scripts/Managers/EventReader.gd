@@ -49,6 +49,9 @@
 #              "outcomes":[{"weight":3,"steps":[...]}, {"weight":1,"steps":[...]}]
 #              weight defaults to 1 when omitted.
 #
+#   game_over {"type":"game_over"}
+#              Triggers the Game Over screen and stops the event sequence.
+#
 # ── Usage ──────────────────────────────────────────────────────────────────────
 #
 #   var reader = EventReader.new()
@@ -145,6 +148,9 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
 			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
+		"game_over":
+			MyEventBus.emit("game_over", {})
+			stop()
 		"if":
 			await _run_if(step)
 		"random":

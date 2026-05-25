@@ -534,59 +534,72 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		user.use_mp(data["cost"])
 	if data.has("cooldown") and who != "":
 		cooldowns[who][action_name] = data["cooldown"]
-
-	var lines      = ["[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)]]
-	var did_damage = false
+	
+	var use_text = data.get("use_text", "[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)])
+	
+	MyEventBus.emit("continue_text", { "text": _parse_action_text(use_text, {
+											"USER": user.get_name(), "TARGET": _get_display_name(target)})})
 
 	for _i in range(data.get("hits", 1)):
 		var result = _resolve_action(user, target, data)
-		lines.append(result["text"])
+		if data.has('hit_text'):
+			MyEventBus.emit("continue_text", {"text": _parse_action_text(data["hit_text"], {
+				"TARGET":_get_display_name(target), "USER": user.get_name()
+			}), "linebreak":false})
 
 		if result["damage"] > 0:
+			if result["critical"]:
+				MyEventBus.emit("continue_text", {"text": "[color=orange]Critical! [/color]", "linebreak":false})
 			target.take_damage(result["damage"])
 			var down_msg = _notify_if_died(target)
+			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant]" % result["damage"]
 			if down_msg != "":
-				lines.append(down_msg)
-			did_damage = true
+				damage_txt += down_msg
+			MyEventBus.emit("continue_text", {"text": damage_txt, "linebreak":false})
 		if result["heal"] > 0:
 			target.heal(result["heal"])
+			MyEventBus.emit("continue_text", {"text": "[color=green]Gained %d HP[/color]" % result["heal"], 
+				"linebreak":false})
 		if result["mp_restore"] > 0:
 			target.restore_mp(result["mp_restore"])
+			MyEventBus.emit("continue_text", {"text": "[color=cyan]+%d MP[/color]" % result["mp_restore"], 
+				"linebreak":false})
 
 		if result["status"] != "":
 			if result["status"] == "stat_clear":
 				var side = _who_for(target)
 				status_effects[side] = []
-				lines.append("[color=green]%s's status effects cleared![/color]" % _get_display_name(target))
+				MyEventBus.emit("continue_text", {"text": "[color=green]%s's status effects cleared![/color]" % _get_display_name(target), 
+					"linebreak":false})
 			elif result["status"] == "recharge":
 				var mag: int = data.get("magnitude", 1)
 				if who != "":
 					for skill in cooldowns[who]:
 						cooldowns[who][skill] = max(0, cooldowns[who][skill] - mag)
-				lines.append("[color=cyan]All cooldowns reduced by %d![/color]" % mag)
+				MyEventBus.emit("continue_text", {"text": "[color=cyan]All cooldowns reduced by %d![/color]" % mag, 
+					"linebreak":false})
 			elif result["status"] == "delay":
 				var target_who = _who_for(target)
 				if target_who != "player":
 					var mag: int = data.get("magnitude", 1)
 					var idx = int(target_who.split("_")[1])
 					enemy_timers[idx] += mag
-					lines.append("[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag])
+					MyEventBus.emit("continue_text", {"text": "[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag], 
+						"linebreak":false})
 			else:
 				_add_status(target, result["status"], data.get("magnitude", -1))
 				var sdata   = status_db.get(result["status"], {})
-				var inflict = sdata.get("inflict_text", "[color=yellow]%s gained a status effect![/color]")
-				lines.append(inflict % [_get_display_name(target)])
+				var inflict = sdata.get("inflict_text", "[color=yellow][TARGET] gained a status effect![/color]")
+				MyEventBus.emit("continue_text", {"text": _parse_action_text(inflict, {"TARGET": _get_display_name(target)}), 
+						"linebreak":false})
 
 	if data.get("consumable", false):
 		user.consume_item(action_name)
 
-	MyEventBus.emit("continue_text", { "text": "\n".join(lines) + "\n" })
-	if did_damage:
-		MyEventBus.emit("screenshake")
 	await wait_for_continue()
 
 func _resolve_action(user, target, data) -> Dictionary:
-	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "" }
+	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false }
 	var stats       = data.get("stats", {})
 	var is_magic    = data.get("magic", false)
 	var action_type = data.get("type", "attack")
@@ -595,11 +608,10 @@ func _resolve_action(user, target, data) -> Dictionary:
 		var mgt = stats.get("mgt", 0)
 		if mgt < 0:
 			result["heal"] = abs(mgt)
-			result["text"] = "[color=green]+%d HP[/color]" % result["heal"]
 		var mp = stats.get("mp", 0)
 		if mp < 0:
 			result["mp_restore"] = abs(mp)
-			result["text"] += " [color=cyan]+%d MP[/color]" % result["mp_restore"]
+			#result["text"] += " " % result["mp_restore"]
 		var self_fx = data.get("effect", "none")
 		if self_fx != "none" and self_fx != "":
 			result["status"] = self_fx
@@ -626,15 +638,16 @@ func _resolve_action(user, target, data) -> Dictionary:
 
 	var dmg = max(1, base_mgt - floori(def_val / 2) + randi_range(0, 2))
 
-	var crit_chance = stats.get("crit", 0)
+	var crit_chance = stats.get("crit", 0) + user.get_total_stat("dex") - target.get_total_stat("lck")
 	if inherit_wpn:
 		crit_chance += weapon.get("stats", {}).get("crit", 0)
 	if randi_range(1, 100) <= crit_chance:
 		dmg = int(dmg * 1.5)
-		result["text"] = "[color=orange]Critical! [/color]"
+		#result["text"] = "[color=orange]Critical! [/color]"
+		result["critical"] = true
 
 	result["damage"] = dmg
-	result["text"]  += "[color=red]%d[/color] damage!" % dmg
+	result["text"]  += "[screenshake][instant][color=red]%d[/color] damage![/instant]" % dmg
 
 	var effect = data.get("effect", "none")
 	var chance = data.get("chance", 100)
@@ -711,16 +724,20 @@ func _process_statuses(who: String):
 
 			if damage_frac > 0.0:
 				var dmg = max(1, int(target.get_max_hp() * damage_frac))
-				target.take_damage(dmg)
 				if upkeep != "":
-					MyEventBus.emit("continue_text", { "text": upkeep % [_get_display_name(target)] + "\n[color=red]%d[/color] damage!" % dmg})
-					need_wait = true
+					MyEventBus.emit("continue_text", { "text": _parse_action_text(upkeep, {"TARGET":_get_display_name(target)}) + "[wait=0.1]" })
+				target.take_damage(dmg)
+				MyEventBus.emit("continue_text", { "text": "[screenshake][instant][color=red]%d[/color] damage![/instant]" % dmg, 
+								"linebreak":false})
+				need_wait = true
 			elif heal_frac > 0.0:
 				var hp = max(1, int(target.get_max_hp() * heal_frac))
-				target.heal(hp)
 				if upkeep != "":
-					MyEventBus.emit("continue_text", { "text": upkeep % [_get_display_name(target)] + "\nGained [color=green]%d[/color] HP!" % hp})
-					need_wait = true
+					MyEventBus.emit("continue_text", { "text": upkeep % [_get_display_name(target)] + "[wait=0.1]" })
+				target.heal(hp)
+				MyEventBus.emit("continue_text", { "text": "[instant]Gained [color=green]%d[/color] HP![/instant]" % hp, 
+								"linebreak":false})
+				need_wait = true
 
 		s["duration"] -= 1
 		if s["duration"] > 0:
@@ -728,7 +745,7 @@ func _process_statuses(who: String):
 		else:
 			var end_text: String = data.get("end_text", "")
 			if end_text != "":
-				MyEventBus.emit("continue_text", { "text": end_text % [_get_display_name(target)] + "\n" })
+				MyEventBus.emit("continue_text", { "text": _parse_action_text(end_text, {"TARGET":_get_display_name(target)}) + "\n" })
 				need_wait = true
 
 	status_effects[who] = remaining
@@ -770,6 +787,11 @@ func _format_weapon_tooltip() -> String:
 		stats.get("crit", 0),
 		stats.get("wgt",  0)
 	]
+
+func _parse_action_text(text: String, values: Dictionary) -> String:
+	for key in values:
+		text = text.replace("[" + key + "]", str(values[key]))
+	return text
 
 func _format_action_tooltip(action_key: String, data: Dictionary) -> String:
 	var lines       = [data.get("nome", action_key)]

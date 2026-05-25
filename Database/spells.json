@@ -1,7 +1,7 @@
 {
 	"Fire": {
 		"nome": "Fire",
-		"type": "attack",
+		"type": "enemies",
 		"element": "Fire",
 		"stats": {
 			"mgt": 15,
@@ -67,7 +67,7 @@
 	},
 	"Water": {
 		"nome": "Water",
-		"type": "attack",
+		"type": "enemies",
 		"element": "Water",
 		"stats": {
 			"mgt": 11,
@@ -115,7 +115,7 @@
 	},
 	"Thunder": {
 		"nome": "Thunder",
-		"type": "attack",
+		"type": "random",
 		"element": "Thunder",
 		"stats": {
 			"mgt": 10,
@@ -125,6 +125,7 @@
 		},
 		"cost": 6,
 		"hits": 3,
+		"hit_text":"[color=cyan]Thunder[/color] struck [TARGET]![wait=0.1]",
 		"magic": true,
 		"inherit_stats": true,
 		"inherit_wpn": false,
@@ -133,7 +134,7 @@
 	},
 	"Poison": {
 		"nome": "Poison",
-		"type": "attack",
+		"type": "enemies",
 		"element": "Poison",
 		"stats": {
 			"mgt": 6,

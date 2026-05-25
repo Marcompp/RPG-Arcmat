@@ -57,7 +57,7 @@
 	},
 	"Bomb": {
 		"nome": "Bomb",
-		"type": "attack",
+		"type": "enemies",
 		"element": "Fire",
 		"stats": {
 			"mgt": 30,

@@ -20,10 +20,12 @@
 		{ "text": "Sunlight flickers through the branches overhead.", "chance": 0.5 }
 	  ],
 	  "exits": [
-		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 1.2,
+		{ "choice": "Continue on the path", "leads_to": "ROAD", "value": 1.2,
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
-		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." }
-	  ]
+		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." },
+		{ "choice": "Debug", "leads_to": "DEBUG", "value": 1.2,
+			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
+	]
 	},
 	{
 	  "name": "Debug",

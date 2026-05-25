@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bx50qj2qrnlcv"]
+[gd_scene load_steps=11 format=3 uid="uid://bx50qj2qrnlcv"]
 
 [ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
 [ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
 [ext_resource type="Script" uid="uid://eldcn6hvcxf3" path="res://scripts/Managers/AudioManager.gd" id="7_audmgr"]
 [ext_resource type="Script" uid="uid://ce0t6js5r3f6u" path="res://scripts/MainMenu.gd" id="9_tt7o1"]
+[ext_resource type="Script" uid="uid://b38yrmtbrl7fq" path="res://scripts/GameOverScreen.gd" id="10_u8crj"]
 
 [node name="GameManager" type="Control"]
 layout_mode = 3
@@ -388,6 +389,7 @@ autowrap_mode = 0
 
 [node name="CooldownLabel" type="Label" parent="GameUI/TopRight/TopRightWrapper2"]
 custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
 offset_left = 12.0
 offset_top = 22.0
 offset_right = 52.0
@@ -835,6 +837,85 @@ text = "Select Save Data to Load:"
 horizontal_alignment = 1
 
 [node name="SaveContainer" type="VBoxContainer" parent="MainMenu/SaveContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="GameOverMenu" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_u8crj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "YOU DIED!"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MessageLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Retry"
+
+[node name="TitleButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit"
+
+[node name="SaveContainer" type="VBoxContainer" parent="GameOverMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="Save Header" type="Label" parent="GameOverMenu/SaveContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Select Save Data to Load:"
+horizontal_alignment = 1
+
+[node name="SaveContainer" type="VBoxContainer" parent="GameOverMenu/SaveContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 18

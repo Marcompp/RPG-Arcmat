@@ -45,7 +45,7 @@
 		"Tanktop": 5
 	},
 	"Gold": 50,
-	"Startup":2,
+	"Startup":1,
 	"Cooldown":1,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
@@ -71,11 +71,33 @@
 	},
 	"Gold":30,
 	"Startup":2,
-	"Cooldown":2,
+	"Cooldown":1,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Apple Woods",
 	"Rarity": 3
+  },
+  {
+	"Name": "Bear",
+	"Element": "Earth",
+	"Lvl": 4,
+	"Stats": {"HP":"A","MP":"E","Str":"B","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"TrueStats":{
+		"HP": 60,
+		"Str": 14
+	},
+	"Equip": {
+	},
+	"Drops": {
+		"Stimulant": 10
+	},
+	"Gold":25,
+	"Startup":3,
+	"Cooldown":2,
+	"Skills": [],
+	"Spells": [],
+	"Location": "Apple Woods",
+	"Rarity": 1
   },
   {
 	"Name": "Vampire Bat",

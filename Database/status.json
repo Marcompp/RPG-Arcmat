@@ -6,9 +6,9 @@
 		"description": "Deals damage at the end of every turn",
 		"duration": 4,
 		"damage": 0.1,
-		"inflict_text": "[color=purple]%s is poisoned![/color]",
-		"upkeep_text": "[color=purple]%s suffers from poison![/color]",
-		"end_text": "%s is no longer poisoned!"
+		"inflict_text": "[color=purple][TARGET] is poisoned![/color]",
+		"upkeep_text": "[color=purple][TARGET] suffers from poison![/color]",
+		"end_text": "[TARGET] is no longer poisoned!"
 	},
 	"regen": {
 		"name": "Regen",
@@ -17,9 +17,9 @@
 		"description": "Heals HP at the end of every turn",
 		"duration": 3,
 		"heal": 0.125,
-		"inflict_text": "[color=green]%s starts regenerating![/color]",
-		"upkeep_text": "[color=green]%s is regenerating![/color]",
-		"end_text": "%s is no longer regenerating!"
+		"inflict_text": "[color=green][TARGET] starts regenerating![/color]",
+		"upkeep_text": "[color=green][TARGET] is regenerating![/color]",
+		"end_text": "[TARGET] is no longer regenerating!"
 	},
 	"burn": {
 		"name": "Burn",
@@ -28,9 +28,9 @@
 		"description": "Lowers attack and deals damage at the end of every turn",
 		"duration": 2,
 		"damage": 0.05,
-		"inflict_text": "[color=red]%s is burned![/color]",
-		"upkeep_text": "[color=red]%s suffers from burn![/color]",
-		"end_text": "%s is no longer burning!",
+		"inflict_text": "[color=red][TARGET] is burned![/color]",
+		"upkeep_text": "[color=red][TARGET] suffers from burn![/color]",
+		"end_text": "[TARGET] is no longer burning!",
 		"stats": {
 			"str": 0.75
 		}
@@ -40,8 +40,8 @@
 		"icon": "shield.png",
 		"description": "Doubles defense",
 		"duration": 3,
-		"inflict_text": "%s's defense rose!",
-		"end_text": "%s is no longer bracing!",
+		"inflict_text": "[TARGET]'s defense rose!",
+		"end_text": "[TARGET] is no longer bracing!",
 		"stats": {
 			"def": 2
 		}

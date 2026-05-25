@@ -6,6 +6,7 @@ extends Node
 @onready var game_ui = $GameUI
 @onready var audio = $AudioManager
 @onready var main_menu = $MainMenu
+@onready var gameover = $GameOverMenu
 
 # ========================
 # CORE
@@ -77,6 +78,9 @@ func _ready():
 	MyEventBus.subscribe("start_combat", func(data):
 		start_combat(data)
 	)
+	MyEventBus.subscribe("game_over", func(_data):
+		show_game_over()
+	)
 	MyEventBus.subscribe("give_gold", func(data):
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
 	)
@@ -124,6 +128,8 @@ func _ready():
 	dialogue.visible = false
 	main_menu.new_game_requested.connect(_on_main_menu_new_game)
 	main_menu.continue_requested.connect(_on_main_menu_continue)
+	gameover.retry_requested.connect(_on_gameover_retry)
+	gameover.title_screen_requested.connect(_on_gameover_title)
 	show_main_menu()
 
 # ------------------------
@@ -702,11 +708,32 @@ func apply_effect(effect):
 # COMBAT ENDED
 # ------------------------
 
+func show_game_over():
+	MyEventBus.emit("play_bgm",{"song":"gameover"})
+	MyEventBus.emit("set_backdrop", {"backdrop": "gameover_backdrop.png"})
+	dialogue.visible = false
+	main_menu.visible = false
+	game_ui._clear_ui()
+	gameover.show_gameover()
+
+func _on_gameover_retry():
+	gameover.visible = false
+	var saves = SaveManager.list_saves()
+	if saves.is_empty():
+		show_main_menu()
+	else:
+		dialogue.visible = true
+		load_game(current_slot)
+
+func _on_gameover_title():
+	gameover.visible = false
+	show_main_menu()
+
 func _on_combat_ended(data: Dictionary):
 	in_combat = false
 	if not data.get("victory", false):
 		MyEventBus.emit("post_combat", {"victory": false})
-		show_main_menu()
+		show_game_over()
 		return
 	game_ui.skip_xp_animation()
 	var player = game_state["player"]
