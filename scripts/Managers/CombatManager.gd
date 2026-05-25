@@ -188,7 +188,7 @@ func end_combat(victory: bool):
 	MyEventBus.emit("enemy_timer_update", { "timers": [] })
 	MyEventBus.emit("character_defeated", { "victory": victory, "enemy_count": enemies.size() })
 
-	if victory:
+	if victory and player.get_hp() > 0:
 		var rewards = _calculate_rewards()
 		var names = ", ".join(enemy_display_names)
 		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % names })
@@ -363,7 +363,8 @@ func handle_list_choice(choice, type: String):
 	var db: Dictionary = skills_db if type == "skill" else (spells_db if type == "magic" else items_db)
 	var data = db.get(choice["data"], null)
 	var action = { "actor": player, "who": "player", "type": type, "name": choice["data"], "db": db }
-	if data != null and data.get("type", "attack") == "self":
+	var action_type = data.get("type", "attack") if data != null else "attack"
+	if action_type in ["self", "group"] or action_type in ["aoe", "all", "random"]:
 		await _resolve_turn_pair(action)
 	else:
 		await _maybe_select_target(action)
@@ -451,9 +452,13 @@ func _execute_turn_action(action: Dictionary):
 		"attack":
 			await _do_attack(action["actor"], action["who"], _target_for(action))
 		_:
-			var data   = action.get("db", {}).get(action.get("name", ""), {})
-			var target = action["actor"] if data.get("type", "attack") == "self" else _target_for(action)
-			await _execute_action(action["actor"], action["who"], action["name"], action["db"], target)
+			var data        = action.get("db", {}).get(action.get("name", ""), {})
+			var action_type = data.get("type", "attack")
+			if action["who"] == "player" and action_type in ["aoe", "all", "random"]:
+				await _execute_action(action["actor"], action["who"], action["name"], action["db"],"_")
+			else:
+				var target = action["actor"] if action_type == "self" else _target_for(action)
+				await _execute_action(action["actor"], action["who"], action["name"], action["db"], target)
 
 func _do_attack(actor, who: String, target):
 	var weapon   = actor.get_weapon()
@@ -534,51 +539,101 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		user.use_mp(data["cost"])
 	if data.has("cooldown") and who != "":
 		cooldowns[who][action_name] = data["cooldown"]
+
+	var target_name = "all enemies"
+
+	if data.get("type","attack") == 'all':
+		target_name = "the whole area"
+	elif not ((who == "player" and data.get("type","attack") in ["aoe","all"]) or (who != "player" and data.get("type","attack") in ["group","all"])):
+		target_name = _get_display_name(target)
 	
 	var use_text = data.get("use_text", "[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)])
 	
 	MyEventBus.emit("continue_text", { "text": _parse_action_text(use_text, {
-											"USER": user.get_name(), "TARGET": _get_display_name(target)})})
+											"USER": user.get_name(), "TARGET": target_name})+ "[wait=0.1]"})
+	await wait_for_writing()
 
+	if (who == "player" and data.get("type","attack") in ["aoe","all"]) or (who != "player" and data.get("type","attack") in ["group","all"]):
+		if who != "player" and data.get("type","attack") == "all":
+			await _execute_hit(data, user, who, player)
+			await wait_for_writing()
+		for i in _living_indices():
+			var new_target = enemies[i]
+			await _execute_hit(data, user, who, new_target)
+			await wait_for_writing()
+		if who == "player" and data.get("type","attack") == "all":
+			await _execute_hit(data, user, who, player)
+			await wait_for_writing()
+	elif who == "player" and data.get("type","attack") in ["random"]:
+		for i in range(int(data.get("hits",1))):
+			if len(_living_indices()) > 0:
+				var new_target = enemies[_living_indices().pick_random()]
+				var temp_data = data.duplicate()
+				temp_data["hits"] = 1
+				await _execute_hit(temp_data, user, who, new_target)
+				await wait_for_writing()
+	else:
+		await _execute_hit(data, user, who, target)
+		await wait_for_writing()
+
+	if data.get("consumable", false):
+		user.consume_item(action_name)
+
+	await wait_for_continue()
+
+func _execute_hit(data, user, who: String, target):
 	for _i in range(data.get("hits", 1)):
 		var result = _resolve_action(user, target, data)
 		if data.has('hit_text'):
-			MyEventBus.emit("continue_text", {"text": _parse_action_text(data["hit_text"], {
+			MyEventBus.emit("continue_text", {"text": _parse_action_text(data["hit_text"]+"[wait=0.1]", {
 				"TARGET":_get_display_name(target), "USER": user.get_name()
 			}), "linebreak":false})
+			await wait_for_writing()
 
 		if result["damage"] > 0:
 			if result["critical"]:
-				MyEventBus.emit("continue_text", {"text": "[color=orange]Critical! [/color]", "linebreak":false})
+				MyEventBus.emit("continue_text", {"text": "[color=orange]Critical![/color][wait=0.1]", "linebreak":false})
+				await wait_for_writing()
 			target.take_damage(result["damage"])
 			var down_msg = _notify_if_died(target)
-			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant]" % result["damage"]
+			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant][wait=0.1]" % result["damage"]
+			if data.get("type","attack") in ["group","aoe","all"]:
+				damage_txt = "[screenshake][instant]%s took [color=red]%d[/color] damage![/instant][wait=0.1]" % [_get_display_name(target), result["damage"]]
 			if down_msg != "":
 				damage_txt += down_msg
 			MyEventBus.emit("continue_text", {"text": damage_txt, "linebreak":false})
-		if result["heal"] > 0:
+			await wait_for_writing()
+		if result["heal"] > 0 and target.get_hp() > 0:
 			target.heal(result["heal"])
-			MyEventBus.emit("continue_text", {"text": "[color=green]Gained %d HP[/color]" % result["heal"], 
-				"linebreak":false})
-		if result["mp_restore"] > 0:
+			var heal_txt = "[instant]Gained [color=green]%d[/color] HP![/instant][wait=0.1]" % result["heal"]
+			if data.get("type","attack") in ["group","aoe","all"]:
+				heal_txt = "[instant]%s gained [color=green]%d[/color] HP![/instant][wait=0.1]" %  [_get_display_name(target), result["heal"]]
+			MyEventBus.emit("continue_text", {"text": heal_txt, "linebreak":false})
+			await wait_for_writing()
+		if result["mp_restore"] > 0 and target.get_hp() > 0:
 			target.restore_mp(result["mp_restore"])
-			MyEventBus.emit("continue_text", {"text": "[color=cyan]+%d MP[/color]" % result["mp_restore"], 
-				"linebreak":false})
+			var mp_restore_txt = "[instant]Gained [color=cyan]%d[/color] MP![/instant][wait=0.1]" % result["mp_restore"]
+			if data.get("type","attack") in ["group","aoe","all"]:
+				mp_restore_txt = "[instant]%s gained [color=cyan]%d[/color] MP![/instant][wait=0.1]" %  [_get_display_name(target), result["mp_restore"]]
+			MyEventBus.emit("continue_text", {"text": mp_restore_txt, "linebreak":false})
+			await wait_for_writing()
 
 		if result["status"] != "":
-			if result["status"] == "stat_clear":
+			if result["status"] == "stat_clear" and target.get_hp() > 0:
 				var side = _who_for(target)
 				status_effects[side] = []
 				MyEventBus.emit("continue_text", {"text": "[color=green]%s's status effects cleared![/color]" % _get_display_name(target), 
 					"linebreak":false})
-			elif result["status"] == "recharge":
+				await wait_for_writing()
+			elif result["status"] == "recharge" and target.get_hp() > 0:
 				var mag: int = data.get("magnitude", 1)
 				if who != "":
 					for skill in cooldowns[who]:
 						cooldowns[who][skill] = max(0, cooldowns[who][skill] - mag)
 				MyEventBus.emit("continue_text", {"text": "[color=cyan]All cooldowns reduced by %d![/color]" % mag, 
 					"linebreak":false})
-			elif result["status"] == "delay":
+				await wait_for_writing()
+			elif result["status"] == "delay" and target.get_hp() > 0:
 				var target_who = _who_for(target)
 				if target_who != "player":
 					var mag: int = data.get("magnitude", 1)
@@ -586,17 +641,16 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 					enemy_timers[idx] += mag
 					MyEventBus.emit("continue_text", {"text": "[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag], 
 						"linebreak":false})
-			else:
+				await wait_for_writing()
+			elif target.get_hp() > 0:
 				_add_status(target, result["status"], data.get("magnitude", -1))
 				var sdata   = status_db.get(result["status"], {})
 				var inflict = sdata.get("inflict_text", "[color=yellow][TARGET] gained a status effect![/color]")
 				MyEventBus.emit("continue_text", {"text": _parse_action_text(inflict, {"TARGET": _get_display_name(target)}), 
 						"linebreak":false})
+				await wait_for_writing()
 
-	if data.get("consumable", false):
-		user.consume_item(action_name)
 
-	await wait_for_continue()
 
 func _resolve_action(user, target, data) -> Dictionary:
 	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false }
@@ -604,7 +658,7 @@ func _resolve_action(user, target, data) -> Dictionary:
 	var is_magic    = data.get("magic", false)
 	var action_type = data.get("type", "attack")
 
-	if action_type == "self":
+	if action_type in ["self","group"]:
 		var mgt = stats.get("mgt", 0)
 		if mgt < 0:
 			result["heal"] = abs(mgt)
@@ -733,7 +787,7 @@ func _process_statuses(who: String):
 			elif heal_frac > 0.0:
 				var hp = max(1, int(target.get_max_hp() * heal_frac))
 				if upkeep != "":
-					MyEventBus.emit("continue_text", { "text": upkeep % [_get_display_name(target)] + "[wait=0.1]" })
+					MyEventBus.emit("continue_text", { "text": _parse_action_text(upkeep, {"TARGET":_get_display_name(target)}) + "[wait=0.1]" })
 				target.heal(hp)
 				MyEventBus.emit("continue_text", { "text": "[instant]Gained [color=green]%d[/color] HP![/instant]" % hp, 
 								"linebreak":false})
@@ -798,6 +852,11 @@ func _format_action_tooltip(action_key: String, data: Dictionary) -> String:
 	var stats       = data.get("stats", {})
 	var action_type = data.get("type", "attack")
 	var is_magic    = data.get("magic", false)
+
+	if action_type in ["aoe"]:
+		lines.append("Target: All Enemies")
+	elif action_type in ["all"]:
+		lines.append("Target: [color=red]EVERYONE[/color]")
 
 	var stat_parts = []
 	if action_type == "self":

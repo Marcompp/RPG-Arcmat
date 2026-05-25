@@ -206,8 +206,9 @@ func show_node_text(use_default=false):
 
 func show_node_actions():
 	mode = TravelMode.NODE_ACTIONS
-	if game_manager:
-		SaveManager.save(game_manager.current_slot, game_manager)
+	if game_manager and game_manager.game_state.has("player"):
+		if game_manager.game_state["player"].get_hp() > 0:
+			SaveManager.save(game_manager.current_slot, game_manager)
 	var node_action = current_node_data.get("action", {}) if current_node_data else {}
 	var action_name = node_action.get("name", "Search for Monsters")
 	var action_tooltip = node_action.get("tooltip", "Stay in place and look for monsters to fight")
@@ -295,10 +296,11 @@ func _handle_node_specific_action(action_data: Dictionary) -> void:
 	if event_name != "":
 		var event_def = events_db.get(event_name, {})
 		if not event_def.is_empty():
-			await _run_node_event(event_def)
+			var stopped = await _run_node_event(event_def)
 			if not action_data.get("repeatable", true):
 				game_state["used_node_actions"][get_node_key()] = true
-			show_node_actions()
+			# if not stopped:
+			# 	show_node_actions()
 			return
 		push_warning("Node action event not found: " + event_name)
 	if not action_data.get("repeatable", true):
@@ -724,17 +726,19 @@ func _pick_node_event(node_data: Dictionary) -> Dictionary:
 
 	return triggered.pick_random()["def"]
 
-func _run_node_event(event_def: Dictionary) -> void:
+func _run_node_event(event_def: Dictionary) -> bool:
 	var steps: Array = event_def.get("steps", [])
 	if steps.is_empty():
-		return
+		return false
 
 	var reader := EventReader.new()
 	add_child(reader)
 	if condition_callback != null:
 		reader.condition_callback = func(cond): return condition_callback.call(cond, current_node)
 	await reader.run(steps)
+	var stopped: bool = reader.was_stopped
 	reader.queue_free()
+	return stopped
 
 func _try_node_event(node_data: Dictionary) -> void:
 	var event_def = _pick_node_event(node_data)

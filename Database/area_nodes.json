@@ -52,7 +52,7 @@
 		"tooltip": "Choose enemy to fight",
 		"event": "debug_apple_woods",
 		"disabled_tooltip": "You already fought an enemy here",
-		"repeatable": false
+		"repeatable": true
 	  }
 	},
 	{

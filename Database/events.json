@@ -68,6 +68,7 @@
 					{"choice": "Bandit", "key": "bandit"},
 					{"choice": "Skeleton", "key": "skeleton"},
 					{"choice": "Slime Duo", "key": "slime2"},
+					{"choice": "Bear", "key": "bear"},
 					{"choice": "Werewolf", "key": "werewolf"},
 					{"choice": "Back", "key": "back", "type": "back"}
 				],
@@ -83,6 +84,9 @@
 					],
 					"slime2": [
 						{"type":"combat", "enemy": "Slime Duo"}
+					],
+					"bear": [
+						{"type":"combat", "enemy": "Bear"}
 					],
 					"werewolf": [
 						{"type":"combat", "enemy": "Werewolf"}

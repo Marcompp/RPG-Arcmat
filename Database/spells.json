@@ -1,7 +1,7 @@
 {
 	"Fire": {
 		"nome": "Fire",
-		"type": "enemies",
+		"type": "attack",
 		"element": "Fire",
 		"stats": {
 			"mgt": 15,
@@ -67,7 +67,7 @@
 	},
 	"Water": {
 		"nome": "Water",
-		"type": "enemies",
+		"type": "attack",
 		"element": "Water",
 		"stats": {
 			"mgt": 11,
@@ -115,7 +115,7 @@
 	},
 	"Thunder": {
 		"nome": "Thunder",
-		"type": "random",
+		"type": "attack",
 		"element": "Thunder",
 		"stats": {
 			"mgt": 10,
@@ -134,7 +134,7 @@
 	},
 	"Poison": {
 		"nome": "Poison",
-		"type": "enemies",
+		"type": "attack",
 		"element": "Poison",
 		"stats": {
 			"mgt": 6,

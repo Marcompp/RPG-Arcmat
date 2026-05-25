@@ -236,7 +236,7 @@
 	"Gold":80,
 	"Skills": [],
 	"Spells": ["Ice"],
-	"Location": "Mt Legory",
+	"Location": "Mountt Legory",
 	"Rarity": 7
   },
   {
@@ -252,7 +252,7 @@
 	"Gold":80,
 	"Skills": [],
 	"Spells": [],
-	"Location": "Mt Legory",
+	"Location": "Mount Legory",
 	"Rarity": 8
   },
   {
@@ -272,7 +272,7 @@
 	"Gold":110,
 	"Skills": [],
 	"Spells": [],
-	"Location": "Mt Legory",
+	"Location": "Mount Legory",
 	"Rarity": 6
   },
   {
@@ -592,7 +592,7 @@
 	"Gold":200,
 	"Skills": [],
 	"Spells": ["Ice"],
-	"Location": "Mt Legory",
+	"Location": "Mount Legory",
 	"Rarity": null
   },
   {
@@ -608,7 +608,7 @@
 	"Gold":250,
 	"Skills": [],
 	"Spells": [],
-	"Location": "Mt Legory",
+	"Location": "Mount Legory",
 	"Rarity": "Hidden"
   },
   {

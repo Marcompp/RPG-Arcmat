@@ -24,7 +24,7 @@ var _status_db: Dictionary = {}
 @onready var mp_text = $Panel/VBoxContainer/MPContainer/Control/MPText
 
 const PIXELS_PER_POINT = 5
-const MAX_BAR_WIDTH = 200
+const MAX_BAR_WIDTH = 170
 
 const bar_colors = {
 	"hp": [
@@ -210,6 +210,7 @@ func _update_bar(bar, value, max_value, label: RichTextLabel = null, react_to_hi
 	
 func _resize_bar(bar, max_value, tween: Tween = null):
 	var width = max_value * PIXELS_PER_POINT
+	print(width)
 
 	if width > MAX_BAR_WIDTH:
 		width = MAX_BAR_WIDTH

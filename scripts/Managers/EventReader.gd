@@ -78,10 +78,12 @@ signal _step_done
 var condition_callback := Callable()
 
 var _active := false
+var was_stopped := false
 
 
 func run(sequence: Array) -> void:
 	_active = true
+	was_stopped = false
 	await _run_sequence(sequence)
 	_active = false
 	finished.emit()
@@ -89,6 +91,7 @@ func run(sequence: Array) -> void:
 
 func stop() -> void:
 	_active = false
+	was_stopped = true
 
 
 # ── Sequence execution ─────────────────────────────────────────────────────────
@@ -190,8 +193,11 @@ func _run_combat(step: Dictionary) -> void:
 
 	if result.get("victory", false) and step.has("on_victory"):
 		await _run_sequence(step["on_victory"])
-	elif not result.get("victory", false) and step.has("on_defeat"):
-		await _run_sequence(step["on_defeat"])
+	elif not result.get("victory", false):
+		if step.has("on_defeat"):
+			await _run_sequence(step["on_defeat"])
+		else:
+			await _run_sequence([{"type":"game_over"}])
 
 
 func _run_random(step: Dictionary) -> void:
