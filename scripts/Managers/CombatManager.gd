@@ -594,6 +594,7 @@ func _execute_hit(data, user, who: String, target):
 			if result["critical"]:
 				MyEventBus.emit("continue_text", {"text": "[color=orange]Critical![/color][wait=0.1]", "linebreak":false})
 				await wait_for_writing()
+			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
 			var down_msg = _notify_if_died(target)
 			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant][wait=0.1]" % result["damage"]
@@ -650,7 +651,19 @@ func _execute_hit(data, user, who: String, target):
 						"linebreak":false})
 				await wait_for_writing()
 
-
+func _play_damage_sound(data, user, target):
+	var dmg_sfx = "attack"
+	if data.has("element"):
+		var element = data.get("element", "").to_lower()
+		if element != "":
+			dmg_sfx = element
+		
+	if data.get("inherit_wpn",true):
+		var weapon   = user.get_weapon()
+		var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
+		if wpn_type != "":
+			dmg_sfx = wpn_type
+	MyEventBus.emit("play_sfx", { "sound": dmg_sfx if dmg_sfx != "" else "attack" })
 
 func _resolve_action(user, target, data) -> Dictionary:
 	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false }
@@ -681,7 +694,7 @@ func _resolve_action(user, target, data) -> Dictionary:
 	if inherit_wpn:
 		base_mgt += weapon.get("stats", {}).get("mys" if is_magic else "mgt", 0)
 
-	var atk_stat = user.get_total_stat("mag" if is_magic else "str")
+	var atk_stat = user.get_total_stat("int" if is_magic else "str")
 	if inherit_stat:
 		base_mgt += atk_stat
 

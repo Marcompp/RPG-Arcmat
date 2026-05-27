@@ -27,12 +27,15 @@ func save(slot: int, game_manager) -> bool:
 			"flags": game_manager.game_state["flags"].duplicate(true),
 			"visited_nodes": game_manager.game_state["visited_nodes"].duplicate(true),
 			"visited_count": game_manager.game_state["visited_count"].duplicate(true),
-			"area_progress": game_manager.game_state["area_progress"]
+			"used_events": game_manager.game_state["used_events"].duplicate(true),
+			"area_progress": game_manager.game_state["area_progress"].duplicate(true)
 		},
 		"travel": {
 			"current_region": game_manager.travel.current_region,
 			"current_node": game_manager.travel.current_node,
-			"current_entrance": game_manager.travel.current_entrance
+			"current_node_data": game_manager.travel.current_node_data,
+			"current_entrance": game_manager.travel.current_entrance,
+			"used_node_action": game_manager.travel.used_node_action
 		}
 	}
 

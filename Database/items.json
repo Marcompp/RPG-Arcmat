@@ -1,6 +1,7 @@
 {
 	"Potion": {
 		"nome": "Potion",
+		"description": "A small vial of restorative liquid that heals a significant amount of HP when consumed.",
 		"type": "self",
 		"stats": {
 			"mgt": -30,
@@ -15,6 +16,7 @@
 	},
 	"Ether": {
 		"nome": "Ether",
+		"description": "A shimmering fluid that restores a portion of the user's MP when drunk.",
 		"type": "self",
 		"stats": {
 			"mp": -25,
@@ -29,6 +31,7 @@
 	},
 	"Medicine": {
 		"nome": "Medicine",
+		"description": "A bitter remedy that clears all status ailments from the user when taken in battle.",
 		"type": "self",
 		"stats": {
 			"acc": 100,
@@ -43,6 +46,7 @@
 	},
 	"Stimulant": {
 		"nome": "Stimulant",
+		"description": "A powerful combat drug that resets skill cooldowns, letting the user act again sooner.",
 		"type": "self",
 		"stats": {
 			"wgt": 20
@@ -57,6 +61,7 @@
 	},
 	"Bomb": {
 		"nome": "Bomb",
+		"description": "A throwable explosive that detonates in a burst of fire, hitting all enemies with a chance to burn.",
 		"type": "all",
 		"element": "Fire",
 		"stats": {

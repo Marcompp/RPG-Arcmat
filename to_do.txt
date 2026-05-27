@@ -73,7 +73,7 @@
 
 [ ] Efetividade de elementos
 
-[ ] Fazer ataques multihit funcionar corretamente
+[X] Fazer ataques multihit funcionar corretamente
 
 ----------------------------------------------------------------
   MELHORIAS DE SISTEMA

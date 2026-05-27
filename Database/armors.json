@@ -22,7 +22,7 @@
 		"description": "The uniform of a certain institution of magical learning.",
 		"stats": {
 			"def": 2,
-			"mag": 2
+			"int": 2
 		}
 	},
 	"Old Rags": {
@@ -30,6 +30,13 @@
 		"description": "Tattered strips of cloth barely holding together.",
 		"stats": {
 			"def": 1
+		}
+	},
+	"Loincloth": {
+		"name": "Loincloth",
+		"description": "A strip of fur that covers just the essentials.",
+		"stats": {
+			"def": 2
 		}
 	},
 	"Old Armor": {
@@ -52,7 +59,7 @@
 		"description": "An elegant dress that conceals a thin layer of protective lining.",
 		"stats": {
 			"def": 2,
-			"mag": 2
+			"int": 2
 		}
 	},
 	"Cult Robes": {
@@ -60,7 +67,7 @@
 		"description": "Ceremonial robes worn by members of a shadowy order.",
 		"stats": {
 			"def": 2,
-			"mag": 3
+			"int": 3
 		}
 	},
 	"Mage's Robe": {
@@ -68,7 +75,7 @@
 		"description": "A flowing robe woven with mana-conducting thread.",
 		"stats": {
 			"def": 1,
-			"mag": 4
+			"int": 4
 		}
 	},
 	"Necromancer Robes": {
@@ -76,7 +83,7 @@
 		"description": "Dark robes imbued with the residue of death magic.",
 		"stats": {
 			"def": 2,
-			"mag": 4
+			"int": 4
 		}
 	},
 	"Whitewing Armor": {
@@ -110,10 +117,10 @@
 	},
 	"Arcward Armor": {
 		"name": "Arcward Armor",
-		"description": "Heavy armor etched with sigils that deflect magical attacks.",
+		"description": "Armor used by the militiamen who guard the Magical Academy of Arcward.",
 		"stats": {
 			"def": 5,
-			"mag": 3
+			"int": 3
 		}
 	},
 	"Adventure Clothes": {
@@ -130,7 +137,7 @@
 		"description": "An ancient robe that greatly amplifies the wearer's magical power.",
 		"stats": {
 			"def": 2,
-			"mag": 6
+			"int": 6
 		}
 	},
 	"Archmage Robe": {
@@ -138,7 +145,7 @@
 		"description": "The ultimate mage's garment, said to have been worn by the Arcmat sages.",
 		"stats": {
 			"def": 2,
-			"mag": 8
+			"int": 8
 		}
 	}
 }

@@ -1,6 +1,7 @@
 {
 	"Poison Spit": {
 		"nome": "Poison Spit",
+		"description": "Spits a glob of toxic fluid at the target, dealing minor damage and inflicting poison.",
 		"type": "attack",
 		"stats": {
 			"mgt": 2,
@@ -15,6 +16,7 @@
 	},
 	"Armor Piercer": {
 		"nome": "Armor Piercer",
+		"description": "Strikes with focused force that bypasses the target's armor entirely, ignoring all defenses.",
 		"type": "attack",
 		"stats": {
 			"mgt": 0,
@@ -28,6 +30,7 @@
 	},
 	"Heavy Blow": {
 		"nome": "Heavy Blow",
+		"description": "A slow, brutally powerful strike that trades speed for devastating impact.",
 		"type": "attack",
 		"stats": {
 			"mgt": 6,
@@ -41,6 +44,7 @@
 	},
 	"Meditate": {
 		"nome": "Meditate",
+		"description": "Enters a deep meditative state that fully restores MP, at the cost of considerable delay.",
 		"type": "self",
 		"stats": {
 			"mp": -100,
@@ -53,11 +57,12 @@
 	},
 	"Flourish": {
 		"nome": "Flourish",
+		"description": "A swift, flashy flourish with a brief startup that recharges the user's skill cooldowns.",
 		"type": "self",
 		"stats": {
 			"wgt": 4
 		},
-		"startup": 1, 
+		"startup": 1,
 		"cooldown": 3,
 		"effect": "recharge",
 		"inherit_stats": false,
@@ -65,11 +70,12 @@
 	},
 	"Lunge": {
 		"nome": "Lunge",
+		"description": "Charges forward after a long windup, delivering a powerful thrust that delays the target's next action.",
 		"type": "attack",
 		"stats": {
 			"wgt": 4
 		},
-		"startup": 3, 
+		"startup": 3,
 		"cooldown": 5,
 		"effect": "delay",
 		"magnitude": 1,
@@ -78,6 +84,7 @@
 	},
 	"Cleave": {
 		"nome": "Cleave",
+		"description": "A wide sweeping strike that slashes through all enemies at once.",
 		"type": "all",
 		"stats": {
 			"mgt": 7,
@@ -92,6 +99,7 @@
 	},
 	"Brace": {
 		"nome": "Brace",
+		"description": "Takes a guarded stance over two turns, bracing against the next incoming attack to reduce damage taken.",
 		"type": "self",
 		"stats": {
 			"acc": 100
@@ -104,6 +112,7 @@
 	},
 	"Pinpoint Hit": {
 		"nome": "Pinpoint Hit",
+		"description": "A carefully aimed strike that sacrifices raw power to guarantee a critical hit.",
 		"type": "attack",
 		"stats": {
 			"mgt": 0,
@@ -117,6 +126,7 @@
 	},
 	"Crush": {
 		"nome": "Crush",
+		"description": "An unarmed crushing blow of tremendous force, independent of any weapon.",
 		"type": "attack",
 		"stats": {
 			"mgt": 8,
@@ -130,6 +140,7 @@
 	},
 	"Mana Explosion": {
 		"nome": "Mana Explosion",
+		"description": "Unleashes a burst of raw magical energy in a devastating explosion, consuming a large amount of MP.",
 		"type": "attack",
 		"stats": {
 			"mgt": 20,
@@ -145,6 +156,7 @@
 	},
 	"Assassinate": {
 		"nome": "Assassinate",
+		"description": "A precise strike targeting vital points, with a high chance of landing a critical blow.",
 		"type": "attack",
 		"stats": {
 			"mgt": 5,
@@ -158,6 +170,7 @@
 	},
 	"Regen": {
 		"nome": "Regen",
+		"description": "Channels healing energy inward, gradually regenerating HP over several turns.",
 		"type": "self",
 		"stats": {
 			"acc": 100
@@ -169,6 +182,7 @@
 	},
 	"First Aid": {
 		"nome": "First Aid",
+		"description": "Applies quick field treatment to patch wounds and restore a small amount of HP.",
 		"type": "self",
 		"stats": {
 			"mgt": -10,
@@ -180,6 +194,7 @@
 	},
 	"Bite": {
 		"nome": "Bite",
+		"description": "A snapping bite that tears into the target with teeth or jaws.",
 		"type": "attack",
 		"stats": {
 			"mgt": 3,
@@ -193,9 +208,10 @@
 	},
 	"Claws": {
 		"nome": "Claws",
+		"description": "A rapid double swipe with claws that strikes the target twice in quick succession.",
 		"type": "attack",
 		"stats": {
-			"mgt": 2,
+			"mgt": 1,
 			"acc": 75,
 			"crit": 5
 		},
@@ -207,6 +223,7 @@
 	},
 	"Gorgon Eye": {
 		"nome": "Gorgon Eye",
+		"description": "A paralyzing gaze that channels gorgon power, with a high chance to stun the target where they stand.",
 		"type": "attack",
 		"stats": {
 			"mgt": 0,
@@ -221,6 +238,7 @@
 	},
 	"Shiver": {
 		"nome": "Shiver",
+		"description": "An ice-cold attack that chills the target to the bone, with a chance to freeze them solid.",
 		"type": "attack",
 		"stats": {
 			"mgt": 4,
@@ -235,6 +253,7 @@
 	},
 	"Integer": {
 		"nome": "Integer",
+		"description": "A calculated magical strike shaped by geometric formulas, dealing precise arcane damage.",
 		"type": "attack",
 		"stats": {
 			"mgt": 6,
@@ -249,6 +268,7 @@
 	},
 	"Recharge": {
 		"nome": "Recharge",
+		"description": "Takes a brief moment to recover focus, resetting the user's skill cooldowns.",
 		"type": "self",
 		"stats": {
 			"wgt": 4

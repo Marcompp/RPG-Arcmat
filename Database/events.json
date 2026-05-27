@@ -1,5 +1,42 @@
 {
-	"treasure_chest": {
+	"under_bridge": {
+		"steps": [
+			{"type": "text", "text": "You look around under the bridge...\n[wait=0.1]...[wait=0.1]", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 2, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "You find an old chest tucked into the shadows!", "clear": false},
+						{"type": "sfx",  "sound": "chest_open"},
+						{"type": "give_gold", "amount": 100},
+						{"type": "text", "text": "Inside: [color=yellow]100G[/color]. Not bad.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 6,
+					"steps": [
+						{"type": "text", "text": "There's nothing down here but mud and old cobwebs.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 4,
+					"steps": [
+						{"type": "text", "text": "A massive troll steps out from the shadows.", "clear": false, "no_wait": true},
+						{"type": "text", "text": "\"OI! THIS IS MY BRIDGE! YOU'VE GOT A LOT OF NERVE COMING DOWN HERE!\"", "clear": false},
+						{"type": "combat", "enemy": "Troll",
+							"on_victory": [
+								{"type": "text", "text": "The troll's bulky form sinks onto the water under the bridge...", "clear": true},
+								{"type": "show_node", "clear": false}
+							]
+						}
+					]
+				}
+			]}
+		]
+	},
+	"treasure_chest_earth": {
 		"steps": [
 			{"type": "text", "text": "You spot something up ahead.", "clear":false},
 			{"type": "text", "text": "You find a chest out in the open.", "no_wait":true},
@@ -21,6 +58,7 @@
 		]
 	},
 	"gold_chest": {
+		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "You spot something up ahead.", "clear":false},
 			{"type": "text", "text": "You find a chest out in the open.", "no_wait":true},
@@ -43,8 +81,8 @@
 	},
 	"find_mushroom": {
 		"steps": [
-			{"type": "text", "text": "You notice a small cluster of mushrooms growing at the base of a mossy rock."},
-			{"type": "show_node"}
+			{"type": "text", "text": "You notice a small cluster of mushrooms growing at the base of a mossy rock.","clear":false, "no_wait":true},
+			{"type": "show_node_actions"}
 		]
 	},
 	"stranger_encounter": {
@@ -56,6 +94,322 @@
 				"talk":   [{"type": "text", "text": "He nods and walks away."}],
 				"ignore": [{"type": "text", "text": "You walk past without a word."}]
 			}},
+			{"type": "show_node"}
+		]
+	},
+	"spring_water": {
+		"steps": [
+			{"type": "text", "text": "You take a sip of the spring's crystal-clear water."},
+			{"type": "sfx", "sound": "heal"},
+			{"type": "effect", "effect": {"type": "heal",       "amount": 10}},
+			{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
+			{"type": "text", "text": "You drink deeply.\nHP and MP restored by [color=green]10[/color].", "clear": false},
+			{"type": "show_node"}
+		]
+	},
+	"sword_in_stone": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "You spot something up ahead.", "clear":false},
+			{"type": "text", "text": "Sticking out of a large stone at the center of the clearing, is a gleaming sword.\nNext to it, an inscription:\n'Only the worthy may wield.'", "no_wait":true},
+			{"type": "choice", "header": "Try to pull the sword from the stone?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [{"type": "text", "text": "You try and pull the sword with all your might...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt won't budge...", "clear":false, "no_wait":true},
+						{"type": "choice", "header": "Try again?",
+							"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+							"branches": {
+								"yes": [{"type": "text", "text": "You gather your strength again and pull the sword...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt's no use...", "clear":false, "no_wait":true},
+									{"type": "choice", "header": "Try again?",
+										"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+										"branches": {
+											"yes": [{"type": "text", "text": "You take a deep breath and pull...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt might've shifted a little this time!", "clear":false, "no_wait":true},
+												{"type": "choice", "header": "Try again?",
+													"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+													"branches": {
+														"yes": [{"type": "text", "text": "You gather your strength again and pull the sword...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt's still stuck! It might be time to give up...", "clear":false, "no_wait":true},
+															{"type": "choice", "header": "Try again?",
+																"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+																"branches": {
+																	"yes": [
+																		{"type": "text", "text": "You focus your determination and pull with all you have...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nFinally, the sword comes loose!", "clear":false},
+																		{"type": "text", "text": "You got the Sword of Maciera!", "clear": false},
+																		{"type": "give_item", "item":"Sword of Maciera"}
+																	],
+																	"no": [{"type": "text", "text": "You give up and try to put the sword in the stone out of mind...", "clear":false, "no_wait":true}]
+																}
+															}
+														]
+													}
+												}
+											],
+											"no": [{"type": "text", "text": "You give up and try to put the sword in the stone out of mind...", "clear":false, "no_wait":true}]
+										}
+									}
+								],
+								"no": [{"type": "text", "text": "You give up and try to put the sword in the stone out of mind...", "clear":false, "no_wait":true}]
+							}
+						}
+					],
+					"no": [{"type": "text", "text": "You leave the sword in the stone where it is...", "clear":false, "no_wait":true}]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"pick_apple": {
+		"steps": [
+			{"type": "text", "text": "You look for an apple to take from the lower branches.", "clear": false},
+			{"type": "event", "event": "random_apple"}
+		]
+	},
+	"apple_orchard": {
+		"steps": [
+			{"type": "text", "text": "You spot a small orchard of apple trees up ahead.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "Pick an apple to eat?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [{"type": "event", "event": "random_apple"}],
+					"no": [{"type": "text", "text": "You move on without an apple.", "clear": false, "no_wait": true},
+						{"type": "show_node"}
+				]}
+			}
+		]
+	},
+	"random_apple": {
+		"steps": [
+			{"type": "random", "outcomes": [
+				{"weight": 1,  "stat_weights": {"lck": 1},  "condition": {"golden_apple": false},
+				 "steps": [
+					{"type": "mark_used", "event": "golden_apple"},
+					{"type": "event", "event": "golden_apple"}
+				]},
+				{"weight": 1, "stat_weights": {"lck": 1},
+				 "steps": [
+					{"type": "mark_used", "event": "blue_apple"},
+					{"type": "event", "event": "blue_apple"}
+				]},
+				{"weight": 3,  "stat_weights": {"lck": 1},
+				 "steps": [{"type": "event", "event": "hearty_apple"}]},
+				{"weight": 10,
+				 "steps": [{"type": "event", "event": "red_apple"}]},
+				{"weight": 10,
+				 "steps": [{"type": "event", "event": "green_apple"}]},
+				{"weight": 12, "stat_weights": {"lck": -1},
+				 "steps": [{"type": "event", "event": "brown_apple"}]},
+				{"weight": 3,  "stat_weights": {"lck": -1},
+				 "steps": [{"type": "event", "event": "purple_apple"}]},
+				{"weight": 15, "stat_weights": {"lck": -1},
+				 "steps": [
+					{"type": "text", "text": "You look around but find nothing worth taking.", "clear": false},
+					{"type": "show_node"}
+				 ]}
+			]}
+		]
+	},
+	"golden_apple": {
+		"steps": [
+				{"type": "text", "text": "You find a Golden Apple gleaming amidst the apple trees.", "clear": false},
+				{"type": "choice", "header": "Eat it?",
+					"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+					"branches": {
+						"yes": [
+							{"type": "mark_used", "event": "golden_apple"},
+							{"type": "text", "text": "You bite into the apple...[wait=0.1]\nYour taste buds sing with joy!",
+										"clear": false, "no_wait":true},
+							{"type": "sfx", "sound": "heal"},
+							{"type": "modify_stat", "stats": {"hp": 5}},
+							{"type": "text", "text": "You feel your body grow stronger. \n[color=green]Max HP +5![/color]", "clear": false}
+						],
+						"no": [
+							{"type": "text", "text": "You leave it. It probably wasn't that special anyway.", "clear": false}
+						]
+					}
+				},
+				{"type": "show_node"}
+			]
+	},
+	"hearty_apple": {
+		"steps": [
+			{"type": "text", "text": "[instant]Jackpot![/instant][wait=0.1]\nYou find a hearty-looking bright red apple gleaming among the tree branches.", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "text", "text": "You bite into the apple...[wait=0.1]\nDelicious!", 
+									"clear": false, "no_wait":true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal",       "amount": 20}},
+						{"type": "text", "text": "[instant]Healed [color=green]20[/n] HP![/instant]", "clear": false}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it. You weren't hungry anyway.", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"blue_apple": {
+		"steps": [
+			{"type": "text", "text": "You find a mysterious sky-blue apple gleaming among the tree branches...", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "text", "text": "You bite into the apple...[wait=0.1]\nHow refreshing!", 
+									"clear": false, "no_wait":true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp",       "amount": 20}},
+						{"type": "text", "text": "[instant]Healed [color=green]20[/n] MP![/instant]", "clear": false},
+						{"type": "if", "condition": {"blue_apple": false},
+							"then": [
+								{"type": "modify_stat", "stats": {"int": 1}},
+								{"type": "text", "text": "[instant]Gained [color=green]+1[/n] Int![/instant]", "clear": false}
+							]
+						}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it. You weren't hungry anyway.", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"red_apple": {
+		"steps": [
+			{"type": "text", "text": "You find a bright red apple.", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "random", "outcomes": [
+							{"weight": 5, "stat_weights": {"lck": 1}, "steps": [
+								{"type": "text", "text": "You bite into the apple...[wait=0.1]\nIt's juicy and sweet!", 
+											"clear": false, "no_wait":true},
+								{"type": "sfx", "sound": "heal"},
+								{"type": "effect", "effect": {"type": "heal",       "amount": 10}},
+								{"type": "text", "text": "[instant]Healed [color=green]10[/n] HP![/instant]", "clear": false}
+							]},
+							{"weight": 5, "steps": [
+								{"type": "text", "text": "There was a worm inside the apple!\nYou toss it away in disgust...", "clear": false}
+							]}
+						]}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it. You weren't hungry anyway.", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"green_apple": {
+		"steps": [
+			{"type": "text", "text": "You find an appetising green apple.", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "random", "outcomes": [
+							{"weight": 5, "stat_weights": {"lck": 1}, "steps": [
+								{"type": "text", "text": "You bite into the apple...[wait=0.1]\nIt's so juicy!", 
+											"clear": false, "no_wait":true},
+								{"type": "sfx", "sound": "heal"},
+								{"type": "effect", "effect": {"type": "heal",       "amount": 10}},
+								{"type": "text", "text": "[instant]Healed [color=green]15[/n] HP![/instant]", "clear": false}
+							]},
+							{"weight": 5, "steps": [
+								{"type": "text", "text": "There was a worm inside the apple!\nYou toss it away in disgust...", "clear": false}
+							]},
+							{"weight": 5, "steps": [
+								{"type": "text", "text": "Ugh, it's not even close to being ripe!", "clear": false},
+								{"type": "sfx", "sound": "heal"},
+								{"type": "effect", "effect": {"type": "heal",       "amount": 5}},
+								{"type": "text", "text": "[instant]Healed [color=green]5[/n] HP![/instant]", "clear": false}
+							]}
+						]}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it. You weren't hungry anyway.", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"brown_apple": {
+		"steps": [
+			{"type": "text", "text": "You find a dubious-looking brown apple.", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "text", "text": "You bite into the apple...[wait=0.1]"},
+						{"type": "random", "outcomes": [
+							{"weight": 10, "steps": [
+								{"type": "text", "text": "It's rotten!", 
+											"clear": false, "no_wait":true},
+								{"type": "sfx", "sound": "poison"},
+								{"type": "effect", "effect": {"type": "damage",       "amount": 5}},
+								{"type": "text", "text": "You feel queasy...\n[instant]Lost [color=red]5[/n] HP![/instant]", "clear": false}
+							]},
+							{"weight": 10, "stat_weights": {"lck": 1}, "steps": [
+								{"type": "text", "text": "You grimace your teeth reach the apple's rotten core...\nNot able to stomach it, you toss the apple away in disgust...", "clear": false}
+							]},
+							{"weight": 0, "stat_weights": {"lck": 2}, "steps": [
+								{"type": "text", "text": "What luck!\nIt's a super-rare Chocolate Apple!", 
+											"clear": false, "no_wait":true},
+								{"type": "sfx", "sound": "heal"},
+								{"type": "modify_stat", "stats": {"lck": 5}},
+								{"type": "effect", "effect": {"type": "heal",       "amount": 15}},
+								{"type": "text", "text": "The sweet chocolate empowers you...\n[instant]Healed [color=green]15[/n] HP![/instant]\n[color=green]Gained 5 Lck![/color]", "clear": false}
+							]}
+						]}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it. It was probably rotten anyway.", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"purple_apple": {
+		"steps": [
+			{"type": "text", "text": "You find a suspicious-looking purple apple among the tree roots.", "clear": false},
+			{"type": "choice", "header": "Eat it?",
+				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
+				"branches": {
+					"yes": [
+						{"type": "text", "text": "You bite into the apple...[wait=0.1]"},
+						{"type": "text", "text": "It's poisonous!", 
+									"clear": false, "no_wait":true},
+						{"type": "sfx", "sound": "poison"},
+						{"type": "effect", "effect": {"type": "damage",       "amount": 10}},
+						{"type": "text", "text": "[instant]Lost [color=red]10[/n] HP![/instant]", "clear": false}
+					],
+					"no": [
+						{"type": "text", "text": "You toss the suspicious apple to some birds.\nAfter some moments, the birds fall from the sky, dead.\nLooks like you made a good call...", "clear": false}
+					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"lucky_find": {
+		"steps": [
+			{"type": "text", "text": "You notice something glinting in the dirt."},
+			{"type": "random", "outcomes": [
+				{"weight": 1, "stat_weights": {"lck": 1}, "steps": [
+					{"type": "text", "text": "It's a gold coin! Lucky you.", "clear": false},
+					{"type": "give_gold", "amount": 50}
+				]},
+				{"weight": 5, "steps": [
+					{"type": "text", "text": "Just a pebble.", "clear": false}
+				]}
+			]},
 			{"type": "show_node"}
 		]
 	},

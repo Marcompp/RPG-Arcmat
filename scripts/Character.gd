@@ -44,7 +44,7 @@ func _build_base_stats(char):
 		"hp":  override.get("HP", _define_base_stat(stats.get("HP",  "E"),"hp")),
 		"mp":  override.get("MP", _define_base_stat(stats.get("MP",  "E"),"mp")),
 		"str": override.get("Str",_define_base_stat(stats.get("Str", "E"),"str")),
-		"mag": override.get("Mag",_define_base_stat(stats.get("Mag", "E"),"mag")),
+		"int": override.get("Int",_define_base_stat(stats.get("Int", "E"),"int")),
 		"agi": override.get("Agi",_define_base_stat(stats.get("Agi", "E"),"agi")),
 		"dex": override.get("Dex",_define_base_stat(stats.get("Dex", "E"),"dex")),
 		"lck": override.get("Lck",_define_base_stat(stats.get("Lck", "E"),"lck")),
@@ -71,7 +71,7 @@ func _apply_level_growth(char, base: Dictionary) -> Dictionary:
 		"hp":  "HP",
 		"mp":  "MP",
 		"str": "Str",
-		"mag": "Mag",
+		"int": "Int",
 		"agi": "Agi",
 		"dex": "Dex",
 		"lck": "Lck",
@@ -292,7 +292,7 @@ func _roll_level_gains() -> Dictionary:
 	var gains = {}
 	var stat_ranks = data.get("Stats", {})
 	var rank_keys = {
-		"hp": "HP", "mp": "MP", "str": "Str", "mag": "Mag",
+		"hp": "HP", "mp": "MP", "str": "Str", "int": "Int",
 		"agi": "Agi", "dex": "Dex", "lck": "Lck", "def": "Def"
 	}
 	for stat in base_stats:

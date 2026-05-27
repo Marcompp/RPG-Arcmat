@@ -47,6 +47,7 @@ var current_region = "":
 var current_node = 0
 var current_entrance = 1
 
+var used_node_action = false
 var current_node_data = null
 var current_backdrop = ""
 
@@ -64,11 +65,20 @@ func _ready():
 	MyEventBus.subscribe("show_node_text", func(_data):
 		show_node_text()
 	)
+	MyEventBus.subscribe("show_node_actions", func(_data):
+		show_node_actions()
+	)
 	MyEventBus.subscribe("show_node", func(_data):
 		show_node()
 	)
 	MyEventBus.subscribe("set_backdrop", func(data):
 		_set_backdrop(data.get('backdrop',''))
+	)
+	MyEventBus.subscribe("modify_node", func(data):
+		current_node_data.merge(data,true)
+	)
+	MyEventBus.subscribe("exit_node", func(exit):
+		handle_exit(exit)
 	)
 
 	if world_data.is_empty():
@@ -100,11 +110,12 @@ func _evaluate_node(condition, curr_node):
 	
 	return condition_callback.call(condition,curr_node)
 
-func _set_current_node(node_index, entrance):
+func _set_current_node(node_index, entrance, node_data={}):
 	current_node = node_index
 	current_entrance = entrance
 	var region = world_data[current_region]
-	current_node_data = region[current_node]
+	current_node_data = region[current_node].duplicate()
+	current_node_data.merge(node_data, true)
 	var node_backdrop = current_node_data.get("backdrop", "")
 	if node_backdrop != "":
 		_set_backdrop(node_backdrop)
@@ -167,11 +178,12 @@ func show_node():
 	else:
 		show_node_actions()
 
-func enter_node(node_index, entrance, register: bool = true):
-	_set_current_node(node_index, entrance)
+func enter_node(node_index, entrance, register: bool = true, node_data_override: Dictionary = {}, used_action: bool = false):
+	_set_current_node(node_index, entrance, node_data_override)
 
 	if register:
 		register_visit()
+	used_node_action = used_action
 
 	# 🔔 evento (para UI secundária, som, etc)
 	MyEventBus.emit("node_entered", {
@@ -212,8 +224,10 @@ func show_node_actions():
 	var node_action = current_node_data.get("action", {}) if current_node_data else {}
 	var action_name = node_action.get("name", "Search for Monsters")
 	var action_tooltip = node_action.get("tooltip", "Stay in place and look for monsters to fight")
-	var action_used = game_state and not node_action.get("repeatable", true) and \
-		game_state["used_node_actions"].get(get_node_key(), false)
+	var action_used = game_state and (node_action.get("disabled", false) \
+		or (not node_action.get("repeatable", true) and used_node_action) \
+		or ( events_db.get(node_action.get("event")).get("repeatable", true) and \
+			game_state["used_events"].get(node_action.get("event"), false)))
 	var action_choice: Dictionary
 	if action_used:
 		action_choice = {
@@ -263,7 +277,7 @@ func _handle_region_exit():
 	if next_name == "" or (not world_data.has(next_name) and not town_db.has(next_name)):
 		push_error("Próxima área inválida: " + next_name)
 		return
-	MyEventBus.emit("add_progress", {"progress": 0, "reset": true})
+	MyEventBus.emit("add_progress", {"progress": 0, "reset": true, "region":next_name})
 	_full_heal_player()
 	if town_db.has(next_name):
 		enter_town(next_name)
@@ -298,13 +312,15 @@ func _handle_node_specific_action(action_data: Dictionary) -> void:
 		if not event_def.is_empty():
 			var stopped = await _run_node_event(event_def)
 			if not action_data.get("repeatable", true):
-				game_state["used_node_actions"][get_node_key()] = true
+				game_state["used_events"][event_name] += 1
+				used_node_action = true
 			# if not stopped:
 			# 	show_node_actions()
 			return
 		push_warning("Node action event not found: " + event_name)
 	if not action_data.get("repeatable", true):
-		game_state["used_node_actions"][get_node_key()] = true
+			game_state["used_events"][event_name] += 1
+			used_node_action = true
 	var monster = _pick_encounter_monster()
 	if monster:
 		MyEventBus.emit("continue_text", {
@@ -564,9 +580,18 @@ func handle_exit_choice(choice):
 		return
 
 	var exit = choice.get("data", {})
-	current_entrance = exit.get("leads_to", current_entrance)
+	var event = {}
+	if exit.has('events'):
+		event = _pick_event(exit['events'])
+	if event:
+		await _run_node_event(event)
+	else:
+		handle_exit(exit)
 
-	MyEventBus.emit("add_progress", {"progress": exit.get("value", 1)})
+func handle_exit(exit):
+	current_entrance = exit.get("leads_to", current_entrance)
+	
+	MyEventBus.emit("add_progress", {"progress": exit.get("value", 1), "region": current_region})
 	apply_exit_vars(exit)
 
 	var next_node = pick_next_node(current_entrance)
@@ -576,6 +601,7 @@ func handle_exit_choice(choice):
 	MyEventBus.emit("dialogue", {"text": text})
 	await game_manager._gm_wait_for_writing()
 	_set_current_node(next_node, current_entrance)
+	used_node_action = false
 	register_visit()
 
 	MyEventBus.emit("node_entered", {
@@ -591,7 +617,7 @@ func handle_exit_choice(choice):
 	if boss_monster:
 		monster = boss_monster
 	else:
-		var encounter_rate = current_node_data.get("encounter_rate", 0.75)
+		var encounter_rate = exit.get('encounter_rate', current_node_data.get("encounter_rate", 0.75))
 		var encounter_roll = randf()
 		if encounter_roll < encounter_rate:
 			monster = _pick_encounter_monster()
@@ -605,7 +631,8 @@ func handle_exit_choice(choice):
 		if result.get("victory", false):
 			show_node()
 	else:
-		event = _pick_node_event(current_node_data)
+		if not exit.get('forbid_event',false):
+			event = _pick_node_event(current_node_data)
 		if event:
 			await _run_node_event(event)
 		else:
@@ -641,7 +668,7 @@ func pick_next_node(entrance):
 		return current_node
 
 	var region_length = region_db.get(current_region, {}).get("Length", INF)
-	var progress = game_state.get("area_progress") if game_state else 0
+	var progress = game_state.get("area_progress").get(current_region,0) if game_state else 0
 	var region_nodes = world_data[current_region]
 
 	if progress >= region_length:
@@ -703,11 +730,16 @@ func _pick_encounter_monster():
 
 func _pick_node_event(node_data: Dictionary) -> Dictionary:
 	var event_refs: Array = node_data.get("events", [])
+	return _pick_event(event_refs)
+
+func _pick_event(event_refs: Array) -> Dictionary:
 	if event_refs.is_empty():
 		return {}
 
 	var valid := []
 	for ref in event_refs:
+		if not events_db.get(ref,{}).get("repeatable", true) and game_state["used_events"].get(ref, 0):
+			continue
 		var cond = ref.get("condition", {})
 		if not (cond as Dictionary).is_empty() and not _evaluate_node(cond, current_node):
 			continue
@@ -735,6 +767,11 @@ func _run_node_event(event_def: Dictionary) -> bool:
 	add_child(reader)
 	if condition_callback != null:
 		reader.condition_callback = func(cond): return condition_callback.call(cond, current_node)
+	reader.stat_callback = func(stat: String) -> int:
+		var p = game_manager.game_state.get("player")
+		return p.get_stat(stat) if p else 0
+	reader.event_callback = func(event_name: String) -> Array:
+		return events_db.get(event_name, {}).get("steps", [])
 	await reader.run(steps)
 	var stopped: bool = reader.was_stopped
 	reader.queue_free()
@@ -926,6 +963,9 @@ func _use_item_overworld(item_name: String):
 
 func _format_item_tooltip(item_name: String, data: Dictionary) -> String:
 	var lines = []
+	if data.has("description"):
+		lines.append(data["description"]+"\n")
+
 	var stats = data.get("stats", {})
 	var mgt = stats.get("mgt", 0)
 	if mgt < 0:
@@ -1042,6 +1082,8 @@ func _equip_item(slot: String, item_name: String):
 
 func _format_equip_tooltip(item: Dictionary) -> String:
 	var lines = [item.get("name", "?")]
+	if item.has("description"):
+		lines.append(item["description"]+"\n")
 	if item.has("wpn_type"):
 		lines.append("Type: " + item["wpn_type"])
 	if item.has("element"):

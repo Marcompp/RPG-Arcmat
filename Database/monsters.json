@@ -3,7 +3,7 @@
 	"Name": "Slime",
 	"Element": "Water",
 	"Lvl": 1,
-	"Stats": {"HP":"E","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"E","MP":"D","Str":"E","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 20
 	},
@@ -31,7 +31,7 @@
 	"Name": "Bandit",
 	"Element": "Earth",
 	"Lvl": 2,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 30
 	},
@@ -56,7 +56,7 @@
 	"Name": "Skeleton",
 	"Element": "Dark",
 	"Lvl": 3,
-	"Stats": {"HP":"D","MP":"D","Str":"E","Mag":"E","Skl":"E","Spd":"E","Lck":"F","Def":"D"},
+	"Stats": {"HP":"D","MP":"D","Str":"E","Int":"E","Skl":"E","Spd":"E","Lck":"F","Def":"D"},
 	"TrueStats":{
 		"HP": 25
 	},
@@ -72,16 +72,39 @@
 	"Gold":30,
 	"Startup":2,
 	"Cooldown":1,
-	"Skills": [],
+	"Skills": ["Heavy Blow"],
 	"Spells": [],
 	"Location": "Apple Woods",
 	"Rarity": 3
   },
   {
+	"Name": "Bitefish",
+	"Element": "Water",
+	"Lvl": 1,
+	"Stats": {"HP":"D","MP":"E","Str":"D","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP": 20,
+		"Str": 14
+	},
+	"Equip": {
+	},
+	"Drops": {
+		"Stimulant": 10,
+		"Fishbone Dagger": 10
+	},
+	"Gold":15,
+	"Startup":1,
+	"Cooldown":1,
+	"Skills": ["Bite"],
+	"Spells": [],
+	"Location": "",
+	"Rarity": 8
+  },
+  {
 	"Name": "Bear",
 	"Element": "Earth",
 	"Lvl": 4,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
 	"TrueStats":{
 		"HP": 60,
 		"Str": 14
@@ -94,7 +117,7 @@
 	"Gold":25,
 	"Startup":3,
 	"Cooldown":2,
-	"Skills": [],
+	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Apple Woods",
 	"Rarity": 1
@@ -103,7 +126,7 @@
 	"Name": "Vampire Bat",
 	"Element": "Wind",
 	"Lvl": 4,
-	"Stats": {"HP":"D","MP":"E","Str":"E","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"D","MP":"E","Str":"E","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 19
 	},
@@ -122,7 +145,7 @@
 	"Name": "Restless Spirit",
 	"Element": "Dark",
 	"Lvl": 5,
-	"Stats": {"HP":"E","MP":"C","Str":"F","Mag":"C","Skl":"D","Spd":"B","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"C","Str":"F","Int":"C","Skl":"D","Spd":"B","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 70,
@@ -138,7 +161,7 @@
 	"Name": "Renegade",
 	"Element": "Earth",
 	"Lvl": 5,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Machete"
 	},
@@ -156,7 +179,7 @@
 	"Name": "Cultist",
 	"Element": "Light",
 	"Lvl": 6,
-	"Stats": {"HP":"D","MP":"B","Str":"E","Mag":"C","Skl":"D","Spd":"E","Lck":"B","Def":"E"},
+	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Skl":"D","Spd":"E","Lck":"B","Def":"E"},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
@@ -177,7 +200,7 @@
 	"Name": "Mangy Wolf",
 	"Element": "Earth",
 	"Lvl": 7,
-	"Stats": {"HP":"C","MP":"F","Str":"C","Mag":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -193,7 +216,7 @@
 	"Name": "Zombie",
 	"Element": "Dark",
 	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"F","Def":"F"},
+	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"F","Def":"F"},
 	"Equip": {
 		"Armor": "Old Rags"
 	},
@@ -211,7 +234,7 @@
 	"Name": "Ghost",
 	"Element": "Dark",
 	"Lvl": 8,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Mag":"B","Skl":"D","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Skl":"D","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 30,
@@ -227,7 +250,7 @@
 	"Name": "Frost Fairy",
 	"Element": "Ice",
 	"Lvl": 9,
-	"Stats": {"HP":"E","MP":"A","Str":"E","Mag":"B","Skl":"C","Spd":"B","Lck":"C","Def":"E"},
+	"Stats": {"HP":"E","MP":"A","Str":"E","Int":"B","Skl":"C","Spd":"B","Lck":"C","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 60,
@@ -243,7 +266,7 @@
 	"Name": "Bald Eagle",
 	"Element": "Wind",
 	"Lvl": 9,
-	"Stats": {"HP":"D","MP":"F","Str":"C","Mag":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"D","MP":"F","Str":"C","Int":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 70,
@@ -259,7 +282,7 @@
 	"Name": "Pegasus Knight",
 	"Element": "Wind",
 	"Lvl": 10,
-	"Stats": {"HP":"D","MP":"D","Str":"D","Mag":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
 	"Equip": {
 		"Weapon": "Winged Spear",
 		"Armor": "Whitewing Armor"
@@ -279,7 +302,7 @@
 	"Name": "Wisp",
 	"Element": "Fire",
 	"Lvl": 11,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Mag":"B","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 70,
@@ -295,7 +318,7 @@
 	"Name": "Wyvern",
 	"Element": "Fire",
 	"Lvl": 12,
-	"Stats": {"HP":"B","MP":"C","Str":"C","Mag":"C","Skl":"D","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"B","MP":"C","Str":"C","Int":"C","Skl":"D","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -312,7 +335,7 @@
 	"Name": "Lizardman",
 	"Element": "Water",
 	"Lvl": 11,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"D","Spd":"C","Lck":"E","Def":"C"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Falchion",
 		"Armor": "Lizal Armor"
@@ -332,7 +355,7 @@
 	"Name": "Tarvos",
 	"Element": "Earth",
 	"Lvl": 12,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
 	"Equip": {
 		"Weapon": "Battleaxe"
 	},
@@ -350,7 +373,7 @@
 	"Name": "Ent",
 	"Element": "Earth",
 	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"B","Str":"C","Mag":"C","Skl":"D","Spd":"E","Lck":"E","Def":"C"},
+	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Skl":"D","Spd":"E","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -369,7 +392,7 @@
 	"Name": "Gorgon",
 	"Element": "Water",
 	"Lvl": 14,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Mag":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -387,7 +410,7 @@
 	"Name": "Lost Soul",
 	"Element": "Dark",
 	"Lvl": 13,
-	"Stats": {"HP":"E","MP":"A","Str":"F","Mag":"A","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"A","Str":"F","Int":"A","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 40,
@@ -403,7 +426,7 @@
 	"Name": "Gorgoyle",
 	"Element": "Wind",
 	"Lvl": 15,
-	"Stats": {"HP":"B","MP":"C","Str":"B","Mag":"C","Skl":"C","Spd":"C","Lck":"E","Def":"B"},
+	"Stats": {"HP":"B","MP":"C","Str":"B","Int":"C","Skl":"C","Spd":"C","Lck":"E","Def":"B"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 30,
@@ -419,7 +442,7 @@
 	"Name": "Treasure Hunter",
 	"Element": "Earth",
 	"Lvl": 15,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Mag":"E","Skl":"A","Spd":"A","Lck":"D","Def":"C"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"A","Spd":"A","Lck":"D","Def":"C"},
 	"Equip": {
 		"Weapon": "Silver Sword",
 		"Armor": "Adventure Clothes"
@@ -441,7 +464,7 @@
 	"Name": "Wizard",
 	"Element": "Dark",
 	"Lvl": 16,
-	"Stats": {"HP":"C","MP":"A","Str":"E","Mag":"A","Skl":"C","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"A","Str":"E","Int":"A","Skl":"C","Spd":"C","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Ancient Staff",
 		"Armor": "Wizard Robe"
@@ -462,7 +485,7 @@
 	"Name": "Guardian",
 	"Element": "Earth",
 	"Lvl": 16,
-	"Stats": {"HP":"A","MP":"C","Str":"B","Mag":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
+	"Stats": {"HP":"A","MP":"C","Str":"B","Int":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
 	"Equip": {
 		"Weapon": "Stone Axe"
 	},
@@ -481,7 +504,7 @@
 	"Name": "Werewolf",
 	"Element": "Earth",
 	"Lvl": 4,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP":60
 	},
@@ -498,7 +521,36 @@
 	"Startup":1,
 	"Cooldown":2,
 	"Skill_Chance":70,
-	"Skills": ["Bite"],
+	"Skills": ["Bite", "Claws"],
+	"Spells": [],
+	"Location": "Apple Woods",
+	"Rarity": null
+  },
+  {
+	"Name": "Troll",
+	"Element": "Earth",
+	"Lvl": 3,
+	"Stats": {"HP":"B","MP":"D","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"D","Def":"E"},
+	"TrueStats":{
+		"HP":60
+	},
+	"Weapon": null,
+	"Equip": {
+		"Weapon":"Troll Club",
+		"Armor": "Loincloth"
+	},
+	"Drops": {
+		"Potion": 100,
+		"Stimulant": 100,
+		"Troll Club": 25,
+		"Loincloth": 5
+	},
+	"Gold":100,
+	"Start":"Regen",
+	"Startup":3,
+	"Cooldown":3,
+	"Skill_Chance":70,
+	"Skills": ["Crush","Heavy Blow"],
 	"Spells": [],
 	"Location": "Apple Woods",
 	"Rarity": null
@@ -507,7 +559,7 @@
 	"Name": "Chimera",
 	"Element": "Water",
 	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Mag":"E","Skl":"E","Spd":"E","Lck":"E","Def":"C"},
+	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"C"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 100,
@@ -524,7 +576,7 @@
 	"Name": "Cult Leader",
 	"Element": "Light",
 	"Lvl": 7,
-	"Stats": {"HP":"B","MP":"B","Str":"D","Mag":"C","Skl":"C","Spd":"C","Lck":"B","Def":"E"},
+	"Stats": {"HP":"B","MP":"B","Str":"D","Int":"C","Skl":"C","Spd":"C","Lck":"B","Def":"E"},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
@@ -544,7 +596,7 @@
 	"Name": "Necromancer",
 	"Element": "Dark",
 	"Lvl": 9,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Mag":"B","Skl":"D","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Skl":"D","Spd":"E","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Skull Staff",
 		"Armor": "Necromancer Robes"
@@ -564,7 +616,7 @@
 	"Name": "Abomination",
 	"Element": "Dark",
 	"Lvl": 9,
-	"Stats": {"HP":"S","MP":"C","Str":"C","Mag":"C","Skl":"F","Spd":"F","Lck":"F","Def":"E"},
+	"Stats": {"HP":"S","MP":"C","Str":"C","Int":"C","Skl":"F","Spd":"F","Lck":"F","Def":"E"},
 	"Weapon": "Axe",
 	"Equip": {
 		"Weapon": "Killer Axe"
@@ -583,7 +635,7 @@
 	"Name": "Icelady",
 	"Element": "Ice",
 	"Lvl": 11,
-	"Stats": {"HP":"B","MP":"A","Str":"C","Mag":"B","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"B","MP":"A","Str":"C","Int":"B","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 100,
@@ -599,7 +651,7 @@
 	"Name": "Great Roc",
 	"Element": "Wind",
 	"Lvl": 11,
-	"Stats": {"HP":"A","MP":"E","Str":"C","Mag":"E","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"C","Int":"E","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 100,
@@ -615,7 +667,7 @@
 	"Name": "Infrit",
 	"Element": "Fire",
 	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"A","Str":"B","Mag":"B","Skl":"D","Spd":"D","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"A","Str":"B","Int":"B","Skl":"D","Spd":"D","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Bomb": 100,
@@ -631,7 +683,7 @@
 	"Name": "King of the Swamp",
 	"Element": "Earth",
 	"Lvl": 15,
-	"Stats": {"HP":"S","MP":"A","Str":"A","Mag":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
+	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -650,7 +702,7 @@
 	"Name": "Mathemagician",
 	"Element": "Light",
 	"Lvl": 20,
-	"Stats": {"HP":"S","MP":"A","Str":"D","Mag":"A","Skl":"C","Spd":"D","Lck":"E","Def":"C"},
+	"Stats": {"HP":"S","MP":"A","Str":"D","Int":"A","Skl":"C","Spd":"D","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Geometry Staff",
 		"Armor": "Archmage Robe"

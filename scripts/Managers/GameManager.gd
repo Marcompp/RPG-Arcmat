@@ -64,7 +64,7 @@ func _ready():
 		register_visit(data.get('key',0))
 	)
 	MyEventBus.subscribe("add_progress", func(data):
-		add_progress(data.get('progress',0),data.get('reset',false))
+		add_progress(data.get('progress',0),data.get('reset',false),data.get("region",""))
 	)
 	MyEventBus.subscribe("take_damage", func(data):
 		apply_damage(data['damage'])
@@ -80,6 +80,14 @@ func _ready():
 	)
 	MyEventBus.subscribe("game_over", func(_data):
 		show_game_over()
+	)
+	MyEventBus.subscribe("modify_stat", func(data):
+		var player = game_state.get("player")
+		if player:
+			player.apply_level_up(data.get("stats", {}))
+	)
+	MyEventBus.subscribe("mark_event_used", func(data):
+		game_state["used_events"][data.get("event", "")] = true
 	)
 	MyEventBus.subscribe("give_gold", func(data):
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
@@ -102,8 +110,8 @@ func _ready():
 	game_state["flags"] = {}
 	game_state["visited_nodes"] = {}
 	game_state["visited_count"] = {}
-	game_state["area_progress"] = 0
-	game_state["used_node_actions"] = {}
+	game_state["area_progress"] = {"Apple Woods":0}
+	game_state["used_events"] = {}
 	travel.game_state = game_state
 	travel.game_manager = self
 	game_state["region"] = travel.current_region
@@ -593,10 +601,12 @@ func _check_dict_condition(cond, node_index):
 			continue
 		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
+		elif game_state["used_events"].has(key):
+			value = game_state["used_events"][key]
 		elif game_state.has(key):
 			value = game_state[key]
 		else:
-			return false
+			value = 0
 
 		if typeof(req) == TYPE_DICTIONARY:
 			if req.has("min") and value < req["min"]:
@@ -636,7 +646,8 @@ func load_game(slot: int):
 	game_state["flags"]         = gs.get("flags", {})
 	game_state["visited_nodes"] = gs.get("visited_nodes", {})
 	game_state["visited_count"] = gs.get("visited_count", {})
-	game_state["area_progress"] = gs.get("area_progress", 0)
+	game_state["used_events"]   = gs.get("used_events", {})
+	game_state["area_progress"] = gs.get("area_progress", {})
 
 	var player_data = save_data.get("player", {})
 	if not player_data.is_empty():
@@ -656,7 +667,9 @@ func load_game(slot: int):
 		travel.enter_node(
 			travel_data.get("current_node", 0),
 			travel_data.get("current_entrance", "ROAD"),
-			false  # don't re-register the visit we already counted
+			false,  # don't re-register the visit we already counted
+			travel_data.get("current_node_data", {}),
+			travel_data.get("used_node_action", false)
 		)
 
 func _unhandled_input(event):
@@ -673,10 +686,12 @@ func _unhandled_input(event):
 # CHAR CHANGES
 # ------------------------
 
-func add_progress(progress,reset=false):
-	if reset:
-		game_state['area_progress'] = 0
-	game_state["area_progress"] += progress
+func add_progress(progress,reset=false,region=""):
+	if region == "":
+		region = game_state["region"]
+	if reset or not game_state['area_progress'].has(region):
+		game_state['area_progress'][region] = 0
+	game_state["area_progress"][region] += progress
 	
 func register_visit(key):
 	
@@ -694,15 +709,24 @@ func apply_damage(amount):
 		player.take_damage(amount)
 
 func apply_effect(effect):
-	var changed = false
-
-	for key in effect.keys():
-		if typeof(effect[key]) == TYPE_INT:
-			if game_state["vars"].has(key):
-				game_state["vars"][key] += effect[key]
-			
-	if changed:
-		MyEventBus.emit("stats_changed", game_state["player"]["curr_stats"])
+	var player = game_state.get("player")
+	match effect.get("type", ""):
+		"damage":
+			if player:
+				var dmg =effect.get("amount", 0)
+				if player.get_hp() < dmg:
+					dmg = player.get_hp() - 1
+				player.take_damage(dmg)
+		"heal":
+			if player:
+				player.heal(effect.get("amount", 0))
+		"restore_mp":
+			if player:
+				player.restore_mp(effect.get("amount", 0))
+		_:
+			for key in effect.keys():
+				if typeof(effect[key]) == TYPE_INT and game_state["vars"].has(key):
+					game_state["vars"][key] += effect[key]
 
 # ------------------------
 # COMBAT ENDED
@@ -836,6 +860,8 @@ func _build_equip_comparison_text(item_name: String, new_item: Dictionary, old_i
 		text += "  [i](%s)[/i]" % new_item["wpn_type"]
 	if new_item.has("element"):
 		text += "  [color=orange][%s][/color]" % new_item["element"]
+	if new_item.has("description"):
+		text += "\n" + new_item["description"]
 	text += "\n\n"
 
 	var new_stats: Dictionary = new_item.get("stats", {})

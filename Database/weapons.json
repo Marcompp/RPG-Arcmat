@@ -1,24 +1,28 @@
 {
 	"Foil": {
 		"name": "Foil",
+		"description": "A thin, lightweight fencing blade favored for its exceptional accuracy over raw power.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 4, "acc": 90, "wgt": 4, "crit": 10, "mys": 1 },
 		"effect": "none"
 	},
 	"Hatchet": {
 		"name": "Hatchet",
+		"description": "A small single-handed axe, easy to carry but punishing when it lands.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 6, "acc": 60, "wgt": 8, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Sling": {
 		"name": "Sling",
+		"description": "A simple leather strap that hurls stones with surprising speed and force.",
 		"wpn_type": "Ranged",
 		"stats": { "mgt": 3, "acc": 70, "wgt": 1, "crit": 10, "mys": 0 },
 		"effect": "none"
 	},
 	"Wooden Rod": {
 		"name": "Wooden Rod",
+		"description": "A staff carved from a living branch, imbued with the quiet essence of the forest.",
 		"element": "Plant",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 3, "acc": 80, "wgt": 7, "crit": 0, "mys": 3 },
@@ -26,139 +30,178 @@
 	},
 	"Rapier": {
 		"name": "Rapier",
+		"description": "A slender thrusting sword prized by duelists for its speed and deadly precision.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 8, "acc": 90, "wgt": 5, "crit": 15, "mys": 1 },
 		"effect": "none"
 	},
 	"Broadsword": {
 		"name": "Broadsword",
+		"description": "A wide-bladed sword built for powerful, sweeping strikes that overwhelm enemy defenses.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 11, "acc": 65, "wgt": 10, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
+	"Troll Club": {
+		"name": "Troll Club",
+		"description": "A massive stone-headed club torn from the earth by troll hands, radiating raw earthen power.",
+		"element": "Earth",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 13, "acc": 55, "wgt": 15, "crit": 5, "mys": 0 },
+		"effect": "none"
+	},
 	"Poleaxe": {
 		"name": "Poleaxe",
+		"description": "A long-hafted axe that combines the reach of a spear with the brutal force of an axe head.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 11, "acc": 65, "wgt": 10, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Sword": {
 		"name": "Iron Sword",
+		"description": "A reliable iron blade, the standard weapon of soldiers and adventurers the world over.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 6, "acc": 80, "wgt": 6, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Lance": {
 		"name": "Iron Lance",
+		"description": "A sturdy iron-tipped lance offering solid reach and dependable performance in infantry combat.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 7, "acc": 70, "wgt": 8, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Axe": {
 		"name": "Iron Axe",
+		"description": "A heavy iron axe that sacrifices finesse for sheer destructive power.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 9, "acc": 60, "wgt": 10, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Dagger": {
 		"name": "Iron Dagger",
+		"description": "A short iron blade, easy to conceal and quick to draw in a desperate moment.",
 		"wpn_type": "Dagger",
 		"stats": { "mgt": 5, "acc": 90, "wgt": 4, "crit": 5, "mys": 1 },
 		"effect": "none"
 	},
 	"Iron Bow": {
 		"name": "Iron Bow",
+		"description": "An iron-reinforced bow offering consistent range and reliability for any archer.",
 		"wpn_type": "Ranged",
 		"stats": { "mgt": 6, "acc": 75, "wgt": 6, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Rod": {
 		"name": "Iron Rod",
+		"description": "A dense iron staff that channels magical energy with steady, unwavering focus.",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 10, "acc": 70, "wgt": 4, "crit": 0, "mys": 3 },
 		"effect": "none"
 	},
 	"Slime Spear": {
 		"name": "Slime Spear",
+		"description": "A spear coated in viscous toxic slime that poisons any wound it inflicts.",
 		"element": "Water",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 5, "acc": 100, "wgt": 6, "crit": 0, "mys": 2 },
 		"effect": "poison"
 	},
+	"Fishbone Dagger": {
+		"name": "Fishbone Dagger",
+		"description": "A jagged dagger fashioned out of fishbones.",
+		"element": "Dark",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 4, "acc": 60, "wgt": 2, "crit": 30, "mys": 1 },
+		"effect": "none"
+	},
 	"Scimitar": {
 		"name": "Scimitar",
+		"description": "A heavy curved blade devastating when it connects, though its arc demands room to swing.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 12, "acc": 55, "wgt": 12, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Hand Axe": {
 		"name": "Hand Axe",
+		"description": "A compact axe balanced for both throwing at a distance and close-quarters combat.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 7, "acc": 70, "wgt": 6, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Iron Claws": {
 		"name": "Iron Claws",
+		"description": "Fitted iron claws that tear into flesh with frightening precision, seeking vital points.",
 		"wpn_type": "Gauntlet",
 		"stats": { "mgt": 4, "acc": 70, "wgt": 3, "crit": 15, "mys": 1 },
 		"effect": "none"
 	},
 	"Elven Sword": {
 		"name": "Elven Sword",
+		"description": "A graceful sword of elven craft, light as thought and keen as the sharpest mind.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 8, "acc": 90, "wgt": 5, "crit": 5, "mys": 3 },
 		"effect": "none"
 	},
 	"Thief's Dagger": {
 		"name": "Thief's Dagger",
+		"description": "A blade honed through countless heists, so well-balanced it seems to find its mark on its own.",
 		"wpn_type": "Dagger",
 		"stats": { "mgt": 6, "acc": 100, "wgt": 2, "crit": 5, "mys": 1 },
 		"effect": "none"
 	},
 	"Bloody Dagger": {
 		"name": "Bloody Dagger",
+		"description": "A dagger stained with the blood of many victims, notorious for finding vulnerable spots.",
 		"wpn_type": "Dagger",
 		"stats": { "mgt": 5, "acc": 90, "wgt": 2, "crit": 30, "mys": 1 },
 		"effect": "none"
 	},
 	"Spirit Lance": {
 		"name": "Spirit Lance",
+		"description": "A lance that hums with spiritual energy, its thrusts guided by unseen forces toward their mark.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 7, "acc": 85, "wgt": 5, "crit": 5, "mys": 3 },
 		"effect": "none"
 	},
 	"Machete": {
 		"name": "Machete",
+		"description": "A broad, heavy-bladed tool repurposed into a brutal weapon that hacks through anything in its path.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 12, "acc": 60, "wgt": 6, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Sacrificial Knife": {
 		"name": "Sacrificial Knife",
+		"description": "A ritual blade used in dark ceremonies, its edge honed to find the heart of any sacrifice.",
 		"wpn_type": "Dagger",
 		"stats": { "mgt": 7, "acc": 70, "wgt": 3, "crit": 20, "mys": 3 },
 		"effect": "none"
 	},
 	"Greataxe": {
 		"name": "Greataxe",
+		"description": "A colossal two-handed axe capable of felling an enemy in a single thunderous blow.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 15, "acc": 60, "wgt": 14, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Bloody Claws": {
 		"name": "Bloody Claws",
+		"description": "Jagged claws perpetually soaked in blood, made to shred and tear with terrifying precision.",
 		"wpn_type": "Gauntlet",
 		"stats": { "mgt": 3, "acc": 70, "wgt": 3, "crit": 50, "mys": 1 },
 		"effect": "none"
 	},
 	"Killer Axe": {
 		"name": "Killer Axe",
+		"description": "A keenly honed axe designed to slip through gaps in armor and land devastating, fatal blows.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 10, "acc": 65, "wgt": 9, "crit": 30, "mys": 0 },
 		"effect": "none"
 	},
 	"Skull Staff": {
 		"name": "Skull Staff",
+		"description": "A staff topped with a grinning skull that channels dark energy, striking dread into all who face it.",
 		"element": "Dark",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 7, "acc": 90, "wgt": 8, "crit": 30, "mys": 4 },
@@ -166,6 +209,7 @@
 	},
 	"Fairy Bow": {
 		"name": "Fairy Bow",
+		"description": "A bow blessed by fairies, its arrows trailing light as they arc unerringly toward their targets.",
 		"element": "Light",
 		"wpn_type": "Ranged",
 		"stats": { "mgt": 9, "acc": 70, "wgt": 8, "crit": 0, "mys": 3 },
@@ -173,24 +217,28 @@
 	},
 	"Javelin": {
 		"name": "Javelin",
+		"description": "A lightweight throwing spear built for both hurling at range and thrusting in close quarters.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 8, "acc": 80, "wgt": 7, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Winged Spear": {
 		"name": "Winged Spear",
+		"description": "A spear fitted with winged crossguards, the favored weapon of elite cavalry and royal guards.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 11, "acc": 75, "wgt": 8, "crit": 5, "mys": 1 },
 		"effect": "none"
 	},
 	"Glaive": {
 		"name": "Glaive",
+		"description": "A long pole topped with a curving blade, offering lethal reach that few opponents can close.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 13, "acc": 75, "wgt": 12, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Frost Staff": {
 		"name": "Frost Staff",
+		"description": "A staff crackling with frozen energy that chills the air around it and ices over enemy wounds.",
 		"element": "Ice",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 13, "acc": 60, "wgt": 8, "crit": 5, "mys": 4 },
@@ -198,6 +246,7 @@
 	},
 	"Fire Staff": {
 		"name": "Fire Staff",
+		"description": "A staff perpetually wreathed in flames, unleashing searing blasts that burn through armor and flesh.",
 		"element": "Fire",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 15, "acc": 50, "wgt": 8, "crit": 5, "mys": 4 },
@@ -205,18 +254,21 @@
 	},
 	"Dragon Blade": {
 		"name": "Dragon Blade",
+		"description": "A sword said to have been forged from a dragon's fang, carrying a faint remnant of draconic power.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 10, "acc": 60, "wgt": 10, "crit": 10, "mys": 3 },
 		"effect": "none"
 	},
 	"Falchion": {
 		"name": "Falchion",
+		"description": "A single-edged blade with a weighted tip that delivers crushing, bone-breaking blows.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 14, "acc": 60, "wgt": 12, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Firesword": {
 		"name": "Firesword",
+		"description": "A blade blazing with elemental fire that sears every wound it opens, leaving burns that linger.",
 		"element": "Fire",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 12, "acc": 90, "wgt": 9, "crit": 0, "mys": 3 },
@@ -224,24 +276,28 @@
 	},
 	"Battleaxe": {
 		"name": "Battleaxe",
+		"description": "A formidable two-handed axe carried by veteran warriors into the heart of the fiercest battles.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 14, "acc": 65, "wgt": 9, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Gauntlet": {
 		"name": "Gauntlet",
+		"description": "Reinforced iron gauntlets that transform every punch into a hammer blow capable of denting armor.",
 		"wpn_type": "Gauntlet",
 		"stats": { "mgt": 8, "acc": 80, "wgt": 1, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Forest Axe": {
 		"name": "Forest Axe",
+		"description": "An axe crafted from ancient forest hardwood and iron, humming quietly with the power of the wild.",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 12, "acc": 75, "wgt": 9, "crit": 5, "mys": 2 },
 		"effect": "none"
 	},
 	"Gorgon Sword": {
 		"name": "Gorgon Sword",
+		"description": "A venom-laced blade that poisons every wound it opens, slowly turning cuts into something far worse.",
 		"element": "Poison",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 10, "acc": 90, "wgt": 6, "crit": 5, "mys": 1 },
@@ -249,12 +305,14 @@
 	},
 	"Lost Sword": {
 		"name": "Lost Sword",
+		"description": "A blade of unknown origin recovered from forgotten ruins, as sharp as the day it was first forged.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 13, "acc": 90, "wgt": 8, "crit": 0, "mys": 2 },
 		"effect": "none"
 	},
 	"Spirit Rod": {
 		"name": "Spirit Rod",
+		"description": "A staff of pure concentrated spiritual energy, devastating in power but difficult to aim with precision.",
 		"element": "Light",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 16, "acc": 40, "wgt": 8, "crit": 5, "mys": 5 },
@@ -262,6 +320,7 @@
 	},
 	"Ent Club": {
 		"name": "Ent Club",
+		"description": "A massive branch torn from an ancient ent, pulsing with primordial forest energy and immense weight.",
 		"element": "Plant",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 16, "acc": 60, "wgt": 15, "crit": 5, "mys": 3 },
@@ -269,24 +328,28 @@
 	},
 	"Watcher Spear": {
 		"name": "Watcher Spear",
+		"description": "A spear carried by the silent watchers of old, its thrust patient and unerring as a hawk's dive.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 11, "acc": 80, "wgt": 10, "crit": 5, "mys": 1 },
 		"effect": "none"
 	},
 	"Relic Sword": {
 		"name": "Relic Sword",
+		"description": "An ancient sword of immense power unearthed from a forgotten era, its blade never missing its mark.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 14, "acc": 100, "wgt": 10, "crit": 10, "mys": 3 },
 		"effect": "none"
 	},
 	"Silver Sword": {
 		"name": "Silver Sword",
+		"description": "A finely crafted silver blade that strikes with uncanny accuracy, bane of the undead and corrupted.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 10, "acc": 100, "wgt": 7, "crit": 10, "mys": 2 },
 		"effect": "none"
 	},
 	"Stone Axe": {
 		"name": "Stone Axe",
+		"description": "A monolithic axe hewn from living stone, so massive it shatters armor and bone with each crushing blow.",
 		"element": "Earth",
 		"wpn_type": "Axe",
 		"stats": { "mgt": 18, "acc": 55, "wgt": 16, "crit": 0, "mys": 0 },
@@ -294,32 +357,48 @@
 	},
 	"Ancient Staff": {
 		"name": "Ancient Staff",
+		"description": "A staff from a forgotten age wielding tremendous arcane power that is nearly impossible to control.",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 18, "acc": 25, "wgt": 8, "crit": 15, "mys": 5 },
 		"effect": "none"
 	},
 	"Geometry Staff": {
 		"name": "Geometry Staff",
+		"description": "A staff inscribed with arcane geometric patterns that channel magical energy with exceptional efficiency.",
 		"wpn_type": "Staff",
 		"stats": { "mgt": 15, "acc": 60, "wgt": 12, "crit": 0, "mys": 6 },
 		"effect": "none"
 	},
 	"Longsword": {
 		"name": "Longsword",
+		"description": "A classic double-edged sword offering a balanced blend of reach, power, and control.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 8, "acc": 75, "wgt": 8, "crit": 5, "mys": 0 },
 		"effect": "none"
 	},
 	"Spear": {
 		"name": "Spear",
+		"description": "A simple but effective pole weapon, the backbone of countless armies throughout history.",
 		"wpn_type": "Polearm",
 		"stats": { "mgt": 9, "acc": 70, "wgt": 9, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
 	"Recurve Bow": {
 		"name": "Recurve Bow",
+		"description": "A bow whose recurved limbs store extra energy, delivering powerful shots with reliable accuracy.",
 		"wpn_type": "Ranged",
 		"stats": { "mgt": 7, "acc": 80, "wgt": 5, "crit": 10, "mys": 0 },
 		"effect": "none"
+	},
+	"Sword of Maciera": {
+		"name": "Sword of Macieira",
+		"description": "A legendary sword wielded by the founder of Bertunia.",
+		"element": "Earth",
+		"wpn_type": "Sword",
+		"stats": {
+			"mgt": 10, "acc": 90, "wgt": 10, "crit": 10, "mys": 3
+		},
+		"effect": "stun",
+		"chance": 10
 	}
 }

@@ -25,14 +25,21 @@
 		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." },
 		{ "choice": "Debug", "leads_to": "DEBUG", "value": 1.2,
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
-	]
+		],
+	  "action": {
+		"name": "Pick an apple",
+		"tooltip": "Pick an apple off the side of the road to eat.",
+		"event": "pick_apple",
+		"disabled_tooltip": "You've already picked an apple here.",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Debug",
 	  "entrances": ["DEBUG"],
 	  "encounter_rate": 0,
 	  "events": [
-			{"chance": 1, "event": "treasure_chest"}
+			{"chance": 1, "event": "treasure_chest_earth"}
 	  ],
 	  "enemies": ["Slime Duo"],
 	  "arrival": {
@@ -59,6 +66,12 @@
 	  "name": "Woods",
 	  "entrances": ["FOREST"],
 	  "backdrop": "apple_deep.png",
+	  "events": [
+		{"chance": 0.1, "event": "red_apple"},
+		{"chance": 0.1, "event": "apple_orchard"},
+		{"chance": 0.1, "event": "find_mushroom"},
+		{"chance": 0.1, "event": "golden_apple"}
+		],
 	  "arrival": {
 		"FOREST": [
 		  "The trees close in around you, swallowing the last traces of any clear path."
@@ -75,7 +88,14 @@
 	  "exits": [
 		{ "choice": "Continue deeper into the woods", "leads_to": "FOREST", "travel_text": "You push through the tangle of growth, the canopy thickening overhead as the forest deepens around you." },
 		{ "choice": "Try to find a trail", "leads_to": "FOREST", "travel_text": "You search for a break in the undergrowth, weaving between trunks and fallen branches in hopes of finding a path." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Pick an apple",
+		"tooltip": "Pick an apple to eat.",
+		"event": "pick_apple",
+		"disabled_tooltip": "You've already picked an apple here.",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Fork in the Road",
@@ -96,7 +116,14 @@
 	  "exits": [
 		{ "choice": "Go left", "leads_to": "ROAD", "travel_text": "You take the left fork and follow the worn road, the other path disappearing behind you." },
 		{ "choice": "Go right", "leads_to": "ROAD", "travel_text": "You veer right and press on along the road, leaving the fork behind." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Pick an apple",
+		"tooltip": "Pick an apple off the side of the road to eat.",
+		"event": "pick_apple",
+		"disabled_tooltip": "You've already picked an apple here.",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "River",
@@ -108,6 +135,9 @@
 		],
 		"RIVER": [
 		  "You continue along the riverbank, the current rushing beside you."
+		],
+		"RAPIDS": [
+			"You somehow manage to grab on to one of the river banks and pull yourself out of the water."
 		],
 		"default": [
 		  "A wide river runs through the woods here, its current swift and cold."
@@ -128,9 +158,7 @@
 	  "name": "Bridge",
 	  "entrances": ["ROAD", "RIVER"],
 	  "backdrop": "apple_bridge.png",
-	  "encounter_rate": 0,
-		"events":[
-			{"chance": 1, "event": "treasure_chest"}],
+	"events":[],
 	  "condition": {
 			"no_repeat":true
 		  },
@@ -151,8 +179,17 @@
 	  ],
 	  "exits": [
 		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You leave the bridge behind and walk along the riverbank, the current rushing beside you." },
-		{ "choice": "Cross the bridge", "leads_to": "ROAD", "value": 1.2, "travel_text": "You cross the creaking bridge with careful steps, the old planks flexing underfoot before you reach solid ground." }
-	  ]
+		{ "choice": "Cross the bridge", "leads_to": "ROAD", "value": 1.2, "travel_text": "You cross the creaking bridge with careful steps, the old planks flexing underfoot before you reach solid ground.",
+			"events": {"event":"rickety_bridge", "chance":0.4}
+		}
+	  ],
+	  "action": {
+		"name": "Check under the bridge",
+		"tooltip": "Look for loot under the bridge",
+		"event": "under_bridge",
+		"disabled_tooltip": "You've already checked under the bridge",
+		"repeatable": true
+	  }
 	},
 	{
 	  "name": "Clearing",
@@ -178,7 +215,20 @@
 	  ],
 	  "exits": [
 		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the open clearing behind and step back into the forest, the trees quickly closing around you." }
-	  ]
+	  ],
+	  "events": [
+		{"chance": 0.1, "event": "sword_in_stone"},
+		{"chance": 0.1, "event": "apple_orchard"},
+		{"chance": 0.2, "event": "find_mushroom"},
+		{"chance": 0.1, "event": "gold_chest"}
+		],
+	  "action": {
+		"name": "Pick an apple",
+		"tooltip": "Pick an apple on the side of the clearing to eat.",
+		"event": "pick_apple",
+		"disabled_tooltip": "You've already picked an apple here.",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Spring",
@@ -200,11 +250,19 @@
 	  },
 	  "description": [
 		{ "text": "Clear water bubbles gently from the earth." },
-		{ "text": "The sound is calming." }
+		{ "text": "The sound is calming." },
+		{ "text": "The water is crystal-clear."}
 	  ],
 	  "exits": [
 		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You step away from the spring and press deeper into the forest, the sound of trickling water fading behind you." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Drink from the spring",
+		"tooltip": "Drink from the spring to recover HP and MP",
+		"event": "spring_water",
+		"disabled_tooltip": "You already drank from the spring",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Lake",
@@ -219,6 +277,9 @@
 		],
 		"RIVER": [
 		  "The river widens and empties into a vast, still lake."
+		],
+		"RAPIDS": [
+			"The current carries you until you wash away at the margin of a vast lake."
 		],
 		"default": [
 		  "A lake of crystal-clear water stretches before you."
@@ -263,7 +324,7 @@
 		  },
 	  "encounter_rate": 0,
 	  "events": [
-			{"chance": 1, "event": "treasure_chest"}
+			{"chance": 1, "event": "treasure_chest_earth"}
 	  ],
 	  "arrival": {
 		"FOREST": [
@@ -574,6 +635,7 @@
 		  {
 			"name": "Catacomb",
 			"entrances": ["SURFACE"],
+			"backdrop": "sundown_mausoleum.png",
 	  		"condition": {
 				"visit_count":{"max":0}
 			},
@@ -599,6 +661,7 @@
 		  {
 			"name": "Catacomb Tunnel",
 			"entrances": ["CATACOMB"],
+			"backdrop": "sundown_catacomb3.png",
 			"arrival": {
 			  "ENTRANCE": [
 				"You descend into the catacombs, where narrow tunnels stretch beneath the plateau."
@@ -621,6 +684,7 @@
 		  },
 		  {
 			"name": "Forked Tunnel",
+			"backdrop": "sundown_tunnel_split2.png",
 			"entrances": ["CATACOMB"],
 			"arrival": {
 			  "CATACOMB": [
@@ -642,6 +706,7 @@
 		  {
 			"name": "Sanctum",
 			"entrances": ["CATACOMB"],
+			"backdrop": "sundown_sanctum2.png",
 			"arrival": {
 			  "CATACOMB": [
 				"You step into a circular chamber where something long forgotten was once worshipped."
@@ -711,6 +776,7 @@
 		  {
 			"name": "Graveyard",
 			"entrances": ["SURFACE"],
+			"backdrop": "sundown_grave.png",
 			"arrival": {
 			  "SURFACE": [
 				"Rows of gravestones stretch across the plateau, their shadows long and uneven."

@@ -394,7 +394,7 @@ func build_character_tooltip(char):
 	
 	var stats = char.base_stats
 	
-	var keys = ["str","mag","agi","dex","def","lck"]
+	var keys = ["str","int","agi","dex","def","lck"]
 
 	for i in range(0, keys.size(), 2):
 		var k1 = keys[i]

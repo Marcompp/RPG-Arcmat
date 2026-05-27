@@ -1,6 +1,7 @@
 {
 	"Fire": {
 		"nome": "Fire",
+		"description": "Hurls a blazing fireball at the target, dealing heavy damage with a chance to inflict burn.",
 		"type": "attack",
 		"element": "Fire",
 		"stats": {
@@ -18,6 +19,7 @@
 	},
 	"Ice": {
 		"nome": "Ice",
+		"description": "Launches a shard of concentrated cold at the target, with a small chance to freeze them solid.",
 		"type": "attack",
 		"element": "Ice",
 		"stats": {
@@ -35,6 +37,7 @@
 	},
 	"Wind": {
 		"nome": "Wind",
+		"description": "Conjures a sharp gust of cutting wind that strikes quickly and with reliable accuracy.",
 		"type": "attack",
 		"element": "Wind",
 		"stats": {
@@ -51,6 +54,7 @@
 	},
 	"Earth": {
 		"nome": "Earth",
+		"description": "Hurls a jagged chunk of rock at the target, trading accuracy for solid damage and a chance to critically strike.",
 		"type": "attack",
 		"element": "Earth",
 		"stats": {
@@ -67,6 +71,7 @@
 	},
 	"Water": {
 		"nome": "Water",
+		"description": "Unleashes a pressurized torrent of water that batters the target with steady, reliable force.",
 		"type": "attack",
 		"element": "Water",
 		"stats": {
@@ -83,6 +88,7 @@
 	},
 	"Light": {
 		"nome": "Light",
+		"description": "Fires a swift bolt of radiant light that deals modest damage with exceptional accuracy.",
 		"type": "attack",
 		"element": "Light",
 		"stats": {
@@ -99,6 +105,7 @@
 	},
 	"Dark": {
 		"nome": "Dark",
+		"description": "Releases a wave of shadowy energy that deals heavy damage, though its dark nature makes it hard to aim.",
 		"type": "attack",
 		"element": "Dark",
 		"stats": {
@@ -115,6 +122,7 @@
 	},
 	"Thunder": {
 		"nome": "Thunder",
+		"description": "Calls down three erratic bolts of lightning that each carry high critical potential and a small chance to stun.",
 		"type": "attack",
 		"element": "Thunder",
 		"stats": {
@@ -134,6 +142,7 @@
 	},
 	"Poison": {
 		"nome": "Poison",
+		"description": "Conjures a toxic cloud that deals magical damage and reliably inflicts poison on the target.",
 		"type": "attack",
 		"element": "Poison",
 		"stats": {
@@ -150,6 +159,7 @@
 	},
 	"Heal": {
 		"nome": "Heal",
+		"description": "Channels restorative magic to heal a significant amount of the caster's HP.",
 		"type": "self",
 		"stats": {
 			"mgt": -30,

@@ -43,11 +43,25 @@
 #   if      {"type":"if",      "condition":{...}, "then":[steps...], "else":[steps...]}
 #              condition is passed to condition_callback if set; otherwise always true.
 #
+#   modify_stat {"type":"modify_stat", "stats":{"hp":5, "str":1}}
+#                  Permanently increases base stats. hp/mp also raise max and heal by that amount.
+#
+#   event   {"type":"event",   "event":"event_name"}
+#              Looks up the named event in events.json and runs its steps inline.
+#              Requires event_callback to be set on the EventReader.
+#
+#   mark_used  {"type":"mark_used", "event":"golden_apple"}
+#                 Marks the named event as used in game_state["used_events"].
+#                 Check with conditions as {"event_name": false} (unused) or {"event_name": true} (used).
+#
 #   random  {"type":"random",  "outcomes":[steps_a, steps_b, steps_c]}
 #              Picks one outcome at random (equal probability).
 #              For weighted picks, use dicts instead of plain arrays:
 #              "outcomes":[{"weight":3,"steps":[...]}, {"weight":1,"steps":[...]}]
 #              weight defaults to 1 when omitted.
+#              Optional "stat_weights":{"Lck":1} adds (stat_value * multiplier) to an
+#              outcome's weight at runtime. Requires stat_callback to be set.
+#              Optional "condition":{...} skips the outcome entirely if the condition fails.
 #
 #   game_over {"type":"game_over"}
 #              Triggers the Game Over screen and stops the event sequence.
@@ -76,6 +90,12 @@ signal _step_done
 
 ## Assign to GameManager.check_condition (or similar) to enable "if" step evaluation.
 var condition_callback := Callable()
+
+## Assign to return a numeric player stat value by name, e.g. func(s): return player.get_stat(s)
+var stat_callback := Callable()
+
+## Assign to return a step array by event name, e.g. func(n): return events_db.get(n,{}).get("steps",[])
+var event_callback := Callable()
 
 var _active := false
 var was_stopped := false
@@ -132,8 +152,12 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("show_node_text", {})
 			if not step.get("no_wait", true):
 				await _wait_for_continue()
+		"show_node_actions":
+			MyEventBus.emit("show_node_actions", {})
 		"show_node":
 			MyEventBus.emit("show_node", {})
+		"exit_node":
+			MyEventBus.emit("exit_node", step.get("exit", {}))
 		"wait":
 			await _wait_for_continue()
 		"choice":
@@ -147,6 +171,10 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("change_vars", step.get("vars", {}))
 		"effect":
 			MyEventBus.emit("apply_effect", step.get("effect", {}))
+		"modify_stat":
+			MyEventBus.emit("modify_stat", {"stats": step.get("stats", {})})
+		"mark_used":
+			MyEventBus.emit("mark_event_used", {"event": step.get("event", "")})
 		"give_gold":
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
@@ -158,6 +186,10 @@ func _run_step(step: Dictionary) -> void:
 			await _run_if(step)
 		"random":
 			await _run_random(step)
+		"event":
+			await _run_event_ref(step)
+		"modify_node":
+			MyEventBus.emit("modify_node", step.get("data",{}))
 		_:
 			push_warning("EventReader: unknown step type '%s'" % step.get("type", "?"))
 
@@ -206,25 +238,52 @@ func _run_random(step: Dictionary) -> void:
 		return
 
 	# Build a flat weighted pool. Each entry is either a plain Array (steps)
-	# or a dict {"weight": N, "steps": [...]}.
+	# or a dict {"weight": N, "stat_weights": {...}, "steps": [...]}.
 	var pool: Array = []
 	for outcome in outcomes:
 		if outcome is Array:
-			pool.append({"weight": 1, "steps": outcome})
+			pool.append({"weight": 1, "stat_weights": {}, "steps": outcome})
 		elif outcome is Dictionary:
-			pool.append({"weight": outcome.get("weight", 1), "steps": outcome.get("steps", [])})
+			if not _check_condition(outcome.get("condition", {})):
+				continue
+			pool.append({
+				"weight": outcome.get("weight", 1),
+				"stat_weights": outcome.get("stat_weights", {}),
+				"steps": outcome.get("steps", []),
+			})
 
 	var total: int = 0
 	for entry in pool:
-		total += entry["weight"]
+		total += _effective_weight(entry)
 
 	var roll := randi() % total
 	var cumulative := 0
 	for entry in pool:
-		cumulative += entry["weight"]
+		cumulative += _effective_weight(entry)
 		if roll < cumulative:
 			await _run_sequence(entry["steps"])
 			return
+
+
+func _effective_weight(entry: Dictionary) -> int:
+	var w: int = entry["weight"]
+	var sw: Dictionary = entry.get("stat_weights", {})
+	if sw.is_empty() or not stat_callback.is_valid():
+		return w
+	for stat_name in sw:
+		w += stat_callback.call(stat_name) * sw[stat_name]
+	return max(w, 0)
+
+
+func _run_event_ref(step: Dictionary) -> void:
+	if not event_callback.is_valid():
+		push_warning("EventReader: event_callback not set")
+		return
+	var steps: Array = event_callback.call(step.get("event", ""))
+	if steps.is_empty():
+		push_warning("EventReader: unknown event '%s'" % step.get("event", ""))
+		return
+	await _run_sequence(steps)
 
 
 func _run_if(step: Dictionary) -> void:
