@@ -1,6 +1,7 @@
 extends Node
 
 @onready var backdrop = $Backdrop
+@onready var back_backdrop = $Backdrop2
 
 enum TravelMode {
 	NODE_ACTIONS,
@@ -36,6 +37,7 @@ var current_town_data = null
 var current_shop_name = ""
 var current_shop_data = null
 var _greeted_shops: Dictionary = {}
+var _shop_from_event := false
 
 var current_region = "":
 	set(value):
@@ -79,6 +81,10 @@ func _ready():
 	)
 	MyEventBus.subscribe("exit_node", func(exit):
 		handle_exit(exit)
+	)
+	MyEventBus.subscribe("open_event_shop", func(data):
+		_shop_from_event = true
+		enter_shop(data.get("name", "Merchant"), data.get("data", {}))
 	)
 
 	if world_data.is_empty():
@@ -224,10 +230,15 @@ func show_node_actions():
 	var node_action = current_node_data.get("action", {}) if current_node_data else {}
 	var action_name = node_action.get("name", "Search for Monsters")
 	var action_tooltip = node_action.get("tooltip", "Stay in place and look for monsters to fight")
+	print(used_node_action)
+	print(node_action)
+	print(node_action.get("repeatable", true))
+	var event_key = node_action.get("event", "")
+	var event_entry = events_db.get(event_key, {})
 	var action_used = game_state and (node_action.get("disabled", false) \
 		or (not node_action.get("repeatable", true) and used_node_action) \
-		or ( events_db.get(node_action.get("event")).get("repeatable", true) and \
-			game_state["used_events"].get(node_action.get("event"), false)))
+		or (not event_entry.get("repeatable", true) and \
+			game_state["used_events"].get(event_key, false)))
 	var action_choice: Dictionary
 	if action_used:
 		action_choice = {
@@ -312,15 +323,14 @@ func _handle_node_specific_action(action_data: Dictionary) -> void:
 		if not event_def.is_empty():
 			var stopped = await _run_node_event(event_def)
 			if not action_data.get("repeatable", true):
-				game_state["used_events"][event_name] += 1
-				used_node_action = true
+				game_state["used_events"][event_name] = true
+			used_node_action = true
 			# if not stopped:
 			# 	show_node_actions()
 			return
 		push_warning("Node action event not found: " + event_name)
-	if not action_data.get("repeatable", true):
-			game_state["used_events"][event_name] += 1
-			used_node_action = true
+	game_state["used_events"][event_name] = true
+	used_node_action = true
 	var monster = _pick_encounter_monster()
 	if monster:
 		MyEventBus.emit("continue_text", {
@@ -491,8 +501,13 @@ func show_shop_stock():
 
 func _handle_shop_action(choice):
 	if choice.get("type") == "back":
-		mode = TravelMode.TOWN
-		return_to_town()
+		if _shop_from_event:
+			_shop_from_event = false
+			mode = TravelMode.NODE_ACTIONS
+			MyEventBus.emit("event_shop_closed", {})
+		else:
+			mode = TravelMode.TOWN
+			return_to_town()
 		return
 	if choice.get("type") == "shop_buy":
 		var data = choice.get("data", {})
@@ -620,7 +635,7 @@ func handle_exit(exit):
 		var encounter_rate = exit.get('encounter_rate', current_node_data.get("encounter_rate", 0.75))
 		var encounter_roll = randf()
 		if encounter_roll < encounter_rate:
-			monster = _pick_encounter_monster()
+			monster = _pick_monster(exit.get("enemies", current_node_data.get("enemies", []) if current_node_data else []))
 	if monster:
 		MyEventBus.emit("continue_text", {
 			"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
@@ -698,6 +713,9 @@ func _get_boss_encounter(node_data) -> Variant:
 
 func _pick_encounter_monster():
 	var node_enemies: Array = current_node_data.get("enemies", []) if current_node_data else []
+	return _pick_monster(node_enemies)
+
+func _pick_monster(node_enemies):
 	var pool = []
 	for monster in monster_db:
 		var rarity = monster.get("Rarity", null)
@@ -738,7 +756,7 @@ func _pick_event(event_refs: Array) -> Dictionary:
 
 	var valid := []
 	for ref in event_refs:
-		if not events_db.get(ref,{}).get("repeatable", true) and game_state["used_events"].get(ref, 0):
+		if not events_db.get(ref,{}).get("repeatable", true) and game_state["used_events"].get(ref, false):
 			continue
 		var cond = ref.get("condition", {})
 		if not (cond as Dictionary).is_empty() and not _evaluate_node(cond, current_node):
@@ -862,6 +880,7 @@ func _set_backdrop(filename):
 		return
 	current_backdrop = filename
 	var texture = load(path)
+	back_backdrop.texture = texture
 	var tween = create_tween()
 	tween.tween_property(backdrop, "modulate:a", 0.0, 0.4)
 	tween.tween_callback(func(): backdrop.texture = texture)

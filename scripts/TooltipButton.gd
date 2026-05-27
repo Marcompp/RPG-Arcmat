@@ -33,6 +33,8 @@ func _make_custom_tooltip(text):
 
 	label.ready.connect(func():
 		await get_tree().process_frame
+		if not is_instance_valid(label):
+			return
 		var popup = label.get_parent()
 		if popup is Window:
 			var vp_size = get_viewport().get_visible_rect().size

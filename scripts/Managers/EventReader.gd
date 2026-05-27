@@ -135,9 +135,11 @@ func _run_step(step: Dictionary) -> void:
 				"text":      step.get("text",      ""),
 				"linebreak": step.get("linebreak", true),
 			})
-			if not step.get("no_wait", false):
-				# await MyEventBus.await_event("typing_finished")
+			if not step.get("no_wait", false) and not step.get("no_continue",false):
 				await _wait_for_continue()
+			elif not step.get("no_wait",false):
+				await MyEventBus.await_event("typing_finished")
+			
 		"append":
 			MyEventBus.emit("continue_text", {
 				"text":      step.get("text",      ""),
@@ -190,6 +192,9 @@ func _run_step(step: Dictionary) -> void:
 			await _run_event_ref(step)
 		"modify_node":
 			MyEventBus.emit("modify_node", step.get("data",{}))
+		"shop":
+			MyEventBus.emit("open_event_shop", {"name": step.get("name", "Merchant"), "data": step.get("shop", {})})
+			await MyEventBus.await_event("event_shop_closed")
 		_:
 			push_warning("EventReader: unknown step type '%s'" % step.get("type", "?"))
 

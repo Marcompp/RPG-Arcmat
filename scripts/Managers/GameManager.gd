@@ -86,9 +86,6 @@ func _ready():
 		if player:
 			player.apply_level_up(data.get("stats", {}))
 	)
-	MyEventBus.subscribe("mark_event_used", func(data):
-		game_state["used_events"][data.get("event", "")] = true
-	)
 	MyEventBus.subscribe("give_gold", func(data):
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
 	)
@@ -601,12 +598,10 @@ func _check_dict_condition(cond, node_index):
 			continue
 		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
-		elif game_state["used_events"].has(key):
-			value = game_state["used_events"][key]
 		elif game_state.has(key):
 			value = game_state[key]
 		else:
-			value = 0
+			return false
 
 		if typeof(req) == TYPE_DICTIONARY:
 			if req.has("min") and value < req["min"]:
@@ -614,6 +609,8 @@ func _check_dict_condition(cond, node_index):
 			if req.has("max") and value > req["max"]:
 				return false
 		else:
+			print(value)
+			print(req)
 			if value != req:
 				return false
 
