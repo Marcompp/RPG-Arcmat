@@ -190,5 +190,18 @@
 		},
 		"ExitTxt": "You step out of town into the Lost Swamp, where many have been known to vanish forever into its dull white fog.",
 		"Next": "Lost Swamp"
+	},
+	
+	
+	
+	"Gilded Hollow Circus": {
+		"Name": "Gilded Hollow Circus",
+		"Type": "Town",
+		"Next": "Sundown Plateau"
+	},
+	"Lizal-Town": {
+		"Name": "Lizal-Town",
+		"Type": "Town",
+		"Next": "Core Cavern"
 	}
 }

@@ -277,5 +277,21 @@
 		"effect": "recharge",
 		"inherit_stats": false,
 		"inherit_wpn": false
+	},
+	"Bloodsucker": {
+		"nome": "Bloodsucker",
+		"description": "Sinks fangs into the target, siphoning their life force to restore the user's own vitality.",
+		"type": "attack",
+		"stats": {
+			"mgt": 3,
+			"acc": 75,
+			"wgt": 6,
+			"crit": 0
+		},
+		"cooldown": 2,
+		"effect": "lifedrain",
+		"magnitude": 0.5,
+		"inherit_stats": true,
+		"inherit_wpn": false
 	}
 }

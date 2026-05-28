@@ -378,7 +378,11 @@ func build_character_tooltip(char):
 	# HEADER
 	# ========================
 	t += "[b]%s[/b]  Lv.%d\n" % [char.get_name(), char.get_level()]
-	t += "Class: %s\n\n" % char.get_char_class()
+	var char_class = char.get_char_class()
+	if char_class and char_class != "":
+		t += "Class: %s\n\n" % char.get_char_class()
+	else:
+		t += "\n"
 	
 	# ========================
 	# HP / MP

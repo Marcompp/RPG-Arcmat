@@ -356,16 +356,6 @@ func show_character_confirm(char):
 	text += "[/table]\n\n"
 	
 	# ------------------------
-	# EQUIP
-	# ------------------------
-	if char.has("Equip"):
-		text += "[b]Equipment[/b]\n"
-		text += "[table=5]"
-		for s in char["Equip"]:
-			text += "[cell]+" + s + ": " + char["Equip"][s] + "[/cell][cell]  [/cell]"
-		text += "[/table]\n\n"
-	
-	# ------------------------
 	# SKILLS
 	# ------------------------
 	if char["Skills"].size() > 0:
@@ -386,17 +376,27 @@ func show_character_confirm(char):
 		text += "[/table]\n\n"
 
 	# ------------------------
-	# MONEY & INVENTORY
+	# EQUIP & Inventory
 	# ------------------------
-	text += "[b]Gold[/b]\n"
-	text += str(int(char.get("Money", 0))) + "G\n\n"
-
+	text += "[b]Inventory[/b]\n"
+	text += "[table=6]"
+	if char.has("Equip"):
+		for s in char["Equip"]:
+			text += "[cell]" + s + ": " + char["Equip"][s] + "[/cell][cell]  [/cell]"
+	
 	var inv = char.get("Inventory", {})
 	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
-		text += "[b]Inventory[/b]\n"
+		
 		for item in inv:
-			text += "- " + item + " x" + str(int(inv[item])) + "\n"
+			text += "[cell]- " + item + " x" + str(int(inv[item])) + "[/cell][cell]  [/cell]"
 		text += "\n"
+	text += "[/table]\n"
+	
+	# ------------------------
+	# MONEY & INVENTORY
+	# ------------------------
+	text += "[b]Starting Gold:[/b] [color=yellow]"
+	text += str(int(char.get("Money", 0))) + "G[/color]"
 
 	# ------------------------
 	# WARNING

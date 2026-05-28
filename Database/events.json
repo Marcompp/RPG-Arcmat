@@ -526,5 +526,17 @@
 			},
 			{"type": "show_node"}
 		]
+	},
+	"bandit_ambush": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "You hear rustling in the bushes...","clear": false},
+			{"type": "text", "text": "Too late — You walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You be so much easier to rob when you're dead!\""},
+			{"type": "combat", "enemy": "Bandit Brothers",
+				"on_victory": [
+					{"type": "show_node"}
+				]
+			}
+		]
 	}
 }

@@ -38,6 +38,12 @@
   FEATURES NOVAS
 ----------------------------------------------------------------
 
+[ ] Menu de opçoes
+
+[ ] Menu de settings
+
+[ ] Cidades opcionais
+
 [ ] Context Sensitive Actions (no lugar de Search for Monsters)
       chamar um evento específico ao node
 
@@ -104,6 +110,10 @@
       [ ] Som typewrite
       [ ] Etc
 
+[ ] Melhorar tooltip de UI de personagem
+
+[ ] Melhorar tela de confirmação de seleção de personagem
+
 ----------------------------------------------------------------
   CONTEUDO / DADOS
 ----------------------------------------------------------------
@@ -118,6 +128,11 @@
       menos mais 2 personagens com classes, stats e equipamentos
       iniciais distintos.
 
+[ ] Sound design - muito mais sfx
+      [ ] SFX de typing
+      [ ] SFX de ataques
+      [ ] SFX outros
+
 [ ] Terminar de refazer area_nodes de regiões
 A fazer
       [ ] Core Cavern
@@ -127,7 +142,7 @@ A fazer
 [ ] Melhorar monstros
       Melhor variedade de estratégias em luta contra 
       e variedade maior de skills/drops na Apple Woods.
-      [ ] Apple Woods
+      [X] Apple Woods
       [ ] Caves of Light
       [ ] Sundown Plateau
       [ ] Mt. Legory
@@ -136,7 +151,8 @@ A fazer
       [ ] Arcmat Ruins
 
 [ ] Implementar Eventos
-      [ ] Apple Woods
+      [/] Apple Woods
+            [ ] Apple Woods Cabin
       [ ] Caves of Light
       [ ] Sundown Plateau
       [ ] Mt. Legory

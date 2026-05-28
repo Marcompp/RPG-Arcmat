@@ -288,7 +288,7 @@ func _handle_region_exit():
 	if next_name == "" or (not world_data.has(next_name) and not town_db.has(next_name)):
 		push_error("Próxima área inválida: " + next_name)
 		return
-	MyEventBus.emit("add_progress", {"progress": 0, "reset": true, "region":next_name})
+	MyEventBus.emit("add_progress", {"progress": 0, "region":next_name})
 	_full_heal_player()
 	if town_db.has(next_name):
 		enter_town(next_name)

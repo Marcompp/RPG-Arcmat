@@ -5,7 +5,8 @@
 	  "entrances": ["ROAD", "FOREST"],
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"}
+			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
 		"FOREST": [
@@ -107,7 +108,8 @@
 	  "backdrop": "apple_fork.png",
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"}
+			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
 		"ROAD": [
@@ -169,7 +171,8 @@
 	  "enemies": ["Slime Duo","Bitefish","Bandit","Skeleton"],
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"}
+			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "condition": {
 			"no_repeat":true

@@ -3,7 +3,7 @@
 	"Name": "Slime",
 	"Element": "Water",
 	"Lvl": 1,
-	"Stats": {"HP":"E","MP":"D","Str":"E","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"E","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 20
 	},
@@ -31,7 +31,7 @@
 	"Name": "Bandit",
 	"Element": "Earth",
 	"Lvl": 2,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 30
 	},
@@ -53,10 +53,16 @@
 	"Rarity": 8
   },
   {
+	"Name": "Bandit Brothers", 
+ 	"Enemies": ["Bandit", "Bandit"], 
+	"Location": "Apple Woods", 
+	"Rarity": null
+  },
+  {
 	"Name": "Skeleton",
 	"Element": "Dark",
 	"Lvl": 3,
-	"Stats": {"HP":"D","MP":"D","Str":"E","Int":"E","Skl":"E","Spd":"E","Lck":"F","Def":"D"},
+	"Stats": {"HP":"D","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"D"},
 	"TrueStats":{
 		"HP": 25
 	},
@@ -81,7 +87,7 @@
 	"Name": "Bitefish",
 	"Element": "Water",
 	"Lvl": 1,
-	"Stats": {"HP":"D","MP":"E","Str":"D","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"D","MP":"E","Str":"D","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 20,
 		"Str": 14
@@ -97,14 +103,14 @@
 	"Cooldown":1,
 	"Skills": ["Bite"],
 	"Spells": [],
-	"Location": "",
+	"Location": "Apple River",
 	"Rarity": 8
   },
   {
 	"Name": "Bear",
 	"Element": "Earth",
 	"Lvl": 4,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
 	"TrueStats":{
 		"HP": 60,
 		"Str": 14
@@ -126,7 +132,7 @@
 	"Name": "Vampire Bat",
 	"Element": "Wind",
 	"Lvl": 4,
-	"Stats": {"HP":"D","MP":"E","Str":"E","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"D","MP":"E","Str":"E","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 19
 	},
@@ -135,8 +141,9 @@
 		"Medicine": 60,
 		"Bloody Dagger": 5
 	},
+	"Cooldown":1,
 	"Gold":20,
-	"Skills": ["Bite"],
+	"Skills": ["Bloodsucker"],
 	"Spells": [],
 	"Location": "Caves of Light",
 	"Rarity": 9
@@ -145,7 +152,7 @@
 	"Name": "Restless Spirit",
 	"Element": "Dark",
 	"Lvl": 5,
-	"Stats": {"HP":"E","MP":"C","Str":"F","Int":"C","Skl":"D","Spd":"B","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"C","Str":"F","Int":"C","Dex":"D","Agi":"B","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 70,
@@ -161,7 +168,7 @@
 	"Name": "Renegade",
 	"Element": "Earth",
 	"Lvl": 5,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Machete"
 	},
@@ -175,11 +182,35 @@
 	"Location": "Caves of Light",
 	"Rarity": 3
   },
+{
+	"Name": "Sparkfish",
+	"Element": "Water",
+	"Lvl": 1,
+	"Stats": {"HP":"D","MP":"C","Str":"D","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP": 25,
+		"MP": 15,
+		"Str": 14
+	},
+	"Equip": {
+	},
+	"Drops": {
+		"Ether": 10,
+		"Fishbone Dagger": 10
+	},
+	"Gold":15,
+	"Startup":3,
+	"Cooldown":1,
+	"Skills": [],
+	"Spells": ["Thunder"],
+	"Location": "Spring of Light",
+	"Rarity": 8
+  },
   {
 	"Name": "Cultist",
 	"Element": "Light",
 	"Lvl": 6,
-	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Skl":"D","Spd":"E","Lck":"B","Def":"E"},
+	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Dex":"D","Agi":"E","Lck":"B","Def":"E"},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
@@ -200,7 +231,7 @@
 	"Name": "Mangy Wolf",
 	"Element": "Earth",
 	"Lvl": 7,
-	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -216,7 +247,7 @@
 	"Name": "Zombie",
 	"Element": "Dark",
 	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"F","Def":"F"},
+	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"F"},
 	"Equip": {
 		"Armor": "Old Rags"
 	},
@@ -234,7 +265,7 @@
 	"Name": "Ghost",
 	"Element": "Dark",
 	"Lvl": 8,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Skl":"D","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"D","Agi":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 30,
@@ -250,7 +281,7 @@
 	"Name": "Frost Fairy",
 	"Element": "Ice",
 	"Lvl": 9,
-	"Stats": {"HP":"E","MP":"A","Str":"E","Int":"B","Skl":"C","Spd":"B","Lck":"C","Def":"E"},
+	"Stats": {"HP":"E","MP":"A","Str":"E","Int":"B","Dex":"C","Agi":"B","Lck":"C","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 60,
@@ -266,7 +297,7 @@
 	"Name": "Bald Eagle",
 	"Element": "Wind",
 	"Lvl": 9,
-	"Stats": {"HP":"D","MP":"F","Str":"C","Int":"F","Skl":"D","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"D","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 70,
@@ -282,7 +313,7 @@
 	"Name": "Pegasus Knight",
 	"Element": "Wind",
 	"Lvl": 10,
-	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
 	"Equip": {
 		"Weapon": "Winged Spear",
 		"Armor": "Whitewing Armor"
@@ -302,7 +333,7 @@
 	"Name": "Wisp",
 	"Element": "Fire",
 	"Lvl": 11,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 70,
@@ -318,7 +349,7 @@
 	"Name": "Wyvern",
 	"Element": "Fire",
 	"Lvl": 12,
-	"Stats": {"HP":"B","MP":"C","Str":"C","Int":"C","Skl":"D","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"B","MP":"C","Str":"C","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -335,7 +366,7 @@
 	"Name": "Lizardman",
 	"Element": "Water",
 	"Lvl": 11,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"D","Spd":"C","Lck":"E","Def":"C"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Falchion",
 		"Armor": "Lizal Armor"
@@ -355,7 +386,7 @@
 	"Name": "Tarvos",
 	"Element": "Earth",
 	"Lvl": 12,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
 	"Equip": {
 		"Weapon": "Battleaxe"
 	},
@@ -373,7 +404,7 @@
 	"Name": "Ent",
 	"Element": "Earth",
 	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Skl":"D","Spd":"E","Lck":"E","Def":"C"},
+	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Dex":"D","Agi":"E","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -392,7 +423,7 @@
 	"Name": "Gorgon",
 	"Element": "Water",
 	"Lvl": 14,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
@@ -410,7 +441,7 @@
 	"Name": "Lost Soul",
 	"Element": "Dark",
 	"Lvl": 13,
-	"Stats": {"HP":"E","MP":"A","Str":"F","Int":"A","Skl":"B","Spd":"A","Lck":"F","Def":"F"},
+	"Stats": {"HP":"E","MP":"A","Str":"F","Int":"A","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 40,
@@ -426,7 +457,7 @@
 	"Name": "Gorgoyle",
 	"Element": "Wind",
 	"Lvl": 15,
-	"Stats": {"HP":"B","MP":"C","Str":"B","Int":"C","Skl":"C","Spd":"C","Lck":"E","Def":"B"},
+	"Stats": {"HP":"B","MP":"C","Str":"B","Int":"C","Dex":"C","Agi":"C","Lck":"E","Def":"B"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 30,
@@ -442,7 +473,7 @@
 	"Name": "Treasure Hunter",
 	"Element": "Earth",
 	"Lvl": 15,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Skl":"A","Spd":"A","Lck":"D","Def":"C"},
+	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"A","Agi":"A","Lck":"D","Def":"C"},
 	"Equip": {
 		"Weapon": "Silver Sword",
 		"Armor": "Adventure Clothes"
@@ -464,7 +495,7 @@
 	"Name": "Wizard",
 	"Element": "Dark",
 	"Lvl": 16,
-	"Stats": {"HP":"C","MP":"A","Str":"E","Int":"A","Skl":"C","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"A","Str":"E","Int":"A","Dex":"C","Agi":"C","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Ancient Staff",
 		"Armor": "Wizard Robe"
@@ -485,7 +516,7 @@
 	"Name": "Guardian",
 	"Element": "Earth",
 	"Lvl": 16,
-	"Stats": {"HP":"A","MP":"C","Str":"B","Int":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
+	"Stats": {"HP":"A","MP":"C","Str":"B","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
 	"Equip": {
 		"Weapon": "Stone Axe"
 	},
@@ -504,7 +535,7 @@
 	"Name": "Werewolf",
 	"Element": "Earth",
 	"Lvl": 4,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"C","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP":60
 	},
@@ -530,7 +561,7 @@
 	"Name": "Troll",
 	"Element": "Earth",
 	"Lvl": 3,
-	"Stats": {"HP":"B","MP":"D","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"D","Def":"E"},
+	"Stats": {"HP":"B","MP":"D","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"D","Def":"E"},
 	"TrueStats":{
 		"HP":60
 	},
@@ -559,7 +590,7 @@
 	"Name": "Chimera",
 	"Element": "Water",
 	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Skl":"E","Spd":"E","Lck":"E","Def":"C"},
+	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"C"},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 100,
@@ -576,7 +607,7 @@
 	"Name": "Cult Leader",
 	"Element": "Light",
 	"Lvl": 7,
-	"Stats": {"HP":"B","MP":"B","Str":"D","Int":"C","Skl":"C","Spd":"C","Lck":"B","Def":"E"},
+	"Stats": {"HP":"B","MP":"B","Str":"D","Int":"C","Dex":"C","Agi":"C","Lck":"B","Def":"E"},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
@@ -596,7 +627,7 @@
 	"Name": "Necromancer",
 	"Element": "Dark",
 	"Lvl": 9,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Skl":"D","Spd":"E","Lck":"E","Def":"E"},
+	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Dex":"D","Agi":"E","Lck":"E","Def":"E"},
 	"Equip": {
 		"Weapon": "Skull Staff",
 		"Armor": "Necromancer Robes"
@@ -616,7 +647,7 @@
 	"Name": "Abomination",
 	"Element": "Dark",
 	"Lvl": 9,
-	"Stats": {"HP":"S","MP":"C","Str":"C","Int":"C","Skl":"F","Spd":"F","Lck":"F","Def":"E"},
+	"Stats": {"HP":"S","MP":"C","Str":"C","Int":"C","Dex":"F","Agi":"F","Lck":"F","Def":"E"},
 	"Weapon": "Axe",
 	"Equip": {
 		"Weapon": "Killer Axe"
@@ -635,7 +666,7 @@
 	"Name": "Icelady",
 	"Element": "Ice",
 	"Lvl": 11,
-	"Stats": {"HP":"B","MP":"A","Str":"C","Int":"B","Skl":"E","Spd":"E","Lck":"E","Def":"D"},
+	"Stats": {"HP":"B","MP":"A","Str":"C","Int":"B","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 100,
@@ -651,7 +682,7 @@
 	"Name": "Great Roc",
 	"Element": "Wind",
 	"Lvl": 11,
-	"Stats": {"HP":"A","MP":"E","Str":"C","Int":"E","Skl":"C","Spd":"C","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"E","Str":"C","Int":"E","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 100,
@@ -667,7 +698,7 @@
 	"Name": "Infrit",
 	"Element": "Fire",
 	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"A","Str":"B","Int":"B","Skl":"D","Spd":"D","Lck":"E","Def":"D"},
+	"Stats": {"HP":"A","MP":"A","Str":"B","Int":"B","Dex":"D","Agi":"D","Lck":"E","Def":"D"},
 	"Weapon": null,
 	"Drops": {
 		"Bomb": 100,
@@ -683,7 +714,7 @@
 	"Name": "King of the Swamp",
 	"Element": "Earth",
 	"Lvl": 15,
-	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Skl":"E","Spd":"E","Lck":"E","Def":"B"},
+	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -702,7 +733,7 @@
 	"Name": "Mathemagician",
 	"Element": "Light",
 	"Lvl": 20,
-	"Stats": {"HP":"S","MP":"A","Str":"D","Int":"A","Skl":"C","Spd":"D","Lck":"E","Def":"C"},
+	"Stats": {"HP":"S","MP":"A","Str":"D","Int":"A","Dex":"C","Agi":"D","Lck":"E","Def":"C"},
 	"Equip": {
 		"Weapon": "Geometry Staff",
 		"Armor": "Archmage Robe"

@@ -565,7 +565,10 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 			await _execute_hit(data, user, who, player)
 			await wait_for_writing()
 	elif who == "player" and data.get("type","attack") in ["random"]:
-		for i in range(int(data.get("hits",1))):
+		var hits = int(data.get("hits",1))
+		if data.has("max_hits"):
+			hits = randi_range(data.get("min_hits",1), data["max_hits"])
+		for i in range(hits):
 			if len(_living_indices()) > 0:
 				var new_target = enemies[_living_indices().pick_random()]
 				var temp_data = data.duplicate()
@@ -598,7 +601,7 @@ func _execute_hit(data, user, who: String, target):
 			target.take_damage(result["damage"])
 			var down_msg = _notify_if_died(target)
 			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant][wait=0.1]" % result["damage"]
-			if data.get("type","attack") in ["group","aoe","all"]:
+			if data.get("type","attack") in ["group","aoe","all", "random"]:
 				damage_txt = "[screenshake][instant]%s took [color=red]%d[/color] damage![/instant][wait=0.1]" % [_get_display_name(target), result["damage"]]
 			if down_msg != "":
 				damage_txt += down_msg
@@ -607,14 +610,14 @@ func _execute_hit(data, user, who: String, target):
 		if result["heal"] > 0 and target.get_hp() > 0:
 			target.heal(result["heal"])
 			var heal_txt = "[instant]Gained [color=green]%d[/color] HP![/instant][wait=0.1]" % result["heal"]
-			if data.get("type","attack") in ["group","aoe","all"]:
+			if data.get("type","attack") in ["group","aoe","all","random"]:
 				heal_txt = "[instant]%s gained [color=green]%d[/color] HP![/instant][wait=0.1]" %  [_get_display_name(target), result["heal"]]
 			MyEventBus.emit("continue_text", {"text": heal_txt, "linebreak":false})
 			await wait_for_writing()
 		if result["mp_restore"] > 0 and target.get_hp() > 0:
 			target.restore_mp(result["mp_restore"])
 			var mp_restore_txt = "[instant]Gained [color=cyan]%d[/color] MP![/instant][wait=0.1]" % result["mp_restore"]
-			if data.get("type","attack") in ["group","aoe","all"]:
+			if data.get("type","attack") in ["group","aoe","all","random"]:
 				mp_restore_txt = "[instant]%s gained [color=cyan]%d[/color] MP![/instant][wait=0.1]" %  [_get_display_name(target), result["mp_restore"]]
 			MyEventBus.emit("continue_text", {"text": mp_restore_txt, "linebreak":false})
 			await wait_for_writing()
@@ -640,8 +643,13 @@ func _execute_hit(data, user, who: String, target):
 					var mag: int = data.get("magnitude", 1)
 					var idx = int(target_who.split("_")[1])
 					enemy_timers[idx] += mag
-					MyEventBus.emit("continue_text", {"text": "[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag], 
+					MyEventBus.emit("continue_text", {"text": "[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag],
 						"linebreak":false})
+				await wait_for_writing()
+			elif result["status"] == "lifedrain" and result["damage"] > 0:
+				var drain_amount = max(1, int(result["damage"] * data.get("magnitude", 0.5)))
+				user.heal(drain_amount)
+				MyEventBus.emit("continue_text", {"text": "[instant]Drained [color=green]%d[/color] HP![/instant][wait=0.1]" % drain_amount, "linebreak":false})
 				await wait_for_writing()
 			elif target.get_hp() > 0:
 				_add_status(target, result["status"], data.get("magnitude", -1))
