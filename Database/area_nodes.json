@@ -328,9 +328,19 @@
 	  "description": [
 		{ "text": "The structure creaks softly, aged but standing." }
 	  ],
+	  "events": [
+		{"chance": 1, "event": "cabin_apple_woods"}
+	  ],
 	  "exits": [
 		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the cabin standing in silence and push back into the forest, the shadows swallowing you quickly." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Enter the cabin",
+		"tooltip": "Go into the cabin.",
+		"event": "cabin_apple_woods",
+		"disabled_tooltip": "You've already gone into the cabin.",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Treasure Spot",

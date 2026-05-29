@@ -1,11 +1,11 @@
 {
 	"Fire": {
 		"nome": "Fire",
-		"description": "Hurls a blazing fireball at the target, dealing heavy damage with a chance to inflict burn.",
-		"type": "attack",
+		"description": "Sets enemies on fire, dealing heavy damage with a chance to inflict burn.",
+		"type": "aoe",
 		"element": "Fire",
 		"stats": {
-			"mgt": 15,
+			"mgt": 10,
 			"acc": 65,
 			"wgt": 13,
 			"crit": 0
@@ -23,7 +23,7 @@
 		"type": "attack",
 		"element": "Ice",
 		"stats": {
-			"mgt": 12,
+			"mgt": 7,
 			"acc": 80,
 			"wgt": 11,
 			"crit": 0
@@ -41,7 +41,7 @@
 		"type": "attack",
 		"element": "Wind",
 		"stats": {
-			"mgt": 8,
+			"mgt": 3,
 			"acc": 80,
 			"wgt": 6,
 			"crit": 0
@@ -58,7 +58,7 @@
 		"type": "attack",
 		"element": "Earth",
 		"stats": {
-			"mgt": 11,
+			"mgt": 6,
 			"acc": 50,
 			"wgt": 6,
 			"crit": 5
@@ -75,7 +75,7 @@
 		"type": "attack",
 		"element": "Water",
 		"stats": {
-			"mgt": 11,
+			"mgt": 6,
 			"acc": 70,
 			"wgt": 9,
 			"crit": 0
@@ -92,7 +92,7 @@
 		"type": "attack",
 		"element": "Light",
 		"stats": {
-			"mgt": 5,
+			"mgt": 1,
 			"acc": 90,
 			"wgt": 2,
 			"crit": 0
@@ -109,7 +109,7 @@
 		"type": "attack",
 		"element": "Dark",
 		"stats": {
-			"mgt": 18,
+			"mgt": 13,
 			"acc": 55,
 			"wgt": 15,
 			"crit": 0
@@ -126,13 +126,14 @@
 		"type": "attack",
 		"element": "Thunder",
 		"stats": {
-			"mgt": 10,
+			"mgt": 5,
 			"acc": 35,
 			"wgt": 7,
 			"crit": 30
 		},
 		"cost": 6,
-		"hits": 3,
+		"min_hits": 1,
+		"max_hits": 3,
 		"hit_text":"[color=cyan]Thunder[/color] struck [TARGET]![wait=0.1]",
 		"magic": true,
 		"inherit_stats": true,
@@ -146,7 +147,7 @@
 		"type": "attack",
 		"element": "Poison",
 		"stats": {
-			"mgt": 6,
+			"mgt": 1,
 			"acc": 60,
 			"wgt": 8,
 			"crit": 0

@@ -538,5 +538,145 @@
 				]
 			}
 		]
+	},
+
+	"cabin_apple_woods": {
+		"steps": [
+			{"type": "random", "outcomes": [
+				{"weight": 1, "steps": [{"type": "event", "event": "cabin_abandoned_enter"}]},
+				{"weight": 1, "steps": [{"type": "event", "event": "cabin_witch_enter"}]}
+			]}
+		]
+	},
+
+	"cabin_abandoned_enter": {
+		"steps": [
+			{"type": "text", "text": "You push the door open. It groans on rusted hinges.\n\nThe inside is dim and disordered — a knocked-over chair, papers strewn across the floor, deep claw marks gouged into the walls and door frame. \nSomeone lived here, once. Not anymore.", "clear": false},
+			{"type": "set_var", "vars": {"cabin_drawer_done": {"set": 0}, "cabin_hearth_done": {"set": 0}, "cabin_journals_done": {"set": 0}, "cabin_closet_done": {"set": 0}}},
+			{"type": "event", "event": "cabin_abandoned_choices"}
+		]
+	},
+
+	"cabin_abandoned_choices": {
+		"steps": [
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Check the drawer", "key": "drawer", "condition": {"cabin_drawer_done": 0}},
+					{"choice": "Rest by the hearth", "key": "hearth", "condition": {"cabin_hearth_done": 0}},
+					{"choice": "Read the journals", "key": "journals", "condition": {"cabin_journals_done": 0}},
+					{"choice": "Open the closet", "key": "closet", "condition": {"cabin_closet_done": 0}},
+					{"choice": "Leave the cabin", "key": "leave"}
+				],
+				"branches": {
+					"drawer":   [{"type": "event", "event": "cabin_abandoned_drawer"}],
+					"hearth":   [{"type": "event", "event": "cabin_abandoned_hearth"}],
+					"journals": [{"type": "event", "event": "cabin_abandoned_journals"}],
+					"closet":   [{"type": "event", "event": "cabin_abandoned_closet"}],
+					"leave":    [{"type": "exit_node", "exit": {"leads_to": "FOREST", "travel_text": "You step back out of the cabin and push into the trees, the door creaking shut behind you."}}]
+				}
+			}
+		]
+	},
+
+	"cabin_abandoned_drawer": {
+		"steps": [
+			{"type": "text", "text": "You pull the drawer open. Beneath a tangle of old rope and rusted nails, your hand finds a leather pouch.", "clear": false},
+			{"type": "sfx", "sound": "chest_open"},
+			{"type": "give_gold", "amount": 60},
+			{"type": "text", "text": "You count out [color=yellow]60G[/color].", "clear": false},
+			{"type": "set_var", "vars": {"cabin_drawer_done": {"set": 1}}},
+			{"type": "event", "event": "cabin_abandoned_choices"}
+		]
+	},
+
+	"cabin_abandoned_hearth": {
+		"steps": [
+			{"type": "text", "text": "The ashes in the hearth are cold, but you find a dry log and coax a small fire to life.\n\nYou sit in its warmth for a while. It's the first moment of quiet you've had in the woods.", "clear": false},
+			{"type": "sfx", "sound": "heal"},
+			{"type": "effect", "effect": {"type": "heal", "amount": 25}},
+			{"type": "text", "text": "You rest for a moment.\nHP restored by [color=green]25[/color].", "clear": false},
+			{"type": "set_var", "vars": {"cabin_hearth_done": {"set": 1}}},
+			{"type": "event", "event": "cabin_abandoned_choices"}
+		]
+	},
+
+	"cabin_abandoned_journals": {
+		"steps": [
+			{"type": "text", "text": "Three journals, water-warped and bound together with a leather strap. You open the most recent one.", "clear": false},
+			{"type": "text", "text": "\"Day 12\n — The beast's tracks are unmistakable. I've seen wolf prints before. These are different — the gait too long, too deliberate. Whatever walks Apple Woods wears the shape of a wolf but not the nature of one.\nI'll find it.\"", "clear": false},
+			{"type": "text", "text": "\"Day 19\n — It knows I'm here. I came back to camp and found everything moved. Nothing taken — just rearranged. Like it was making a point. I haven't slept properly in days. The apples taste strange after dark.\"", "clear": false},
+			{"type": "text", "text": "\"Day 24\n — The scratches appeared on the door last night. Deep ones. I didn't hear a sound.\n\nIf someone finds this — the creature was once a man. A hunter, like me. I saw it in his eyes.\n\nDon't let it —\n \"\n\n[The entry ends here. The rest of the page is torn away.]", "clear": false},
+			{"type": "set_var", "vars": {"cabin_journals_done": {"set": 1}}},
+			{"type": "event", "event": "cabin_abandoned_choices"}
+		]
+	},
+
+	"cabin_abandoned_closet": {
+		"steps": [
+			{"type": "text", "text": "You grab the closet handle and pull.\n\nCold air rushes out — and with it, something that should not be here. A pale shape coalesces from the dark, hollow and flickering.", "clear": false},
+			{"type": "text", "text": "The spirit of the cabin's former owner fixes its empty gaze on you.", "clear": false, "no_wait": true},
+			{"type": "combat", "enemy": "Restless Spirit",
+				"on_victory": [
+					{"type": "text", "text": "The spirit wavers and dissolves, scattering like smoke in the cold air.\n\nThe closet is empty. Just dusty clothes and an old hunting pack.", "clear": true},
+					{"type": "set_var", "vars": {"cabin_closet_done": {"set": 1}}},
+					{"type": "event", "event": "cabin_abandoned_choices"}
+				]
+			}
+		]
+	},
+
+	"cabin_witch_enter": {
+		"steps": [
+			{"type": "text", "text": "The door swings open before you can knock.\n\nWarm light spills out, carrying the smell of baked apple and dried herbs. An old woman stands in the doorway, eyes bright under a wide-brimmed hat.", "clear": false},
+			{"type": "text", "text": "\"I wondered when a traveller would come through.\"\nShe steps aside and waves you in.\n\"The woods have teeth tonight. Come in, come in.\"", "clear": false},
+			{"type": "event", "event": "cabin_witch_choices"}
+		]
+	},
+
+	"cabin_witch_choices": {
+		"steps": [
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Rest", "key": "rest"},
+					{"choice": "Browse her wares", "key": "shop"},
+					{"choice": "Talk", "key": "talk"},
+					{"choice": "Leave", "key": "leave"}
+				],
+				"branches": {
+					"rest": [
+						{"type": "text", "text": "She points you toward a cot near the fire.\n\n\"Lie down. You've earned it.\"", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal",       "amount": 9999}},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+						{"type": "text", "text": "You rest deeply.\n[color=green]HP and MP fully restored.[/color]", "clear": false},
+						{"type": "event", "event": "cabin_witch_choices"}
+					],
+					"shop": [
+						{"type": "shop", "name": "Marta's Remedies", "shop": {
+							"ShopType": "Item",
+							"WelcomeText": "She gestures to a row of stoppered bottles on the shelf.\n\n\"Apple cider for what ails you — pressed it myself.\"\n\"Won't find better prices out here.\"\n\n\"So, what do you need?\"",
+							"OtherText": ["\"Take care of yourself out there.\"", "\"The woods don't forgive the unprepared.\""],
+							"ambience": ["\"See anything you like?\"", "\"I've got plenty more in the cellar, don't worry.\""],
+							"Stock": {
+								"Potion": 30,
+								"Ether":  40,
+								"Medicine": 20,
+								"Stimulant":20
+							}
+						}},
+						{"type": "event", "event": "cabin_witch_choices"}
+					],
+					"talk": [
+						{"type": "text", "text": "She stirs something on the fire without looking up.\n\n\"You're headed deeper in, aren't you.\"\n\nIt isn't a question.", "clear": false},
+						{"type": "text", "text": "\"The creature in these woods was a man, once. A hunter. He came here to kill a beast and found himself becoming one instead.\"\n\n\"Silver.\" She taps the spoon against the pot. \"That's what you want, if you mean to face it. Silver doesn't lie.\"", "clear": false},
+						{"type": "event", "event": "cabin_witch_choices"}
+					],
+					"leave": [
+						{"type": "text", "text": "\"Mind yourself out there,\" she calls after you.", "clear": false, "no_wait": true},
+						{"type": "exit_node", "exit": {"leads_to": "FOREST", "travel_text": "You step back into the cool forest air, the warmth of the cottage fading behind you."}}
+					]
+				}
+			}
+		]
 	}
 }

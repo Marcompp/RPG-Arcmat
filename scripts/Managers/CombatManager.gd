@@ -19,10 +19,11 @@ var player = null
 var enemies: Array = []
 var enemy_display_names: Array = []
 
-var skills_db: Dictionary = {}
-var spells_db: Dictionary = {}
-var items_db:  Dictionary = {}
-var status_db: Dictionary = {}
+var skills_db:   Dictionary = {}
+var spells_db:   Dictionary = {}
+var items_db:    Dictionary = {}
+var status_db:   Dictionary = {}
+var element_db:  Dictionary = {}
 
 var status_effects: Dictionary = { "player": [] }
 var cooldowns:      Dictionary = { "player": {} }
@@ -113,10 +114,11 @@ func start_combat(p, e_or_array):
 		enemies[i].data["Name"] = enemy_display_names[i]
 		enemies[i].stats_changed.emit()
 
-	skills_db = _load_json("res://Database/skills.json")
-	spells_db = _load_json("res://Database/spells.json")
-	items_db  = _load_json("res://Database/items.json")
-	status_db = _load_json("res://Database/status.json")
+	skills_db  = _load_json("res://Database/skills.json")
+	spells_db  = _load_json("res://Database/spells.json")
+	items_db   = _load_json("res://Database/items.json")
+	status_db  = _load_json("res://Database/status.json")
+	element_db = _load_json("res://Database/element.json")
 
 	status_effects = { "player": [] }
 	cooldowns      = { "player": {} }
@@ -428,8 +430,10 @@ func _resolve_turn_pair(player_action: Dictionary):
 			continue
 		await _execute_turn_action(action)
 		if player.get_hp() <= 0:
-			check_combat_end()
+			await check_combat_end()
 			return
+		if _living_indices().is_empty():
+			break
 
 	var prep_msgs: Array = []
 	for i in preparing_indices:
@@ -445,7 +449,7 @@ func _resolve_turn_pair(player_action: Dictionary):
 		need_wait = need_wait or _process_statuses(_ekey(i))
 
 	state = CombatState.PLAYER_TURN
-	check_combat_end(need_wait)
+	await check_combat_end(need_wait)
 
 func _execute_turn_action(action: Dictionary):
 	match action["type"]:
@@ -460,10 +464,32 @@ func _execute_turn_action(action: Dictionary):
 				var target = action["actor"] if action_type == "self" else _target_for(action)
 				await _execute_action(action["actor"], action["who"], action["name"], action["db"], target)
 
+func _get_element_multiplier(attack_element: String, target_element: String) -> float:
+	if target_element == "" or not element_db.has(target_element):
+		return 1.0
+	var chart = element_db[target_element]
+	if attack_element in chart.get("immune", []):
+		return 0.0
+	if attack_element in chart.get("weak", []):
+		return 2.0
+	if attack_element in chart.get("resist", []):
+		return 0.5
+	return 1.0
+
 func _do_attack(actor, who: String, target):
 	var weapon   = actor.get_weapon()
 	var dmg      = calculate_damage(actor, target)
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
+
+	var attack_element = weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral"
+	var target_element = target.data.get("Element", "Neutral")
+	var elem_mult      = _get_element_multiplier(attack_element, target_element)
+	var elem_reaction  = ""
+	if elem_mult == 0.0:
+		elem_reaction = "immune"
+	elif elem_mult != 1.0:
+		dmg = max(1, int(dmg * elem_mult))
+		elem_reaction = "weak" if elem_mult >= 2.0 else "resist"
 
 	var target_part = ""
 	if who == "player" and enemies.size() > 1:
@@ -478,13 +504,19 @@ func _do_attack(actor, who: String, target):
 	MyEventBus.emit("continue_text", { "text": attacktxt })
 	await wait_for_writing()
 
-	target.take_damage(dmg)
-	var down_msg = _notify_if_died(target)
 	MyEventBus.emit("play_sfx", { "sound": wpn_type if wpn_type != "" else "attack" })
-	MyEventBus.emit("continue_text", {
-		"text": "[screenshake][instant][color=red]%d[/color] damage![/instant]%s" % [dmg, down_msg],
-		"linebreak": false
-	})
+	if elem_reaction == "immune":
+		MyEventBus.emit("continue_text", {
+			"text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
+	else:
+		target.take_damage(dmg)
+		var down_msg = _notify_if_died(target)
+		var prefix = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
+				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" else "")
+		MyEventBus.emit("continue_text", {
+			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s" % [dmg, down_msg],
+			"linebreak": false
+		})
 	await wait_for_writing()
 
 func _enemy_choose_action(idx: int) -> Dictionary:
@@ -573,6 +605,7 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 				var new_target = enemies[_living_indices().pick_random()]
 				var temp_data = data.duplicate()
 				temp_data["hits"] = 1
+				temp_data["max_hits"] = 1
 				await _execute_hit(temp_data, user, who, new_target)
 				await wait_for_writing()
 	else:
@@ -585,7 +618,12 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 	await wait_for_continue()
 
 func _execute_hit(data, user, who: String, target):
-	for _i in range(data.get("hits", 1)):
+	var hits = int(data.get("hits",1))
+	if data.has("max_hits") and data["max_hits"]>1:
+		hits = randi_range(data.get("min_hits",1), data["max_hits"])
+	for _i in range(hits):
+		if target.get_hp <= 0:
+			break
 		var result = _resolve_action(user, target, data)
 		if data.has('hit_text'):
 			MyEventBus.emit("continue_text", {"text": _parse_action_text(data["hit_text"]+"[wait=0.1]", {
@@ -597,6 +635,13 @@ func _execute_hit(data, user, who: String, target):
 			if result["critical"]:
 				MyEventBus.emit("continue_text", {"text": "[color=orange]Critical![/color][wait=0.1]", "linebreak":false})
 				await wait_for_writing()
+			match result.get("element_reaction", ""):
+				"weak":
+					MyEventBus.emit("continue_text", {"text": "[color=yellow]Weak![/color] ", "linebreak": false})
+					await wait_for_writing()
+				"resist":
+					MyEventBus.emit("continue_text", {"text": "[color=cyan]Resisted![/color] ", "linebreak": false})
+					await wait_for_writing()
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
 			var down_msg = _notify_if_died(target)
@@ -606,6 +651,9 @@ func _execute_hit(data, user, who: String, target):
 			if down_msg != "":
 				damage_txt += down_msg
 			MyEventBus.emit("continue_text", {"text": damage_txt, "linebreak":false})
+			await wait_for_writing()
+		elif result.get("element_reaction") == "immune":
+			MyEventBus.emit("continue_text", {"text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false})
 			await wait_for_writing()
 		if result["heal"] > 0 and target.get_hp() > 0:
 			target.heal(result["heal"])
@@ -674,7 +722,7 @@ func _play_damage_sound(data, user, target):
 	MyEventBus.emit("play_sfx", { "sound": dmg_sfx if dmg_sfx != "" else "attack" })
 
 func _resolve_action(user, target, data) -> Dictionary:
-	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false }
+	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false, "element_reaction": "" }
 	var stats       = data.get("stats", {})
 	var is_magic    = data.get("magic", false)
 	var action_type = data.get("type", "attack")
@@ -720,6 +768,22 @@ func _resolve_action(user, target, data) -> Dictionary:
 		dmg = int(dmg * 1.5)
 		#result["text"] = "[color=orange]Critical! [/color]"
 		result["critical"] = true
+
+	var attack_element = data.get("element", "")
+	if attack_element == "" and weapon and not weapon.is_empty():
+		attack_element = weapon.get("element", "")
+	if attack_element == "":
+		attack_element = "Neutral"
+	var target_element = target.data.get("Element", "Neutral")
+	var elem_mult = _get_element_multiplier(attack_element, target_element)
+	if elem_mult == 0.0:
+		result["element_reaction"] = "immune"
+		return result
+	dmg = max(1, int(dmg * elem_mult))
+	if elem_mult >= 2.0:
+		result["element_reaction"] = "weak"
+	elif elem_mult <= 0.5:
+		result["element_reaction"] = "resist"
 
 	result["damage"] = dmg
 	result["text"]  += "[screenshake][instant][color=red]%d[/color] damage![/instant]" % dmg
@@ -896,8 +960,11 @@ func _format_action_tooltip(action_key: String, data: Dictionary) -> String:
 		lines.append("  ".join(stat_parts))
 
 	var hits = data.get("hits", 1)
+	var max_hits = data.get("max_hits", 1)
 	if hits > 1:
 		lines.append("Hits: %d×" % hits)
+	elif max_hits > 1:
+		lines.append("Hits: %d-%d×" % [data.get("min_hits", 1), max_hits])
 
 	var effect = data.get("effect", "none")
 	if effect == "ignore_def":
