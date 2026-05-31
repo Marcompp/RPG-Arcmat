@@ -478,6 +478,11 @@ func _get_element_multiplier(attack_element: String, target_element: String) -> 
 
 func _do_attack(actor, who: String, target):
 	var weapon   = actor.get_weapon()
+	var acc = weapon.get("stats", {}).get("acc", 90) if weapon and not weapon.is_empty() else 90
+	if not _check_hit(actor, target, acc):
+		MyEventBus.emit("continue_text", { "text": "...but missed![wait=0.1]", "linebreak": false })
+		await wait_for_writing()
+		return
 	var dmg      = calculate_damage(actor, target)
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
 
@@ -548,6 +553,13 @@ func _get_action_wgt(actor, action: Dictionary) -> int:
 # ============================================================
 # DAMAGE & ACTION EXECUTION
 # ============================================================
+
+func _check_hit(attacker, defender, base_acc: int) -> bool:
+	var hit_rate = base_acc \
+		+ attacker.get_total_stat("dex") \
+		- defender.get_total_stat("agi") \
+		- floori(defender.get_total_stat("lck") / 2.0)
+	return randi_range(1, 100) <= hit_rate
 
 func calculate_damage(attacker, defender) -> int:
 	var weapon = attacker.get_weapon()
@@ -622,9 +634,16 @@ func _execute_hit(data, user, who: String, target):
 	if data.has("max_hits") and data["max_hits"]>1:
 		hits = randi_range(data.get("min_hits",1), data["max_hits"])
 	for _i in range(hits):
-		if target.get_hp <= 0:
+		if target.get_hp() <= 0:
 			break
 		var result = _resolve_action(user, target, data)
+		if result.get("missed", false):
+			var miss_txt = "Missed![wait=0.1]"
+			if data.get("type","attack") in ["group","aoe","all","random"]:
+				miss_txt = "%s evaded![wait=0.1]" % _get_display_name(target)
+			MyEventBus.emit("continue_text", {"text": miss_txt, "linebreak": false})
+			await wait_for_writing()
+			continue
 		if data.has('hit_text'):
 			MyEventBus.emit("continue_text", {"text": _parse_action_text(data["hit_text"]+"[wait=0.1]", {
 				"TARGET":_get_display_name(target), "USER": user.get_name()
@@ -722,7 +741,7 @@ func _play_damage_sound(data, user, target):
 	MyEventBus.emit("play_sfx", { "sound": dmg_sfx if dmg_sfx != "" else "attack" })
 
 func _resolve_action(user, target, data) -> Dictionary:
-	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false, "element_reaction": "" }
+	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false, "element_reaction": "", "missed": false }
 	var stats       = data.get("stats", {})
 	var is_magic    = data.get("magic", false)
 	var action_type = data.get("type", "attack")
@@ -740,6 +759,11 @@ func _resolve_action(user, target, data) -> Dictionary:
 			result["status"] = self_fx
 		if result["text"] == "":
 			result["text"] = "..."
+		return result
+
+	var acc = stats.get("acc", 90)
+	if not _check_hit(user, target, acc):
+		result["missed"] = true
 		return result
 
 	var base_mgt     = stats.get("mgt", 0)

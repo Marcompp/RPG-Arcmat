@@ -86,6 +86,14 @@ func _ready():
 		_shop_from_event = true
 		enter_shop(data.get("name", "Merchant"), data.get("data", {}))
 	)
+	MyEventBus.subscribe("give_region_item_pick", func(_data):
+		var treasure: Array = region_db.get(current_region, {}).get("Treasure", [])
+		if treasure.is_empty():
+			MyEventBus.emit("give_region_item_picked", {"item": ""})
+			return
+		var item: String = treasure[randi() % treasure.size()]
+		MyEventBus.emit("give_region_item_picked", {"item": item})
+	)
 
 	if world_data.is_empty():
 		push_error("Falha ao carregar o JSON")
@@ -318,8 +326,11 @@ func handle_node_action(choice):
 
 func _handle_node_specific_action(action_data: Dictionary) -> void:
 	var event_name = action_data.get("event", "")
+	print(event_name)
 	if event_name != "":
 		var event_def = events_db.get(event_name, {})
+		print('EVENT DEF')
+		print(event_def)
 		if not event_def.is_empty():
 			var stopped = await _run_node_event(event_def)
 			if not action_data.get("repeatable", true):

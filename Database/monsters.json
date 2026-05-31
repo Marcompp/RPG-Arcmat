@@ -158,6 +158,8 @@
 		"Ether": 70,
 		"Spirit Lance": 5
 	},
+	"Startup":1,
+	"Cooldown":1,
 	"Gold":40,
 	"Skills": ["Shiver"],
 	"Spells": ["Dark","Light"],
@@ -169,6 +171,8 @@
 	"Element": "Earth",
 	"Lvl": 5,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
+	"Startup":2,
+	"Cooldown":2,
 	"Equip": {
 		"Weapon": "Machete"
 	},
@@ -215,6 +219,8 @@
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
 	},
+	"Startup":3,
+	"Cooldown":1,
 	"Drops": {
 		"Potion": 40,
 		"Ether": 40,
@@ -591,12 +597,17 @@
 	"Element": "Water",
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"C"},
+	"TrueStats": {
+		"HP":65
+	},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 100,
 		"Medicine": 100,
 		"Greataxe": 15
 	},
+	"Startup":3,
+	"Cooldown":2,
 	"Gold":200,
 	"Skills": ["Poison Spit"],
 	"Spells": [],
@@ -604,7 +615,8 @@
 	"Rarity": null
   },
   {
-	"Name": "Cult Leader",
+	"Name": "Mother Orielli",
+	"Class": "Cult Leader",
 	"Element": "Light",
 	"Lvl": 7,
 	"Stats": {"HP":"B","MP":"B","Str":"D","Int":"C","Dex":"C","Agi":"C","Lck":"B","Def":"E"},
@@ -617,6 +629,8 @@
 		"Sacrificial Knife": 100,
 		"Cult Robes": 100
 	},
+	"Startup":4,
+	"Cooldown":1,
 	"Gold":300,
 	"Skills": [],
 	"Spells": ["Light","Heal"],

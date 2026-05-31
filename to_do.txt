@@ -47,10 +47,10 @@
 [ ] Context Sensitive Actions (no lugar de Search for Monsters)
       chamar um evento específico ao node
 
-[ ] Mais de 1 inimígo no combate
+[X] Mais de 1 inimígo no combate
       resolver UI e método de escolha de alvo
 
-[ ] Eventos em exits de node
+[X] Eventos em exits de node
       ex: possibilidade de evento bridge - bridge quebrar
 
 [ ] Sistema de Rest
@@ -77,7 +77,7 @@
 
 [ ] Ending e arena
 
-[ ] Efetividade de elementos
+[X] Efetividade de elementos
 
 [X] Fazer ataques multihit funcionar corretamente
 
@@ -152,7 +152,9 @@ A fazer
 
 [ ] Implementar Eventos
       [/] Apple Woods
-            [ ] Apple Woods Cabin
+            [X] Apple Woods Cabin
+            [ ] Lake events
+            [ ] River events
       [ ] Caves of Light
       [ ] Sundown Plateau
       [ ] Mt. Legory

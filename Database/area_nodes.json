@@ -56,7 +56,9 @@
 		]
 	  },
 	  "exits": [
-		{ "choice": "Continue on the path", "leads_to": "DEBUG", "value": 0,
+		{ "choice": "Debug", "leads_to": "DEBUG", "value": 0,
+			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
+		{ "choice": "Cabin", "leads_to": "CABIN", "value": 0,
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
 	  ],
 	  "action": {
@@ -312,7 +314,7 @@
 	},
 	{
 	  "name": "Cabin",
-	  "entrances": ["FOREST"],
+	  "entrances": ["FOREST","CABIN"],
 	  "backdrop": "apple_cabin.png",
 	  "condition": {
 			"no_repeat":true
@@ -351,7 +353,7 @@
 		  },
 	  "encounter_rate": 0,
 	  "events": [
-			{"chance": 1, "event": "treasure_chest_earth"}
+			{"chance": 1, "event": "region_treasure_chest"}
 	  ],
 	  "arrival": {
 		"FOREST": [
@@ -421,6 +423,7 @@
 	  {
 		"name": "Tunnel",
 		"entrances": ["TUNNEL"],
+	  	"backdrop": "light_tunnel.png",
 		"arrival": {
 		  "TUNNEL": [
 			"The narrow passage continues, its walls shimmering faintly with a silvery-yellow glow."
@@ -434,9 +437,21 @@
 		  { "text": "Blue crystals embedded in the rock pulse faintly, casting shifting shadows." },
 		  { "text": "The air is cool and dry, carrying a faint mineral scent.", "chance": 0.5 }
 		],
+		"events": [
+		  {"chance": 0.2, "event": "cultist_patrol"},
+		  {"chance": 0.2, "event": "bat_roost"},
+		  {"chance": 0.15, "event": "cave_lost"}
+		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
-		]
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Grotto",
@@ -454,11 +469,22 @@
 		  { "text": "Light refracts across the curved walls in shifting patterns." },
 		  { "text": "Drops of water echo faintly, though no source is visible.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 0.3, "event": "bat_roost"},
+		  {"chance": 0.2, "event": "crystal_cluster"}
+		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You push straight through the grotto and continue into the glowing tunnel beyond." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You turn right and follow the passage as it curves deeper into the cave." }
-		]
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Cavern",
@@ -476,15 +502,28 @@
 		  { "text": "Crystal formations scatter light across the cavern like stars." },
 		  { "text": "The silence here feels immense and heavy.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 0.3, "event": "cultist_patrol"},
+		  {"chance": 0.2, "event": "crystal_cluster"},
+		  {"chance": 0.2, "event": "bat_roost"}
+		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You veer right and follow the tunnel as it winds away from the cavern." }
-		]
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Forked Path",
 		"entrances": ["TUNNEL"],
+	  	"backdrop": "light_fork.png",
 		"arrival": {
 		  "TUNNEL": [
 			"The glowing passage splits, each branch lit by the same eerie radiance."
@@ -493,6 +532,10 @@
 			"The passage forks here, both branches glowing with the same steady, eerie light."
 		  ]
 		},
+		"events": [
+		  {"chance": 0.3, "event": "cultist_patrol"},
+		  {"chance": 0.2, "event": "cave_lost"}
+		],
 		"description": [
 		  { "text": "Both paths seem identical, their walls shimmering softly." },
 		  { "text": "The light here flickers subtly, as if reacting to your presence." }
@@ -500,7 +543,14 @@
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left branch, its walls glowing with the same steady luminescence." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You choose the right path, stepping into the glowing passage as it curves ahead." }
-		]
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Spring",
@@ -521,13 +571,24 @@
 		  { "text": "Ripples shimmer with shifting hues of blue and gold." },
 		  { "text": "The air feels strangely fresh here.", "chance": 0.5 }
 		],
+		"events": [
+		  {"chance": 0.5, "event": "wounded_spirit"}
+		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the glowing spring behind and continue along the passage, the hum of crystal light surrounding you." }
-		]
+		],
+		"action": {
+			"name": "Drink from the spring",
+			"tooltip": "Drink from the spring to recover HP and MP",
+			"event": "spring_water",
+			"disabled_tooltip": "You already drank from the spring",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Altar",
 		"entrances": ["TUNNEL"],
+	  	"backdrop": "light_altar.png",
 		"condition": {
 				"visit_count":{"max":0}
 			},
@@ -546,11 +607,23 @@
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You step away from the altar and continue deeper into the cave, the passage narrowing ahead." }
-		]
+		],
+		"action": {
+			"name": "Approach the altar",
+			"tooltip": "Interact with the stone altar.",
+			"event": "altar_offering",
+			"disabled_tooltip": "You've already interacted with the altar.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Treasure Chamber",
 		"entrances": ["TUNNEL"],
+	  	"backdrop": "light_dead_end.png",
+		"encounter_rate": 0,
+		"events": [
+			{"chance": 1, "event": "region_treasure_chest"}
+		],
 	  	"condition": {
 			"visit_count":{"max":0}
 		  },
@@ -569,17 +642,28 @@
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move on from the glittering chamber, the tunnel closing in as you press forward." }
-		]
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
 	  },
 	  {
 		"name": "Cult Sanctum",
-		"entrances": ["TUNNEL"],
+		"entrances": ["TUNNEL","FOLLOW"],
+	  	"backdrop": "light_altar.png",
 	  	"condition": {
 			"visit_count":{"max":0}
 		  },
 		"arrival": {
 		  "TUNNEL": [
 			"Strange symbols glow faintly as you step into a hidden sanctum."
+		  ],
+		  "FOLLOW": [
+			"The passage opens into a wider chamber filled with cloaked figures."
 		  ],
 		  "default": [
 			"Carved symbols cover the walls of this hidden sanctum, each one pulsing with dim blue energy."
@@ -590,12 +674,16 @@
 		  { "text": "The air feels charged, almost alive." },
 		  { "text": "A low hum resonates through the chamber.", "chance": 0.6 }
 		],
+		"events": [
+		  {"chance": 1, "event": "cultist_sermon"}
+		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view." }
 		]
 	  },
 	  {
 		"name": "Dead End",
+	  	"backdrop": "light_dead_end.png",
 		"entrances": ["TUNNEL"],
 	  	"condition": {
 			"no_repeat":true
@@ -612,10 +700,20 @@
 		  { "text": "The light here is dimmer, as if fading." },
 		  { "text": "The silence is absolute." }
 		],
+		"events": [
+		  {"chance": 0.7, "event": "renegade_pack"}
+		],
 		"exits": [
 		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
-		]
-	  },	
+		],
+		"action": {
+			"name": "Bask in the light",
+			"tooltip": "Bask in the light to recover MP.",
+			"event": "bask_light",
+			"disabled_tooltip": "You've already absorbed the light here.",
+			"repeatable": false
+		}
+	  },
 		{
 		  "name": "Cave Exit",
 		  "type": "EXIT",

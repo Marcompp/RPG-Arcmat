@@ -40,6 +40,10 @@
 #              Gives the player an item. If it is a weapon or armor, shows the
 #              stat comparison screen and lets the player choose to equip or bag it.
 #
+#   give_region_item {"type":"give_region_item"}
+#              Picks one random item from the current region's Treasure list, shows
+#              "Found [item]!" text, then gives the item. Requires TravelManager.
+#
 #   if      {"type":"if",      "condition":{...}, "then":[steps...], "else":[steps...]}
 #              condition is passed to condition_callback if set; otherwise always true.
 #
@@ -160,6 +164,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("show_node", {})
 		"exit_node":
 			MyEventBus.emit("exit_node", step.get("exit", {}))
+		"set_backdrop":
+			MyEventBus.emit("set_backdrop", step)
 		"wait":
 			await _wait_for_continue()
 		"choice":
@@ -181,6 +187,12 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
 			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
+		"give_region_item":
+			var picked: Dictionary = await MyEventBus.emit_and_await("give_region_item_pick", {}, "give_region_item_picked")
+			var item_name: String = picked.get("item", "")
+			if not item_name.is_empty():
+				await _run_step({"type": "text", "text": "Found %s!" % item_name})
+				await MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
 		"game_over":
 			MyEventBus.emit("game_over", {})
 			stop()

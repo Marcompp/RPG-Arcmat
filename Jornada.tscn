@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bx50qj2qrnlcv"]
+[gd_scene load_steps=12 format=3 uid="uid://bx50qj2qrnlcv"]
 
 [ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
 [ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
 [ext_resource type="Script" uid="uid://cngvu4c05o5hn" path="res://scripts/TooltipButton.gd" id="3_6mkdx"]
+[ext_resource type="Texture2D" uid="uid://dr7hwhb6hyorm" path="res://assets/characters/apple_witch4.png" id="3_a1i3y"]
 [ext_resource type="Script" uid="uid://bdjl20mxaqh13" path="res://scripts/StatsPanel.gd" id="3_ej7wp"]
 [ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
 [ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
@@ -46,6 +47,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 3
+
+[node name="Characater" type="TextureRect" parent="TravelManager"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -124.0
+offset_top = -384.0
+offset_right = 388.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_a1i3y")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -242,10 +260,15 @@ custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 theme_override_font_sizes/bold_font_size = 20
 bbcode_enabled = true
+text = "AREA LABEL"
 scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameUI/TopCenterPanel/VBoxContainer"]
+custom_minimum_size = Vector2(10, 1)
+layout_mode = 2
 
 [node name="TopRight" type="HBoxContainer" parent="GameUI"]
 custom_minimum_size = Vector2(500, 0)

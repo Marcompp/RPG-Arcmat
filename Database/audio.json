@@ -12,7 +12,8 @@
 		"ruins":       "res://assets/audio/BGM/Arcmat_placeholder2.mp3",
 		"castletown":  "res://assets/audio/BGM/Bertunia_placeholder.mp3",
 		"hilltown":    "res://assets/audio/BGM/LanternsReach_placeholder.mp3",
-		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3"
+		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3",
+		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3"
 	},
 	"ambiance": {
 		"forest": "res://assets/audio/ambiance/forest.ogg",

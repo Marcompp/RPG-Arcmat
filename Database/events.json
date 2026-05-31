@@ -1,4 +1,26 @@
 {
+	"region_treasure_chest": {
+		"steps": [
+			{"type": "text", "text": "You find a treasure chest.", "clear": false},
+			{"type": "choice", "header": "Open it?",
+				"choices": [
+					{"choice": "Open the chest", "key": "open"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"open": [
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_region_item"},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the chest alone.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
 	"under_bridge": {
 		"steps": [
 			{"type": "text", "text": "You look around under the bridge...\n[wait=0.1]...[wait=0.1]", "clear": false},
@@ -551,6 +573,7 @@
 
 	"cabin_abandoned_enter": {
 		"steps": [
+			{"type": "set_backdrop", "backdrop": "apple_werecabin.png"},
 			{"type": "text", "text": "You push the door open. It groans on rusted hinges.\n\nThe inside is dim and disordered — a knocked-over chair, papers strewn across the floor, deep claw marks gouged into the walls and door frame. \nSomeone lived here, once. Not anymore.", "clear": false},
 			{"type": "set_var", "vars": {"cabin_drawer_done": {"set": 0}, "cabin_hearth_done": {"set": 0}, "cabin_journals_done": {"set": 0}, "cabin_closet_done": {"set": 0}}},
 			{"type": "event", "event": "cabin_abandoned_choices"}
@@ -561,18 +584,23 @@
 		"steps": [
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
-					{"choice": "Check the drawer", "key": "drawer", "condition": {"cabin_drawer_done": 0}},
-					{"choice": "Rest by the hearth", "key": "hearth", "condition": {"cabin_hearth_done": 0}},
-					{"choice": "Read the journals", "key": "journals", "condition": {"cabin_journals_done": 0}},
-					{"choice": "Open the closet", "key": "closet", "condition": {"cabin_closet_done": 0}},
-					{"choice": "Leave the cabin", "key": "leave"}
+					{"choice": "Check the drawer", "key": "drawer", "condition": {"cabin_drawer_done": 0}, "disabled_tooltip":"You already checked there."},
+					{"choice": "Rest by the hearth", "key": "hearth", "condition": {"cabin_hearth_done": 0}, "disabled_tooltip":"You already checked there."},
+					{"choice": "Read the journals", "key": "journals", "condition": {"cabin_journals_done": 0}, "disabled_tooltip":"You already checked there."},
+					{"choice": "Open the closet", "key": "closet", "condition": {"cabin_closet_done": 0}, "disabled_tooltip":"You already checked there."},
+					{"choice": "Leave the cabin", "key": "leave", "type":"back"}
 				],
 				"branches": {
 					"drawer":   [{"type": "event", "event": "cabin_abandoned_drawer"}],
 					"hearth":   [{"type": "event", "event": "cabin_abandoned_hearth"}],
 					"journals": [{"type": "event", "event": "cabin_abandoned_journals"}],
 					"closet":   [{"type": "event", "event": "cabin_abandoned_closet"}],
-					"leave":    [{"type": "exit_node", "exit": {"leads_to": "FOREST", "travel_text": "You step back out of the cabin and push into the trees, the door creaking shut behind you."}}]
+					"leave":    [
+						{"type": "set_backdrop", "backdrop": "apple_cabin.png"},
+						{"type": "text", "text": "You step back out of the cabin and push into the trees, the door creaking shut behind you.", "no_wait":true},
+						{"type": "show_node_text", "clear":false},
+						{"type":"show_node_actions"}
+					]
 				}
 			}
 		]
@@ -580,7 +608,7 @@
 
 	"cabin_abandoned_drawer": {
 		"steps": [
-			{"type": "text", "text": "You pull the drawer open. Beneath a tangle of old rope and rusted nails, your hand finds a leather pouch.", "clear": false},
+			{"type": "text", "text": "You pull the drawer open. Beneath a tangle of old wood and rusted nails, your hand finds a leather pouch.", "clear": true},
 			{"type": "sfx", "sound": "chest_open"},
 			{"type": "give_gold", "amount": 60},
 			{"type": "text", "text": "You count out [color=yellow]60G[/color].", "clear": false},
@@ -591,7 +619,7 @@
 
 	"cabin_abandoned_hearth": {
 		"steps": [
-			{"type": "text", "text": "The ashes in the hearth are cold, but you find a dry log and coax a small fire to life.\n\nYou sit in its warmth for a while. It's the first moment of quiet you've had in the woods.", "clear": false},
+			{"type": "text", "text": "The ashes in the hearth are cold, but you find a dry log and coax a small fire to life.\n\nYou sit in its warmth for a while. It's the first moment of quiet you've had in the woods.", "clear": true},
 			{"type": "sfx", "sound": "heal"},
 			{"type": "effect", "effect": {"type": "heal", "amount": 25}},
 			{"type": "text", "text": "You rest for a moment.\nHP restored by [color=green]25[/color].", "clear": false},
@@ -602,7 +630,7 @@
 
 	"cabin_abandoned_journals": {
 		"steps": [
-			{"type": "text", "text": "Three journals, water-warped and bound together with a leather strap. You open the most recent one.", "clear": false},
+			{"type": "text", "text": "Three journals, water-warped and bound together with a leather strap. You open the most recent one.", "clear": true},
 			{"type": "text", "text": "\"Day 12\n — The beast's tracks are unmistakable. I've seen wolf prints before. These are different — the gait too long, too deliberate. Whatever walks Apple Woods wears the shape of a wolf but not the nature of one.\nI'll find it.\"", "clear": false},
 			{"type": "text", "text": "\"Day 19\n — It knows I'm here. I came back to camp and found everything moved. Nothing taken — just rearranged. Like it was making a point. I haven't slept properly in days. The apples taste strange after dark.\"", "clear": false},
 			{"type": "text", "text": "\"Day 24\n — The scratches appeared on the door last night. Deep ones. I didn't hear a sound.\n\nIf someone finds this — the creature was once a man. A hunter, like me. I saw it in his eyes.\n\nDon't let it —\n \"\n\n[The entry ends here. The rest of the page is torn away.]", "clear": false},
@@ -613,7 +641,7 @@
 
 	"cabin_abandoned_closet": {
 		"steps": [
-			{"type": "text", "text": "You grab the closet handle and pull.\n\nCold air rushes out — and with it, something that should not be here. A pale shape coalesces from the dark, hollow and flickering.", "clear": false},
+			{"type": "text", "text": "You grab the closet handle and pull.\n\nCold air rushes out — and with it, something that should not be here. A pale shape coalesces from the dark, hollow and flickering.", "clear": true},
 			{"type": "text", "text": "The spirit of the cabin's former owner fixes its empty gaze on you.", "clear": false, "no_wait": true},
 			{"type": "combat", "enemy": "Restless Spirit",
 				"on_victory": [
@@ -627,8 +655,10 @@
 
 	"cabin_witch_enter": {
 		"steps": [
-			{"type": "text", "text": "The door swings open before you can knock.\n\nWarm light spills out, carrying the smell of baked apple and dried herbs. An old woman stands in the doorway, eyes bright under a wide-brimmed hat.", "clear": false},
-			{"type": "text", "text": "\"I wondered when a traveller would come through.\"\nShe steps aside and waves you in.\n\"The woods have teeth tonight. Come in, come in.\"", "clear": false},
+			{"type": "set_backdrop", "backdrop": "apple_cottage2.png"},
+			{"type": "text", "text": "The door swings open before you can knock.\n\nWarm light spills out, carrying the smell of baked apple and dried herbs. \n\nAn old woman stands in the doorway, eyes bright under a wide-brimmed hat.", "clear": false},
+			{"type": "set_var", "vars": {"cabin_rest_done": {"set": 0}, "cabin_talk_done": {"set": 0}}},
+			{"type": "text", "text": "\n\"I'm always happy to host a visitor.\" She steps aside and waves you in. \"Come in, come in. Rest up from your travels.\"", "clear": false, "no_wait":true},
 			{"type": "event", "event": "cabin_witch_choices"}
 		]
 	},
@@ -637,14 +667,16 @@
 		"steps": [
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
-					{"choice": "Rest", "key": "rest"},
+					
+					{"choice": "Rest", "key": "rest", "condition": {"cabin_rest_done": 0}, "disabled_tooltip":"You already did that."},
 					{"choice": "Browse her wares", "key": "shop"},
 					{"choice": "Talk", "key": "talk"},
-					{"choice": "Leave", "key": "leave"}
+					{"choice": "Leave", "key": "leave", "type":"back"}
 				],
 				"branches": {
 					"rest": [
-						{"type": "text", "text": "She points you toward a cot near the fire.\n\n\"Lie down. You've earned it.\"", "clear": false},
+						{"type": "set_var", "vars": {"cabin_rest_done": {"set": 1}}},
+						{"type": "text", "text": "She points you toward a cot near the fire.\n\n\"Lie down. You've earned it.\"", "clear": true},
 						{"type": "sfx", "sound": "heal"},
 						{"type": "effect", "effect": {"type": "heal",       "amount": 9999}},
 						{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
@@ -652,9 +684,9 @@
 						{"type": "event", "event": "cabin_witch_choices"}
 					],
 					"shop": [
-						{"type": "shop", "name": "Marta's Remedies", "shop": {
+						{"type": "shop", "name": "Apple Witch's Stock", "shop": {
 							"ShopType": "Item",
-							"WelcomeText": "She gestures to a row of stoppered bottles on the shelf.\n\n\"Apple cider for what ails you — pressed it myself.\"\n\"Won't find better prices out here.\"\n\n\"So, what do you need?\"",
+							"WelcomeText": "She gestures to a row of stoppered bottles on the shelf.\n\n\"Remedies brewed from the woods themselves — mixed them myself.\"\n\n\"Help yourself, for a price.\"",
 							"OtherText": ["\"Take care of yourself out there.\"", "\"The woods don't forgive the unprepared.\""],
 							"ambience": ["\"See anything you like?\"", "\"I've got plenty more in the cellar, don't worry.\""],
 							"Stock": {
@@ -667,13 +699,434 @@
 						{"type": "event", "event": "cabin_witch_choices"}
 					],
 					"talk": [
-						{"type": "text", "text": "She stirs something on the fire without looking up.\n\n\"You're headed deeper in, aren't you.\"\n\nIt isn't a question.", "clear": false},
-						{"type": "text", "text": "\"The creature in these woods was a man, once. A hunter. He came here to kill a beast and found himself becoming one instead.\"\n\n\"Silver.\" She taps the spoon against the pot. \"That's what you want, if you mean to face it. Silver doesn't lie.\"", "clear": false},
+						{"type": "set_var", "vars": {"cabin_talk_done": {"set": 1}}},
+						{"type": "text", "text": "She stirs something on the fire without looking up.\n\n\"You're looking to cross the woods, aren't you.\"\n\nIt isn't a question.", "clear": true},
+						{"type": "text", "text": "\"Beware, a Werewolf roams these woods.\"\n\n\"A man, once. A hunter.\" She taps the spoon against the pot. \"Beware that you do not become his prey, or follow in his fate.\"", "clear": false},
 						{"type": "event", "event": "cabin_witch_choices"}
 					],
-					"leave": [
+					"leave":    [
+						{"type": "set_backdrop", "backdrop": "apple_cabin.png"},
 						{"type": "text", "text": "\"Mind yourself out there,\" she calls after you.", "clear": false, "no_wait": true},
-						{"type": "exit_node", "exit": {"leads_to": "FOREST", "travel_text": "You step back into the cool forest air, the warmth of the cottage fading behind you."}}
+						{"type": "show_node_text", "clear":false},
+						{"type":"show_node_actions"}
+					]
+				}
+			}
+		]
+	},
+
+	"bask_light": {
+		"steps": [
+			{"type": "text", "text": "You bask in the light emanating from the caves...\n[wait=0.1]...[wait=0.1]", "clear": true, "no_continue":true},
+			{"type": "sfx", "sound": "heal"},
+			{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
+			{"type": "text", "text": "Your mind clears.\nMP restored by [color=teal]10[/color].", "clear": false},
+			{"type": "show_node"}
+		]
+	},
+
+	"cultist_sermon": {
+		"repeatable": false,
+		"steps": [
+			{"type": "set_var", "vars": {"found_cult": {"set": 1}}},
+			{"type": "text", "text": "A voice carries from within — clear and measured. You move closer.\n\nA woman in white and gold robes stands at the centre of the chamber, arms raised toward the glowing ceiling. Robed figures fill the space around her, heads bowed.\n\n'The light does not give itself freely,' she says. 'It must be earned. Through offering. Through devotion. Through sacrifice willingly made.'\n\nHer eyes are closed. She has not seen you.", "clear": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Slip away quietly", "key": "flee"},
+					{"choice": "Step forward and challenge her", "key": "challenge"},
+					{"choice": "Step forward and listen", "key": "listen"}
+				],
+				"branches": {
+					"flee": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 4, "stat_weights": {"agi": 1},
+								"steps": [
+									{"type": "text", "text": "You ease yourself back, step by careful step. The voice continues unbroken. She never stops speaking.\n\nYou're out before anyone turns.", "clear": true},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 6,
+								"steps": [
+									{"type": "text", "text": "You shift your weight to go — and your shadow falls across the chamber floor. Torchlight does not forgive carelessness.\n\n'Hold.'\n\nOne of the robed figures turns.", "clear": true, "no_wait": true},
+									{"type": "combat", "enemy": "Cultist",
+										"on_victory": [
+											{"type": "text", "text": "The others don't follow. From deeper within the passage, the chanting resumes — undisturbed.", "clear": true},
+											{"type": "show_node"}
+										]
+									}
+								]
+							}
+						]}
+					],
+					"challenge": [
+						{"type": "text", "text": "You step into the chamber. The congregation stirs — but no one moves.\n\nMother Orielli lowers her arms slowly and turns. She regards you for a moment. Then, almost gently:\n\n'A heretic.'\n\n'Remove them.'", "clear": true, "no_wait": true},
+						{"type": "combat", "enemy": "Cult Leader",
+							"on_victory": [
+								{"type": "text", "text": "Mother Orielli does not rise. The remaining cultists scatter without a word — into side passages, into the dark, gone before you can count them.\n\nThe sanctum is silent.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"listen": [
+						{"type": "text", "text": "You step into the chamber. The congregation parts. Orielli lowers her arms and opens her eyes.\n\nShe studies you with the unhurried attention of someone accustomed to reading people.\n\n'You are not lost,' she says. 'You came here with purpose.'\n\nShe steps forward. 'The light is generous to those who receive it willingly. Kneel, and I will bless you. You may leave this place unharmed.'", "clear": true},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Kneel", "key": "kneel"},
+								{"choice": "Decline and back away", "key": "decline"}
+							],
+							"branches": {
+								"kneel": [
+									{"type": "text", "text": "You kneel. Orielli places one hand on your head.\n\nThe warmth of the cave crystallises — not metaphorically. Something real passes through her touch, reaching all the way down.", "clear": true, "no_continue": true},
+									{"type": "sfx", "sound": "heal"},
+									{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+									{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+									{"type": "set_var", "vars": {"joined_cult": {"set": 1}}},
+									{"type": "text", "text": "[color=green]HP and MP fully restored.[/color]\n\n'Rise, initiate.'\n\nShe has already turned back to her congregation. The cultists do not move as you leave.", "clear": false},
+									{"type": "show_node"}
+								],
+								"decline": [
+									{"type": "text", "text": "'I appreciate the offer.'\n\nA pause. Orielli's expression does not change.\n\n'Then go. The light will find you in its own time.'\n\nThe congregation parts. No one follows.", "clear": true},
+									{"type": "show_node"}
+								]
+							}
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"cultist_patrol": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Chanting drifts through the passage ahead — low and rhythmic. A moment later, torchlight rounds the corner. Two robed figures move in step through the tunnel, eyes forward.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Hide and wait", "key": "hide"},
+					{"choice": "Follow them", "key": "follow"},
+					{"choice": "Confront them", "key": "confront"}
+				],
+				"branches": {
+					"hide": [
+						{"type": "text", "text": "You press into the shadows. They pass close — close enough to hear.", "clear": true, "no_continue": true},
+						{"type": "text", "text": "\"...the offering must be consecrated before moonrise. The Leader will not wait.\"\n\n\"And the beast?\"\n\n\"It guards the exit. Once the ritual is complete, we won't need it anymore.\"\n\nTheir torchlight dwindles. You wait until the last echo of their footsteps fades before moving again.", "clear": false},
+						{"type": "show_node"}
+					],
+					"follow": [
+						{"type": "text", "text": "You trail them at a distance, keeping close to the wall.", "clear": false, "no_wait": true},
+						{"type": "if", "condition": {"cultist_sermon": false},
+							"then": [
+								{"type": "text", "text": "Two bends. A low arch. You match their pace without a sound.\n\nThe passage opens. The air smells of incense and warm stone.", "clear": true},
+								{"type": "exit_node", "exit": {"leads_to": "FOLLOW", "travel_text": "You slip in behind them, keeping to the wall. You've found where they were going."}}
+							],
+							"else": [
+								{"type": "text", "text": "You round the first bend — and your foot finds a loose stone. The sound is small. The tunnel is not.\n\nBoth figures turn.", "clear": true, "no_wait": true},
+								{"type": "combat", "enemy": "Cultist",
+									"on_victory": [
+										{"type": "text", "text": "The second cultist fled the moment the fight started. Their footsteps were gone before you were finished.", "clear": true},
+										{"type": "show_node"}
+									]
+								}
+							]
+						}
+					],
+					"confront": [
+						{"type": "text", "text": "You step out of the shadows. The chanting stops.\n\nBoth figures turn. Then the nearest one reaches beneath their robes.\n\n\"Another fool who wandered too deep.\"", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Cultist",
+							"on_victory": [
+								{"type": "text", "text": "The other cultist broke and ran before it was over. You search the one who didn't — robes, a blade, a leather pouch.", "clear": true},
+								{"type": "sfx", "sound": "chest_open"},
+								{"type": "give_gold", "amount": 30},
+								{"type": "text", "text": "You count out [color=yellow]30G[/color].", "clear": false},
+								{"type": "show_node"}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"altar_offering": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The altar radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Make an offering (30G)", "key": "offer", "condition": {"gold": {"min": 30}}, "disabled_tooltip": "Not enough gold (need 30G)"},
+					{"choice": "Leave", "key": "leave"}
+				],
+				"branches": {
+					"offer": [
+						{"type": "give_gold", "amount": -30},
+						{"type": "text", "text": "You place 30G in the basin. The coins catch the crystal light — then the glow intensifies, warm and steady, filling the chamber.\n\nWhen it fades, something rests where your offering was.", "clear": true, "no_continue": true},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Book of Heal"},
+						{"type": "text", "text": "You found the [color=green]Book of Heal[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the altar undisturbed and press on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"bat_roost": {
+		"steps": [
+			{"type": "text", "text": "A cluster of Vampire Bats hangs from a low overhang just ahead, wings folded tight, eyes glinting in the crystal light.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Back away slowly", "key": "back"},
+					{"choice": "Toss a stone past them", "key": "distract"},
+					{"choice": "Charge through", "key": "charge"}
+				],
+				"branches": {
+					"back": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 5, "stat_weights": {"agi": 1},
+								"steps": [
+									{"type": "text", "text": "You ease backward, footstep by footstep. The bats shift and resettle. You find another way around.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 5,
+								"steps": [
+									{"type": "text", "text": "A loose stone catches your heel. The sound is enough.", "clear": false, "no_wait": true},
+									{"type": "combat", "enemy": "Vampire Bat",
+										"on_victory": [{"type": "show_node"}]
+									}
+								]
+							}
+						]}
+					],
+					"distract": [
+						{"type": "text", "text": "You palm a loose stone and pitch it far down the passage. It clatters — and the roost erupts. Shapes scatter into the dark. You duck and push through.", "clear": false},
+						{"type": "show_node"}
+					],
+					"charge": [
+						{"type": "text", "text": "You lower your head and run straight through. Wings beat around you from every direction —", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Vampire Bat",
+							"on_victory": [{"type": "show_node"}]
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"crystal_cluster": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A cluster of loose crystals juts from a crack in the wall — dislodged by some old tremor, glowing faintly where they broke away from the stone.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Pocket a crystal", "key": "pocket"},
+					{"choice": "Smash it open", "key": "smash"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"pocket": [
+						{"type": "text", "text": "You work one of the larger crystals free. It's warm in your hand, heavier than it looks.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_gold", "amount": 40},
+						{"type": "text", "text": "Pocketed. [color=yellow]+40G[/color] when sold.", "clear": false},
+						{"type": "show_node"}
+					],
+					"smash": [
+						{"type": "text", "text": "You strike the cluster sharply. The formation shatters outward.", "clear": false, "no_wait": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "A small hollow inside the crystal — something preserved within the stone.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Ether"},
+									{"type": "text", "text": "You found an [color=teal]Ether[/color].", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 7,
+								"steps": [
+									{"type": "text", "text": "A shard catches your hand on the way out.", "clear": false, "no_continue": true},
+									{"type": "sfx", "sound": "poison"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 8}},
+									{"type": "text", "text": "[instant]Lost [color=red]8[/color] HP.[/instant]", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the crystals where they are.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"cave_lost": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The tunnels blur together. The same crystals. The same shadows. The same glow from every direction at once.\n\nYou've lost track of where you came from.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Follow the light", "key": "light"},
+					{"choice": "Retrace your steps", "key": "retrace"},
+					{"choice": "Keep moving", "key": "move"}
+				],
+				"branches": {
+					"light": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 5, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "The crystals pulse slightly brighter in one direction. Maybe you imagined it. Either way, you follow — and the passage opens ahead.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 5,
+								"steps": [
+									{"type": "text", "text": "The crystals lead you in a wide circle. You emerge from the wrong direction, wasting precious time.", "clear": false},
+									{"type": "exit_node", "exit": {"leads_to": "TUNNEL", "travel_text": "You retrace your steps, unsure how much ground you've lost.", "value": 0}}
+								]
+							}
+						]}
+					],
+					"retrace": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 5, "stat_weights": {"dex": 1},
+								"steps": [
+									{"type": "text", "text": "You note the scuffs in the dust, the faint impressions in the grit. Slowly, the path resolves.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 5,
+								"steps": [
+									{"type": "text", "text": "The stone floor gives nothing away. Every passage looks identical in both directions.", "clear": false},
+									{"type": "exit_node", "exit": {"leads_to": "TUNNEL", "travel_text": "You pick a direction and commit to it, hoping to find something familiar.", "value": 0}}
+								]
+							}
+						]}
+					],
+					"move": [
+						{"type": "text", "text": "You pick a direction and walk.", "clear": false, "no_wait": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "After a long while, the passage opens somewhere new. Not ideal, but somewhere.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 7,
+								"steps": [
+									{"type": "text", "text": "You walk for what feels like an hour and find nothing useful. You double back, worn out.", "clear": false, "no_continue": true},
+									{"type": "sfx", "sound": "poison"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 10}},
+									{"type": "text", "text": "[instant]Lost [color=red]10[/color] HP from exhaustion.[/instant]", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					]
+				}
+			}
+		]
+	},
+
+	"renegade_pack": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Something catches your eye near the base of the wall — a battered canvas pack, half-buried under loose stone. Whoever left it here didn't come back for it.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "Search it?",
+				"choices": [
+					{"choice": "Yes", "key": "yes"},
+					{"choice": "Leave it", "key": "no"}
+				],
+				"branches": {
+					"yes": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 4, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "Beneath a torn bedroll: a battered coin pouch.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_gold", "amount": 50},
+									{"type": "text", "text": "You count out [color=yellow]50G[/color].", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "Rolled inside a spare shirt: a small bottle, still sealed.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Medicine"},
+									{"type": "text", "text": "You found a [color=green]Medicine[/color].", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "Dust, torn cloth, a snapped blade. Whoever owned this left in a hurry — or didn't leave at all.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"no": [
+						{"type": "text", "text": "You leave it where it is.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"wounded_spirit": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Something drifts near the surface of the spring — pale and flickering, circling in the crystal light. A Restless Spirit. But it isn't moving toward you. It moves as if confused, or searching.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Speak to it", "key": "speak"},
+					{"choice": "Strike first", "key": "strike"},
+					{"choice": "Leave it alone", "key": "leave"}
+				],
+				"branches": {
+					"speak": [
+						{"type": "text", "text": "You speak quietly. It stops circling.\n\nFor a moment, nothing — then something passes between you. Not words. An impression of torchlight. Robed figures. A blade.\n\nThen it dissolves, scattering across the surface of the spring and vanishing into the stone.", "clear": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 15}},
+						{"type": "text", "text": "Something lingers in the air — a faint warmth.\n[color=teal]MP +15[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"strike": [
+						{"type": "text", "text": "You don't wait to find out what it wants.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Restless Spirit",
+							"on_victory": [
+								{"type": "text", "text": "The spirit unravels. The spring is still.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"leave": [
+						{"type": "text", "text": "You give it a wide berth and move on. It doesn't follow.", "clear": false},
+						{"type": "show_node"}
 					]
 				}
 			}
