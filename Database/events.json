@@ -1,4 +1,4 @@
-{
+﻿{
 	"region_treasure_chest": {
 		"steps": [
 			{"type": "text", "text": "You find a treasure chest.", "clear": false},
@@ -947,8 +947,8 @@
 								"steps": [
 									{"type": "text", "text": "A small hollow inside the crystal — something preserved within the stone.", "clear": false},
 									{"type": "sfx", "sound": "chest_open"},
-									{"type": "give_item", "item": "Ether"},
-									{"type": "text", "text": "You found an [color=teal]Ether[/color].", "clear": false},
+									{"type": "give_item", "item": "Lifespark Crystal"},
+									{"type": "text", "text": "You found a [color=teal]Lifespark Crystal[/color].", "clear": false},
 									{"type": "show_node"}
 								]
 							},
@@ -997,7 +997,7 @@
 								"weight": 5,
 								"steps": [
 									{"type": "text", "text": "The crystals lead you in a wide circle. You emerge from the wrong direction, wasting precious time.", "clear": false},
-									{"type": "exit_node", "exit": {"leads_to": "TUNNEL", "travel_text": "You retrace your steps, unsure how much ground you've lost.", "value": 0}}
+									{"type": "exit_node", "exit": {"leads_to": "TUNNEL", "travel_text": "You retrace your steps, unsure how much ground you've lost.", "value": -2}}
 								]
 							}
 						]}
@@ -1035,8 +1035,8 @@
 								"steps": [
 									{"type": "text", "text": "You walk for what feels like an hour and find nothing useful. You double back, worn out.", "clear": false, "no_continue": true},
 									{"type": "sfx", "sound": "poison"},
-									{"type": "effect", "effect": {"type": "damage", "amount": 10}},
-									{"type": "text", "text": "[instant]Lost [color=red]10[/color] HP from exhaustion.[/instant]", "clear": false},
+									{"type": "effect", "effect": {"type": "damage", "amount": 3}},
+									{"type": "text", "text": "[instant]Lost [color=red]3[/color] HP from exhaustion.[/instant]", "clear": false},
 									{"type": "show_node"}
 								]
 							}
@@ -1126,6 +1126,601 @@
 					],
 					"leave": [
 						{"type": "text", "text": "You give it a wide berth and move on. It doesn't follow.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_old_bonfire": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Half-buried in dust, an old campfire sits in a shallow depression between cracked stones.\n\nSomeone camped here before you. The bedroll is still spread, the pack left open. They either moved on quickly or didn't move on at all.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Rest at the camp", "key": "rest"},
+					{"choice": "Move on", "key": "leave"}
+				],
+				"branches": {
+					"rest": [
+						{"type": "text", "text": "You settle in and close your eyes.\n\nSleep comes reluctantly, broken by the plateau's quiet sounds — wind, dry earth, something distant.\n\nYou wake stiff, but steadier.", "clear": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+						{"type": "text", "text": "[color=green]HP and MP fully restored.[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the camp undisturbed and press on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_cracked_earth": {
+		"steps": [
+			{"type": "text", "text": "A wide crevice splits the ground ahead — deeper than it looks, swallowed by the dark before you can see the bottom.", "clear": false},
+			{"type": "text", "text": "You crouch and look down...\n[wait=0.1]...[wait=0.1]", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Nothing down there worth the trouble. Just loose stone and silence.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Old coins are wedged in the stone near the lip — scattered, as though dropped in a hurry.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_gold", "amount": 20},
+						{"type": "text", "text": "You pry them out. [color=yellow]20G[/color].", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "A hand seizes your ankle from below.\n\nA Zombie — buried just under the rim, skin grey and dry.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Zombie",
+							"on_victory": [
+								{"type": "text", "text": "The grip goes slack. You pull away and steady yourself.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "Something glints far down in the crack. You fish it out with care.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Potion"},
+						{"type": "text", "text": "A [color=green]Potion[/color], still sealed.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"sundown_scavenger_remains": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Half-buried in the cracked earth: a leather pack, a pair of boots, and what's left of whoever wore them.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Search the remains", "key": "search"},
+					{"choice": "Leave them be", "key": "leave"}
+				],
+				"branches": {
+					"search": [
+						{"type": "text", "text": "Inside the pack: a folded journal, the later pages stiff with dried water.\n\nYou can still make out a few entries:\n\n[color=gray]\"...the plateau is as desolate as they said. Found the mausoleum.\"[/color]", "clear": true},
+						{"type": "text", "text": "[color=gray]\"Descended into the catacombs this morning. There are symbols I haven't seen before — not funerary, not ceremonial. Something older.\"[/color]", "clear": false},
+						{"type": "text", "text": "[color=gray]\"Reached a circular chamber. The floor pulses. I don't think this place was a tomb.\"[/color]\n\nThe last entry trails off into nothing.", "clear": false},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Potion"},
+									{"type": "text", "text": "Beneath the journal: a [color=green]Potion[/color], still good.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Ether"},
+									{"type": "text", "text": "Beneath the journal: an [color=teal]Ether[/color], intact.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave them where they fell.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_altar_event": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, carved with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Read the symbols", "key": "read"},
+					{"choice": "Make an offering (20 HP)", "key": "offer"},
+					{"choice": "Smash it", "key": "smash"},
+					{"choice": "Leave it alone", "key": "leave"}
+				],
+				"branches": {
+					"read": [
+						{"type": "text", "text": "The symbols describe a rite — not worship, but a transaction.\n\nA circle drawn in salt. Bones arranged by the number of the dead. The living giving to the unliving, and something given back.\n\nYou recognize the word for [color=gray]passage[/color]. And the word for [color=gray]command[/color].", "clear": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
+						{"type": "text", "text": "Understanding the ritual leaves a cold clarity in your mind.\n[color=teal]MP +10[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"offer": [
+						{"type": "effect", "effect": {"type": "damage", "amount": 20}},
+						{"type": "text", "text": "You press your hand to the stone. The symbols flare cold — not warm — and something pulls at you, brief and deep.\n\nWhen it lets go, something rests on the altar that wasn't there before.", "clear": true},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Lifespark Crystal"},
+						{"type": "text", "text": "You took [color=red]20 damage[/color].\nYou found a [color=yellow]Lifespark Crystal[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"smash": [
+						{"type": "text", "text": "You bring your weight down on the altar. Stone chips and the spiral cracks through the centre.\n\nThe ground shifts.", "clear": true, "no_wait": true},
+						{"type": "combat", "enemy": "Zombie",
+							"on_victory": [
+								{"type": "text", "text": "The noise disturbed something. The plateau grows quiet again.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the altar as you found it and move on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_grave_search": {
+		"steps": [
+			{"type": "text", "text": "You wander deeper into the rows, the headstones closer together here, many broken or sunk at angles into the earth.", "clear": false},
+			{"type": "text", "text": "You search among them...\n[wait=0.1]...[wait=0.1]", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Nothing here but old bones and silence. The ground holds its secrets.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "A small offering sits on one of the graves — placed carefully, recently.\n\nSomething left it.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Potion"},
+						{"type": "text", "text": "You take the [color=green]Potion[/color].", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "The earth buckles.\n\nA Zombie heaves itself upright, soil raining from its frame, empty eyes fixing on you.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Zombie",
+							"on_victory": [
+								{"type": "text", "text": "It collapses back into the disturbed earth. The graveyard is still.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "One grave sits slightly raised — the earth displaced, not by rot, but by something buried beneath the body.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Ether"},
+						{"type": "give_gold", "amount": 30},
+						{"type": "text", "text": "A hidden cache: an [color=teal]Ether[/color] and [color=yellow]30G[/color].", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"sundown_ghost_encounter": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "One grave in the far corner has no stone — just a worn wooden stake in the ground. A pale shape drifts near it, not moving toward you.", "clear": false},
+			{"type": "text", "text": "A Ghost. But it isn't watching you. It moves as if it's looking for something it can't find.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Speak to it", "key": "speak"},
+					{"choice": "Help it pass on", "key": "help"},
+					{"choice": "Attack", "key": "attack"},
+					{"choice": "Leave it alone", "key": "leave"}
+				],
+				"branches": {
+					"speak": [
+						{"type": "text", "text": "You say nothing — just stand still and let it know you're there.\n\nIt stops.\n\nFor a moment, nothing. Then something passes between you: not words, but impression. Firelight. Crowded houses. Then darkness spreading fast across everything — and figures moving through it, arms outstretched.", "clear": true},
+						{"type": "text", "text": "Then silence. The shape dissolves slowly, scattering across the graves like fog.\n\nSomething lingers in the air — faint, warm.", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 15}},
+						{"type": "text", "text": "[color=teal]MP +15[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"help": [
+						{"type": "text", "text": "You approach slowly and crouch near the wooden stake. The name carved into it is almost gone.\n\nYou speak it aloud.\n\nThe ghost stills. Then, very quietly, it fades — not dissolving, just... going.", "clear": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "give_item", "item": "Medicine"},
+						{"type": "text", "text": "Something left behind, resting near the stake: [color=green]Medicine[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"attack": [
+						{"type": "text", "text": "You don't wait to find out what it wants.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Ghost",
+							"on_victory": [
+								{"type": "text", "text": "The ghost unravels. The grave is still.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"leave": [
+						{"type": "text", "text": "You give it a wide berth and move on. It doesn't follow.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_headstone": {
+		"steps": [
+			{"type": "text", "text": "One headstone catches your eye — older than the others, its inscription still partially legible.", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Here lies Maren Holt.\nKindly, and before her time.\"[/color]\n\nThe date is worn away.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "You lean in:\n\n[color=gray]\"Aldric Voss — Soldier, Father.\nMay he keep the long watch.\"[/color]\n\nThe epitaph feels like it was written before all this.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"steps": [
+						{"type": "text", "text": "You touch the stone. The cold hits you sharper than the air should allow — a pulse of something wrong moves up your arm and through your chest.", "clear": false},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "text", "text": "[color=red]-5 HP[/color]", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "The base of the stone is loose. You wiggle it free and find a small hollow carved beneath.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_gold", "amount": 15},
+						{"type": "text", "text": "[color=yellow]15G[/color] hidden in the stone. Someone planned ahead.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"sundown_edge_look": {
+		"steps": [
+			{"type": "text", "text": "You move to the rim and look over.\n\nThe drop is sheer — the bottom, if there is one, is swallowed entirely by dark.", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 4,
+					"steps": [
+						{"type": "text", "text": "Wind rises from below, cold and dry. Nothing else.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Far down, something pale shifts in the darkness. Then it begins to rise.\n\nA Ghost, climbing toward you on the updraft.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Ghost",
+							"on_victory": [
+								{"type": "text", "text": "The ghost scatters into the dark below.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 1,
+					"steps": [
+						{"type": "text", "text": "Something catches the light far below — an outcropping with a shape that doesn't belong there. Something left, or dropped.\n\nThere's a ledge just low enough to reach.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"sundown_ledge_cache": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A worn pack is wedged into a rocky ledge just below the rim. You can see it clearly — whoever left it didn't do so on purpose.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Reach for it carefully", "key": "reach"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"reach": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2, "stat_weights": {"dex": 1},
+								"steps": [
+									{"type": "text", "text": "You lower yourself along the face and hook the pack with steady hands.\n\nSomething valuable inside — worth the reach.", "clear": true},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Lifespark Crystal"},
+									{"type": "text", "text": "You found a [color=yellow]Lifespark Crystal[/color].", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "Your footing slips. You catch yourself on the rim, but the jolt rattles you hard.", "clear": true},
+									{"type": "effect", "effect": {"type": "damage", "amount": 20}},
+									{"type": "text", "text": "You took [color=red]20 damage[/color] in the fall.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "Not worth the risk. You step back from the edge.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_bones_in_wall": {
+		"steps": [
+			{"type": "text", "text": "The tunnel walls here are different — the stone is shaped around them, deliberately. Bones set into the masonry. Hundreds of them.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Examine the wall", "key": "examine"},
+					{"choice": "Press on", "key": "leave"}
+				],
+				"branches": {
+					"examine": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "The craftsmanship is deliberate — these were placed one by one, arranged by size. Whoever built this knew what they were doing.\n\nAmong the bones, something small catches your eye: a ring, worn and plain.", "clear": true},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_gold", "amount": 10},
+									{"type": "text", "text": "You pocket it. [color=yellow]10G[/color] value, roughly.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "The bones are old — very old. The people interred here died long before anything else on this plateau.\n\nThis place was a proper catacomb once, before someone decided to use it for something else.", "clear": true},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "You press your hand to the wall to steady yourself — and a loose section gives way. Bones clatter to the floor.\n\nSomething stirs in the dark ahead.", "clear": true, "no_wait": true},
+									{"type": "combat", "enemy": "Zombie",
+										"on_victory": [
+											{"type": "text", "text": "The tunnel settles back into silence.", "clear": true},
+											{"type": "show_node"}
+										]
+									}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_tunnel_seep": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "You track a faint dripping sound to a thin seam in the stone wall — water pressing through the rock in slow, steady drops.\n\nIt collects in a shallow hollow at the base.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Drink from it", "key": "drink"},
+					{"choice": "Ignore it", "key": "leave"}
+				],
+				"branches": {
+					"drink": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "Cold and clean — surprisingly so. You drink deeply.", "clear": true},
+									{"type": "sfx", "sound": "heal"},
+									{"type": "effect", "effect": {"type": "heal", "amount": 20}},
+									{"type": "text", "text": "[color=green]Healed 20 HP.[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "The water is cool and faintly luminous — something mineral in it that eases the mind.", "clear": true},
+									{"type": "sfx", "sound": "heal"},
+									{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
+									{"type": "text", "text": "[color=teal]MP +10.[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "The taste is wrong — metallic, with a bitterness that spreads fast. You spit it out but the damage is done.", "clear": true},
+									{"type": "effect", "effect": {"type": "damage", "amount": 10}},
+									{"type": "text", "text": "You took [color=red]10 damage[/color]. Tainted water.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave it and press on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_fork_markings": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "At the junction, the walls are covered in carved marks — not decoration. Instructions, or a record.", "clear": false},
+			{"type": "text", "text": "You trace the symbols with your eyes. The same spiral script from the altar above. Most of it is worn away, but a few lines remain:\n\n[color=gray]\"...the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given.\"[/color]", "clear": false},
+			{"type": "text", "text": "Whoever carved this left it as a warning. Or an instruction.", "clear": false},
+			{"type": "show_node"}
+		]
+	},
+	"sundown_sanctum_discovery": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The chamber opens suddenly — circular, much larger than the tunnels suggested. Stone pillars ring the walls, their surfaces carved floor to ceiling in the same spiral script.\n\nIn the centre: a ring of bones, arranged with care. And within it, the floor itself pulses — a slow, dim glow pressing up through the cracks.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Study the symbols", "key": "study"},
+					{"choice": "Touch the glowing floor", "key": "touch"},
+					{"choice": "Disturb the arrangement", "key": "disturb"},
+					{"choice": "Leave quickly", "key": "leave"}
+				],
+				"branches": {
+					"study": [
+						{"type": "text", "text": "You move around the pillars, reading what you can.\n\nA name appears repeatedly: [color=gray]Verath[/color]. Scholar. Then later, [color=gray]Archon[/color].\n\nThe record describes a progression — study, then experimentation, then the rite itself. Verath came here to learn from the old dead. They left having learned to command them.", "clear": true},
+						{"type": "text", "text": "The last inscription is different in tone:\n\n[color=gray]\"The plateau gives what is asked. The dead wake and hold their shape.\nThe question I cannot answer is whether they remember.\"[/color]", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 20}},
+						{"type": "text", "text": "The knowledge settles in your mind like cold water.\n[color=teal]MP +20[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"touch": [
+						{"type": "text", "text": "You step into the circle and press your palm to the glowing floor.\n\nThe warmth is immediate — but wrong. It pulls at something in you, testing.", "clear": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "Whatever it was looking for, it finds it. A deep resonance moves through you and then stills.", "clear": false},
+									{"type": "sfx", "sound": "heal"},
+									{"type": "modify_stat", "stats": {"mp": 5}},
+									{"type": "text", "text": "You feel permanently changed — something opened.\n[color=teal]Max MP +5[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "The glow erupts. The bones in the circle rattle and fuse.\n\nSomething pulls itself upright at the centre of the chamber.", "clear": true, "no_wait": true},
+									{"type": "combat", "enemy": "Abomination",
+										"on_victory": [
+											{"type": "text", "text": "The mass collapses. The glow dims to nothing. The sanctum is still.", "clear": true},
+											{"type": "show_node"}
+										]
+									}
+								]
+							}
+						]}
+					],
+					"disturb": [
+						{"type": "text", "text": "You drag your foot through the ring of bones, scattering them.\n\nThe glow surges.", "clear": true, "no_wait": true},
+						{"type": "combat", "enemy": "Abomination",
+							"on_victory": [
+								{"type": "text", "text": "The mass falls apart. The chamber grows dark and quiet.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"leave": [
+						{"type": "text", "text": "You back away from the circle and leave the sanctum as you found it.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"sundown_rubble_dig": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The tunnel ends in a collapse — ceiling and walls giving way into a wall of loose stone and old timber.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Dig through the rubble", "key": "dig"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"dig": [
+						{"type": "text", "text": "You work through the rubble — stone by stone, careful not to bring more down.", "clear": false},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2, "stat_weights": {"str": 1},
+								"steps": [
+									{"type": "text", "text": "Behind the collapse, a small alcove. Shelved, like a storage niche — whatever it was for, someone stocked it.", "clear": true},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "random", "outcomes": [
+										{
+											"weight": 1,
+											"steps": [
+												{"type": "give_item", "item": "Bomb"},
+												{"type": "text", "text": "You found a [color=red]Bomb[/color].", "clear": false},
+												{"type": "show_node"}
+											]
+										},
+										{
+											"weight": 1,
+											"steps": [
+												{"type": "give_item", "item": "Ether"},
+												{"type": "text", "text": "You found an [color=teal]Ether[/color].", "clear": false},
+												{"type": "show_node"}
+											]
+										}
+									]}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "You dig until your arms ache. Nothing back there — just more stone, and more collapse beyond.", "clear": true},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You turn back.", "clear": false},
 						{"type": "show_node"}
 					]
 				}

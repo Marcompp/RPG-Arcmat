@@ -751,6 +751,11 @@
 			  { "text": "A faint wind carries dust across the plateau, whispering over the barren land." },
 			  { "text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.", "chance": 0.5 }
 			],
+			"events": [
+			  {"chance": 0.35, "event": "sundown_cracked_earth"},
+			  {"chance": 0.5, "event": "sundown_old_bonfire"},
+			  {"chance": 0.45, "event": "sundown_scavenger_remains"}
+			],
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant." },
@@ -803,6 +808,10 @@
 			  { "text": "Dust drifts through the air with every step." },
 			  { "text": "Faint echoes suggest you are not alone.", "chance": 0.5 }
 			],
+			"events": [
+			  {"chance": 0.4, "event": "sundown_bones_in_wall"},
+			  {"chance": 0.4, "event": "sundown_tunnel_seep"}
+			],
 			"exits": [
 			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
 			]
@@ -822,6 +831,9 @@
 			"description": [
 			  { "text": "Both tunnels look equally worn, their stones marked by age." },
 			  { "text": "A faint draft moves through one of the passages." }
+			],
+			"events": [
+			  {"chance": 0.55, "event": "sundown_fork_markings"}
 			],
 			"exits": [
 			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
@@ -844,6 +856,9 @@
 			  { "text": "Stone pillars ring the chamber, their surfaces etched with worn symbols." },
 			  { "text": "A faint glow seeps up from cracks in the floor." },
 			  { "text": "The air hums with lingering magic.", "chance": 0.6 }
+			],
+			"events": [
+			  {"chance": 1, "event": "sundown_sanctum_discovery"}
 			],
 			"exits": [
 			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
@@ -868,6 +883,9 @@
 			  { "text": "Offerings—now little more than dust—rest at its base." },
 			  { "text": "You feel a faint unease standing here.", "chance": 0.5 }
 			],
+			"events": [
+			  {"chance": 1, "event": "sundown_altar_event"}
+			],
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You move left across the plateau, leaving the altar standing alone behind you." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on past the altar, continuing across the barren expanse." },
@@ -876,6 +894,7 @@
 		  },
 		  {
 			"name": "Edge of the Plateau",
+			"backdrop": "sundown_edge.png",
 			"entrances": ["SURFACE", "EDGE"],
 			"arrival": {
 			  "SURFACE": [
@@ -892,6 +911,10 @@
 			  { "text": "Far below, darkness swallows the landscape." },
 			  { "text": "Loose stones tumble into the void when disturbed." },
 			  { "text": "A cold wind rises from below.", "chance": 0.5 }
+			],
+			"events": [
+			  {"chance": 0.4, "event": "sundown_edge_look"},
+			  {"chance": 0.5, "event": "sundown_ledge_cache"}
 			],
 			"exits": [
 			  { "choice": "Follow the edge", "leads_to": "EDGE", "value": 1, "travel_text": "You move along the rim, the sheer drop always close at your side." },
@@ -914,6 +937,11 @@
 			  { "text": "The graves are old, many broken or sunken into the earth." },
 			  { "text": "The ground feels disturbed in places." },
 			  { "text": "For a moment, you think something moved beneath the soil.", "chance": 0.5 }
+			],
+			"events": [
+			  {"chance": 0.4, "event": "sundown_grave_search"},
+			  {"chance": 0.45, "event": "sundown_ghost_encounter"},
+			  {"chance": 0.3, "event": "sundown_headstone"}
 			],
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You weave between the headstones and move left, leaving the graveyard behind." },
@@ -938,6 +966,9 @@
 			"description": [
 			  { "text": "Loose rubble blocks the way forward." },
 			  { "text": "The silence here feels suffocating." }
+			],
+			"events": [
+			  {"chance": 1, "event": "sundown_rubble_dig"}
 			],
 			"exits": [
 			  { "choice": "Turn back", "leads_to": "CATACOMB", "value": 0, "travel_text": "You turn back into the tunnel, your footsteps retreating the way you came." }
@@ -997,6 +1028,7 @@
 	  },
 	  {
 		"name": "Mountain Cave",
+	  	"backdrop": "legory_cave.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"condition": {
 				"no_repeat":true
@@ -1056,6 +1088,7 @@
 	  },
 	  {
 		"name": "Summit",
+	  	"backdrop": "legory_summit.png",
 		"entrances": ["UP"],
 		"condition": {
 			"visit_count":{"max":0},
@@ -1082,6 +1115,7 @@
 	  },
 	  {
 		"name": "Ridge",
+	  	"backdrop": "legory_ridge.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"arrival": {
 		  "SKIRT": [
@@ -1110,6 +1144,7 @@
 	  },
 	  {
 		"name": "Archway",
+	  	"backdrop": "legory_arch.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"condition": {
 				"no_repeat":true
@@ -1122,7 +1157,7 @@
 			"You pass beneath a towering stone arch, its shadow offering brief shelter."
 		  ],
 		  "DOWN": [
-			"The arch looms ahead as you descend, framing the path forward."
+			"A stone arch looms ahead as you descend, framing the path forward."
 		  ],
 		  "default": [
 			"A natural stone arch rises from the mountainside here, worn smooth by centuries of wind and ice."
@@ -1138,7 +1173,30 @@
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You move out from beneath the arch and continue along the mountainside, circling wider." },
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend past the arch, moving carefully along the slope." }
 		]
-	  }
+	  },
+	  {
+		"name": "Cave Entrance",
+		  "type": "EXIT",
+	  	"backdrop": "legory_cave.png",
+		  "boss": "Icelady",
+		  "encounter_rate": 0,
+		"entrances": ["SKIRT", "UP", "DOWN"],
+		"condition": {
+				"no_repeat":true
+			},
+		"arrival": {
+		  "default": [
+			"You reach the entrance to a deep cave in the mountainside."
+		  ]
+		},
+		  "description": [
+			{ "text": "Hot air wafts out of the entrance." }
+		  ],
+
+		  "exits": [
+			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way inside, descending into the Core Caverns within." }
+		  ]
+		}
 	],
 	"Core Cavern": [
 	  {

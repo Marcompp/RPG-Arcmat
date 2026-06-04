@@ -174,10 +174,30 @@ func restart_player_choices():
 func next_turn():
 	start_player_turn()
 
+func _find_auto_revive_item() -> String:
+	var inv = player.get_inventory()
+	for item_name in inv:
+		if inv[item_name] > 0:
+			var data = items_db.get(item_name, {})
+			if data.get("effect", "") == "auto_revive":
+				return item_name
+	return ""
+
 func check_combat_end(need_wait = true):
 	if player.get_hp() <= 0:
-		await end_combat(false)
-		return
+		var revival_item = _find_auto_revive_item()
+		if revival_item != "":
+			player.consume_item(revival_item)
+			var data = items_db.get(revival_item, {})
+			var revive_pct = data.get("magnitude", 50)
+			var revive_hp = max(1, int(player.get_mhp() * revive_pct / 100.0))
+			player.heal(revive_hp)
+			var item_nome = data.get("nome", revival_item)
+			MyEventBus.emit("dialogue", { "text": "[color=yellow]The %s shattered! %s was revived with %d HP![/color]" % [item_nome, player.get_name(), revive_hp] })
+			await wait_for_continue()
+		else:
+			await end_combat(false)
+			return
 	if _living_indices().is_empty():
 		await end_combat(true)
 		return
@@ -293,6 +313,10 @@ func _build_action_choice(item_name: String, type: String, data) -> Variant:
 	var label    = data.get("nome", item_name)
 	var disabled = false
 	var tooltip  = ""
+
+	if data.get("effect", "") == "auto_revive":
+		disabled = true
+		tooltip  = "Activates automatically when HP reaches 0"
 
 	if data.has("cost"):
 		var cost = data["cost"]

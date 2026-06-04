@@ -215,6 +215,10 @@
 	"Element": "Light",
 	"Lvl": 6,
 	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Dex":"D","Agi":"E","Lck":"B","Def":"E"},
+	"TrueStats":{
+		"HP": 30,
+		"MP": 30,
+	},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
@@ -238,12 +242,17 @@
 	"Element": "Earth",
 	"Lvl": 7,
 	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
+	"TrueStats":{
+		"HP": 25,
+	},
 	"Weapon": null,
 	"Drops": {
 		"Potion": 40,
 		"Bloody Claws": 10
 	},
 	"Gold":40,
+	"Startup":1,
+	"Cooldown":1,
 	"Skills": ["Bite","Claws"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
@@ -254,6 +263,9 @@
 	"Element": "Dark",
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"F"},
+	"TrueStats":{
+		"HP": 50,
+	},
 	"Equip": {
 		"Armor": "Old Rags"
 	},
@@ -262,6 +274,8 @@
 		"Killer Axe": 5
 	},
 	"Gold":50,
+	"Startup":3,
+	"Cooldown":3,
 	"Skills": ["Bite"],
 	"Spells": [],
 	"Location": "Sundown Plateau",
@@ -278,6 +292,8 @@
 		"Old Rags": 5
 	},
 	"Gold":50,
+	"Startup":1,
+	"Cooldown":2,
 	"Skills": ["Shiver"],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
@@ -296,7 +312,7 @@
 	"Gold":80,
 	"Skills": [],
 	"Spells": ["Ice"],
-	"Location": "Mountt Legory",
+	"Location": "Mount Legory",
 	"Rarity": 7
   },
   {
@@ -642,6 +658,9 @@
 	"Element": "Dark",
 	"Lvl": 9,
 	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Dex":"D","Agi":"E","Lck":"E","Def":"E"},
+	"TrueStats": {
+		"HP":50
+	},
 	"Equip": {
 		"Weapon": "Skull Staff",
 		"Armor": "Necromancer Robes"
@@ -651,6 +670,8 @@
 		"Skull Staff": 20,
 		"Necromancer Robes": 20
 	},
+	"Startup":1,
+	"Cooldown":2,
 	"Gold":300,
 	"Skills": [],
 	"Spells": ["Dark"],
@@ -662,15 +683,21 @@
 	"Element": "Dark",
 	"Lvl": 9,
 	"Stats": {"HP":"S","MP":"C","Str":"C","Int":"C","Dex":"F","Agi":"F","Lck":"F","Def":"E"},
+	"TrueStats": {
+		"HP":100
+	},
 	"Weapon": "Axe",
 	"Equip": {
 		"Weapon": "Killer Axe"
 	},
 	"Drops": {
+		"Lifespark Crystal": 100,
 		"Ether": 100,
 		"Killer Axe": 30
 	},
 	"Gold":100,
+	"Startup":4,
+	"Cooldown":3,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Sundown Plateau",
