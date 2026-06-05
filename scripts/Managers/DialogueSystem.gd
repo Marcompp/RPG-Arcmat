@@ -530,6 +530,7 @@ func _ready():
 	fade.gui_input.connect(_on_fade_clicked)
 	log_panel_panel.resized.connect(_update_pivot)
 	_update_pivot()
+	typing_speed = SettingsManager.typing_speed
 
 func _update_pivot():
 	log_panel_panel.pivot_offset = log_panel_panel.size / 2

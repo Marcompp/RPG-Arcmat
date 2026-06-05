@@ -1,4 +1,61 @@
-﻿{
+{
+	"bertunia_exit": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {"player_name": "Agnes"},
+				"then": [
+					{"type": "text", "text": "As you step through Bertunia's gate, a familiar broad-shouldered figure blocks your path, arms crossed and expression sour.\n\n\"Well, well. Agnes the spoiled, off to play adventurer again.\""},
+					{"type": "text", "text": "You meet his gaze without blinking.\n\n\"I've heard worse. From people worth listening to.\""},
+					{"type": "text", "text": "\"This isn't a tea party,\" Borin says, unmoved. \"The Caves'll chew you up and spit you out.\""},
+					{"type": "text", "text": "\"Then step aside and let it try.\"\n\nYou rest a hand on your rapier.\n\n\"Or are you going to keep talking?\""},
+					{"type": "combat", "enemy": "Borin", "on_victory": [
+						{"type": "text", "text": "Borin staggers back. He gives you a long look — something unreadable in it — and then, without a word, steps off the road.\n\nYou don't say anything either.", "clear": true}
+					]}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {"player_name": "Borin"},
+						"then": [
+							{"type": "text", "text": "You're barely past the gate when a sharp voice cuts through the air.\n\n\"You? Going into the Caves?\"\n\nAgnes steps out from the shadow of the wall, rapier already in hand.\n\n\"Don't make me laugh, farmhand.\""},
+							{"type": "text", "text": "\"Put the sword away, Agnes.\""},
+							{"type": "text", "text": "\"I'm doing you a favour.\" She tilts her head, something cruel in the smile. \"Go home. Chop wood — it's what you're good at.\""},
+							{"type": "text", "text": "\"Last warning.\"\n\nShe lunges."},
+							{"type": "combat", "enemy": "Agnes", "on_victory": [
+								{"type": "text", "text": "Agnes straightens up, brushing herself off. She's breathing harder than she'd like.\n\n\"...Not bad.\" A pause. \"For a bumpkin.\"\n\nShe doesn't wait for a response.", "clear": true}
+							]}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {"player_name": "Chala"},
+								"then": [
+									{"type": "text", "text": "You've only taken a few steps outside the gate when a familiar voice stops you.\n\n\"Chala.\"\n\nBorin stands in the road ahead. His expression is the one he uses when he's already made up his mind.\n\n\"Turn around.\""},
+									{"type": "text", "text": "\"You can't stop me, Borin.\""},
+									{"type": "text", "text": "\"You're my little sister.\" His voice doesn't waver. \"You're not going into those caves.\""},
+									{"type": "text", "text": "\"I'm a mage. I can handle myself.\"\n\nYou hold his gaze.\n\n\"And I have to do this.\""},
+									{"type": "text", "text": "A long silence. Borin exhales.\n\n\"...If you can beat me, I'll let you through. Deal?\""},
+									{"type": "combat", "enemy": "Borin", "on_victory": [
+										{"type": "text", "text": "Borin sits in the dirt for a moment, catching his breath. Then he reaches up and ruffles your hair.\n\nYou duck away immediately.\n\n\"Just come back in one piece. That's all I ask.\"", "clear": true}
+									]}
+								],
+								"else": [
+									{"type": "text", "text": "You're almost through the gate when something sharp buries itself in the wood beside your head.\n\nA rapier.\n\n\"Don't. Move.\"\n\nA young woman in fencing clothes is already closing the distance. Her eyes are cold.\n\n\"I saw you watching that merchant back there.\""},
+									{"type": "text", "text": "\"I wasn't — look, I don't even have a —\"\n\n\"Thieves always have an explanation.\" She raises the rapier. \"Save it.\""},
+									{"type": "text", "text": "You take a step back.\n\n\"...I really don't want to do this.\""},
+									{"type": "combat", "enemy": "Agnes", "on_victory": [
+										{"type": "text", "text": "Agnes picks herself up. She takes a long look at you — the gear, the way you fought, the absence of anything stolen.\n\nA long pause.\n\n\"...You're not a thief.\"\n\nShe crosses to the gate, pulls her rapier free, and walks away without another word.", "clear": true}
+									]}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
 	"region_treasure_chest": {
 		"steps": [
 			{"type": "text", "text": "You find a treasure chest.", "clear": false},
@@ -656,6 +713,7 @@
 	"cabin_witch_enter": {
 		"steps": [
 			{"type": "set_backdrop", "backdrop": "apple_cottage2.png"},
+			{"type": "modify_node", "backdrop": "apple_cottage2.png"},
 			{"type": "text", "text": "The door swings open before you can knock.\n\nWarm light spills out, carrying the smell of baked apple and dried herbs. \n\nAn old woman stands in the doorway, eyes bright under a wide-brimmed hat.", "clear": false},
 			{"type": "set_var", "vars": {"cabin_rest_done": {"set": 0}, "cabin_talk_done": {"set": 0}}},
 			{"type": "text", "text": "\n\"I'm always happy to host a visitor.\" She steps aside and waves you in. \"Come in, come in. Rest up from your travels.\"", "clear": false, "no_wait":true},
@@ -705,6 +763,7 @@
 						{"type": "event", "event": "cabin_witch_choices"}
 					],
 					"leave":    [
+						{"type": "modify_node", "backdrop": "apple_cabin.png"},
 						{"type": "set_backdrop", "backdrop": "apple_cabin.png"},
 						{"type": "text", "text": "\"Mind yourself out there,\" she calls after you.", "clear": false, "no_wait": true},
 						{"type": "show_node_text", "clear":false},
@@ -1721,6 +1780,426 @@
 					],
 					"leave": [
 						{"type": "text", "text": "You turn back.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"circus_enter": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "You push through the entrance flap and step into another world.\n\nLanterns hang in clusters from every post. Performers weave between clusters of onlookers — a fire-breather, a contortionist, a man swallowing a sword with practiced boredom. The smells of popcorn and animal musk compete for dominance."},
+			{"type": "enter_town", "town": "Gilded Hollow Circus"}
+		]
+	},
+	"legory_frozen_cache": {
+		"steps": [
+			{"type": "text", "text": "A faint glint catches your eye — something is lodged in the ice face beside the path.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Chip it out", "key": "chip"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"chip": [
+						{"type": "text", "text": "You work at the ice with your hands, breaking away chunks...[wait=0.2]", "clear": false, "no_wait": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "A small bundle wrapped in oilskin — some traveler's cache.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Potion"},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "Nothing. Just rock. The effort leaves your hands raw.\n[color=red]-6 HP[/color]", "clear": false},
+									{"type": "effect", "effect": {"type": "damage", "amount": 6}},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"dex": -1},
+								"steps": [
+									{"type": "text", "text": "A pocket of trapped air bursts outward — a sharp spray of frost hits you square.\n[color=red]-14 HP[/color]", "clear": false},
+									{"type": "effect", "effect": {"type": "damage", "amount": 14}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "Whatever it is, it can stay there.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_thin_air": {
+		"steps": [
+			{"type": "text", "text": "The air up here is thin. Each breath takes more effort than it should.", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "You push through it.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "A wave of dizziness washes over you.\n[color=red]-8 HP[/color]", "clear": false},
+						{"type": "effect", "effect": {"type": "damage", "amount": 8}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "The thin air clears your head. Your thoughts feel sharp, almost bright.\n[color=teal]+10 MP[/color]", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"legory_abandoned_camp": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Tucked into the cave's far wall is a climber's camp — a bedroll, a battered pack, and a small journal left on a flat stone. No sign of the owner.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Search the pack", "key": "pack"},
+					{"choice": "Read the journal", "key": "journal"},
+					{"choice": "Take everything and go", "key": "take_all"}
+				],
+				"branches": {
+					"pack": [
+						{"type": "text", "text": "Rummaging through it, you find supplies still usable.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Medicine"},
+						{"type": "show_node"}
+					],
+					"journal": [
+						{"type": "text", "text": "The journal is half-filled. The climber's name was Fenwick. Early entries talk about the view from the ridge, the cold, the Pegasus Knights they spotted. The last entry reads:\n\n[color=gray]\"Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—\"[/color]\n\nThe entry ends there.", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "modify_stat", "stats": {"mp": 3}},
+						{"type": "text", "text": "Fenwick's resolve settles in your chest.\n[color=teal]Max MP +3[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"take_all": [
+						{"type": "text", "text": "You take what's useful. Whoever left this behind isn't coming back for it.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Medicine"},
+						{"type": "give_gold", "amount": 30},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_snowdrift": {
+		"steps": [
+			{"type": "text", "text": "A shape is half-buried in a fresh snowdrift beside the path — too regular to be rock.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Dig it out", "key": "dig"},
+					{"choice": "Move on", "key": "leave"}
+				],
+				"branches": {
+					"dig": [
+						{"type": "text", "text": "You kneel and start pulling away the packed snow...[wait=0.2]", "clear": false, "no_wait": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "A traveler's coin purse — frozen solid but intact.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_gold", "amount": 30},
+									{"type": "text", "text": "[color=yellow]+30G[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "A mountain goat, frozen solid. Its expression suggests it died surprised.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "A Frost Fairy explodes out of the snow, furious at being disturbed.", "clear": false, "no_wait": true},
+									{"type": "combat", "enemy": "Frost Fairy",
+										"on_victory": [
+											{"type": "text", "text": "The fairy dissolves into sparks of cold light. The drift is empty beneath where she slept.", "clear": true},
+											{"type": "show_node"}
+										]
+									}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the drift alone and continue up the mountain.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_pegasus_patrol": {
+		"steps": [
+			{"type": "text", "text": "A shadow sweeps across the snow. You look up — a Pegasus Knight in silver-white armor is circling overhead, watching you.", "clear": false},
+			{"type": "text", "text": "She descends in a slow spiral, lance lowered but not leveled.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Stand your ground", "key": "stand"},
+					{"choice": "Draw your weapon", "key": "draw"},
+					{"choice": "Step aside and bow", "key": "bow"}
+				],
+				"branches": {
+					"stand": [
+						{"type": "text", "text": "You hold still and meet her gaze. She pulls up a few paces away, studies you for a long moment, then wheels and climbs back into the sky without a word.", "clear": false},
+						{"type": "show_node"}
+					],
+					"draw": [
+						{"type": "text", "text": "She sees the movement and levels her lance in one fluid motion.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Pegasus Knight",
+							"on_victory": [
+								{"type": "text", "text": "Her mount carries her away. You watch them disappear around the cliff face.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"bow": [
+						{"type": "text", "text": "You step aside and incline your head. A pause — then a coin lands in the snow at your feet.\n\n\"For your courtesy,\" she says, and rides the wind back up.", "clear": false},
+						{"type": "give_gold", "amount": 15},
+						{"type": "text", "text": "[color=yellow]+15G[/color]", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_updraft": {
+		"steps": [
+			{"type": "text", "text": "A powerful updraft roars up from the cliff below, catching you full in the chest.", "clear": false},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 3, "stat_weights": {"agi": 1},
+					"steps": [
+						{"type": "text", "text": "You lean into it and let it push you forward. The wind does half the work.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "It nearly takes you off your feet. You scramble to stay on the ridge, scraping your hands on the rock.\n[color=red]-6 HP[/color]", "clear": false},
+						{"type": "effect", "effect": {"type": "damage", "amount": 6}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "You dig in your heels and wait for it to pass. The wind screams, then fades.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+	"legory_ridge_edge": {
+		"steps": [
+			{"type": "text", "text": "The path narrows to almost nothing. You find yourself looking out — the drop on either side falls away into white cloud.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Look out over the edge", "key": "look"},
+					{"choice": "Keep your eyes on the path", "key": "focus"}
+				],
+				"branches": {
+					"look": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "Far below, something glints against the rock. By the time you descend past that point, you've worked out how to reach it — a traveler's purse wedged into a ledge only visible from above.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_gold", "amount": 25},
+									{"type": "text", "text": "[color=yellow]+25G[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "Nothing but cloud and rock below. The scale of the drop makes your legs briefly unreliable.\n[color=red]-5 HP[/color]", "clear": false},
+									{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"focus": [
+						{"type": "text", "text": "You keep your gaze on the next foothold. The ridge passes under you one careful step at a time.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_arch_inscription": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The inner face of the arch is covered in carvings — small, deliberate marks left by climbers over years. Names, tallies, short phrases. Near the keystone, someone carved: [color=gray]\"The cold that thinks is worse than the cold that simply is.\"[/color]", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Study the markings", "key": "study"},
+					{"choice": "Sketch a copy", "key": "sketch"},
+					{"choice": "Press on", "key": "leave"}
+				],
+				"branches": {
+					"study": [
+						{"type": "text", "text": "You spend a few minutes reading — names of the dead, descriptions of the summit, a rough map of the ridge scratched in miniature. It adds up to a picture of what's ahead.", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "modify_stat", "stats": {"mp": 5}},
+						{"type": "text", "text": "Understanding the mountain steadies your mind.\n[color=teal]Max MP +5[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"sketch": [
+						{"type": "text", "text": "You copy what you can into the back of your pack. Later, by firelight, you'll be able to read it properly.", "clear": false},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You pass beneath the arch and keep moving.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"legory_summit": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "At the center of the summit, a nest the size of a cottage — branches thick as your arm, bones from things large enough to be unsettling — rises against the sky. Perched in it, still as carved stone, is the Great Roc.", "clear": false},
+			{"type": "text", "text": "It turns one eye toward you. Then the other. It doesn't move.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Attack", "key": "fight"},
+					{"choice": "Raid the nest while it watches", "key": "raid"},
+					{"choice": "Back away slowly", "key": "retreat"},
+					{"choice": "Look around the perimeter", "key": "look"}
+				],
+				"branches": {
+					"fight": [
+						{"type": "text", "text": "You draw your weapon. The Roc unfolds.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Great Roc",
+							"on_victory": [
+								{"type": "text", "text": "The Roc folds. The summit goes quiet — just wind and the sound of your own breathing.", "clear": true},
+								{"type": "give_gold", "amount": 250},
+								{"type": "give_item", "item": "Medicine"},
+								{"type": "text", "text": "[color=yellow]+250G[/color]", "clear": false},
+								{"type": "event", "event": "legory_summit_cairn"}
+							]
+						}
+					],
+					"raid": [
+						{"type": "text", "text": "You edge toward the nest, eyes on the Roc. It watches you. You reach in...[wait=0.2]", "clear": false, "no_wait": true},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 2, "stat_weights": {"agi": 1},
+								"steps": [
+									{"type": "text", "text": "You snatch a Javelin from the nest and step back before the Roc reacts. It ruffles and settles. You don't push your luck.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "Javelin"},
+									{"type": "give_gold", "amount": 50},
+									{"type": "text", "text": "[color=yellow]+50G[/color]", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 3,
+								"steps": [
+									{"type": "text", "text": "The Roc lunges the moment your hand enters the nest.", "clear": false, "no_wait": true},
+									{"type": "combat", "enemy": "Great Roc",
+										"on_victory": [
+											{"type": "text", "text": "The Roc goes still. You take what you came for from the shattered nest.", "clear": true},
+											{"type": "give_item", "item": "Javelin"},
+											{"type": "give_gold", "amount": 50},
+											{"type": "text", "text": "[color=yellow]+50G[/color]", "clear": false},
+											{"type": "event", "event": "legory_summit_cairn"}
+										]
+									}
+								]
+							}
+						]}
+					],
+					"retreat": [
+						{"type": "text", "text": "You back away one step at a time. The Roc watches until you're off the summit plateau, then looks away.", "clear": false},
+						{"type": "show_node"}
+					],
+					"look": [
+						{"type": "text", "text": "Keeping distance from the nest, you make a slow circuit of the summit's edge.", "clear": false},
+						{"type": "event", "event": "legory_summit_cairn"}
+					]
+				}
+			}
+		]
+	},
+	"legory_summit_cairn": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Near the edge, a cairn of stacked stones stands against the sky. Between the rocks, climbers have wedged small tokens — a button, a coin, a strip of cloth. A tradition. You're here now.", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Add a stone", "key": "add"},
+					{"choice": "Take a token", "key": "take"},
+					{"choice": "Sit and rest", "key": "rest"}
+				],
+				"branches": {
+					"add": [
+						{"type": "text", "text": "You find a loose stone near your feet and set it on the top. It holds.", "clear": false},
+						{"type": "modify_stat", "stats": {"lck": 1}},
+						{"type": "text", "text": "[color=yellow]Luck +1[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"take": [
+						{"type": "text", "text": "You pick through the tokens and take one that catches your eye.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "give_item", "item": "Ether"},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "give_item", "item": "Medicine"},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"rest": [
+						{"type": "text", "text": "You sit with your back to the cairn and let yourself stop. Below, the whole world is clouds.", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+						{"type": "text", "text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]", "clear": false},
 						{"type": "show_node"}
 					]
 				}

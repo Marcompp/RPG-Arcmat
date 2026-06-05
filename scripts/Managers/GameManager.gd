@@ -7,6 +7,7 @@ extends Node
 @onready var audio = $AudioManager
 @onready var main_menu = $MainMenu
 @onready var gameover = $GameOverMenu
+@onready var options_menu = $OptionsMenu
 
 # ========================
 # CORE
@@ -135,6 +136,11 @@ func _ready():
 	main_menu.continue_requested.connect(_on_main_menu_continue)
 	gameover.retry_requested.connect(_on_gameover_retry)
 	gameover.title_screen_requested.connect(_on_gameover_title)
+
+	main_menu.options_requested.connect(func(): options_menu.show_options())
+	game_ui.options_requested.connect(func(): options_menu.show_options())
+	options_menu.closed.connect(func(): main_menu.setup(SaveManager.list_saves().size() > 0))
+
 	show_main_menu()
 
 # ------------------------
@@ -596,6 +602,16 @@ func _check_dict_condition(cond, node_index):
 			if req == true and node_index == travel.current_node:
 				return false
 			continue
+		elif key == "player_name":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			value = player.get_name()
+		elif key == "player_class":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			value = player.get_char_class()
 		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
 		elif game_state.has(key):

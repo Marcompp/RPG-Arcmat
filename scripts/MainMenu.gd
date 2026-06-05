@@ -2,6 +2,7 @@ extends Control
 
 signal new_game_requested
 signal continue_requested(slot: int)
+signal options_requested
 
 @onready var main_buttons    = $VBoxContainer
 @onready var continue_button = $VBoxContainer/ContinueButton
@@ -167,7 +168,7 @@ func _on_continue_button_pressed():
 	_show_save_list()
 
 func _on_options_button_pressed():
-	pass
+	options_requested.emit()
 
 func _on_quit_button_pressed():
 	get_tree().quit()

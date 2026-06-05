@@ -164,6 +164,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("show_node", {})
 		"exit_node":
 			MyEventBus.emit("exit_node", step.get("exit", {}))
+		"enter_town":
+			MyEventBus.emit("enter_town_event", {"town": step.get("town", "")})
 		"set_backdrop":
 			MyEventBus.emit("set_backdrop", step)
 		"wait":

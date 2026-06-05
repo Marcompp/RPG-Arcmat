@@ -86,6 +86,9 @@ func _ready():
 		_shop_from_event = true
 		enter_shop(data.get("name", "Merchant"), data.get("data", {}))
 	)
+	MyEventBus.subscribe("enter_town_event", func(data):
+		enter_town(data.get("town", ""))
+	)
 	MyEventBus.subscribe("give_region_item_pick", func(_data):
 		var treasure: Array = region_db.get(current_region, {}).get("Treasure", [])
 		if treasure.is_empty():
@@ -424,6 +427,13 @@ func _handle_leave_confirm(choice):
 		if exit_text != "":
 			MyEventBus.emit("continue_text", {"text": exit_text})
 			await game_manager._gm_wait_for_continue()
+		var exit_event_name = current_town_data.get("ExitEvent", "")
+		if exit_event_name != "":
+			var event_def = events_db.get(exit_event_name, {})
+			if not event_def.is_empty() and not game_state["used_events"].get(exit_event_name, false):
+				await _run_node_event(event_def)
+				if not event_def.get("repeatable", true):
+					game_state["used_events"][exit_event_name] = true
 		_full_heal_player()
 		current_region = next_name
 		enter_node(0, "default")
@@ -445,6 +455,10 @@ func enter_shop(shop_name: String, shop_data: Dictionary):
 	current_shop_name = shop_name
 	current_shop_data = shop_data
 	mode = TravelMode.SHOP
+
+	var shop_backdrop = shop_data.get("Backdrop", "")
+	if shop_backdrop != "":
+		_set_backdrop(shop_backdrop)
 
 	MyEventBus.emit("clear_text", {})
 
@@ -512,6 +526,7 @@ func show_shop_stock():
 
 func _handle_shop_action(choice):
 	if choice.get("type") == "back":
+		_transition_backdrop(current_region)
 		if _shop_from_event:
 			_shop_from_event = false
 			mode = TravelMode.NODE_ACTIONS

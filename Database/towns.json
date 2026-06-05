@@ -13,12 +13,13 @@
 			"The clang of a blacksmith's hammer echoes from a side street, steady and rhythmic.",
 			"Pigeons scatter as a cart rolls past, its driver cursing at the narrow lane."
 		],
-		"Backdrop": "bertunia.png",
+		"Backdrop": "bertunia2.png",
 		"Music": "Bertunia_placeholder.mp3",
 		"Shops": {
 			"Kacha's Shop":{
 				"Name": "Kacha's Shop",
 				"Kind": "Shop",
+				"Backdrop": "kacha_shop.png",
 				"ShopType": "Item",
 				"WelcomeText":"A familiar blue-haired woman in a frilly apron greets you at the counter:\n\n\"Welcome, ka-ching!\"\n\"I'm Kacha, give me a call if you need anything!\"",
 				"OtherText": ["\"Be sure to buy something before you leave, ka-ching!\"", "\"Welcome back to Kacha's Shop, ka-ching!\"", "\"See anything you like? Ka-ching!\""],
@@ -36,6 +37,7 @@
 				"Name": "Arms and Armaments",
 				"Kind": "Shop",
 				"ShopType": "Equip",
+				"Backdrop": "arms_armament.png",
 				"Stock": {
 					"Longsword": 150,
 					"Battleaxe": 180,
@@ -47,6 +49,7 @@
 				"Name": "Everyman's Clothier",
 				"Kind": "Shop",
 				"ShopType": "Equip",
+				"Backdrop": "clothier.png",
 				"Stock": {
 					"Traveler's Tunic": 80,
 					"Dress": 100,
@@ -60,7 +63,7 @@
 				"Patrons": {}
 			}
 		},
-		"ExitTxt": "As you leave Bertunia's gates behind, you spot the entrance to the Caves of Light and make your way inside.",
+		"ExitEvent": "bertunia_exit",
 		"Next": "Caves of Light"
 	},
 	"Lantern's Reach":{
@@ -197,11 +200,29 @@
 	"Gilded Hollow Circus": {
 		"Name": "Gilded Hollow Circus",
 		"Type": "Town",
-		"Next": "Sundown Plateau"
+		"Backdrop": "sundown_circus.png",
+		"arrival": [
+			"The circus sprawls around you, loud and bright against the dark plateau.",
+			"You're inside. Torchlight flickers off sequined costumes and the painted faces of performers."
+		],
+		"ambience": [
+			"Somewhere nearby, something large shifts in a cage.",
+			"A child in a pointed hat watches you from between two tents.",
+			"The calliope wheezes and starts a new tune."
+		],
+		"ExitTxt": "You duck back through the entrance flap. The plateau stretches out ahead, quiet after the noise inside.",
+		"Next": "Sundown Plateau",
+		"Shops": {}
 	},
 	"Lizal-Town": {
 		"Name": "Lizal-Town",
+		"Backdrop": "core_lizal2.png",
 		"Type": "Town",
 		"Next": "Core Cavern"
+	},
+	"Magical Academy of Arcward": {
+		"Name": "Magical Academy of Arcward",
+		"Type": "Town",
+		"Next": "Lost Swamp"
 	}
 }

@@ -378,7 +378,7 @@
 			"visit_count":{"max":0}
 		  },
 	  "encounter_rate": 0,
-	  "entrances": ["FOREST"],
+	  "entrances": ["FORREST"],
 	  "arrival": {
 		"FOREST": [
 		  "You come upon a dark hollow in an ancient tree — a crude camp littered with stolen goods."
@@ -397,6 +397,7 @@
 	{
 	  "name": "Forest Edge",
 	  "type": "EXIT",
+	  "backdrop": "apple_end.png",
 	  "entrances": ["ROAD", "FOREST"],
 	  "boss": "Werewolf",
 	  "encounter_rate": 0,
@@ -716,6 +717,7 @@
 	  },
 		{
 		  "name": "Cave Exit",
+		  "backdrop": "light_sundown.png",
 		  "type": "EXIT",
 		  "entrances": ["TUNNEL"],
 		  "boss": "Chimera",
@@ -996,6 +998,35 @@
 			"exits": [
 				{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
 			]
+		  },
+		  {
+			"name": "Circus Grounds",
+			"entrances": ["SURFACE"],
+			"backdrop": "sundown_circus.png",
+			"condition": { "visit_count": { "max": 0 } },
+			"arrival": {
+			  "SURFACE": [
+				"The distant sound of music reaches you before anything else — a calliope tune, tinny and slightly off-key, drifting across the plateau. Then you see it: a cluster of striped tents rising improbably from the cracked earth.",
+				"You crest a low rise and stop short. A travelling circus has made camp on the plateau, its coloured pennants snapping in the wind, firelight glowing through canvas."
+			  ],
+			  "default": [
+				"The striped tents of a travelling circus stand against the dimming sky."
+			  ]
+			},
+			"description": [
+			  { "text": "The smell of sawdust and something animal drifts from the tents." },
+			  { "text": "A painted sign reads: GILDED HOLLOW CIRCUS — ALL WELCOME.", "chance": 0.6 },
+			  { "text": "You can hear laughter and the shuffle of an unseen crowd from within.", "chance": 0.5 }
+			],
+			"exits": [
+			  { "choice": "Move on", "leads_to": "SURFACE", "value": 1, "travel_text": "You leave the circus behind and continue across the plateau, the music fading with distance." }
+			],
+			"action": {
+			  "name": "Enter the Circus",
+			  "tooltip": "Step inside the Gilded Hollow Circus.",
+			  "event": "circus_enter",
+			  "repeatable": false
+			}
 		  }
 	],
 	"Mount Legory": [
@@ -1020,6 +1051,10 @@
 		  { "text": "A narrow path cuts across the mountainside, edged by loose stones." },
 		  { "text": "Cold wind sweeps down from above, carrying fine snow." },
 		  { "text": "The air is thin, each breath slightly harder than the last.", "chance": 0.5 }
+		],
+		"events": [
+		  {"chance": 0.35, "event": "legory_frozen_cache"},
+		  {"chance": 0.3, "event": "legory_thin_air"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper." },
@@ -1052,6 +1087,9 @@
 		  { "text": "Faint echoes bounce within the hollow space." },
 		  { "text": "The air is still, but bitterly cold.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 1.0, "event": "legory_abandoned_camp"}
+		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You leave the cave and continue up the mountainside, the cold wind hitting you immediately." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You step out of the cave and move along the mountainside, skirting the slope." },
@@ -1079,6 +1117,10 @@
 		  { "text": "Snow gathers in patches along the uneven ground." },
 		  { "text": "Loose stones shift underfoot." },
 		  { "text": "The wind howls across the rock face.", "chance": 0.5 }
+		],
+		"events": [
+		  {"chance": 0.35, "event": "legory_snowdrift"},
+		  {"chance": 0.3, "event": "legory_pegasus_patrol"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push on upward, each step uncertain against the loose rock and snow." },
@@ -1109,6 +1151,9 @@
 		  { "text": "The sky feels vast and close at the same time." },
 		  { "text": "The wind here is relentless.", "chance": 0.6 }
 		],
+		"events": [
+		  {"chance": 1.0, "event": "legory_summit"}
+		],
 		"exits": [
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -2 }}, "travel_text": "You begin the descent, the wind still howling at your back as the peak rises above you once more." }
 		]
@@ -1135,6 +1180,10 @@
 		  { "text": "The path is narrow, with little room for error." },
 		  { "text": "Snow is swept thin by constant wind." },
 		  { "text": "One misstep could send you tumbling.", "chance": 0.6 }
+		],
+		"events": [
+		  {"chance": 0.4, "event": "legory_updraft"},
+		  {"chance": 0.3, "event": "legory_ridge_edge"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You press forward along the ridge, the wind buffeting you as you climb."},
@@ -1167,6 +1216,9 @@
 		  { "text": "The arch stands against the wind, worn smooth over countless years." },
 		  { "text": "Snow gathers in its sheltered base." },
 		  { "text": "The wind whistles as it passes through the opening.", "chance": 0.5 }
+		],
+		"events": [
+		  {"chance": 1.0, "event": "legory_arch_inscription"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You pass beneath the arch and continue your climb, the stone frame falling behind you."},

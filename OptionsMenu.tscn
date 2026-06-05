@@ -1,0 +1,163 @@
+[gd_scene load_steps=2 format=3 uid="uid://biv1u4rr7gt3o"]
+
+[ext_resource type="Script" uid="uid://cctocm6bfv1x7" path="res://scripts/OptionsMenu.gd" id="1_58l1r"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+script = ExtResource("1_58l1r")
+
+[node name="_ColorRect_23" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.65)
+
+[node name="OptionsPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(520, 480)
+layout_mode = 2
+offset_right = 520.0
+offset_bottom = 480.0
+
+[node name="OptionsMargin" type="MarginContainer" parent="OptionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="AllContainer" type="VBoxContainer" parent="OptionsPanel/OptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TopContainer" type="VBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OptionsTitle" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/TopContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Options"
+horizontal_alignment = 1
+
+[node name="OptionsSeparator1" type="HSeparator" parent="OptionsPanel/OptionsMargin/AllContainer/TopContainer"]
+layout_mode = 2
+
+[node name="OptionsContainer" type="VBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="_Label_30" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Audio"
+
+[node name="_HBoxContainer_31" type="HBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="_Label_32" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_31"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "BGM Volume"
+
+[node name="_HSlider_33" type="HSlider" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_31"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="_Label_34" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_31"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "100"
+horizontal_alignment = 2
+
+[node name="_HBoxContainer_35" type="HBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="_Label_36" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_35"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Ambiance Volume"
+
+[node name="_HSlider_37" type="HSlider" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_35"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+
+[node name="_Label_38" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_35"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "50"
+horizontal_alignment = 2
+
+[node name="_HBoxContainer_39" type="HBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="_Label_40" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_39"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SFX Volume"
+
+[node name="_HSlider_41" type="HSlider" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_39"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="_Label_42" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_39"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "100"
+horizontal_alignment = 2
+
+[node name="_HSeparator_43" type="HSeparator" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+
+[node name="_Label_44" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Gameplay"
+
+[node name="_HBoxContainer_45" type="HBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="_Label_46" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_45"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Text Speed"
+
+[node name="_HSlider_47" type="HSlider" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_45"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 78.0
+
+[node name="_Label_48" type="Label" parent="OptionsPanel/OptionsMargin/AllContainer/OptionsContainer/_HBoxContainer_45"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "77"
+horizontal_alignment = 2
+
+[node name="ExitContainer" type="VBoxContainer" parent="OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SeparatorLast" type="HSeparator" parent="OptionsPanel/OptionsMargin/AllContainer/ExitContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="OptionsPanel/OptionsMargin/AllContainer/ExitContainer"]
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close"

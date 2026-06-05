@@ -1,5 +1,7 @@
 extends Control
 
+signal options_requested
+
 @onready var player_panel = $TopLeft/TopLeftWrapper
 @onready var enemy_panel = $TopRight/TopRightWrapper
 @onready var enemy2_panel = $TopRight/TopRightWrapper2
@@ -9,6 +11,7 @@ extends Control
 @onready var xp_text = $TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control/XPText
 @onready var cooldown_label = $TopRight/TopRightWrapper/CooldownLabel
 @onready var cooldown_label2 = $TopRight/TopRightWrapper2/CooldownLabel
+@onready var option_button = $OptionsButton
 
 var state
 
@@ -18,6 +21,7 @@ const MAX_BAR_WIDTH = 500
 var character = null
 
 func _ready():
+	option_button.pressed.connect(func(): options_requested.emit())
 	player_panel.tooltip_text = ""
 	player_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	for child in player_panel.get_children():

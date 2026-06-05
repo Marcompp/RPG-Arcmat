@@ -56,6 +56,9 @@ func _ready():
 	MyEventBus.subscribe("play_bgm", func(data):
 		play_bgm(data.get("song", data.get("bgm", "")))
 	)
+	set_bgm_volume(SettingsManager.bgm_volume)
+	set_ambiance_volume(SettingsManager.ambiance_volume)
+	set_sfx_volume(SettingsManager.sfx_volume)
 
 func _setup_players():
 	bgm_player = AudioStreamPlayer.new()

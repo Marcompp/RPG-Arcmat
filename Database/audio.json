@@ -16,7 +16,8 @@
 		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3"
 	},
 	"ambiance": {
-		"forest": "res://assets/audio/ambiance/forest.ogg",
+		"forest": "res://assets/audio/BGS/forest_ambience.mp3",
+		"river":  "res://assets/audio/BGS/river_ambience.ogg",
 		"cave":   "res://assets/audio/ambiance/cave.ogg",
 		"wind":   "res://assets/audio/ambiance/wind.ogg",
 		"swamp":  "res://assets/audio/ambiance/swamp.ogg"

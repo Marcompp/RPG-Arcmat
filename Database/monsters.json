@@ -217,7 +217,7 @@
 	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Dex":"D","Agi":"E","Lck":"B","Def":"E"},
 	"TrueStats":{
 		"HP": 30,
-		"MP": 30,
+		"MP": 30
 	},
 	"Equip": {
 		"Weapon": "Sacrificial Knife",
@@ -243,7 +243,7 @@
 	"Lvl": 7,
 	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
-		"HP": 25,
+		"HP": 25
 	},
 	"Weapon": null,
 	"Drops": {
@@ -264,7 +264,7 @@
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"F"},
 	"TrueStats":{
-		"HP": 50,
+		"HP": 50
 	},
 	"Equip": {
 		"Armor": "Old Rags"
@@ -310,6 +310,8 @@
 		"Fairy Bow": 10
 	},
 	"Gold":80,
+	"Startup":1,
+	"Cooldown":1,
 	"Skills": [],
 	"Spells": ["Ice"],
 	"Location": "Mount Legory",
@@ -325,7 +327,12 @@
 		"Medicine": 70,
 		"Javelin": 5
 	},
+	"TrueStats":{
+		"HP": 30
+	},
 	"Gold":80,
+	"Startup":1,
+	"Cooldown":1,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -336,6 +343,9 @@
 	"Element": "Wind",
 	"Lvl": 10,
 	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
+	"TrueStats":{
+		"HP": 35
+	},
 	"Equip": {
 		"Weapon": "Winged Spear",
 		"Armor": "Whitewing Armor"
@@ -346,6 +356,8 @@
 		"Whitewing Armor": 10
 	},
 	"Gold":110,
+	"Startup":2,
+	"Cooldown":2,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -708,12 +720,17 @@
 	"Element": "Ice",
 	"Lvl": 11,
 	"Stats": {"HP":"B","MP":"A","Str":"C","Int":"B","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
+	"TrueStats":{
+		"HP": 60
+	},
 	"Weapon": null,
 	"Drops": {
 		"Ether": 100,
 		"Frost Staff": 20
 	},
 	"Gold":200,
+	"Startup":2,
+	"Cooldown":2,
 	"Skills": [],
 	"Spells": ["Ice"],
 	"Location": "Mount Legory",
@@ -724,12 +741,17 @@
 	"Element": "Wind",
 	"Lvl": 11,
 	"Stats": {"HP":"A","MP":"E","Str":"C","Int":"E","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
+	"TrueStats":{
+		"HP": 75
+	},
 	"Weapon": null,
 	"Drops": {
 		"Medicine": 100,
 		"Javelin": 10
 	},
 	"Gold":250,
+	"Startup":3,
+	"Cooldown":1,
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -771,7 +793,8 @@
 	"Rarity": null
   },
   {
-	"Name": "Mathemagician",
+	"Name": "Carlon",
+	"Class": "Mathemagician",
 	"Element": "Light",
 	"Lvl": 20,
 	"Stats": {"HP":"S","MP":"A","Str":"D","Int":"A","Dex":"C","Agi":"D","Lck":"E","Def":"C"},
@@ -787,5 +810,61 @@
 	"Spells": ["Earth","Light","Thunder"],
 	"Location": "Arcmat Ruins",
 	"Rarity": null
+  },
+
+
+  {
+	"Name": "Agnes",
+	"Lvl": 5,
+	"Class": "Fencer",
+	"Stats": {
+	  "HP": "D",
+	  "MP": "D",
+	  "Str": "C",
+	  "Int": "C",
+	  "Dex": "A",
+	  "Agi": "B",
+	  "Lck": "B",
+	  "Def": "A"
+	},
+	"Equip": {
+	  "Weapon": "Rapier",
+	  "Armor": "Corset"
+	},
+	"Startup":1,
+	"Cooldown":1,
+	"Skills": ["Armor Piercer", "Lunge", "Flourish"],
+	"Spells": [],
+	"Gold": 100,
+	"Inventory": {
+		"Potion": 5,
+		"Medicine": 5
+	}
+  },
+  {
+	"Name": "Borin",
+	"Lvl": 5,
+	"Class": "Woodcutter",
+	"Stats": {
+	  "HP": "A",
+	  "MP": "D",
+	  "Str": "A",
+	  "Int": "D",
+	  "Dex": "C",
+	  "Agi": "C",
+	  "Lck": "B",
+	  "Def": "B"
+	},
+	"Equip": {
+	  "Weapon": "Poleaxe",
+	  "Armor": "Tanktop"
+	},
+	"Money": 40,
+	"Inventory": {
+		"Potion": 2,
+		"Medicine": 4
+	},
+	"Skills": ["Cleave", "Brace"],
+	"Spells": []
   }
 ]
