@@ -109,7 +109,7 @@
 	  "Weapon": "Sling",
 	  "Armor": "Tanktop"
 	},
-	"Skills": ["Poison Spit", "Assassinate"],
+	"Skills": ["Poison Spit", "Assassinate", "Low Blow", "Pocket Sand"],
 	"Spells": [],
 	"Money": 75,
 	"Inventory": {

@@ -1,5 +1,5 @@
 extends Node
-class_name CombatManager
+# class_name CombatManager
 
 enum CombatState {
 	PLAYER_TURN,
@@ -383,7 +383,7 @@ func _resolve_turn_pair(player_action: Dictionary):
 
 	for i in _living_indices():
 		if enemy_timers[i] <= 0:
-			all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db))
+			all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db))
 			enemy_first_actions[i] = false
 			enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
 		else:
@@ -441,17 +441,6 @@ func _execute_turn_action(action: Dictionary):
 func _do_attack(actor, who: String, target):
 	var weapon  = actor.get_weapon()
 	var acc     = weapon.get("stats", {}).get("acc", 90) if weapon and not weapon.is_empty() else 90
-	var target_part = ""
-	if who == "player" and enemies.size() > 1:
-		target_part = " [b]%s[/b]" % _get_display_name(target)
-
-	var attacktxt: String
-	if who != "player" and not weapon.has("name"):
-		attacktxt = "[b]%s[/b] struck%s![wait=0.1]" % [actor.get_name(), target_part]
-	else:
-		attacktxt = "[b]%s[/b] struck%s with %s![wait=0.1]" % [actor.get_name(), target_part, weapon.get("name", "bare hands")]
-
-	MyEventBus.emit("continue_text", { "text": attacktxt })
 	if not calc.check_hit(actor, target, acc):
 		MyEventBus.emit("continue_text", { "text": "...but missed![wait=0.1]", "linebreak": false })
 		await wait_for_writing()
@@ -469,11 +458,17 @@ func _do_attack(actor, who: String, target):
 		dmg = max(1, int(dmg * elem_mult))
 		elem_reaction = "weak" if elem_mult >= 2.0 else "resist"
 
-	if elem_reaction != "immune":
-		var dmg_taken = target.stat_multipliers.get("dmg_taken", 1.0)
-		if dmg_taken != 1.0:
-			dmg = max(1, int(dmg * dmg_taken))
+	var target_part = ""
+	if who == "player" and enemies.size() > 1:
+		target_part = " [b]%s[/b]" % _get_display_name(target)
 
+	var attacktxt: String
+	if who != "player" and not weapon.has("name"):
+		attacktxt = "[b]%s[/b] struck%s![wait=0.1]" % [actor.get_name(), target_part]
+	else:
+		attacktxt = "[b]%s[/b] struck%s with %s![wait=0.1]" % [actor.get_name(), target_part, weapon.get("name", "bare hands")]
+
+	MyEventBus.emit("continue_text", { "text": attacktxt })
 	await wait_for_writing()
 
 	MyEventBus.emit("play_sfx", { "sound": wpn_type if wpn_type != "" else "attack" })
@@ -500,7 +495,7 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 	if data.has("cost"):
 		user.use_mp(data["cost"])
 	if data.has("cooldown") and who != "":
-		cooldowns[who][action_name] = data["cooldown"] +1
+		cooldowns[who][action_name] = data["cooldown"]
 
 	var target_name = "all enemies"
 	if data.get("type", "attack") == "all":

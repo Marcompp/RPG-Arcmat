@@ -35,15 +35,48 @@
 			"str": 0.75
 		}
 	},
-	"brace": {
-		"name": "Brace",
+	"defense_up": {
+		"name": "Defense Up",
 		"icon": "shield.png",
 		"description": "Doubles defense",
 		"duration": 3,
 		"inflict_text": "[TARGET]'s defense rose!",
-		"end_text": "[TARGET] is no longer bracing!",
+		"end_text": "[TARGET]'s defense returned to normal!",
 		"stats": {
 			"def": 2
+		}
+	},
+	"blind": {
+		"name": "Blind",
+		"icon": "blind.png",
+		"description": "Halves accuracy",
+		"duration": 3,
+		"inflict_text": "[color=yellow][TARGET] is blinded![/color]",
+		"end_text": "[TARGET] can see clearly again.",
+		"stats": {
+			"acc_mult": 0.5
+		}
+	},
+	"break": {
+		"name": "Break",
+		"icon": "break.png",
+		"description": "Increases all incoming damage by 25%",
+		"duration": 3,
+		"inflict_text": "[color=orange][TARGET]'s guard is broken![/color]",
+		"end_text": "[TARGET] recovers their guard.",
+		"stats": {
+			"dmg_taken": 1.25
+		}
+	},
+	"brace": {
+		"name": "Brace",
+		"icon": "brace.png",
+		"description": "Reduces all incoming damage by 25%",
+		"duration": 3,
+		"inflict_text": "[TARGET] takes a defensive stance!",
+		"end_text": "[TARGET] lowers their guard.",
+		"stats": {
+			"dmg_taken": 0.75
 		}
 	}
 }

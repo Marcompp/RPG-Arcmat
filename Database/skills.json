@@ -1,4 +1,36 @@
 {
+	"Pocket Sand": {
+		"nome": "Pocket Sand",
+		"description": "Flings a handful of sand into the target's eyes, drastically reducing their accuracy.",
+		"type": "attack",
+		"stats": {
+			"mgt": 0,
+			"acc": 85,
+			"crit": 0,
+			"wgt": 3
+		},
+		"cooldown": 2,
+		"effect": "blind",
+		"chance": 90,
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Low Blow": {
+		"nome": "Low Blow",
+		"description": "A dirty strike targeting weak points, leaving the target more vulnerable to all damage.",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 75,
+			"crit": 0,
+			"wgt": 5
+		},
+		"cooldown": 3,
+		"effect": "break",
+		"chance": 80,
+		"inherit_stats": true,
+		"inherit_wpn": true
+	},
 	"Poison Spit": {
 		"nome": "Poison Spit",
 		"description": "Spits a glob of toxic fluid at the target, dealing minor damage and inflicting poison.",
