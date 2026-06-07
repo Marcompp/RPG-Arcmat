@@ -12,6 +12,10 @@ func save(slot: int, game_manager) -> bool:
 		return false
 
 	var save_data = {
+		"rng": {
+			"seed":  game_manager.rng.seed,
+			"state": game_manager.rng.state
+		},
 		"meta": {
 			"timestamp": Time.get_unix_time_from_system(),
 			"datetime": Time.get_datetime_string_from_system(),

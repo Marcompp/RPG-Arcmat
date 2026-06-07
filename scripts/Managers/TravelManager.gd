@@ -23,6 +23,10 @@ var mode = TravelMode.NODE_ACTIONS
 
 var game_manager
 var game_state
+var rng: RandomNumberGenerator
+
+func _pick(arr: Array):
+	return arr[rng.randi() % arr.size()]
 
 var world_data = {}
 var monster_db = []
@@ -94,7 +98,7 @@ func _ready():
 		if treasure.is_empty():
 			MyEventBus.emit("give_region_item_picked", {"item": ""})
 			return
-		var item: String = treasure[randi() % treasure.size()]
+		var item: String = _pick(treasure)
 		MyEventBus.emit("give_region_item_picked", {"item": item})
 	)
 
@@ -371,9 +375,9 @@ func enter_town(town_name):
 	MyEventBus.emit("clear_text", {})
 	var arrival = current_town_data.get("arrival", [])
 	var ambience = current_town_data.get("ambience", [])
-	var text = arrival.pick_random() if not arrival.is_empty() else town_name
+	var text = _pick(arrival) if not arrival.is_empty() else town_name
 	if not ambience.is_empty():
-		text += "\n\n" + ambience.pick_random()
+		text += "\n\n" + _pick(ambience)
 	MyEventBus.emit("dialogue", {"text": text, "choices": [], "linebreak": false})
 	show_town_actions()
 
@@ -381,9 +385,9 @@ func return_to_town():
 	MyEventBus.emit("clear_text", {})
 	var arrival = current_town_data.get("shop_exit", [])
 	var ambience = current_town_data.get("ambience", [])
-	var text = arrival.pick_random() if not arrival.is_empty() else "You go back out into %s." % [current_town]
+	var text = _pick(arrival) if not arrival.is_empty() else "You go back out into %s." % [current_town]
 	if not ambience.is_empty():
-		text += "\n\n" + ambience.pick_random()
+		text += "\n\n" + _pick(ambience)
 	MyEventBus.emit("dialogue", {"text": text, "choices": [], "linebreak": false})
 	show_town_actions()
 
@@ -470,11 +474,11 @@ func enter_shop(shop_name: String, shop_data: Dictionary):
 	else:
 		var other = shop_data.get("OtherText", [])
 		if not other.is_empty():
-			text = other.pick_random()
+			text = _pick(other)
 
 	var ambience = shop_data.get("ambience", [])
 	if not ambience.is_empty():
-		var amb = ambience.pick_random()
+		var amb = _pick(ambience)
 		text = (text + "\n\n" + amb) if text != "" else amb
 
 	if text == "":
@@ -659,7 +663,7 @@ func handle_exit(exit):
 		monster = boss_monster
 	else:
 		var encounter_rate = exit.get('encounter_rate', current_node_data.get("encounter_rate", 0.75))
-		var encounter_roll = randf()
+		var encounter_roll = rng.randf()
 		if encounter_roll < encounter_rate:
 			monster = _pick_monster(exit.get("enemies", current_node_data.get("enemies", []) if current_node_data else []))
 	if monster:
@@ -715,13 +719,13 @@ func pick_next_node(entrance):
 	if progress >= region_length:
 		var exit_nodes = valid.filter(func(i): return region_nodes[i].get("type", "") == "EXIT")
 		if not exit_nodes.is_empty():
-			return exit_nodes.pick_random()
+			return _pick(exit_nodes)
 	else:
 		valid = valid.filter(func(i): return region_nodes[i].get("type", "") != "EXIT")
 		if valid.is_empty():
 			return current_node
 
-	return valid.pick_random()
+	return _pick(valid)
 
 # ------------------------
 # ENCOUNTER
@@ -763,7 +767,7 @@ func _pick_monster(node_enemies):
 	for entry in pool:
 		total += int(entry["weight"])
 
-	var roll = randi() % total
+	var roll = rng.randi() % total
 	var cumulative = 0
 	for entry in pool:
 		cumulative += entry["weight"]
@@ -794,13 +798,13 @@ func _pick_event(event_refs: Array) -> Dictionary:
 		valid.append({"chance": ref.get("chance", 1.0), "def": event_def})
 
 	var triggered := valid.filter(func(e) -> bool:
-		return randf() < e["chance"]
+		return rng.randf() < e["chance"]
 	)
 
 	if triggered.is_empty():
 		return {}
 
-	return triggered.pick_random()["def"]
+	return _pick(triggered)["def"]
 
 func _run_node_event(event_def: Dictionary) -> bool:
 	var steps: Array = event_def.get("steps", [])
@@ -809,6 +813,7 @@ func _run_node_event(event_def: Dictionary) -> bool:
 
 	var reader := EventReader.new()
 	add_child(reader)
+	reader.rng = rng
 	if condition_callback != null:
 		reader.condition_callback = func(cond): return condition_callback.call(cond, current_node)
 	reader.stat_callback = func(stat: String) -> int:
@@ -845,10 +850,10 @@ func get_arrival_text(node, use_default=false):
 	var arrival = node["arrival"]
 	
 	if arrival.has(current_entrance) and not use_default:
-		return arrival[current_entrance].pick_random()
-	
+		return _pick(arrival[current_entrance])
+
 	if arrival.has("default"):
-		return arrival["default"].pick_random()
+		return _pick(arrival["default"])
 	
 	return ""
 
@@ -868,7 +873,7 @@ func get_dynamic_paragraph(node, node_key):
 				ok = _evaluate_node(p["condition"], node_key)
 			
 			if ok and p.has("chance"):
-				if randf() > p["chance"]:
+				if rng.randf() > p["chance"]:
 					ok = false
 			
 			if ok:
@@ -877,7 +882,7 @@ func get_dynamic_paragraph(node, node_key):
 	if valid.is_empty():
 		return node.get("name", "???")
 	
-	var chosen = valid.pick_random()
+	var chosen = _pick(valid)
 	
 	if chosen.has("effect"):
 		MyEventBus.emit("apply_effect",chosen["effect"])

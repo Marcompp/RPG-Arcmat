@@ -98,6 +98,8 @@ var condition_callback := Callable()
 ## Assign to return a numeric player stat value by name, e.g. func(s): return player.get_stat(s)
 var stat_callback := Callable()
 
+var rng: RandomNumberGenerator
+
 ## Assign to return a step array by event name, e.g. func(n): return events_db.get(n,{}).get("steps",[])
 var event_callback := Callable()
 
@@ -275,7 +277,7 @@ func _run_random(step: Dictionary) -> void:
 	for entry in pool:
 		total += _effective_weight(entry)
 
-	var roll := randi() % total
+	var roll := rng.randi() % total
 	var cumulative := 0
 	for entry in pool:
 		cumulative += _effective_weight(entry)

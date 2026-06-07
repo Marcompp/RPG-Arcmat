@@ -28,6 +28,8 @@ var element_db:  Dictionary = {}
 var status_effects: Dictionary = { "player": [] }
 var cooldowns:      Dictionary = { "player": {} }
 
+var rng: RandomNumberGenerator
+
 var enemy_timers: Array = []
 var enemy_first_actions: Array = []
 
@@ -556,8 +558,8 @@ func _enemy_choose_action(idx: int) -> Dictionary:
 	var available = skills.filter(func(s): return cooldowns[key].get(s, 0) == 0 and skills_db.has(s))
 	available += spells.filter(func(s): return cooldowns[key].get(s, 0) == 0 and spells_db.has(s) and spells_db[s].get("cost",0) <= e.get_mp())
 	print(available)
-	if available.size() > 0 and (randi_range(1, 100) <= e.data.get('Skill_Chance',35)):
-		var chosen = available[randi_range(0, available.size() - 1)]
+	if available.size() > 0 and (rng.randi_range(1, 100) <= e.data.get('Skill_Chance',35)):
+		var chosen = available[rng.randi_range(0, available.size() - 1)]
 		if skills_db.has(chosen):
 			return { "actor": e, "who": key, "type": "skill", "name": chosen, "db": skills_db }
 		if spells_db.has(chosen):
@@ -583,7 +585,7 @@ func _check_hit(attacker, defender, base_acc: int) -> bool:
 		+ attacker.get_total_stat("dex") \
 		- defender.get_total_stat("agi") \
 		- floori(defender.get_total_stat("lck") / 2.0)
-	return randi_range(1, 100) <= hit_rate
+	return rng.randi_range(1, 100) <= hit_rate
 
 func calculate_damage(attacker, defender) -> int:
 	var weapon = attacker.get_weapon()
@@ -591,8 +593,8 @@ func calculate_damage(attacker, defender) -> int:
 	var crit   = weapon.get("stats", {}).get("crit", 0)
 	var atk    = attacker.get_total_stat("str") + mgt
 	var def    = defender.get_total_stat("def")
-	var dmg    = max(1, atk - floori(def / 2) + randi_range(0, 2))
-	if randi_range(1, 100) <= crit:
+	var dmg    = max(1, atk - floori(def / 2) + rng.randi_range(0, 2))
+	if rng.randi_range(1, 100) <= crit:
 		dmg = int(dmg * 1.5)
 	return dmg
 
@@ -635,10 +637,11 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 	elif who == "player" and data.get("type","attack") in ["random"]:
 		var hits = int(data.get("hits",1))
 		if data.has("max_hits"):
-			hits = randi_range(data.get("min_hits",1), data["max_hits"])
+			hits = rng.randi_range(data.get("min_hits",1), data["max_hits"])
 		for i in range(hits):
 			if len(_living_indices()) > 0:
-				var new_target = enemies[_living_indices().pick_random()]
+				var living = _living_indices()
+				var new_target = enemies[living[rng.randi() % living.size()]]
 				var temp_data = data.duplicate()
 				temp_data["hits"] = 1
 				temp_data["max_hits"] = 1
@@ -656,7 +659,7 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 func _execute_hit(data, user, who: String, target):
 	var hits = int(data.get("hits",1))
 	if data.has("max_hits") and data["max_hits"]>1:
-		hits = randi_range(data.get("min_hits",1), data["max_hits"])
+		hits = rng.randi_range(data.get("min_hits",1), data["max_hits"])
 	for _i in range(hits):
 		if target.get_hp() <= 0:
 			break
@@ -807,12 +810,12 @@ func _resolve_action(user, target, data) -> Dictionary:
 	if not ignore_def:
 		def_val = target.get_mp() if is_magic else target.get_total_stat("def")
 
-	var dmg = max(1, base_mgt - floori(def_val / 2) + randi_range(0, 2))
+	var dmg = max(1, base_mgt - floori(def_val / 2) + rng.randi_range(0, 2))
 
 	var crit_chance = stats.get("crit", 0) + user.get_total_stat("dex") - target.get_total_stat("lck")
 	if inherit_wpn:
 		crit_chance += weapon.get("stats", {}).get("crit", 0)
-	if randi_range(1, 100) <= crit_chance:
+	if rng.randi_range(1, 100) <= crit_chance:
 		dmg = int(dmg * 1.5)
 		#result["text"] = "[color=orange]Critical! [/color]"
 		result["critical"] = true
@@ -838,7 +841,7 @@ func _resolve_action(user, target, data) -> Dictionary:
 
 	var effect = data.get("effect", "none")
 	var chance = data.get("chance", 100)
-	if effect != "none" and effect != "" and effect != "ignore_def" and randi_range(1, 100) <= chance:
+	if effect != "none" and effect != "" and effect != "ignore_def" and rng.randi_range(1, 100) <= chance:
 		result["status"] = effect
 
 	return result
@@ -856,7 +859,7 @@ func _calculate_rewards() -> Dictionary:
 		total_xp   += int(10.0 * pow(1.5, lvl - 1))
 		total_gold += e.data.get("Gold", 0)
 		for item in e.data.get("Drops", {}):
-			if randi_range(1, 100) <= e.data["Drops"][item]:
+			if rng.randi_range(1, 100) <= e.data["Drops"][item]:
 				all_drops[item] = all_drops.get(item, 0) + 1
 	return { "xp": total_xp, "gold": total_gold, "drops": all_drops }
 

@@ -16,19 +16,21 @@ var xp = 0
 var armor_db = {}
 var weapon_db = {}
 var stat_multipliers: Dictionary = {}
+var _rng: RandomNumberGenerator
 
 # ------------------------
 # INIT
 # ------------------------
 
-func _init(char_data, arm_db, wpn_db):
+func _init(char_data, arm_db, wpn_db, p_rng: RandomNumberGenerator = null, skip_growth: bool = false):
+	_rng = p_rng
 	data = char_data.duplicate()
 	armor_db = arm_db
 	weapon_db = wpn_db
-	
+
 	money = char_data.get("Money", 0)
 	level = int(char_data.get("Lvl", 1))
-	base_stats = _build_base_stats(char_data)
+	base_stats = _build_base_stats(char_data, skip_growth)
 	equipment = _build_equipment(char_data)
 
 	recalculate()
@@ -37,7 +39,7 @@ func _init(char_data, arm_db, wpn_db):
 # BUILD
 # ------------------------
 
-func _build_base_stats(char):
+func _build_base_stats(char, skip_growth: bool = false):
 	var stats = char.get("Stats", {})
 	var override = char.get("TrueStats", {})
 	var base = {
@@ -50,6 +52,8 @@ func _build_base_stats(char):
 		"lck": override.get("Lck",_define_base_stat(stats.get("Lck", "E"),"lck")),
 		"def": override.get("Def",_define_base_stat(stats.get("Def", "E"),"def"))
 	}
+	if skip_growth:
+		return base
 	return _apply_level_growth(char, base)
 
 func _define_base_stat(stat, which):
@@ -83,7 +87,8 @@ func _apply_level_growth(char, base: Dictionary) -> Dictionary:
 		for stat in result:
 			var rank = stat_ranks.get(rank_keys.get(stat, ""), "E")
 			var growth = _get_growth(rank,stat)
-			if randi() % 100 < growth:
+			var r := _rng.randi() if _rng else randi()
+			if r % 100 < growth:
 				result[stat] += 1
 
 	return result
@@ -298,7 +303,8 @@ func _roll_level_gains() -> Dictionary:
 	for stat in base_stats:
 		var rank = stat_ranks.get(rank_keys.get(stat, ""), "E")
 		var growth = _growth(rank) + (20 if stat == "hp" else 0)
-		if randi() % 100 < growth:
+		var r := _rng.randi() if _rng else randi()
+		if r % 100 < growth:
 			gains[stat] = 1
 	return gains
 

@@ -40,6 +40,7 @@ var pending_character = null
 var current_slot = 1
 
 var game_state = GameState.new()
+var rng := RandomNumberGenerator.new()
 
 signal character_updated(char)
 
@@ -112,6 +113,8 @@ func _ready():
 	game_state["used_events"] = {}
 	travel.game_state = game_state
 	travel.game_manager = self
+	travel.rng = rng
+	combat.rng = rng
 	game_state["region"] = travel.current_region
 	game_ui.bind(game_state)
 	
@@ -418,7 +421,8 @@ func show_character_confirm(char):
 	
 func confirm_character():
 	var chara = pending_character
-	var character = Character.new(chara, armor_db, weapon_db)
+	rng.randomize()
+	var character = Character.new(chara, armor_db, weapon_db, rng)
 	game_state["player"] = character
 	game_state["gold"] = character.get_money()
 	
@@ -526,7 +530,7 @@ func start_combat(data):
 
 	var enemy_chars: Array = []
 	for i in range(enemy_data_list.size()):
-		var enmy = Character.new(enemy_data_list[i], armor_db, weapon_db)
+		var enmy = Character.new(enemy_data_list[i], armor_db, weapon_db, rng)
 		game_state.set_value("enemy_%d" % i, enmy)
 		enemy_chars.append(enmy)
 
@@ -653,6 +657,13 @@ func load_game(slot: int):
 		show_text("No save found in slot %d." % slot)
 		return
 
+	var rng_data = save_data.get("rng", {})
+	if rng_data.is_empty():
+		rng.randomize()
+	else:
+		rng.seed  = rng_data["seed"]
+		rng.state = rng_data["state"]
+
 	var gs = save_data.get("game_state", {})
 	game_state["gold"]          = gs.get("gold", 0)
 	game_state["vars"]          = gs.get("vars", {})
@@ -665,7 +676,7 @@ func load_game(slot: int):
 	var player_data = save_data.get("player", {})
 	if not player_data.is_empty():
 		var char_data = player_data.get("data", {})
-		var character = Character.new(char_data, armor_db, weapon_db)
+		var character = Character.new(char_data, armor_db, weapon_db, rng, true)
 		character.load_from_save(player_data)
 		game_state["player"] = character
 

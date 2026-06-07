@@ -954,6 +954,7 @@
 		  {
 			"name": "Dead End",
 			"entrances": ["CATACOMB"],
+			"backdrop": "sundown_cavein2.png",
 			"condition": {
 					"no_repeat":true
 				},
@@ -1003,6 +1004,10 @@
 			"name": "Circus Grounds",
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_circus.png",
+		  	"encounter_rate": 0,
+			"events": [
+			  {"chance": 1, "event": "circus_enter"}
+			],
 			"condition": { "visit_count": { "max": 0 } },
 			"arrival": {
 			  "SURFACE": [
