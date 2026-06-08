@@ -206,7 +206,7 @@ func restart_player_choices():
 func next_turn():
 	await start_player_turn()
 
-func check_combat_end(need_wait = true):
+func check_combat_end():
 	if player.get_hp() <= 0:
 		var revive_msg = trinket_sys.try_auto_revive()
 		if revive_msg != "":
@@ -218,8 +218,6 @@ func check_combat_end(need_wait = true):
 	if _living_indices().is_empty():
 		await end_combat(true)
 		return
-	if need_wait:
-		await wait_for_continue()
 	await next_turn()
 
 func end_combat(victory: bool):
@@ -267,6 +265,7 @@ func _show_intro():
 		show_text("You encounter %s\n\nThey're ready to fight!" % names)
 
 func _execute_start_skills():
+	var any_skill = false
 	for i in range(enemies.size()):
 		var skill_name: String = enemies[i].data.get("Start", "")
 		if skill_name == "":
@@ -275,6 +274,9 @@ func _execute_start_skills():
 		var skill_data = db.get(skill_name, {})
 		var target     = enemies[i] if skill_data.get("type", "attack") == "self" else player
 		await _execute_action(enemies[i], _ekey(i), skill_name, db, target)
+		any_skill = true
+	if any_skill:
+		await wait_for_continue()
 
 func render_player_turn():
 	var living = _living_indices()
@@ -433,15 +435,21 @@ func _resolve_turn_pair(player_action: Dictionary):
 			prep_msgs.append("[b]%s[/b] %s" % [enemy_display_names[i], phase])
 	if prep_msgs.size() > 0:
 		MyEventBus.emit("continue_text", { "text": "\n".join(prep_msgs) })
-		await wait_for_continue()
+		await wait_for_writing()
 
-	var need_wait = false
-	need_wait = status_sys.process_statuses("player")
+	status_sys.process_statuses("player")
 	for i in range(enemies.size()):
-		need_wait = need_wait or status_sys.process_statuses(_ekey(i))
+		status_sys.process_statuses(_ekey(i))
+	await wait_for_writing()
 
 	state = CombatState.PLAYER_TURN
-	await check_combat_end(need_wait)
+
+	if player.get_hp() <= 0 or _living_indices().is_empty():
+		await check_combat_end()
+		return
+
+	await wait_for_continue()
+	await next_turn()
 
 func _execute_turn_action(action: Dictionary):
 	match action["type"]:
@@ -589,7 +597,7 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 	if data.get("consumable", false):
 		user.consume_item(action_name)
 
-	await wait_for_continue()
+	await wait_for_writing()
 
 func _execute_hit(data, user, who: String, target):
 	var hits = int(data.get("hits", 1))

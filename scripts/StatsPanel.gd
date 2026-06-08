@@ -130,7 +130,7 @@ func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Con
 	if badge_text != "":
 		var badge := Label.new()
 		badge.text = badge_text
-		badge.add_theme_font_size_override("font_size", 8)
+		badge.add_theme_font_size_override("font_size", 10)
 		badge.add_theme_color_override("font_color", Color.WHITE)
 		badge.add_theme_color_override("font_outline_color", Color.BLACK)
 		badge.add_theme_constant_override("outline_size", 2)
@@ -170,7 +170,7 @@ func _make_status_icon(key: String, duration: int) -> Control:
 	if duration > 0:
 		var badge := Label.new()
 		badge.text = str(duration)
-		badge.add_theme_font_size_override("font_size", 8)
+		badge.add_theme_font_size_override("font_size", 10)
 		badge.add_theme_color_override("font_color", Color.WHITE)
 		badge.add_theme_color_override("font_outline_color", Color.BLACK)
 		badge.add_theme_constant_override("outline_size", 2)
