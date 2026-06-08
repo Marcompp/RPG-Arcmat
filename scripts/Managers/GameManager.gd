@@ -31,6 +31,7 @@ var armor_db = {}
 var weapon_db = {}
 var spell_db = {}
 var skill_db = {}
+var trinkets_db = {}
 
 var in_combat = false
 var _pending_level_ups: Array = []
@@ -131,8 +132,9 @@ func _ready():
 	monster_db = load_json("res://Database/monsters.json")
 	armor_db = load_json("res://Database/armors.json")
 	weapon_db = load_json("res://Database/weapons.json")
-	spell_db = load_json("res://Database/spells.json")
-	skill_db = load_json("res://Database/skills.json")
+	spell_db    = load_json("res://Database/spells.json")
+	skill_db    = load_json("res://Database/skills.json")
+	trinkets_db = load_json("res://Database/trinkets.json")
 
 	dialogue.visible = false
 	main_menu.new_game_requested.connect(_on_main_menu_new_game)
@@ -263,13 +265,15 @@ func build_character_tooltip(chara):
 		else:
 			t += "[cell][/cell][cell][/cell]"
 
-	t += "[/table]"
+	t += "[/table]\n"
 	
 	# Equip
 	if chara.has("Equip") and typeof(chara["Equip"]) == TYPE_DICTIONARY:
 		t += "\nStarting Equipment:\n"
 		for e in chara["Equip"]:
 			t += e + ": " + chara["Equip"][e] + "\n"
+		if chara.has("Trinkets"):
+			t += "Trinket: " + ", ".join(chara["Trinkets"]) + "\n"
 	
 	# Skills
 	if chara["Skills"].size() > 0:
@@ -388,10 +392,12 @@ func show_character_confirm(char):
 	# EQUIP & Inventory
 	# ------------------------
 	text += "[b]Inventory[/b]\n"
-	text += "[table=6]"
+	text += "[table=9]"
 	if char.has("Equip"):
 		for s in char["Equip"]:
 			text += "[cell]" + s + ": " + char["Equip"][s] + "[/cell][cell]  [/cell]"
+	if char.has("Trinkets"):
+		text += "[cell]Trinket: " + ", ".join(char["Trinkets"]) + "[cell]  [/cell]"
 	
 	var inv = char.get("Inventory", {})
 	if typeof(inv) == TYPE_DICTIONARY and inv.size() > 0:
@@ -956,8 +962,23 @@ func _process_item_acquisition(item_name: String, player: Character):
 			await _offer_learn(skill_name, skill_db[skill_name], "skill", player, item_name)
 		else:
 			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+	elif trinkets_db.has(item_name):
+		await _equip_trinket_acquisition(item_name, player)
 	else:
 		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+
+func _equip_trinket_acquisition(item_name: String, player: Character):
+	if not player.data.has("Trinkets"):
+		player.data["Trinkets"] = []
+	var stackable = trinkets_db[item_name].get("stackable", false)
+	if not stackable and item_name in player.data["Trinkets"]:
+		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+		MyEventBus.emit("continue_text", {"text": "[color=#AAAAAA]%s kept in bag (already equipped).[/color]" % item_name})
+	else:
+		player.data["Trinkets"].append(item_name)
+		player.stats_changed.emit()
+		MyEventBus.emit("continue_text", {"text": "[color=#00E676]%s equipped![/color]" % item_name})
+	await _gm_wait_for_continue()
 
 func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: Character, item_name: String):
 	var known: bool

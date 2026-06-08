@@ -16,6 +16,7 @@
 	  "Weapon": "Foil",
 	  "Armor": "Corset"
 	},
+	"Trinkets": ["Duelist Glove"],
 	"Skills": ["Armor Piercer", "Lunge", "Flourish"],
 	"Spells": [],
 	"Money": 100,
@@ -47,6 +48,7 @@
 	  "Weapon": "Hatchet",
 	  "Armor": "Tanktop"
 	},
+	"Trinkets": ["Woodcutter's Bandana"],
 	"Money": 40,
 	"Inventory": {
 		"Potion": 2,
@@ -78,6 +80,7 @@
 	  "Weapon": "Wooden Rod",
 	  "Armor": "Uniform"
 	},
+	"Trinkets": ["Resonant Badge"],
 	"Skills": ["Meditate", "Mana Explosion"],
 	"Spells": ["Thunder", "Poison"],
 	"Money": 65,
@@ -109,6 +112,7 @@
 	  "Weapon": "Sling",
 	  "Armor": "Tanktop"
 	},
+	"Trinkets": ["Hidden Blade"],
 	"Skills": ["Poison Spit", "Assassinate", "Low Blow", "Pocket Sand"],
 	"Spells": [],
 	"Money": 75,

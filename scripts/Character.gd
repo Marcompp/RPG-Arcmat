@@ -232,9 +232,15 @@ func get_max_mp():
 func get_stat(stat):
 	return final_stats.get(stat, 0)
 	
-func get_element():
+func get_element() -> String:
 	return element
-	
+
+func set_element(e: String) -> void:
+	element = e
+
+func get_trinkets() -> Array:
+	return data.get("Trinkets", [])
+
 func get_weapon():
 	if equipment.get("weapon"):
 		return equipment.get("weapon")

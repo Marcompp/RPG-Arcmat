@@ -53,6 +53,9 @@ func _ready():
 			else:
 				labels[i].text = str(t)
 	)
+	MyEventBus.subscribe("trinket_states_changed", func(data):
+		player_panel.update_trinkets(data["trinkets"], data["states"])
+	)
 	MyEventBus.subscribe("status_changed", func(data):
 		var panel
 

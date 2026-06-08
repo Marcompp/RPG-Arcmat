@@ -14,7 +14,8 @@ enum TravelMode {
 	INVENTORY_ITEMS,
 	INVENTORY_WEAPONS,
 	INVENTORY_ARMOR,
-	INVENTORY_MISC
+	INVENTORY_MISC,
+	INVENTORY_TRINKETS
 }
 
 var condition_callback = null
@@ -33,6 +34,7 @@ var monster_db = []
 var region_db = {}
 var town_db = {}
 var items_db = {}
+var trinkets_db = {}
 var events_db = {}
 
 var current_town = ""
@@ -62,8 +64,9 @@ func _ready():
 	monster_db = load_json("res://Database/monsters.json")
 	region_db = load_json("res://Database/regions.json")
 	town_db = load_json("res://Database/towns.json")
-	items_db = load_json("res://Database/items.json")
-	events_db = load_json("res://Database/events.json")
+	items_db    = load_json("res://Database/items.json")
+	trinkets_db = load_json("res://Database/trinkets.json")
+	events_db   = load_json("res://Database/events.json")
 
 	MyEventBus.subscribe("character_selected", func(_data):
 		current_region = "Apple Woods"
@@ -186,6 +189,9 @@ func handle_input(choice):
 
 		TravelMode.INVENTORY_MISC:
 			_handle_inventory_misc(choice)
+
+		TravelMode.INVENTORY_TRINKETS:
+			_handle_inventory_trinkets(choice)
 
 # ------------------------
 # NODES
@@ -496,10 +502,10 @@ func show_shop_stock():
 
 	for item_name in stock:
 		var price: int = int(stock[item_name])
-		var data = _get_shop_item_data(item_name, shop_type)
+		var data = _get_shop_item_data(item_name)
 		var label = "%s — %dG" % [item_name, price]
 
-		if shop_type == "Equip" and _player_has_equip(item_name):
+		if _player_already_owns(item_name):
 			choices.append({
 				"text": item_name + " — SOLD OUT",
 				"type": "shop_sold_out",
@@ -512,7 +518,7 @@ func show_shop_stock():
 				"text": label,
 				"type": "shop_buy",
 				"data": {"item": item_name, "price": price, "shop_type": shop_type},
-				"tooltip": _format_shop_tooltip(item_name, data, shop_type)
+				"tooltip": _format_shop_tooltip(item_name, data)
 			})
 		else:
 			choices.append({
@@ -575,25 +581,38 @@ func _player_has_equip(item_name: String) -> bool:
 			return true
 	return false
 
-func _get_shop_item_data(item_name: String, shop_type: String) -> Dictionary:
-	match shop_type:
-		"Item":
-			return items_db.get(item_name, {})
-		"Equip":
-			if game_manager.weapon_db.has(item_name):
-				return game_manager.weapon_db[item_name]
-			return game_manager.armor_db.get(item_name, {})
-	return {}
+func _player_already_owns(item_name: String) -> bool:
+	var player = game_state["player"]
+	var inv = player.get_inventory()
+	if game_manager.weapon_db.has(item_name) or game_manager.armor_db.has(item_name):
+		return _player_has_equip(item_name)
+	if trinkets_db.has(item_name) and not trinkets_db[item_name].get("stackable", false):
+		return item_name in player.get_trinkets() or inv.has(item_name)
+	if item_name.begins_with("Book of "):
+		var spell_name = item_name.substr(8)
+		return player.get_spells().has(spell_name) or inv.has(item_name) or player.get_spells().size() >= 4
+	if item_name.ends_with(" Scroll"):
+		var skill_name = item_name.substr(0, item_name.length() - 7)
+		return player.get_skills().has(skill_name) or inv.has(item_name)
+	return false
 
-func _format_shop_tooltip(item_name: String, data: Dictionary, shop_type: String) -> String:
+func _get_shop_item_data(item_name: String) -> Dictionary:
+	if game_manager.weapon_db.has(item_name):
+		return game_manager.weapon_db[item_name]
+	if game_manager.armor_db.has(item_name):
+		return game_manager.armor_db[item_name]
+	if trinkets_db.has(item_name):
+		return trinkets_db[item_name]
+	return items_db.get(item_name, {})
+
+func _format_shop_tooltip(item_name: String, data: Dictionary) -> String:
 	if data.is_empty():
 		return item_name
-	match shop_type:
-		"Item":
-			return _format_item_tooltip(item_name, data)
-		"Equip":
-			return _format_equip_tooltip(data)
-	return item_name
+	if game_manager.weapon_db.has(item_name) or game_manager.armor_db.has(item_name):
+		return _format_equip_tooltip(data)
+	if trinkets_db.has(item_name):
+		return _format_trinket_tooltip(item_name, data)
+	return _format_item_tooltip(item_name, data)
 
 # ------------------------
 # EXITS
@@ -926,11 +945,12 @@ func _show_inventory_menu():
 	mode = TravelMode.INVENTORY_MENU
 	MyEventBus.emit("show_choices", {
 		"choices": [
-			{"text": "Items",   "type": "action", "tooltip": "Use consumable items"},
-			{"text": "Weapons", "type": "action", "tooltip": "Change your equipped weapon"},
-			{"text": "Armor",   "type": "action", "tooltip": "Change your equipped armor"},
-			{"text": "Misc",    "type": "action", "tooltip": "View other items"},
-			{"text": "Back",    "type": "back",   "tooltip": "Return"}
+			{"text": "Items",    "type": "action", "tooltip": "Use consumable items"},
+			{"text": "Weapons",  "type": "action", "tooltip": "Change your equipped weapon"},
+			{"text": "Armor",    "type": "action", "tooltip": "Change your equipped armor"},
+			{"text": "Trinkets", "type": "action", "tooltip": "View and manage equipped trinkets"},
+			{"text": "Misc",     "type": "action", "tooltip": "View other items"},
+			{"text": "Back",     "type": "back",   "tooltip": "Return"}
 		],
 		"header": "Inventory"
 	})
@@ -940,10 +960,11 @@ func _handle_inventory_menu(choice):
 		show_node_actions()
 		return
 	match choice["text"]:
-		"Items":   _show_inventory_items()
-		"Weapons": _show_inventory_weapons()
-		"Armor":   _show_inventory_armor()
-		"Misc":    _show_inventory_misc()
+		"Items":    _show_inventory_items()
+		"Weapons":  _show_inventory_weapons()
+		"Armor":    _show_inventory_armor()
+		"Trinkets": _show_inventory_trinkets()
+		"Misc":     _show_inventory_misc()
 
 # --- Items ---
 
@@ -1178,26 +1199,117 @@ func _handle_inventory_misc(choice):
 	if choice.get("type") == "back":
 		_show_inventory_menu()
 
+# --- Trinkets ---
+
+func _show_inventory_trinkets():
+	mode = TravelMode.INVENTORY_TRINKETS
+	var player   = game_state["player"]
+	var equipped = player.get_trinkets()
+	var inv      = player.get_inventory()
+	var choices  = []
+
+	var equipped_counts: Dictionary = {}
+	for trinket_name in equipped:
+		equipped_counts[trinket_name] = equipped_counts.get(trinket_name, 0) + 1
+	for trinket_name in equipped_counts:
+		var tdata     = trinkets_db.get(trinket_name, {})
+		var count     = equipped_counts[trinket_name]
+		var stackable = tdata.get("stackable", false)
+		var label     = "[Equipped] " + trinket_name + (" x%d" % count if stackable and count > 1 else "")
+		choices.append({
+			"text": label, "type": "trinket_unequip",
+			"data": trinket_name,
+			"tooltip": _format_trinket_tooltip(trinket_name, tdata)
+		})
+
+	for item_name in inv:
+		if not trinkets_db.has(item_name):
+			continue
+		var tdata     = trinkets_db.get(item_name, {})
+		var count     = inv[item_name]
+		var stackable = tdata.get("stackable", false)
+		var label     = item_name + (" x%d" % count if stackable and count > 1 else "")
+		if not stackable and item_name in equipped:
+			choices.append({
+				"text": label, "type": "none",
+				"disabled": true, "disabled_text": label,
+				"disabled_tooltip": "[Already equipped]\n" + _format_trinket_tooltip(item_name, tdata)
+			})
+		else:
+			choices.append({
+				"text": label, "type": "trinket_equip", "data": item_name,
+				"tooltip": _format_trinket_tooltip(item_name, tdata)
+			})
+
+	if choices.is_empty():
+		choices.append({"text": "(No trinkets)", "type": "none", "disabled": true, "disabled_text": "(No trinkets)"})
+	choices.append({"text": "Back", "type": "back"})
+	var fixed_sizes = len(choices) > 3
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Trinkets", "fixed_sizes": fixed_sizes})
+
+func _handle_inventory_trinkets(choice):
+	if choice.get("type") == "back":
+		_show_inventory_menu()
+		return
+	if choice.get("type") == "trinket_unequip":
+		await _unequip_trinket(choice.get("data", ""))
+		_show_inventory_trinkets()
+	elif choice.get("type") == "trinket_equip":
+		await _equip_trinket(choice.get("data", ""))
+		_show_inventory_trinkets()
+
+func _unequip_trinket(trinket_name: String):
+	var player = game_state["player"]
+	player.data["Trinkets"].erase(trinket_name)
+	player.data["Inventory"][trinket_name] = player.data["Inventory"].get(trinket_name, 0) + 1
+	player.stats_changed.emit()
+	MyEventBus.emit("continue_text", {"text": "[color=#FF6B6B]%s unequipped.[/color]" % trinket_name})
+	await game_manager._gm_wait_for_continue()
+
+func _equip_trinket(trinket_name: String):
+	var player = game_state["player"]
+	player.consume_item(trinket_name)
+	if not player.data.has("Trinkets"):
+		player.data["Trinkets"] = []
+	player.data["Trinkets"].append(trinket_name)
+	player.stats_changed.emit()
+	MyEventBus.emit("continue_text", {"text": "[color=#00E676]%s equipped![/color]" % trinket_name})
+	await game_manager._gm_wait_for_continue()
+
+func _format_trinket_tooltip(trinket_name: String, data: Dictionary) -> String:
+	var lines = [trinket_name]
+	if data.has("description"):
+		lines.append(data["description"])
+	return "\n".join(lines)
+
 func _get_valid_treasure(treasure):
 	var n_treasure = []
 	var known_spells = []
 	var known_skills = []
 	var inventory = []
+	var equipment = []
+	var equipped_trinkets = []
 	if game_manager and game_manager.game_state.has("player"):
-			known_spells = game_manager.game_state["player"].get_spells()
-			known_skills = game_manager.game_state["player"].get_skills()
-			inventory = game_manager.game_state["player"].get_owned_equipment()
+			var player = game_manager.game_state["player"]
+			known_spells     = player.get_spells()
+			known_skills     = player.get_skills()
+			inventory        = player.get_inventory()
+			equipment        = player.get_owned_equipment()
+			equipped_trinkets = player.get_trinkets()
 	for item_name in treasure:
 		if item_name.begins_with("Book of "):
 			var spell_name = item_name.substr(8)
-			if known_spells.has(spell_name):
+			if known_spells.has(spell_name) or inventory.has(item_name) or len(known_spells)>=4:
 				continue
 		elif item_name.ends_with(" Scroll"):
 			var skill_name = item_name.substr(0, item_name.length() - 7)
-			if known_skills.has(skill_name):
+			if known_skills.has(skill_name) or inventory.has(item_name):
 				continue
-		elif inventory.any(func(item): return item.get("name", "") == item_name):
+		elif equipment.any(func(item): return item.get("name", "") == item_name):
 			continue
+		elif trinkets_db.has(item_name) and not trinkets_db[item_name].get("stackable", false):
+			if item_name in equipped_trinkets or inventory.has(item_name):
+				continue
 		n_treasure.append(item_name)
 	return n_treasure
 

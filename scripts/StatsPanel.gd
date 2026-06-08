@@ -15,6 +15,8 @@ var _dead: bool = false
 @onready var status_container = $Panel/VBoxContainer/NameContainer/StatusContainer
 
 var _status_db: Dictionary = {}
+var _trinkets_db: Dictionary = {}
+var _last_trinket_states: Dictionary = {}
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
 @onready var hp_bar = $Panel/VBoxContainer/HPContainer/Control/HPBar
@@ -22,6 +24,8 @@ var _status_db: Dictionary = {}
 
 @onready var mp_bar = $Panel/VBoxContainer/MPContainer/Control/MPBar
 @onready var mp_text = $Panel/VBoxContainer/MPContainer/Control/MPText
+
+@onready var trinket_container = $TrinketContainer
 
 const PIXELS_PER_POINT = 5
 const MAX_BAR_WIDTH = 170
@@ -44,7 +48,17 @@ func _ready():
 	tooltip_text = " "  # obrigatório
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_disable_mouse_on_children(self)
-	_status_db = _load_status_db()
+	_status_db   = _load_status_db()
+	_trinkets_db = _load_trinkets_db()
+
+func _load_trinkets_db() -> Dictionary:
+	if not FileAccess.file_exists("res://Database/trinkets.json"):
+		return {}
+	var file = FileAccess.open("res://Database/trinkets.json", FileAccess.READ)
+	var json = JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		return {}
+	return json.data
 
 func _load_status_db() -> Dictionary:
 	if not FileAccess.file_exists("res://Database/status.json"):
@@ -61,9 +75,79 @@ func update_statuses(effects: Array) -> void:
 	for s in effects:
 		status_container.add_child(_make_status_icon(s["type"], s["duration"]))
 
+func update_trinkets(trinkets: Array, states: Dictionary = {}) -> void:
+	if not states.is_empty():
+		_last_trinket_states = states
+	for child in trinket_container.get_children():
+		child.queue_free()
+	var counts: Dictionary = {}
+	for t in trinkets:
+		counts[t] = counts.get(t, 0) + 1
+	for trinket_name in counts:
+		var state = _last_trinket_states.get(trinket_name, {})
+		trinket_container.add_child(_make_trinket_icon(trinket_name, counts[trinket_name], state))
+
+func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Control:
+	var data: Dictionary = _trinkets_db.get(name, {})
+	const ICON_SIZE := 20
+
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	# Tooltip
+	var display_name = data.get("name", name)
+	if count > 1:
+		display_name += " x%d" % count
+	var description = data.get("description", "")
+	var tooltip = display_name + ("\n" + description if description != "" else "")
+	var effect = data.get("effect", "")
+	if effect == "duelist_combo" and not state.is_empty() and state.get("combo", 0) > 0:
+		tooltip += "\nCurrent Combo: %d" % state.get("combo", 0)
+	root.tooltip_text = tooltip
+
+	# Icon
+	var tex_rect := TextureRect.new()
+	tex_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var icon_file: String = data.get("icon", "trinket.png")
+	var tex_path := "res://assets/icons/" + icon_file
+	if not ResourceLoader.exists(tex_path):
+		tex_path = "res://assets/icons/trinket.png"
+	if ResourceLoader.exists(tex_path):
+		tex_rect.texture = load(tex_path)
+	root.add_child(tex_rect)
+
+	# Badge: combo count takes priority over stack count
+	var combo = state.get("combo", 0)
+	var badge_text = ""
+	if effect == "duelist_combo" and combo > 0:
+		badge_text = str(combo)
+	elif count > 1:
+		badge_text = "x%d" % count
+	if badge_text != "":
+		var badge := Label.new()
+		badge.text = badge_text
+		badge.add_theme_font_size_override("font_size", 8)
+		badge.add_theme_color_override("font_color", Color.WHITE)
+		badge.add_theme_color_override("font_outline_color", Color.BLACK)
+		badge.add_theme_constant_override("outline_size", 2)
+		badge.anchor_left     = 1.0
+		badge.anchor_right    = 1.0
+		badge.anchor_top      = 1.0
+		badge.anchor_bottom   = 1.0
+		badge.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		badge.grow_vertical   = Control.GROW_DIRECTION_BEGIN
+		badge.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+		root.add_child(badge)
+
+	return root
+
 func _make_status_icon(key: String, duration: int) -> Control:
 	var data: Dictionary = _status_db.get(key, {})
-	const ICON_SIZE := 28
+	const ICON_SIZE := 20
 
 	var root := Control.new()
 	root.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
@@ -180,6 +264,7 @@ func _refresh_all():
 	_update_bar(hp_bar, hp, mhp, hp_text, true, _bars_tween)
 	_update_bar(mp_bar, mp, mmp, mp_text, _mp_react_next, _bars_tween)
 	_mp_react_next = false
+	update_trinkets(character.get_trinkets())
 
 
 func _update_bar(bar, value, max_value, label: RichTextLabel = null, react_to_hit: bool = false, tween: Tween = null):
@@ -338,7 +423,9 @@ func _clear_ui():
 	position = _rest_pos
 	for child in status_container.get_children():
 		child.queue_free()
-	
+	for child in trinket_container.get_children():
+		child.queue_free()
+
 #----------------
 #Funcionalidades Tooltip:
 #-----------------

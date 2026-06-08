@@ -77,21 +77,5 @@
 		"inherit_wpn": false,
 		"battle_only": true,
 		"consumable": true
-	},
-	"Lifespark Crystal": {
-		"nome": "Lifespark Crystal",
-		"description": "A crystallized ember of life force. Shatters automatically when the bearer falls, reviving them in the heat of battle.",
-		"type": "self",
-		"stats": {
-			"acc": 100,
-			"wgt": 0
-		},
-		"price": 300,
-		"effect": "auto_revive",
-		"magnitude": 50,
-		"inherit_stats": false,
-		"inherit_wpn": false,
-		"battle_only": true,
-		"consumable": true
 	}
 }

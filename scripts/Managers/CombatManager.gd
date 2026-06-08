@@ -36,9 +36,12 @@ var enemy_first_actions: Array = []
 var pending_action: Dictionary = {}
 var _died_enemies: Array = []
 
-var calc:       CombatCalculator
-var status_sys: CombatStatusSystem
-var menu:       CombatMenuBuilder
+var calc:        CombatCalculator
+var status_sys:  CombatStatusSystem
+var menu:        CombatMenuBuilder
+var trinket_sys: TrinketSystem
+
+var trinkets_db: Dictionary = {}
 
 # ============================================================
 # HELPERS
@@ -120,11 +123,12 @@ func start_combat(p, e_or_array):
 		enemies[i].data["Name"] = enemy_display_names[i]
 		enemies[i].stats_changed.emit()
 
-	skills_db  = CombatUtils.load_json("res://Database/skills.json")
-	spells_db  = CombatUtils.load_json("res://Database/spells.json")
-	items_db   = CombatUtils.load_json("res://Database/items.json")
-	status_db  = CombatUtils.load_json("res://Database/status.json")
-	element_db = CombatUtils.load_json("res://Database/element.json")
+	skills_db   = CombatUtils.load_json("res://Database/skills.json")
+	spells_db   = CombatUtils.load_json("res://Database/spells.json")
+	items_db    = CombatUtils.load_json("res://Database/items.json")
+	status_db   = CombatUtils.load_json("res://Database/status.json")
+	element_db  = CombatUtils.load_json("res://Database/element.json")
+	trinkets_db = CombatUtils.load_json("res://Database/trinkets.json")
 
 	status_effects      = { "player": [] }
 	cooldowns           = { "player": {} }
@@ -133,9 +137,10 @@ func start_combat(p, e_or_array):
 	pending_action      = {}
 	_died_enemies       = []
 
-	calc       = CombatCalculator.new(rng, element_db)
-	status_sys = CombatStatusSystem.new(status_effects, cooldowns, status_db, player, enemies, _get_display_name)
-	menu       = CombatMenuBuilder.new()
+	calc        = CombatCalculator.new(rng, element_db)
+	status_sys  = CombatStatusSystem.new(status_effects, cooldowns, status_db, player, enemies, _get_display_name)
+	menu        = CombatMenuBuilder.new()
+	trinket_sys = TrinketSystem.new(p, trinkets_db, status_effects)
 
 	p.set_stat_multipliers({})
 	status_sys.emit_status_update("player")
@@ -173,6 +178,10 @@ func start_combat(p, e_or_array):
 # ============================================================
 
 func start_player_turn():
+	var turn_msg = trinket_sys.process_turn_start()
+	if turn_msg != "":
+		MyEventBus.emit("continue_text", { "text": turn_msg })
+		await wait_for_continue()
 	var is_stunned = status_effects.get("player", []).any(func(s): return s["type"] == "stun")
 	var is_frozen  = status_effects.get("player", []).any(func(s): return s["type"] == "freeze")
 	if not is_stunned and not is_frozen:
@@ -197,26 +206,11 @@ func restart_player_choices():
 func next_turn():
 	await start_player_turn()
 
-func _find_auto_revive_item() -> String:
-	var inv = player.get_inventory()
-	for item_name in inv:
-		if inv[item_name] > 0:
-			var data = items_db.get(item_name, {})
-			if data.get("effect", "") == "auto_revive":
-				return item_name
-	return ""
-
 func check_combat_end(need_wait = true):
 	if player.get_hp() <= 0:
-		var revival_item = _find_auto_revive_item()
-		if revival_item != "":
-			player.consume_item(revival_item)
-			var data       = items_db.get(revival_item, {})
-			var revive_pct = data.get("magnitude", 50)
-			var revive_hp  = max(1, int(player.get_mhp() * revive_pct / 100.0))
-			player.heal(revive_hp)
-			var item_nome = data.get("nome", revival_item)
-			MyEventBus.emit("dialogue", { "text": "[color=yellow]The %s shattered! %s was revived with %d HP![/color]" % [item_nome, player.get_name(), revive_hp] })
+		var revive_msg = trinket_sys.try_auto_revive()
+		if revive_msg != "":
+			MyEventBus.emit("dialogue", { "text": revive_msg })
 			await wait_for_continue()
 		else:
 			await end_combat(false)
@@ -230,6 +224,8 @@ func check_combat_end(need_wait = true):
 
 func end_combat(victory: bool):
 	state = CombatState.END
+	trinket_sys.reset_combat_state()
+	_emit_trinket_states()
 	MyEventBus.emit("enemy_timer_update", { "timers": [] })
 	MyEventBus.emit("character_defeated", { "victory": victory, "enemy_count": enemies.size() })
 
@@ -238,6 +234,10 @@ func end_combat(victory: bool):
 		var names   = ", ".join(enemy_display_names)
 		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % names })
 		await wait_for_continue()
+		var trinket_msg = trinket_sys.process_post_battle()
+		if trinket_msg != "":
+			MyEventBus.emit("continue_text", { "text": trinket_msg })
+			await wait_for_continue()
 		MyEventBus.emit("combat_rewards", { "rewards": rewards })
 		MyEventBus.emit("dialogue", { "text": _format_reward_text(rewards) })
 		await wait_for_continue()
@@ -483,6 +483,8 @@ func _do_attack(actor, who: String, target):
 	if not calc.check_hit(actor, target, acc):
 		MyEventBus.emit("continue_text", { "text": "...but missed![wait=0.1]", "linebreak": false })
 		await wait_for_writing()
+		trinket_sys.on_miss(actor)
+		_emit_trinket_states()
 		return
 	var dmg      = calc.calculate_damage(actor, target)
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
@@ -508,16 +510,23 @@ func _do_attack(actor, who: String, target):
 	if elem_reaction == "immune":
 		MyEventBus.emit("continue_text", { "text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
 	else:
+		dmg = max(1, int(dmg * trinket_sys.get_attack_multiplier(actor, _who_for(target), attack_element)))
+		dmg = trinket_sys.check_death_prevention(target, dmg)
 		if _try_shatter(target):
 			dmg = int(dmg * 1.5)
 			MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
 			await wait_for_writing()
 		target.take_damage(dmg)
+		trinket_sys.on_hit(actor, attack_element)
+		if target == player:
+			trinket_sys.on_player_hit()
+		_emit_trinket_states()
+		var bandana_msg = trinket_sys.get_bandana_message()
 		var down_msg = _notify_if_died(target)
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
 				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" else "")
 		MyEventBus.emit("continue_text", {
-			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s" % [dmg, down_msg],
+			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s%s" % [dmg, down_msg, bandana_msg],
 			"linebreak": false
 		})
 	await wait_for_writing()
@@ -596,6 +605,8 @@ func _execute_hit(data, user, who: String, target):
 				miss_txt = "%s evaded![wait=0.1]" % _get_display_name(target)
 			MyEventBus.emit("continue_text", { "text": miss_txt, "linebreak": false })
 			await wait_for_writing()
+			trinket_sys.on_miss(user)
+			_emit_trinket_states()
 			continue
 		if data.has("hit_text"):
 			MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(data["hit_text"] + "[wait=0.1]", {
@@ -618,14 +629,29 @@ func _execute_hit(data, user, who: String, target):
 				result["damage"] = int(result["damage"] * 1.5)
 				MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
 				await wait_for_writing()
+			var attack_element = data.get("element", "")
+			if attack_element == "":
+				var wpn = user.get_weapon()
+				attack_element = wpn.get("element", "") if wpn and not wpn.is_empty() else ""
+			if attack_element == "":
+				attack_element = "Neutral"
+			result["damage"] = max(1, int(result["damage"] * trinket_sys.get_attack_multiplier(user, _who_for(target), attack_element)))
+			result["damage"] = trinket_sys.check_death_prevention(target, result["damage"])
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
+			trinket_sys.on_hit(user, attack_element)
+			if target == player:
+				trinket_sys.on_player_hit()
+			_emit_trinket_states()
+			var bandana_msg = trinket_sys.get_bandana_message()
 			var down_msg   = _notify_if_died(target)
 			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant][wait=0.1]" % result["damage"]
 			if data.get("type", "attack") in ["group", "aoe", "all", "random"]:
 				damage_txt = "[screenshake][instant]%s took [color=red]%d[/color] damage![/instant][wait=0.1]" % [_get_display_name(target), result["damage"]]
 			if down_msg != "":
 				damage_txt += down_msg
+			if bandana_msg != "":
+				damage_txt += bandana_msg
 			MyEventBus.emit("continue_text", { "text": damage_txt, "linebreak": false })
 			await wait_for_writing()
 		elif result.get("element_reaction") == "immune":
@@ -731,6 +757,12 @@ func _format_reward_text(r: Dictionary) -> String:
 # ============================================================
 # UTILITIES
 # ============================================================
+
+func _emit_trinket_states() -> void:
+	MyEventBus.emit("trinket_states_changed", {
+		"trinkets": player.get_trinkets(),
+		"states":   trinket_sys.get_states()
+	})
 
 func wait_for_writing():
 	var ds := get_parent().get_node("DialogueSystem") as DialogueSystem

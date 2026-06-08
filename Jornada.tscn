@@ -193,6 +193,12 @@ grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
 
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper"]
+custom_minimum_size = Vector2(300, 20)
+offset_top = 91.0
+offset_right = 475.0
+offset_bottom = 111.0
+
 [node name="MoneyPanel" type="VBoxContainer" parent="GameUI/TopLeft"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -432,6 +438,13 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.741176)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.745098)
 theme_override_font_sizes/font_size = 40
 
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2"]
+custom_minimum_size = Vector2(100, 20)
+offset_top = 91.0
+offset_right = 226.0
+offset_bottom = 111.0
+alignment = 2
+
 [node name="TopRightWrapper" type="Panel" parent="GameUI/TopRight"]
 custom_minimum_size = Vector2(226, 78)
 layout_direction = 2
@@ -578,6 +591,13 @@ offset_bottom = 91.0
 theme_override_colors/font_color = Color(1, 1, 1, 0.741176)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.745098)
 theme_override_font_sizes/font_size = 40
+
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper"]
+custom_minimum_size = Vector2(100, 20)
+offset_top = 91.0
+offset_right = 226.0
+offset_bottom = 111.0
+alignment = 2
 
 [node name="OptionsButton" type="Button" parent="GameUI"]
 layout_mode = 0
