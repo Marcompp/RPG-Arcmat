@@ -12,6 +12,7 @@ var curr_stats = {}
 var money = 0
 var level = 1
 var xp = 0
+var base_element = "Neutral"
 var element = "Neutral"
 
 var armor_db = {}
@@ -33,7 +34,8 @@ func _init(char_data, arm_db, wpn_db, p_rng: RandomNumberGenerator = null, skip_
 	level = int(char_data.get("Lvl", 1))
 	base_stats = _build_base_stats(char_data, skip_growth)
 	equipment = _build_equipment(char_data)
-	element = char_data.get("Element", "Neutral")
+	base_element = char_data.get("Element", "Neutral")
+	element = base_element
 
 	recalculate()
 
@@ -237,6 +239,11 @@ func get_element() -> String:
 
 func set_element(e: String) -> void:
 	element = e
+	stats_changed.emit()
+
+func reset_element() -> void:
+	element = base_element
+	stats_changed.emit()
 
 func get_trinkets() -> Array:
 	return data.get("Trinkets", [])

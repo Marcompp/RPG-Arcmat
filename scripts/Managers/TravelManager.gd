@@ -15,8 +15,11 @@ enum TravelMode {
 	INVENTORY_WEAPONS,
 	INVENTORY_ARMOR,
 	INVENTORY_MISC,
-	INVENTORY_TRINKETS
+	INVENTORY_TRINKETS,
+	REST_MENU
 }
+
+const MAX_SPELLS = 4
 
 var condition_callback = null
 
@@ -53,7 +56,7 @@ var current_region = "":
 		_transition_backdrop(value)
 		MyEventBus.emit("region_changed", {"region": value})
 var current_node = 0
-var current_entrance = 1
+var current_entrance = ""
 
 var used_node_action = false
 var current_node_data = null
@@ -160,7 +163,6 @@ func handle_input(choice):
 			handle_node_action(choice)
 
 		TravelMode.CHOOSING_EXIT:
-			print('EXIT CHOICE')
 			handle_exit_choice(choice)
 
 		TravelMode.REGION_EXIT:
@@ -193,6 +195,9 @@ func handle_input(choice):
 		TravelMode.INVENTORY_TRINKETS:
 			_handle_inventory_trinkets(choice)
 
+		TravelMode.REST_MENU:
+			_handle_rest_menu(choice)
+
 # ------------------------
 # NODES
 # ------------------------
@@ -200,44 +205,48 @@ func handle_input(choice):
 func show_node():
 	MyEventBus.emit("clear_text",{})
 	show_node_text(true)
-	current_entrance = "default"
+	current_entrance = "default"  # reset after showing arrival text
 	if current_node_data.get("type", "") == "EXIT":
 		_show_region_exit_prompt()
 	else:
 		show_node_actions()
 
-func enter_node(node_index, entrance, register: bool = true, node_data_override: Dictionary = {}, used_action: bool = false):
+func _setup_node(node_index: int, entrance: String, register: bool = true, node_data_override: Dictionary = {}, used_action: bool = false):
 	_set_current_node(node_index, entrance, node_data_override)
-
+	var _base_state: int = rng.state
+	if not current_node_data.has("_exit_rng_states"):
+		var _node_exits = current_node_data.get("exits", [])
+		var _exit_states: Array = []
+		for i in range(_node_exits.size()):
+			rng.state = _base_state
+			for _j in range(i + 1):
+				rng.randi()
+			_exit_states.append(rng.state)
+			current_node_data["_exit_rng_states"] = _exit_states
+	if not current_node_data.has("_rng_state"):
+		current_node_data["_rng_state"] = _base_state
+	rng.state = _base_state
+	used_node_action = used_action
 	if register:
 		register_visit()
-	used_node_action = used_action
-
-	# 🔔 evento (para UI secundária, som, etc)
 	MyEventBus.emit("node_entered", {
 		"node": current_node_data,
 		"entrance": entrance
 	})
 
-	# 🎯 fluxo principal continua aqui
+func enter_node(node_index, entrance, register: bool = true, node_data_override: Dictionary = {}, used_action: bool = false):
+	_setup_node(node_index, entrance, register, node_data_override, used_action)
 	show_node()
 
 func get_node_text(use_default=false):
-	var key = get_node_key()
-	
 	var text = ""
-	
 	text += get_arrival_text(current_node_data, use_default)
-	text += "\n\n" + get_dynamic_paragraph(current_node_data, key)
-	#text += "\n\nWhat do you want to do?"
-	
-	current_entrance = 0
+	text += "\n\n" + get_dynamic_paragraph(current_node_data)
+	current_entrance = ""
 	return text
 
 func show_node_text(use_default=false):
 	var text = get_node_text(use_default)
-	
-	current_entrance = 0
 	MyEventBus.emit("dialogue", {
 		"text": text,
 		"choices": [],
@@ -252,9 +261,6 @@ func show_node_actions():
 	var node_action = current_node_data.get("action", {}) if current_node_data else {}
 	var action_name = node_action.get("name", "Search for Monsters")
 	var action_tooltip = node_action.get("tooltip", "Stay in place and look for monsters to fight")
-	print(used_node_action)
-	print(node_action)
-	print(node_action.get("repeatable", true))
 	var event_key = node_action.get("event", "")
 	var event_entry = events_db.get(event_key, {})
 	var action_used = game_state and (node_action.get("disabled", false) \
@@ -288,11 +294,10 @@ func show_node_actions():
 			"text": "Inventory",
 			"type": "action",
 			"tooltip": "View your inventory"
-		},
-		{
+		},{
 			"text": "Rest",
 			"type": "action",
-			"tooltip": "Recover health, but risk being attacked"
+			"tooltip": "Save and close your session"
 		}
 	], "header": "What would you like to do?"})
 
@@ -323,7 +328,6 @@ func _handle_region_exit():
 # ------------------------
 
 func handle_node_action(choice):
-	print(choice)
 	if choice.get("type") == "node_action":
 		await _handle_node_specific_action(choice.get("data", {}))
 		return
@@ -336,27 +340,47 @@ func handle_node_action(choice):
 			_show_inventory_menu()
 
 		"Rest":
-			print("Rest TBD")
+			_show_rest_menu()
+
+func _show_rest_menu():
+	mode = TravelMode.REST_MENU
+	MyEventBus.emit("show_choices", {
+		"choices": [
+			{"text": "Back to title screen", "type": "action", "tooltip": "Save and return to the title screen"},
+			{"text": "Close Game",           "type": "action", "tooltip": "Save and quit the game"},
+			{"text": "Back",                 "type": "back",   "tooltip": "Return to node actions"}
+		],
+		# "header": "Save and close session?"
+	})
+
+func _handle_rest_menu(choice):
+	match choice.get("text"):
+		"Back to title screen":
+			game_manager.show_main_menu()
+		"Close Game":
+			get_tree().quit()
+		_:
+			show_node_actions()
 
 func _handle_node_specific_action(action_data: Dictionary) -> void:
+	if current_node_data.has("_rng_state"):
+		rng.state = current_node_data["_rng_state"]
 	var event_name = action_data.get("event", "")
-	print(event_name)
 	if event_name != "":
 		var event_def = events_db.get(event_name, {})
-		print('EVENT DEF')
-		print(event_def)
 		if not event_def.is_empty():
-			var stopped = await _run_node_event(event_def)
+			await _run_node_event(event_def)
+			current_node_data["_rng_state"] = rng.state
 			if not action_data.get("repeatable", true):
 				game_state["used_events"][event_name] = true
 			used_node_action = true
-			# if not stopped:
-			# 	show_node_actions()
 			return
 		push_warning("Node action event not found: " + event_name)
-	game_state["used_events"][event_name] = true
+	if event_name != "":
+		game_state["used_events"][event_name] = true
 	used_node_action = true
 	var monster = _pick_encounter_monster()
+	current_node_data["_rng_state"] = rng.state
 	if monster:
 		MyEventBus.emit("continue_text", {
 			"text": "Suddenly, a [b]" + monster["Name"] + "[/b] appears!"
@@ -559,7 +583,6 @@ func _buy_item(item_name: String, price: int):
 	var player = game_state["player"]
 	if not player.data.has("Inventory"):
 		player.data["Inventory"] = {}
-	# player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 
 	var remaining = game_state["gold"]
 	MyEventBus.emit("continue_text", {
@@ -590,7 +613,7 @@ func _player_already_owns(item_name: String) -> bool:
 		return item_name in player.get_trinkets() or inv.has(item_name)
 	if item_name.begins_with("Book of "):
 		var spell_name = item_name.substr(8)
-		return player.get_spells().has(spell_name) or inv.has(item_name) or player.get_spells().size() >= 4
+		return player.get_spells().has(spell_name) or inv.has(item_name) or player.get_spells().size() >= MAX_SPELLS
 	if item_name.ends_with(" Scroll"):
 		var skill_name = item_name.substr(0, item_name.length() - 7)
 		return player.get_skills().has(skill_name) or inv.has(item_name)
@@ -619,14 +642,16 @@ func _format_shop_tooltip(item_name: String, data: Dictionary) -> String:
 # ------------------------
 
 func show_exit_choices():
-	print('SHOW_EXIT_CHOICES')
 	var choices = []
 	
-	for exit in current_node_data.get("exits", []):
+	var exits = current_node_data.get("exits", [])
+	for i in range(exits.size()):
+		var exit = exits[i]
 		choices.append({
 			"text": exit.get("choice", "Continue"),
 			"type": "exit",
-			"data": exit
+			"data": exit,
+			"exit_index": i
 		})
 	
 	choices.append({
@@ -643,6 +668,11 @@ func handle_exit_choice(choice):
 	if choice.get("type") == "back":
 		show_node_actions()
 		return
+
+	var exit_index: int = choice.get("exit_index", -1)
+	var exit_states: Array = current_node_data.get("_exit_rng_states", [])
+	if exit_index >= 0 and exit_index < exit_states.size():
+		rng.state = exit_states[exit_index]
 
 	var exit = choice.get("data", {})
 	var event = {}
@@ -665,14 +695,7 @@ func handle_exit(exit):
 	var text = travel_text + "\n\n...\n[wait=0.2]\n...[wait=0.2]"
 	MyEventBus.emit("dialogue", {"text": text})
 	await game_manager._gm_wait_for_writing()
-	_set_current_node(next_node, current_entrance)
-	used_node_action = false
-	register_visit()
-
-	MyEventBus.emit("node_entered", {
-		"node": current_node_data,
-		"entrance": current_entrance
-	})
+	_setup_node(next_node, current_entrance)
 	text = get_node_text(false)
 	MyEventBus.emit("continue_text", {"text": text})
 
@@ -730,6 +753,7 @@ func pick_next_node(entrance):
 	var valid = get_valid_nodes(entrance)
 
 	if valid.is_empty():
+		push_error("pick_next_node: no valid nodes for entrance '%s' in '%s' — player stuck at node %d" % [entrance, current_region, current_node])
 		return current_node
 
 	var region_length = region_db.get(current_region, {}).get("Length", INF)
@@ -743,6 +767,7 @@ func pick_next_node(entrance):
 	else:
 		valid = valid.filter(func(i): return region_nodes[i].get("type", "") != "EXIT")
 		if valid.is_empty():
+			push_error("pick_next_node: all valid nodes for entrance '%s' in '%s' are EXIT type but progress (%d) < length (%d) — player stuck" % [entrance, current_region, progress, region_length])
 			return current_node
 
 	return _pick(valid)
@@ -780,7 +805,6 @@ func _pick_monster(node_enemies):
 			pool.append({"data": monster, "weight": rarity})
 
 	if pool.is_empty():
-		print('EMPTY POOL')
 		return null
 
 	var total = 0
@@ -806,7 +830,8 @@ func _pick_event(event_refs: Array) -> Dictionary:
 
 	var valid := []
 	for ref in event_refs:
-		if not events_db.get(ref,{}).get("repeatable", true) and game_state["used_events"].get(ref, false):
+		var event_key = ref.get("event", "")
+		if not events_db.get(event_key, {}).get("repeatable", true) and game_state["used_events"].get(event_key, false):
 			continue
 		var cond = ref.get("condition", {})
 		if not (cond as Dictionary).is_empty() and not _evaluate_node(cond, current_node):
@@ -877,20 +902,20 @@ func get_arrival_text(node, use_default=false):
 	
 	return ""
 
-func get_dynamic_paragraph(node, node_key):
+func get_dynamic_paragraph(node):
 	if not node.has("description"):
 		return node.get("name", "???")
-	
+
 	var valid = []
-	
+
 	for p in node["description"]:
 		var ok = true
-		
+
 		if typeof(p) == TYPE_STRING:
 			valid.append({ "text": p })
 		else:
 			if p.has("condition"):
-				ok = _evaluate_node(p["condition"], node_key)
+				ok = _evaluate_node(p["condition"], current_node)
 			
 			if ok and p.has("chance"):
 				if rng.randf() > p["chance"]:
@@ -1299,7 +1324,7 @@ func _get_valid_treasure(treasure):
 	for item_name in treasure:
 		if item_name.begins_with("Book of "):
 			var spell_name = item_name.substr(8)
-			if known_spells.has(spell_name) or inventory.has(item_name) or len(known_spells)>=4:
+			if known_spells.has(spell_name) or inventory.has(item_name) or len(known_spells) >= MAX_SPELLS:
 				continue
 		elif item_name.ends_with(" Scroll"):
 			var skill_name = item_name.substr(0, item_name.length() - 7)

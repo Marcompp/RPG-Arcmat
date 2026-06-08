@@ -222,6 +222,9 @@ func check_combat_end():
 
 func end_combat(victory: bool):
 	state = CombatState.END
+	player.reset_element()
+	for e in enemies:
+		e.reset_element()
 	trinket_sys.reset_combat_state()
 	_emit_trinket_states()
 	MyEventBus.emit("enemy_timer_update", { "timers": [] })
@@ -469,6 +472,13 @@ func _execute_turn_action(action: Dictionary):
 			else:
 				var target = action["actor"] if action_type == "self" else _target_for(action)
 				await _execute_action(action["actor"], action["who"], action["name"], action["db"], target)
+			if action.get("type", "") in ["magic", "spell"]:
+				var spell_element = data.get("element", "")
+				if spell_element != "" and spell_element != action["actor"].get_element():
+					action["actor"].set_element(spell_element)
+					var elem_color = element_db.get(spell_element, {}).get("color", "#ffffff")
+					MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is now a [color=%s]%s[/color] element!" % [_get_display_name(action["actor"]), elem_color, spell_element] })
+					await wait_for_writing()
 
 # ============================================================
 # DAMAGE & ACTION EXECUTION

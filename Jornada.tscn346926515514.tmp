@@ -1,0 +1,1060 @@
+[gd_scene load_steps=14 format=3 uid="uid://bx50qj2qrnlcv"]
+
+[ext_resource type="Script" uid="uid://bkj7to5ahjl43" path="res://scripts/Managers/GameManager.gd" id="1_3s1co"]
+[ext_resource type="Script" uid="uid://0fjben7gk4s8" path="res://scripts/Managers/DialogueSystem.gd" id="2_6mkdx"]
+[ext_resource type="Script" uid="uid://cngvu4c05o5hn" path="res://scripts/TooltipButton.gd" id="3_6mkdx"]
+[ext_resource type="Texture2D" uid="uid://dr7hwhb6hyorm" path="res://assets/characters/apple_witch4.png" id="3_a1i3y"]
+[ext_resource type="Script" uid="uid://bdjl20mxaqh13" path="res://scripts/StatsPanel.gd" id="3_ej7wp"]
+[ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
+[ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
+[ext_resource type="Texture2D" uid="uid://bh6wsx47ntndu" path="res://assets/icons/gear.png" id="6_3gle4"]
+[ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
+[ext_resource type="Script" uid="uid://eldcn6hvcxf3" path="res://scripts/Managers/AudioManager.gd" id="7_audmgr"]
+[ext_resource type="Script" uid="uid://ce0t6js5r3f6u" path="res://scripts/MainMenu.gd" id="9_tt7o1"]
+[ext_resource type="Script" uid="uid://b38yrmtbrl7fq" path="res://scripts/GameOverScreen.gd" id="10_u8crj"]
+[ext_resource type="Script" uid="uid://cctocm6bfv1x7" path="res://scripts/OptionsMenu.gd" id="12_4aqfa"]
+
+[node name="GameManager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3s1co")
+
+[node name="TravelManager" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_rki1y")
+
+[node name="Backdrop2" type="TextureRect" parent="TravelManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+
+[node name="Backdrop" type="TextureRect" parent="TravelManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 3
+
+[node name="Characater" type="TextureRect" parent="TravelManager"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -124.0
+offset_top = -384.0
+offset_right = 388.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_a1i3y")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameUI" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 1152.0
+offset_bottom = 145.0
+script = ExtResource("4_x2e2c")
+
+[node name="TopLeft" type="HBoxContainer" parent="GameUI"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 40.0
+
+[node name="TopLeftWrapper" type="Panel" parent="GameUI/TopLeft"]
+custom_minimum_size = Vector2(226, 90)
+layout_mode = 2
+script = ExtResource("3_ej7wp")
+
+[node name="Panel" type="VBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 544.0
+offset_bottom = 57.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel"]
+layout_mode = 2
+
+[node name="NameContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/NameContainer"]
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/NameContainer"]
+layout_mode = 2
+
+[node name="HPContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]HP [/b] "
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="HPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+offset_left = -8.0
+offset_right = -4.0
+offset_bottom = 22.0
+show_percentage = false
+
+[node name="HPText" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/HPContainer/Control"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+
+[node name="MPContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]MP[/b]"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="MPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 0
+offset_left = -8.0
+offset_right = -4.0
+offset_bottom = 22.0
+show_percentage = false
+
+[node name="MPText" type="RichTextLabel" parent="GameUI/TopLeft/TopLeftWrapper/Panel/VBoxContainer/MPContainer/Control"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+
+[node name="XPBar" type="ProgressBar" parent="GameUI/TopLeft/TopLeftWrapper"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false
+
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper"]
+custom_minimum_size = Vector2(300, 20)
+offset_top = 91.0
+offset_right = 475.0
+offset_bottom = 111.0
+
+[node name="MoneyPanel" type="VBoxContainer" parent="GameUI/TopLeft"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopLeft/MoneyPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="XPContainer" type="HBoxContainer" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]XP: [/b] "
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="XPBar" type="ProgressBar" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control"]
+visible = false
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+offset_left = -8.0
+offset_right = -4.0
+offset_bottom = 22.0
+show_percentage = false
+
+[node name="XPText" type="RichTextLabel" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/XPContainer/Control"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+
+[node name="GoldContainer" type="HBoxContainer" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="GoldIcon" type="Label" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/GoldContainer"]
+layout_mode = 2
+text = " $"
+
+[node name="GoldValue" type="Label" parent="GameUI/TopLeft/MoneyPanel/VBoxContainer/GoldContainer"]
+layout_mode = 2
+
+[node name="TopCenterPanel" type="BoxContainer" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopCenterPanel"]
+layout_mode = 2
+
+[node name="AreaLabel" type="RichTextLabel" parent="GameUI/TopCenterPanel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+text = "AREA LABEL"
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameUI/TopCenterPanel/VBoxContainer"]
+custom_minimum_size = Vector2(10, 1)
+layout_mode = 2
+
+[node name="TopRight" type="HBoxContainer" parent="GameUI"]
+custom_minimum_size = Vector2(500, 0)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -500.0
+offset_bottom = 90.0
+grow_horizontal = 0
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="TopRightWrapper2" type="Panel" parent="GameUI/TopRight"]
+custom_minimum_size = Vector2(226, 90)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+script = ExtResource("3_ej7wp")
+
+[node name="Panel" type="VBoxContainer" parent="GameUI/TopRight/TopRightWrapper2"]
+layout_mode = 0
+offset_left = -311.0
+offset_top = 5.0
+offset_right = 227.0
+offset_bottom = 57.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="NameContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="NameLabel" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 2
+
+[node name="HPContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Control" type="Control" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="HPBar" type="ProgressBar" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/HPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+fill_mode = 1
+show_percentage = false
+
+[node name="HPText" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/HPContainer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]HP [/b] "
+scroll_active = false
+autowrap_mode = 0
+
+[node name="MPContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="MPBar" type="ProgressBar" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/MPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+fill_mode = 1
+show_percentage = false
+
+[node name="MPText" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/MPContainer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]MP[/b]"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="CooldownLabel" type="Label" parent="GameUI/TopRight/TopRightWrapper2"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 22.0
+offset_right = 52.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.741176)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.745098)
+theme_override_font_sizes/font_size = 40
+
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2"]
+custom_minimum_size = Vector2(100, 20)
+offset_top = 91.0
+offset_right = 226.0
+offset_bottom = 111.0
+alignment = 2
+
+[node name="TopRightWrapper" type="Panel" parent="GameUI/TopRight"]
+custom_minimum_size = Vector2(226, 78)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+script = ExtResource("3_ej7wp")
+
+[node name="Panel" type="VBoxContainer" parent="GameUI/TopRight/TopRightWrapper"]
+layout_mode = 0
+offset_left = -311.0
+offset_top = 5.0
+offset_right = 227.0
+offset_bottom = 57.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/TopRight/TopRightWrapper/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="NameContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/NameContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="NameLabel" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/NameContainer"]
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 2
+
+[node name="HPContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Control" type="Control" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="HPBar" type="ProgressBar" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/HPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+fill_mode = 1
+show_percentage = false
+
+[node name="HPText" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/HPContainer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/HPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]HP [/b] "
+scroll_active = false
+autowrap_mode = 0
+
+[node name="MPContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="MPBar" type="ProgressBar" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/MPContainer/Control"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+fill_mode = 1
+show_percentage = false
+
+[node name="MPText" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/MPContainer/Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+bbcode_enabled = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper/Panel/VBoxContainer/MPContainer"]
+custom_minimum_size = Vector2(34, 22)
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]MP[/b]"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="CooldownLabel" type="Label" parent="GameUI/TopRight/TopRightWrapper"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 22.0
+offset_right = 52.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.741176)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.745098)
+theme_override_font_sizes/font_size = 40
+
+[node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper"]
+custom_minimum_size = Vector2(100, 20)
+offset_top = 91.0
+offset_right = 226.0
+offset_bottom = 111.0
+alignment = 2
+
+[node name="OptionsButton" type="Button" parent="GameUI"]
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 554.0
+offset_right = 1137.0
+offset_bottom = 593.0
+icon = ExtResource("6_3gle4")
+icon_alignment = 1
+
+[node name="DialogueSystem" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_6mkdx")
+
+[node name="Panel" type="Panel" parent="DialogueSystem"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 111.0
+offset_right = 1091.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_right = -1100.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1100.0
+offset_right = 31.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel3" type="Panel" parent="DialogueSystem/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -111.0
+offset_right = 31.0
+offset_bottom = -537.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChoiceLabel" type="RichTextLabel" parent="DialogueSystem"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 0
+offset_left = 49.0
+offset_top = 513.0
+offset_right = 549.0
+offset_bottom = 541.0
+theme_override_font_sizes/bold_font_size = 18
+bbcode_enabled = true
+text = "HELLO WORLD"
+
+[node name="StoryText" type="RichTextLabel" parent="DialogueSystem"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 122.0
+offset_right = 1109.0
+offset_bottom = 513.0
+scroll_following = true
+
+[node name="Choices" type="VBoxContainer" parent="DialogueSystem"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 75.0
+offset_top = 508.0
+offset_right = 1055.0
+offset_bottom = 602.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ChoicesClip" type="Control" parent="DialogueSystem/Choices"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChoicesInner" type="VBoxContainer" parent="DialogueSystem/Choices/ChoicesClip"]
+layout_mode = 0
+offset_right = 980.0
+
+[node name="Row1" type="HBoxContainer" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner"]
+layout_mode = 2
+alignment = 1
+
+[node name="Choice1" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_6mkdx")
+
+[node name="Choice2" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_6mkdx")
+
+[node name="Row2" type="HBoxContainer" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner"]
+layout_mode = 2
+alignment = 1
+
+[node name="Choice3" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_6mkdx")
+
+[node name="Choice4" type="Button" parent="DialogueSystem/Choices/ChoicesClip/ChoicesInner/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_6mkdx")
+
+[node name="Row0" type="HBoxContainer" parent="DialogueSystem/Choices"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.0
+alignment = 1
+
+[node name="Left" type="Button" parent="DialogueSystem/Choices/Row0"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "<"
+script = ExtResource("3_6mkdx")
+
+[node name="Back" type="Button" parent="DialogueSystem/Choices/Row0"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+script = ExtResource("3_6mkdx")
+
+[node name="Right" type="Button" parent="DialogueSystem/Choices/Row0"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
+script = ExtResource("3_6mkdx")
+
+[node name="LogButton" type="Button" parent="DialogueSystem"]
+offset_left = 1099.0
+offset_top = 602.0
+offset_right = 1140.0
+offset_bottom = 633.0
+text = "LOG"
+
+[node name="LogPanel" type="Panel" parent="DialogueSystem"]
+visible = false
+visibility_layer = 512
+layout_mode = 0
+
+[node name="Fade" type="ColorRect" parent="DialogueSystem/LogPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.537255)
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="DialogueSystem/LogPanel"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 58.0
+offset_right = 1099.0
+offset_bottom = 608.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="DialogueSystem/LogPanel/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -523.0
+offset_top = 10.0
+offset_right = 524.0
+offset_bottom = 541.0
+grow_horizontal = 2
+
+[node name="LogContainer" type="VBoxContainer" parent="DialogueSystem/LogPanel/Panel/ScrollContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 2
+
+[node name="CloseButton" type="Button" parent="DialogueSystem/LogPanel"]
+layout_mode = 0
+offset_left = 1102.0
+offset_top = 58.0
+offset_right = 1120.0
+offset_bottom = 89.0
+text = "X"
+
+[node name="AudioManager" type="Control" parent="."]
+anchors_preset = 0
+script = ExtResource("7_audmgr")
+
+[node name="CombatManager" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_ubeea")
+
+[node name="MainMenu" type="Control" parent="."]
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_tt7o1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Arcmat Adventure"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "New Game"
+
+[node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit"
+
+[node name="SaveContainer" type="VBoxContainer" parent="MainMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="Save Header" type="Label" parent="MainMenu/SaveContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Select Save Data to Load:"
+horizontal_alignment = 1
+
+[node name="SaveContainer" type="VBoxContainer" parent="MainMenu/SaveContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="GameOverMenu" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_u8crj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "YOU DIED!"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MessageLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Retry"
+
+[node name="TitleButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(400, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit"
+
+[node name="SaveContainer" type="VBoxContainer" parent="GameOverMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="Save Header" type="Label" parent="GameOverMenu/SaveContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Select Save Data to Load:"
+horizontal_alignment = 1
+
+[node name="SaveContainer" type="VBoxContainer" parent="GameOverMenu/SaveContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 18
+
+[node name="OptionsMenu" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(520, 480)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_4aqfa")
+
+[node name="_ColorRect_23" type="ColorRect" parent="OptionsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="OptionsPanel" type="PanelContainer" parent="OptionsMenu"]
+custom_minimum_size = Vector2(520, 480)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -240.0
+offset_right = 260.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionsMargin" type="MarginContainer" parent="OptionsMenu/OptionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="AllContainer" type="VBoxContainer" parent="OptionsMenu/OptionsPanel/OptionsMargin"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 14
+
+[node name="TopContainer" type="VBoxContainer" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OptionsTitle" type="Label" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer/TopContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Options"
+horizontal_alignment = 1
+
+[node name="OptionsSeparator1" type="HSeparator" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer/TopContainer"]
+layout_mode = 2
+
+[node name="OptionsContainer" type="VBoxContainer" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ExitContainer" type="VBoxContainer" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SeparatorLast" type="HSeparator" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer/ExitContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="OptionsMenu/OptionsPanel/OptionsMargin/AllContainer/ExitContainer"]
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close"

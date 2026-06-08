@@ -190,27 +190,6 @@
 			{"type": "show_node"}
 		]
 	},
-	"treasure_chest_earth": {
-		"steps": [
-			{"type": "text", "text": "You spot something up ahead.", "clear":false},
-			{"type": "text", "text": "You find a chest out in the open.", "no_wait":true},
-			{"type": "choice", "header": "Open it?",
-				"choices": [{"choice": "Yes", "key": "yes"}, {"choice": "No", "key": "no"}],
-				"branches": {
-					"yes": [
-						{"type": "sfx",  "sound": "chest_open"},
-						{"type": "text", "text": "You found a Book of Earth!", "clear": false},
-						{"type": "give_item", "item":"Book of Earth"}
-					],
-					"no": [
-						{"type": "text", "text": "You leave it alone.", "clear": false}
-						
-					]
-				}
-			},
-			{"type": "show_node"}
-		]
-	},
 	"gold_chest": {
 		"repeatable": false,
 		"steps": [

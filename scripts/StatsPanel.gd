@@ -16,7 +16,9 @@ var _dead: bool = false
 
 var _status_db: Dictionary = {}
 var _trinkets_db: Dictionary = {}
+var _element_db: Dictionary = {}
 var _last_trinket_states: Dictionary = {}
+var _element_color: Color = Color.BLACK
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
 @onready var hp_bar = $Panel/VBoxContainer/HPContainer/Control/HPBar
@@ -26,6 +28,7 @@ var _last_trinket_states: Dictionary = {}
 @onready var mp_text = $Panel/VBoxContainer/MPContainer/Control/MPText
 
 @onready var trinket_container = $TrinketContainer
+@onready var panel = $Panel
 
 const PIXELS_PER_POINT = 5
 const MAX_BAR_WIDTH = 170
@@ -50,11 +53,21 @@ func _ready():
 	_disable_mouse_on_children(self)
 	_status_db   = _load_status_db()
 	_trinkets_db = _load_trinkets_db()
+	_element_db  = _load_element_db()
 
 func _load_trinkets_db() -> Dictionary:
 	if not FileAccess.file_exists("res://Database/trinkets.json"):
 		return {}
 	var file = FileAccess.open("res://Database/trinkets.json", FileAccess.READ)
+	var json = JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		return {}
+	return json.data
+
+func _load_element_db() -> Dictionary:
+	if not FileAccess.file_exists("res://Database/element.json"):
+		return {}
+	var file = FileAccess.open("res://Database/element.json", FileAccess.READ)
 	var json = JSON.new()
 	if json.parse(file.get_as_text()) != OK:
 		return {}
@@ -265,7 +278,20 @@ func _refresh_all():
 	_update_bar(mp_bar, mp, mmp, mp_text, _mp_react_next, _bars_tween)
 	_mp_react_next = false
 	update_trinkets(character.get_trinkets())
+	_update_element_color()
 
+
+func _update_element_color():
+	var elem = character.get_element()
+	var hex = _element_db.get(elem, {}).get("color", "#000000")
+	if elem == "Neutral":
+		hex = "#000000"
+	# self.self_modulate = Color(hex)
+	_element_color = Color(hex+"33")
+	queue_redraw()
+
+func _draw():
+	draw_rect(Rect2(Vector2.ZERO, size), _element_color)
 
 func _update_bar(bar, value, max_value, label: RichTextLabel = null, react_to_hit: bool = false, tween: Tween = null):
 	if max_value <= 0:
@@ -467,9 +493,12 @@ func build_character_tooltip(char):
 	t += "[b]%s[/b]  Lv.%d\n" % [char.get_name(), char.get_level()]
 	var char_class = char.get_char_class()
 	if char_class and char_class != "":
-		t += "Class: %s\n\n" % char.get_char_class()
-	else:
-		t += "\n"
+		t += "Class: %s\n" % char.get_char_class()
+	var curr_element = char.get_element()
+	if curr_element != "Neutral":
+		var elcolor = _element_db.get(curr_element, {}).get("color", "#FFFFFF")
+		t += "[color=%s]Element: %s[/color]\n" % [elcolor, curr_element]
+	t += "\n"
 	
 	# ========================
 	# HP / MP
@@ -535,25 +564,25 @@ func build_character_tooltip(char):
 			t += "%s: %s\n" % [slot.capitalize(), equip[slot]["name"]]
 		t += "\n"
 	
-	# ========================
-	# SKILLS
-	# ========================
-	var skills = char.data.get("Skills", [])
-	if skills.size() > 0:
-		t += "[b]Skills[/b]\n"
-		for s in skills:
-			t += "- %s\n" % s
-		t += "\n"
+	# # ========================
+	# # SKILLS
+	# # ========================
+	# var skills = char.data.get("Skills", [])
+	# if skills.size() > 0:
+	# 	t += "[b]Skills[/b]\n"
+	# 	for s in skills:
+	# 		t += "- %s\n" % s
+	# 	t += "\n"
 	
-	# ========================
-	# SPELLS
-	# ========================
-	var spells = char.data.get("Spells", [])
-	if spells.size() > 0:
-		t += "[b]Spells[/b]\n"
-		for s in spells:
-			t += "- %s\n" % s
-		t += "\n"
+	# # ========================
+	# # SPELLS
+	# # ========================
+	# var spells = char.data.get("Spells", [])
+	# if spells.size() > 0:
+	# 	t += "[b]Spells[/b]\n"
+	# 	for s in spells:
+	# 		t += "- %s\n" % s
+	# 	t += "\n"
 	
 	return t.strip_edges()
 
