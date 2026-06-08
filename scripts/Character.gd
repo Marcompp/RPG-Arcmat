@@ -12,6 +12,7 @@ var curr_stats = {}
 var money = 0
 var level = 1
 var xp = 0
+var element = "Neutral"
 
 var armor_db = {}
 var weapon_db = {}
@@ -32,6 +33,7 @@ func _init(char_data, arm_db, wpn_db, p_rng: RandomNumberGenerator = null, skip_
 	level = int(char_data.get("Lvl", 1))
 	base_stats = _build_base_stats(char_data, skip_growth)
 	equipment = _build_equipment(char_data)
+	element = char_data.get("Element", "Neutral")
 
 	recalculate()
 
@@ -230,6 +232,9 @@ func get_max_mp():
 func get_stat(stat):
 	return final_stats.get(stat, 0)
 	
+func get_element():
+	return element
+	
 func get_weapon():
 	if equipment.get("weapon"):
 		return equipment.get("weapon")
@@ -313,6 +318,19 @@ func get_money() -> int:
 
 func get_inventory() -> Dictionary:
 	return data.get("Inventory", {})
+
+func get_owned_equipment() -> Array:
+	var result = []
+	for slot in equipment:
+		var item = equipment[slot]
+		if item and typeof(item) == TYPE_DICTIONARY and item.size() > 0:
+			result.append(item)
+	var inv: Dictionary = data.get("Inventory", {})
+	for item_name in inv:
+		var item = weapon_db.get(item_name, armor_db.get(item_name))
+		if item:
+			result.append(item)
+	return result
 
 func consume_item(item_name: String):
 	var inv: Dictionary = data.get("Inventory", {})

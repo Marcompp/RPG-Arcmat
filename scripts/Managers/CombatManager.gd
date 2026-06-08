@@ -166,14 +166,27 @@ func start_combat(p, e_or_array):
 	await _show_intro()
 	await wait_for_continue()
 	await _execute_start_skills()
-	start_player_turn()
+	await start_player_turn()
 
 # ============================================================
 # TURN FLOW
 # ============================================================
 
 func start_player_turn():
-	status_sys.tick_cooldowns("player")
+	var is_stunned = status_effects.get("player", []).any(func(s): return s["type"] == "stun")
+	var is_frozen  = status_effects.get("player", []).any(func(s): return s["type"] == "freeze")
+	if not is_stunned and not is_frozen:
+		status_sys.tick_cooldowns("player")
+	if is_stunned:
+		show_text("[b]%s[/b] is stunned and can't act!" % player.get_name())
+		await wait_for_continue()
+		await _resolve_turn_pair({ "actor": player, "who": "player", "type": "stunned" })
+		return
+	if is_frozen:
+		show_text("[b]%s[/b] is frozen solid and can't act!" % player.get_name())
+		await wait_for_continue()
+		await _resolve_turn_pair({ "actor": player, "who": "player", "type": "frozen" })
+		return
 	state = CombatState.CHOOSING_ACTION
 	render_player_turn()
 
@@ -182,7 +195,7 @@ func restart_player_choices():
 	show_choices(menu.main_choices(player))
 
 func next_turn():
-	start_player_turn()
+	await start_player_turn()
 
 func _find_auto_revive_item() -> String:
 	var inv = player.get_inventory()
@@ -213,7 +226,7 @@ func check_combat_end(need_wait = true):
 		return
 	if need_wait:
 		await wait_for_continue()
-	next_turn()
+	await next_turn()
 
 func end_combat(victory: bool):
 	state = CombatState.END
@@ -375,20 +388,29 @@ func _maybe_select_target(action: Dictionary):
 func _resolve_turn_pair(player_action: Dictionary):
 	state = CombatState.RESOLUTION
 
-	for i in _living_indices():
-		status_sys.tick_cooldowns(_ekey(i))
-
 	var all_actions: Array     = [player_action]
 	var preparing_indices: Array = []
 
 	for i in _living_indices():
+		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+
+		if not is_stunned and not is_frozen:
+			status_sys.tick_cooldowns(_ekey(i))
+
 		if enemy_timers[i] <= 0:
-			all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db))
+			if is_stunned:
+				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "stunned" })
+			elif is_frozen:
+				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "frozen" })
+			else:
+				all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db))
 			enemy_first_actions[i] = false
 			enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
 		else:
 			preparing_indices.append(i)
-			enemy_timers[i] -= 1
+			if not is_stunned and not is_frozen:
+				enemy_timers[i] -= 1
 
 	all_actions.sort_custom(func(a, b):
 		return calc.get_action_speed(a["actor"], a) > calc.get_action_speed(b["actor"], b)
@@ -423,6 +445,12 @@ func _resolve_turn_pair(player_action: Dictionary):
 
 func _execute_turn_action(action: Dictionary):
 	match action["type"]:
+		"stunned":
+			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is stunned and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
+			await wait_for_writing()
+		"frozen":
+			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is frozen solid and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
+			await wait_for_writing()
 		"attack":
 			await _do_attack(action["actor"], action["who"], _target_for(action))
 		_:
@@ -460,7 +488,7 @@ func _do_attack(actor, who: String, target):
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
 
 	var attack_element = weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral"
-	var target_element = target.data.get("Element", "Neutral")
+	var target_element = target.get_element()
 	var elem_mult      = calc.get_element_multiplier(attack_element, target_element)
 	var elem_reaction  = ""
 	if elem_mult == 0.0:
@@ -480,6 +508,10 @@ func _do_attack(actor, who: String, target):
 	if elem_reaction == "immune":
 		MyEventBus.emit("continue_text", { "text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
 	else:
+		if _try_shatter(target):
+			dmg = int(dmg * 1.5)
+			MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
+			await wait_for_writing()
 		target.take_damage(dmg)
 		var down_msg = _notify_if_died(target)
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
@@ -497,7 +529,13 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		await wait_for_continue()
 		return
 
-	if data.has("cost"):
+	if data.get("drain_all_mp", false):
+		var mp_consumed = user.get_mp()
+		user.use_mp(mp_consumed)
+		data = data.duplicate()
+		data["stats"] = data["stats"].duplicate()
+		data["stats"]["mgt"] = int(mp_consumed * data.get("magnitude", 1.0))
+	elif data.has("cost"):
 		user.use_mp(data["cost"])
 	if data.has("cooldown") and who != "":
 		cooldowns[who][action_name] = data["cooldown"] +1
@@ -576,6 +614,10 @@ func _execute_hit(data, user, who: String, target):
 				"resist":
 					MyEventBus.emit("continue_text", { "text": "[color=cyan]Resisted![/color] ", "linebreak": false })
 					await wait_for_writing()
+			if _try_shatter(target):
+				result["damage"] = int(result["damage"] * 1.5)
+				MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
+				await wait_for_writing()
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
 			var down_msg   = _notify_if_died(target)
@@ -638,6 +680,15 @@ func _execute_hit(data, user, who: String, target):
 				var inflict = sdata.get("inflict_text", "[color=yellow][TARGET] gained a status effect![/color]")
 				MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(inflict, { "TARGET": _get_display_name(target) }), "linebreak": false })
 				await wait_for_writing()
+
+func _try_shatter(target) -> bool:
+	var who = _who_for(target)
+	if not status_effects.get(who, []).any(func(s): return s["type"] == "freeze"):
+		return false
+	status_effects[who] = status_effects[who].filter(func(s): return s["type"] != "freeze")
+	status_sys.apply_stat_modifiers(who)
+	status_sys.emit_status_update(who)
+	return true
 
 func _play_damage_sound(data, user, _target):
 	var dmg_sfx = "attack"

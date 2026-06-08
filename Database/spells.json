@@ -101,7 +101,8 @@
 		"magic": true,
 		"inherit_stats": true,
 		"inherit_wpn": false,
-		"effect": "none"
+		"effect": "blind",
+		"chance": 10
 	},
 	"Dark": {
 		"nome": "Dark",

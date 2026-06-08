@@ -893,12 +893,12 @@
 					],
 					"confront": [
 						{"type": "text", "text": "You step out of the shadows. The chanting stops.\n\nBoth figures turn. Then the nearest one reaches beneath their robes.\n\n\"Another fool who wandered too deep.\"", "clear": false, "no_wait": true},
-						{"type": "combat", "enemy": "Cultist",
+						{"type": "combat", "enemy": "Cultist Patrol",
 							"on_victory": [
-								{"type": "text", "text": "The other cultist broke and ran before it was over. You search the one who didn't — robes, a blade, a leather pouch.", "clear": true},
+								{"type": "text", "text": "One cultist broke and ran before it was over. You search the one who didn't — soiled robes, a dull blade, a leather pouch.", "clear": true},
 								{"type": "sfx", "sound": "chest_open"},
-								{"type": "give_gold", "amount": 30},
-								{"type": "text", "text": "You count out [color=yellow]30G[/color].", "clear": false},
+								{"type": "give_gold", "amount": 100},
+								{"type": "text", "text": "You count out [color=yellow]100G[/color].", "clear": false},
 								{"type": "show_node"}
 							]
 						}

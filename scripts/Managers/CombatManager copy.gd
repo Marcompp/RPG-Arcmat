@@ -449,7 +449,7 @@ func _do_attack(actor, who: String, target):
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
 
 	var attack_element = weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral"
-	var target_element = target.data.get("Element", "Neutral")
+	var target_element = target..get_element()
 	var elem_mult      = calc.get_element_multiplier(attack_element, target_element)
 	var elem_reaction  = ""
 	if elem_mult == 0.0:

@@ -95,8 +95,9 @@ func _ready():
 	)
 	MyEventBus.subscribe("give_region_item_pick", func(_data):
 		var treasure: Array = region_db.get(current_region, {}).get("Treasure", [])
+		treasure = _get_valid_treasure(treasure)
 		if treasure.is_empty():
-			MyEventBus.emit("give_region_item_picked", {"item": ""})
+			MyEventBus.emit("give_region_item_picked", {"item": "Potion"})
 			return
 		var item: String = _pick(treasure)
 		MyEventBus.emit("give_region_item_picked", {"item": item})
@@ -1176,6 +1177,29 @@ func _show_inventory_misc():
 func _handle_inventory_misc(choice):
 	if choice.get("type") == "back":
 		_show_inventory_menu()
+
+func _get_valid_treasure(treasure):
+	var n_treasure = []
+	var known_spells = []
+	var known_skills = []
+	var inventory = []
+	if game_manager and game_manager.game_state.has("player"):
+			known_spells = game_manager.game_state["player"].get_spells()
+			known_skills = game_manager.game_state["player"].get_skills()
+			inventory = game_manager.game_state["player"].get_owned_equipment()
+	for item_name in treasure:
+		if item_name.begins_with("Book of "):
+			var spell_name = item_name.substr(8)
+			if known_spells.has(spell_name):
+				continue
+		elif item_name.ends_with(" Scroll"):
+			var skill_name = item_name.substr(0, item_name.length() - 7)
+			if known_skills.has(skill_name):
+				continue
+		elif inventory.any(func(item): return item.get("name", "") == item_name):
+			continue
+		n_treasure.append(item_name)
+	return n_treasure
 
 # ------------------------
 # UTILS

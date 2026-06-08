@@ -97,7 +97,7 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 		attack_element = weapon.get("element", "")
 	if attack_element == "":
 		attack_element = "Neutral"
-	var target_element = target.data.get("Element", "Neutral")
+	var target_element = target.get_element()
 	var elem_mult = get_element_multiplier(attack_element, target_element)
 	if elem_mult == 0.0:
 		result["element_reaction"] = "immune"

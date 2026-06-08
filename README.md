@@ -55,6 +55,12 @@ Each status entry supports these fields:
 | `upkeep_text` | string | Message shown when the per-turn effect triggers |
 | `end_text` | string | Message shown when the status expires |
 
+#### Special effect: `stun`
+Stun is procedural — it needs **no `stats` field**. When active, the stunned unit's turn is skipped entirely (player never sees the menu; enemy action is suppressed). Uses duration=2 to cause exactly 1 missed turn, since durations tick at end-of-turn rather than start.
+
+#### Special effect: `freeze`
+Like stun — skips the frozen unit's next turn, no `stats` field needed. Additionally, the **first hit that deals damage** to a frozen target triggers a **Shatter**: freeze ends immediately and that hit deals ×1.5 damage. Immune hits (element immunity) do not shatter. Uses duration=2.
+
 #### Special stat key: `acc_mult`
 Multiplies the attacker's final hit rate. Applied after all other accuracy modifiers (base acc, DEX, target AGI/LCK). Values below `1.0` reduce accuracy (e.g. Blind: `0.5`).
 

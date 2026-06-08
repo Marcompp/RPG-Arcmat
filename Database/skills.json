@@ -172,18 +172,19 @@
 	},
 	"Mana Explosion": {
 		"nome": "Mana Explosion",
-		"description": "Unleashes a burst of raw magical energy in a devastating explosion, consuming a large amount of MP.",
-		"type": "attack",
+		"description": "Releases all stored mana in a devastating explosion. Damage scales with MP consumed.",
+		"type": "aoe",
 		"stats": {
-			"mgt": 20,
+			"mgt": 0,
 			"acc": 70,
 			"crit": 0
 		},
-		"cost": 15,
+		"drain_all_mp": true,
+		"magnitude": 2,
 		"cooldown": 4,
 		"effect": "none",
 		"magic": true,
-		"inherit_stats": true,
+		"inherit_stats": false,
 		"inherit_wpn": false
 	},
 	"Assassinate": {

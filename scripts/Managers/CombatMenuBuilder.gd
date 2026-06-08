@@ -30,7 +30,12 @@ func build_action_choice(item_name: String, type: String, data, player, cooldown
 		disabled = true
 		tooltip  = "Activates automatically when HP reaches 0"
 
-	if data.has("cost"):
+	if data.get("drain_all_mp", false):
+		label += " (Cost: All MP — %d)" % player.get_mp()
+		if player.get_mp() <= 0:
+			disabled = true
+			tooltip  = "No MP remaining"
+	elif data.has("cost"):
 		var cost = data["cost"]
 		label += " (Cost: %d MP)" % cost
 		if player.get_mp() < cost:

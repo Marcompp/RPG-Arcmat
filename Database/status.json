@@ -46,6 +46,22 @@
 			"def": 2
 		}
 	},
+	"freeze": {
+		"name": "Freeze",
+		"icon": "freeze.png",
+		"description": "Skips the next action. First hit shatters the ice for 1.5× damage.",
+		"duration": 2,
+		"inflict_text": "[color=cyan][TARGET] is frozen solid![/color]",
+		"end_text": "[TARGET] thaws out."
+	},
+	"stun": {
+		"name": "Stun",
+		"icon": "stun.png",
+		"description": "Skips the next action",
+		"duration": 2,
+		"inflict_text": "[color=yellow][TARGET] is stunned![/color]",
+		"end_text": "[TARGET] snaps out of it!"
+	},
 	"blind": {
 		"name": "Blind",
 		"icon": "blind.png",

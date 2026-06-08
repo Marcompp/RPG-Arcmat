@@ -238,6 +238,12 @@
 	"Rarity": 5
   },
   {
+	"Name":"Cultist Patrol",
+  	"Enemies":["Cultist","Cultist"],
+	"Location": "N/A",
+	"Rarity":0
+	},
+  {
 	"Name": "Mangy Wolf",
 	"Element": "Earth",
 	"Lvl": 7,
