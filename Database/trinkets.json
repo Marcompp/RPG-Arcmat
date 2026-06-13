@@ -55,5 +55,40 @@
 		"effect": "auto_revive",
 		"magnitude": 50,
 		"stackable": true
+	},
+	"Eyeglasses": {
+		"name": "Eyeglasses",
+		"description": "Grants immunity to Blindness.",
+		"effect": "immunity",
+		"status": "blind",
+		"stackable": false
+	},
+	"Leather Boots": {
+		"name": "Leather Boots",
+		"description": "+3 Agility.",
+		"effect": "stat_bonus",
+		"stats": { "agi": 3 },
+		"stackable": false
+	},
+	"Witch Hat": {
+		"name": "Witch Hat",
+		"description": "+5 Intelligence.",
+		"effect": "stat_bonus",
+		"stats": { "int": 5 },
+		"stackable": false
+	},
+	"Gorgon Eye": {
+		"name": "Gorgon Eye",
+		"description": "At the start of battle, automatically cast Gorgon Eye on a random enemy.",
+		"effect": "battle_start_skill",
+		"skill": "Gorgon Eye",
+		"stackable": false
+	},
+	"Backpack": {
+		"name": "Backpack",
+		"description": "After each battle, scavenge a random item.",
+		"effect": "scavenge",
+		"loot_table": ["Potion", "Potion", "Ether", "Bomb"],
+		"stackable": false
 	}
 }

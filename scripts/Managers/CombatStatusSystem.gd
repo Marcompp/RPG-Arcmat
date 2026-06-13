@@ -7,6 +7,7 @@ var status_db: Dictionary
 var player
 var enemies: Array
 var get_display_name: Callable
+var trinket_systems: Dictionary = {}
 
 func _init(
 	p_status_effects: Dictionary,
@@ -36,6 +37,9 @@ func tick_cooldowns(who: String) -> void:
 		cooldowns[who][skill] = max(0, cooldowns[who][skill] - 1)
 
 func add_status(target, effect: String, magnitude: int = -1) -> void:
+	var tsys = trinket_systems.get(_who_for(target), null)
+	if tsys != null and tsys.is_immune_to_status(effect):
+		return
 	var who      = _who_for(target)
 	var duration = magnitude if magnitude > 0 else status_db.get(effect, {}).get("duration", 3)
 	for s in status_effects[who]:

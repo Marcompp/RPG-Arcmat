@@ -331,7 +331,7 @@
 		{ "text": "The structure creaks softly, aged but standing." }
 	  ],
 	  "events": [
-		{"chance": 1, "event": "cabin_apple_woods"}
+		{"chance": 0, "event": "cabin_apple_woods"}
 	  ],
 	  "exits": [
 		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the cabin standing in silence and push back into the forest, the shadows swallowing you quickly." }

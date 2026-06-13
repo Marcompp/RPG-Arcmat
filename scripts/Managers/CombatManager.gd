@@ -39,13 +39,16 @@ var _died_enemies: Array = []
 var calc:        CombatCalculator
 var status_sys:  CombatStatusSystem
 var menu:        CombatMenuBuilder
-var trinket_sys: TrinketSystem
+var trinket_systems: Dictionary = {}
 
 var trinkets_db: Dictionary = {}
 
 # ============================================================
 # HELPERS
 # ============================================================
+
+func _tsys(who: String) -> TrinketSystem:
+	return trinket_systems.get(who, null)
 
 func _ekey(idx: int) -> String:
 	return "enemy_%d" % idx
@@ -140,7 +143,8 @@ func start_combat(p, e_or_array):
 	calc        = CombatCalculator.new(rng, element_db)
 	status_sys  = CombatStatusSystem.new(status_effects, cooldowns, status_db, player, enemies, _get_display_name)
 	menu        = CombatMenuBuilder.new()
-	trinket_sys = TrinketSystem.new(p, trinkets_db, status_effects)
+	trinket_systems["player"] = TrinketSystem.new(p, trinkets_db, status_effects)
+	status_sys.trinket_systems = trinket_systems
 
 	p.set_stat_multipliers({})
 	status_sys.emit_status_update("player")
@@ -166,11 +170,15 @@ func start_combat(p, e_or_array):
 			if skill_data.has("startup"):
 				cooldowns[key][skill] = skill_data["startup"]
 
+		if not e.get_trinkets().is_empty():
+			trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects)
+
 	MyInputRouter.push(_handle_combat_input, "combat")
 
 	await _show_intro()
 	await wait_for_continue()
 	await _execute_start_skills()
+	await _execute_trinket_start_skills()
 	await start_player_turn()
 
 # ============================================================
@@ -178,7 +186,7 @@ func start_combat(p, e_or_array):
 # ============================================================
 
 func start_player_turn():
-	var turn_msg = trinket_sys.process_turn_start()
+	var turn_msg = _tsys("player").process_turn_start()
 	if turn_msg != "":
 		MyEventBus.emit("continue_text", { "text": turn_msg })
 		await wait_for_continue()
@@ -208,7 +216,7 @@ func next_turn():
 
 func check_combat_end():
 	if player.get_hp() <= 0:
-		var revive_msg = trinket_sys.try_auto_revive()
+		var revive_msg = _tsys("player").try_auto_revive()
 		if revive_msg != "":
 			MyEventBus.emit("dialogue", { "text": revive_msg })
 			await wait_for_continue()
@@ -225,7 +233,8 @@ func end_combat(victory: bool):
 	player.reset_element()
 	for e in enemies:
 		e.reset_element()
-	trinket_sys.reset_combat_state()
+	for s in trinket_systems.values():
+		s.reset_combat_state()
 	_emit_trinket_states()
 	MyEventBus.emit("enemy_timer_update", { "timers": [] })
 	MyEventBus.emit("character_defeated", { "victory": victory, "enemy_count": enemies.size() })
@@ -235,7 +244,7 @@ func end_combat(victory: bool):
 		var names   = ", ".join(enemy_display_names)
 		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % names })
 		await wait_for_continue()
-		var trinket_msg = trinket_sys.process_post_battle()
+		var trinket_msg = _tsys("player").process_post_battle()
 		if trinket_msg != "":
 			MyEventBus.emit("continue_text", { "text": trinket_msg })
 			await wait_for_continue()
@@ -280,6 +289,25 @@ func _execute_start_skills():
 		any_skill = true
 	if any_skill:
 		await wait_for_continue()
+
+func _execute_trinket_start_skills():
+	var skills = _tsys("player").get_battle_start_skills()
+	if skills.is_empty():
+		return
+	for skill_name in skills:
+		var db         = skills_db if skills_db.has(skill_name) else spells_db
+		var skill_data = db.get(skill_name, {})
+		var action_type = skill_data.get("type", "attack")
+		var target
+		if action_type in ["self", "group"]:
+			target = player
+		else:
+			var living = _living_indices()
+			if living.is_empty():
+				continue
+			target = enemies[living[rng.randi_range(0, living.size() - 1)]]
+		await _execute_action(player, "player", skill_name, db, target)
+	await wait_for_continue()
 
 func render_player_turn():
 	var living = _living_indices()
@@ -455,6 +483,13 @@ func _resolve_turn_pair(player_action: Dictionary):
 	await next_turn()
 
 func _execute_turn_action(action: Dictionary):
+	if action["who"] != "player":
+		var esys = _tsys(action["who"])
+		if esys:
+			var msg = esys.process_turn_start()
+			if msg != "":
+				MyEventBus.emit("continue_text", { "text": msg })
+				await wait_for_continue()
 	match action["type"]:
 		"stunned":
 			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is stunned and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
@@ -501,7 +536,8 @@ func _do_attack(actor, who: String, target):
 	if not calc.check_hit(actor, target, acc):
 		MyEventBus.emit("continue_text", { "text": "...but missed![wait=0.1]", "linebreak": false })
 		await wait_for_writing()
-		trinket_sys.on_miss(actor)
+		var ms = _tsys(_who_for(actor))
+		if ms: ms.on_miss()
 		_emit_trinket_states()
 		return
 	var dmg      = calc.calculate_damage(actor, target)
@@ -528,18 +564,19 @@ func _do_attack(actor, who: String, target):
 	if elem_reaction == "immune":
 		MyEventBus.emit("continue_text", { "text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
 	else:
-		dmg = max(1, int(dmg * trinket_sys.get_attack_multiplier(actor, _who_for(target), attack_element)))
-		dmg = trinket_sys.check_death_prevention(target, dmg)
+		var actor_sys  = _tsys(_who_for(actor))
+		var target_sys = _tsys(_who_for(target))
+		dmg = max(1, int(dmg * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
+		dmg = target_sys.check_death_prevention(dmg) if target_sys else dmg
 		if _try_shatter(target):
 			dmg = int(dmg * 1.5)
 			MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
 			await wait_for_writing()
 		target.take_damage(dmg)
-		trinket_sys.on_hit(actor, attack_element)
-		if target == player:
-			trinket_sys.on_player_hit()
+		if actor_sys: actor_sys.on_hit(attack_element)
+		if target_sys: target_sys.on_owner_hit()
 		_emit_trinket_states()
-		var bandana_msg = trinket_sys.get_bandana_message()
+		var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
 		var down_msg = _notify_if_died(target)
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
 				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" else "")
@@ -623,7 +660,8 @@ func _execute_hit(data, user, who: String, target):
 				miss_txt = "%s evaded![wait=0.1]" % _get_display_name(target)
 			MyEventBus.emit("continue_text", { "text": miss_txt, "linebreak": false })
 			await wait_for_writing()
-			trinket_sys.on_miss(user)
+			var ms = _tsys(who)
+			if ms: ms.on_miss()
 			_emit_trinket_states()
 			continue
 		if data.has("hit_text"):
@@ -653,15 +691,16 @@ func _execute_hit(data, user, who: String, target):
 				attack_element = wpn.get("element", "") if wpn and not wpn.is_empty() else ""
 			if attack_element == "":
 				attack_element = "Neutral"
-			result["damage"] = max(1, int(result["damage"] * trinket_sys.get_attack_multiplier(user, _who_for(target), attack_element)))
-			result["damage"] = trinket_sys.check_death_prevention(target, result["damage"])
+			var actor_sys  = _tsys(who)
+			var target_sys = _tsys(_who_for(target))
+			result["damage"] = max(1, int(result["damage"] * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
+			result["damage"] = target_sys.check_death_prevention(result["damage"]) if target_sys else result["damage"]
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
-			trinket_sys.on_hit(user, attack_element)
-			if target == player:
-				trinket_sys.on_player_hit()
+			if actor_sys: actor_sys.on_hit(attack_element)
+			if target_sys: target_sys.on_owner_hit()
 			_emit_trinket_states()
-			var bandana_msg = trinket_sys.get_bandana_message()
+			var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
 			var down_msg   = _notify_if_died(target)
 			var damage_txt = "[screenshake][instant][color=red]%d[/color] damage![/instant][wait=0.1]" % result["damage"]
 			if data.get("type", "attack") in ["group", "aoe", "all", "random"]:
@@ -779,7 +818,7 @@ func _format_reward_text(r: Dictionary) -> String:
 func _emit_trinket_states() -> void:
 	MyEventBus.emit("trinket_states_changed", {
 		"trinkets": player.get_trinkets(),
-		"states":   trinket_sys.get_states()
+		"states":   _tsys("player").get_states()
 	})
 
 func wait_for_writing():

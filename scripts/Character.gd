@@ -18,6 +18,7 @@ var element = "Neutral"
 var armor_db = {}
 var weapon_db = {}
 var stat_multipliers: Dictionary = {}
+var _trinket_flat_bonus: Dictionary = {}
 var _rng: RandomNumberGenerator
 
 # ------------------------
@@ -196,12 +197,17 @@ func set_stat_multipliers(mults: Dictionary) -> void:
 	stat_multipliers = mults
 	stats_changed.emit()
 
+func set_trinket_flat_bonus(b: Dictionary) -> void:
+	_trinket_flat_bonus = b
+	stats_changed.emit()
+
 func get_equipment_bonus(stat):
 	var total = 0
 	for slot in equipment:
 		var item = equipment[slot]
 		if item and item.has("stats"):
 			total += item["stats"].get(stat, 0)
+	total += _trinket_flat_bonus.get(stat, 0)
 	return total
 
 # getters úteis
