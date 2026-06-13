@@ -195,6 +195,7 @@ show_percentage = false
 
 [node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopLeft/TopLeftWrapper"]
 custom_minimum_size = Vector2(300, 20)
+layout_mode = 0
 offset_top = 91.0
 offset_right = 475.0
 offset_bottom = 111.0
@@ -440,6 +441,7 @@ theme_override_font_sizes/font_size = 40
 
 [node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2"]
 custom_minimum_size = Vector2(100, 20)
+layout_mode = 0
 offset_top = 91.0
 offset_right = 226.0
 offset_bottom = 111.0
@@ -594,6 +596,7 @@ theme_override_font_sizes/font_size = 40
 
 [node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper"]
 custom_minimum_size = Vector2(100, 20)
+layout_mode = 0
 offset_top = 91.0
 offset_right = 226.0
 offset_bottom = 111.0
@@ -761,6 +764,7 @@ text = ">"
 script = ExtResource("3_6mkdx")
 
 [node name="LogButton" type="Button" parent="DialogueSystem"]
+layout_mode = 0
 offset_left = 1099.0
 offset_top = 602.0
 offset_right = 1140.0

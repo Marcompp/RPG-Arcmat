@@ -1765,6 +1765,89 @@
 			}
 		]
 	},
+	"sundown_search_ossuary": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You press your hands against the cold stone, feeling along the mortar for hollow spaces or loose brickwork.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 5,
+						"steps": [
+							{"type": "text", "text": "Your fingers find a gap in the mortar. You pry loose a handful of coins buried within the stone."},
+							{"type": "give_gold", "amount": 30},
+							{"type": "show_node"}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{"type": "text", "text": "A section of wall gives way. Two Skeletons tumble out, their bones rattling as old instincts snap back into place!"},
+							{
+								"type": "combat",
+								"enemy": "Skeleton Duo",
+								"on_victory": [{"type": "show_node"}]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{"type": "text", "text": "A cold breath grazes your neck. You turn — a Ghost coalesces from a shadowed alcove, hollow eyes fixing on you."},
+							{
+								"type": "combat",
+								"enemy": "Ghost",
+								"on_victory": [{"type": "show_node"}]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {"lck": 1},
+						"steps": [
+							{"type": "text", "text": "Tucked in a crumbled niche, wrapped in tattered cloth — a small vial of shimmering blue liquid."},
+							{"type": "give_item", "item": "Ether"},
+							{"type": "show_node"}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {"lck": 1},
+						"steps": [
+							{"type": "text", "text": "Looped around the finger bone of a long-dead penitent — a worn prayer bead, still carrying faint warmth."},
+							{"type": "give_item", "item": "Prayer Bead"},
+							{"type": "show_node"}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {"lck": 1},
+						"condition": {"lacks_item": "Funny Bone"},
+						"steps": [
+							{"type": "text", "text": "Deep in a sealed alcove: a humanoid bone carved into a grinning shape. It rattles even when you hold it still.\n\nYou found the [color=yellow]Funny Bone[/color]!"},
+							{"type": "give_item", "item": "Funny Bone"},
+							{"type": "show_node"}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {"lck": 1},
+						"condition": {"lacks_item": "Black Skull"},
+						"steps": [
+							{"type": "text", "text": "Behind a loose stone, sealed in a small iron box — a skull carved from obsidian. Black as pitch. Smooth as glass.\n\nYou found the [color=purple]Black Skull[/color]!"},
+							{"type": "give_item", "item": "Black Skull"},
+							{"type": "show_node"}
+						]
+					}
+				]
+			}
+		]
+	},
 	"circus_enter": {
 		"repeatable": false,
 		"steps": [

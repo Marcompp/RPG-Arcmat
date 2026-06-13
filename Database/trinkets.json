@@ -90,5 +90,19 @@
 		"effect": "scavenge",
 		"loot_table": ["Potion", "Potion", "Ether", "Bomb"],
 		"stackable": false
+	},
+	"Funny Bone": {
+		"name": "Funny Bone",
+		"description": "A carved finger bone that rattles when struck. Its vibrations unsettle those who dare to hit you.",
+		"effect": "unnerving_rattle",
+		"magnitude": 20,
+		"stackable": false
+	},
+	"Black Skull": {
+		"name": "Black Skull",
+		"description": "An obsidian skull that drinks in the life force of whatever you strike. Smooth, cold, and hungry.",
+		"effect": "soul_drain",
+		"magnitude": 10,
+		"stackable": true
 	}
 }

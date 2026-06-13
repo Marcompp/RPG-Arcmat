@@ -90,6 +90,20 @@ func on_owner_hit() -> void:
 	for t in _trinkets_with_effect("duelist_combo"):
 		_states[t]["combo"] = 0
 
+func try_counter_stun() -> bool:
+	for t in _trinkets_with_effect("unnerving_rattle"):
+		var chance: int = trinkets_db.get(t, {}).get("magnitude", 20)
+		if randi() % 100 < chance:
+			return true
+	return false
+
+func get_lifesteal_amount(damage_dealt: int) -> int:
+	var total := 0
+	for t in _trinkets_with_effect("soul_drain"):
+		var magnitude: int = trinkets_db.get(t, {}).get("magnitude", 10)
+		total += int(damage_dealt * magnitude / 100.0)
+	return total
+
 # Caps damage so a last_stand trinket leaves the owner at 1 HP (once per battle).
 func check_death_prevention(damage: int) -> int:
 	_bandana_proced = false

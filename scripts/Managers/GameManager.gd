@@ -612,6 +612,15 @@ func _check_dict_condition(cond, node_index):
 			if req == true and node_index == travel.current_node:
 				return false
 			continue
+		elif key == "lacks_item":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			var has_equipped = req in player.data.get("Trinkets", [])
+			var has_in_bag   = player.get_inventory().get(req, 0) > 0
+			if has_equipped or has_in_bag:
+				return false
+			continue
 		elif key == "player_name":
 			var player = game_state["player"]
 			if player == null:

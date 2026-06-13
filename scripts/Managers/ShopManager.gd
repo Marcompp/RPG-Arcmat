@@ -120,9 +120,7 @@ func _buy_item(item_name: String, price: int) -> void:
 	MyEventBus.emit("continue_text", {
 		"text": "Bought [b]%s[/b] for [color=yellow]%dG[/color].\n[color=yellow]Gold: %dG[/color]" % [item_name, price, remaining]
 	})
-	MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
-
-	await _tm.game_manager._gm_wait_for_continue()
+	await MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
 	show_shop_stock()
 
 func _player_has_equip(item_name: String) -> bool:

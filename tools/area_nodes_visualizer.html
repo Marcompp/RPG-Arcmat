@@ -135,7 +135,7 @@
   </select>
   <label id="phantom-label">
     <input type="checkbox" id="toggle-phantom">
-    Show unmatched exits
+    Show unresolved tokens
   </label>
   <div id="legend"></div>
 </div>
@@ -173,6 +173,7 @@ const C = {
 };
 
 const NODE_W = 120, NODE_H = 52, NODE_RX = 6;
+const TOKEN_W = 84, TOKEN_H = 26;
 const BADGE_SIZE = 7, BADGE_GAP = 3;
 const FORCE_ITERS = 300;
 const FORCE_K = 30000;
@@ -209,10 +210,10 @@ function renderLegend() {
     { color: C.def,       label: 'Default' },
   ];
   const edgeItems = [
-    { color: C.edgeNorm, label: 'Edge', dashed: false },
-    { color: C.multi,    label: 'Multi-target', dashed: true },
-    { color: C.terminal, label: 'TERMINAL', dashed: false },
-    { color: C.phantom,  label: 'Unmatched', dashed: true },
+    { color: C.edgeNorm,  label: '→ token (exit)', dashed: false },
+    { color: '#2d6a9f',   label: '→ node (entrance)', dashed: false },
+    { color: C.terminal,  label: '→ TERMINAL', dashed: false },
+    { color: C.boss,      label: '→ unresolved', dashed: false },
   ];
   const el = document.getElementById('legend');
   let html = '';
@@ -270,45 +271,66 @@ document.getElementById('toggle-phantom').addEventListener('change', e => {
 // GRAPH MODEL
 // ─────────────────────────────────────────────────────────────────────────────
 function buildGraph(nodes) {
-  // entranceMap: token → [nodeIndex, ...]
-  const entranceMap = {};
-  nodes.forEach((n, i) => {
-    for (const token of (n.entrances || [])) {
-      if (!entranceMap[token]) entranceMap[token] = [];
-      entranceMap[token].push(i);
-    }
+  // Collect all tokens referenced in exits
+  const exitTokenSet = new Set();
+  nodes.forEach(n => (n.exits || []).forEach(e => exitTokenSet.add(e.leads_to)));
+
+  // Count how many nodes accept each token (to detect dead-end tokens)
+  const tokenInboundCount = {};
+  nodes.forEach(n => {
+    (n.entrances || []).forEach(t => {
+      if (exitTokenSet.has(t)) tokenInboundCount[t] = (tokenInboundCount[t] || 0) + 1;
+    });
   });
 
-  const edges = []; // { from, to, choice, leads_to, value, hasExitEvents, type }
-  // type: 'normal' | 'multi' | 'terminal' | 'phantom'
+  // Build unified node list: location nodes first, then token nodes
+  // Filter out dead-end tokens unless the phantom toggle is on
+  const tokens = [...exitTokenSet].filter(t => showPhantom || tokenInboundCount[t]);
+  const tokenOffset = nodes.length;
+  const tokenIdx = {};
+  tokens.forEach((t, i) => tokenIdx[t] = tokenOffset + i);
 
+  const allNodes = [
+    ...nodes.map((n, i) => ({ ...n, _idx: i, _type: 'location' })),
+    ...tokens.map((t, i) => ({
+      name: t,
+      _idx: tokenOffset + i,
+      _type: 'token',
+      _terminal: t === 'TERMINAL',
+      _unresolved: !tokenInboundCount[t],
+    })),
+  ];
+
+  const edges = [];
+
+  // location → token  (exits)
   nodes.forEach((n, fromIdx) => {
-    for (const exit of (n.exits || [])) {
-      const token = exit.leads_to;
-      const hasExitEvents = !!(exit.events && exit.events.length > 0);
-
-      if (token === 'TERMINAL') {
-        edges.push({ from: fromIdx, to: -1, choice: exit.choice, leads_to: token, value: exit.value, hasExitEvents, type: 'terminal' });
-        continue;
+    (n.exits || []).forEach(exit => {
+      const toIdx = tokenIdx[exit.leads_to];
+      if (toIdx !== undefined) {
+        edges.push({
+          from: fromIdx,
+          to: toIdx,
+          choice: exit.choice,
+          value: exit.value,
+          hasExitEvents: !!(exit.events && exit.events.length),
+          type: 'exit',
+        });
       }
-
-      const targets = entranceMap[token] || [];
-
-      if (targets.length === 0) {
-        if (showPhantom) {
-          edges.push({ from: fromIdx, to: -1, choice: exit.choice, leads_to: token, value: exit.value, hasExitEvents, type: 'phantom' });
-        }
-      } else if (targets.length === 1) {
-        edges.push({ from: fromIdx, to: targets[0], choice: exit.choice, leads_to: token, value: exit.value, hasExitEvents, type: 'normal' });
-      } else {
-        for (const t of targets) {
-          edges.push({ from: fromIdx, to: t, choice: exit.choice, leads_to: token, value: exit.value, hasExitEvents, type: 'multi' });
-        }
-      }
-    }
+    });
   });
 
-  return { nodes: nodes.map((n, i) => ({ ...n, _idx: i })), edges };
+  // token → location  (entrances, only for tokens that appear in some exit)
+  nodes.forEach((n, toIdx) => {
+    (n.entrances || []).forEach(token => {
+      const fromIdx = tokenIdx[token];
+      if (fromIdx !== undefined) {
+        edges.push({ from: fromIdx, to: toIdx, type: 'entrance' });
+      }
+    });
+  });
+
+  return { nodes: allNodes, edges, locationCount: nodes.length };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -408,10 +430,10 @@ function renderRegion(name) {
 
   // defs
   const defs = svgEl('defs');
-  addArrow(defs, 'arr-normal',   C.edgeNorm);
-  addArrow(defs, 'arr-multi',    C.multi);
+  addArrow(defs, 'arr-exit',     C.edgeNorm);
+  addArrow(defs, 'arr-entrance', '#2d6a9f');
   addArrow(defs, 'arr-terminal', C.terminal);
-  addArrow(defs, 'arr-phantom',  C.phantom);
+  addArrow(defs, 'arr-unresolved', C.boss);
   svg.appendChild(defs);
 
   // root group for pan/zoom
@@ -465,78 +487,66 @@ function addArrow(defs, id, color) {
   defs.appendChild(marker);
 }
 
+function nodeHalfSize(nodeData) {
+  if (!nodeData || nodeData._type === 'token') return { hw: TOKEN_W / 2, hh: TOKEN_H / 2 };
+  return { hw: NODE_W / 2, hh: NODE_H / 2 };
+}
+
 function renderEdge(g, edge, positions, idx, total) {
-  const isSelf = edge.from === edge.to;
-  let color, dash, marker;
-  switch (edge.type) {
-    case 'normal':   color = C.edgeNorm; dash = '';          marker = 'arr-normal';   break;
-    case 'multi':    color = C.multi;    dash = '5,3';       marker = 'arr-multi';    break;
-    case 'terminal': color = C.terminal; dash = '';          marker = 'arr-terminal'; break;
-    case 'phantom':  color = C.phantom;  dash = '3,4';       marker = 'arr-phantom';  break;
+  const fromNode = currentGraph.nodes[edge.from];
+  const toNode   = currentGraph.nodes[edge.to];
+
+  let color, dash, marker, strokeW;
+  if (edge.type === 'exit') {
+    const toUnresolved = toNode && toNode._unresolved;
+    const toTerminal   = toNode && toNode._terminal;
+    color   = toTerminal ? C.terminal : toUnresolved ? C.boss : C.edgeNorm;
+    marker  = toTerminal ? 'arr-terminal' : toUnresolved ? 'arr-unresolved' : 'arr-exit';
+    dash    = '';
+    strokeW = '1.5';
+  } else { // 'entrance'
+    color   = '#2d6a9f';
+    marker  = 'arr-entrance';
+    dash    = '';
+    strokeW = '1.2';
   }
 
   const fromPos = positions[edge.from];
-
-  // terminal / phantom edges go to a virtual point off-screen
-  let toPos;
-  if (edge.to < 0) {
-    toPos = { x: fromPos.x + 90, y: fromPos.y - 70 };
-  } else {
-    toPos = positions[edge.to];
-  }
+  const toPos   = positions[edge.to];
 
   // perpendicular offset to fan parallel edges
-  const offset = (idx - (total - 1) / 2) * 18;
+  const offset = (idx - (total - 1) / 2) * 16;
   const dx = toPos.x - fromPos.x;
   const dy = toPos.y - fromPos.y;
   const len = Math.sqrt(dx * dx + dy * dy) + 0.001;
   const px = -dy / len * offset;
-  const py = dx / len * offset;
+  const py =  dx / len * offset;
 
-  // source/dest points on node rect borders
-  const src = rectEdgePoint(fromPos.x, fromPos.y, toPos.x + px, toPos.y + py);
-  const dst = edge.to < 0
-    ? { x: toPos.x, y: toPos.y }
-    : rectEdgePoint(toPos.x, toPos.y, fromPos.x + px, fromPos.y + py);
+  const fromSz = nodeHalfSize(fromNode);
+  const toSz   = nodeHalfSize(toNode);
+  const src = rectEdgePoint(fromPos.x, fromPos.y, toPos.x + px, toPos.y + py, fromSz.hw, fromSz.hh);
+  const dst = rectEdgePoint(toPos.x,   toPos.y,   fromPos.x + px, fromPos.y + py, toSz.hw,   toSz.hh);
 
-  // control point
-  const mx = (src.x + dst.x) / 2 + px;
-  const my = (src.y + dst.y) / 2 + py;
-
-  if (isSelf) {
-    // self-loop arc
-    const loop = svgEl('path');
-    const lx = fromPos.x + NODE_W / 2 + 10;
-    const ly = fromPos.y - NODE_H / 2;
-    loop.setAttribute('d', `M ${fromPos.x + 20} ${fromPos.y - NODE_H / 2} C ${lx + 30} ${ly - 40}, ${lx + 60} ${ly - 40}, ${lx + 30} ${fromPos.y - NODE_H / 2 + 6}`);
-    loop.setAttribute('fill', 'none');
-    loop.setAttribute('stroke', color);
-    loop.setAttribute('stroke-width', '1.5');
-    if (dash) loop.setAttribute('stroke-dasharray', dash);
-    loop.setAttribute('marker-end', `url(#${marker})`);
-    g.appendChild(loop);
-    return;
-  }
+  const cx = (src.x + dst.x) / 2 + px;
+  const cy = (src.y + dst.y) / 2 + py;
 
   const path = svgEl('path');
-  path.setAttribute('d', `M ${src.x} ${src.y} Q ${mx} ${my} ${dst.x} ${dst.y}`);
+  path.setAttribute('d', `M ${src.x} ${src.y} Q ${cx} ${cy} ${dst.x} ${dst.y}`);
   path.setAttribute('fill', 'none');
   path.setAttribute('stroke', color);
-  path.setAttribute('stroke-width', '1.5');
+  path.setAttribute('stroke-width', strokeW);
   if (dash) path.setAttribute('stroke-dasharray', dash);
   path.setAttribute('marker-end', `url(#${marker})`);
-  path.setAttribute('opacity', '0.75');
+  path.setAttribute('opacity', edge.type === 'entrance' ? '0.5' : '0.8');
   g.appendChild(path);
 
-  // yellow dot for exit with in-transit events
-  if (edge.hasExitEvents) {
-    const dot = svgEl('circle');
+  // yellow dot on exit edge that has in-transit events
+  if (edge.type === 'exit' && edge.hasExitEvents) {
     const t = 0.5;
-    // point on quadratic bezier at t=0.5
-    const qx = (1 - t) * (1 - t) * src.x + 2 * (1 - t) * t * mx + t * t * dst.x;
-    const qy = (1 - t) * (1 - t) * src.y + 2 * (1 - t) * t * my + t * t * dst.y;
-    dot.setAttribute('cx', qx);
-    dot.setAttribute('cy', qy);
+    const qx = (1-t)*(1-t)*src.x + 2*(1-t)*t*cx + t*t*dst.x;
+    const qy = (1-t)*(1-t)*src.y + 2*(1-t)*t*cy + t*t*dst.y;
+    const dot = svgEl('circle');
+    dot.setAttribute('cx', qx); dot.setAttribute('cy', qy);
     dot.setAttribute('r', '4');
     dot.setAttribute('fill', C.events);
     dot.setAttribute('stroke', '#0f0f1a');
@@ -544,11 +554,12 @@ function renderEdge(g, edge, positions, idx, total) {
     g.appendChild(dot);
   }
 
-  // edge label (choice text, truncated)
-  if (edge.choice && edge.type !== 'phantom') {
+  // choice label on exit edges
+  if (edge.type === 'exit' && edge.choice) {
     const label = edge.choice.length > 22 ? edge.choice.slice(0, 20) + '…' : edge.choice;
-    const lx = (1 - 0.4) * (1 - 0.4) * src.x + 2 * (1 - 0.4) * 0.4 * mx + 0.4 * 0.4 * dst.x;
-    const ly = (1 - 0.4) * (1 - 0.4) * src.y + 2 * (1 - 0.4) * 0.4 * my + 0.4 * 0.4 * dst.y;
+    const t = 0.35;
+    const lx = (1-t)*(1-t)*src.x + 2*(1-t)*t*cx + t*t*dst.x;
+    const ly = (1-t)*(1-t)*src.y + 2*(1-t)*t*cy + t*t*dst.y;
     const txt = svgEl('text');
     txt.setAttribute('x', lx);
     txt.setAttribute('y', ly - 4);
@@ -558,24 +569,10 @@ function renderEdge(g, edge, positions, idx, total) {
     txt.setAttribute('pointer-events', 'none');
     txt.textContent = label;
     g.appendChild(txt);
-  } else if (edge.type === 'phantom') {
-    // show unresolved token
-    const lx = (src.x + dst.x) / 2;
-    const ly = (src.y + dst.y) / 2;
-    const txt = svgEl('text');
-    txt.setAttribute('x', lx);
-    txt.setAttribute('y', ly - 4);
-    txt.setAttribute('text-anchor', 'middle');
-    txt.setAttribute('font-size', '9');
-    txt.setAttribute('fill', C.phantom);
-    txt.setAttribute('pointer-events', 'none');
-    txt.textContent = '?' + edge.leads_to;
-    g.appendChild(txt);
   }
 }
 
-function rectEdgePoint(cx, cy, tx, ty) {
-  const hw = NODE_W / 2, hh = NODE_H / 2;
+function rectEdgePoint(cx, cy, tx, ty, hw, hh) {
   const dx = tx - cx, dy = ty - cy;
   if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) return { x: cx, y: cy - hh };
   const scaleX = dx !== 0 ? Math.abs(hw / dx) : Infinity;
@@ -607,15 +604,63 @@ function getNodeBadges(node) {
   return badges;
 }
 
-function renderNode(g, node, pos, idx) {
-  const fill = getNodeColor(node);
-  const badges = getNodeBadges(node);
+function renderTokenNode(group, node, idx) {
+  const hw = TOKEN_W / 2, hh = TOKEN_H / 2;
+  const borderColor = node._terminal ? C.terminal
+                    : node._unresolved ? C.boss
+                    : '#3b82f6';
 
+  const pill = svgEl('rect');
+  pill.setAttribute('x', -hw); pill.setAttribute('y', -hh);
+  pill.setAttribute('width', TOKEN_W); pill.setAttribute('height', TOKEN_H);
+  pill.setAttribute('rx', hh);
+  pill.setAttribute('fill', '#0d1b2a');
+  pill.setAttribute('stroke', borderColor);
+  pill.setAttribute('stroke-width', '1.5');
+  group.appendChild(pill);
+
+  const txt = svgEl('text');
+  txt.setAttribute('x', 0); txt.setAttribute('y', 0);
+  txt.setAttribute('text-anchor', 'middle');
+  txt.setAttribute('dominant-baseline', 'middle');
+  txt.setAttribute('font-size', '10');
+  txt.setAttribute('font-family', 'monospace');
+  txt.setAttribute('font-weight', '700');
+  txt.setAttribute('fill', borderColor);
+  txt.setAttribute('pointer-events', 'none');
+  txt.textContent = node.name;
+  group.appendChild(txt);
+
+  group.addEventListener('mousedown', e => {
+    e.stopPropagation();
+    dragIdx = idx;
+    dragStartClientX = e.clientX;
+    dragStartClientY = e.clientY;
+    dragStartSVGX = positions[idx].x;
+    dragStartSVGY = positions[idx].y;
+    dragMoved = false;
+    group.style.cursor = 'grabbing';
+  });
+  group.addEventListener('mouseenter', () => { pill.setAttribute('stroke-width', '2.5'); });
+  group.addEventListener('mouseleave', () => { pill.setAttribute('stroke-width', '1.5'); if (dragIdx < 0) group.style.cursor = 'grab'; });
+}
+
+function renderNode(g, node, pos, idx) {
   const group = svgEl('g');
   group.setAttribute('class', 'node');
   group.setAttribute('data-idx', idx);
   group.setAttribute('transform', `translate(${pos.x},${pos.y})`);
   group.style.cursor = 'grab';
+
+  if (node._type === 'token') {
+    renderTokenNode(group, node, idx);
+    nodeGroups[idx] = group;
+    g.appendChild(group);
+    return;
+  }
+
+  const fill = getNodeColor(node);
+  const badges = getNodeBadges(node);
 
   // all coords are relative to the node centre (0,0)
   const hw = NODE_W / 2, hh = NODE_H / 2;

@@ -397,7 +397,7 @@
 	{
 	  "name": "Forest Edge",
 	  "type": "EXIT",
-	  "backdrop": "apple_end.png",
+	  "backdrop": "apple_end2.png",
 	  "entrances": ["ROAD", "FOREST"],
 	  "boss": "Werewolf",
 	  "encounter_rate": 0,
@@ -814,6 +814,12 @@
 			  {"chance": 0.4, "event": "sundown_bones_in_wall"},
 			  {"chance": 0.4, "event": "sundown_tunnel_seep"}
 			],
+			"action": {
+			  "name": "Search Ossuary",
+			  "tooltip": "Search the catacomb walls for anything left behind.",
+			  "event": "sundown_search_ossuary",
+			  "repeatable": true
+			},
 			"exits": [
 			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
 			]
@@ -837,6 +843,12 @@
 			"events": [
 			  {"chance": 0.55, "event": "sundown_fork_markings"}
 			],
+			"action": {
+			  "name": "Search Ossuary",
+			  "tooltip": "Search the catacomb walls for anything left behind.",
+			  "event": "sundown_search_ossuary",
+			  "repeatable": true
+			},
 			"exits": [
 			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
 			  { "choice": "Go right", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the right passage, the draft guiding you as you press deeper underground." }

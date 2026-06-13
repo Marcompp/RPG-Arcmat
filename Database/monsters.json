@@ -84,6 +84,12 @@
 	"Rarity": 3
   },
   {
+	"Name": "Skeleton Duo",
+	"Enemies": ["Skeleton", "Skeleton"],
+	"Location": "Sundown Plateau",
+	"Rarity": 3
+  },
+  {
 	"Name": "Bitefish",
 	"Element": "Water",
 	"Lvl": 1,

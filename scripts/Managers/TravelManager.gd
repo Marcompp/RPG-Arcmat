@@ -373,11 +373,11 @@ func _handle_node_specific_action(action_data: Dictionary) -> void:
 	if event_name != "":
 		var event_def = events_db.get(event_name, {})
 		if not event_def.is_empty():
-			await _run_node_event(event_def)
-			current_node_data["_rng_state"] = rng.state
 			if not action_data.get("repeatable", true):
 				game_state["used_events"][event_name] = true
 			used_node_action = true
+			await _run_node_event(event_def)
+			current_node_data["_rng_state"] = rng.state
 			return
 		push_warning("Node action event not found: " + event_name)
 	if event_name != "":

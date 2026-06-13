@@ -584,6 +584,15 @@ func _do_attack(actor, who: String, target):
 			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s%s" % [dmg, down_msg, bandana_msg],
 			"linebreak": false
 		})
+		if actor_sys:
+			var lifesteal := actor_sys.get_lifesteal_amount(dmg)
+			if lifesteal > 0 and actor.get_hp() > 0:
+				actor.heal(lifesteal)
+				MyEventBus.emit("continue_text", {"text": "[instant][color=green]+%d[/color] HP absorbed![/instant]" % lifesteal, "linebreak": false})
+		if target_sys and _who_for(target) == "player" and target.get_hp() > 0:
+			if target_sys.try_counter_stun():
+				status_sys.add_status(actor, "stun", 1)
+				MyEventBus.emit("continue_text", {"text": "\n[b]%s[/b] is startled by the rattle![wait=0.1]" % _get_display_name(actor), "linebreak": false})
 	await wait_for_writing()
 
 func _execute_action(user, who: String, action_name: String, db: Dictionary, target):
@@ -711,6 +720,17 @@ func _execute_hit(data, user, who: String, target):
 				damage_txt += bandana_msg
 			MyEventBus.emit("continue_text", { "text": damage_txt, "linebreak": false })
 			await wait_for_writing()
+			if actor_sys:
+				var lifesteal := actor_sys.get_lifesteal_amount(result["damage"])
+				if lifesteal > 0 and user.get_hp() > 0:
+					user.heal(lifesteal)
+					MyEventBus.emit("continue_text", {"text": "[instant][color=green]+%d[/color] HP absorbed![/instant]" % lifesteal, "linebreak": false})
+					await wait_for_writing()
+			if target_sys and _who_for(target) == "player" and target.get_hp() > 0:
+				if target_sys.try_counter_stun():
+					status_sys.add_status(user, "stun", 1)
+					MyEventBus.emit("continue_text", {"text": "\n[b]%s[/b] is startled by the rattle![wait=0.1]" % _get_display_name(user), "linebreak": false})
+					await wait_for_writing()
 		elif result.get("element_reaction") == "immune":
 			MyEventBus.emit("continue_text", { "text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
 			await wait_for_writing()
