@@ -572,6 +572,8 @@ func _do_attack(actor, who: String, target):
 			dmg = int(dmg * 1.5)
 			MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
 			await wait_for_writing()
+		if _who_for(target) == "player" and target.get_hp() >= target.get_max_hp():
+			dmg = min(dmg, target.get_max_hp() - 1)
 		target.take_damage(dmg)
 		if actor_sys: actor_sys.on_hit(attack_element)
 		if target_sys: target_sys.on_owner_hit()
@@ -704,6 +706,8 @@ func _execute_hit(data, user, who: String, target):
 			var target_sys = _tsys(_who_for(target))
 			result["damage"] = max(1, int(result["damage"] * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
 			result["damage"] = target_sys.check_death_prevention(result["damage"]) if target_sys else result["damage"]
+			if _who_for(target) == "player" and target.get_hp() >= target.get_max_hp():
+				result["damage"] = min(result["damage"], target.get_max_hp() - 1)
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
 			if actor_sys: actor_sys.on_hit(attack_element)

@@ -605,9 +605,9 @@ alignment = 2
 [node name="OptionsButton" type="Button" parent="GameUI"]
 layout_mode = 0
 offset_left = 1095.0
-offset_top = 554.0
+offset_top = 592.0
 offset_right = 1137.0
-offset_bottom = 593.0
+offset_bottom = 631.0
 icon = ExtResource("6_3gle4")
 icon_alignment = 1
 
@@ -765,9 +765,9 @@ script = ExtResource("3_6mkdx")
 
 [node name="LogButton" type="Button" parent="DialogueSystem"]
 layout_mode = 0
-offset_left = 1099.0
+offset_left = 12.0
 offset_top = 602.0
-offset_right = 1140.0
+offset_right = 53.0
 offset_bottom = 633.0
 text = "LOG"
 

@@ -93,14 +93,14 @@ func _ready():
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
 	)
 	MyEventBus.subscribe("give_item", func(data):
-		print('GIVING ITEM')
-		print(data)
 		var item_name: String = data.get("item", "")
 		var player = game_state["player"]
 		if player == null or item_name == "":
 			MyEventBus.emit("give_item_done", {})
 			return
-		await _process_item_acquisition(item_name, player)
+		var price: int = data.get("price", 0)
+		var from_shop: bool = data.get("from_shop", false)
+		await _process_item_acquisition(item_name, player, price, from_shop)
 		MyEventBus.emit("give_item_done", {})
 	)
 	#game_state["player"] = null
@@ -429,6 +429,7 @@ func confirm_character():
 	var chara = pending_character
 	rng.randomize()
 	var character = Character.new(chara, armor_db, weapon_db, rng)
+	character.recalculate_trinket_bonus(trinkets_db)
 	game_state["player"] = character
 	game_state["gold"] = character.get_money()
 	
@@ -693,6 +694,7 @@ func load_game(slot: int):
 		var char_data = player_data.get("data", {})
 		var character = Character.new(char_data, armor_db, weapon_db, rng, true)
 		character.load_from_save(player_data)
+		character.recalculate_trinket_bonus(trinkets_db)
 		game_state["player"] = character
 
 	var travel_data = save_data.get("travel", {})
@@ -824,7 +826,7 @@ func _format_level_up_text(lvl_up: Dictionary) -> String:
 			lines.append("[color=cyan]+1 %s[/color]" % stat.to_upper())
 	return "\n".join(lines)
 
-func _offer_equip(item_name: String, player: Character):
+func _offer_equip(item_name: String, player: Character, price: int = 0, from_shop: bool = false):
 	var slot: String
 	var new_item: Dictionary
 	if weapon_db.has(item_name):
@@ -840,37 +842,57 @@ func _offer_equip(item_name: String, player: Character):
 
 	MyEventBus.emit("dialogue", { "text": _build_equip_comparison_text(item_name, new_item, old_item, slot) })
 
+	var confirm_type: String
+	var cancel_type: String
+	var choices: Array
+	var header: String
+	if from_shop:
+		confirm_type = "buy_equip"
+		cancel_type = "cancel"
+		choices = [
+			{ "text": "Buy & Equip", "type": "buy_equip", "highlight": true },
+			{ "text": "Cancel", "type": "cancel" }
+		]
+		header = "Buy for [color=yellow]%dG[/color]?" % price
+	else:
+		confirm_type = "equip"
+		cancel_type = "keep"
+		choices = [
+			{ "text": "Equip", "type": "equip", "highlight": true },
+			{ "text": "Keep in Bag", "type": "keep" }
+		]
+		header = "New Equipment Found!"
+
 	var state = { "chosen": "", "done": false }
 	MyInputRouter.push(func(choice):
 		var t = choice.get("type", "")
-		if t == "equip" or t == "keep":
+		if t == confirm_type or t == cancel_type:
 			state["chosen"] = t
 			state["done"] = true
 			MyInputRouter.pop()
 	, "equip_prompt")
 
-	MyEventBus.emit("show_choices", {
-		"choices": [
-			{ "text": "Equip", "type": "equip", "highlight": true },
-			{ "text": "Keep in Bag", "type": "keep" }
-		],
-		"header": "New Equipment Found!"
-	})
+	MyEventBus.emit("show_choices", { "choices": choices, "header": header })
 
 	while not state["done"]:
 		await get_tree().process_frame
 
 	var inv = player.data["Inventory"]
-	if state["chosen"] == "equip":
+	if state["chosen"] == confirm_type:
+		if from_shop:
+			game_state["gold"] -= price
 		if old_item and old_item.has("name"):
 			inv[old_item["name"]] = inv.get(old_item["name"], 0) + 1
 		player.equip(slot, new_item)
-		MyEventBus.emit("continue_text", { "text": "[color=#00E676]%s equipped![/color]" % new_item.get("name", item_name) })
-	else:
+		var result_text = "[color=#00E676]%s equipped![/color]" % new_item.get("name", item_name)
+		if from_shop:
+			result_text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
+		MyEventBus.emit("continue_text", { "text": result_text })
+		await _gm_wait_for_continue()
+	elif not from_shop:
 		inv[item_name] = inv.get(item_name, 0) + 1
 		MyEventBus.emit("continue_text", { "text": "[color=#AAAAAA]%s added to bag, check inventory out of battle to equip.[/color]" % item_name })
-
-	await _gm_wait_for_continue()
+		await _gm_wait_for_continue()
 
 func _gm_wait_for_continue():
 	var state = { "done": false }
@@ -953,43 +975,83 @@ func _build_equip_comparison_text(item_name: String, new_item: Dictionary, old_i
 # ITEM ACQUISITION
 # ------------------------
 
-func _process_item_acquisition(item_name: String, player: Character):
-	print('ITEMT')
+func _process_item_acquisition(item_name: String, player: Character, price: int = 0, from_shop: bool = false):
 	if not player.data.has("Inventory"):
 		player.data["Inventory"] = {}
 	if weapon_db.has(item_name) or armor_db.has(item_name):
-		await _offer_equip(item_name, player)
+		await _offer_equip(item_name, player, price, from_shop)
 	elif item_name.begins_with("Book of "):
 		var spell_name = item_name.substr(8)
 		if spell_db.has(spell_name):
-			await _offer_learn(spell_name, spell_db[spell_name], "spell", player, item_name)
+			await _offer_learn(spell_name, spell_db[spell_name], "spell", player, item_name, price, from_shop)
 		else:
 			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 	elif item_name.ends_with(" Scroll"):
 		var skill_name = item_name.substr(0, item_name.length() - 7)
 		if skill_db.has(skill_name):
-			await _offer_learn(skill_name, skill_db[skill_name], "skill", player, item_name)
+			await _offer_learn(skill_name, skill_db[skill_name], "skill", player, item_name, price, from_shop)
 		else:
 			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 	elif trinkets_db.has(item_name):
-		await _equip_trinket_acquisition(item_name, player)
+		await _equip_trinket_acquisition(item_name, player, price, from_shop)
 	else:
 		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 
-func _equip_trinket_acquisition(item_name: String, player: Character):
+func _equip_trinket_acquisition(item_name: String, player: Character, price: int = 0, from_shop: bool = false):
 	if not player.data.has("Trinkets"):
 		player.data["Trinkets"] = []
 	var stackable = trinkets_db[item_name].get("stackable", false)
-	if not stackable and item_name in player.data["Trinkets"]:
+	var already_equipped = not stackable and item_name in player.data["Trinkets"]
+
+	if from_shop:
+		var data = trinkets_db[item_name]
+		var preview = "[b]%s[/b]  [i](Trinket)[/i]" % item_name
+		if data.has("description"):
+			preview += "\n" + data["description"]
+		if data.has("effect_description"):
+			preview += "\n" + data["effect_description"]
+
+		MyEventBus.emit("dialogue", { "text": preview })
+
+		var state = { "done": false, "confirmed": false }
+		MyInputRouter.push(func(choice):
+			var t = choice.get("type", "")
+			if t == "buy_equip" or t == "cancel":
+				state["confirmed"] = (t == "buy_equip")
+				state["done"] = true
+				MyInputRouter.pop()
+		, "trinket_prompt")
+		MyEventBus.emit("show_choices", {
+			"choices": [
+				{ "text": "Buy & Equip", "type": "buy_equip", "highlight": true },
+				{ "text": "Cancel", "type": "cancel" }
+			],
+			"header": "Buy for [color=yellow]%dG[/color]?" % price
+		})
+		while not state["done"]:
+			await get_tree().process_frame
+
+		if not state["confirmed"]:
+			return
+
+		game_state["gold"] -= price
+
+	if already_equipped:
 		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
-		MyEventBus.emit("continue_text", {"text": "[color=#AAAAAA]%s kept in bag (already equipped).[/color]" % item_name})
+		var text = "[color=#AAAAAA]%s kept in bag (already equipped).[/color]" % item_name
+		if from_shop:
+			text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
+		MyEventBus.emit("continue_text", {"text": text})
 	else:
 		player.data["Trinkets"].append(item_name)
 		player.stats_changed.emit()
-		MyEventBus.emit("continue_text", {"text": "[color=#00E676]%s equipped![/color]" % item_name})
+		var text = "[color=#00E676]%s equipped![/color]" % item_name
+		if from_shop:
+			text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
+		MyEventBus.emit("continue_text", {"text": text})
 	await _gm_wait_for_continue()
 
-func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: Character, item_name: String):
+func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: Character, item_name: String, price: int = 0, from_shop: bool = false):
 	var known: bool
 	if kind == "spell":
 		known = player.get_spells().has(learn_name)
@@ -1000,10 +1062,25 @@ func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: C
 
 	var choices: Array
 	var header: String
-	if known:
+	var confirm_type: String
+	var cancel_type: String
+
+	if from_shop:
+		confirm_type = "buy_learn"
+		cancel_type = "cancel"
+		choices = [
+			{ "text": "Buy & Learn", "type": "buy_learn", "highlight": true },
+			{ "text": "Cancel", "type": "cancel" }
+		]
+		header = "Buy for [color=yellow]%dG[/color]?" % price
+	elif known:
+		confirm_type = ""
+		cancel_type = "learn_keep"
 		choices = [{ "text": "Keep in Bag", "type": "learn_keep" }]
 		header = "[color=yellow]Already Known[/color]"
 	else:
+		confirm_type = "learn_confirm"
+		cancel_type = "learn_keep"
 		choices = [
 			{ "text": "Learn!", "type": "learn_confirm", "highlight": true },
 			{ "text": "Keep in Bag", "type": "learn_keep" }
@@ -1013,32 +1090,36 @@ func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: C
 	var state = { "chosen": "", "done": false }
 	MyInputRouter.push(func(choice):
 		var t = choice.get("type", "")
-		if t in ["learn_confirm", "learn_keep"]:
+		if t in ["learn_confirm", "learn_keep", "buy_learn", "cancel"]:
 			state["chosen"] = t
 			state["done"] = true
 			MyInputRouter.pop()
 	, "learn_prompt")
 
-	MyEventBus.emit("show_choices", {
-		"choices": choices,
-		"header": header
-	})
+	MyEventBus.emit("show_choices", { "choices": choices, "header": header })
 
 	while not state["done"]:
 		await get_tree().process_frame
 
-	if state["chosen"] == "learn_confirm":
+	var confirmed = (state["chosen"] == confirm_type and confirm_type != "")
+
+	if confirmed:
+		if from_shop:
+			game_state["gold"] -= price
 		var list_key = "Spells" if kind == "spell" else "Skills"
 		if not player.data.has(list_key):
 			player.data[list_key] = []
 		player.data[list_key].append(learn_name)
-		MyEventBus.emit("continue_text", { "text": "[color=#00E676]You learned [b]%s[/b]![/color]" % learn_name })
-	else:
+		var result_text = "[color=#00E676]You learned [b]%s[/b]![/color]" % learn_name
+		if from_shop:
+			result_text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
+		MyEventBus.emit("continue_text", { "text": result_text })
+		await _gm_wait_for_continue()
+	elif not from_shop:
 		var inv = player.data["Inventory"]
 		inv[item_name] = inv.get(item_name, 0) + 1
 		MyEventBus.emit("continue_text", { "text": "[color=#AAAAAA]%s kept in bag.[/color]" % item_name })
-
-	await _gm_wait_for_continue()
+		await _gm_wait_for_continue()
 
 func _build_learn_preview_text(learn_name: String, entry: Dictionary, kind: String, already_known: bool) -> String:
 	var text = ""

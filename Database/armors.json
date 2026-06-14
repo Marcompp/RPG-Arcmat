@@ -94,8 +94,8 @@
 			"agi": 2
 		}
 	},
-	"Chainmail": {
-		"name": "Chainmail",
+	"Chainmail2": {
+		"name": "Chainmail2",
 		"description": "Interlocking iron rings offering solid all-around protection.",
 		"stats": {
 			"def": 7

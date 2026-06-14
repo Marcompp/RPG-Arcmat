@@ -106,21 +106,53 @@ func handle_action(choice) -> void:
 		var data = choice.get("data", {})
 		await _buy_item(data["item"], data["price"])
 
+func _shop_text(key: String, default_text: String) -> String:
+	var val = current_shop_data.get(key, "")
+	if val is Array and not val.is_empty():
+		return _pick(val)
+	if val is String and val != "":
+		return val
+	return default_text
+
 func _buy_item(item_name: String, price: int) -> void:
 	if not _tm.game_state or _tm.game_state["gold"] < price:
 		return
-
-	_tm.game_state["gold"] -= price
 
 	var player = _tm.game_state["player"]
 	if not player.data.has("Inventory"):
 		player.data["Inventory"] = {}
 
-	var remaining = _tm.game_state["gold"]
-	MyEventBus.emit("continue_text", {
-		"text": "Bought [b]%s[/b] for [color=yellow]%dG[/color].\n[color=yellow]Gold: %dG[/color]" % [item_name, price, remaining]
-	})
-	await MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
+	var is_interactive = (
+		_tm.game_manager.weapon_db.has(item_name) or
+		_tm.game_manager.armor_db.has(item_name) or
+		item_name.begins_with("Book of ") or
+		item_name.ends_with(" Scroll") or
+		_tm.trinkets_db.has(item_name)
+	)
+
+	var shopkeeper_text: String
+
+	if is_interactive:
+		var gold_before = _tm.game_state["gold"]
+		await MyEventBus.emit_and_await("give_item", {
+			"item": item_name, "price": price, "from_shop": true
+		}, "give_item_done")
+		if _tm.game_state["gold"] < gold_before:
+			shopkeeper_text = _shop_text("PurchaseText",
+				"\"Thanks for your patronage!\n\nCan I help you with anything else?\"")
+		else:
+			shopkeeper_text = _shop_text("CancelText",
+				"\"That's alright!\n\nFeel free to keep browsing.\"")
+	else:
+		_tm.game_state["gold"] -= price
+		var remaining = _tm.game_state["gold"]
+		await MyEventBus.emit_and_await("give_item", {"item": item_name}, "give_item_done")
+		var thanks = _shop_text("PurchaseText",
+			"\"Thanks for your patronage!\n\nCan I help you with anything else?\"")
+		shopkeeper_text = "Bought [b]%s[/b] for [color=yellow]%dG[/color]. [color=yellow]Gold: %dG[/color]\n\n%s" \
+			% [item_name, price, remaining, thanks]
+
+	MyEventBus.emit("dialogue", {"text": shopkeeper_text, "linebreak": false})
 	show_shop_stock()
 
 func _player_has_equip(item_name: String) -> bool:

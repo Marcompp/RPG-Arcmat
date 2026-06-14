@@ -18,6 +18,7 @@ var _status_db: Dictionary = {}
 var _trinkets_db: Dictionary = {}
 var _element_db: Dictionary = {}
 var _last_trinket_states: Dictionary = {}
+var _current_weapon: Dictionary = {}
 var _element_color: Color = Color.BLACK
 #@onready var gold_label = $TopCenterPanel/VBoxContainer/GoldContainer/GoldValue
 
@@ -32,6 +33,14 @@ var _element_color: Color = Color.BLACK
 
 const PIXELS_PER_POINT = 5
 const MAX_BAR_WIDTH = 170
+
+const _WEAPON_TYPE_ICONS: Dictionary = {
+	"Sword":   "sword.png",
+	"Axe":     "axe.png",
+	"Ranged":  "ranged.png",
+	"Staff":   "staff.png",
+	"Polearm": "polearm.png"
+}
 
 const bar_colors = {
 	"hp": [
@@ -93,6 +102,8 @@ func update_trinkets(trinkets: Array, states: Dictionary = {}) -> void:
 		_last_trinket_states = states
 	for child in trinket_container.get_children():
 		child.queue_free()
+	if not _current_weapon.is_empty():
+		trinket_container.add_child(_make_weapon_icon(_current_weapon))
 	var counts: Dictionary = {}
 	for t in trinkets:
 		counts[t] = counts.get(t, 0) + 1
@@ -113,7 +124,8 @@ func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Con
 	if count > 1:
 		display_name += " x%d" % count
 	var description = data.get("description", "")
-	var tooltip = display_name + ("\n" + description if description != "" else "")
+	var eff_description = data.get("effect_description", "")
+	var tooltip = display_name + ("\n" + description if description != "" else "") + ("\n\n" + eff_description if eff_description != "" else "")
 	var effect = data.get("effect", "")
 	if effect == "duelist_combo" and not state.is_empty() and state.get("combo", 0) > 0:
 		tooltip += "\nCurrent Combo: %d" % state.get("combo", 0)
@@ -155,6 +167,48 @@ func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Con
 		badge.grow_vertical   = Control.GROW_DIRECTION_BEGIN
 		badge.mouse_filter    = Control.MOUSE_FILTER_IGNORE
 		root.add_child(badge)
+
+	return root
+
+func _make_weapon_icon(weapon_data: Dictionary) -> Control:
+	const ICON_SIZE := 20
+	var root := Control.new()
+	root.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	var display_name = weapon_data.get("name", "Weapon")
+	var wpn_type     = weapon_data.get("wpn_type", "")
+	var description  = weapon_data.get("description", "")
+	var stats        = weapon_data.get("stats", {})
+	var tooltip      = display_name
+	if wpn_type != "":
+		tooltip += " (%s)" % wpn_type
+	if description != "":
+		tooltip += "\n" + description
+	if not stats.is_empty():
+		var stat_parts = []
+		for k in ["mgt", "acc", "wgt", "crit", "mys"]:
+			if stats.has(k):
+				stat_parts.append("%s: %d" % [k.to_upper(), stats[k]])
+		if stat_parts.size() > 0:
+			tooltip += "\n" + " | ".join(stat_parts)
+	root.tooltip_text = tooltip
+
+	var tex_rect := TextureRect.new()
+	tex_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var icon_file: String = weapon_data.get("icon", "")
+	if icon_file == "":
+		icon_file = _WEAPON_TYPE_ICONS.get(wpn_type, "gear.png")
+	var tex_path := "res://assets/icons/" + icon_file
+	if not ResourceLoader.exists(tex_path):
+		tex_path = "res://assets/icons/gear.png"
+	if ResourceLoader.exists(tex_path):
+		tex_rect.texture = load(tex_path)
+	root.add_child(tex_rect)
 
 	return root
 
@@ -277,6 +331,7 @@ func _refresh_all():
 	_update_bar(hp_bar, hp, mhp, hp_text, true, _bars_tween)
 	_update_bar(mp_bar, mp, mmp, mp_text, _mp_react_next, _bars_tween)
 	_mp_react_next = false
+	_current_weapon = character.get_weapon()
 	update_trinkets(character.get_trinkets())
 	_update_element_color()
 

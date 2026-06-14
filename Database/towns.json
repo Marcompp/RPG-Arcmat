@@ -23,6 +23,7 @@
 				"ShopType": "Item",
 				"WelcomeText":"A familiar blue-haired woman in a frilly apron greets you at the counter:\n\n\"Welcome, ka-ching!\"\n\"I'm Kacha, give me a call if you need anything!\"",
 				"OtherText": ["\"Be sure to buy something before you leave, ka-ching!\"", "\"Welcome back to Kacha's Shop, ka-ching!\"", "\"See anything you like? Ka-ching!\""],
+				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
 				"ambience":["A selection of potions and other items glint behind the counter.",
 							"Rows of merchandise line the stalls.",
 							"Fellow customers flit about the shop."],
@@ -51,9 +52,9 @@
 				"ShopType": "Equip",
 				"Backdrop": "clothier.png",
 				"Stock": {
-					"Traveler's Tunic": 80,
-					"Dress": 100,
-					"Mage's Robe": 130,
+					"Eyeglasses": 130,
+					"Leather Boots": 110,
+					"Backpack": 190,
 					"Chainmail": 200
 				}
 			},
@@ -83,6 +84,7 @@
 				"Kind": "Shop",
 				"ShopType": "Item",
 				"WelcomeText":"",
+				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
 				"Stock": {
 					"Potion":30,
 					"Ether":20,
@@ -150,8 +152,8 @@
 				"WelcomeText":"An old hag, shrunk and hunchback with age, greets you from behind the counter:\n\n\"Hee hee hee, welcome to Madam Bernadetta's, dearie.\"\n\"Give a holler if anything catches your eye!\"",
 				"OtherText": ["\"Hee hee hee, looking for something, dearie?\"", "\"Hee hee hee, here again?\"", "\"Those potions are my own work, dearie.\""],
 				"ambience":["The smell of burning incense assaults your nostrils.",
-							"Various monster body parts float in vials on the back shelves.",
-							"You see shelves upon shelves of herbs and various parts of exotic beasts."],
+				"Various monster body parts float in vials on the back shelves.",
+				"You see shelves upon shelves of herbs and various parts of exotic beasts."],
 				"Stock": {
 					"Potion":30,
 					"Ether":20,
@@ -165,11 +167,12 @@
 				"ShopType": "Equip",
 				"WelcomeText":"A scowling heavyset woman greets you at the door:\n\n\"This is Satin Threads.\"\n\"Talk to me if you want to buy something, or if you need something tailor-made.\"",
 				"OtherText": ["\"We don't want window shopers here!\"", "\"Here again, brat?\"", "\"You just going to look, or are you going to buy something?\""],
+				"CancelText": ["\"We don't want window shopers here!\"\n\n\"Buy something, or get out.\""],
 				"ambience":["A large selection of fine clothing lines the walls.",
 							"The shopkeeper glares at you.",
 							"\"We get more than enough spoiled brats around here.\""],
 				"Stock": {
-					"Dress": 100,
+					"Witch's Hat": 100,
 					"Traveler's Tunic": 80,
 					"Uniform": 150,
 					"Arcward Armor": 250
@@ -178,6 +181,7 @@
 			"Pages Without End":{
 				"Name": "Pages Without End",
 				"Kind": "Shop",
+				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
 				"Stock": {
 					"Book of Fire": 1,
 					"Book of Water": 1,

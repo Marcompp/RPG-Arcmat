@@ -201,6 +201,15 @@ func set_trinket_flat_bonus(b: Dictionary) -> void:
 	_trinket_flat_bonus = b
 	stats_changed.emit()
 
+func recalculate_trinket_bonus(trinkets_db: Dictionary) -> void:
+	var combined: Dictionary = {}
+	for t in get_trinkets():
+		var tdata = trinkets_db.get(t, {})
+		if tdata.get("effect", "") == "stat_bonus":
+			for stat in tdata.get("stats", {}):
+				combined[stat] = combined.get(stat, 0) + int(tdata["stats"][stat])
+	set_trinket_flat_bonus(combined)
+
 func get_equipment_bonus(stat):
 	var total = 0
 	for slot in equipment:

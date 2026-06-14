@@ -304,7 +304,7 @@ func _unequip_trinket(trinket_name: String) -> void:
 	var player = _tm.game_state["player"]
 	player.data["Trinkets"].erase(trinket_name)
 	player.data["Inventory"][trinket_name] = player.data["Inventory"].get(trinket_name, 0) + 1
-	player.stats_changed.emit()
+	player.recalculate_trinket_bonus(_tm.game_manager.trinkets_db)
 	MyEventBus.emit("continue_text", {"text": "[color=#FF6B6B]%s unequipped.[/color]" % trinket_name})
 	await _tm.game_manager._gm_wait_for_continue()
 
@@ -314,6 +314,6 @@ func _equip_trinket(trinket_name: String) -> void:
 	if not player.data.has("Trinkets"):
 		player.data["Trinkets"] = []
 	player.data["Trinkets"].append(trinket_name)
-	player.stats_changed.emit()
+	player.recalculate_trinket_bonus(_tm.game_manager.trinkets_db)
 	MyEventBus.emit("continue_text", {"text": "[color=#00E676]%s equipped![/color]" % trinket_name})
 	await _tm.game_manager._gm_wait_for_continue()

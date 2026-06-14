@@ -659,6 +659,10 @@
 	  	"condition": {
 			"visit_count":{"max":0}
 		  },
+		"encounter_rate":0,
+		"events": [
+		  {"chance": 1, "event": "cultist_sermon"}
+		],
 		"arrival": {
 		  "TUNNEL": [
 			"Strange symbols glow faintly as you step into a hidden sanctum."
@@ -674,9 +678,6 @@
 		  { "text": "Symbols carved into the stone pulse with dim blue light." },
 		  { "text": "The air feels charged, almost alive." },
 		  { "text": "A low hum resonates through the chamber.", "chance": 0.6 }
-		],
-		"events": [
-		  {"chance": 1, "event": "cultist_sermon"}
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view." }
@@ -871,9 +872,16 @@
 			  { "text": "A faint glow seeps up from cracks in the floor." },
 			  { "text": "The air hums with lingering magic.", "chance": 0.6 }
 			],
+			"encounter_rate":0,
 			"events": [
 			  {"chance": 1, "event": "sundown_sanctum_discovery"}
 			],
+			"action": {
+			  "name": "Search Ossuary",
+			  "tooltip": "Search the catacomb walls for anything left behind.",
+			  "event": "sundown_search_ossuary",
+			  "repeatable": true
+			},
 			"exits": [
 			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
 			]
@@ -897,6 +905,7 @@
 			  { "text": "Offerings—now little more than dust—rest at its base." },
 			  { "text": "You feel a faint unease standing here.", "chance": 0.5 }
 			],
+			"encounter_rate":0,
 			"events": [
 			  {"chance": 1, "event": "sundown_altar_event"}
 			],
@@ -982,6 +991,7 @@
 			  { "text": "Loose rubble blocks the way forward." },
 			  { "text": "The silence here feels suffocating." }
 			],
+			"encounter_rate":0,
 			"events": [
 			  {"chance": 1, "event": "sundown_rubble_dig"}
 			],
@@ -1104,6 +1114,7 @@
 		  { "text": "Faint echoes bounce within the hollow space." },
 		  { "text": "The air is still, but bitterly cold.", "chance": 0.4 }
 		],
+		"encounter_rate":0,
 		"events": [
 		  {"chance": 1.0, "event": "legory_abandoned_camp"}
 		],
@@ -1168,6 +1179,7 @@
 		  { "text": "The sky feels vast and close at the same time." },
 		  { "text": "The wind here is relentless.", "chance": 0.6 }
 		],
+		"encounter_rate":0,
 		"events": [
 		  {"chance": 1.0, "event": "legory_summit"}
 		],
@@ -1234,6 +1246,7 @@
 		  { "text": "Snow gathers in its sheltered base." },
 		  { "text": "The wind whistles as it passes through the opening.", "chance": 0.5 }
 		],
+		"encounter_rate":0,
 		"events": [
 		  {"chance": 1.0, "event": "legory_arch_inscription"}
 		],

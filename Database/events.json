@@ -2,6 +2,7 @@
 	"bertunia_exit": {
 		"repeatable": false,
 		"steps": [
+			{"type": "set_backdrop", "backdrop": "bertunia_exit.png"},
 			{
 				"type": "if",
 				"condition": {"player_name": "Agnes"},

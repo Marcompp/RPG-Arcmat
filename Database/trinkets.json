@@ -2,41 +2,47 @@
 	"Duelist Glove": {
 		"name": "Duelist Glove",
 		"icon": "gloves.png",
-		"description": "Gain +10% damage per consecutive hit. Resets on miss or taking damage.",
+		"description": "A single glove worn by a legendary swordfighter who never lost a duel. The leather is supple with use, the stitching immaculate.",
+		"effect_description": "Gain +10% damage per consecutive hit. Resets on miss or taking damage.",
 		"effect": "duelist_combo",
 		"magnitude": 10,
 		"stackable": false
 	},
 	"Hidden Blade": {
 		"name": "Hidden Blade",
-		"description": "+10% damage per negative status on the target.",
+		"description": "A slender blade that folds flat against the wrist. Assassins prize it not for its size, but for the moment of surprise it creates.",
+		"effect_description": "+10% damage per negative status on the target.",
 		"effect": "hidden_blade",
 		"magnitude": 10,
 		"stackable": false
 	},
 	"Woodcutter's Bandana": {
 		"name": "Woodcutter's Bandana",
-		"description": "Once per battle, a killing blow instead leaves you at 1 HP.",
+		"description": "A faded cloth worn by a lumberjack who survived a widow-maker falling across his neck. He swore the bandana saved his life.",
+		"effect_description": "Once per battle, a killing blow instead leaves you at 1 HP.",
 		"effect": "last_stand",
 		"stackable": false
 	},
 	"Resonant Badge": {
 		"name": "Resonant Badge",
-		"description": "+25% damage when attacking with your current Element.",
+		"description": "A small pin that hums faintly when held near a casting hand. Enchanted to harmonize with elemental energy.",
+		"effect_description": "+25% damage when attacking with your current Element.",
 		"effect": "resonance",
 		"magnitude": 25,
 		"stackable": false
 	},
 	"Rainbow Apple": {
 		"name": "Rainbow Apple",
-		"description": "Regenerate 7 HP after each battle.",
+		"description": "An apple that never rots and never loses its color. Each bite tastes like a different fruit.",
+		"effect_description": "Regenerate 7 HP after each battle.",
 		"effect": "post_battle_heal",
 		"magnitude": 7,
 		"stackable": true
 	},
 	"Medicine Pouch": {
 		"name": "Medicine Pouch",
-		"description": "Regenerate 4 HP after each battle.",
+		"description": "A well-worn pouch filled with herbs, salves, and bandages. Someone trusted kept it close for a long time.",
+		"effect_description": "Regenerate 4 HP after each battle.",
 		"effect": "post_battle_heal",
 		"magnitude": 4,
 		"stackable": true
@@ -44,63 +50,80 @@
 	"Prayer Bead": {
 		"name": "Prayer Bead",
 		"icon": "bead.png",
-		"description": "Recover 1 MP at the start of each turn. Stacks with additional beads.",
+		"description": "A single bead from a broken devotional string. It feels warm to the touch.",
+		"effect_description": "Recover 1 MP at the start of each turn. Stacks with additional beads.",
 		"effect": "mp_regen_turn",
 		"magnitude": 1,
 		"stackable": true
 	},
 	"Lifespark Crystal": {
 		"name": "Lifespark Crystal",
-		"description": "Shatters automatically when the bearer falls, reviving them with 50% HP. Each crystal grants one revival.",
+		"description": "A crystal that pulses faintly, like a heartbeat. The warmth inside it is almost alive.",
+		"effect_description": "Shatters automatically when the bearer falls, reviving them with 50% HP. Each crystal grants one revival.",
 		"effect": "auto_revive",
 		"magnitude": 50,
 		"stackable": true
 	},
 	"Eyeglasses": {
 		"name": "Eyeglasses",
-		"description": "Grants immunity to Blindness.",
+		"description": "Thin wire frames holding lenses of extraordinary clarity. Whoever made them ground the glass by hand.",
+		"effect_description": "Grants immunity to Blindness.",
 		"effect": "immunity",
 		"status": "blind",
 		"stackable": false
 	},
 	"Leather Boots": {
 		"name": "Leather Boots",
-		"description": "+3 Agility.",
+		"description": "A pair of well-broken-in boots with thick soles and room to breathe. They've walked many roads.",
+		"effect_description": "+3 Agility.",
 		"effect": "stat_bonus",
 		"stats": { "agi": 3 },
 		"stackable": false
 	},
 	"Witch Hat": {
 		"name": "Witch Hat",
-		"description": "+5 Intelligence.",
+		"description": "A tall, wide-brimmed hat with a slight lean to the left. Still smells faintly of ink and dried flowers.",
+		"effect_description": "+5 Intelligence.",
 		"effect": "stat_bonus",
 		"stats": { "int": 5 },
 		"stackable": false
 	},
+	"Chainmail": {
+		"name": "Chainmail",
+		"description": "Hundreds of hand-linked rings of steel, worn smooth by years of use. Heavier than it looks.",
+		"effect_description": "+4 Defense.",
+		"effect": "stat_bonus",
+		"stats": { "def": 4 },
+		"stackable": false
+	},
 	"Gorgon Eye": {
 		"name": "Gorgon Eye",
-		"description": "At the start of battle, automatically cast Gorgon Eye on a random enemy.",
+		"description": "A preserved eye from a gorgon, still holding its petrifying gaze. Don't look directly into it.",
+		"effect_description": "At the start of battle, automatically cast Gorgon Eye on a random enemy.",
 		"effect": "battle_start_skill",
 		"skill": "Gorgon Eye",
 		"stackable": false
 	},
 	"Backpack": {
 		"name": "Backpack",
-		"description": "After each battle, scavenge a random item.",
+		"description": "A canvas pack with reinforced straps and a surprising number of pockets. Seems to fit more than it should.",
+		"effect_description": "After each battle, scavenge a random item.",
 		"effect": "scavenge",
 		"loot_table": ["Potion", "Potion", "Ether", "Bomb"],
 		"stackable": false
 	},
 	"Funny Bone": {
 		"name": "Funny Bone",
-		"description": "A carved finger bone that rattles when struck. Its vibrations unsettle those who dare to hit you.",
+		"description": "Said to be carved from the finger of a jester executed for a joke that nobody laughed at. It makes a hollow clicking sound when you shake it.",
+		"effect_description": "A carved finger bone that rattles when struck. Its vibrations unsettle those who dare to hit you.",
 		"effect": "unnerving_rattle",
 		"magnitude": 20,
 		"stackable": false
 	},
 	"Black Skull": {
 		"name": "Black Skull",
-		"description": "An obsidian skull that drinks in the life force of whatever you strike. Smooth, cold, and hungry.",
+		"description": "No one knows what creature it came from. The carvings on its base match no known script, and it is always slightly colder than the air around it.",
+		"effect_description": "An obsidian skull that drinks in the life force of whatever you strike. Smooth, cold, and hungry.",
 		"effect": "soul_drain",
 		"magnitude": 10,
 		"stackable": true

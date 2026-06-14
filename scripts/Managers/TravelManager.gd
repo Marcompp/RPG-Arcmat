@@ -785,6 +785,8 @@ func _format_trinket_tooltip(trinket_name: String, data: Dictionary) -> String:
 	var lines = [trinket_name]
 	if data.has("description"):
 		lines.append(data["description"])
+	if data.has("effect_description"):
+		lines.append(data["effect_description"])
 	return "\n".join(lines)
 
 func _get_valid_treasure(treasure):

@@ -80,7 +80,9 @@ func handle_leave_confirm(choice) -> void:
 		if exit_event_name != "":
 			var event_def = _tm.events_db.get(exit_event_name, {})
 			if not event_def.is_empty() and not _tm.game_state["used_events"].get(exit_event_name, false):
-				await _tm._run_node_event(event_def)
+				var stopped: bool = await _tm._run_node_event(event_def)
+				if stopped:
+					return
 				if not event_def.get("repeatable", true):
 					_tm.game_state["used_events"][exit_event_name] = true
 		_tm._full_heal_player()
