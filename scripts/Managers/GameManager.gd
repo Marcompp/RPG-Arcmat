@@ -34,6 +34,7 @@ var skill_db = {}
 var trinkets_db = {}
 
 var in_combat = false
+var _suppress_defeat_game_over: bool = false
 var _pending_level_ups: Array = []
 var _pending_rewards: Dictionary = {}
 
@@ -102,6 +103,18 @@ func _ready():
 		var from_shop: bool = data.get("from_shop", false)
 		await _process_item_acquisition(item_name, player, price, from_shop)
 		MyEventBus.emit("give_item_done", {})
+	)
+	MyEventBus.subscribe("learn_skill", func(data):
+		var skill_name: String = data.get("skill", "")
+		var player = game_state["player"]
+		if player == null or skill_name == "":
+			MyEventBus.emit("learn_skill_done", {})
+			return
+		var skills: Array = player.get_skills()
+		if not skills.has(skill_name):
+			skills.append(skill_name)
+			player.data["Skills"] = skills
+		MyEventBus.emit("learn_skill_done", {})
 	)
 	#game_state["player"] = null
 	game_state["gold"] = 0
@@ -526,6 +539,7 @@ func _build_start_combat_data(monster) -> Array:
 
 func start_combat(data):
 	in_combat = true
+	_suppress_defeat_game_over = data.get("suppress_defeat_game_over", false)
 
 	var enemy_data_list: Array
 	if data.has("enemies"):
@@ -535,9 +549,14 @@ func start_combat(data):
 			data.get("enemy", { "Name": "Slime", "Stats": { "Hp": 10, "Def": 1 } })
 		)	
 
+	var level_override = data.get("level", -1)
 	var enemy_chars: Array = []
 	for i in range(enemy_data_list.size()):
-		var enmy = Character.new(enemy_data_list[i], armor_db, weapon_db, rng)
+		var enemy_data = enemy_data_list[i]
+		if level_override > 0:
+			enemy_data = enemy_data.duplicate()
+			enemy_data["Lvl"] = level_override
+		var enmy = Character.new(enemy_data, armor_db, weapon_db, rng)
 		game_state.set_value("enemy_%d" % i, enmy)
 		enemy_chars.append(enmy)
 
@@ -622,6 +641,13 @@ func _check_dict_condition(cond, node_index):
 			if has_equipped or has_in_bag:
 				return false
 			continue
+		elif key == "lacks_skill":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			if req in player.get_skills():
+				return false
+			continue
 		elif key == "player_name":
 			var player = game_state["player"]
 			if player == null:
@@ -632,6 +658,8 @@ func _check_dict_condition(cond, node_index):
 			if player == null:
 				return false
 			value = player.get_char_class()
+		elif key == "current_region":
+			value = travel.current_region
 		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
 		elif game_state.has(key):
@@ -797,8 +825,11 @@ func _on_gameover_title():
 func _on_combat_ended(data: Dictionary):
 	in_combat = false
 	if not data.get("victory", false):
+		var suppress := _suppress_defeat_game_over
+		_suppress_defeat_game_over = false
 		MyEventBus.emit("post_combat", {"victory": false})
-		show_game_over()
+		if not suppress:
+			show_game_over()
 		return
 	game_ui.skip_xp_animation()
 	var player = game_state["player"]

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events List</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f0f1a; --bg2: #16213e; --bg3: #1a1a2e; --bg4: #0d1520;
+    --border: #2a2a4a; --text: #e2e8f0; --text-muted: #94a3b8;
+    --bar-h: 48px; --filter-h: 44px;
+  }
+  html, body { width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:system-ui,sans-serif; font-size:13px; }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    position:fixed; top:0; left:0; right:0; z-index:20;
+    height:var(--bar-h); display:flex; align-items:center; gap:10px; padding:0 14px;
+    background:var(--bg3); border-bottom:1px solid var(--border);
+  }
+  #topbar h1 { font-size:13px; font-weight:600; color:var(--text-muted); flex-shrink:0; }
+  #file-label {
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer; flex-shrink:0;
+    padding:5px 10px; border-radius:5px; background:#1e3a5f; border:1px solid #2a4a7f;
+    color:var(--text); white-space:nowrap; transition:background .15s;
+  }
+  #file-label:hover { background:#254e80; }
+  #file-picker { display:none; }
+  .file-badge { padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; background:#0f2a1a; border:1px solid #1a4a2a; color:#4ade80; flex-shrink:0; }
+  .file-badge.missing { background:#1a1a2e; border-color:var(--border); color:var(--text-muted); }
+  #search-event { padding:5px 10px; border-radius:5px; background:var(--bg2); border:1px solid var(--border); color:var(--text); outline:none; width:180px; margin-left:auto; }
+  #search-event:focus { border-color:#4a6a9f; }
+  #search-event::placeholder { color:var(--text-muted); }
+  #row-count { font-size:11px; color:var(--text-muted); flex-shrink:0; white-space:nowrap; }
+
+  /* ── FILTER BAR ── */
+  #filterbar {
+    position:fixed; top:var(--bar-h); left:0; right:0; z-index:19;
+    height:var(--filter-h); display:flex; align-items:center; gap:8px; padding:0 14px;
+    background:var(--bg4); border-bottom:1px solid var(--border);
+  }
+  .filter-label { font-size:11px; color:var(--text-muted); flex-shrink:0; }
+  select.filter-sel {
+    padding:4px 8px; border-radius:5px; background:var(--bg2); border:1px solid var(--border);
+    color:var(--text); cursor:pointer; font-size:12px; max-width:160px;
+  }
+  select.filter-sel:focus { outline:none; border-color:#4a6a9f; }
+  .filter-sep { width:1px; height:20px; background:var(--border); flex-shrink:0; }
+  .type-btns { display:flex; gap:3px; flex-wrap:nowrap; }
+  .type-btn {
+    padding:3px 9px; border-radius:4px; border:1px solid var(--border); cursor:pointer;
+    font-size:11px; font-weight:600; background:var(--bg2); color:var(--text-muted);
+    transition:background .1s, color .1s; white-space:nowrap;
+  }
+  .type-btn.active { color:#fff; border-color:transparent; }
+  .type-btn[data-type="all"].active     { background:#374151; }
+  .type-btn[data-type="action"].active  { background:#1d4ed8; }
+  .type-btn[data-type="random"].active  { background:#92400e; }
+  .type-btn[data-type="region"].active  { background:#166534; }
+  .type-btn[data-type="town"].active    { background:#9a3412; }
+  .type-btn[data-type="exit"].active    { background:#581c87; }
+  .type-btn[data-type="orphan"].active  { background:#374151; }
+
+  /* ── MAIN LAYOUT ── */
+  #main {
+    display:flex; position:fixed;
+    top:calc(var(--bar-h) + var(--filter-h)); bottom:0; left:0; right:0;
+  }
+  #table-wrap { flex:1; overflow-y:auto; overflow-x:auto; }
+  #sidebar { width:280px; flex-shrink:0; overflow-y:auto; background:var(--bg3); border-left:1px solid var(--border); padding:14px; }
+  #sidebar-placeholder { color:var(--text-muted); font-size:12px; margin-top:20px; text-align:center; }
+
+  /* ── TABLE ── */
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  thead th {
+    position:sticky; top:0; z-index:5; background:var(--bg3);
+    padding:8px 10px; text-align:left; font-size:10px; font-weight:700;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted);
+    border-bottom:1px solid var(--border); white-space:nowrap; user-select:none; cursor:pointer;
+  }
+  thead th:hover { color:var(--text); }
+  thead th .sort-arrow { font-size:9px; margin-left:3px; }
+  tbody tr { border-bottom:1px solid #1a1a2a; cursor:pointer; transition:background .08s; }
+  tbody tr:hover { background:#16213e; }
+  tbody tr.selected { background:#1a2a4a; border-left:3px solid #3b82f6; }
+  tbody tr:not(.selected) { border-left:3px solid transparent; }
+  td { padding:6px 10px; vertical-align:middle; }
+  .col-event { font-family:monospace; font-size:11px; font-weight:600; max-width:180px; }
+  .col-type  { width:90px; }
+  .col-source { max-width:130px; color:var(--text); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .col-region { max-width:120px; color:var(--text-muted); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .col-chance { width:52px; text-align:center; font-size:11px; color:var(--text-muted); }
+  .col-tags  { width:100px; }
+  .col-rep   { width:38px; text-align:center; font-size:11px; }
+  .col-steps { width:44px; text-align:center; font-size:11px; color:var(--text-muted); }
+  .type-pill {
+    display:inline-block; padding:2px 8px; border-radius:10px;
+    font-size:10px; font-weight:700; white-space:nowrap;
+  }
+  .tp-action  { background:#1e3a8a; color:#93c5fd; }
+  .tp-random  { background:#78350f; color:#fde68a; }
+  .tp-region  { background:#14532d; color:#86efac; }
+  .tp-town    { background:#7c2d12; color:#fdba74; }
+  .tp-exit    { background:#3b0764; color:#e9d5ff; }
+  .tp-orphan  { background:#1a1a2e; color:#6b7280; }
+  .tag-dot {
+    display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:2px;
+  }
+  .rep-yes { color:#4ade80; }
+  .rep-no  { color:#f87171; }
+  #empty-msg {
+    padding:60px 0; text-align:center; color:var(--text-muted);
+  }
+  #empty-msg .big { font-size:28px; display:block; margin-bottom:8px; }
+
+  /* ── SIDEBAR ── */
+  .sb-title { font-size:14px; font-weight:700; margin-bottom:4px; word-break:break-all; }
+  .sb-meta  { font-size:11px; color:var(--text-muted); margin-bottom:8px; }
+  .sb-section { margin-top:12px; }
+  .sb-label { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
+  .sb-pill { display:inline-block; padding:2px 7px; border-radius:10px; font-size:11px; font-weight:600; margin:2px 2px 2px 0; }
+  .sp-combat  { background:#3b0a0a; color:#fca5a5; }
+  .sp-random  { background:#3b2a00; color:#fde68a; }
+  .sp-if      { background:#2d1557; color:#c4b5fd; }
+  .sp-choice  { background:#0a1a4a; color:#93c5fd; }
+  .sp-event   { background:#042f3a; color:#67e8f9; }
+  .sp-shop    { background:#3a1a00; color:#fdba74; }
+  .sp-text    { background:#0a1a0a; color:#86efac; }
+  .sp-effect  { background:#1a1a3a; color:#a5b4fc; }
+  .sp-other   { background:#1a1a1a; color:var(--text-muted); }
+  .use-row { padding:4px 0; border-bottom:1px solid var(--border); font-size:11px; }
+  .use-row:last-child { border-bottom:none; }
+  .use-source { color:var(--text); }
+  .use-meta   { color:#4a5a7a; font-size:10px; }
+  details summary { cursor:pointer; color:var(--text-muted); font-size:11px; padding:3px 0; list-style:none; }
+  details summary::before { content:'▶ '; font-size:9px; }
+  details[open] summary::before { content:'▼ '; }
+  .step-row { font-size:10px; padding:1px 0; display:flex; gap:4px; }
+  .step-t { font-family:monospace; font-weight:700; flex-shrink:0; }
+  .step-d { color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px; }
+  .step-branch { color:#3a5a6a; font-size:10px; padding:1px 0; font-style:italic; }
+  hr { border:none; border-top:1px solid var(--border); margin:8px 0; }
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <h1>Events</h1>
+  <label id="file-label" for="file-picker">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Load files
+  </label>
+  <input type="file" id="file-picker" accept=".json" multiple>
+  <span class="file-badge missing" id="badge-events">events</span>
+  <span class="file-badge missing" id="badge-nodes">area_nodes</span>
+  <span class="file-badge missing" id="badge-regions">regions</span>
+  <span class="file-badge missing" id="badge-towns">towns</span>
+  <span id="row-count"></span>
+  <input type="text" id="search-event" placeholder="Search event name…">
+</div>
+
+<div id="filterbar">
+  <span class="filter-label">Region</span>
+  <select class="filter-sel" id="filter-region">
+    <option value="">All regions</option>
+  </select>
+  <span class="filter-label">Node</span>
+  <select class="filter-sel" id="filter-node">
+    <option value="">All nodes</option>
+  </select>
+  <div class="filter-sep"></div>
+  <div class="type-btns" id="type-btns">
+    <button class="type-btn active" data-type="all">All</button>
+    <button class="type-btn" data-type="action">Action</button>
+    <button class="type-btn" data-type="random">Random</button>
+    <button class="type-btn" data-type="region">Region</button>
+    <button class="type-btn" data-type="town">Town</button>
+    <button class="type-btn" data-type="exit">Exit</button>
+    <button class="type-btn" data-type="orphan">Unreferenced</button>
+  </div>
+</div>
+
+<div id="main">
+  <div id="table-wrap">
+    <div id="empty-msg">
+      <span class="big">📋</span>
+      Load <strong>events.json</strong> to begin.<br>
+      <span style="font-size:12px;color:#4a5a7a">Also load area_nodes.json · regions.json · towns.json for source info.</span>
+    </div>
+    <table id="evt-table" style="display:none">
+      <thead>
+        <tr>
+          <th data-col="eventName">Event <span class="sort-arrow"></span></th>
+          <th data-col="type">Type <span class="sort-arrow"></span></th>
+          <th data-col="sourceId">Source Node / Town <span class="sort-arrow"></span></th>
+          <th data-col="region">Region <span class="sort-arrow"></span></th>
+          <th data-col="chance">Chance <span class="sort-arrow"></span></th>
+          <th data-col="tags">Tags</th>
+          <th data-col="stepCount">Steps <span class="sort-arrow"></span></th>
+          <th data-col="repeatable">Rep. <span class="sort-arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <aside id="sidebar">
+    <div id="sidebar-placeholder">Click a row to see details.</div>
+  </aside>
+</div>
+
+<script>
+// ─── State ────────────────────────────────────────────────────────────────────
+let eventsDb = null, areaNodesDb = null, regionsDb = null, townsDb = null;
+let typesMap = {}, stepCounts = {}, chainMap = {};
+let allOccs = [], filteredOccs = [];
+let selectedIdx = -1;
+let sortCol = 'eventName', sortDir = 1;
+let filterRegion = '', filterNode = '', filterType = 'all', filterSearch = '';
+
+const TAG_COLORS = {
+  combat: '#dc2626', random: '#ca8a04', 'if': '#7c3aed',
+  choice: '#2563eb', event: '#0891b2', shop: '#d97706',
+  text: '#16a34a', effect: '#6366f1',
+};
+const EVENT_COLORS = { combat:'#dc2626', random:'#ca8a04', 'if':'#7c3aed', choice:'#2563eb' };
+
+// ─── File loading ─────────────────────────────────────────────────────────────
+document.getElementById('file-picker').addEventListener('change', e => {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  let pending = files.length;
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try { ingestFile(JSON.parse(ev.target.result), f.name); }
+      catch(err) { alert(`Failed to parse ${f.name}: ${err.message}`); }
+      if (--pending === 0) onLoaded();
+    };
+    reader.readAsText(f);
+  });
+  e.target.value = '';
+});
+
+function detectType(data) {
+  const v = Object.values(data);
+  if (!v.length) return null;
+  const s = v[0];
+  if (s && s.steps && Array.isArray(s.steps)) return 'events';
+  if (Array.isArray(s) && s.length && (s[0].exits !== undefined || s[0].entrances !== undefined)) return 'area_nodes';
+  if (s && s.Events && Array.isArray(s.Events)) return 'regions';
+  if (s && (s.ExitEvent !== undefined || s.NPCs !== undefined)) return 'towns';
+  return null;
+}
+
+function ingestFile(data, filename) {
+  const t = detectType(data);
+  if (t === 'events')     { eventsDb = data;     document.getElementById('badge-events').classList.remove('missing'); }
+  if (t === 'area_nodes') { areaNodesDb = data;   document.getElementById('badge-nodes').classList.remove('missing'); }
+  if (t === 'regions')    { regionsDb = data;     document.getElementById('badge-regions').classList.remove('missing'); }
+  if (t === 'towns')      { townsDb = data;       document.getElementById('badge-towns').classList.remove('missing'); }
+  if (!t) console.warn('Unrecognized file:', filename);
+}
+
+function onLoaded() {
+  if (!eventsDb) return;
+  processEvents();
+  buildOccurrences();
+  populateRegionDropdown();
+  populateNodeDropdown();
+  applyFilters();
+  document.getElementById('empty-msg').style.display = 'none';
+  document.getElementById('evt-table').style.display = '';
+}
+
+// ─── Process events.json ──────────────────────────────────────────────────────
+function processEvents() {
+  typesMap = {}; stepCounts = {}; chainMap = {};
+  for (const [name, ev] of Object.entries(eventsDb)) {
+    typesMap[name]   = classifySteps(ev.steps);
+    stepCounts[name] = countSteps(ev.steps);
+    chainMap[name]   = collectChains(ev.steps);
+  }
+}
+
+function classifySteps(steps) {
+  const types = new Set();
+  const EFFECT = new Set(['give_gold','give_item','give_region_item','modify_stat','effect','heal','restore_mp']);
+  const SKIP   = new Set(['mark_used','show_node','exit_node','set_var','sfx','no_wait','clear']);
+  if (!Array.isArray(steps)) return types;
+  for (const s of steps) {
+    if (!s?.type) continue;
+    const t = s.type;
+    if (EFFECT.has(t))      types.add('effect');
+    else if (!SKIP.has(t))  types.add(t);
+    if (s.branches) for (const sub of Object.values(s.branches)) for (const ty of classifySteps(sub)) types.add(ty);
+    for (const k of ['then','else','on_victory']) if (s[k]) for (const ty of classifySteps(s[k])) types.add(ty);
+    if (s.outcomes) for (const o of s.outcomes) for (const ty of classifySteps(o.steps||[])) types.add(ty);
+  }
+  return types;
+}
+
+function countSteps(steps) {
+  if (!Array.isArray(steps)) return 0;
+  let n = 0;
+  for (const s of steps) {
+    if (!s) continue; n++;
+    if (s.branches) for (const sub of Object.values(s.branches)) n += countSteps(sub);
+    for (const k of ['then','else','on_victory']) if (s[k]) n += countSteps(s[k]);
+    if (s.outcomes) for (const o of s.outcomes) n += countSteps(o.steps||[]);
+  }
+  return n;
+}
+
+function collectChains(steps) {
+  const refs = new Set();
+  if (!Array.isArray(steps)) return refs;
+  for (const s of steps) {
+    if (!s) continue;
+    if (s.type === 'event' && s.event) refs.add(s.event);
+    if (s.branches) for (const sub of Object.values(s.branches)) for (const r of collectChains(sub)) refs.add(r);
+    for (const k of ['then','else','on_victory']) if (s[k]) for (const r of collectChains(s[k])) refs.add(r);
+    if (s.outcomes) for (const o of s.outcomes) for (const r of collectChains(o.steps||[])) refs.add(r);
+  }
+  return refs;
+}
+
+// ─── Build occurrences list ───────────────────────────────────────────────────
+function buildOccurrences() {
+  allOccs = [];
+  const referenced = new Set();
+
+  if (areaNodesDb) {
+    for (const [region, nodes] of Object.entries(areaNodesDb)) {
+      if (!Array.isArray(nodes)) continue;
+      for (const node of nodes) {
+        const src = node.name || '?';
+        // Random events (chance-based)
+        for (const r of (node.events || [])) {
+          if (!r.event) continue;
+          push({ eventName: r.event, type: 'random', sourceId: src, region, chance: r.chance ?? null, condition: r.condition ?? null });
+          referenced.add(r.event);
+        }
+        // Action event (player-triggered)
+        if (node.action?.event) {
+          push({ eventName: node.action.event, type: 'action', sourceId: src, region, chance: null, condition: null, actionName: node.action.name });
+          referenced.add(node.action.event);
+        }
+        // Exit events
+        for (const ex of (node.exits || [])) {
+          for (const r of (ex.events || [])) {
+            if (!r.event) continue;
+            push({ eventName: r.event, type: 'exit', sourceId: src, region, chance: r.chance ?? null, exitTo: ex.leads_to });
+            referenced.add(r.event);
+          }
+        }
+      }
+    }
+  }
+
+  if (regionsDb) {
+    for (const [rname, rdata] of Object.entries(regionsDb)) {
+      for (const evName of (rdata?.Events || rdata?.events || [])) {
+        if (typeof evName !== 'string') continue;
+        push({ eventName: evName, type: 'region', sourceId: rname, region: rname, chance: null });
+        referenced.add(evName);
+      }
+    }
+  }
+
+  if (townsDb) {
+    for (const [tname, tdata] of Object.entries(townsDb)) {
+      if (tdata?.ExitEvent) {
+        push({ eventName: tdata.ExitEvent, type: 'town', sourceId: tname, region: null, chance: null });
+        referenced.add(tdata.ExitEvent);
+      }
+    }
+  }
+
+  // Unreferenced (in events.json but never triggered externally)
+  for (const name of Object.keys(eventsDb)) {
+    if (!referenced.has(name)) {
+      push({ eventName: name, type: 'orphan', sourceId: null, region: null, chance: null });
+    }
+  }
+
+  function push(occ) {
+    if (!eventsDb[occ.eventName]) return; // skip broken refs
+    const ev = eventsDb[occ.eventName];
+    occ.repeatable = ev.repeatable !== false;
+    occ.stepCount  = stepCounts[occ.eventName] || 0;
+    occ.tags       = typesMap[occ.eventName] || new Set();
+    allOccs.push(occ);
+  }
+}
+
+// ─── Dropdowns ────────────────────────────────────────────────────────────────
+function populateRegionDropdown() {
+  const regions = [...new Set(allOccs.filter(o => o.region).map(o => o.region))].sort();
+  const sel = document.getElementById('filter-region');
+  sel.innerHTML = '<option value="">All regions</option>' +
+    regions.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join('');
+}
+
+function populateNodeDropdown() {
+  const baseOccs = allOccs.filter(o => o.sourceId && o.type !== 'region' && o.type !== 'town' && o.type !== 'orphan');
+  const nodes = [...new Set(
+    (filterRegion ? baseOccs.filter(o => o.region === filterRegion) : baseOccs).map(o => o.sourceId)
+  )].sort();
+  const sel = document.getElementById('filter-node');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All nodes</option>' +
+    nodes.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  sel.value = nodes.includes(cur) ? cur : '';
+  filterNode = sel.value;
+}
+
+// ─── Filtering & sorting ──────────────────────────────────────────────────────
+function applyFilters() {
+  const q = filterSearch.toLowerCase();
+  filteredOccs = allOccs.filter(o => {
+    if (filterType !== 'all' && o.type !== filterType) return false;
+    if (filterRegion && o.region !== filterRegion) return false;
+    if (filterNode && o.sourceId !== filterNode) return false;
+    if (q && !o.eventName.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  sortOccs();
+  renderTable();
+}
+
+function sortOccs() {
+  filteredOccs.sort((a, b) => {
+    let av = a[sortCol] ?? '', bv = b[sortCol] ?? '';
+    if (typeof av === 'boolean') av = av ? 1 : 0;
+    if (typeof bv === 'boolean') bv = bv ? 1 : 0;
+    if (typeof av === 'string') av = av.toLowerCase();
+    if (typeof bv === 'string') bv = bv.toLowerCase();
+    if (av === null || av === undefined || av === '') return 1;
+    if (bv === null || bv === undefined || bv === '') return -1;
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+}
+
+// ─── Render table ─────────────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('tbody');
+  document.getElementById('row-count').textContent = `${filteredOccs.length} row${filteredOccs.length !== 1 ? 's' : ''}`;
+  updateSortArrows();
+
+  if (!filteredOccs.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#4a5a7a">No events match the current filters.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filteredOccs.map((occ, i) => {
+    const color = getEventColor(occ.tags);
+    const chanceStr = occ.chance !== null && occ.chance !== undefined ? `${Math.round(occ.chance * 100)}%` : '—';
+    const tagHtml = buildTagDots(occ.tags);
+    const repHtml = occ.repeatable
+      ? '<span class="rep-yes">✓</span>'
+      : '<span class="rep-no">✗</span>';
+    const sel = selectedIdx === i ? ' selected' : '';
+    return `<tr data-idx="${i}"${sel}>
+      <td class="col-event"><span style="color:${color}">${esc(occ.eventName)}</span></td>
+      <td class="col-type"><span class="type-pill tp-${esc(occ.type)}">${esc(occ.type)}</span></td>
+      <td class="col-source">${occ.sourceId ? esc(occ.sourceId) : '<span style="color:#3a4a5a">—</span>'}</td>
+      <td class="col-region">${occ.region ? esc(occ.region) : '<span style="color:#3a4a5a">—</span>'}</td>
+      <td class="col-chance">${chanceStr}</td>
+      <td class="col-tags">${tagHtml}</td>
+      <td class="col-steps">${occ.stepCount}</td>
+      <td class="col-rep">${repHtml}</td>
+    </tr>`;
+  }).join('');
+
+  // row click handler
+  tbody.querySelectorAll('tr[data-idx]').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const i = parseInt(tr.dataset.idx);
+      if (selectedIdx === i) { deselect(); return; }
+      selectedIdx = i;
+      tbody.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+      tr.classList.add('selected');
+      showSidebar(filteredOccs[i]);
+    });
+  });
+}
+
+function getEventColor(tags) {
+  if (tags.has('combat')) return '#dc2626';
+  if (tags.has('random')) return '#ca8a04';
+  if (tags.has('if'))     return '#7c3aed';
+  if (tags.has('choice')) return '#2563eb';
+  return '#94a3b8';
+}
+
+function buildTagDots(tags) {
+  const ORDER = ['combat','random','if','choice','event','shop','effect'];
+  return ORDER.filter(t => tags.has(t))
+    .map(t => `<span class="tag-dot" style="background:${TAG_COLORS[t]||'#475569'}" title="${t}"></span>`)
+    .join('');
+}
+
+function updateSortArrows() {
+  document.querySelectorAll('thead th').forEach(th => {
+    const arrow = th.querySelector('.sort-arrow');
+    if (!arrow) return;
+    arrow.textContent = th.dataset.col === sortCol ? (sortDir === 1 ? '▲' : '▼') : '';
+  });
+}
+
+function deselect() {
+  selectedIdx = -1;
+  document.querySelectorAll('#tbody tr').forEach(r => r.classList.remove('selected'));
+  document.getElementById('sidebar').innerHTML = '<div id="sidebar-placeholder">Click a row to see details.</div>';
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+function showSidebar(occ) {
+  const ev = eventsDb[occ.eventName];
+  if (!ev) return;
+  const color = getEventColor(occ.tags);
+  const steps = occ.stepCount;
+
+  let html = `<div class="sb-title" style="color:${color}">${esc(occ.eventName)}</div>`;
+  html += `<div class="sb-meta">${occ.repeatable ? 'repeatable' : 'one-shot'} · ${steps} step${steps !== 1 ? 's' : ''}</div>`;
+  html += '<hr>';
+
+  // Step type pills
+  const ORDERED = ['combat','random','if','choice','event','shop','text','effect'];
+  const pills = ORDERED.filter(t => occ.tags.has(t)).map(t => `<span class="sb-pill sp-${t}">${t}</span>`).join('');
+  const other = [...occ.tags].filter(t => !ORDERED.includes(t)).map(t => `<span class="sb-pill sp-other">${esc(t)}</span>`).join('');
+  if (pills || other) html += `<div class="sb-section"><div class="sb-label">Step Types</div>${pills}${other}</div>`;
+
+  // All usages of this event
+  const usages = allOccs.filter(o => o.eventName === occ.eventName && o.type !== 'orphan');
+  html += `<div class="sb-section"><div class="sb-label">Triggered From (${usages.length})</div>`;
+  if (!usages.length) {
+    html += '<div style="color:#4a5a7a;font-size:11px">Only called by other events or unreferenced.</div>';
+  } else {
+    html += usages.map(u => {
+      const chanceNote = u.chance !== null ? ` · ${Math.round(u.chance * 100)}%` : '';
+      const typeNote   = u.type;
+      const regionNote = u.region ? ` [${esc(u.region)}]` : '';
+      const sourceNote = u.sourceId ? esc(u.sourceId) : '';
+      const exitNote   = u.exitTo   ? ` → ${esc(u.exitTo)}` : '';
+      return `<div class="use-row">
+        <div class="use-source">${sourceNote || '<span style="color:#4a5a7a">—</span>'}${regionNote}</div>
+        <div class="use-meta">${typeNote}${chanceNote}${exitNote}</div>
+      </div>`;
+    }).join('');
+  }
+  html += '</div>';
+
+  // Chains to other events
+  const chains = [...(chainMap[occ.eventName] || [])];
+  if (chains.length) {
+    html += `<div class="sb-section"><div class="sb-label">Chains To (${chains.length})</div>`;
+    html += chains.map(target => {
+      const exists = !!eventsDb[target];
+      return `<div style="font-family:monospace;font-size:11px;padding:2px 0;color:${exists ? '#7dd3fc' : '#4a5a7a'}">${esc(target)}${exists ? '' : ' <span style="font-size:10px">(not found)</span>'}</div>`;
+    }).join('');
+    html += '</div>';
+  }
+
+  // Step outline
+  html += `<div class="sb-section"><details><summary>Step outline (${steps})</summary>${renderStepOutline(ev.steps, 0)}</details></div>`;
+
+  document.getElementById('sidebar').innerHTML = html;
+}
+
+function renderStepOutline(steps, depth) {
+  if (!Array.isArray(steps) || !steps.length) return '';
+  let html = '';
+  const pad = depth * 12;
+  const STEP_COLORS = { combat:'#dc2626', random:'#ca8a04', 'if':'#7c3aed', choice:'#2563eb', event:'#0891b2', shop:'#d97706', text:'#4ade80', effect:'#a5b4fc' };
+  for (const s of steps) {
+    if (!s) continue;
+    const t = s.type || '?';
+    const c = STEP_COLORS[t] || '#64748b';
+    const d = stepDetail(s);
+    html += `<div class="step-row" style="padding-left:${pad}px">
+      <span class="step-t" style="color:${c}">${esc(t)}</span>
+      ${d ? `<span class="step-d">${esc(d)}</span>` : ''}
+    </div>`;
+    if (s.branches) for (const [k, sub] of Object.entries(s.branches)) {
+      html += `<div class="step-branch" style="padding-left:${pad+8}px">↳ ${esc(k)}</div>`;
+      html += renderStepOutline(sub, depth+1);
+    }
+    for (const k of ['then','else','on_victory']) if (s[k]?.length) {
+      html += `<div class="step-branch" style="padding-left:${pad+8}px">↳ ${k}</div>`;
+      html += renderStepOutline(s[k], depth+1);
+    }
+    if (s.outcomes) s.outcomes.forEach((o, i) => {
+      html += `<div class="step-branch" style="padding-left:${pad+8}px">↳ outcome ${i+1}${o.weight ? ` (w:${o.weight})` : ''}</div>`;
+      html += renderStepOutline(o.steps||[], depth+1);
+    });
+  }
+  return html;
+}
+
+function stepDetail(s) {
+  if (!s) return '';
+  switch (s.type) {
+    case 'text':        return (s.text||'').replace(/\[.*?\]/g,'').slice(0,50);
+    case 'combat':      return s.enemy||'';
+    case 'event':       return s.event||'';
+    case 'choice':      return s.header||'';
+    case 'if':          return s.condition ? JSON.stringify(s.condition).slice(0,40) : '';
+    case 'give_gold':   return s.amount !== undefined ? `${s.amount}g` : '';
+    case 'give_item':   return s.item||'';
+    case 'modify_stat': return s.stat ? `${s.stat} ${s.amount>0?'+':''}${s.amount}` : '';
+    case 'sfx':         return s.sound||'';
+    case 'exit_node':   return s.leads_to||'';
+    default:            return '';
+  }
+}
+
+// ─── Controls ─────────────────────────────────────────────────────────────────
+document.getElementById('search-event').addEventListener('input', e => {
+  filterSearch = e.target.value.trim();
+  selectedIdx = -1;
+  applyFilters();
+});
+
+document.getElementById('filter-region').addEventListener('change', e => {
+  filterRegion = e.target.value;
+  filterNode = '';
+  selectedIdx = -1;
+  populateNodeDropdown();
+  applyFilters();
+});
+
+document.getElementById('filter-node').addEventListener('change', e => {
+  filterNode = e.target.value;
+  selectedIdx = -1;
+  applyFilters();
+});
+
+document.getElementById('type-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.type-btn');
+  if (!btn) return;
+  filterType = btn.dataset.type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b === btn));
+  selectedIdx = -1;
+  applyFilters();
+});
+
+// Column sort
+document.querySelector('thead').addEventListener('click', e => {
+  const th = e.target.closest('th[data-col]');
+  if (!th) return;
+  const col = th.dataset.col;
+  if (col === 'tags') return; // not sortable
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  selectedIdx = -1;
+  sortOccs();
+  renderTable();
+});
+
+// ─── Utils ────────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

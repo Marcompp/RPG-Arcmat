@@ -24,8 +24,10 @@
 #              Shows choices. Branches matched by key > choice text > numeric index.
 #
 #   combat  {"type":"combat",  "enemy":"SlimeName",
+#            "level":5,
 #            "on_victory":[steps...], "on_defeat":[steps...]}
 #              Starts a combat encounter and awaits its result.
+#              Optional "level" overrides the enemy's default Lvl from the database.
 #
 #   sfx      {"type":"sfx",       "sound":"coin"}
 #
@@ -39,6 +41,9 @@
 #   give_item {"type":"give_item","item":"Iron Sword"}
 #              Gives the player an item. If it is a weapon or armor, shows the
 #              stat comparison screen and lets the player choose to equip or bag it.
+#
+#   learn_skill {"type":"learn_skill","skill":"Lunge"}
+#              Adds the named skill to the player's skill list if not already known.
 #
 #   give_region_item {"type":"give_region_item"}
 #              Picks one random item from the current region's Treasure list, shows
@@ -191,6 +196,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
 			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
+		"learn_skill":
+			await MyEventBus.emit_and_await("learn_skill", {"skill": step.get("skill", "")}, "learn_skill_done")
 		"give_region_item":
 			var picked: Dictionary = await MyEventBus.emit_and_await("give_region_item_pick", {}, "give_region_item_picked")
 			var item_name: String = picked.get("item", "")
@@ -241,7 +248,12 @@ func _run_choice(step: Dictionary) -> void:
 
 
 func _run_combat(step: Dictionary) -> void:
-	MyEventBus.emit("start_combat", {"enemy": step.get("enemy", {})})
+	var combat_data := {"enemy": step.get("enemy", {})}
+	if step.has("on_defeat"):
+		combat_data["suppress_defeat_game_over"] = true
+	if step.has("level"):
+		combat_data["level"] = step["level"]
+	MyEventBus.emit("start_combat", combat_data)
 	var result: Dictionary = await MyEventBus.await_event("post_combat")
 
 	if result.get("victory", false) and step.has("on_victory"):

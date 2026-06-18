@@ -266,8 +266,8 @@
 		"stats": { "mgt": 14, "acc": 60, "wgt": 12, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
-	"Firesword": {
-		"name": "Firesword",
+	"Flamesword": {
+		"name": "Flamesword",
 		"description": "A blade blazing with elemental fire that sears every wound it opens, leaving burns that linger.",
 		"element": "Fire",
 		"wpn_type": "Sword",
@@ -391,7 +391,7 @@
 		"effect": "none"
 	},
 	"Sword of Maciera": {
-		"name": "Sword of Macieira",
+		"name": "Sword of Maciera",
 		"description": "A legendary sword wielded by the founder of Bertunia.",
 		"element": "Earth",
 		"wpn_type": "Sword",

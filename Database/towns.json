@@ -172,7 +172,7 @@
 							"The shopkeeper glares at you.",
 							"\"We get more than enough spoiled brats around here.\""],
 				"Stock": {
-					"Witch's Hat": 100,
+					"Witch Hat": 100,
 					"Traveler's Tunic": 80,
 					"Uniform": 150,
 					"Arcward Armor": 250
@@ -207,7 +207,7 @@
 		"Backdrop": "sundown_circus.png",
 		"arrival": [
 			"The circus sprawls around you, loud and bright against the dark plateau.",
-			"You're inside. Torchlight flickers off sequined costumes and the painted faces of performers."
+			"You're inside. Torchlight flickers off sequined costumes and the porcelain masks of performers."
 		],
 		"ambience": [
 			"Somewhere nearby, something large shifts in a cage.",

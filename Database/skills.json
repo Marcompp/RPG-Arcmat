@@ -326,5 +326,48 @@
 		"magnitude": 0.5,
 		"inherit_stats": true,
 		"inherit_wpn": false
+	},
+	"Block": {
+		"nome": "Block",
+		"description": "Takes a guarded stance, raising defenses to significantly reduce damage taken for several turns.",
+		"type": "self",
+		"stats": {
+			"acc": 100,
+			"wgt": 5
+		},
+		"cooldown": 4,
+		"effect": "defense_up",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Dodge": {
+		"nome": "Dodge",
+		"description": "Reads the opponent's movements and slips out of the way, becoming impossible to hit for one turn.",
+		"type": "self",
+		"stats": {
+			"acc": 100,
+			"wgt": 2
+		},
+		"startup":3,
+		"cooldown": 4,
+		"effect": "elusive",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Combo": {
+		"nome": "Combo",
+		"description": "Unleashes a rapid flurry of three strikes in quick succession, each drawing on weapon and strength.",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 80,
+			"crit": 5,
+			"wgt": 5
+		},
+		"hits": 3,
+		"cooldown": 3,
+		"effect": "none",
+		"inherit_stats": true,
+		"inherit_wpn": true
 	}
 }

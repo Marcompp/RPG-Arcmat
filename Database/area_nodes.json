@@ -6,6 +6,9 @@
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
 			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "travelling_healer"},
+			{"chance": 0.2, "event": "travelling_trainer"},
+			{"chance": 0.1, "event": "travelling_bo"},
 			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
@@ -111,6 +114,9 @@
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
 			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "travelling_healer"},
+			{"chance": 0.2, "event": "travelling_trainer"},
+			{"chance": 0.1, "event": "travelling_bo"},
 			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
@@ -174,6 +180,9 @@
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
 			{"chance": 0.2, "event": "travelling_item_merchant"},
+			{"chance": 0.2, "event": "travelling_healer"},
+			{"chance": 0.2, "event": "travelling_trainer"},
+			{"chance": 0.1, "event": "travelling_bo"},
 			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "condition": {
@@ -755,6 +764,11 @@
 			  { "text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.", "chance": 0.5 }
 			],
 			"events": [
+			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
+			  {"chance": 0.2, "event": "travelling_item_merchant"},
+			  {"chance": 0.2, "event": "travelling_healer"},
+			  {"chance": 0.2, "event": "travelling_trainer"},
+			  {"chance": 0.1, "event": "travelling_bo"},
 			  {"chance": 0.35, "event": "sundown_cracked_earth"},
 			  {"chance": 0.5, "event": "sundown_old_bonfire"},
 			  {"chance": 0.45, "event": "sundown_scavenger_remains"}
@@ -819,7 +833,8 @@
 			  "name": "Search Ossuary",
 			  "tooltip": "Search the catacomb walls for anything left behind.",
 			  "event": "sundown_search_ossuary",
-			  "repeatable": true
+			  "disabled_tooltip": "You've already searched here.",
+			  "repeatable": false
 			},
 			"exits": [
 			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
@@ -848,7 +863,8 @@
 			  "name": "Search Ossuary",
 			  "tooltip": "Search the catacomb walls for anything left behind.",
 			  "event": "sundown_search_ossuary",
-			  "repeatable": true
+			  "disabled_tooltip": "You've already searched here.",
+			  "repeatable": false
 			},
 			"exits": [
 			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
@@ -880,7 +896,8 @@
 			  "name": "Search Ossuary",
 			  "tooltip": "Search the catacomb walls for anything left behind.",
 			  "event": "sundown_search_ossuary",
-			  "repeatable": true
+			  "disabled_tooltip": "You've already searched here.",
+			  "repeatable": false
 			},
 			"exits": [
 			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
@@ -889,6 +906,7 @@
 		  {
 			"name": "Altar",
 			"entrances": ["SURFACE"],
+			"backdrop": "sundown_altar.png",
 			"condition": {
 					"no_repeat":true
 				},
@@ -907,8 +925,19 @@
 			],
 			"encounter_rate":0,
 			"events": [
-			  {"chance": 1, "event": "sundown_altar_event"}
+			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
+			  {"chance": 0.2, "event": "travelling_item_merchant"},
+			  {"chance": 0.2, "event": "travelling_healer"},
+			  {"chance": 0.2, "event": "travelling_trainer"},
+			  {"chance": 0.1, "event": "travelling_bo"}
 			],
+			"action": {
+			  "name": "Examine the altar",
+			  "tooltip": "Take a closer look at the crumbling stone.",
+			  "event": "sundown_altar_event",
+			  "disabled_tooltip": "You've already examined the altar.",
+			  "repeatable": false
+			},
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You move left across the plateau, leaving the altar standing alone behind you." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on past the altar, continuing across the barren expanse." },
@@ -936,18 +965,28 @@
 			  { "text": "A cold wind rises from below.", "chance": 0.5 }
 			],
 			"events": [
-			  {"chance": 0.4, "event": "sundown_edge_look"},
-			  {"chance": 0.5, "event": "sundown_ledge_cache"}
+			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
+			  {"chance": 0.2, "event": "travelling_item_merchant"},
+			  {"chance": 0.2, "event": "travelling_healer"},
+			  {"chance": 0.2, "event": "travelling_trainer"},
+			  {"chance": 0.1, "event": "travelling_bo"}
 			],
 			"exits": [
 			  { "choice": "Follow the edge", "leads_to": "EDGE", "value": 1, "travel_text": "You move along the rim, the sheer drop always close at your side." },
 			  { "choice": "Move away from the edge", "leads_to": "SURFACE", "value": 1, "travel_text": "You step back from the drop and move inward across the plateau, the edge receding behind you." }
-			]
+			],
+			"action": {
+			  "name": "Peer over the edge",
+			  "tooltip": "Look over the edge.",
+			  "event": "sundown_edge_look",
+			  "disabled_tooltip": "You've already searched here.",
+			  "repeatable": false
+			}
 		  },
 		  {
 			"name": "Graveyard",
 			"entrances": ["SURFACE"],
-			"backdrop": "sundown_grave.png",
+			"backdrop": "sundown_grave2.png",
 			"arrival": {
 			  "SURFACE": [
 				"Rows of gravestones stretch across the plateau, their shadows long and uneven."
@@ -961,11 +1000,13 @@
 			  { "text": "The ground feels disturbed in places." },
 			  { "text": "For a moment, you think something moved beneath the soil.", "chance": 0.5 }
 			],
-			"events": [
-			  {"chance": 0.4, "event": "sundown_grave_search"},
-			  {"chance": 0.45, "event": "sundown_ghost_encounter"},
-			  {"chance": 0.3, "event": "sundown_headstone"}
-			],
+			"action": {
+			  "name": "Enter the graveyard",
+			  "tooltip": "Move among the graves and see what stirs.",
+			  "event": "sundown_graveyard_enter",
+			  "disabled_tooltip": "You've already searched here.",
+			  "repeatable": false
+			},
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You weave between the headstones and move left, leaving the graveyard behind." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You pass through the rows of graves and continue across the plateau." },

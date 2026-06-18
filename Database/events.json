@@ -161,6 +161,7 @@
 				"ShopType": "Item",
 				"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
 				"OtherText": ["\"See anything you like?\"", "\"The road's been rough — take something for the journey.\""],
+				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
 				"ambience":["\"See anything you like?\"", "\"The road's been rough — take something for the journey, ka-ching.\""],
 				"Stock": {
 					"Potion": 40,
@@ -176,21 +177,151 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "A travelling merchant hails you from the roadside.", "clear": false},
-			{"type": "shop", "name": "Travelling Merchant Kacha", "shop": {
-				"ShopType": "Equip",
-				"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
-				"OtherText": ["\"See anything you like?\"", "\"The road's been rough — take something for the journey.\""],
-				"ambience":["\"See anything you like?\"", "\"The road's been rough — take something for the journey, ka-ching.\""],
-				"Stock": {
-					"Iron Sword": 90,
-					"Iron Lance": 100,
-					"Iron Bow": 80,
-					"Iron Rod": 90
-				}
-			}},
+			{"type": "if", "condition": {"current_region": "Apple Woods"},
+				"then": [
+					{"type": "shop", "name": "Travelling Merchant Kacha", "shop": {
+						"ShopType": "Equip",
+						"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
+						"OtherText": ["\"See anything you like?\"", "\"The road's been rough — take something for the journey.\""],
+						"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
+						"ambience":["\"See anything you like?\"", "\"The road's been rough — take something for the journey, ka-ching.\""],
+						"Stock": {
+							"Iron Sword": 90,
+							"Iron Lance": 100,
+							"Iron Bow": 80,
+							"Iron Rod": 90
+						}
+					}}],
+				"else": [
+					{"type": "shop", "name": "Travelling Merchant Kacha", "shop": {
+						"ShopType": "Equip",
+						"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
+						"OtherText": ["\"See anything you like?\"", "\"The road's been rough — take something for the journey.\""],
+						"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
+						"ambience":["\"See anything you like?\"", "\"The road's been rough — take something for the journey, ka-ching.\""],
+						"Stock": {
+							"Iron Sword": 180,
+							"Iron Lance": 200,
+							"Iron Bow": 160,
+							"Iron Rod": 180
+						}
+					}}]
+			},
 			{"type": "show_node"}
 		]
 	},
+	"travelling_healer": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A travelling healer hails you from the roadside.", "clear": false},
+			{"type": "text", "text": "A figure in worn green robes gives you a smile, a healer's staff leaning against their pack. The smell of dried herbs drifts ahead of them.\n\n\"Hello there, you must be tired from your travels.\"", "clear": true},
+			{"type": "text", "text": "They look you over with the practiced eye of someone used to reading injuries.\n\n\"You look like you've had a rough stretch. I can fix that — not for free, of course. Fifty gold, and you walk away good as new.\"\n\nThey tilt their head.\n\n\"What do you say?\"", "clear": false},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Pay 50G to be healed", "key": "pay", "condition": {"gold": {"min": 50}}, "disabled_tooltip": "Not enough gold (need 50G)"},
+					{"choice": "Refuse and move on", "key": "refuse"}
+				],
+				"branches": {
+					"pay": [
+						{"type": "give_gold", "amount": -50},
+						{"type": "text", "text": "You hand over the coins. The healer tucks them away without counting and sets to work — a few steady passes of the staff, quiet words you can't quite follow.\n\nThe ache you'd stopped noticing fades completely.", "clear": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+						{"type": "text", "text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]", "clear": false},
+						{"type": "show_node"}
+					],
+					"refuse": [
+						{"type": "text", "text": "\"Fair enough.\" They don't press. \"Safe roads, then.\"\n\nThey step back to the road's edge and you continue on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"travelling_trainer": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A travelling swordsman hails you from the roadside.", "clear": false},
+			{"type": "text", "text": "A slim man in travelling clothes and a cone hat rests a hand on the pommel of his sword, watching you with an appraising eye.\n\n\"Hold on a moment. I've been on the road long enough — I could use a proper spar.\"\n\nHe tilts his head toward the flat ground off the path.\n\n\"No hard feelings either way. Just a practice bout. What do you say?\"", "clear": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Accept the challenge", "key": "accept"},
+					{"choice": "Decline and move on", "key": "decline"}
+				],
+				"branches": {
+					"accept": [
+						{"type": "text", "text": "\"Good.\"\n\nHe draws his blade in one smooth motion and settles into a low stance.", "clear": true},
+						{"type": "combat", "enemy": "Wandering Swordsman",
+							"on_victory": [
+								{"type": "text", "text": "He steps back and lowers his sword, breathing hard. A slow nod.\n\n\"Not bad at all. You've got good instincts.\"\n\nHe sheathes his blade and claps you on the shoulder.", "clear": true},
+								{"type": "show_node"}
+							],
+							"on_defeat": [
+								{"type": "text", "text": "He holds out a hand and pulls you to your feet.\n\n\"Good effort. You've got the makings of something — but you've still got work to do.\"\n\nHe cleans his blade on his sleeve and nods you on your way.", "clear": true},
+								{"type": "sfx", "sound": "heal"},
+								{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+								{"type": "effect", "effect": {"type": "damage", "amount": 9999}},
+								{"type": "text", "text": "You pick yourself up. [color=red]1 HP remaining.[/color]", "clear": false},
+								{"type": "show_node"}
+							]
+						}
+					],
+					"decline": [
+						{"type": "text", "text": "\"Fair enough.\" He gives a small shrug and steps aside. \"Safe travels.\"\n\nYou continue on.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+	"travelling_bo": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A travelling weirdo appears in your path.", "clear": false},
+			{"type": "text", "text": "A bald man in flashy clothes stands on the roadside, a long stick resting across his shoulders. His posture is relaxed but precise — the kind that doesn't come without decades of practice.\n\nHe studies you for a moment.\n\n\"You there! I am Bo, the Magical Sword Instructor!\" He slams his stick on the ground. \"You look like you need training! I'll teach you one of my techniques, right here, right now!\"", "clear": true},
+			{"type": "choice", "header": "Which technique do you want to learn?",
+				"choices": [
+					{"choice": "Cleave",        "key": "cleave",        "condition": {"lacks_skill": "Cleave"},        "disabled_tooltip": "Already known", "tooltip": "Cleave\nTarget: [color=red]EVERYONE[/color]\nMgt: +7  Acc: 70%\nScales: STR"},
+					{"choice": "Armor Piercer", "key": "armor_piercer", "condition": {"lacks_skill": "Armor Piercer"}, "disabled_tooltip": "Already known", "tooltip": "Armor Piercer\nAcc: 60%\nIgnores DEF\nScales: STR + Weapon"},
+					{"choice": "Flourish",      "key": "flourish",      "condition": {"lacks_skill": "Flourish"},      "disabled_tooltip": "Already known", "tooltip": "Flourish\nReduces all cooldowns by 1\nWgt: 4"},
+					{"choice": "Pinpoint Hit",  "key": "pinpoint_hit",  "condition": {"lacks_skill": "Pinpoint Hit"},  "disabled_tooltip": "Already known", "tooltip": "Pinpoint Hit\nAcc: 95%  Crit: 100%\nScales: STR + Weapon"},
+					{"choice": "Refuse",  "key": "back",  "type": "back"}
+				],
+				"branches": {
+					"cleave": [
+						{"type": "text", "text": "\"Cleave.\" Bo steps back and sweeps his stick wide. \"You're not picking a target — you're attacking space itself! Trust the arc!\"\n\nYou practice the motion until the form becomes instinct.", "clear": true},
+						{"type": "learn_skill", "skill": "Cleave"},
+						{"type": "text", "text": "Learned [color=yellow]Cleave[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"armor_piercer": [
+						{"type": "text", "text": "\"Armor Piercer.\" He jabs his stick at you. \"You're not hitting the armor — you're hitting the guy wearing it! Don't forget!\"\n\nYou practice until Bo is satisfied.", "clear": true},
+						{"type": "learn_skill", "skill": "Armor Piercer"},
+						{"type": "text", "text": "Learned [color=yellow]Armor Piercer[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"flourish": [
+						{"type": "text", "text": "\"Flourish.\" He waves his stick around. \"It's the very essence of martial arts! Move while looking cool!\"\n\nYou feel silly copying his movements. After a while, something clicks.", "clear": true},
+						{"type": "learn_skill", "skill": "Flourish"},
+						{"type": "text", "text": "Learned [color=yellow]Flourish[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"pinpoint_hit": [
+						{"type": "text", "text": "\"Pinpoint Hit.\" Bo adjusts your grip without asking. \"It's simple: Just hit where you look!\"\n\nYou do as he says, and, somehow, it just works.", "clear": true},
+						{"type": "learn_skill", "skill": "Pinpoint Hit"},
+						{"type": "text", "text": "Learned [color=yellow]Pinpoint Hit[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"back": [
+						{"type": "text", "text": "You back away slowly...", "clear":true},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
 	"gold_chest": {
 		"repeatable": false,
 		"steps": [
@@ -801,7 +932,7 @@
 					],
 					"challenge": [
 						{"type": "text", "text": "You step into the chamber. The congregation stirs — but no one moves.\n\nMother Orielli lowers her arms slowly and turns. She regards you for a moment. Then, almost gently:\n\n'A heretic.'\n\n'Remove them.'", "clear": true, "no_wait": true},
-						{"type": "combat", "enemy": "Cult Leader",
+						{"type": "combat", "enemy": "Mother Orielli",
 							"on_victory": [
 								{"type": "text", "text": "Mother Orielli does not rise. The remaining cultists scatter without a word — into side passages, into the dark, gone before you can count them.\n\nThe sanctum is silent.", "clear": true},
 								{"type": "show_node"}
@@ -891,7 +1022,7 @@
 	"altar_offering": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The altar radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.", "clear": false},
+			{"type": "text", "text": "You approach the altar. It radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Make an offering (30G)", "key": "offer", "condition": {"gold": {"min": 30}}, "disabled_tooltip": "Not enough gold (need 30G)"},
@@ -1199,7 +1330,7 @@
 	},
 	"sundown_cracked_earth": {
 		"steps": [
-			{"type": "text", "text": "A wide crevice splits the ground ahead — deeper than it looks, swallowed by the dark before you can see the bottom.", "clear": false},
+			{"type": "text", "text": "A wide crevice splits the ground ahead — deeper than it looks, a faint light coming from the bottom.", "clear": false},
 			{"type": "text", "text": "You crouch and look down...\n[wait=0.1]...[wait=0.1]", "clear": false},
 			{"type": "random", "outcomes": [
 				{
@@ -1290,28 +1421,21 @@
 	"sundown_altar_event": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, carved with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false},
+			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Read the symbols", "key": "read"},
-					{"choice": "Make an offering (20 HP)", "key": "offer"},
+					{"choice": "Make a blood offering (10 HP)", "key": "offer"},
 					{"choice": "Smash it", "key": "smash"},
 					{"choice": "Leave it alone", "key": "leave"}
 				],
 				"branches": {
-					"read": [
-						{"type": "text", "text": "The symbols describe a rite — not worship, but a transaction.\n\nA circle drawn in salt. Bones arranged by the number of the dead. The living giving to the unliving, and something given back.\n\nYou recognize the word for [color=gray]passage[/color]. And the word for [color=gray]command[/color].", "clear": true},
-						{"type": "sfx", "sound": "heal"},
-						{"type": "effect", "effect": {"type": "restore_mp", "amount": 10}},
-						{"type": "text", "text": "Understanding the ritual leaves a cold clarity in your mind.\n[color=teal]MP +10[/color]", "clear": false},
-						{"type": "show_node"}
-					],
 					"offer": [
-						{"type": "effect", "effect": {"type": "damage", "amount": 20}},
+						{"type": "effect", "effect": {"type": "damage", "amount": 10}},
 						{"type": "text", "text": "You press your hand to the stone. The symbols flare cold — not warm — and something pulls at you, brief and deep.\n\nWhen it lets go, something rests on the altar that wasn't there before.", "clear": true},
 						{"type": "sfx", "sound": "chest_open"},
 						{"type": "give_item", "item": "Lifespark Crystal"},
-						{"type": "text", "text": "You took [color=red]20 damage[/color].\nYou found a [color=yellow]Lifespark Crystal[/color].", "clear": false},
+						{"type": "text", "text": "You took [color=red]10 damage[/color].\nYou found a [color=yellow]Lifespark Crystal[/color].", "clear": false},
 						{"type": "show_node"}
 					],
 					"smash": [
@@ -1328,6 +1452,46 @@
 						{"type": "show_node"}
 					]
 				}
+			}
+		]
+	},
+	"sundown_graveyard_enter": {
+		"steps": [
+			{
+				"type": "if",
+				"condition": {"sundown_graveyard_first": false},
+				"then": [
+					{"type": "text", "text": "You push between the headstones. The ground is uneven, the soil freshly disturbed in places.\n\nThen the earth shifts. Something beneath it is moving — not one thing, but many things, pulling together.", "clear": false},
+					{"type": "text", "text": "It pulls itself upright between the graves: a mass of stitched limbs and fused torsos, a shape that was never one body, assembled by some madman's hand. It turns toward you.", "clear": false},
+					{"type": "mark_used", "event": "sundown_graveyard_first"},
+					{"type": "choice", "header": "What do you do?",
+						"choices": [
+							{"choice": "Fight", "key": "fight"},
+							{"choice": "Flee", "key": "flee"}
+						],
+						"branches": {
+							"fight": [
+								{"type": "combat", "enemy": "Abomination",
+									"on_victory": [
+										{"type": "text", "text": "The mass collapses into the churned earth, its parts no longer holding together. The graveyard is still.", "clear": true},
+										{"type": "show_node"}
+									]
+								}
+							],
+							"flee": [
+								{"type": "text", "text": "You don't wait. You back between the headstones, keeping it in sight until you're clear of the rows.\n\nIt doesn't follow.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					}
+				],
+				"else": [
+					{"type": "random", "outcomes": [
+						{"weight": 1, "steps": [{"type": "event", "event": "sundown_grave_search"}]},
+						{"weight": 1, "steps": [{"type": "event", "event": "sundown_ghost_encounter"}]},
+						{"weight": 1, "steps": [{"type": "event", "event": "sundown_headstone"}]}
+					]}
+				]
 			}
 		]
 	},
@@ -1476,22 +1640,9 @@
 					]
 				},
 				{
-					"weight": 3,
+					"weight":5,
 					"steps": [
-						{"type": "text", "text": "Far down, something pale shifts in the darkness. Then it begins to rise.\n\nA Ghost, climbing toward you on the updraft.", "clear": false, "no_wait": true},
-						{"type": "combat", "enemy": "Ghost",
-							"on_victory": [
-								{"type": "text", "text": "The ghost scatters into the dark below.", "clear": true},
-								{"type": "show_node"}
-							]
-						}
-					]
-				},
-				{
-					"weight": 1,
-					"steps": [
-						{"type": "text", "text": "Something catches the light far below — an outcropping with a shape that doesn't belong there. Something left, or dropped.\n\nThere's a ledge just low enough to reach.", "clear": false},
-						{"type": "show_node"}
+						{"type": "event", "event": "sundown_ledge_cache"}
 					]
 				}
 			]}
@@ -1512,7 +1663,7 @@
 							{
 								"weight": 2, "stat_weights": {"dex": 1},
 								"steps": [
-									{"type": "text", "text": "You lower yourself along the face and hook the pack with steady hands.\n\nSomething valuable inside — worth the reach.", "clear": true},
+									{"type": "text", "text": "You lower yourself along the face and hook the pack with steady hands.\n\nSomething valuable inside — worth the trouble.", "clear": true},
 									{"type": "sfx", "sound": "chest_open"},
 									{"type": "give_item", "item": "Lifespark Crystal"},
 									{"type": "text", "text": "You found a [color=yellow]Lifespark Crystal[/color].", "clear": false},
@@ -2220,6 +2371,7 @@
 			}
 		]
 	},
+
 	"legory_summit_cairn": {
 		"repeatable": false,
 		"steps": [

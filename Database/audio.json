@@ -2,7 +2,7 @@
 	"music": {
 		"title":       "res://assets/audio/BGM/Title_placeholder.mp3",
 		"gameover":    "res://assets/audio/BGM/gameover.mp3",
-		"combat":      "res://assets/audio/music/combat.ogg",
+		"combat":      "res://assets/audio/music/boss_placeholder.ogg",
 		"apple_woods": "res://assets/audio/BGM/AppleWoods_placeholder.mp3",
 		"caves":       "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",
 		"plateau":     "res://assets/audio/BGM/SunsetPlateau_placeholder.mp3",
@@ -35,16 +35,27 @@
 		"Lantern's Reach":{ "music": "hilltown",    "ambiance": "town"   }
 	},
 	"sfx": {
-		"attack":       "res://assets/audio/SFX/smash.ogg",
-		"sword":       "res://assets/audio/SFX/slash.mp3",
-		"axe":       "res://assets/audio/SFX/slash.mp3",
-		"polearm":       "res://assets/audio/SFX/stab.mp3",
+		"attack":       "res://assets/audio/SFX/smash.wav",
+		"sword":        "res://assets/audio/SFX/slash.mp3",
+		"axe":          "res://assets/audio/SFX/slash.mp3",
+		"polearm":      "res://assets/audio/SFX/stab.mp3",
 		"ranged":       "res://assets/audio/SFX/stab.mp3",
-		"staff":       "res://assets/audio/SFX/smash.mp3",
+		"staff":        "res://assets/audio/SFX/smash.wav",
 		"heal":         "res://assets/audio/SFX/heal.ogg",
+
+		"water":        "res://assets/audio/SFX/water.ogg",
+		"fire":         "res://assets/audio/SFX/fire.ogg",
+		"wind":         "res://assets/audio/SFX/wind.ogg",
+		"earth":        "res://assets/audio/SFX/earth.ogg",
+		"light":        "res://assets/audio/SFX/light.ogg",
+		"dark":         "res://assets/audio/SFX/dark.ogg",
+		"thunder":      "res://assets/audio/SFX/thunder.ogg",
+		"ice":          "res://assets/audio/SFX/ice.ogg",
+
 		"level_up":     "res://assets/audio/SFX/level_up.ogg",
 		"victory":      "res://assets/audio/SFX/victory.ogg",
-		"item_get":     "res://assets/audio/SFX/item_get.ogg",
+		"item_get":     "res://assets/audio/SFX/chest.ogg",
+		"chest":        "res://assets/audio/SFX/chest.ogg",
 		"menu_confirm": "res://assets/audio/SFX/menu_confirm.ogg",
 		"menu_cancel":  "res://assets/audio/SFX/menu_cancel.ogg"
 	}

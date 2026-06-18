@@ -17,7 +17,7 @@
 	"Caves of Light":{
 		"Name" : "Caves of Light",
 		"Type": "Dungeon",
-		"Enemies" : ["Vampire Bat","Lost Spirit","Renegade","Cultist"],
+		"Enemies" : ["Vampire Bat","Restless Spirit","Renegade","Cultist"],
 		"Boss" : "Chimera",
 		"Length" : 7,
 		"loot" : 8,
@@ -30,7 +30,7 @@
 	"Sundown Plateau":{
 		"Name" : "Sundown Plateau",
 		"Type": "Dungeon",
-		"Enemies" : ["Hungry Wolf","Zombie"],
+		"Enemies" : ["Mangy Wolf","Zombie"],
 		"Boss" : "Necromancer",
 		"Length" : 6,
 		"loot" : 8,
@@ -38,7 +38,7 @@
 		"Events" : ["Graveyard"],
 		"Backdrop": "sundown_plateau.png",
 		"Music": "SunsetPlateau_placeholder.mp3",
-		"ExitTxt": "After a long treck through the plateau, you arrive at the foothills of Mt. Legory. Before the climb, you stop at the small settlement of Lantern's Reach.",
+		"ExitTxt": "After a long trek through the plateau, you arrive at the foothills of Mt. Legory. Before the climb, you stop at the small settlement of Lantern's Reach.",
 		"Next": "Lantern's Reach"
 	},
 	"Mount Legory":{
@@ -65,7 +65,7 @@
 		"Treasure" : ["Book of Earth","Flamesword"],
 		"Events" : ["CaveIn"],
 		"Backdrop": "core_cavern.png",
-		"ExitTxt": "At the exit of the Cavern you find yourself at the Lost Swamp,\n But first, you head Mugell Town, a small town elevated on ricketty wood platforms above the murky swamp water.",
+		"ExitTxt": "At the exit of the Cavern you find yourself at the Lost Swamp,\n But first, you head Mugell Town, a small town elevated on rickety wood platforms above the murky swamp water.",
 		"Next": "Mugell Town"
 	},
 		"Lost Swamp":{
@@ -85,7 +85,7 @@
 		"Name" : "Arcmat Ruins",
 		"Type": "Dungeon",
 		"Enemies" : ["Gargoyle","Treasure Hunter","Wizard","Guardian"],
-		"Boss" : "Mathemagician",
+		"Boss" : "Carlon",
 		"Length" : 8,
 		"loot" : 9,
 		"Treasure" : ["Relic Sword"],

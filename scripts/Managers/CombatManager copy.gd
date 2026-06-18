@@ -457,6 +457,7 @@ func _do_attack(actor, who: String, target):
 	elif elem_mult != 1.0:
 		dmg = max(1, int(dmg * elem_mult))
 		elem_reaction = "weak" if elem_mult >= 2.0 else "resist"
+		elem_reaction = "ineffective" if elem_mult == 0.25 else elem_reaction
 
 	var target_part = ""
 	if who == "player" and enemies.size() > 1:
@@ -478,7 +479,8 @@ func _do_attack(actor, who: String, target):
 		target.take_damage(dmg)
 		var down_msg = _notify_if_died(target)
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
-				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" else "")
+				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" 
+				else ("[color=brown]Ineffective![/color] " if elem_reaction == "ineffective" else ""))
 		MyEventBus.emit("continue_text", {
 			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s" % [dmg, down_msg],
 			"linebreak": false
@@ -570,6 +572,9 @@ func _execute_hit(data, user, who: String, target):
 					await wait_for_writing()
 				"resist":
 					MyEventBus.emit("continue_text", { "text": "[color=cyan]Resisted![/color] ", "linebreak": false })
+					await wait_for_writing()
+				"ineffective":
+					MyEventBus.emit("continue_text", { "text": "[color=brown]Ineffective![/color] ", "linebreak": false })
 					await wait_for_writing()
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])

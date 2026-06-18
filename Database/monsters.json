@@ -485,7 +485,7 @@
 	"Rarity": 4
   },
   {
-	"Name": "Lost Soul",
+	"Name": "Lost Souls",
 	"Element": "Dark",
 	"Lvl": 13,
 	"Stats": {"HP":"E","MP":"A","Str":"F","Int":"A","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
@@ -501,8 +501,8 @@
 	"Rarity": 10
   },
   {
-	"Name": "Gorgoyle",
-	"Element": "Wind",
+	"Name": "Gargoyle",
+	"Element": "Earth",
 	"Lvl": 15,
 	"Stats": {"HP":"B","MP":"C","Str":"B","Int":"C","Dex":"C","Agi":"C","Lck":"E","Def":"B"},
 	"Weapon": null,
@@ -825,6 +825,22 @@
 	"Rarity": null
   },
 
+  {
+	"Name": "Wandering Swordsman",
+	"Element": "Earth",
+	"Lvl": 8,
+	"Stats": {"HP":"B","MP":"E","Str":"B","Int":"E","Dex":"B","Agi":"C","Lck":"D","Def":"C"},
+	"Equip": {
+		"Weapon": "Iron Sword",
+		"Armor": "Adventure Clothes"
+	},
+	"Drops": {},
+	"Gold": 0,
+	"Skills": ["Heavy Blow", "Lunge"],
+	"Spells": [],
+	"Location": "",
+	"Rarity": 0
+  },
 
   {
 	"Name": "Agnes",

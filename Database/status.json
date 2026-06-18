@@ -94,5 +94,16 @@
 		"stats": {
 			"dmg_taken": 0.75
 		}
+	},
+	"elusive": {
+		"name": "Elusive",
+		"icon": "dodge.png",
+		"description": "Cannot be hit by any attack for one turn.",
+		"duration": 1,
+		"inflict_text": "[color=cyan][TARGET] becomes impossible to hit![/color]",
+		"end_text": "[TARGET] is no longer elusive.",
+		"stats": {
+			"evade": 1.0
+		}
 	}
 }

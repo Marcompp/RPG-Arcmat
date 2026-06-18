@@ -279,6 +279,7 @@ func bind_character(char):
 	_cancel_death_anim()
 	_bind_character(char)
 	_refresh_all()
+	_rest_pos = position
 	
 var _mp_react_next: bool = false
 
@@ -461,7 +462,7 @@ func death_animation():
 	if _death_tween:
 		_death_tween.kill()
 
-	_rest_pos = position  # captura posição real AGORA, após o container ter feito layout
+	# captura posição real AGORA, após o container ter feito layout
 	_death_gen += 1
 	var gen = _death_gen
 

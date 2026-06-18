@@ -13,7 +13,7 @@ func get_element_multiplier(attack_element: String, target_element: String) -> f
 		return 1.0
 	var chart = element_db[target_element]
 	if attack_element in chart.get("immune", []):
-		return 0.0
+		return 0.25
 	if attack_element in chart.get("weak", []):
 		return 2.0
 	if attack_element in chart.get("resist", []):
@@ -21,6 +21,8 @@ func get_element_multiplier(attack_element: String, target_element: String) -> f
 	return 1.0
 
 func check_hit(attacker, defender, base_acc: int) -> bool:
+	if defender.stat_multipliers.get("evade", 0.0) > 0.0:
+		return false
 	var hit_rate = base_acc \
 		+ attacker.get_total_stat("dex") \
 		- defender.get_total_stat("agi") \
@@ -107,6 +109,8 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 		result["element_reaction"] = "weak"
 	elif elem_mult <= 0.5:
 		result["element_reaction"] = "resist"
+	elif elem_mult == 0.25:
+		result["element_reaction"] = "ineffective"
 
 	var dmg_taken = target.stat_multipliers.get("dmg_taken", 1.0)
 	if dmg_taken != 1.0:

@@ -552,6 +552,7 @@ func _do_attack(actor, who: String, target):
 	elif elem_mult != 1.0:
 		dmg = max(1, int(dmg * elem_mult))
 		elem_reaction = "weak" if elem_mult >= 2.0 else "resist"
+		elem_reaction = "ineffective" if elem_mult == 0.25 else elem_reaction
 
 	if elem_reaction != "immune":
 		var dmg_taken = target.stat_multipliers.get("dmg_taken", 1.0)
@@ -581,7 +582,8 @@ func _do_attack(actor, who: String, target):
 		var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
 		var down_msg = _notify_if_died(target)
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
-				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" else "")
+				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" 
+				else ("[color=brown]Ineffective![/color] " if elem_reaction == "ineffective" else ""))
 		MyEventBus.emit("continue_text", {
 			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s%s" % [dmg, down_msg, bandana_msg],
 			"linebreak": false
@@ -691,6 +693,9 @@ func _execute_hit(data, user, who: String, target):
 					await wait_for_writing()
 				"resist":
 					MyEventBus.emit("continue_text", { "text": "[color=cyan]Resisted![/color] ", "linebreak": false })
+					await wait_for_writing()
+				"ineffective":
+					MyEventBus.emit("continue_text", { "text": "[color=brown]Ineffective![/color] ", "linebreak": false })
 					await wait_for_writing()
 			if _try_shatter(target):
 				result["damage"] = int(result["damage"] * 1.5)
