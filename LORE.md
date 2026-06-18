@@ -28,17 +28,24 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 
 | Name | Gender | Role | Location | Notes |
 |---|---|---|---|---|
-| **Kacha** | Female | Item shop owner | Various | Blue-haired, energetic; signature "ka-ching!" catchphrase. There are countless Kachas around the world, all related, most of them merchants, all of them almost identical in appearance and personality |
-| **Madam Bernadetta** | Female | Potion maker | Mugell Town | Old hunchbacked woman; brews her own stock; laughs "Hee hee hee" |
-| **Gloria Merrill** | Female | Clothier | Mugell Town | Heavyset, scowling; "We don't want window shoppers here!" A former captain of the Arcward militia |
-| **The Blacksmith** | Male | Weapons & armor | Lantern's Reach | Gruff; grunts more than he speaks |
-| **Mother Orielli** | Female | Cult leader | Caves of Light | White and gold robes; offers "blessings" to those who kneel; charismatic; uses Light and Heal magic |
-| **Verath** |  ??? |Ancient archon (deceased) | Sundown Catacombs | Scholar-turned-necromancer; left carved inscriptions throughout the catacombs; final note: *"The question I cannot answer is whether they remember."* |
-| **Fenwick** | Male | Lost climber | Mount Legory | Left journal entries tracing his final ascent; disappeared near the summit |
-| **Carlon** | Male | Final boss | Arcmat Ruins | The Mathemagician; a legendary Archmage; the founder of Arcward; went missing several centuries ago; wields the Geometry Staff; coldly intellectual; Level 20 |
-| **The Apple Witch** | Female | Hermit | Apple Woods cabin | Warns of the Werewolf; trades potions; offers shelter |
-| **The Werewolf** | Male | Monster / transformed man | Apple Woods | Once a hunter; his behaviour (things moved, not stolen) suggests he remembers his humanity |
-| **Bo the Magical Sword Instructor** | Male? | Weirdo | ??? | Trains player |
+| **Kacha** | Female | Item shop owner | Various | Blue-haired, energetic. There are countless Kachas around the world, all related, most of them merchants, almost identical in appearance and personality. *Voice:* "Welcome, ka-ching!" / "Be sure to buy something before you leave, ka-ching!" — "ka-ching" ends nearly every sentence; enthusiasm never drops. |
+| **Madam Bernadetta** | Female | Potion maker | Mugell Town | Old hunchbacked woman; brews her own stock; shop smells of burning incense, with monster parts in vials and herbs on every shelf. *Voice:* "Hee hee hee, welcome to Madam Bernadetta's, dearie." / "Those potions are my own work, dearie." — "dearie" as recurring address; mildly sinister cackling; witchy and shady. |
+| **Gloria Merrill** | Female | Clothier | Mugell Town | Heavyset, scowling; former captain of the Arcward militia. *Voice:* "This is Satin Threads. Talk to me if you want to buy something." / "Here again, brat?" — contemptuous; no pleasantries; assumes the worst of every customer; insults are specific. |
+| **The Blacksmith** | Male | Weapons & armor | Lantern's Reach | Gruff; forge glow and constant hammering; defined by his work, not his words. *Voice:* "You lookin' for something?" / "I'm busy. Tell me if you gonna buy something." *(doesn't even look up from his work)* — sentences short, answers shorter; barely looks up unless you buy something. |
+| **Mother Orielli** | Female | Cult leader | Caves of Light | White and gold robes; charismatic; uses Light and Heal magic. *Voice:* "The light does not give itself freely. It must be earned. Through offering. Through devotion. Through sacrifice willingly made." / "You are not lost. You came here with purpose." / "Then go. The light will find you in its own time." — unhurried, measured; reads people before speaking; never raises her voice; certainty as weapon. |
+| **Verath** | ??? | Ancient archon (deceased) | Sundown Catacombs | Scholar-turned-necromancer; spiral inscriptions throughout the Sanctum record a progression: Scholar → Archon. Came to learn from the old dead; left having learned to command them. *Final inscription:* "The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember." |
+| **Fenwick** | Male | Lost climber | Mount Legory | Journal found in the Mountain Cave; disappeared near the summit. *Final entry:* "Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—" (ends there). Practical, terse log voice. |
+| **Carlon** | Male | Final boss | Arcmat Ruins | The Mathemagician; legendary Archmage; founder of Arcward; went missing several centuries ago; wields the Geometry Staff; coldly intellectual; Level 20. |
+| **The Apple Witch** | Female | Hermit | Apple Woods cabin | Opens the door before you knock; warns of the Werewolf; trades potions; offers shelter. *Voice:* "I'm always happy to host a visitor." / "Remedies brewed from the woods themselves — mixed them myself." / "Beware, a Werewolf roams these woods. A man, once. A hunter." / "Mind yourself out there." — matter-of-fact hospitality; warns without drama; knows more than she says. |
+| **The Werewolf** | Male | Monster / transformed man | Apple Woods | Once a hunter; his behaviour (things moved, not stolen) suggests he remembers his humanity. |
+| **Bo the Magical Sword Instructor** | Male? | Weirdo / trainer | Travelling | Bald, flashy clothes, carries a long stick. *Voice:* "I am Bo, the Magical Sword Instructor!" / "It's the very essence of martial arts! Move while looking cool!" — theatrical and sudden; delivers philosophy with physical demonstrations. |
+| **Wandering Swordsman** | Male | Travelling trainer | Travelling roads | Slim man in travelling clothes and a cone hat; seeks practice bouts. *Voice:* "I've been on the road long enough — I could use a proper spar." / "Not bad at all. You've got good instincts." / "Fair enough. Safe travels." — laconic; gives genuine assessment; never wastes a word. |
+| **Travelling Healer** | ??? | Roaming healer | Travelling roads | Worn green robes, healer's staff; charges 50G for full recovery; speaks quiet words while healing that you can't quite follow. *Voice:* "Hello there, you must be tired from your travels." / "Fifty gold, and you walk away good as new." / "Fair enough. Safe roads, then." — professional warmth; states price without pressure; no hard sell. |
+| **Ziva** | Female | Combat Professor | Arcward | Self proclaimed magical girl who serves as Arcward's Combat instructor. A former demon hunter. Wears a witch's hat and a miniskirt, wields a colorful scepter. *Voice:* "Magical girl Ziva here!" — very exubeant and eccentric. Can be serious when the situation calls for it |
+| **Professor Maderly** | Female | Spellcraft Professor | Arcward | The Spellcraft instructor at Arcward. Serious, and professional, yet warm and almost motherly. Really cares about her students |
+| **Professor Eisenhart** | Male | Alchemy Professor | Arcward | The Alchemy instructor at Arcward. Wears a thick mantle with many pockets and thick glasses and has messy, moss green hair. Cold and heartless. Cares only about academic advancement and experimentation |
+| **Rona** | Female | Weapons seller | Bertunia (Arms and Armaments) | Stocky, soot-stained hands; former soldier; knows every weapon in stock from having swung it herself. *Voice:* "Arms and Armaments. You buying, or just looking?" / "What are you working with? I can point you at the right thing for the job." / "Every weapon in here I've swung myself. None of it's decorative." — direct and professional; engages with customers rather than ignoring them; warm without being soft. |
+| **Fabrice** | ??? | Clothier | Bertunia (Everyman's Clothier) | Immaculate doublet; deeply aware that chainmail is beneath them; did not choose the shop name and wants you to know it. *Voice:* "Welcome to Everyman's Clothier — a name I had absolutely no hand in choosing." / "The chainmail is functional. That is the most generous thing I can say about it." / "This isn't quite what I envisioned for my career. But here we are." — theatrical self-deprecation; performs suffering over their own stock; the decor is impeccable despite everything. |
 
 ---
 
@@ -51,12 +58,25 @@ Worn dirt roads through deep forest, apple orchards, a swift cold river. First d
 
 Key locations: Road, River, Bridge (moss-covered), Clearing, Spring, Lake, Cabin (the Apple Witch's and/or the Werewolf's), Fork in the Road (faded signpost).
 
+**Encounters & Events**
+- **The Cabin** — 50/50 whether it's the Apple Witch's cottage (warm, herb-scented, baked apple smell; she opens the door before you knock) or the abandoned hunter's cabin (rusted hinges, knocked-over chair, papers strewn, deep claw marks on the walls and door frame).
+- **The Sword in Stone** — A gleaming sword lodged in a flat stone at the clearing's centre. Inscription: *"Only the worthy may wield."* Requires five attempts to pull free; yields the Sword of Maciera.
+- **The Apple Orchard** — Magic apples with varied effects: golden (permanent +5 Max HP), blue (MP +20; first taste grants +1 Int), hearty (+20 HP), red (+10 HP but 50% chance of worm), green (+5–15 HP, 33% chance of unripe or wormy), brown (HP damage; ultra-rare Chocolate Apple variant grants +1 Lck), purple (−10 HP; if declined, birds that try it drop dead).
+- **Bandits** — Sometimes willing to stand down if approached right; not all of them want a fight.
+
 ### 2. Caves of Light
 Underground caverns west of Bertunia, under the Sundown Plateau, with luminous walls that shimmer with yellow light and humming blue crystals crystals that radiate warmth and faint energy.
 
 The mysterious power of the cavern has attracted the attention of fanatics who style themselves The Cult of Light; their rituals meant to revere the Light that lives in the caves.
 
 Key locations: Tunnel (shimmering crystals), Grotto, Cavern (light scatters like stars), Spring (luminous water), Altar (offering basin), Cult Sanctum (cloaked figures, carved symbols pulsing with dim blue energy).
+
+**Encounters & Events**
+- **Crystal Cluster** — Crystals pulse slightly brighter toward the correct path. Can be pocketed (40G value) or smashed for a chance at a Lifespark Crystal, at the risk of a shard cutting you.
+- **The Altar** — Radiates warmth — "not heat exactly, but presence." Markings pulse in slow rhythm. A 30G offering causes the light to intensify and leaves behind a Book of Heal.
+- **The Wounded Spirit** — A Restless Spirit drifts near the cave spring: circling, confused, not aggressive. Speaking to it (rather than striking) allows it to dissolve peacefully after sharing an impression: torchlight, robed figures, a blade.
+- **Cultist patrol** Player can hide to overhear conversation about the Chimera, can fight the cultist, or can follow them directly to Mother Orielli in the Cult Sanctum.
+- **Mother Orielli encounter** — She reads you before she speaks. Three postures: flee before she notices (no combat), challenge her (combat), or listen. Kneeling when she offers her blessing: *"The light is generous to those who receive it willingly."* Refusing: *"Then go. The light will find you in its own time."*
 
 ### 3. Sundown Plateau
 A vast, plateau west of Bertunia, on the East side of Mt. Legory, and right on top of the Caves of Light.
@@ -67,6 +87,14 @@ The **Gilded Hollow Circus** (Gilded Hollow Circus — All Welcome) travels here
 
 Key locations: Graveyard (Maren Holt, Aldric Voss memorials), Altar (crumbling, offerings now dust), Mausoleum, Catacomb Tunnel, Forked Tunnel, Sanctum (pillars etched in old symbols, floor cracks glow), **Lantern's Reach**.
 
+**Encounters & Events**
+- **The Graveyard** — The site of the Abomination, a stitched together undead monstrosity created by the Necromancer. Or a place filled with named headstones full of dark humor.
+- **The Abandoned Bonfire** — A camp on the plateau surface: bedroll spread, pack left open. "They either moved on quickly or didn't move on at all."
+- **The Bones in the Wall** — Catacomb tunnel walls are deliberate ossuaries: bones set into masonry one by one, arranged by size. This was a proper tomb long before it became something else.
+- **The Forked Tunnel** — Spiral script carved into the junction wall: *"…the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given."*
+- **Scavenger's remains** — Journal found on the plateau: *"…the plateau is as desolate as they said. Found the mausoleum."* / *"Descended into the catacombs this morning. There are symbols I haven't seen before — not funerary, not ceremonial. Something older."* / *"Reached a circular chamber. The floor pulses. I don't think this place was a tomb."* (Last entry trails off.)
+- **Verath's Chronicle** — Sanctum pillars record a progression: Scholar → Archon. Came to learn from the old dead; left having learned to command them. The final inscription is written in a different hand and a different tone: *"The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember."*
+
 ### 4. Mount Legory
 The southernmost of the Whitewing Mountains, notable for being located pretty far from the nearest peak.
 It demarcates the western border of the petty kingdom of Cidonia.
@@ -76,10 +104,16 @@ Snow-covered, biting wind, thin air. The mountain demands respect. Pegasus Knigh
 
 Key locations: Ascent Path, Mountain Cave (abandoned camp inside), Ridge (steep drops on both sides), Archway (stone arch with old climbers' carvings), Summit (Great Roc's nest, collected weapons, views under clouds).
 
+**Encounters & Events**
+- **Fenwick's journal** *(Mountain Cave)* — Half-filled. Early entries describe the view from the ridge, the cold, the Pegasus Knights spotted at distance. Final entry: *"Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—"* (ends there).
+- **The Archway** — Inner face covered in climbers' marks accumulated over years. Near the keystone: *"The cold that thinks is worse than the cold that simply is."* Other marks: names of the dead, summit descriptions, a rough map of the ridge scratched in miniature.
+- **Pegasus Knight encounter** — Descends in a slow spiral, lance lowered but not leveled. Standing still → she studies you and leaves. Drawing a weapon → combat. Bowing → 
+- **The Summit Cairn** — Near the edge; climbers have wedged tokens between the stones (a button, a coin, a strip of cloth). Options: add a stone (+1 Lck), take a token (Ether or Medicine), or sit and rest (full HP/MP restore). The Great Roc watches from its nest — tolerates respectful approach; tolerates retreat; attacks if provoked or if you reach into the nest.
+
 ### 5. Core Cavern
 The volcanic heart beneath Mount Legory. Churning magma, obsidian chambers, blinding heat. Home to Wyverns, fire Wisps, and the territorial Lizardmen civilization. The Infrit guards the deepest chamber.
 
-Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obsidian Chamber (distorted reflections), Ash Field (unstable ground), Core Chamber (churning magma, blinding light), **Lizal-Town**.
+Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obsidian Chamber (distorted reflections), Ash Field (unstable ground), Core Chamber (churning magma, blinding light), **Lizal-Town**, Hot Springs, Mineshaft (originally a Troll mine, now reclaimed by the Lizardmen), Tunnel, Lava Falls, Ruins (the ruins of a long abandoned Troll settlement), Sunken Statue (giant ancient Troll statue, now half sunken in lava).
 
 ### 6. Lost Swamp
 West of Arcward.
@@ -112,6 +146,35 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 | **Mugell Town** | Rickety boardwalks above swamp water | Town sways in wind; ropes groan; fishermen lower lines through plank gaps; children peer at dark water below; something large moves under the surface; the nearest settlement to Arcward, located on the eastern end of the Lost Swamp, students often visit, and most residents end up working and or supplying the school |
 | **Gilded Hollow Circus** | Travelling circus, Sundown Plateau | Striped tents, torchlight, calliope (tinny, slightly off-key), masked performers, caged animals, eerily empty and sawdust smell |
 | **The Arena** | Golden and glorious | Lighthearted unserious postgame area where the player can fight against every enemy in the game using their fully realised character. Meant to be unserious and dubiously canon |
+
+### Shop Directory
+
+**Bertunia Castle Town**
+- Kacha's Shop — items
+- Arms and Armaments — weapons & armour
+- Everyman's Clothier — accessories & armour (eyeglasses, leather boots, backpack, chainmail)
+- Drink of Fortune — pub
+
+**Lantern's Reach**
+- Kacha Outpost — items
+- The Last Anvil — weapons & armour (warm forge glow and constant hammering; the blacksmith barely acknowledges you)
+- Adventurer's Guild — skill scrolls (Block, Dodge, Combo, First Aid)
+- The Tipsy Ghost — pub
+
+**Mugell Town**
+- Madam Bernadetta's Mystical Emporium — items (burning incense, monster parts in vials, shelves of exotic herbs and beast parts)
+- Merrill's Satin Threads — armour & clothing (fine fabrics; Merrill's contempt for browsers is on open display)
+- Pages Without End — spell books (Fire, Water, Earth, Wind); run by a Kacha (reading glasses, nose usually in a book; gets genuinely excited about the stock)
+- The Gurgling Gorgon — pub
+
+**Gilded Hollow Circus**
+- TBD
+
+**Lizal-Town**
+- TBD
+
+**Magical Academy of Arcward**
+- TBD
 
 ---
 
@@ -237,3 +300,57 @@ Narrative-level facts:
 - **Cycles of civilization** — Arcmat, the Sundown burial cultures, Verath's academy — all rose and fell. The player walks through layers of history without always knowing it or caring.
 - **Nature's indifference** — The Great Roc, the King of the Swamp, the Ents — nature is ancient and powerful and has no interest in human affairs. It will not help you; it will not hate you.
 - **The world is older than its inhabitants know** — Every dungeon contains evidence of a prior civilization. The protagonists are not discovering a new world; they are uncovering one they lost.
+
+---
+
+## Found Documents
+
+In-world written texts. Use these verbatim when referencing them; they are the primary way the world communicates its own history.
+
+### Hunter's Journal — Apple Woods cabin
+*(Unnamed hunter tracking the Werewolf. Found in the abandoned cabin version.)*
+
+> **Day 12.** The beast's tracks are unmistakable. I've seen wolf prints before. These are different — the gait too long, too deliberate. Whatever walks Apple Woods wears the shape of a wolf but not the nature of one. I'll find it.
+
+> **Day 19.** It knows I'm here. I came back to camp and found everything moved. Nothing taken — just rearranged. Like it was making a point. I haven't slept properly in days. The apples taste strange after dark.
+
+> **Day 24.** The scratches appeared on the door last night. Deep ones. I didn't hear a sound. If someone finds this — the creature was once a man. A hunter, like me. I saw it in his eyes. Don't let it — *(rest of page torn away)*
+
+---
+
+### Scavenger's Journal — Sundown Plateau
+*(Unnamed scavenger exploring the plateau and catacombs. Found with their remains.)*
+
+> …the plateau is as desolate as they said. Found the mausoleum.
+
+> Descended into the catacombs this morning. There are symbols I haven't seen before — not funerary, not ceremonial. Something older.
+
+> Reached a circular chamber. The floor pulses. I don't think this place was a tomb. *(last entry)*
+
+---
+
+### Forked Tunnel Inscription — Sundown Catacombs
+*(Spiral script carved at the junction, same hand as Verath's other writings.)*
+
+> …the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given.
+
+---
+
+### Verath's Final Inscription — Sundown Sanctum
+*(Written last, in a different hand and a different tone from the chronicle entries above it.)*
+
+> The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember.
+
+---
+
+### Fenwick's Journal — Mount Legory, Mountain Cave
+*(Half-filled climber's log. Earlier entries describe the ridge, the cold, Pegasus Knights at distance.)*
+
+> **Day 11.** Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think— *(ends there)*
+
+---
+
+### Arch Inscription — Mount Legory Archway
+*(Carved near the keystone; surrounded by decades of climbers' marks, names of the dead, summit descriptions, a rough map of the ridge scratched in miniature.)*
+
+> The cold that thinks is worse than the cold that simply is.

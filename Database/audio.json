@@ -13,7 +13,9 @@
 		"castletown":  "res://assets/audio/BGM/Bertunia_placeholder.mp3",
 		"hilltown":    "res://assets/audio/BGM/LanternsReach_placeholder.mp3",
 		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3",
-		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3"
+		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3",
+		"academy":     "res://assets/audio/BGM/Arcward_placeholder.mp3",
+		"lizal":       "res://assets/audio/BGM/Lizal2_placeholder.mp3"
 	},
 	"ambiance": {
 		"forest": "res://assets/audio/BGS/forest_ambience.mp3",
@@ -32,7 +34,10 @@
 		"Arcmat Ruins":   { "music": "ruins",       "ambiance": ""       },
 		"Bertunia":       { "music": "castletown",  "ambiance": "town"   },
 		"Mugell Village": { "music": "village",     "ambiance": "town"   },
-		"Lantern's Reach":{ "music": "hilltown",    "ambiance": "town"   }
+		"Lantern's Reach":{ "music": "hilltown",    "ambiance": "town"   },
+		"Lizal-Town":     { "music": "lizal",       "ambiance": "cave"   },
+		"Gilded Hollow Circus":{ "music": "circus", "ambiance": ""       },
+		"Arcward Academy of Magic":{ "music": "academy","ambiance": ""   }
 	},
 	"sfx": {
 		"attack":       "res://assets/audio/SFX/smash.wav",

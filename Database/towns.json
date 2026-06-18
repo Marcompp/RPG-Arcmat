@@ -39,6 +39,13 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"Backdrop": "arms_armament.png",
+				"WelcomeText": "A stocky woman with soot-stained hands looks up from behind the counter:\n\n\"Arms and Armaments. You buying, or just looking?\"",
+				"OtherText": ["\"What are you working with? I can point you at the right thing for the job.\"", "\"Every weapon in here I've swung myself. None of it's decorative.\"", "\"Good choice. That one'll serve you.\""],
+				"ambience": [
+					"Weapons are arranged by type along the walls, organized and deliberate.",
+					"The shopkeeper watches you browse without a word.",
+					"A set of worn hand-wraps hangs from a hook behind the counter."
+				],
 				"Stock": {
 					"Longsword": 150,
 					"Battleaxe": 180,
@@ -51,6 +58,14 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"Backdrop": "clothier.png",
+				"WelcomeText": "A tall figure in an immaculate doublet sweeps toward you:\n\n\"Welcome to Everyman's Clothier — a name I had absolutely no hand in choosing.\"\n\"What can I do for you?\"",
+				"OtherText": ["\"The chainmail is functional. That is the most generous thing I can say about it.\"", "\"The leather boots I did stitch myself. Small mercies.\"", "\"If practical is what you're after, I do have that. Regrettably.\"", "\"This isn't quite what I envisioned for my career. But here we are.\""],
+				"CancelText": ["\"Browsing. Of course.\""],
+				"ambience": [
+					"Despite the thoroughly practical stock, the display cases are immaculate.",
+					"The shopkeeper is dressed considerably better than anything they sell.",
+					"A fresh flower sits in a vase on the counter, aggressively cheerful."
+				],
 				"Stock": {
 					"Eyeglasses": 130,
 					"Leather Boots": 110,
@@ -181,7 +196,14 @@
 			"Pages Without End":{
 				"Name": "Pages Without End",
 				"Kind": "Shop",
+				"WelcomeText": "A familiar blue-haired woman peers at you over a pair of reading glasses, a spell book open in her hands:\n\n\"Oh! Welcome, ka-ching!\"\n\"I'm Kacha — let me know if you need help finding anything. The Fire section is particularly good this season.\"",
+				"OtherText": ["\"Ka-ching! Did you know the Water tome has an entire appendix on tidal theory? Fascinating stuff.\"", "\"Be sure to buy something before you leave, ka-ching!\"", "\"The Earth book is a bit dry — no pun intended — but the chapter on mineral resonance is worth it. Ka-ching!\""],
 				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
+				"ambience": [
+					"Shelves of spell books line every wall, organized by element.",
+					"The shop smells of old paper and faint ozone.",
+					"The shopkeeper is reading behind the counter, glasses pushed to the tip of her nose."
+				],
 				"Stock": {
 					"Book of Fire": 1,
 					"Book of Water": 1,
