@@ -119,6 +119,11 @@ Over 5000 years ago, there was a Troll civilization in these caves, that has lon
 The Lizals, often called Lizardmen by humans and hunted as dangerous beasts, established Lizal-Town recently, a hidden community deep in the Core Cavern, unknown to any human.
 
 Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obsidian Chamber (distorted reflections), Ash Field (unstable ground), Core Chamber (churning magma, blinding light), **Lizal-Town**, Hot Springs, Mineshaft (originally a Troll mine, now reclaimed by the Lizardmen), Tunnel, Lava Falls, Ruins (the ruins of a long abandoned Troll settlement), Sunken Statue (giant ancient Troll statue, now half sunken in lava).
+**Encounters & Events**
+- **Lizal patrol** Player can hide to overhear conversation about the Infrit, can fight the lizardmen, or can follow them directly to Lizal-Town.
+- **Statue** Player can admire the statue, or mock it and be attacked by an old troll.
+- **Mine** In the mineshaft, player can mine for ore using an old pickaxe until it breaks. Str and Lck check. They can dig up some gems that are sure to be worth something (gold, mid), find a vein of gold (gold, high), or find a big gold nugget... that turn's out to be fools' gold on close inspection (gold, low). They can dig up a precious stone (Amber, Ruby or Obsidian). They can dig up a Lifespark Crystal. They can find nothing. Or they can hurt themselves (take 5 hp)
+
 
 ### 6. Lost Swamp
 West of Arcward.
@@ -177,6 +182,9 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - TBD
 
 **Lizal-Town**
+- Elder's Hut - misc
+- Lizal Shaman - items
+- Lizal Blacksmith - weapons & armor (Scimitar, Fang Dagger, Scale Mail, Fireproof Cloth); surprisingly skilled blacksmith despite the crude setup; mostly speaks in grunts, hisses, growls, and single words.
 - Drake Pen — misc
 - TBD
 

@@ -72,6 +72,14 @@
 		"status": "blind",
 		"stackable": false
 	},
+	"Fireproof Cloth": {
+		"name": "Fireproof Cloth",
+		"description": "A swatch of dense grey fabric, treated by someone who knew what they were doing. Still carries a faint smell of ash from whenever it was last tested. Doesn't catch, doesn't smoulder.",
+		"effect_description": "Grants immunity to Burn.",
+		"effect": "immunity",
+		"status": "burn",
+		"stackable": false
+	},
 	"Leather Boots": {
 		"name": "Leather Boots",
 		"description": "A pair of well-broken-in boots with thick soles and room to breathe. They've walked many roads.",
@@ -127,5 +135,76 @@
 		"effect": "soul_drain",
 		"magnitude": 10,
 		"stackable": true
+	},
+	"Troll Amulet": {
+		"name": "Troll Amulet",
+		"description": "A disc of rough-carved basalt on a braided cord, worn smooth from years of daily handling. The mark on its face is old Troll script.",
+		"effect_description": "Recover 5% of max HP at the start of each turn.",
+		"effect": "hp_regen_turn",
+		"magnitude": 5,
+		"stackable": false
+	},
+	"Amber Drop": {
+		"name": "Amber Drop",
+		"description": "A lump of amber the size of a fist, warm to the touch even underground. Whatever is inside it — legs, wings, something with too many parts — is still perfectly preserved. Somehow, so is everything around it.",
+		"effect_description": "Negative statuses on you expire 1 turn sooner.",
+		"effect": "status_decay",
+		"stackable": false
+	},
+	"Brilliant Ruby": {
+		"name": "Brilliant Ruby",
+		"description": "A ruby the size of a thumb, mined deep in the Core Cavern where the walls still radiate heat. Something burns inside it that hasn't gone out in centuries — not a reflection, not a trick of the light.",
+		"effect_description": "You begin battle as the Fire element.",
+		"effect": "battle_start_element",
+		"element": "Fire",
+		"stackable": false
+	},
+	"Obsidian Chunk": {
+		"name": "Obsidian Chunk",
+		"description": "A blocky piece of volcanic glass with one edge that formed clean — no knapping needed. The Lizals of the Core Cavern say obsidian only cuts perfectly once, on the break. After that, you're just chipping.",
+		"effect_description": "+10% critical hit chance.",
+		"effect": "stat_bonus",
+		"stats": { "crit": 10 },
+		"stackable": false
+	},
+	"Sparkling Sapphire": {
+		"name": "Sparkling Sapphire",
+		"description": "A deep blue crystal pulled from an underground stream in the Lost Swamp, still faintly damp. The color shifts with the angle — darker near the base, almost clear at the tip.",
+		"effect_description": "You begin battle as the Water element.",
+		"effect": "battle_start_element",
+		"element": "Water",
+		"stackable": false
+	},
+	"Tough Topaz": {
+		"name": "Tough Topaz",
+		"description": "A heavy golden stone with inclusions that catch the light like veins in rock. Miners who've carried one for long days say the weight feels like it belongs there.",
+		"effect_description": "You begin battle as the Earth element.",
+		"effect": "battle_start_element",
+		"element": "Earth",
+		"stackable": false
+	},
+	"Luminous Diamond": {
+		"name": "Luminous Diamond",
+		"description": "A raw diamond still attached to matrix rock, uncut and unremarkable except for the way it catches light and breaks it into everything at once.",
+		"effect_description": "You begin battle as the Light element.",
+		"effect": "battle_start_element",
+		"element": "Light",
+		"stackable": false
+	},
+	"Abyssal Onyx": {
+		"name": "Abyssal Onyx",
+		"description": "A smooth black stone with no grain, no texture, no reflection. It absorbs the light around it the way silence absorbs sound — not by blocking it, but by making it disappear.",
+		"effect_description": "You begin battle as the Dark element.",
+		"effect": "battle_start_element",
+		"element": "Dark",
+		"stackable": false
+	},
+	"Verdant Emerald": {
+		"name": "Verdant Emerald",
+		"description": "A hexagonal crystal the color of deep forest canopy, found in the upper reaches of Apple Woods where the roots break through the cave ceiling.",
+		"effect_description": "You begin battle as the Wind element.",
+		"effect": "battle_start_element",
+		"element": "Wind",
+		"stackable": false
 	}
 }

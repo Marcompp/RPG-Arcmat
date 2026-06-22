@@ -4,14 +4,16 @@ class_name TrinketSystem
 const NEGATIVE_STATUSES = ["poison", "burn", "freeze", "stun", "blind", "break"]
 
 var owner
+var owner_key: String = ""
 var trinkets_db: Dictionary
 var status_effects: Dictionary
 
 var _states: Dictionary = {}
 var _bandana_proced: bool = false
 
-func _init(p_owner, p_trinkets_db: Dictionary, p_status_effects: Dictionary) -> void:
+func _init(p_owner, p_trinkets_db: Dictionary, p_status_effects: Dictionary, p_owner_key: String = "") -> void:
 	owner          = p_owner
+	owner_key      = p_owner_key
 	trinkets_db    = p_trinkets_db
 	status_effects = p_status_effects
 	var combined_stats: Dictionary = {}
@@ -122,12 +124,20 @@ func get_bandana_message() -> String:
 	var t = _trinkets_with_effect("last_stand")[0]
 	return "\n[color=yellow]The %s holds! %s survives with 1 HP![/color]" % [t, owner.get_name()]
 
+func process_battle_start() -> void:
+	for t in owner.get_trinkets():
+		var tdata = trinkets_db.get(t, {})
+		if tdata.get("effect", "") == "battle_start_element":
+			owner.set_element(tdata.get("element", "Fire"))
+
 # Resets all per-battle state (combo, element). Called at end_combat().
 func reset_combat_state() -> void:
 	for t in _trinkets_with_effect("duelist_combo"):
 		_states[t]["combo"] = 0
 	if not _trinkets_with_effect("resonance").is_empty():
 		owner.set_element("Neutral")
+	if not _trinkets_with_effect("battle_start_element").is_empty():
+		owner.reset_element()
 
 func get_states() -> Dictionary:
 	return _states
@@ -144,8 +154,9 @@ func try_auto_revive() -> String:
 		return "[color=yellow]The %s shatters! %s is revived with %d HP![/color]" % [t, owner.get_name(), revive_hp]
 	return ""
 
-# Call at the start of every owner turn. Returns a message if MP was restored.
+# Call at the start of every owner turn. Returns a message if MP or HP was restored.
 func process_turn_start() -> String:
+	var lines: Array = []
 	var total_mp = 0
 	for t in owner.get_trinkets():
 		var tdata = trinkets_db.get(t, {})
@@ -153,8 +164,18 @@ func process_turn_start() -> String:
 			total_mp += tdata.get("magnitude", 0)
 	if total_mp > 0 and owner.get_mp() < owner.get_mmp():
 		owner.restore_mp(total_mp)
-		return "[color=cyan]%s recovered %d MP.[/color]" % [owner.get_name(), total_mp]
-	return ""
+		lines.append("[color=cyan]%s recovered %d MP.[/color]" % [owner.get_name(), total_mp])
+	for t in _trinkets_with_effect("hp_regen_turn"):
+		var mag = trinkets_db.get(t, {}).get("magnitude", 5)
+		var heal_amount = max(1, int(owner.get_mhp() * mag / 100.0))
+		if owner.get_hp() < owner.get_mhp():
+			owner.heal(heal_amount)
+			lines.append("[color=green]%s regenerated %d HP.[/color]" % [owner.get_name(), heal_amount])
+	if not _trinkets_with_effect("status_decay").is_empty():
+		if owner_key != "" and status_effects.has(owner_key):
+			for s in status_effects[owner_key]:
+				s["duration"] = max(0, s["duration"] - 1)
+	return "\n".join(lines)
 
 # Heals the owner from post-battle trinkets and returns a display message (or "").
 func process_post_battle() -> String:

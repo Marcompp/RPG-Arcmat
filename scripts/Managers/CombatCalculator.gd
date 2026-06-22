@@ -31,7 +31,7 @@ func check_hit(attacker, defender, base_acc: int) -> bool:
 	hit_rate = int(hit_rate * acc_mult)
 	return rng.randi_range(1, 100) <= hit_rate
 
-func calculate_damage(attacker, defender) -> int:
+func calculate_damage(attacker, defender) -> Array:
 	var weapon = attacker.get_weapon()
 	var mgt    = weapon.get("stats", {}).get("mgt",  0)
 	var crit   = weapon.get("stats", {}).get("crit", 0)
@@ -39,9 +39,11 @@ func calculate_damage(attacker, defender) -> int:
 	var def    = defender.get_total_stat("def")
 	var variance = rng.randf_range(0.9, 1.1)
 	var dmg      = max(1, int((atk - floori(def / 2)) * variance))
-	if rng.randi_range(1, 100) <= crit:
+	var was_crit = false
+	if rng.randi_range(1, 100) <= crit + attacker.get_total_stat("crit"):
 		dmg = int(dmg * 1.5)
-	return dmg
+		was_crit = true
+	return [dmg, was_crit]
 
 func resolve_action(user, target, data: Dictionary) -> Dictionary:
 	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false, "element_reaction": "", "missed": false }
@@ -87,7 +89,7 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 	var variance = rng.randf_range(0.9, 1.1)
 	var dmg      = max(1, int((base_mgt - floori(def_val / 2)) * variance))
 
-	var crit_chance = stats.get("crit", 0) + user.get_total_stat("dex") - target.get_total_stat("lck")
+	var crit_chance = user.get_total_stat("crit") + stats.get("crit", 0) + user.get_total_stat("dex") - target.get_total_stat("lck")
 	if inherit_wpn:
 		crit_chance += weapon.get("stats", {}).get("crit", 0)
 	if rng.randi_range(1, 100) <= crit_chance:

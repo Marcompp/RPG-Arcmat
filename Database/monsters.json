@@ -3,6 +3,7 @@
 	"Name": "Slime",
 	"Element": "Water",
 	"Lvl": 1,
+	"Gender": "None",
 	"Stats": {"HP":"E","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 20
@@ -29,7 +30,9 @@
 	},
   {
 	"Name": "Bandit",
+	"FName": "Bandit",
 	"Element": "Earth",
+	"Gender": "Random",
 	"Lvl": 2,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
 	"TrueStats":{
@@ -55,12 +58,14 @@
   {
 	"Name": "Bandit Brothers", 
  	"Enemies": ["Bandit", "Bandit"], 
+	"Gender": ["Male", "Male"],
 	"Location": "Apple Woods", 
 	"Rarity": null
   },
   {
 	"Name": "Skeleton",
 	"Element": "Dark",
+	"Gender": "Male",
 	"Lvl": 3,
 	"Stats": {"HP":"D","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"D"},
 	"TrueStats":{
@@ -92,6 +97,7 @@
   {
 	"Name": "Bitefish",
 	"Element": "Water",
+	"Gender": "Male",
 	"Lvl": 1,
 	"Stats": {"HP":"D","MP":"E","Str":"D","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
@@ -115,6 +121,7 @@
   {
 	"Name": "Bear",
 	"Element": "Earth",
+	"Gender": "Male",
 	"Lvl": 4,
 	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
 	"TrueStats":{
@@ -137,6 +144,7 @@
   {
 	"Name": "Vampire Bat",
 	"Element": "Wind",
+	"Gender": "Male",
 	"Lvl": 4,
 	"Stats": {"HP":"D","MP":"E","Str":"E","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
@@ -157,6 +165,7 @@
   {
 	"Name": "Restless Spirit",
 	"Element": "Dark",
+	"Gender": "Male",
 	"Lvl": 5,
 	"Stats": {"HP":"E","MP":"C","Str":"F","Int":"C","Dex":"D","Agi":"B","Lck":"F","Def":"F"},
 	"Weapon": null,
@@ -174,7 +183,9 @@
   },
   {
 	"Name": "Renegade",
+	"FName": "Renegade",
 	"Element": "Earth",
+	"Gender": "Random",
 	"Lvl": 5,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"Startup":2,
@@ -195,6 +206,7 @@
 {
 	"Name": "Sparkfish",
 	"Element": "Water",
+	"Gender": "Male",
 	"Lvl": 1,
 	"Stats": {"HP":"D","MP":"C","Str":"D","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
@@ -218,7 +230,9 @@
   },
   {
 	"Name": "Cultist",
+	"FName": "Cultist",
 	"Element": "Light",
+	"Gender": "Random",
 	"Lvl": 6,
 	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Dex":"D","Agi":"E","Lck":"B","Def":"E"},
 	"TrueStats":{
@@ -253,6 +267,7 @@
   {
 	"Name": "Mangy Wolf",
 	"Element": "Earth",
+	"Gender": "Male",
 	"Lvl": 7,
 	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
@@ -273,7 +288,9 @@
   },
   {
 	"Name": "Zombie",
+	"FName": "Zombie",
 	"Element": "Dark",
+	"Gender": "Random",
 	"Lvl": 7,
 	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"F"},
 	"TrueStats":{
@@ -296,7 +313,9 @@
   },
   {
 	"Name": "Ghost",
+	"FName": "Zombie",
 	"Element": "Dark",
+	"Gender": "Random",
 	"Lvl": 8,
 	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"D","Agi":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
@@ -315,6 +334,7 @@
   {
 	"Name": "Frost Fairy",
 	"Element": "Ice",
+	"Gender":"Female",
 	"Lvl": 9,
 	"Stats": {"HP":"E","MP":"A","Str":"E","Int":"B","Dex":"C","Agi":"B","Lck":"C","Def":"E"},
 	"Weapon": null,
@@ -333,6 +353,7 @@
   {
 	"Name": "Bald Eagle",
 	"Element": "Wind",
+	"Gender": "Female",
 	"Lvl": 9,
 	"Stats": {"HP":"D","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"Weapon": null,
@@ -354,6 +375,7 @@
   {
 	"Name": "Pegasus Knight",
 	"Element": "Wind",
+	"Gender":"Female",
 	"Lvl": 10,
 	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
 	"TrueStats":{
@@ -379,6 +401,7 @@
   {
 	"Name": "Wisp",
 	"Element": "Fire",
+	"Gender":"None",
 	"Lvl": 11,
 	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
 	"Weapon": null,
@@ -395,6 +418,7 @@
   {
 	"Name": "Wyvern",
 	"Element": "Fire",
+	"Gender":"Female",
 	"Lvl": 12,
 	"Stats": {"HP":"B","MP":"C","Str":"C","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"D"},
 	"Weapon": null,
@@ -412,6 +436,7 @@
   {
 	"Name": "Drake",
 	"Element": "Fire",
+	"Gender": "Male",
 	"Lvl": 10,
 	"Stats": {"HP":"B","MP":"D","Str":"B","Int":"D","Dex":"D","Agi":"D","Lck":"E","Def":"D"},
 	"Weapon": null,
@@ -429,6 +454,7 @@
   {
 	"Name": "Lizardman",
 	"Element": "Water",
+	"Gender":"Male",
 	"Lvl": 11,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"C"},
 	"Equip": {
@@ -449,6 +475,7 @@
   {
 	"Name": "Tarvos",
 	"Element": "Earth",
+	"Gender":"Male",
 	"Lvl": 12,
 	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
 	"Equip": {
@@ -463,6 +490,18 @@
 	"Spells": [],
 	"Location": "Core Cavern",
 	"Rarity": 6
+  },
+  {
+	"Name": "Lizardman Patrol",
+	"Enemies": ["Lizardman", "Lizardman"],
+	"Location": "Core Cavern",
+	"Rarity": null
+  },
+  {
+	"Name": "Wisp Cluster",
+	"Enemies": ["Wisp", "Wisp"],
+	"Location": "Core Cavern",
+	"Rarity": null
   },
   {
 	"Name": "Ent",
@@ -788,6 +827,20 @@
 	"Rarity": "Hidden"
   },
   {
+	"Name": "Cave Troll",
+	"Element": "Earth",
+	"Gender":"Male",
+	"Lvl": 15,
+	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"F","Agi":"F","Lck":"E","Def":"C"},
+	"Equip": {"Weapon": "Troll Club"},
+	"Drops": {},
+	"Gold": 180,
+	"Skills": [],
+	"Spells": [],
+	"Location": "Core Cavern",
+	"Rarity": null
+  },
+  {
 	"Name": "Infrit",
 	"Element": "Fire",
 	"Lvl": 13,
@@ -798,6 +851,7 @@
 		"Gauntlet": 10
 	},
 	"Gold":250,
+	"Start": "Burning Wave",
 	"Skills": [],
 	"Spells": ["Fire"],
 	"Location": "Core Cavern",

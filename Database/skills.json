@@ -369,5 +369,22 @@
 		"effect": "none",
 		"inherit_stats": true,
 		"inherit_wpn": true
+	},
+	"Burning Wave": {
+		"nome": "Burning Wave",
+		"description": "A scorching wave that engulfs the target, leaving them burned.",
+		"type": "attack",
+		"stats": {
+			"mgt": 0,
+			"acc": 100,
+			"crit": 0
+		},
+		"cooldown": 0,
+		"effect": "burn",
+		"chance": 100,
+		"magnitude": 10,
+		"magic": true,
+		"inherit_stats": false,
+		"inherit_wpn": false
 	}
 }

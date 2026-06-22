@@ -2445,5 +2445,831 @@
 			{"type": "text", "text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]", "clear": false},
 			{"type": "show_node"}
 		]
+	},
+
+	"cave_in": {
+		"steps": [
+			{"type": "text", "text": "The mountain shudders. A deep crack splits the ceiling above and a cascade of rock and dust comes down — you have about two seconds."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Run for it", "key": "run"},
+					{"choice": "Brace and cover your head", "key": "brace"}
+				],
+				"branches": {
+					"run": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"agi": 1},
+								"steps": [
+									{"type": "text", "text": "You sprint and clear the worst of it. Dust and small debris rain down on your back, but nothing catastrophic. You keep moving."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 7,
+								"steps": [
+									{"type": "text", "text": "You're almost clear when a chunk of basalt clips your shoulder. The impact is sharp and immediate."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 15}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"brace": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 70,
+								"steps": [
+									{"type": "text", "text": "You press against the nearest wall, arms over your head. The debris rattles and bounces around you. When the dust settles, you're intact."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 30,
+								"steps": [
+									{"type": "text", "text": "A section of ceiling comes down directly overhead. You take the worst of it on your raised arms, but it's still bad."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 20}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					]
+				}
+			}
+		]
+	},
+
+	"troll_inscription": {
+		"steps": [
+			{"type": "text", "text": "One section of the stonework is more sheltered than the rest — and the carving here is actually legible. Blocky Troll script, deeply cut."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Try to read it", "key": "read"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"read": [
+						{"type": "text", "text": "It takes a while. Your Troll is not great. As best you can piece together: 'Here ends the shaft of Borghan the Persistent. Seventeen years. Seventeen. We found something. We left it.' Below that, a single word, carved shakily: 'DOWN.'"},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"sunken_statue_vigil": {
+		"steps": [
+			{"type": "text", "text": "The statue is enormous — obvious from a distance, but up close at the ledge it becomes something else. What remains above the lava is colossal: a tusked figure, rough-hewn from basalt, its surface worn smooth in places by centuries of heat and still deeply carved in others. It has tipped — some shift in the lava's creep or the mountain's settling has pushed it to a steep angle — but it hasn't fallen. Heavy chains, old iron gone rust-orange, loop from anchors driven into the cavern walls and catch it at the shoulders and chest, holding it suspended. Someone put those chains there. It isn't clear when.\n\nThe tusked face is angled toward you by the tilt. The scale of it — the size of a single eye socket, the width of one worn hand — makes you very aware of your own dimensions. It has been looking at this cavern for a long time. It gives you the distinct, unreasonable sensation of being assessed."},
+			{"type": "choice", "header": "",
+				"choices": [
+					{"choice": "Prostrate yourself", "key": "prostrate"},
+					{"choice": "Turn away", "key": "leave"},
+					{"choice": "Say something unkind about it", "key": "mock"}
+				],
+				"branches": {
+					"prostrate": [
+						{"type": "text", "text": "You get down on one knee. The statue says nothing. The magma churns. Nothing changes. After a moment you stand back up and look around to make sure nobody saw."},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "show_node"}
+					],
+					"mock": [
+						{"type": "text", "text": "You make a gesture at the statue and say something unflattering about its proportions and general bearing. It's good. You're pleased with it.\n\nA sound echoes from deeper in the cavern — the scuff of feet on stone, fast and deliberate. Then a voice, cracked and high with outrage.\n\n'I HEARD YOU. I HEARD ALL OF THAT.'\n\nAn old Troll emerges from a side passage at speed, pointing. He is ancient and angry and wearing what appears to be a hand-carved devotional pendant."},
+						{"type": "combat", "enemy": "Cave Troll",
+							"overrides": {
+								"Trinkets": ["Troll Amulet"],
+								"Drops": {"Troll Amulet": 100}
+							},
+							"on_victory": [
+								{"type": "text", "text": "The old troll sits in the ash, wheezing. He glares at you. Then at the statue. Then at you again.\n\nA long silence. He reaches into a pouch at his belt and produces a heavy amulet on a cord — a rough-carved disc of stone, worn smooth with handling. He holds it out without looking up.\n\nYou take it."},
+								{"type": "sfx", "sound": "item"},
+								{"type": "show_node"}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"lizal_patrol": {
+		"steps": [
+			{"type": "text", "text": "You hear two Lizardmen patrolling up ahead. They weren't expecting you any more than you were expecting them, and haven't noticed you yet."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Hide and wait", "key": "hide"},
+					{"choice": "Draw your weapon", "key": "fight"},
+					{"choice": "Try to speak to them", "key": "speak"},
+					{"choice": "Slip in behind and follow them", "key": "follow"}
+				],
+				"branches": {
+					"nod": [
+						{"type": "text", "text": "You press behind a wall. The lead Lizardman looks around, but looks over your hiding spot.\n\nAfter a long moment, he gestures to the other. They file past."},
+						{"type": "show_node"}
+					],
+					"fight": [
+						{"type": "text", "text": "You step out into the open, weapon drawn.\n\nThe Lizardmen don't wait. Both draw Falchions."},
+						{"type": "combat", "enemy": "Lizardman Patrol",
+							"on_victory": [{"type": "show_node"}],
+							"on_defeat": []
+						}
+					],
+					"speak": [
+						{"type": "text", "text": "You show yourself and tell the Lizardmen that you mean no harm.\n\nThe lead Lizardman tilts its head. The other clicks something at it. Then, slowly, the first one speaks — careful, deliberate, like it's pulling the words out of somewhere they don't usually live.\n\n\"Rrrhumansss. In ourr tunnelsss.\" A pause. \"You not belong herrre. Musst be dealt with.\""},
+						{"type": "choice", "header": "What do you say?",
+							"choices": [
+								{"choice": "\"I'm just passing through.\"", "key": "passing"},
+								{"choice": "\"I'm looking for your settlement.\"", "key": "seeking"}
+							],
+							"branches": {
+								"passing": [
+									{"type": "random", "outcomes": [
+										{
+											"weight": 6,
+											"steps": [
+												{"type": "text", "text": "It regards you for a long moment. \"Passsing.\" Another pause. \"Then passs.\" It steps aside. The other one doesn't move until the first taps its arm. You walk through. Nobody stabs anybody. A good outcome."},
+												{"type": "show_node"}
+											]
+										},
+										{
+											"weight": 4,
+											"steps": [
+												{"type": "text", "text": "\"Passsing.\" It clicks something to the other one. \"Can't let you.\" Both falchions come out."},
+												{"type": "combat", "enemy": "Lizardman Patrol",
+													"on_victory": [{"type": "show_node"}],
+													"on_defeat": []
+												}
+											]
+										}
+									]}
+								],
+								"seeking": [
+									{"type": "text", "text": "A long silence. The two Lizardmen look at each other. The first one speaks again, slower.\n\n\"You know we arrre... herrre? That we have a place?\"\n\nYou say yes. Another silence. \"Mosst humansss do not know. Mosst humansss... do not arrrive.\"\n\nIt thinks about this. Then: \"You come with usss. We decide what to do with you when we arrrive.\""},
+									{"type": "exit_node", "exit": {"leads_to": "TOWN", "travel_text": "They lead you through passages you'd never have found alone. The tunnels widen. Firelight flickers ahead."}}
+								]
+							}
+						}
+					],
+					"follow": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"agi": 1},
+								"steps": [
+									{"type": "text", "text": "You fall in behind them at a distance, keeping to the shadows."},
+									{"type": "exit_node", "exit": {"leads_to": "TOWN", "travel_text": "They lead you through a series of low tunnels, unaware. The passages widen. Firelight appears ahead."}}
+								]
+							},
+							{
+								"weight": 7,
+								"steps": [
+									{"type": "text", "text": "You make it maybe thirty paces before one of them stops, turns, and looks directly at you. There's a moment where everyone pretends this hasn't happened. Then it doesn't pretend anymore."},
+									{"type": "combat", "enemy": "Lizardman Patrol",
+										"on_victory": [{"type": "show_node"}]
+									}
+								]
+							}
+						]}
+					]
+				}
+			}
+		]
+	},
+
+	"wisp_cluster": {
+		"steps": [
+			{"type": "text", "text": "A knot of Wisps drifts through the tunnel ahead — fire spirits, or what's left of them. They move in slow, looping circles, like they've forgotten where they were going. The heat off them is noticeable even at twenty paces."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Watch them pass", "key": "watch"},
+					{"choice": "Follow them", "key": "follow"},
+					{"choice": "Scatter them", "key": "fight"}
+				],
+				"branches": {
+					"watch": [
+						{"type": "text", "text": "They drift past without noticing you. After a minute they disappear into a crack in the rock too narrow to follow. The air cools slightly. You move on."},
+						{"type": "show_node"}
+					],
+					"follow": [
+						{"type": "text", "text": "You fall in behind them. It's surprisingly calming — they drift without urgency and the heat isn't unpleasant. They lead you through two side passages and stop abruptly in a small alcove, hovering around something on the ground. A cracked leather satchel, charred around the edges. Inside: something useful."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Ether"},
+						{"type": "show_node"}
+					],
+					"fight": [
+						{"type": "text", "text": "You wade in swinging. They're faster than they look."},
+						{"type": "combat", "enemy": "Wisp Cluster",
+							"on_victory": [{"type": "show_node"}],
+							"on_defeat": []
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"obsidian_reflection": {
+		"steps": [
+			{"type": "text", "text": "You stop in front of the largest panel of obsidian. Your reflection stares back — warped, too dark, wrong somehow. It's a half-second behind you. Then a full second. It stops moving before you do."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Touch the surface", "key": "touch"},
+					{"choice": "Look away and move on", "key": "leave"},
+					{"choice": "Smash it", "key": "smash"}
+				],
+				"branches": {
+					"touch": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 50,
+								"steps": [
+									{"type": "text", "text": "The glass is warm and faintly vibrating. Your reflection presses its hand to yours from the other side. You stay there for a moment. Then it blinks — and it's just your reflection again, moving when you move. Nothing else happens."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 30,
+								"steps": [
+									{"type": "text", "text": "The glass is warm and faintly vibrating. For a moment you feel — steadied. Like something lined up inside you. You pull your hand back, oddly refreshed."},
+									{"type": "sfx", "sound": "heal"},
+									{"type": "effect", "effect": {"type": "restore_mp", "amount": 30}},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 20,
+								"steps": [
+									{"type": "text", "text": "The glass is scalding. You pull back immediately, the skin on your fingertips raw. Your reflection looks fine."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 10}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You don't look at it again. Probably wise."},
+						{"type": "show_node"}
+					],
+					"smash": [
+						{"type": "text", "text": "The obsidian shatters into razor-edged shards. Your reflection disappears mid-expression. One catches your arm on the way out."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 8}},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"ash_burial": {
+		"steps": [
+			{"type": "text", "text": "Something protrudes from the ash field — a dark shape, half-buried, at about waist height. You get closer. It's a weapon handle, the blade driven straight down."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Pull it out", "key": "pull"},
+					{"choice": "Leave it — this is someone's grave", "key": "leave"}
+				],
+				"branches": {
+					"pull": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 50,
+								"steps": [
+									{"type": "text", "text": "It comes free with effort — a Battleaxe, old but solid, the blade scorched but intact. No grave marker. No bones visible. You keep it."},
+									{"type": "sfx", "sound": "item"},
+									{"type": "give_item", "item": "Battleaxe"},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 30,
+								"steps": [
+									{"type": "text", "text": "It comes free, but the handle crumbles in your grip — too old, too far gone. The blade hits the ash and splits. Nothing left worth keeping."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 20,
+								"steps": [
+									{"type": "text", "text": "It comes free. A Falchion — decent condition. Then the ash moves. Something down there was holding the other end."},
+									{"type": "combat", "enemy": "Lizardman",
+										"on_victory": [
+											{"type": "give_item", "item": "Falchion"},
+											{"type": "show_node"}
+										],
+										"on_defeat": []
+									}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You walk around it and move on. The handle is still there in the ash behind you."},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"lava_crossing": {
+		"steps": [
+			{"type": "text", "text": "There's a narrow path along the magma channel's edge — crumbling in places, but it would cut significant time off your route. The alternative is the long way around."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Take the shortcut", "key": "risk"},
+					{"choice": "Go the long way", "key": "safe"}
+				],
+				"branches": {
+					"risk": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 65,
+								"steps": [
+									{"type": "text", "text": "You move fast and keep your eyes ahead, not down. The ledge holds. You cross in under a minute, the magma roar fading behind you."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 35,
+								"steps": [
+									{"type": "text", "text": "Midway, a section of ledge gives way. You keep your footing, but your leg dips into the superheated air directly above the flow. The burn is immediate."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 25}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"safe": [
+						{"type": "text", "text": "You go around. It takes longer, but your legs are unburned."},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"mineshaft_depths": {
+		"steps": [
+			{"type": "text", "text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Troll-made — heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Mine the rock face", "key": "mine"},
+					{"choice": "Leave it alone", "key": "leave"}
+				],
+				"branches": {
+					"mine": [
+						{"type": "text", "text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."},
+						{"type": "event", "event": "mineshaft_mine_a"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave the pickaxe where it stands and find the main shaft again."},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"mineshaft_mine_a": {
+		"steps": [
+			{"type": "random", "outcomes": [
+				{
+					"weight": 2, "stat_weights": {"str": -1},
+					"steps": [
+						{"type": "text", "text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"steps": [
+						{"type": "text", "text": "The seam runs out fast. You chase it deeper, angle after angle, until the pickaxe head snaps clean off and bounces away into the dark. You stand there with a broken handle. Nothing."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "The rock gives nothing. A dry swing, another, a third. No vein, no pocket, nothing but dust. The pickaxe is still in one piece, at least."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 3, "stat_weights": {"str": 0.5, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "You find the right angle and the rock splits. A small pocket — rough stones, uncut, catching the torchlight at odd angles. Small, but real."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 60},
+						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color] worth to the right buyer."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "The wall gives suddenly — a wide vein, running deep. More than you expected, more than you can carry. You work it until the pickaxe is blunt. Your pack is heavier when you step back."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 150},
+						{"type": "text", "text": "Raw ore and good stone — worth [color=yellow]150G[/color]."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
+					"steps": [
+						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Amber — pale orange, warm even underground. Something preserved inside, too small to name."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Amber Drop"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
+					"steps": [
+						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. A ruby, deep red, still warm from the stone around it. Heat stored for centuries."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Brilliant Ruby"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
+					"steps": [
+						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Obsidian — volcanic glass, still sharp where it broke clean. The Lizals prize this. You can see why."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Obsidian Chunk"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+					"steps": [
+						{"type": "text", "text": "The pickaxe hits something that doesn't sound like rock — a hollow, crystalline ring. You clear around it with your hands. A crystal, roughly fist-sized, embedded in the wall. It pulses when you touch it. Slow. Steady. Like something breathing."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Lifespark Crystal"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				}
+			]}
+		]
+	},
+
+	"mineshaft_mine_b": {
+		"steps": [
+			{"type": "text", "text": "The pickaxe is starting to feel the work. You press on."},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 4, "stat_weights": {"str": -1},
+					"steps": [
+						{"type": "text", "text": "The rock fights back. A bad angle, a bad swing — the handle bites into your palm and the impact jars up your arm badly enough to make you drop it. You stand there bleeding, pickaxe at your feet."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Nothing. The seam thins out to nothing, then the pickaxe head wobbles loose and drops. You watch it bounce twice and disappear. That's the end of that."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Another dry run. The rock is stubborn here — or there's nothing to find. The pickaxe is holding, barely."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"str": 0.5, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "A small pocket opens up in the rock. Rough stones, a few of them, catching the light. Worth something."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 60},
+						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color]."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "Another vein, narrower than the first but real. You work it fast before the pickaxe gives out."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 150},
+						{"type": "text", "text": "[color=yellow]150G[/color] in ore."},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
+					"steps": [
+						{"type": "text", "text": "Something catches the light in the broken rock — amber, warm to the touch, something ancient inside it."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Amber Drop"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
+					"steps": [
+						{"type": "text", "text": "A ruby in the broken rock — dark red, still warm. You pocket it."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Brilliant Ruby"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
+					"steps": [
+						{"type": "text", "text": "Obsidian in the break — volcanic glass, clean-edged. You pocket it."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Obsidian Chunk"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+					"steps": [
+						{"type": "text", "text": "A crystalline ring from the rock — you dig it free with your hands. It pulses against your palm, slow and steady."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Lifespark Crystal"},
+						{"type": "choice", "header": "What do you do?",
+							"choices": [
+								{"choice": "Keep mining", "key": "continue"},
+								{"choice": "Stop", "key": "stop"}
+							],
+							"branches": {
+								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
+								"stop": [{"type": "show_node"}]
+							}
+						}
+					]
+				}
+			]}
+		]
+	},
+
+	"mineshaft_mine_c": {
+		"steps": [
+			{"type": "text", "text": "The pickaxe is down to its last few swings. You can feel it."},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 6, "stat_weights": {"str": -1},
+					"steps": [
+						{"type": "text", "text": "One swing too many. The handle splits and the head skips off the rock into your knee. You limp back from the face, bleeding, the broken handle still in your fist."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 5,
+					"steps": [
+						{"type": "text", "text": "Nothing here. The seam runs cold, and the pickaxe gives out on the last swing — head spinning off into the dark. You set the broken handle against the wall out of habit and walk away."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "Nothing in this stretch. The pickaxe gives out on the last swing, handle splitting down the grain. You set it down and call it."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"str": 0.5, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "A small pocket breaks open — rough stones, real ones. The pickaxe head snaps loose on the same swing that finds them."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 60},
+						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color]. The pickaxe is done."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
+					"steps": [
+						{"type": "text", "text": "One last vein — narrow, but real. You get what you can before the pickaxe head wobbles free and drops. You take the ore and leave the tool."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_gold", "amount": 150},
+						{"type": "text", "text": "[color=yellow]150G[/color] in ore. The pickaxe is done."},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
+					"steps": [
+						{"type": "text", "text": "Amber in the break — old, warm, something inside it. The pickaxe gives out on the next swing. You pocket the amber and leave."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Amber Drop"},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
+					"steps": [
+						{"type": "text", "text": "A ruby tumbles free of the rock. Dark red, warm. The pickaxe gives out on the next swing. You pocket it and go."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Brilliant Ruby"},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
+					"steps": [
+						{"type": "text", "text": "Obsidian falls clean from the break. The pickaxe doesn't survive the swing that finds it. You take the glass and leave the handle."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Obsidian Chunk"},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+					"steps": [
+						{"type": "text", "text": "Something rings in the rock — crystalline, hollow. You dig it free as the pickaxe gives its last. A crystal, pulsing slow. You pocket it and go."},
+						{"type": "sfx", "sound": "item"},
+						{"type": "give_item", "item": "Lifespark Crystal"},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+
+	"drake_wounded": {
+		"steps": [
+			{"type": "text", "text": "A Drake is wedged into a side passage, making a sound somewhere between a growl and a wheeze. One of its legs is badly burned — lava splash, probably. It's not going anywhere. But it's watching you with the focused attention of something that can absolutely still bite."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Try to help it", "key": "help"},
+					{"choice": "Back away and move on", "key": "leave"},
+					{"choice": "Put it out of its misery", "key": "fight"}
+				],
+				"branches": {
+					"help": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 60,
+								"steps": [
+									{"type": "text", "text": "You move slowly, hands open. It flinches when you touch the burned leg but doesn't bite. You do what you can — some cloth, wrapped tight. When you step back, it lets out a slow, low exhale. Later, in Lizal-Town, a Lizal catches your eye and places one hand flat against their chest, briefly, then looks away."},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 40,
+								"steps": [
+									{"type": "text", "text": "You move too fast. It lunges — more scared than vicious — and bites down on your arm before you can pull back. The Drake scrambles deeper into the passage. You stand there bleeding, reconsidering your approach to wildlife."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 18}},
+									{"type": "show_node"}
+								]
+							}
+						]}
+					],
+					"leave": [
+						{"type": "text", "text": "You back out carefully. The Drake's eyes track you the whole way. You leave it to work things out."},
+						{"type": "show_node"}
+					],
+					"fight": [
+						{"type": "text", "text": "It doesn't go down easy, wounded leg and all."},
+						{"type": "combat", "enemy": "Drake",
+							"on_victory": [
+								{"type": "text", "text": "You stand over it. The passage is quiet now."},
+								{"type": "show_node"}
+							],
+							"on_defeat": []
+						}
+					]
+				}
+			}
+		]
 	}
 }

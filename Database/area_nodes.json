@@ -1352,6 +1352,10 @@
 		  { "text": "Heat radiates from below, distorting the air." },
 		  { "text": "Small stones shift and tumble into unseen depths.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 0.20, "event": "cave_in"},
+		  {"chance": 0.10, "event": "wisp_cluster"}
+		],
 		"exits": [
 		  { "choice": "Descend further", "leads_to": "DEPTHS", "value": 1, "travel_text": "You push deeper, the heat intensifying as the glow of magma grows brighter below." },
 		  { "choice": "Climb back", "leads_to": "ASCEND", "value": 1, "travel_text": "You turn and climb back the way you came, the heat pressing against your back as you rise." }
@@ -1373,10 +1377,18 @@
 		  { "text": "The heat is intense, forcing you to keep your distance." },
 		  { "text": "Occasional bursts of gas ripple across the surface.", "chance": 0.5 }
 		],
+		"events": [
+		  {"chance": 0.20, "event": "cave_in"}
+		],
 		"exits": [
 		  { "choice": "Follow the magma flow", "leads_to": "DEPTHS", "value": 0.9, "travel_text": "You follow the edge of the flow, the molten rock churning beside you as you press deeper." },
 		  { "choice": "Search for a crossing", "leads_to": "DEPTHS", "value": 0.7, "travel_text": "You search along the bank for a narrow point, carefully testing the ground before picking your way forward." }
-		]
+		],
+		"action": {
+		  "name": "Try the shortcut",
+		  "tooltip": "A narrow path runs along the magma channel's edge.",
+		  "event": "lava_crossing"
+		}
 	  },
 	  {
 		"name": "Basalt Bridge",
@@ -1393,6 +1405,10 @@
 		  { "text": "The bridge is cracked but stable—for now." },
 		  { "text": "Heat rises in waves from the magma below." },
 		  { "text": "The stone creaks faintly under pressure.", "chance": 0.4 }
+		],
+		"events": [
+		  {"chance": 0.20, "event": "cave_in"},
+		  {"chance": 0.15, "event": "lizal_patrol"}
 		],
 		"exits": [
 		  { "choice": "Cross the bridge", "leads_to": "DEPTHS", "value": 1, "travel_text": "You cross the basalt bridge with careful steps, the heat rising beneath you until you reach the other side." },
@@ -1422,7 +1438,14 @@
 		"exits": [
 		  { "choice": "Press deeper", "leads_to": "CORE", "value": 1, "travel_text": "You move deeper into the cavern, the walls narrowing as the heat becomes almost unbearable." },
 		  { "choice": "Retreat", "leads_to": "ASCEND", "value": 0, "travel_text": "You back away from the glassy walls and begin climbing upward, the distorted reflections fading behind you." }
-		]
+		],
+		"action": {
+		  "name": "Study the reflection",
+		  "tooltip": "Examine your warped reflection in the obsidian.",
+		  "event": "obsidian_reflection",
+		  "disabled_tooltip": "You've examined this place.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Ash Field",
@@ -1443,6 +1466,10 @@
 		  { "text": "Ash drifts slowly through the air." },
 		  { "text": "The ground is unstable, hiding cracks beneath the surface." },
 		  { "text": "Heat pulses from below in uneven waves.", "chance": 0.5 }
+		],
+		"events": [
+		  {"chance": 0.20, "event": "ash_burial"},
+		  {"chance": 0.15, "event": "lizal_patrol"}
 		],
 		"exits": [
 		  { "choice": "Push deeper", "leads_to": "CORE", "value": 1, "travel_text": "You wade through the ash, each step sinking slightly as you press further toward the core." },
@@ -1490,6 +1517,10 @@
 		  { "text": "The passage is narrow, the ceiling barely clearing your head." },
 		  { "text": "Somewhere ahead, heat pulses rhythmically through the stone.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 0.15, "event": "lizal_patrol"},
+		  {"chance": 0.07, "event": "drake_wounded"}
+		],
 		"exits": [
 		  { "choice": "Press through", "leads_to": "DEPTHS", "value": 1, "travel_text": "You squeeze through the low passage, the basalt walls brushing your shoulders before the cavern opens again." }
 		]
@@ -1525,8 +1556,11 @@
 	  {
 		"name": "Ruins",
 		"backdrop": "core_ruins3.png",
-		"entrances": ["DEPTHS"],
+		"entrances": ["DEPTHS","MINE"],
 		"arrival": {
+		  "MINE": [
+			"The rails lead you into the remains of a what might've been an unloading structure. The collapsed stone walls reveal the remains of a long forgotten settlement."
+		  ],
 		  "DEPTHS": [
 			"The cavern widens into the remains of a settlement — crumbling stone arches and collapsed walls half-buried under ash."
 		  ],
@@ -1538,7 +1572,7 @@
 			{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"description": [
-		  { "text": "The stonework is massive and crude — Troll construction, clearly." },
+		  { "text": "The stonework is massive and crude, decorated with tusked figures." },
 		  { "text": "Collapsed arches and doorframes jut from the ash at odd angles." },
 		  { "text": "Something was carved into the stonework, now too worn to read.", "chance": 0.5 },
 		  { "text": "A smell of old ash and something older still lingers here.", "chance": 0.3 }
@@ -1546,7 +1580,13 @@
 		"exits": [
 		  { "choice": "Cross the ruins", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pick through the collapsed stonework, ash rising around your feet, before emerging on the far side." },
 		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the ruins behind and continue deeper into the cavern." }
-		]
+		],
+		"action": {
+		  "name": "Read the inscription",
+		  "tooltip": "One section of stonework still has legible Troll script.",
+		  "event": "troll_inscription",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Sunken Statue",
@@ -1575,29 +1615,49 @@
 		"exits": [
 		  { "choice": "Skirt around", "leads_to": "CORE", "value": 1, "travel_text": "You skirt around the edge of the pool and walk past the statue, the heat building with every step." },
 		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You turn from the statue and find an opening on the side of the chamber and delve into it." }
-		]
+		],
+		"action": {
+		  "name": "Examine the statue",
+		  "tooltip": "Get a closer look at the ancient Troll statue from the ledge.",
+		  "disabled_tooltip": "You've already examined the statue.",
+		  "event": "sunken_statue_vigil",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Mineshaft",
 		"backdrop": "core_mine.png",
-		"entrances": ["DEPTHS"],
+		"entrances": ["DEPTHS","MINE"],
 		"arrival": {
+		  "MINE": [
+			"The mines stretch farther still, the mineshaft spliting off again as cavern widens."
+		  ],
 		  "DEPTHS": [
 			"You pass through a carved archway into a system of old mining shafts, the tunnels braced with scorched timber."
 		  ],
 		  "default": [
-			"Reinforced mining tunnels branch in several directions here, old Troll work adapted for new purposes."
+			"Mining tunnels branch in several directions here, very old infrastructure reclaimed for new purposes."
 		  ]
 		},
 		"description": [
-		  { "text": "The original tools are long gone, but the hacked-out walls remain." },
-		  { "text": "Newer markings cover the old ones — the Lizals have reclaimed this place." },
+		  { "text": "Newer markings cover the old ones — someone has reclaimed this place." },
 		  { "text": "The smell of something metallic and warm drifts from the deeper shafts.", "chance": 0.5 },
 		  { "text": "A distant clang of metal echoes from somewhere in the dark.", "chance": 0.4 }
 		],
+		"events": [
+		  {"chance": 0.07, "event": "drake_wounded"}
+		],
 		"exits": [
-		  { "choice": "Follow the main shaft", "leads_to": "DEPTHS", "value": 1, "travel_text": "You follow the main tunnel deeper, the walls closing in and the air growing heavier." }
-		]
+		  { "choice": "Press on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You press deeper into the tunnels, the walls closing in and the air growing heavier." },
+		  { "choice": "Follow the mineshaft", "leads_to": "MINE", "value": 1, "travel_text": "You follow the cart rails into a tunnel, delving deeper into the mines." }
+		],
+		"action": {
+		  "name": "Mine for ore",
+		  "tooltip": "Pick up an ancient pickaxe and try to mine a seam for treasure.",
+		  "disabled_tooltip": "Nothing left to mine with.",
+		  "event": "mineshaft_depths",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Hot Springs",
@@ -1638,12 +1698,15 @@
 		"entrances": ["DEPTHS", "TOWN"],
 		"encounter_rate": 0,
 		"backdrop": "core_lizal2.png",
+		"events": [
+		  {"chance": 1, "event": "enter_lizal_town"}
+		],
 		"arrival": {
 		  "DEPTHS": [
 			"The tunnels open abruptly onto a wide, low cavern — and you realize you are standing at the edge of a settlement."
 		  ],
 		  "TOWN": [
-			"You make your way back through the carved stone gates of Lizal-Town, the sound of the settlement rising around you."
+			"The tunnels end in a wide, low cavern — and you realize the Lizardmen have led you to a full-blown settlement."
 		  ],
 		  "default": [
 			"Lizal-Town fills the wide cavern, its low stone structures and firelit passages alive with the movement of Lizal inhabitants."
@@ -1668,10 +1731,13 @@
 		  "name": "Cavern Exit",
 		  "backdrop": "core_exit2.png",
 		  "type": "EXIT",
-		  "entrances": ["CORE","DEPTHS"],
+		  "entrances": ["CORE","DEPTHS","MINE"],
 		  "boss": "Infrit",
 		  "encounter_rate": 0,
 		  "arrival": {
+			"MINE": [
+			  "The rails abruptly end at the entrance of a chamber where dull light streams down from an exit above."
+			],
 			"DEPTHS": [
 			  "The tunnel opens up into a chamber where dull light streams down from an exit above."
 			],

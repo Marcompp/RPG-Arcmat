@@ -143,7 +143,7 @@ func start_combat(p, e_or_array):
 	calc        = CombatCalculator.new(rng, element_db)
 	status_sys  = CombatStatusSystem.new(status_effects, cooldowns, status_db, player, enemies, _get_display_name)
 	menu        = CombatMenuBuilder.new()
-	trinket_systems["player"] = TrinketSystem.new(p, trinkets_db, status_effects)
+	trinket_systems["player"] = TrinketSystem.new(p, trinkets_db, status_effects, "player")
 	status_sys.trinket_systems = trinket_systems
 
 	p.set_stat_multipliers({})
@@ -171,7 +171,7 @@ func start_combat(p, e_or_array):
 				cooldowns[key][skill] = skill_data["startup"]
 
 		if not e.get_trinkets().is_empty():
-			trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects)
+			trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects, key)
 
 	MyInputRouter.push(_handle_combat_input, "combat")
 
@@ -291,6 +291,7 @@ func _execute_start_skills():
 		await wait_for_continue()
 
 func _execute_trinket_start_skills():
+	_tsys("player").process_battle_start()
 	var skills = _tsys("player").get_battle_start_skills()
 	if skills.is_empty():
 		return
@@ -540,7 +541,9 @@ func _do_attack(actor, who: String, target):
 		if ms: ms.on_miss()
 		_emit_trinket_states()
 		return
-	var dmg      = calc.calculate_damage(actor, target)
+	var calc_result = calc.calculate_damage(actor, target)
+	var dmg = calc_result[0]
+	var critical = calc_result[1]
 	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
 
 	var attack_element = weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral"
@@ -581,9 +584,12 @@ func _do_attack(actor, who: String, target):
 		_emit_trinket_states()
 		var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
 		var down_msg = _notify_if_died(target)
+				
 		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
 				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" 
 				else ("[color=brown]Ineffective![/color] " if elem_reaction == "ineffective" else ""))
+		if critical:
+			prefix = "[color=orange]Critical![/color][wait=0.1]\n" + prefix
 		MyEventBus.emit("continue_text", {
 			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s%s" % [dmg, down_msg, bandana_msg],
 			"linebreak": false

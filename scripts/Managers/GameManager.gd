@@ -530,10 +530,16 @@ func _build_start_combat_data(monster) -> Array:
 	if not monster.has("Enemies"):
 		return [monster]
 	var enemy_list: Array = []
-	for name in monster["Enemies"]:
+	for i in range(len(monster["Enemies"])):
+		var name = monster["Enemies"][i]
 		for m in monster_db:
 			if m.get("Name", "") == name:
-				enemy_list.append(m)
+				var m_data = m.duplicate()
+				if monster.has("Genders"):
+					m_data["Gender"] = monster["Genders"][i]
+				if monster.has("Lvls"):
+					m_data["Lvl"] = monster["Lvls"][i]
+				enemy_list.append(m_data)
 				break
 	return enemy_list
 
@@ -550,12 +556,16 @@ func start_combat(data):
 		)	
 
 	var level_override = data.get("level", -1)
+	var overrides: Dictionary = data.get("overrides", {})
 	var enemy_chars: Array = []
 	for i in range(enemy_data_list.size()):
 		var enemy_data = enemy_data_list[i]
-		if level_override > 0:
+		if level_override > 0 or not overrides.is_empty():
 			enemy_data = enemy_data.duplicate()
-			enemy_data["Lvl"] = level_override
+			if level_override > 0:
+				enemy_data["Lvl"] = level_override
+			for key in overrides:
+				enemy_data[key] = overrides[key]
 		var enmy = Character.new(enemy_data, armor_db, weapon_db, rng)
 		game_state.set_value("enemy_%d" % i, enmy)
 		enemy_chars.append(enmy)

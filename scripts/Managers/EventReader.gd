@@ -253,6 +253,8 @@ func _run_combat(step: Dictionary) -> void:
 		combat_data["suppress_defeat_game_over"] = true
 	if step.has("level"):
 		combat_data["level"] = step["level"]
+	if step.has("overrides"):
+		combat_data["overrides"] = step["overrides"]
 	MyEventBus.emit("start_combat", combat_data)
 	var result: Dictionary = await MyEventBus.await_event("post_combat")
 
