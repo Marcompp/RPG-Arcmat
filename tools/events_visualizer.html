@@ -136,10 +136,16 @@
   details summary { cursor:pointer; color:var(--text-muted); font-size:11px; padding:3px 0; list-style:none; }
   details summary::before { content:'▶ '; font-size:9px; }
   details[open] summary::before { content:'▼ '; }
-  .step-row { font-size:10px; padding:1px 0; display:flex; gap:4px; }
+  .step-row { font-size:10px; padding:1px 0; display:flex; gap:4px; align-items:baseline; }
   .step-t { font-family:monospace; font-weight:700; flex-shrink:0; }
   .step-d { color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px; }
   .step-branch { color:#3a5a6a; font-size:10px; padding:1px 0; font-style:italic; }
+  .step-text-block { display:flex; flex-direction:column; gap:3px; padding:2px 0; }
+  .step-text-content {
+    font-size:11px; color:#cbd5e1; white-space:pre-wrap; word-break:break-word;
+    line-height:1.45; padding:4px 8px; background:#0d1520; border-radius:3px;
+    border-left:2px solid #1e4a2e;
+  }
   hr { border:none; border-top:1px solid var(--border); margin:8px 0; }
 </style>
 </head>
@@ -579,10 +585,17 @@ function renderStepOutline(steps, depth) {
     const t = s.type || '?';
     const c = STEP_COLORS[t] || '#64748b';
     const d = stepDetail(s);
-    html += `<div class="step-row" style="padding-left:${pad}px">
-      <span class="step-t" style="color:${c}">${esc(t)}</span>
-      ${d ? `<span class="step-d">${esc(d)}</span>` : ''}
-    </div>`;
+    if (t === 'text' && d) {
+      html += `<div class="step-text-block" style="padding-left:${pad}px">
+        <span class="step-t" style="color:${c}">text</span>
+        <div class="step-text-content">${esc(d)}</div>
+      </div>`;
+    } else {
+      html += `<div class="step-row" style="padding-left:${pad}px">
+        <span class="step-t" style="color:${c}">${esc(t)}</span>
+        ${d ? `<span class="step-d">${esc(d)}</span>` : ''}
+      </div>`;
+    }
     if (s.branches) for (const [k, sub] of Object.entries(s.branches)) {
       html += `<div class="step-branch" style="padding-left:${pad+8}px">↳ ${esc(k)}</div>`;
       html += renderStepOutline(sub, depth+1);
@@ -602,7 +615,7 @@ function renderStepOutline(steps, depth) {
 function stepDetail(s) {
   if (!s) return '';
   switch (s.type) {
-    case 'text':        return (s.text||'').replace(/\[.*?\]/g,'').slice(0,50);
+    case 'text':        return (s.text||'').replace(/\[.*?\]/g,'');
     case 'combat':      return s.enemy||'';
     case 'event':       return s.event||'';
     case 'choice':      return s.header||'';

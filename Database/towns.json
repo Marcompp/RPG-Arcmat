@@ -58,9 +58,9 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"Backdrop": "clothier.png",
-				"WelcomeText": "A tall figure in an immaculate doublet sweeps toward you:\n\n\"Welcome to Everyman's Clothier — a name I had absolutely no hand in choosing.\"\n\"What can I do for you?\"",
-				"OtherText": ["\"The chainmail is functional. That is the most generous thing I can say about it.\"", "\"The leather boots I did stitch myself. Small mercies.\"", "\"If practical is what you're after, I do have that. Regrettably.\"", "\"This isn't quite what I envisioned for my career. But here we are.\""],
-				"CancelText": ["\"Browsing. Of course.\""],
+				"WelcomeText": "A tall figure in an immaculate doublet sweeps toward you, arms wide:\n\n\"Welcome to Everyman's Clothier — where everyone can shine, darling!\"\n\"What can I do for you?\"",
+				"OtherText": ["\"You look radiant, darling! Not as radiant as moi, of course, but still.\"", "\"The right accessory can bring out the true beauty in anyone.\"", "\"Good choice. You'll look fabulous in that, darling!\"", "\"Looking good is a universal right, darling. No need to be shy.\"", "\"Hmm, yes… even you could look nice if you accessorise right.\""],
+				"CancelText": ["\"Just browsing? Perfectly fine, darling — the beauty will find you.\""],
 				"ambience": [
 					"Despite the thoroughly practical stock, the display cases are immaculate.",
 					"The shopkeeper is dressed considerably better than anything they sell.",
@@ -89,7 +89,11 @@
 			"At the end of the plateau, lies Lantern's Reach, the last settlement on the foothills of Mount Legory."
 		],
 		"ambience": [
-			
+			"The wind off Mount Legory cuts through the settlement, colder here than anywhere on the plateau.",
+			"Climbers check their packs outside the guild before heading up the trail.",
+			"The forge at The Last Anvil burns day and night — you can feel the warmth from the street.",
+			"A notice board outside the guild is covered in curling handwritten requests, half of them old.",
+			"The place has the feel of somewhere people pass through rather than stay."
 		],
 		"Backdrop": "lantern_reach.png",
 		"Music": "LanternReach_placeholder.mp3",
@@ -98,7 +102,8 @@
 				"Name": "Kacha Outpost",
 				"Kind": "Shop",
 				"ShopType": "Item",
-				"WelcomeText":"",
+				"WelcomeText":"A familiar blue-haired woman waves at you from behind the counter:\n\n\"Welcome to Kacha Outpost, ka-ching!\"\n\"We've got the basics — everything you need before the climb, ka-ching!\"",
+				"OtherText": ["\"Be sure to stock up before heading up that mountain, ka-ching!\"", "\"Welcome back, ka-ching! Ready for another run?\"", "\"Is there anything else I can help you with? Ka-ching!\""],
 				"PurchaseText": ["\"Ka-ching!\"\n\n\"Can I help you with something else?\""],
 				"Stock": {
 					"Potion":30,
@@ -181,8 +186,8 @@
 				"Kind": "Shop",
 				"ShopType": "Equip",
 				"WelcomeText":"A scowling heavyset woman greets you at the door:\n\n\"This is Satin Threads.\"\n\"Talk to me if you want to buy something, or if you need something tailor-made.\"",
-				"OtherText": ["\"We don't want window shopers here!\"", "\"Here again, brat?\"", "\"You just going to look, or are you going to buy something?\""],
-				"CancelText": ["\"We don't want window shopers here!\"\n\n\"Buy something, or get out.\""],
+				"OtherText": ["\"We don't want window shoppers here!\"", "\"Here again, brat?\"", "\"You just going to look, or are you going to buy something?\""],
+				"CancelText": ["\"We don't want window shoppers here!\"\n\n\"Buy something, or get out.\""],
 				"ambience":["A large selection of fine clothing lines the walls.",
 							"The shopkeeper glares at you.",
 							"\"We get more than enough spoiled brats around here.\""],
@@ -228,13 +233,15 @@
 		"Type": "Town",
 		"Backdrop": "sundown_circus.png",
 		"arrival": [
-			"The circus sprawls around you, loud and bright against the dark plateau.",
-			"You're inside. Torchlight flickers off sequined costumes and the porcelain masks of performers."
+			"Striped red and purple tents rise out of the dark plateau, torchlight spilling between them. A calliope plays somewhere inside — almost a recognisable tune, but not quite.",
+			"You push through the entrance flap. The smell of sawdust and burning oil hits you first. Performers in sequined costumes and porcelain masks move between the tents without looking at you."
 		],
 		"ambience": [
-			"Somewhere nearby, something large shifts in a cage.",
-			"A child in a pointed hat watches you from between two tents.",
-			"The calliope wheezes and starts a new tune."
+			"The calliope starts a new tune. It's slightly off-key, in a way that's hard to place.",
+			"Somewhere nearby, something large shifts in a cage. It doesn't make another sound.",
+			"A performer in a white mask watches you from across the lane. When you look back, they're gone.",
+			"The sawdust underfoot muffles your footsteps entirely.",
+			"A child in a pointed hat stands between two tents, staring at you with complete stillness."
 		],
 		"ExitTxt": "You duck back through the entrance flap. The plateau stretches out ahead, quiet after the noise inside.",
 		"Next": "Sundown Plateau",
@@ -244,11 +251,100 @@
 		"Name": "Lizal-Town",
 		"Backdrop": "core_lizal2.png",
 		"Type": "Town",
+		"arrival": [
+			"The blistering heat of the cavern drops by a degree — still sweltering, but breathable. Crude tents of bone and dyed leather cluster around the glow of lava pools. Every Lizal you can see has already noticed you.",
+			"You step into Lizal-Town. The settlement is quiet — not empty, but watchful. The Lizals don't move to stop you. They don't move at all."
+		],
+		"ambience": [
+			"Every pole and frame here is fashioned from bone or salvaged metal — nothing wasted.",
+			"Drakes mill about in a fenced pen at the settlement's edge, watched over by a Lizal with a long-handled prod.",
+			"The roar of lava falls carries from somewhere deeper in the cavern.",
+			"A group of Lizals hunkers around a fire. They look up as you pass, then look away.",
+			"The torchlight here is warm and low, a deliberate counterpoint to the furnace beyond."
+		],
+		"Shops": {},
 		"Next": "Core Cavern"
 	},
 	"Magical Academy of Arcward": {
 		"Name": "Magical Academy of Arcward",
 		"Type": "Town",
-		"Next": "Lost Swamp"
+		"Next": "Lost Swamp",
+		"Shops": {
+			"Alchemy Class": {
+				"Name": "Alchemy Class",
+				"Kind": "Shop",
+				"ShopType": "Item",
+				"WelcomeText": "A man in a thick mantle with many pockets peers at you over a pair of thick glasses, his moss-green hair in complete disarray:\n\n\"Ah. A customer. Funding is funding, I suppose.\"\n\"Take what you need and leave the gold on the counter.\"",
+				"OtherText": ["\"I'm in the middle of something. Don't dawdle.\"", "\"The ethers are standard-grade. They'll do what you need.\"", "\"Is there something else, or are you just standing there?\""],
+				"PurchaseText": ["\"Good. Leave the rest on the counter.\"\n\n\"Anything else?\""],
+				"CancelText": ["\"Then why are you still here?\""],
+				"ambience": [
+					"The classroom smells sharply of reagents and something faintly sulphurous.",
+					"The professor doesn't look up from his notes as you browse.",
+					"Handwritten labels in a cramped script identify every bottle on the shelf."
+				],
+				"Stock": {
+					"Potion": 30,
+					"Ether": 20,
+					"Medicine": 30,
+					"Bomb": 5
+				}
+			},
+			"Spellcraft Class": {
+				"Name": "Spellcraft Class",
+				"Kind": "Shop",
+				"ShopType": "Spell",
+				"WelcomeText": "A woman in neat academic robes looks up from a stack of marked papers and smiles warmly:\n\n\"Hello there — Spellcraft is always open to visitors.\"\n\"Do let me know if you have questions about any of the texts. That's what I'm here for.\"",
+				"OtherText": ["\"What element are you studying? I might be able to point you to the right text.\"", "\"Take your time — there's no rush here.\"", "\"The Ice tome is challenging, but very rewarding once it clicks.\"", "\"I'm proud of every student who walks through this door. Even the ones who aren't students yet.\""],
+				"PurchaseText": ["\"Excellent choice. Study it carefully — there's more in there than most people find on a first read.\"\n\n\"Anything else?\""],
+				"CancelText": ["\"Of course. Come back any time — the door is always open.\""],
+				"ambience": [
+					"Spell books are arranged by element on tall wooden shelves, each section clearly labelled.",
+					"Student annotations are visible in the margins of the display copies.",
+					"The professor returns to her marking with quiet focus."
+				],
+				"Stock": {
+					"Book of Thunder": 1,
+					"Book of Ice": 1,
+					"Book of Light": 1,
+					"Book of Dark": 1
+				}
+			},
+			"Combat Class": {
+				"Name": "Combat Class",
+				"Kind": "Shop",
+				"ShopType": "Skill",
+				"WelcomeText": "A woman in a witch's hat and miniskirt spins to face you, brandishing a colorful scepter:\n\n\"Magical girl Ziva here!\"\n\"Here to train? Or just here to bask in my radiance? Either way — welcome!\"",
+				"OtherText": ["\"Every technique I teach, I perfected in actual combat. Ka-pow!\"", "\"Don't let the hat fool you — these scrolls are serious business. Mostly.\"", "\"A true warrior looks fantastic while they fight. That's just science.\"", "\"I once defeated seventeen demons before breakfast. The scrolls help!\""],
+				"PurchaseText": ["\"Yes! Perfect choice! Train hard and you'll be unstoppable!\"\n\n\"Anything else?\""],
+				"CancelText": ["\"No worries! The offer stands whenever you're ready, darling!\""],
+				"ambience": [
+					"Practice dummies line the walls, several of them visibly worse for wear.",
+					"A rack of sparring equipment gleams near the entrance.",
+					"The instructor is mid-demonstration on a dummy as you enter, narrating her own technique."
+				],
+				"Stock": {
+					"Block Scroll": 1,
+					"Dodge Scroll": 1,
+					"Combo Scroll": 1,
+					"First Aid Scroll": 1
+				}
+			},
+			"Runecraft Class": {
+				"Name": "Runecraft Class",
+				"Kind": "Shop",
+				"ShopType": "Trinket",
+				"WelcomeText": "A student in a rumpled uniform looks up from a workbench covered in half-finished projects:\n\n\"Oh — um, welcome. These are discarded student projects. Professor said we could sell them.\"\n\"They all work. Mostly.\"",
+				"OtherText": ["\"I made a few of those myself, actually. The failures aren't for sale.\"", "\"Some of these came from second-years. They're... ambitious.\"", "\"Go ahead and browse. I've got revisions due.\""],
+				"PurchaseText": ["\"Great. Good luck with it.\"\n\n\"Anything else?\""],
+				"CancelText": ["\"Right. I'll be here if you change your mind.\""],
+				"ambience": [
+					"The shelves are cluttered with labelled trinkets in various states of completion.",
+					"Faint rune-light pulses from a few of the items on display.",
+					"The student goes back to scribbling notes the moment you stop talking to them."
+				],
+				"Stock": {}
+			}
+		}
 	}
 }

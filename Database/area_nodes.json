@@ -80,7 +80,8 @@
 		{"chance": 0.1, "event": "red_apple"},
 		{"chance": 0.1, "event": "apple_orchard"},
 		{"chance": 0.1, "event": "find_mushroom"},
-		{"chance": 0.1, "event": "golden_apple"}
+		{"chance": 0.1, "event": "golden_apple"},
+		{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 	  "arrival": {
 		"FOREST": [
@@ -246,7 +247,8 @@
 		{"chance": 0.1, "event": "sword_in_stone"},
 		{"chance": 0.1, "event": "apple_orchard"},
 		{"chance": 0.2, "event": "find_mushroom"},
-		{"chance": 0.1, "event": "gold_chest"}
+		{"chance": 0.1, "event": "gold_chest"},
+		{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 	  "action": {
 		"name": "Pick an apple",
@@ -450,7 +452,8 @@
 		"events": [
 		  {"chance": 0.2, "event": "cultist_patrol"},
 		  {"chance": 0.2, "event": "bat_roost"},
-		  {"chance": 0.15, "event": "cave_lost"}
+		  {"chance": 0.15, "event": "cave_lost"},
+			{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
@@ -481,7 +484,8 @@
 		],
 		"events": [
 		  {"chance": 0.3, "event": "bat_roost"},
-		  {"chance": 0.2, "event": "crystal_cluster"}
+		  {"chance": 0.2, "event": "crystal_cluster"},
+		{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
@@ -515,7 +519,8 @@
 		"events": [
 		  {"chance": 0.3, "event": "cultist_patrol"},
 		  {"chance": 0.2, "event": "crystal_cluster"},
-		  {"chance": 0.2, "event": "bat_roost"}
+		  {"chance": 0.2, "event": "bat_roost"},
+		  {"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
@@ -582,7 +587,8 @@
 		  { "text": "The air feels strangely fresh here.", "chance": 0.5 }
 		],
 		"events": [
-		  {"chance": 0.5, "event": "wounded_spirit"}
+		  {"chance": 0.5, "event": "wounded_spirit"},
+		  {"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the glowing spring behind and continue along the passage, the hum of crystal light surrounding you." }
@@ -617,6 +623,9 @@
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You step away from the altar and continue deeper into the cave, the passage narrowing ahead." }
+		],
+		"events": [
+			{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"action": {
 			"name": "Approach the altar",
@@ -693,7 +702,7 @@
 		]
 	  },
 	  {
-		"name": "Dead End",
+		"name": "Dead End Tunnel",
 	  	"backdrop": "light_dead_end.png",
 		"entrances": ["TUNNEL"],
 	  	"condition": {
@@ -712,7 +721,8 @@
 		  { "text": "The silence is absolute." }
 		],
 		"events": [
-		  {"chance": 0.7, "event": "renegade_pack"}
+		  {"chance": 0.7, "event": "renegade_pack"},
+		  {"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
@@ -857,7 +867,8 @@
 			  { "text": "A faint draft moves through one of the passages." }
 			],
 			"events": [
-			  {"chance": 0.55, "event": "sundown_fork_markings"}
+			  {"chance": 0.4, "event": "sundown_bones_in_wall"},
+			  {"chance": 0.4, "event": "sundown_tunnel_seep"}
 			],
 			"action": {
 			  "name": "Search Ossuary",
@@ -923,13 +934,13 @@
 			  { "text": "Offerings—now little more than dust—rest at its base." },
 			  { "text": "You feel a faint unease standing here.", "chance": 0.5 }
 			],
-			"encounter_rate":0,
 			"events": [
 			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
 			  {"chance": 0.2, "event": "travelling_item_merchant"},
 			  {"chance": 0.2, "event": "travelling_healer"},
 			  {"chance": 0.2, "event": "travelling_trainer"},
-			  {"chance": 0.1, "event": "travelling_bo"}
+			  {"chance": 0.1, "event": "travelling_bo"},
+			  {"chance": 0.05,"event": "region_treasure_chest"}
 			],
 			"action": {
 			  "name": "Examine the altar",
@@ -1390,7 +1401,11 @@
 	  },
 	  {
 		"name": "Obsidian Chamber",
+		"backdrop":"core_obsidian.png",
 		"entrances": ["DEPTHS"],
+		"condition": {
+			"visit_count":{"max":0}
+		  },
 		"arrival": {
 		  "DEPTHS": [
 			"The cavern opens into a chamber of smooth, black obsidian reflecting the glow of molten light."
@@ -1411,13 +1426,14 @@
 	  },
 	  {
 		"name": "Ash Field",
+		"backdrop":"core_ash.png",
 		"entrances": ["DEPTHS", "CORE"],
 		"arrival": {
 		  "DEPTHS": [
 			"The ground softens into thick ash, each step sinking slightly."
 		  ],
 		  "CORE": [
-			"You pull away from the core, the ash dulling the glow of the magma behind you."
+			"You reach a patch of ash blanketing the ground, the glow of the magma behind you."
 		  ],
 		  "default": [
 			"A field of deep ash stretches around you, the ground unstable and the air thick with dry heat."
@@ -1438,10 +1454,13 @@
 		"entrances": ["CORE"],
 		"arrival": {
 		  "CORE": [
-			"You stand before the mountain's heart—a vast chamber of churning magma and blinding light."
+			"The vast chamber stretches on as you reach a platform overlooking the heart of the mountain."
+		  ],
+		  "DEPTHS": [
+			"You reach a opening at the mountain's heart—a vast chamber of churning magma and blinding light."
 		  ],
 		  "default": [
-			"You stand at the heart of the cavern, surrounded by churning magma and the blinding light of the core."
+			"You stand at the heart of the mountain, surrounded by churning magma and the blinding light of the core."
 		  ]
 		},
 		"description": [
@@ -1450,10 +1469,223 @@
 		  { "text": "The air vibrates with raw, destructive energy.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Step closer", "leads_to": "CORE", "value": 1, "travel_text": "You push forward despite the overwhelming heat, drawn toward the churning magma at the mountain's heart." },
-		  { "choice": "Retreat", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pull back from the core, retreating toward the outer chambers as the roar of magma fades slightly behind you." }
+		  { "choice": "Press on", "leads_to": "CORE", "value": 1, "travel_text": "You push forward despite the overwhelming heat, drawn toward the churning magma at the mountain's heart." },
+		  { "choice": "Find another way", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pull back from the core, retreating into an opening on the side of the chamber as the roar of magma fades slightly behind you." }
 		]
-	  }
+	  },
+	  {
+		"name": "Tunnel",
+		"backdrop": "core_tunnel.png",
+		"entrances": ["DEPTHS"],
+		"arrival": {
+		  "DEPTHS": [
+			"The passage narrows into a low tunnel, forcing you to duck as the walls press close on either side."
+		  ],
+		  "default": [
+			"A low, winding tunnel cuts through the basalt here, the air hot and close."
+		  ]
+		},
+		"description": [
+		  { "text": "The tunnel walls are scored with old chisel marks." },
+		  { "text": "The passage is narrow, the ceiling barely clearing your head." },
+		  { "text": "Somewhere ahead, heat pulses rhythmically through the stone.", "chance": 0.4 }
+		],
+		"exits": [
+		  { "choice": "Press through", "leads_to": "DEPTHS", "value": 1, "travel_text": "You squeeze through the low passage, the basalt walls brushing your shoulders before the cavern opens again." }
+		]
+	  },
+	  {
+		"name": "Lava Falls",
+		"backdrop": "core_fall.png",
+		"condition": {
+			"no_repeat":true
+		  },
+		"entrances": ["DEPTHS"],
+		"arrival": {
+		  "DEPTHS": [
+			  "A cascade of molten rock blocks your path — a waterfall of lava pouring into a glowing pool below."
+		],
+		"default": [
+			  "A roar of cascading molten rock fills the chamber — a waterfall of lava pouring into a glowing pool below.",
+			"A curtain of lava spills from a high ledge into a churning pool, casting everything in violent orange light."
+		  ]
+		},
+		"events": [
+			{"chance": 0.05,"event": "region_treasure_chest"}
+		],
+		"description": [
+		  { "text": "The lava falls in a steady curtain, impossibly bright." },
+		  { "text": "The roar is deafening up close, drowning out your thoughts." },
+		  { "text": "Flecks of molten rock drift upward on the heat.", "chance": 0.5 }
+		],
+		"exits": [
+		  { "choice": "Find another way", "leads_to": "DEPTHS", "value": 1, "travel_text": "You back away from the roaring falls, the light fading as you follow a different tunnel." }
+		]
+	  },
+	  {
+		"name": "Ruins",
+		"backdrop": "core_ruins3.png",
+		"entrances": ["DEPTHS"],
+		"arrival": {
+		  "DEPTHS": [
+			"The cavern widens into the remains of a settlement — crumbling stone arches and collapsed walls half-buried under ash."
+		  ],
+		  "default": [
+			"Broken stone structures rise from the ash here, the remnants of a civilization long abandoned."
+		  ]
+		},
+		"events": [
+			{"chance": 0.05,"event": "region_treasure_chest"}
+		],
+		"description": [
+		  { "text": "The stonework is massive and crude — Troll construction, clearly." },
+		  { "text": "Collapsed arches and doorframes jut from the ash at odd angles." },
+		  { "text": "Something was carved into the stonework, now too worn to read.", "chance": 0.5 },
+		  { "text": "A smell of old ash and something older still lingers here.", "chance": 0.3 }
+		],
+		"exits": [
+		  { "choice": "Cross the ruins", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pick through the collapsed stonework, ash rising around your feet, before emerging on the far side." },
+		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the ruins behind and continue deeper into the cavern." }
+		]
+	  },
+	  {
+		"name": "Sunken Statue",
+		"backdrop": "core_statue8.png",
+		"condition": {
+			"visit_count":{"max":0}
+		  },
+		"entrances": ["DEPTHS", "CORE"],
+		"arrival": {
+		  "DEPTHS": [
+			"The cavern opens onto a vast ledge overlooking a sea of slow lava — and rising from it, a colossal stone figure, half-submerged."
+		  ],
+		  "CORE": [
+			"Deeper into the chamber, you spot a huge tusked statue, half tipped over into a pool of lava."
+		  ],
+		  "default": [
+			"A giant stone-and-metal statue rises from the lava here, its lower half long since submerged in the slow creep of molten rock.",
+			"The massive statue's tusked form looms, it's lower half submerged in molten rock."
+		  ]
+		},
+		"description": [
+		  { "text": "The tusked statue is ancient — likely carved by Troll hands, enormous and rough-hewn." },
+		  { "text": "Its upper half still reaches above the lava, one arm raised as if in warning." },
+		  { "text": "The lava creeps slowly around the base, swallowing more each year.", "chance": 0.4 }
+		],
+		"exits": [
+		  { "choice": "Skirt around", "leads_to": "CORE", "value": 1, "travel_text": "You skirt around the edge of the pool and walk past the statue, the heat building with every step." },
+		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You turn from the statue and find an opening on the side of the chamber and delve into it." }
+		]
+	  },
+	  {
+		"name": "Mineshaft",
+		"backdrop": "core_mine.png",
+		"entrances": ["DEPTHS"],
+		"arrival": {
+		  "DEPTHS": [
+			"You pass through a carved archway into a system of old mining shafts, the tunnels braced with scorched timber."
+		  ],
+		  "default": [
+			"Reinforced mining tunnels branch in several directions here, old Troll work adapted for new purposes."
+		  ]
+		},
+		"description": [
+		  { "text": "The original tools are long gone, but the hacked-out walls remain." },
+		  { "text": "Newer markings cover the old ones — the Lizals have reclaimed this place." },
+		  { "text": "The smell of something metallic and warm drifts from the deeper shafts.", "chance": 0.5 },
+		  { "text": "A distant clang of metal echoes from somewhere in the dark.", "chance": 0.4 }
+		],
+		"exits": [
+		  { "choice": "Follow the main shaft", "leads_to": "DEPTHS", "value": 1, "travel_text": "You follow the main tunnel deeper, the walls closing in and the air growing heavier." }
+		]
+	  },
+	  {
+		"name": "Hot Springs",
+		"entrances": ["DEPTHS"],
+		"condition": {
+			"visit_count":{"max":0}
+		  },
+		"encounter_rate": 0,
+		"backdrop": "core_spring.png",
+		"arrival": {
+		  "DEPTHS": [
+			"The path opens beside a series of glowing mineral pools, steam rising from water heated by the mountain itself."
+		  ],
+		  "default": [
+			"Steaming pools of mineral water sit in shallow basins of pale rock, fed by heat from deep below."
+		  ]
+		},
+		"description": [
+		  { "text": "The water glows faintly orange from the mineral content." },
+		  { "text": "Steam drifts across the pools in slow, curling waves." },
+		  { "text": "The air here is damp rather than dry, a rare relief from the cavern's usual heat.", "chance": 0.5 },
+		  { "text": "The pools bubble gently, warm but not scalding at the edges.", "chance": 0.4 }
+		],
+		"exits": [
+		  { "choice": "Continue deeper", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the warmth of the springs behind and press further into the cavern." }
+		],
+		"action": {
+		  "name": "Soak in the springs",
+		  "tooltip": "Rest in the hot springs to recover HP and MP.",
+		  "event": "hot_springs_rest"
+		}
+	  },
+	  {
+		"name": "Lizal-Town",
+		"condition": {
+			"visit_count":{"max":0}
+		  },
+		"entrances": ["DEPTHS", "TOWN"],
+		"encounter_rate": 0,
+		"backdrop": "core_lizal2.png",
+		"arrival": {
+		  "DEPTHS": [
+			"The tunnels open abruptly onto a wide, low cavern — and you realize you are standing at the edge of a settlement."
+		  ],
+		  "TOWN": [
+			"You make your way back through the carved stone gates of Lizal-Town, the sound of the settlement rising around you."
+		  ],
+		  "default": [
+			"Lizal-Town fills the wide cavern, its low stone structures and firelit passages alive with the movement of Lizal inhabitants."
+		  ]
+		},
+		"description": [
+		  { "text": "Low stone buildings line the paths, carved directly from the cavern walls." },
+		  { "text": "Lizals move through the settlement with purpose, sparing you wary looks." },
+		  { "text": "The smell of cooked meat and hot metal drifts from deeper in the settlement.", "chance": 0.5 },
+		  { "text": "Firelight flickers from a dozen carved alcoves.", "chance": 0.4 }
+		],
+		"exits": [
+		  { "choice": "Return to the cavern", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the settlement behind and return to the dark passages of the Core Cavern." }
+		],
+		"action": {
+		  "name": "Enter the town",
+		  "tooltip": "Visit Lizal-Town.",
+		  "event": "enter_lizal_town"
+		}
+	  },
+		{
+		  "name": "Cavern Exit",
+		  "backdrop": "core_exit2.png",
+		  "type": "EXIT",
+		  "entrances": ["CORE","DEPTHS"],
+		  "boss": "Infrit",
+		  "encounter_rate": 0,
+		  "arrival": {
+			"DEPTHS": [
+			  "The tunnel opens up into a chamber where dull light streams down from an exit above."
+			],
+			"CORE": [
+			  "At the very end of the chamber, you find an opening from which dull light pours down from above."
+			]
+		  },
+		  "description": [
+			{ "text": "You feel as though as you are being watched." }
+		  ],
+		  "exits": [
+			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
+		  ]
+		}
 	],
 	"Lost Swamp": [
 	  {

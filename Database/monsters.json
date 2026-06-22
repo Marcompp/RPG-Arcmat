@@ -410,6 +410,23 @@
 	"Rarity": 5
   },
   {
+	"Name": "Drake",
+	"Element": "Fire",
+	"Lvl": 10,
+	"Stats": {"HP":"B","MP":"D","Str":"B","Int":"D","Dex":"D","Agi":"D","Lck":"E","Def":"D"},
+	"Weapon": null,
+	"Drops": {
+		"Potion": 40,
+		"Ether": 20,
+		"Dragon Blade": 5
+	},
+	"Gold":90,
+	"Skills": ["Bite"],
+	"Spells": [],
+	"Location": "Core Cavern",
+	"Rarity": 5
+  },
+  {
 	"Name": "Lizardman",
 	"Element": "Water",
 	"Lvl": 11,

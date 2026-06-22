@@ -33,7 +33,7 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 | **Gloria Merrill** | Female | Clothier | Mugell Town | Heavyset, scowling; former captain of the Arcward militia. *Voice:* "This is Satin Threads. Talk to me if you want to buy something." / "Here again, brat?" — contemptuous; no pleasantries; assumes the worst of every customer; insults are specific. |
 | **The Blacksmith** | Male | Weapons & armor | Lantern's Reach | Gruff; forge glow and constant hammering; defined by his work, not his words. *Voice:* "You lookin' for something?" / "I'm busy. Tell me if you gonna buy something." *(doesn't even look up from his work)* — sentences short, answers shorter; barely looks up unless you buy something. |
 | **Mother Orielli** | Female | Cult leader | Caves of Light | White and gold robes; charismatic; uses Light and Heal magic. *Voice:* "The light does not give itself freely. It must be earned. Through offering. Through devotion. Through sacrifice willingly made." / "You are not lost. You came here with purpose." / "Then go. The light will find you in its own time." — unhurried, measured; reads people before speaking; never raises her voice; certainty as weapon. |
-| **Verath** | ??? | Ancient archon (deceased) | Sundown Catacombs | Scholar-turned-necromancer; spiral inscriptions throughout the Sanctum record a progression: Scholar → Archon. Came to learn from the old dead; left having learned to command them. *Final inscription:* "The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember." |
+| **Count Bomfim the Third** | ??? | Bertunian noble / cultist / necromancer (deceased) | Sundown Catacombs | An arrogant, yet faint-hearted noble who was part of a necromantic cult that wanted to harness the undead-rising power of the Sundown Plateau for their own ends. They wanted an undead army to conquer the continent. They died to the first skeleton they animated. Dramatic voice, pompous, arrogant, and stupid in the beginning, overdramatic and harried in his last entry |
 | **Fenwick** | Male | Lost climber | Mount Legory | Journal found in the Mountain Cave; disappeared near the summit. *Final entry:* "Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—" (ends there). Practical, terse log voice. |
 | **Carlon** | Male | Final boss | Arcmat Ruins | The Mathemagician; legendary Archmage; founder of Arcward; went missing several centuries ago; wields the Geometry Staff; coldly intellectual; Level 20. |
 | **The Apple Witch** | Female | Hermit | Apple Woods cabin | Opens the door before you knock; warns of the Werewolf; trades potions; offers shelter. *Voice:* "I'm always happy to host a visitor." / "Remedies brewed from the woods themselves — mixed them myself." / "Beware, a Werewolf roams these woods. A man, once. A hunter." / "Mind yourself out there." — matter-of-fact hospitality; warns without drama; knows more than she says. |
@@ -45,7 +45,7 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 | **Professor Maderly** | Female | Spellcraft Professor | Arcward | The Spellcraft instructor at Arcward. Serious, and professional, yet warm and almost motherly. Really cares about her students |
 | **Professor Eisenhart** | Male | Alchemy Professor | Arcward | The Alchemy instructor at Arcward. Wears a thick mantle with many pockets and thick glasses and has messy, moss green hair. Cold and heartless. Cares only about academic advancement and experimentation |
 | **Rona** | Female | Weapons seller | Bertunia (Arms and Armaments) | Stocky, soot-stained hands; former soldier; knows every weapon in stock from having swung it herself. *Voice:* "Arms and Armaments. You buying, or just looking?" / "What are you working with? I can point you at the right thing for the job." / "Every weapon in here I've swung myself. None of it's decorative." — direct and professional; engages with customers rather than ignoring them; warm without being soft. |
-| **Fabrice** | ??? | Clothier | Bertunia (Everyman's Clothier) | Immaculate doublet; deeply aware that chainmail is beneath them; did not choose the shop name and wants you to know it. *Voice:* "Welcome to Everyman's Clothier — a name I had absolutely no hand in choosing." / "The chainmail is functional. That is the most generous thing I can say about it." / "This isn't quite what I envisioned for my career. But here we are." — theatrical self-deprecation; performs suffering over their own stock; the decor is impeccable despite everything. |
+| **Fabrice** | ??? | Clothier | Bertunia (Everyman's Clothier) | Immaculately dressed, if a bit flamboyant; . *Voice:* "Welcome to Everyman's Clothier — where everyone can shine!" / "You look radiant darling! Not as radiant as moi, of course, but still." / "The right accessory can bring out the true beauty in anyone." / "Good choice. You'll look fabulous in that, darling!." / "Looking good is an universal right, darling. No need to be shy." / "Hmm, yes... Even you could look nice if you acessorise right." — friendly flamboyant diva; sees her job as bringing up the true beauty in the world; can be a bit insensitive sometimes; has very animated and flamboyant body language; the decor is impeccable despite everything. |
 
 ---
 
@@ -63,6 +63,7 @@ Key locations: Road, River, Bridge (moss-covered), Clearing, Spring, Lake, Cabin
 - **The Sword in Stone** — A gleaming sword lodged in a flat stone at the clearing's centre. Inscription: *"Only the worthy may wield."* Requires five attempts to pull free; yields the Sword of Maciera.
 - **The Apple Orchard** — Magic apples with varied effects: golden (permanent +5 Max HP), blue (MP +20; first taste grants +1 Int), hearty (+20 HP), red (+10 HP but 50% chance of worm), green (+5–15 HP, 33% chance of unripe or wormy), brown (HP damage; ultra-rare Chocolate Apple variant grants +1 Lck), purple (−10 HP; if declined, birds that try it drop dead).
 - **Bandits** — Sometimes willing to stand down if approached right; not all of them want a fight.
+- **Travellers** — Fellow travelers encountered on the road
 
 ### 2. Caves of Light
 Underground caverns west of Bertunia, under the Sundown Plateau, with luminous walls that shimmer with yellow light and humming blue crystals crystals that radiate warmth and faint energy.
@@ -81,19 +82,18 @@ Key locations: Tunnel (shimmering crystals), Grotto, Cavern (light scatters like
 ### 3. Sundown Plateau
 A vast, plateau west of Bertunia, on the East side of Mt. Legory, and right on top of the Caves of Light.
 Historically used as a graveyard, the dead are known to rise here, perhaps because of the Caves of Light's power radiating underground. This has made it a hotspot for necromancers. 
-Ancient catacombs lie beneath a mausoleum entrance.
+Old catacombs lie beneath a mausoleum entrance. Centuries old at most, they hold some secrets, including the site of a forgotten necromantic cult.
 
 The **Gilded Hollow Circus** (Gilded Hollow Circus — All Welcome) travels here: uncany and somewhat sinister, with striped red and purple tents, a slightly-off-key calliope, caged animals, and sequined performers. In truth, it is run by demons, and once inside they do not let their audience leave.
 
-Key locations: Graveyard (Maren Holt, Aldric Voss memorials), Altar (crumbling, offerings now dust), Mausoleum, Catacomb Tunnel, Forked Tunnel, Sanctum (pillars etched in old symbols, floor cracks glow), **Lantern's Reach**.
+Key locations: Graveyard (headstones with inscriptions full of dark humor), Altar, Mausoleum, Catacombs (Tunnel, Forked Tunnel, Sanctum (the site of some old necromantic cult) ), **Lantern's Reach**.
 
 **Encounters & Events**
 - **The Graveyard** — The site of the Abomination, a stitched together undead monstrosity created by the Necromancer. Or a place filled with named headstones full of dark humor.
 - **The Abandoned Bonfire** — A camp on the plateau surface: bedroll spread, pack left open. "They either moved on quickly or didn't move on at all."
 - **The Bones in the Wall** — Catacomb tunnel walls are deliberate ossuaries: bones set into masonry one by one, arranged by size. This was a proper tomb long before it became something else.
-- **The Forked Tunnel** — Spiral script carved into the junction wall: *"…the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given."*
-- **Scavenger's remains** — Journal found on the plateau: *"…the plateau is as desolate as they said. Found the mausoleum."* / *"Descended into the catacombs this morning. There are symbols I haven't seen before — not funerary, not ceremonial. Something older."* / *"Reached a circular chamber. The floor pulses. I don't think this place was a tomb."* (Last entry trails off.)
-- **Verath's Chronicle** — Sanctum pillars record a progression: Scholar → Archon. Came to learn from the old dead; left having learned to command them. The final inscription is written in a different hand and a different tone: *"The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember."*
+- **Travellers** — Random travelers encountered on the surface
+- **The Sanctum** — The site of a forgotten necromantic cult. The player can read the notes left behind, penned by one Count Bomfim the Third, they detail how he and his cohorts came to the Sundown Plateau because of the stories of the dead rising, and how they devised a ritual to draw upon that power. The last entry has him recount the horror that happened when they activated the ritual. How they brought to life a necrotic horror beyond imagination and it killed everyone, including Bomfim the Third who was bleeding out while writting. The player is then prompted on whether to bleed on the ritual circle. If they do, the ritual circle will light up, the bones strewn about will pull together, and the monstrosity that killed the cult will rise up... a single regular skeleton. It should give the sense of the cult being a bunch of edgy rich kids in-over-their-heads.
 
 ### 4. Mount Legory
 The southernmost of the Whitewing Mountains, notable for being located pretty far from the nearest peak.
@@ -107,11 +107,16 @@ Key locations: Ascent Path, Mountain Cave (abandoned camp inside), Ridge (steep 
 **Encounters & Events**
 - **Fenwick's journal** *(Mountain Cave)* — Half-filled. Early entries describe the view from the ridge, the cold, the Pegasus Knights spotted at distance. Final entry: *"Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—"* (ends there).
 - **The Archway** — Inner face covered in climbers' marks accumulated over years. Near the keystone: *"The cold that thinks is worse than the cold that simply is."* Other marks: names of the dead, summit descriptions, a rough map of the ridge scratched in miniature.
-- **Pegasus Knight encounter** — Descends in a slow spiral, lance lowered but not leveled. Standing still → she studies you and leaves. Drawing a weapon → combat. Bowing → 
+- **Pegasus Knight encounter** — Descends in a slow spiral, lance lowered but not leveled. Standing still → she studies you and leaves. Drawing a weapon → combat.
+- **The Roc** — The legendary titanic beast that roosts at the summit.
 - **The Summit Cairn** — Near the edge; climbers have wedged tokens between the stones (a button, a coin, a strip of cloth). Options: add a stone (+1 Lck), take a token (Ether or Medicine), or sit and rest (full HP/MP restore). The Great Roc watches from its nest — tolerates respectful approach; tolerates retreat; attacks if provoked or if you reach into the nest.
 
 ### 5. Core Cavern
-The volcanic heart beneath Mount Legory. Churning magma, obsidian chambers, blinding heat. Home to Wyverns, fire Wisps, and the territorial Lizardmen civilization. The Infrit guards the deepest chamber.
+The volcanic heart beneath Mount Legory. Churning magma, blinding heat. Home to Drakes, fire Wisps, and the territorial Lizardmen / Lizal civilization. The Infrit guards the last chamber.
+
+Over 5000 years ago, there was a Troll civilization in these caves, that has long since died out. The structures and mines left behind are now sometimes used by the Lizal civilization now in the caverns.
+
+The Lizals, often called Lizardmen by humans and hunted as dangerous beasts, established Lizal-Town recently, a hidden community deep in the Core Cavern, unknown to any human.
 
 Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obsidian Chamber (distorted reflections), Ash Field (unstable ground), Core Chamber (churning magma, blinding light), **Lizal-Town**, Hot Springs, Mineshaft (originally a Troll mine, now reclaimed by the Lizardmen), Tunnel, Lava Falls, Ruins (the ruins of a long abandoned Troll settlement), Sunken Statue (giant ancient Troll statue, now half sunken in lava).
 
@@ -142,9 +147,10 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 | Town | Character | Notable Detail |
 |---|---|---|
 | **Bertunia Castle Town** | Cobblestone, walled, bustling | Starting hub; smells of woodsmoke and fresh bread; blacksmith's hammer, children chasing through the square, town crier at the fountain. The capital of the petty kingdom of Bertunia, located at the edge of the Apple Woods |
-| **Lantern's Reach** | Frontier outpost at mountain foothills | "Located on the Sundown Plateau; Last settlement before Mount Legory"; has an Adventurer's Guild that sells skill training scrolls |
+| **Lantern's Reach** | Frontier outpost at mountain foothills | "Located on the Sundown Plateau, in the transition to Mt.Legory; Last settlement before Mount Legory"; has an Adventurer's Guild that sells skill training scrolls |
 | **Mugell Town** | Rickety boardwalks above swamp water | Town sways in wind; ropes groan; fishermen lower lines through plank gaps; children peer at dark water below; something large moves under the surface; the nearest settlement to Arcward, located on the eastern end of the Lost Swamp, students often visit, and most residents end up working and or supplying the school |
 | **Gilded Hollow Circus** | Travelling circus, Sundown Plateau | Striped tents, torchlight, calliope (tinny, slightly off-key), masked performers, caged animals, eerily empty and sawdust smell |
+| **Lizal-town** | Hidden lizardmen commune, Core Cavern | Crude tents of bone and metal and dyed leather, torchlight, lava pools, hot, but slightly less than the rest of the Cavern, communal living, territorial. Getting in requires earning the trust of the Lizardmen. Has the vibe of old school monster town from a SNES rpg or adventure game. Lizals speak with a strong accent accounting for their lizard mouths  |
 | **The Arena** | Golden and glorious | Lighthearted unserious postgame area where the player can fight against every enemy in the game using their fully realised character. Meant to be unserious and dubiously canon |
 
 ### Shop Directory
@@ -171,17 +177,21 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - TBD
 
 **Lizal-Town**
+- Drake Pen — misc
 - TBD
 
 **Magical Academy of Arcward**
-- TBD
+- Alchemy Class - items (Professor Eisenhart, gives you potions, ethers, stimulants, bombs, etc in exchange for research funds)
+- Spellcraft Class - spell books (Thunder, Ice, Light, Dark); run by Professor Maderly
+- Combat Class - skill scrolls (run by Magical Girl Ziva)
+- Runecraft Class - trinkets (discarded student projects)
 
 ---
 
 ## Factions & Organizations
 
 - **The Cult of Light** — Led by Mother Orielli, operating from the Caves of Light. Fanatics who worship the power of the Light that suffuses the Caves of Light — territorial, they patrol, recruit, and perform rituals. Carry Prayer Beads and Sacrificial Knives; wear white robes.
-- **Pegasus Knights** — Mounted female warriors of the Whitewing Mountains. Organized military unit in standardized Whitewing Armor with Winged Spears. Disciplined and pragmatic; they are mostly mercenaries, who offer their flying utility to foreign armies, to bring back money to their bare home; reward courtesy with gold, respond to aggression with force.
+- **Pegasus Knights** — Mounted female warriors of the Whitewing Mountains. Organized military unit in standardized Whitewing Armor with Winged Spears. Disciplined and pragmatic; they are mostly mercenaries, who offer their flying utility to foreign armies, to bring back money to their bare home; respond to aggression with force.
 - **Lizardmen** — More properly named Lizals. Intelligent humanoids, often considered simple monsters. They have a hidden civilization deep in the Core Cavern. Territorial, not inherently hostile. Wear Lizal Armor; wield Falchions. Their town, Lizal-Town, sits near the cavern.
 - **Adventurer's Guild** — Institutional presence in Lantern's Reach. Sells training scrolls; implies adventuring is a recognized, organized profession.
 - **Magical Academy of Arcward** — Educational institution near Lost Swamp, at the western foothills of Mount Legory. Founded by Archmage Carlon the Mathemagician. One of the premier institutions of learning in the continent. Produces scholars and mages. Guarded by militiamen in Arcward Armor. Students are usually enrolled at fifteen and graduate in five years. The core disciplines taught include Mathematics, History, Administration, Spellcraft, Runecraft, Alchemy and Combat
@@ -200,22 +210,22 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Mangy Wolf** — Hungry skinny wolves native to the Sundown Plateau.
 - **Bald Eagle** — Mount Legory's natural hunter. Territorial.
 - **Great Roc** — Massive legendary bird nesting at Mount Legory's summit. Has feathers like blades of stone. Has collected weapons in its nest over decades. Tolerates human presence unless threatened.
-- **Wyvern** — Draconic beast of Core Cavern.
+- **Drake** — Wingless draconic beast of Core Cavern. Tamed as mounts for the Lizardmen.
 - **Ent** — Ancient tree-being of Lost Swamp. Primordial and slow. The King of the Swamp is an impossibily ancient Ent.
 - **King of the Swamp** — Ancient Ent who sleeps in the Lost Swamp. Wields Ent Club.
 
 **Humanoids**
 - **Bandits / Bandit Brothers** — Human criminals who work in organized ambushes through Apple Woods. Can sometimes be persuaded.
 - **Renegades** — Bertunian criminals who hide out in the Caves of Light. Can sometimes be persuaded.
-- **Troll** — Bulky, hardy humanoid who once, whose civilization once ruled the continent. Now, scattered and territorial, with little in the way of civilization, to the point of being seen as little more than monsters by humans.
+- **Troll** — Bulky, hardy humanoid who once, whose civilization once ruled the continent. Now, scattered and territorial, with little in the way of civilization, to the point of being seen as little more than monsters by humans. Speak in simple grammar. All caps when angry.
 - **Cultists / Cultist Patrol** — True believers of Mother Orielli's light cult. Fanatic followers who worship the Light; they actively recruit.
 - **Pegasus Knight** — Soldiers and mercenaries, not monsters. Engage only if provoked or disrespected.
 - **Frost Fairy** — An elemental fairy, small enough to fit in a person's hand. Sleeps in snowdrifts on Mount Legory; a pure ice spellcaster.
 - **Treasure Hunter** — Fellow adventurers encountered as enemies in Arcmat Ruins. Well-equipped, cunning, competitive.
-- **Lizardman** — Sentient humanoids with lizard-features Core Cavern inhabitant. Armed and territorial.
-- **Gorgon** — Ophidian monster of Lost Swamp; petrifying eye, venomous bite. Fully sentient, but usually taken as monsters. Has snakes for hair, and a serpentine lower body, and a single large eye.
+- **Lizardman / Lizal Patrol** — Sentient humanoids with lizard-features Core Cavern inhabitant. Armed and territorial. Speak with a strong accent, with lots of grunts, and adding extra r's especially before vowels, hissing z sounds.
+- **Gorgon** — Ophidian monster of Lost Swamp; petrifying eye, venomous bite. Fully sentient, but usually taken as monsters. Has snakes for hair, and a serpentine lower body, and a single large eye. Speak with a strong accent with lots of hissing and drawing out 's's.
 - **Wizard** (Ruins) — Magic users who seek to study the Arcmat Ruins and lost themselves in the knowledge. Masters all elemental magic. Dangerous and deliberate.
-- **Infrit** — Demonic fire elemental; guards the Core Caverns. Very angry. Speaks in all caps.
+- **Infrit** — Demonic fire elemental; guards the Core Caverns. Very angry. Speaks in all caps, always angry and arrogant.
 - **Icelady** — Ice elemental demon of Mount Legory. High intelligence; wields Frost Staff. Vain and cruel.
 
 **Undead**
@@ -223,7 +233,7 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Zombie** — Reanimated corpse; relentless, high HP, slow.
 - **Ghost / Restless Spirit** — Bound spirits; some can be communicated with; some only want to move on.
 - **Abomination** — A mass stitched from multiple corpses; the most extreme product of necromancy; guards the deepest catacomb chamber.
-- **Wisp** — Fire spirit of Core Cavern; technically a type of ghost, but its fire nature takes precedence.
+- **Wisp / Wisp Cluster** — Fire spirit of Core Cavern; technically a type of ghost, but its fire nature takes precedence.
 - **Lost Souls** — Ethereal spirits haunting the Lost Swamp; mindless silently screaming apparitions that make up the dull white fogs of the Lost Swamp, said to be all that remains of those lost in the Lost Swamp.
 
 **Supernatural**
@@ -297,9 +307,10 @@ Narrative-level facts:
 
 ## Themes & Tone
 
-- **Cycles of civilization** — Arcmat, the Sundown burial cultures, Verath's academy — all rose and fell. The player walks through layers of history without always knowing it or caring.
+- **Cycles of civilization** — Arcmat, the Sundown burial cultures, the Troll civilization — all rose and fell. The player walks through layers of history without always knowing it or caring.
 - **Nature's indifference** — The Great Roc, the King of the Swamp, the Ents — nature is ancient and powerful and has no interest in human affairs. It will not help you; it will not hate you.
 - **The world is older than its inhabitants know** — Every dungeon contains evidence of a prior civilization. The protagonists are not discovering a new world; they are uncovering one they lost.
+- **The world can be pretty absurd** — In a world with so many disparate fantasy concepts, strange and unexpected things happen. All you can do is shrug and go on.
 
 ---
 
@@ -329,17 +340,8 @@ In-world written texts. Use these verbatim when referencing them; they are the p
 
 ---
 
-### Forked Tunnel Inscription — Sundown Catacombs
-*(Spiral script carved at the junction, same hand as Verath's other writings.)*
-
-> …the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given.
-
----
-
-### Verath's Final Inscription — Sundown Sanctum
-*(Written last, in a different hand and a different tone from the chronicle entries above it.)*
-
-> The plateau gives what is asked. The dead wake and hold their shape. The question I cannot answer is whether they remember.
+### Count Bomfim the Third's Notes — Sundown Sanctum
+> Chronicles his cult's ill-advised forays into necromancy.
 
 ---
 

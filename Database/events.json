@@ -1424,7 +1424,6 @@
 			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
-					{"choice": "Read the symbols", "key": "read"},
 					{"choice": "Make a blood offering (10 HP)", "key": "offer"},
 					{"choice": "Smash it", "key": "smash"},
 					{"choice": "Leave it alone", "key": "leave"}
@@ -1595,15 +1594,21 @@
 				{
 					"weight": 3,
 					"steps": [
-						{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Here lies Maren Holt.\nKindly, and before her time.\"[/color]\n\nThe date is worn away.", "clear": false},
-						{"type": "show_node"}
+						{"type": "random", "outcomes": [
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Here lies Aldric Voss.\nHe underestimated wolves.\nTwice.\"[/color]", "clear": false}, {"type": "show_node"}]},
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Brother Owen.\nSpent his life feeding the hungry.\nThey eventually returned the favour.\"[/color]", "clear": false}, {"type": "show_node"}]},
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Old Rezo.\nHe drank deeply and lived fully\nand fell off the plateau on a Tuesday.\"[/color]", "clear": false}, {"type": "show_node"}]}
+						]}
 					]
 				},
 				{
 					"weight": 3,
 					"steps": [
-						{"type": "text", "text": "You lean in:\n\n[color=gray]\"Aldric Voss — Soldier, Father.\nMay he keep the long watch.\"[/color]\n\nThe epitaph feels like it was written before all this.", "clear": false},
-						{"type": "show_node"}
+						{"type": "random", "outcomes": [
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Gretchen Fay.\nBeloved daughter, sister,\nand cautionary example.\"[/color]", "clear": false}, {"type": "show_node"}]},
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Duran Velt.\nHe was warned this would happen.\nHe was not wrong to try.\"[/color]", "clear": false}, {"type": "show_node"}]},
+							{"weight": 1, "steps": [{"type": "text", "text": "You lean in and read:\n\n[color=gray]\"Ser Mattis of the Eastern Hold.\nDied bravely in defence of his estate.\nHis estate burned down the following morning.\"[/color]", "clear": false}, {"type": "show_node"}]}
+						]}
 					]
 				},
 				{
@@ -1789,34 +1794,45 @@
 			}
 		]
 	},
-	"sundown_fork_markings": {
-		"repeatable": false,
-		"steps": [
-			{"type": "text", "text": "At the junction, the walls are covered in carved marks — not decoration. Instructions, or a record.", "clear": false},
-			{"type": "text", "text": "You trace the symbols with your eyes. The same spiral script from the altar above. Most of it is worn away, but a few lines remain:\n\n[color=gray]\"...the rite cannot be undone from above. Descend to the Sanctum. The circle holds what was given.\"[/color]", "clear": false},
-			{"type": "text", "text": "Whoever carved this left it as a warning. Or an instruction.", "clear": false},
-			{"type": "show_node"}
-		]
-	},
 	"sundown_sanctum_discovery": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The chamber opens suddenly — circular, much larger than the tunnels suggested. Stone pillars ring the walls, their surfaces carved floor to ceiling in the same spiral script.\n\nIn the centre: a ring of bones, arranged with care. And within it, the floor itself pulses — a slow, dim glow pressing up through the cracks.", "clear": false},
-			{"type": "choice", "header": "What do you do?",
+			{"type": "text", "text": "The chamber opens suddenly — circular, much larger than the tunnels suggested. Stone pillars ring the walls, their surfaces carved floor to ceiling in the same spiral script.\n\nIn the centre: a ring of bones, arranged with care. And within it, the floor itself pulses — a slow, dim glow pressing up through the cracks.\n\nAt the base of one pillar: a leather satchel. Inside, a bundle of journals, the covers water-warped but the pages mostly legible.", "clear": false},
+			{"type": "choice", "header": "Read the Journals?",
 				"choices": [
-					{"choice": "Study the symbols", "key": "study"},
-					{"choice": "Touch the glowing floor", "key": "touch"},
-					{"choice": "Disturb the arrangement", "key": "disturb"},
-					{"choice": "Leave quickly", "key": "leave"}
+					{"choice": "Yes", "key": "read"},
+					{"choice": "No", "key": "leave"}
 				],
 				"branches": {
-					"study": [
-						{"type": "text", "text": "You move around the pillars, reading what you can.\n\nA name appears repeatedly: [color=gray]Verath[/color]. Scholar. Then later, [color=gray]Archon[/color].\n\nThe record describes a progression — study, then experimentation, then the rite itself. Verath came here to learn from the old dead. They left having learned to command them.", "clear": true},
-						{"type": "text", "text": "The last inscription is different in tone:\n\n[color=gray]\"The plateau gives what is asked. The dead wake and hold their shape.\nThe question I cannot answer is whether they remember.\"[/color]", "clear": false},
-						{"type": "sfx", "sound": "heal"},
-						{"type": "effect", "effect": {"type": "restore_mp", "amount": 20}},
-						{"type": "text", "text": "The knowledge settles in your mind like cold water.\n[color=teal]MP +20[/color]", "clear": false},
-						{"type": "show_node"}
+					"read": [
+						{"type": "text", "text": "[color=gray]\"This is the personal and official record of Count Bomfim the Third, of highborn Bertunian stock — Patron of the Arts, Fellow of the Antiquarian Society, and now leader of what I am calling, with appropriate grandeur, the Circle of Illuminated Minds. We have come to the Sundown Plateau, where the dead are said to walk.\"\n\n\"Should we harness this power, then the dead will not only walk, but work for me. With such a superior source of human resources, I will bring the continent itself to its knees.\"[/color]", "clear": true},
+						{"type": "text", "text": "[color=gray]\"Day thirteen. We have found an appropriate sanctum in my family's crypt. Plenty of room for the ritual circle, even if I had to have Bia dust the filthy place for hours before it became a marginally acceptable abode for our circle. The gaps on the floor pulse with light sometimes, but it's probably nothing.\"\n\n\"My colleagues have gone quiet. Viscount Bento said he wanted to leave. I told him that men of our station do not leave things unfinished. He said that was easy to say. I told him it was easy to say because it was correct.\"[/color]", "clear": false},
+						{"type": "text", "text": "[color=gray]\"Day sixty-six. The ritual will work this time. We redrew the circle. We made the blood offering. I spoke the words — I was the only one who had memorised them correctly; Bento always mispronounces the seventh stanza terribly. The ground shook. The bones in the ring began to move. I write as I see something was pulling itself together in the centre of the chamber, the ritual is working, I can feel i—\"[/color]\n\nThe handwriting deteriorates sharply here.", "clear": false},
+						{"type": "text", "text": "[color=gray]\"—There was no forseeing this. What rose from our ritual was a monstrosity beyond reckoning and it killed Bento and it killed Bia and it killed Brunilda and it killed everyone and I am bleeding behind this pillar and I want it on the record that this floor is filthy and I would fire Bia if she was alive and my pants are ruined and that want to be buried here so I can come back too and oh no it's coming ba- \"[/color]\n\nThat is the last entry.", "clear": false},
+						{"type": "text", "text": "You set the journal down.", "clear": false},
+						{"type": "choice", "header": "Bleed on the ritual circle?",
+							"choices": [
+								{"choice": "Yes (5 HP)", "key": "bleed"},
+								{"choice": "No", "key": "leave"}
+							],
+							"branches":{
+								"bleed": [
+									{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+									{"type": "text", "text": "You press your hand to the circle and let the blood fall.\n\nThe glow intensifies. The bones in the ring begin to tremble — then to drag across the floor, pulling toward the centre. Something is assembling. Slowly. Deliberately. The air thickens.\n\nYou take a step back.", "clear": true},
+									{"type": "text", "text": "A skeleton stands in the centre of the circle.\n\nOne skeleton. Regular-sized. It sways slightly, as though finding its footing. Its empty eye sockets regard you.\n\nYou regard it back.\n\nSomewhere behind you, a drop of water falls from the ceiling.", "clear": false, "no_wait": true},
+									{"type": "combat", "enemy": "Skeleton",
+										"on_victory": [
+											{"type": "text", "text": "You took [color=red]10 damage[/color].\nThe skeleton collapses into a pile. The glow fades. The sanctum is very quiet.\n\nYou look at the bones. You look at the elaborate ritual circle. You look at the journal on the floor.\n\n...\n\n...Was that it?", "clear": true},
+											{"type": "show_node"}
+										]
+									}
+								],
+								"leave": [
+									{"type": "text", "text": "You back away from the circle and toss the journals away.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						}
 					],
 					"touch": [
 						{"type": "text", "text": "You step into the circle and press your palm to the glowing floor.\n\nThe warmth is immediate — but wrong. It pulls at something in you, testing.", "clear": true},
@@ -1834,10 +1850,10 @@
 							{
 								"weight": 1,
 								"steps": [
-									{"type": "text", "text": "The glow erupts. The bones in the circle rattle and fuse.\n\nSomething pulls itself upright at the centre of the chamber.", "clear": true, "no_wait": true},
-									{"type": "combat", "enemy": "Abomination",
+									{"type": "text", "text": "The glow surges. The bones in the ring rattle and drag themselves together.\n\nA skeleton pulls itself upright at the centre of the chamber. It looks at you.", "clear": true, "no_wait": true},
+									{"type": "combat", "enemy": "Skeleton",
 										"on_victory": [
-											{"type": "text", "text": "The mass collapses. The glow dims to nothing. The sanctum is still.", "clear": true},
+											{"type": "text", "text": "The skeleton collapses. The chamber dims. You step back from the circle.", "clear": true},
 											{"type": "show_node"}
 										]
 									}
@@ -1845,17 +1861,8 @@
 							}
 						]}
 					],
-					"disturb": [
-						{"type": "text", "text": "You drag your foot through the ring of bones, scattering them.\n\nThe glow surges.", "clear": true, "no_wait": true},
-						{"type": "combat", "enemy": "Abomination",
-							"on_victory": [
-								{"type": "text", "text": "The mass falls apart. The chamber grows dark and quiet.", "clear": true},
-								{"type": "show_node"}
-							]
-						}
-					],
 					"leave": [
-						{"type": "text", "text": "You back away from the circle and leave the sanctum as you found it.", "clear": false},
+						{"type": "text", "text": "You toss the journals away.", "clear": false},
 						{"type": "show_node"}
 					]
 				}
@@ -2419,6 +2426,24 @@
 					]
 				}
 			}
+		]
+	},
+
+	"enter_lizal_town": {
+		"steps": [
+			{"type": "text", "text": "You step through the carved stone entrance into Lizal-Town, the hum of the settlement filling the air around you."},
+			{"type": "enter_town", "town": "Lizal-Town"}
+		]
+	},
+
+	"hot_springs_rest": {
+		"steps": [
+			{"type": "text", "text": "You ease into one of the warm mineral pools at the edge, the heat soaking into aching muscles. The faint glow of the water and the steady bubble of steam make it easy to lose track of time."},
+			{"type": "sfx", "sound": "heal"},
+			{"type": "effect", "effect": {"type": "heal", "amount": 9999}},
+			{"type": "effect", "effect": {"type": "restore_mp", "amount": 9999}},
+			{"type": "text", "text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]", "clear": false},
+			{"type": "show_node"}
 		]
 	}
 }
