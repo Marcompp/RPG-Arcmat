@@ -1555,7 +1555,7 @@
 	  },
 	  {
 		"name": "Ruins",
-		"backdrop": "core_ruins3.png",
+		"backdrop": "core_ruins4.png",
 		"entrances": ["DEPTHS","MINE"],
 		"arrival": {
 		  "MINE": [

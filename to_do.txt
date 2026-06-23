@@ -29,22 +29,27 @@
       valor original do JSON. Podem divergir em saves/reloads.
       Arquivo: Character.gd, linhas 280-289
 
-[ ] Campo "acc" (precisao) ignorado no combate
+[X] Campo "acc" (precisao) ignorado no combate
       acc existe em skills.json e spells.json e e exibido no tooltip,
       mas CombatManager nunca checa esse valor. Todos os ataques
       acertam 100% das vezes independente do acc.
+
+[ ] BGS precisa parar ao voltar ao menu, etc
 
 ----------------------------------------------------------------
   FEATURES NOVAS
 ----------------------------------------------------------------
 
-[ ] Menu de opçoes
+[/] Menu de opçoes
 
 [ ] Menu de settings
 
 [ ] Cidades opcionais
+      [ ] Circus
+      [ ] Lizal-Town
+      [ ] Arcward
 
-[ ] Context Sensitive Actions (no lugar de Search for Monsters)
+[X] Context Sensitive Actions (no lugar de Search for Monsters)
       chamar um evento específico ao node
 
 [X] Mais de 1 inimígo no combate
@@ -53,7 +58,7 @@
 [X] Eventos em exits de node
       ex: possibilidade de evento bridge - bridge quebrar
 
-[ ] Sistema de Rest
+[X] Sistema de Rest
       A acao "Rest" aparece no menu de exploracao mas so tem
       print("Rest TBD"). Implementar: recuperar HP/MP parcialmente
       com chance de ser atacado por um monstro da regiao.
@@ -81,15 +86,17 @@
 
 [X] Fazer ataques multihit funcionar corretamente
 
+[ ] Adicionar sistema de trinket / apparel
+
 ----------------------------------------------------------------
   MELHORIAS DE SISTEMA
 ----------------------------------------------------------------
 
-[ ] Backdrop tela inicial e tela de seleção de personagem
+[/] Backdrop tela inicial e tela de seleção de personagem
 
-[ ] Backdrops para diferentes nodes
+[X] Backdrops para diferentes nodes
 
-[ ] Boss battles no fim da cidade
+[/] Boss battles no fim da cidade
 
 [ ] Aprender skills/spells ao subir de nivel
       Ao ganhar nivel, checar no JSON do personagem se ha
@@ -110,7 +117,7 @@
       [ ] Som typewrite
       [ ] Etc
 
-[ ] Melhorar tooltip de UI de personagem
+[X] Melhorar tooltip de UI de personagem
 
 [ ] Melhorar tela de confirmação de seleção de personagem
 
@@ -135,7 +142,7 @@
 
 [ ] Terminar de refazer area_nodes de regiões
 A fazer
-      [ ] Core Cavern
+      [X] Core Cavern
       [ ] Lost Swamp
       [ ] Arcmat Ruins
 
@@ -143,8 +150,8 @@ A fazer
       Melhor variedade de estratégias em luta contra 
       e variedade maior de skills/drops na Apple Woods.
       [X] Apple Woods
-      [ ] Caves of Light
-      [ ] Sundown Plateau
+      [/] Caves of Light
+      [/] Sundown Plateau
       [ ] Mt. Legory
       [ ] Core Cavern
       [ ] Lost Swamp
@@ -158,7 +165,7 @@ A fazer
       [ ] Caves of Light
       [ ] Sundown Plateau
       [ ] Mt. Legory
-      [ ] Core Cavern
+      [/] Core Cavern
       [ ] Lost Swamp
       [ ] Arcmat Ruins
 

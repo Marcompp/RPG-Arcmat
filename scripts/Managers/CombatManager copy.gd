@@ -550,7 +550,7 @@ func _execute_hit(data, user, who: String, target):
 			break
 		var result = calc.resolve_action(user, target, data)
 		if result.get("missed", false):
-			var miss_txt = "Missed![wait=0.1]"
+			var miss_txt = "...but missed![wait=0.1]"
 			if data.get("type", "attack") in ["group", "aoe", "all", "random"]:
 				miss_txt = "%s evaded![wait=0.1]" % _get_display_name(target)
 			MyEventBus.emit("continue_text", { "text": miss_txt, "linebreak": false })

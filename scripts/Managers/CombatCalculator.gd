@@ -31,20 +31,6 @@ func check_hit(attacker, defender, base_acc: int) -> bool:
 	hit_rate = int(hit_rate * acc_mult)
 	return rng.randi_range(1, 100) <= hit_rate
 
-func calculate_damage(attacker, defender) -> Array:
-	var weapon = attacker.get_weapon()
-	var mgt    = weapon.get("stats", {}).get("mgt",  0)
-	var crit   = weapon.get("stats", {}).get("crit", 0)
-	var atk    = attacker.get_total_stat("str") + mgt
-	var def    = defender.get_total_stat("def")
-	var variance = rng.randf_range(0.9, 1.1)
-	var dmg      = max(1, int((atk - floori(def / 2)) * variance))
-	var was_crit = false
-	if rng.randi_range(1, 100) <= crit + attacker.get_total_stat("crit"):
-		dmg = int(dmg * 1.5)
-		was_crit = true
-	return [dmg, was_crit]
-
 func resolve_action(user, target, data: Dictionary) -> Dictionary:
 	var result      = { "damage": 0, "heal": 0, "mp_restore": 0, "status": "", "text": "", "critical": false, "element_reaction": "", "missed": false }
 	var stats       = data.get("stats", {})

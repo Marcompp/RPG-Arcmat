@@ -16,6 +16,8 @@
 	"Startup":1,
 	"Cooldown":2,
 	"Skill_Chance": 80,
+	"Preparing": ["ripples quietly.", "wobbles in place.", "oozes slowly across the ground."],
+	"Recharging": ["ripples quietly.", "wobbles in place.", "oozes slowly across the ground."],
 	"Start":"Regen",
 	"Skills": [],
 	"Spells": ["Water","Poison"],

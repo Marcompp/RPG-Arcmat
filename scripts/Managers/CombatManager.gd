@@ -463,7 +463,10 @@ func _resolve_turn_pair(player_action: Dictionary):
 	var prep_msgs: Array = []
 	for i in preparing_indices:
 		if enemies[i].get_hp() > 0:
-			var phase = "is preparing to attack!" if enemy_first_actions[i] else "is catching its breath."
+			var _phase_key     = "Preparing" if enemy_first_actions[i] else "Recharging"
+			var _phase_default = "is preparing to attack!" if enemy_first_actions[i] else "is catching its breath."
+			var _phase_raw     = enemies[i].data.get(_phase_key, _phase_default)
+			var phase          = _phase_raw[rng.randi() % _phase_raw.size()] if _phase_raw is Array else _phase_raw
 			prep_msgs.append("[b]%s[/b] %s" % [enemy_display_names[i], phase])
 	if prep_msgs.size() > 0:
 		MyEventBus.emit("continue_text", { "text": "\n".join(prep_msgs) })
@@ -521,88 +524,32 @@ func _execute_turn_action(action: Dictionary):
 # ============================================================
 
 func _do_attack(actor, who: String, target):
-	var weapon  = actor.get_weapon()
-	var acc     = weapon.get("stats", {}).get("acc", 90) if weapon and not weapon.is_empty() else 90
+	var weapon   = actor.get_weapon()
+	var wpn_name = weapon.get("name", "") if weapon and not weapon.is_empty() else ""
 	var target_part = ""
 	if who == "player" and enemies.size() > 1:
 		target_part = " [b]%s[/b]" % _get_display_name(target)
 
 	var attacktxt: String
-	if who != "player" and not weapon.has("name"):
+	if who != "player" and wpn_name == "":
 		attacktxt = "[b]%s[/b] struck%s![wait=0.1]" % [actor.get_name(), target_part]
 	else:
-		attacktxt = "[b]%s[/b] struck%s with %s![wait=0.1]" % [actor.get_name(), target_part, weapon.get("name", "bare hands")]
-
+		attacktxt = "[b]%s[/b] struck%s with %s![wait=0.1]" % [actor.get_name(), target_part, wpn_name if wpn_name != "" else "bare hands"]
 	MyEventBus.emit("continue_text", { "text": attacktxt })
-	if not calc.check_hit(actor, target, acc):
-		MyEventBus.emit("continue_text", { "text": "...but missed![wait=0.1]", "linebreak": false })
-		await wait_for_writing()
-		var ms = _tsys(_who_for(actor))
-		if ms: ms.on_miss()
-		_emit_trinket_states()
-		return
-	var calc_result = calc.calculate_damage(actor, target)
-	var dmg = calc_result[0]
-	var critical = calc_result[1]
-	var wpn_type = weapon.get("wpn_type", "").to_lower() if weapon and not weapon.is_empty() else ""
-
-	var attack_element = weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral"
-	var target_element = target.get_element()
-	var elem_mult      = calc.get_element_multiplier(attack_element, target_element)
-	var elem_reaction  = ""
-	if elem_mult == 0.0:
-		elem_reaction = "immune"
-	elif elem_mult != 1.0:
-		dmg = max(1, int(dmg * elem_mult))
-		elem_reaction = "weak" if elem_mult >= 2.0 else "resist"
-		elem_reaction = "ineffective" if elem_mult == 0.25 else elem_reaction
-
-	if elem_reaction != "immune":
-		var dmg_taken = target.stat_multipliers.get("dmg_taken", 1.0)
-		if dmg_taken != 1.0:
-			dmg = max(1, int(dmg * dmg_taken))
-
 	await wait_for_writing()
 
-	MyEventBus.emit("play_sfx", { "sound": wpn_type if wpn_type != "" else "attack" })
-	if elem_reaction == "immune":
-		MyEventBus.emit("continue_text", { "text": "[color=cyan]No effect![/color][wait=0.1]", "linebreak": false })
-	else:
-		var actor_sys  = _tsys(_who_for(actor))
-		var target_sys = _tsys(_who_for(target))
-		dmg = max(1, int(dmg * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
-		dmg = target_sys.check_death_prevention(dmg) if target_sys else dmg
-		if _try_shatter(target):
-			dmg = int(dmg * 1.5)
-			MyEventBus.emit("continue_text", { "text": "[color=cyan]Shattered![/color][wait=0.1]", "linebreak": false })
-			await wait_for_writing()
-		if _who_for(target) == "player" and target.get_hp() >= target.get_max_hp():
-			dmg = min(dmg, target.get_max_hp() - 1)
-		target.take_damage(dmg)
-		if actor_sys: actor_sys.on_hit(attack_element)
-		if target_sys: target_sys.on_owner_hit()
-		_emit_trinket_states()
-		var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
-		var down_msg = _notify_if_died(target)
-				
-		var prefix   = "[color=yellow]Weak![/color] " if elem_reaction == "weak" \
-				else ("[color=cyan]Resisted![/color] " if elem_reaction == "resist" 
-				else ("[color=brown]Ineffective![/color] " if elem_reaction == "ineffective" else ""))
-		if critical:
-			prefix = "[color=orange]Critical![/color][wait=0.1]\n" + prefix
-		MyEventBus.emit("continue_text", {
-			"text": prefix + "[screenshake][instant][color=red]%d[/color] damage![/instant]%s%s" % [dmg, down_msg, bandana_msg],
-			"linebreak": false
-		})
-		if actor_sys:
-			var lifesteal := actor_sys.get_lifesteal_amount(dmg)
-			if lifesteal > 0 and actor.get_hp() > 0:
-				actor.heal(lifesteal)
-				MyEventBus.emit("continue_text", {"text": "[instant][color=green]+%d[/color] HP absorbed![/instant]" % lifesteal, "linebreak": false})
-		if target_sys and _who_for(target) == "player" and target.get_hp() > 0:
-			if target_sys.try_counter_stun():
-				status_sys.add_status(actor, "stun", 1)
-				MyEventBus.emit("continue_text", {"text": "\n[b]%s[/b] is startled by the rattle![wait=0.1]" % _get_display_name(actor), "linebreak": false})
+	var weapon_data = {
+		"type":          "attack",
+		"magic":         false,
+		"stats": {
+			"mgt":  weapon.get("stats", {}).get("mgt",  0) if weapon and not weapon.is_empty() else 0,
+			"acc":  weapon.get("stats", {}).get("acc", 90) if weapon and not weapon.is_empty() else 90,
+			"crit": weapon.get("stats", {}).get("crit", 0) if weapon and not weapon.is_empty() else 0,
+		},
+		"element":       weapon.get("element", "Neutral") if weapon and not weapon.is_empty() else "Neutral",
+		"inherit_stats": true,
+	}
+	await _execute_hit(weapon_data, actor, who, target)
 	await wait_for_writing()
 
 func _execute_action(user, who: String, action_name: String, db: Dictionary, target):
@@ -674,7 +621,7 @@ func _execute_hit(data, user, who: String, target):
 			break
 		var result = calc.resolve_action(user, target, data)
 		if result.get("missed", false):
-			var miss_txt = "Missed![wait=0.1]"
+			var miss_txt = "...but missed![wait=0.1]"
 			if data.get("type", "attack") in ["group", "aoe", "all", "random"]:
 				miss_txt = "%s evaded![wait=0.1]" % _get_display_name(target)
 			MyEventBus.emit("continue_text", { "text": miss_txt, "linebreak": false })
