@@ -33,7 +33,7 @@
   {
 	"Name": "Bandit",
 	"FName": "Bandit",
-	"Element": "Earth",
+	"Element": "Neutral",
 	"Gender": "Random",
 	"Lvl": 2,
 	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
@@ -186,7 +186,7 @@
   {
 	"Name": "Renegade",
 	"FName": "Renegade",
-	"Element": "Earth",
+	"Element": "Neutral",
 	"Gender": "Random",
 	"Lvl": 5,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
@@ -576,7 +576,7 @@
   },
   {
 	"Name": "Treasure Hunter",
-	"Element": "Earth",
+	"Element": "Neutral",
 	"Lvl": 15,
 	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"A","Agi":"A","Lck":"D","Def":"C"},
 	"Equip": {

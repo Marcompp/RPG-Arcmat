@@ -15,7 +15,7 @@
 		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3",
 		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3",
 		"academy":     "res://assets/audio/BGM/Arcward_placeholder.mp3",
-		"lizal":       "res://assets/audio/BGM/Lizal2_placeholder.mp3"
+		"lizal":       "res://assets/audio/BGM/Lizal_placeholder2.mp3"
 	},
 	"ambiance": {
 		"forest": "res://assets/audio/BGS/forest_ambience.mp3",

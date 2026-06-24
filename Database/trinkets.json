@@ -206,5 +206,13 @@
 		"effect": "battle_start_element",
 		"element": "Wind",
 		"stackable": false
+	},
+	"Old Boot": {
+		"name": "Old Boot",
+		"description": "A waterlogged boot, found at the end of your line instead of anything useful. Still structurally intact, if you squint. Smells like the lake.",
+		"effect_description": "Agility +1. It is still a boot.",
+		"effect": "stat_bonus",
+		"stats": { "agi": 1 },
+		"stackable": false
 	}
 }

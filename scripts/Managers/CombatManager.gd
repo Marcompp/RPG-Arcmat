@@ -96,6 +96,12 @@ func _target_for(action: Dictionary):
 		return enemies[tidx]
 	return player
 
+func _emit_timer_update() -> void:
+	var timers: Array = []
+	for i in range(enemies.size()):
+		timers.append(enemy_timers[i] if enemies[i].get_hp() > 0 else -1)
+	MyEventBus.emit("enemy_timer_update", { "timers": timers })
+
 # ============================================================
 # ENTRY
 # ============================================================
@@ -313,10 +319,7 @@ func _execute_trinket_start_skills():
 func render_player_turn():
 	var living = _living_indices()
 
-	var timers: Array = []
-	for i in range(enemies.size()):
-		timers.append(enemy_timers[i] if enemies[i].get_hp() > 0 else -1)
-	MyEventBus.emit("enemy_timer_update", { "timers": timers })
+	_emit_timer_update()
 
 	var enemy_lines = []
 	for i in living:
@@ -445,6 +448,7 @@ func _resolve_turn_pair(player_action: Dictionary):
 			preparing_indices.append(i)
 			if not is_stunned and not is_frozen:
 				enemy_timers[i] -= 1
+		_emit_timer_update()
 
 	all_actions.sort_custom(func(a, b):
 		return calc.get_action_speed(a["actor"], a) > calc.get_action_speed(b["actor"], b)
@@ -516,7 +520,7 @@ func _execute_turn_action(action: Dictionary):
 				if spell_element != "" and spell_element != action["actor"].get_element():
 					action["actor"].set_element(spell_element)
 					var elem_color = element_db.get(spell_element, {}).get("color", "#ffffff")
-					MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is now a [color=%s]%s[/color] element!" % [_get_display_name(action["actor"]), elem_color, spell_element] })
+					MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is now [color=%s]%s[/color] element!" % [_get_display_name(action["actor"]), elem_color, spell_element] })
 					await wait_for_writing()
 
 # ============================================================
@@ -732,6 +736,7 @@ func _execute_hit(data, user, who: String, target):
 					var mag: int = data.get("magnitude", 1)
 					var idx      = int(target_who.split("_")[1])
 					enemy_timers[idx] += mag
+					_emit_timer_update()
 					MyEventBus.emit("continue_text", { "text": "[color=yellow]%s's next action delayed by %d![/color]" % [_get_display_name(target), mag], "linebreak": false })
 				await wait_for_writing()
 			elif result["status"] == "lifedrain" and result["damage"] > 0:
