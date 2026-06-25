@@ -78,6 +78,14 @@
 		"stats": { "mgt": 9, "acc": 60, "wgt": 10, "crit": 0, "mys": 0 },
 		"effect": "none"
 	},
+	"Bone Club": {
+		"name": "Bone Club",
+		"description": "A femur shaped into a weapon — one end weighted, the other wrapped with cord. Found buried in the Sundown Plateau. Whoever left it down there knew what they were doing.",
+		"element": "Dark",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 10, "acc": 55, "wgt": 11, "crit": 0, "mys": 0 },
+		"effect": "none"
+	},
 	"Iron Dagger": {
 		"name": "Iron Dagger",
 		"description": "A short iron blade, easy to conceal and quick to draw in a desperate moment.",

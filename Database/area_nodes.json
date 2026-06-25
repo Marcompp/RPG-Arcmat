@@ -171,7 +171,14 @@
 		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You walk along the riverbank, the water rushing steadily beside you as you follow its course." },
 		{ "choice": "Try to cross the river", "leads_to": "FOREST", "value": 0.8, "travel_text": "You wade into the current, the cold water rising to your waist. You fight across and emerge on the far bank, dripping and breathless." },
 		{ "choice": "Try to go around", "leads_to": "FOREST", "travel_text": "You backtrack along the edge of the river, searching for a narrower crossing before pressing back into the forest." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Fish",
+		"tooltip": "Someone left a rod wedged between the rocks. Try your luck.",
+		"disabled_tooltip": "You already fished here.",
+		"event": "apple_woods_fishing",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Bridge",
@@ -321,7 +328,14 @@
 	  ],
 	  "exits": [
 		{ "choice": "Find a way around the lake", "leads_to": "FOREST", "travel_text": "You skirt the edge of the lake, weaving through the trees until the water disappears behind you." }
-	  ]
+	  ],
+	  "action": {
+		"name": "Fish",
+		"tooltip": "A weathered rod leans against a driftwood log at the water's edge.",
+		"disabled_tooltip": "The rod is in two pieces now.",
+		"event": "apple_woods_fishing",
+		"repeatable": false
+	  }
 	},
 	{
 	  "name": "Cabin",
@@ -787,7 +801,14 @@
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant." },
 			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You veer right and continue across the barren expanse, dust rising faintly with each step." }
-			]
+			],
+			"action": {
+				"name": "Dig for valuables",
+				"tooltip": "Someone left a shovel stuck in the cracked earth. The whole plateau was a burial ground once.",
+				"disabled_tooltip": "Nothing left worth digging for.",
+				"event": "sundown_plateau_dig",
+				"repeatable": false
+			}
 		  },
 		  {
 			"name": "Catacomb",
@@ -809,19 +830,22 @@
 			  { "text": "You hear something shifting beneath the earth.", "chance": 0.4 }
 			],
 			"exits": [
-			  { "choice": "Enter the catacomb", "leads_to": "CATACOMB", "value": 1,
-				"travel_text": "You descend into the catacombs, the light fading from your surroundings as you make your way down the stone steps. \n In the dark, narrow tunnels stretch beneath the plateau"
+			  { "choice": "Enter the catacomb", "leads_to": "DESCENT", "value": 1,
+				"travel_text": "You descend into the catacombs, the light fading from your surroundings as you make your way down the stone steps. \n In the dark, narrow tunnels stretch beneath the plateau."
 			},
 			  { "choice": "Go around", "leads_to": "SURFACE", "value": 1, "travel_text": "You give the entrance a wide berth and continue across the plateau, leaving the mausoleum behind." }
 			]
 		  },
 		  {
 			"name": "Catacomb Tunnel",
-			"entrances": ["CATACOMB"],
+			"entrances": ["CATACOMB","STEPS"],
 			"backdrop": "sundown_catacomb3.png",
 			"arrival": {
 			  "ENTRANCE": [
 				"You descend into the catacombs, where narrow tunnels stretch beneath the plateau."
+			  ],
+			  "STEPS": [
+				"Your steps echo as a dark tunnel stretches in front of you."
 			  ],
 			  "CATACOMB": [
 				"Your steps echo as the dark tunnel stretches in front of you."
@@ -853,8 +877,11 @@
 		  {
 			"name": "Forked Tunnel",
 			"backdrop": "sundown_tunnel_split2.png",
-			"entrances": ["CATACOMB"],
+			"entrances": ["CATACOMB","STEPS"],
 			"arrival": {
+			  "STEPS": [
+				"The underground passage splits, its branches vanishing into darkness."
+			  ],
 			  "CATACOMB": [
 				"The underground passage splits, its branches vanishing into darkness."
 			  ],
@@ -1655,7 +1682,7 @@
 		  "name": "Mine for ore",
 		  "tooltip": "Pick up an ancient pickaxe and try to mine a seam for treasure.",
 		  "disabled_tooltip": "Nothing left to mine with.",
-		  "event": "mineshaft_depths",
+		  "event": "core_cavern_mining",
 		  "repeatable": false
 		}
 	  },

@@ -153,6 +153,26 @@
 			}
 		]
 	},
+	"lady_of_the_lake": {
+		"steps": [
+			{"type":"text", "text": "As you approach the lake, you veer just a bit too close and-", "clear":true},
+			{"type":"sfx", "sfx":"water"},
+			{"type":"text", "text": "Darn, you dropped your axe into the water!", "clear":false},
+			{"type":"text", "text": "As you stand around, feeling sorry for yourself, the water of the lake seems to coalesce into a figure:", "clear":false},
+			{"type":"text", "text": "\"Hail, adventurer,\" a beautiful woman with hair that flows like water appears before you. Her appearance, half-submerged into the lake and clad in naught but water, is distracting, to say the least.", "clear":false},
+			{"type":"text", "text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?", "clear":false},
+			{"type": "choice", "header": "Which axe do you claim?",
+				"choices": [
+					{"choice": "The silver one", "key": "silver"},
+					{"choice": "The gold one", "key": "gold"},
+					{"choice": "Neither", "key": "back"}
+				],
+				"branches": {}
+			}
+		]
+
+
+	},
 	"travelling_item_merchant": {
 		"repeatable": false,
 		"steps": [
@@ -676,72 +696,54 @@
 	"apple_woods_fishing": {
 		"steps": [
 			{"type": "text", "text": "You fashion a crude rod out of a tree branch and some string. The water is sparkling and you can see shapes moving underneath."},
-			{"type": "choice", "header": "What do you do?",
-				"choices": [
-					{"choice": "Cast a line", "key": "fish"},
-					{"choice": "Leave it", "key": "leave"}
-				],
-				"branches": {
-					"fish": [
-						{"type": "text", "text": "You wedge yourself against the bank, cast as far as you can manage, and wait."},
-						{"type": "event", "event": "apple_woods_fish_a"}
-					],
-					"leave": [
-						{"type": "text", "text": "You toss the rod on the waterbank."}
-					]
-				}
-			},
-			{"type": "show_node"}
-		]
-	},
-	"apple_woods_fish_a": {
-		"steps": [
+			{"type": "text", "text": "You wedge yourself against the bank, cast as far as you can manage, and wait."},
 			{"type": "text", "text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!", "clear":false},
 			{"type":"sfx",       "sound":"water"},
 			{"type": "random", "outcomes": [
 				{"weight": 12,
-				"steps": [
-					{"type": "text", "text": "...Nothing. The line drifts. A leaf passes it. You wait a bit longer and still nothing."},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "text", "text": "...Nothing. The line drifts. A leaf passes it. You wait a bit longer and still nothing."},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 5,
-				"steps": [
-					{"type": "event", "event": "fish_red_apple"},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "event", "event": "fish_red_apple"},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 10, "stat_weights": {"lck": -0.5},
-				"steps": [
-					{"type": "event", "event": "fish_brown_apple"},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "event", "event": "fish_brown_apple"},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 5, "stat_weights": {"lck": 1},
-				"steps": [
-					{"type": "event", "event": "fish_silverscale"},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "event", "event": "fish_silverscale"},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 2, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Old Boot"},
-				"steps": [
-					{"type": "event", "event": "fish_old_boot"},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "event", "event": "fish_old_boot"},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 0, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Sparkling Sapphire"},
-				"steps": [
-					{"type": "event", "event": "fish_sapphire"},
-					{"type": "event", "event": "apple_woods_fish_b"}
+					"steps": [
+						{"type": "event", "event": "fish_sapphire"},
+						{"type": "event", "event": "apple_woods_fish_b"}
 				]},
 				{"weight": 7, "stat_weights": {"lck": -0.5},
-				"steps": [
-					{"type": "event", "event": "fish_bitefish"}
+					"steps": [
+						{"type": "event", "event": "fish_bitefish"}
 				]},
 				{"weight": 3, "stat_weights": {"lck": -0.5},
-				"steps": [
-					{"type": "event", "event": "fish_sparkfish"}
+					"steps": [
+						{"type": "event", "event": "fish_sparkfish"}
 				]},
 				{"weight": 8, "stat_weights": {"dex": -1},
-				"steps": [
-					{"type": "text", "text": "The line catches on something in the current. You pull against it — the rod bends, holds, bends further, and snaps. The pieces hit the water and drift away."}
+					"steps": [
+						{"type": "text", "text": "The line catches on something in the current. You pull against it — the rod bends, holds, bends further, and snaps. The pieces hit the water and drift away."}
 				]}
-			]}
+			]},
+			{"type": "show_node"}
 		]
 	},
 	"apple_woods_fish_b": {
@@ -754,7 +756,7 @@
 				],
 				"branches": {
 					"continue": [
-						{"type": "text", "text": "Cast your line again, and wait."},
+						{"type": "text", "text": "You cast your line again, and wait."},
 						{"type": "text", "text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!", "clear":false},
 						{"type":"sfx",       "sound":"water"},
 						{"type": "random", "outcomes": [
@@ -820,6 +822,9 @@
 				],
 				"branches": {
 					"continue": [
+						{"type": "text", "text": "You cast your line one last time, and wait."},
+						{"type": "text", "text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!", "clear":false},
+						{"type":"sfx",       "sound":"water"},
 						{"type": "random", "outcomes": [
 							{"weight": 12,
 								"steps": [
@@ -2255,6 +2260,470 @@
 			}
 		]
 	},
+	"sundown_plateau_dig": {
+		"steps": [
+			{"type": "text", "text": "An old shovel stands upright in the cracked earth — broad blade, handle darkened with old sweat. It's been here long enough to be forgotten. The whole plateau is burial ground. Odds are something's under it."},
+			{"type": "text", "text": "You get to work."},
+			{"type": "sfx", "sound": "earth"},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 10,
+					"steps": [
+						{"type": "text", "text": "You dig until the blade hits something. You clear around it with your hands. A finger bone. Not a hand — just the one."},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 8,
+					"steps": [
+						{"type": "text", "text": "You hit a coffin lid — intact, sealed, hinged. You consider it. You fill the hole back in."},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 6,
+					"steps": [
+						{"type": "text", "text": "The blade bounces off hardpan — packed earth, dry as stone. Too dense to break without a longer tool. Nothing."},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 5,
+					"steps": [
+						{"type": "text", "text": "The blade catches a buried stone wrong. The handle splinters clean through the grip and the head rings off into the dirt. That's the end of that."}
+					]
+				},
+				{
+					"weight": 4, "stat_weights": {"str": -0.5},
+					"steps": [
+						{"type": "text", "text": "The shovel wrenches sideways on a root, twisting out of your grip. The handle clips you across the shin before you catch it."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 5, "stat_weights": {"lck": -0.5},
+					"steps": [
+						{"type": "text", "text": "An arm comes up first — palm-down, fingers splayed. Then the rest of it pulls free of the earth."},
+						{"type": "combat", "enemy": "Zombie",
+							"on_victory": [
+								{"type": "text", "text": "It collapses back into the turned soil. You look at the hole."},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 3, "stat_weights": {"lck": -0.5},
+					"steps": [
+						{"type": "text", "text": "The earth shifts. Something assembled under it — fully intact — rattles upright from the broken ground."},
+						{"type": "combat", "enemy": "Skeleton",
+							"on_victory": [
+								{"type": "text", "text": "You kick the pieces apart. Back to the shovel."},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": -0.5},
+					"steps": [
+						{"type": "text", "text": "A cold bloom of air — then visible. Something was down there that didn't stay down."},
+						{"type": "combat", "enemy": "Ghost",
+							"on_victory": [
+								{"type": "text", "text": "It dissipates without a word. You check the shovel — still intact."},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 7,
+					"steps": [
+						{"type": "event", "event": "dig_grave_coins"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 4, "stat_weights": {"str": 0.5},
+					"steps": [
+						{"type": "event", "event": "dig_burial_cache"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "event", "event": "dig_ether"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 0.5},
+					"steps": [
+						{"type": "event", "event": "dig_bone_club"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Lifespark Crystal"},
+					"steps": [
+						{"type": "event", "event": "dig_lifespark_crystal"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tough Topaz"},
+					"steps": [
+						{"type": "event", "event": "dig_tough_topaz"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Abyssal Onyx"},
+					"steps": [
+						{"type": "event", "event": "dig_abyssal_onyx"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Crumbled Epitaph"},
+					"steps": [
+						{"type": "event", "event": "dig_crumbled_epitaph"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tally Stone"},
+					"steps": [
+						{"type": "event", "event": "dig_tally_stone"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Ferryman's Obol"},
+					"steps": [
+						{"type": "event", "event": "dig_ferrymansobol"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				}
+			]},
+			{"type": "show_node"}
+		]
+	},
+	"sundown_plateau_dig_b": {
+		"steps": [
+			{"type": "text", "text": "The soil runs deep here. The shovel is still holding."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Keep digging", "key": "continue"},
+					{"choice": "Stop", "key": "stop"}
+				],
+				"branches": {
+					"continue": [
+						{"type": "text", "text": "You reset your stance and drive the blade back in."},
+						{"type": "sfx", "sound": "earth"},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 18, "stat_weights": {"str": -0.5},
+								"steps": [
+									{"type": "text", "text": "The ground here gives nothing. Dry clay, old root, nothing else."},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 8, "stat_weights": {"str": -1},
+								"steps": [
+									{"type": "text", "text": "The shovel head snaps off mid-swing, rings against a buried stone and disappears into the dark. The handle is just a handle now."}
+								]
+							},
+							{
+								"weight": 6, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "text", "text": "An arm comes up first. Then the rest."},
+									{"type": "combat", "enemy": "Zombie",
+										"on_victory": [
+											{"type": "text", "text": "It goes still. You look at the hole. Nothing in it."}
+										]
+									}
+								]
+							},
+							{
+								"weight": 4, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "text", "text": "Something assembled — fully intact — comes upright from the earth."},
+									{"type": "combat", "enemy": "Skeleton",
+										"on_victory": [
+											{"type": "text", "text": "You kick the pieces apart and get back to work."}
+										]
+									}
+								]
+							},
+							{
+								"weight": 2, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "text", "text": "Cold air. Then visible."},
+									{"type": "combat", "enemy": "Ghost",
+										"on_victory": [
+											{"type": "text", "text": "It dissipates. The shovel is still upright in the earth."}
+										]
+									}
+								]
+							},
+							{
+								"weight": 6,
+								"steps": [
+									{"type": "event", "event": "dig_grave_coins"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 3, "stat_weights": {"str": 0.5, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_burial_cache"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "event", "event": "dig_ether"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_bone_club"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+								"steps": [
+									{"type": "event", "event": "dig_lifespark_crystal"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tough Topaz"},
+								"steps": [
+									{"type": "event", "event": "dig_tough_topaz"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Abyssal Onyx"},
+								"steps": [
+									{"type": "event", "event": "dig_abyssal_onyx"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Crumbled Epitaph"},
+								"steps": [
+									{"type": "event", "event": "dig_crumbled_epitaph"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tally Stone"},
+								"steps": [
+									{"type": "event", "event": "dig_tally_stone"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Ferryman's Obol"},
+								"steps": [
+									{"type": "event", "event": "dig_ferrymansobol"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							}
+						]}
+					],
+					"stop": [
+						{"type": "text", "text": "You plant the blade in the earth and walk away."}
+					]
+				}
+			}
+		]
+	},
+	"sundown_plateau_dig_c": {
+		"steps": [
+			{"type": "text", "text": "The handle is warm and the socket is loosening. One more bad swing and that's it."},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Keep digging", "key": "continue"},
+					{"choice": "Stop", "key": "stop"}
+				],
+				"branches": {
+					"continue": [
+						{"type": "text", "text": "You drive the blade back in."},
+						{"type": "sfx", "sound": "earth"},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 28, "stat_weights": {"str": -0.5},
+								"steps": [
+									{"type": "text", "text": "The handle gives out on the next swing — socket splits, blade drops. That's that."}
+								]
+							},
+							{
+								"weight": 8, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "text", "text": "An arm comes up first. Then the rest."},
+									{"type": "combat", "enemy": "Zombie",
+										"on_victory": [
+											{"type": "text", "text": "It goes still. The shovel is done. So are you."},
+											{"type": "show_node"}
+										]
+									}
+								]
+							},
+							{
+								"weight": 5, "stat_weights": {"str": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_grave_coins"}
+								]
+							},
+							{
+								"weight": 2, "stat_weights": {"str": 1, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_burial_cache"}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "event", "event": "dig_ether"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_bone_club"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Lifespark Crystal"},
+								"steps": [
+									{"type": "event", "event": "dig_lifespark_crystal"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tough Topaz"},
+								"steps": [
+									{"type": "event", "event": "dig_tough_topaz"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Abyssal Onyx"},
+								"steps": [
+									{"type": "event", "event": "dig_abyssal_onyx"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Crumbled Epitaph"},
+								"steps": [
+									{"type": "event", "event": "dig_crumbled_epitaph"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Tally Stone"},
+								"steps": [
+									{"type": "event", "event": "dig_tally_stone"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Ferryman's Obol"},
+								"steps": [
+									{"type": "event", "event": "dig_ferrymansobol"}
+								]
+							}
+						]}
+					],
+					"stop": [
+						{"type": "text", "text": "You leave the shovel upright in the earth and walk away."}
+					]
+				}
+			}
+		]
+	},
+	"dig_grave_coins": {
+		"steps": [
+			{"type": "text", "text": "A scatter of coins at arm's depth — burial offerings, old denomination. Most are tarnished down to copper color regardless of what they were."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 40},
+			{"type": "text", "text": "You got [color=yellow]40G[/color] (pried from the clay)."}
+		]
+	},
+	"dig_burial_cache": {
+		"steps": [
+			{"type": "text", "text": "Your blade strikes something solid. You dig around it — a small strongbox, iron-banded, the lock rusted through. Inside: coin, a few rings, compressed wax seals from someone's estate."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 100},
+			{"type": "text", "text": "You got [color=yellow]100G[/color] worth of burial valuables."}
+		]
+	},
+	"dig_ether": {
+		"steps": [
+			{"type": "text", "text": "Something hard and sealed near the bottom — a flask, still corked, still full. Someone buried their medicine with them. Their loss."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Ether"},
+			{"type": "text", "text": "You found an [color=teal]Ether[/color]."}
+		]
+	},
+	"dig_bone_club": {
+		"steps": [
+			{"type": "text", "text": "A femur — long, dense, still solid. Not a burial artifact; someone shaped the end of it, wrapped it with cord. Someone down there was ready for a fight."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Bone Club"},
+			{"type": "text", "text": "You found a [color=red]Bone Club[/color]."}
+		]
+	},
+	"dig_lifespark_crystal": {
+		"steps": [
+			{"type": "text", "text": "Your shovel strikes something that doesn't sound like stone — hollow, crystalline. You dig it free. A glowing crystal, pulsing faintly. Below the plateau: the Caves of Light. It seeped up.\n\nYou found a [color=cyan]Lifespark Crystal[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Lifespark Crystal"}
+		]
+	},
+	"dig_tough_topaz": {
+		"steps": [
+			{"type": "text", "text": "You catch a flash of yellow in the broken earth. A topaz, uncut, catching the light at an odd angle. Heavy for its size.\n\nYou found a [color=yellow]Tough Topaz[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Tough Topaz"}
+		]
+	},
+	"dig_abyssal_onyx": {
+		"steps": [
+			{"type": "text", "text": "Your blade splits a stone and the inside is different — black, smooth, no grain, no texture. Onyx, caught in the matrix. It breaks clean.\n\nYou found an [color=purple]Abyssal Onyx[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Abyssal Onyx"}
+		]
+	},
+	"dig_crumbled_epitaph": {
+		"steps": [
+			{"type": "text", "text": "A stone shard, edges worn. You turn it over. An inscription, partially legible: '...AND HE DID NOT —'\n\nThe rest is gone.\n\nYou found a [color=gray]Crumbled Epitaph[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Crumbled Epitaph"}
+		]
+	},
+	"dig_tally_stone": {
+		"steps": [
+			{"type": "text", "text": "A smooth river stone covered in scratched tally marks — hundreds of them, all the way to the edge. Someone counted something, all the way to the end.\n\nYou found a [color=gray]Tally Stone[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Tally Stone"}
+		]
+	},
+	"dig_ferrymansobol": {
+		"steps": [
+			{"type": "text", "text": "A coin, heavier than it should be — ancient, no denomination you recognize. Both faces worn to a faint impression of a boat. You pocket it. You figure you're covered.\n\nYou found a [color=yellow]Ferryman's Obol[/color]!"},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Ferryman's Obol"}
+		]
+	},
 	"circus_enter": {
 		"repeatable": false,
 		"steps": [
@@ -3064,411 +3533,327 @@
 		]
 	},
 
-	"mineshaft_depths": {
+	"core_cavern_mining": {
 		"steps": [
 			{"type": "text", "text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Troll-made — heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."},
+			{"type": "text", "text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."},
+			{"type": "sfx", "sound": "earth"},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 8, "stat_weights": {"str": -0.5},
+					"steps": [
+						{"type": "text", "text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it."},
+						{"type": "sfx", "sound": "hit"},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}}
+					]
+				},
+				{
+					"weight": 9,
+					"steps": [
+						{"type": "text", "text": "The seam runs out fast. You chase it deeper, angle after angle, until the pickaxe head snaps clean off and bounces away into the dark. You stand there with a broken handle. Nothing."}
+					]
+				},
+				{
+					"weight": 15,
+					"steps": [
+						{"type": "text", "text": "The rock gives nothing. A dry swing, another, a third. No vein, no pocket, nothing but dust. The pickaxe is still in one piece, at least."},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 6, "stat_weights": {"str": 0.5},
+					"steps": [
+						{"type": "event", "event": "mine_fool_gold"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 3, "stat_weights": {"str": 0.5, "lck": 0.5},
+					"steps": [
+						{"type": "event", "event": "mine_rough_gems"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
+					"steps": [
+						{"type": "event", "event": "mine_large_vein"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Amber Drop"},
+					"steps": [
+						{"type": "event", "event": "mine_amber_drop"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Brilliant Ruby"},
+					"steps": [
+						{"type": "event", "event": "mine_brilliant_ruby"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 2, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Obsidian Chunk"},
+					"steps": [
+						{"type": "event", "event": "mine_obsidian_chunk"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+					"steps": [
+						{"type": "event", "event": "mine_lifespark_crystal"},
+						{"type": "event", "event": "core_cavern_mine_b"}
+					]
+				}
+			]},
+			{"type": "show_node"}
+		]
+	},
+
+	"mine_fool_gold": {
+		"steps": [									
+			{"type": "text", "text": "You hit something. Using your hands, you try pulling it out.[wait=0.1] Jackpot! It's big gold nugget, as big as your fist! You're rich!\n\n...Or not. Upon closer inspection, it's actually fools' gold."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 40},
+			{"type": "text", "text": "You got [color=yellow]40G[/color] (eventually)."}
+		]
+	},
+
+	"mine_rough_gems": {
+		"steps": [									
+			{"type": "text", "text": "You find the right angle and the rock splits. A small pocket — rough gems, uncut, catching the torchlight at odd angles. Small, but real, and sure to be worth something."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 100},
+			{"type": "text", "text": "You got [color=yellow]100G[/color] (eventually)."}
+		]
+	},
+
+	"mine_large_vein": {
+		"steps": [
+			{"type": "text", "text": "The wall gives suddenly — a vein of gold, running wide. More than you expected. By the time you tally it all, your wallet feels a lot heavier."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 150},
+			{"type": "text", "text": "You found [color=yellow]150G[/color]."}
+		]
+	},
+
+	"mine_amber_drop": {
+		"steps": [
+			{"type": "text", "text": "You break a seam and something catches the torchlight. Jackpot! Amber — pale orange, warm even underground. Something preserved inside, an insect you don't recognise. You pocket it."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Amber Drop"}
+		]
+	},
+
+	"mine_brilliant_ruby": {
+		"steps": [
+			{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Jackpot! A ruby, deep red, still warm from the stone around it. The Core Cavern's warmth, stored for centuries. You pocket it."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Brilliant Ruby"}
+		]
+	},
+
+	"mine_obsidian_chunk": {
+		"steps": [
+			{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Jackpot! Obsidian — volcanic glass, still sharp where it broke clean. You feel more dangerous just by holding it. You pocket it."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Obsidian Chunk"}
+		]
+	},
+
+	"mine_lifespark_crystal": {
+		"steps": [
+			{"type": "text", "text": "The pickaxe hits something that doesn't sound like rock — a hollow, crystalline ring. You clear around it with your hands. A glowing crystal, embedded in the wall. It pulses when you touch it, reminding you of the Caves of Light."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Lifespark Crystal"}
+		]
+	},
+
+	"core_cavern_mine_b": {
+		"steps": [
+			{"type": "text", "text": "The pickaxe is starting to feel the work. The head is still solid, but the handle's warming in your grip."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
-					{"choice": "Mine the rock face", "key": "mine"},
-					{"choice": "Leave it alone", "key": "leave"}
+					{"choice": "Keep mining", "key": "continue"},
+					{"choice": "Stop", "key": "stop"}
 				],
 				"branches": {
-					"mine": [
-						{"type": "text", "text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."},
-						{"type": "event", "event": "mineshaft_mine_a"}
+					"continue": [
+						{"type": "text", "text": "You reset your stance and drive the pickaxe into the next seam."},
+						{"type": "sfx", "sound": "earth"},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 25, "stat_weights": {"str": -1},
+								"steps": [
+									{"type": "text", "text": "The rock fights back. A bad angle, a bad swing — the handle bites into your palm and the impact jars up your arm badly enough to make you drop it. You stand there bleeding, pickaxe at your feet."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 5}}
+								]
+							},
+							{
+								"weight": 16,
+								"steps": [
+									{"type": "text", "text": "You find nothing as you strike the seam, even as the pickaxe head wobbles loose and drops. That's the end of that."}
+								]
+							},
+							{
+								"weight": 18,
+								"steps": [
+									{"type": "text", "text": "Nothing. The rock is stubborn here — or there's nothing to find. The pickaxe is holding, barely."},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 6, "stat_weights": {"str": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_fool_gold"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 2, "stat_weights": {"str": 0.5, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_rough_gems"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"str": 0.5, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_large_vein"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Amber Drop"},
+								"steps": [
+									{"type": "event", "event": "mine_amber_drop"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Brilliant Ruby"},
+								"steps": [
+									{"type": "event", "event": "mine_brilliant_ruby"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Obsidian Chunk"},
+								"steps": [
+									{"type": "event", "event": "mine_obsidian_chunk"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+								"steps": [
+									{"type": "event", "event": "mine_lifespark_crystal"},
+									{"type": "event", "event": "core_cavern_mine_c"}
+								]
+							}
+						]}
 					],
-					"leave": [
-						{"type": "text", "text": "You leave the pickaxe where it stands and find the main shaft again."},
-						{"type": "show_node"}
+					"stop": [
+						{"type": "text", "text": "You set the pickaxe down against the rock face and find the main shaft."}
 					]
 				}
 			}
 		]
 	},
 
-	"mineshaft_mine_a": {
-		"steps": [
-			{"type": "random", "outcomes": [
-				{
-					"weight": 2, "stat_weights": {"str": -1},
-					"steps": [
-						{"type": "text", "text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it."},
-						{"type": "sfx", "sound": "hit"},
-						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1,
-					"steps": [
-						{"type": "text", "text": "The seam runs out fast. You chase it deeper, angle after angle, until the pickaxe head snaps clean off and bounces away into the dark. You stand there with a broken handle. Nothing."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 3,
-					"steps": [
-						{"type": "text", "text": "The rock gives nothing. A dry swing, another, a third. No vein, no pocket, nothing but dust. The pickaxe is still in one piece, at least."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 3, "stat_weights": {"str": 0.5, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "You find the right angle and the rock splits. A small pocket — rough stones, uncut, catching the torchlight at odd angles. Small, but real."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 60},
-						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color] worth to the right buyer."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "The wall gives suddenly — a wide vein, running deep. More than you expected, more than you can carry. You work it until the pickaxe is blunt. Your pack is heavier when you step back."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 150},
-						{"type": "text", "text": "Raw ore and good stone — worth [color=yellow]150G[/color]."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
-					"steps": [
-						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Amber — pale orange, warm even underground. Something preserved inside, too small to name."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Amber Drop"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
-					"steps": [
-						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. A ruby, deep red, still warm from the stone around it. Heat stored for centuries."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Brilliant Ruby"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 2, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
-					"steps": [
-						{"type": "text", "text": "You break a seam and something catches the torchlight that isn't ore. Obsidian — volcanic glass, still sharp where it broke clean. The Lizals prize this. You can see why."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Obsidian Chunk"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
-					"steps": [
-						{"type": "text", "text": "The pickaxe hits something that doesn't sound like rock — a hollow, crystalline ring. You clear around it with your hands. A crystal, roughly fist-sized, embedded in the wall. It pulses when you touch it. Slow. Steady. Like something breathing."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Lifespark Crystal"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_b"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				}
-			]}
-		]
-	},
-
-	"mineshaft_mine_b": {
-		"steps": [
-			{"type": "text", "text": "The pickaxe is starting to feel the work. You press on."},
-			{"type": "random", "outcomes": [
-				{
-					"weight": 4, "stat_weights": {"str": -1},
-					"steps": [
-						{"type": "text", "text": "The rock fights back. A bad angle, a bad swing — the handle bites into your palm and the impact jars up your arm badly enough to make you drop it. You stand there bleeding, pickaxe at your feet."},
-						{"type": "sfx", "sound": "hit"},
-						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 3,
-					"steps": [
-						{"type": "text", "text": "Nothing. The seam thins out to nothing, then the pickaxe head wobbles loose and drops. You watch it bounce twice and disappear. That's the end of that."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 3,
-					"steps": [
-						{"type": "text", "text": "Another dry run. The rock is stubborn here — or there's nothing to find. The pickaxe is holding, barely."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 2, "stat_weights": {"str": 0.5, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "A small pocket opens up in the rock. Rough stones, a few of them, catching the light. Worth something."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 60},
-						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color]."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "Another vein, narrower than the first but real. You work it fast before the pickaxe gives out."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 150},
-						{"type": "text", "text": "[color=yellow]150G[/color] in ore."},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
-					"steps": [
-						{"type": "text", "text": "Something catches the light in the broken rock — amber, warm to the touch, something ancient inside it."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Amber Drop"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
-					"steps": [
-						{"type": "text", "text": "A ruby in the broken rock — dark red, still warm. You pocket it."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Brilliant Ruby"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
-					"steps": [
-						{"type": "text", "text": "Obsidian in the break — volcanic glass, clean-edged. You pocket it."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Obsidian Chunk"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
-					"steps": [
-						{"type": "text", "text": "A crystalline ring from the rock — you dig it free with your hands. It pulses against your palm, slow and steady."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Lifespark Crystal"},
-						{"type": "choice", "header": "What do you do?",
-							"choices": [
-								{"choice": "Keep mining", "key": "continue"},
-								{"choice": "Stop", "key": "stop"}
-							],
-							"branches": {
-								"continue": [{"type": "event", "event": "mineshaft_mine_c"}],
-								"stop": [{"type": "show_node"}]
-							}
-						}
-					]
-				}
-			]}
-		]
-	},
-
-	"mineshaft_mine_c": {
+	"core_cavern_mine_c": {
 		"steps": [
 			{"type": "text", "text": "The pickaxe is down to its last few swings. You can feel it."},
-			{"type": "random", "outcomes": [
-				{
-					"weight": 6, "stat_weights": {"str": -1},
-					"steps": [
-						{"type": "text", "text": "One swing too many. The handle splits and the head skips off the rock into your knee. You limp back from the face, bleeding, the broken handle still in your fist."},
-						{"type": "sfx", "sound": "hit"},
-						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 5,
-					"steps": [
-						{"type": "text", "text": "Nothing here. The seam runs cold, and the pickaxe gives out on the last swing — head spinning off into the dark. You set the broken handle against the wall out of habit and walk away."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 2,
-					"steps": [
-						{"type": "text", "text": "Nothing in this stretch. The pickaxe gives out on the last swing, handle splitting down the grain. You set it down and call it."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"str": 0.5, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "A small pocket breaks open — rough stones, real ones. The pickaxe head snaps loose on the same swing that finds them."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 60},
-						{"type": "text", "text": "Rough gemstones — [color=yellow]60G[/color]. The pickaxe is done."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"str": 1, "lck": 0.5},
-					"steps": [
-						{"type": "text", "text": "One last vein — narrow, but real. You get what you can before the pickaxe head wobbles free and drops. You take the ore and leave the tool."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_gold", "amount": 150},
-						{"type": "text", "text": "[color=yellow]150G[/color] in ore. The pickaxe is done."},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
-					"steps": [
-						{"type": "text", "text": "Amber in the break — old, warm, something inside it. The pickaxe gives out on the next swing. You pocket the amber and leave."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Amber Drop"},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
-					"steps": [
-						{"type": "text", "text": "A ruby tumbles free of the rock. Dark red, warm. The pickaxe gives out on the next swing. You pocket it and go."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Brilliant Ruby"},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
-					"steps": [
-						{"type": "text", "text": "Obsidian falls clean from the break. The pickaxe doesn't survive the swing that finds it. You take the glass and leave the handle."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Obsidian Chunk"},
-						{"type": "show_node"}
-					]
-				},
-				{
-					"weight": 1, "stat_weights": {"lck": 1.5}, "condition": {"lacks_item": "Lifespark Crystal"},
-					"steps": [
-						{"type": "text", "text": "Something rings in the rock — crystalline, hollow. You dig it free as the pickaxe gives its last. A crystal, pulsing slow. You pocket it and go."},
-						{"type": "sfx", "sound": "item"},
-						{"type": "give_item", "item": "Lifespark Crystal"},
-						{"type": "show_node"}
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Keep mining", "key": "continue"},
+					{"choice": "Stop", "key": "stop"}
+				],
+				"branches": {
+					"continue": [
+						{"type": "text", "text": "You drive the pickaxe into the rock one last time."},
+						{"type": "sfx", "sound": "earth"},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 40, "stat_weights": {"str": -1},
+								"steps": [
+									{"type": "text", "text": "One swing too many. The handle splits and the head skips off the rock into your knee. You limp back from the face, bleeding, the broken handle still in your fist."},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 5}}
+								]
+							},
+							{
+								"weight": 20,
+								"steps": [
+									{"type": "text", "text": "Nothing here. The seam runs cold, and the pickaxe gives out on the last swing — head spinning off into the dark. You set the broken handle against the wall and walk away."}
+								]
+							},
+							{
+								"weight": 20,
+								"steps": [
+									{"type": "text", "text": "Nothing in this stretch. The pickaxe gives out on the last swing, handle splitting down the grain. You set it down and call it."}
+								]
+							},
+							{
+								"weight": 10, "stat_weights": {"str": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_fool_gold"}
+								]
+							},
+							{
+								"weight": 5, "stat_weights": {"str": 0.5, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_rough_gems"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							},
+							{
+								"weight": 1, "stat_weights": {"str": 0.5, "lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "mine_large_vein"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							},
+							{
+								"weight": -5, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Amber Drop"},
+								"steps": [
+									{"type": "event", "event": "mine_amber_drop"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							},
+							{
+								"weight": -5, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Brilliant Ruby"},
+								"steps": [
+									{"type": "event", "event": "mine_brilliant_ruby"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							},
+							{
+								"weight": -5, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Obsidian Chunk"},
+								"steps": [
+									{"type": "event", "event": "mine_obsidian_chunk"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							},
+							{
+								"weight": -3, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Lifespark Crystal"},
+								"steps": [
+									{"type": "event", "event": "mine_lifespark_crystal"},
+									{"type": "text", "text": "The pickaxe is done.", "clear": false}
+								]
+							}
+						]}
+					],
+					"stop": [
+						{"type": "text", "text": "You set the pickaxe down against the rock face and walk away. It was probably too dangerous to swing, anyway."}
 					]
 				}
-			]}
+			}
 		]
 	},
 

@@ -209,10 +209,33 @@
 	},
 	"Old Boot": {
 		"name": "Old Boot",
-		"description": "A waterlogged boot, found at the end of your line instead of anything useful. Still structurally intact, if you squint. Smells like the lake.",
+		"description": "A waterlogged boot, found at the end of your line instead of anything useful. Still structurally intact, if you squint. Smells like the wet fur.",
 		"effect_description": "Agility +1. It is still a boot.",
 		"effect": "stat_bonus",
 		"stats": { "agi": 1 },
+		"stackable": false
+	},
+	"Crumbled Epitaph": {
+		"name": "Crumbled Epitaph",
+		"description": "A fragment of headstone. The inscription ends mid-sentence: '...AND HE DID NOT —'. The rest is gone.",
+		"effect_description": "Once per battle, a killing blow instead leaves you at 1 HP.",
+		"effect": "last_stand",
+		"stackable": false
+	},
+	"Tally Stone": {
+		"name": "Tally Stone",
+		"description": "A smooth river stone covered in scratched tally marks — hundreds of them, all the way to the edge. Someone used this to count... something. Probably.",
+		"effect_description": "+3 Strength.",
+		"effect": "stat_bonus",
+		"stats": { "str": 3 },
+		"stackable": false
+	},
+	"Ferryman's Obol": {
+		"name": "Ferryman's Obol",
+		"description": "An ancient coin, heavier than it should be. Both faces worn to a faint impression of a boat. Used in burial customs of centuries past.",
+		"effect_description": "+4 Luck.",
+		"effect": "stat_bonus",
+		"stats": { "lck": 4 },
 		"stackable": false
 	}
 }
