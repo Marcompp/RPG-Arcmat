@@ -37,6 +37,21 @@ func _ready():
 		else:
 			enemy_panel.death_animation()
 	)
+	MyEventBus.subscribe("enemy_fled", func(data):
+		if data["who"] == "enemy_1":
+			enemy2_panel.flee_animation()
+		else:
+			enemy_panel.flee_animation()
+	)
+	MyEventBus.subscribe("enemy_summoned", func(data):
+		var new_char = data.get("character", null)
+		if new_char == null:
+			return
+		if data.get("who", "") == "enemy_1":
+			enemy2_panel.bind_character(new_char)
+		else:
+			enemy_panel.bind_character(new_char)
+	)
 	MyEventBus.subscribe("combat_ended", func(_data):
 		enemy_panel._clear_ui()
 		enemy2_panel._clear_ui()

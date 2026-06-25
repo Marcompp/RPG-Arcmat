@@ -35,6 +35,7 @@ var enemy_first_actions: Array = []
 
 var pending_action: Dictionary = {}
 var _died_enemies: Array = []
+var _fled_indices: Array = []
 
 var calc:        CombatCalculator
 var status_sys:  CombatStatusSystem
@@ -42,6 +43,12 @@ var menu:        CombatMenuBuilder
 var trinket_systems: Dictionary = {}
 
 var trinkets_db: Dictionary = {}
+
+var monster_db_ref: Array      = []
+var armor_db:       Dictionary = {}
+var weapon_db:      Dictionary = {}
+var _accumulated_rewards:    Dictionary = {}
+var _summon_name_counters:   Dictionary = {}
 
 # ============================================================
 # HELPERS
@@ -56,7 +63,7 @@ func _ekey(idx: int) -> String:
 func _living_indices() -> Array:
 	var r = []
 	for i in range(enemies.size()):
-		if enemies[i].get_hp() > 0:
+		if enemies[i].get_hp() > 0 and not i in _fled_indices:
 			r.append(i)
 	return r
 
@@ -128,6 +135,8 @@ func start_combat(p, e_or_array):
 		else:
 			enemy_display_names.append(n)
 
+	_summon_name_counters = name_count.duplicate()
+
 	for i in range(enemies.size()):
 		enemies[i].data["Name"] = enemy_display_names[i]
 		enemies[i].stats_changed.emit()
@@ -145,6 +154,8 @@ func start_combat(p, e_or_array):
 	enemy_first_actions = []
 	pending_action      = {}
 	_died_enemies       = []
+	_fled_indices       = []
+	_accumulated_rewards = { "xp": 0, "gold": 0, "drops": {} }
 
 	calc        = CombatCalculator.new(rng, element_db)
 	status_sys  = CombatStatusSystem.new(status_effects, cooldowns, status_db, player, enemies, _get_display_name)
@@ -247,9 +258,16 @@ func end_combat(victory: bool):
 
 	if victory and player.get_hp() > 0:
 		var rewards = _calculate_rewards()
-		var names   = ", ".join(enemy_display_names)
-		MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % names })
-		await wait_for_continue()
+		var defeated_names: Array = []
+		for i in range(enemies.size()):
+			if not i in _fled_indices:
+				defeated_names.append(enemy_display_names[i])
+		if not defeated_names.is_empty():
+			MyEventBus.emit("continue_text", { "text": "[color=yellow]%s[/color] was defeated!" % ", ".join(defeated_names) })
+			await wait_for_continue()
+		elif not _fled_indices.is_empty():
+			MyEventBus.emit("continue_text", { "text": "All enemies are gone..." })
+			await wait_for_continue()
 		var trinket_msg = _tsys("player").process_post_battle()
 		if trinket_msg != "":
 			MyEventBus.emit("continue_text", { "text": trinket_msg })
@@ -318,6 +336,10 @@ func _execute_trinket_start_skills():
 
 func render_player_turn():
 	var living = _living_indices()
+	
+	for i in living:
+		if enemy_timers[i] < 0:
+			enemy_timers[i] = enemies[i].data.get("Cooldown", 0)
 
 	_emit_timer_update()
 
@@ -427,8 +449,9 @@ func _resolve_turn_pair(player_action: Dictionary):
 
 	var all_actions: Array     = [player_action]
 	var preparing_indices: Array = []
+	var living = _living_indices()
 
-	for i in _living_indices():
+	for i in living:
 		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
 		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
 
@@ -441,9 +464,10 @@ func _resolve_turn_pair(player_action: Dictionary):
 			elif is_frozen:
 				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "frozen" })
 			else:
-				all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db))
+				all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db, living.size()))
 			enemy_first_actions[i] = false
-			enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
+			enemy_timers[i] -= 1
+			#enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
 		else:
 			preparing_indices.append(i)
 			if not is_stunned and not is_frozen:
@@ -479,6 +503,7 @@ func _resolve_turn_pair(player_action: Dictionary):
 	status_sys.process_statuses("player")
 	for i in range(enemies.size()):
 		status_sys.process_statuses(_ekey(i))
+		_notify_if_died(enemies[i])
 	await wait_for_writing()
 
 	state = CombatState.PLAYER_TURN
@@ -577,12 +602,23 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 	var target_name = "all enemies"
 	if data.get("type", "attack") == "all":
 		target_name = "the whole area"
-	elif not ((who == "player" and data.get("type", "attack") in ["aoe", "all"]) or (who != "player" and data.get("type", "attack") in ["group", "all"])):
+	elif not ((who == "player" and data.get("type", "attack") in ["aoe", "all", "random"]) or (who != "player" and data.get("type", "attack") in ["group", "all"])):
 		target_name = _get_display_name(target)
 
 	var use_text = data.get("use_text", "[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)])
 	MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(use_text, { "USER": user.get_name(), "TARGET": target_name }) + "[wait=0.1]" })
 	await wait_for_writing()
+
+	if data.get("type", "attack") == "flee":
+		var parts = who.split("_")
+		if parts.size() > 1 and parts[0] == "enemy":
+			_fled_indices.append(int(parts[1]))
+			MyEventBus.emit("enemy_fled", { "who": who })
+		return
+
+	if data.get("type", "attack") == "summon":
+		await _perform_summon(user, who, data)
+		return
 
 	if (who == "player" and data.get("type", "attack") in ["aoe", "all"]) or (who != "player" and data.get("type", "attack") in ["group", "all"]):
 		if who != "player" and data.get("type", "attack") == "all":
@@ -667,6 +703,8 @@ func _execute_hit(data, user, who: String, target):
 			var actor_sys  = _tsys(who)
 			var target_sys = _tsys(_who_for(target))
 			result["damage"] = max(1, int(result["damage"] * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
+			var living_count = _living_indices().size()
+			result["damage"] = max(1, int(result["damage"] * (target_sys.get_damage_taken_multiplier(living_count) if target_sys else 1.0)))
 			result["damage"] = target_sys.check_death_prevention(result["damage"]) if target_sys else result["damage"]
 			if _who_for(target) == "player" and target.get_hp() >= target.get_max_hp():
 				result["damage"] = min(result["damage"], target.get_max_hp() - 1)
@@ -777,11 +815,109 @@ func _play_damage_sound(data, user, _target):
 # REWARDS
 # ============================================================
 
+func _bank_enemy_rewards(idx: int) -> void:
+	if idx in _fled_indices:
+		return
+	var e = enemies[idx]
+	_accumulated_rewards["xp"]   += int(10.0 * pow(1.5, e.get_level() - 1))
+	_accumulated_rewards["gold"] += e.data.get("Gold", 0)
+	for item in e.data.get("Drops", {}):
+		if rng.randi_range(1, 100) <= e.data["Drops"][item]:
+			_accumulated_rewards["drops"][item] = _accumulated_rewards["drops"].get(item, 0) + 1
+
+func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
+	var monster_names = skill_data.get("summons", "")
+	if typeof(monster_names) != TYPE_ARRAY:
+		if monster_names == "":
+			return
+		monster_names = [monster_names]
+	if monster_names == []:
+		return
+	var how_many = skill_data.get("magnitude",1)
+	var to_summon = []
+	for i in range(how_many):
+		var monster_name_aux = monster_names[rng.randi() % monster_names.size()]
+		var monster_data: Dictionary = {}
+		for m in monster_db_ref:
+			if m.get("Name", "") == monster_name_aux:
+				monster_data = m.duplicate()
+				to_summon.append(monster_data)
+				break
+		if monster_data.is_empty():
+			push_error("Summon: monster not found in db: " + monster_name_aux)
+			return
+	var name_count = {}
+	for e in to_summon:
+		var n = e.get('Name','')
+		name_count[n] = name_count.get(n, 0) + 1
+	
+	for monster_data in to_summon:
+		var monster_name = monster_data.get("Name", "")
+		var slot_idx: int = -1
+		if enemies.size() == 1:
+			slot_idx = 1
+		else:
+			for i in range(enemies.size()):
+				if enemies[i].get_hp() <= 0 or i in _fled_indices:
+					slot_idx = i
+					break
+		if slot_idx == -1:
+			return
+
+		if slot_idx < enemies.size():
+			_bank_enemy_rewards(slot_idx)
+
+		var display_name = monster_name
+		_summon_name_counters[monster_name] = _summon_name_counters.get(monster_name, 0) + 1
+		if _summon_name_counters[monster_name] > 1 or name_count.get(monster_name,0) > 1:
+			display_name = "%s %s" % [monster_name, char(64 + _summon_name_counters[monster_name])]
+		monster_data["Name"] = display_name
+
+		var new_char = Character.new(monster_data, armor_db, weapon_db, rng)
+		var new_key  = _ekey(slot_idx)
+
+		if slot_idx < enemies.size():
+			enemies[slot_idx]             = new_char
+			enemy_display_names[slot_idx] = display_name
+			enemy_timers[slot_idx]        = monster_data.get("Startup", 0)
+			enemy_first_actions[slot_idx] = true
+			_died_enemies.erase(new_key)
+		else:
+			enemies.append(new_char)
+			enemy_display_names.append(display_name)
+			enemy_timers.append(monster_data.get("Startup", 0))
+			enemy_first_actions.append(true)
+
+		status_effects[new_key] = []
+		cooldowns[new_key]      = {}
+		new_char.set_stat_multipliers({})
+		status_sys.emit_status_update(new_key)
+
+		for skill in new_char.get_skills():
+			var s_data = skills_db.get(skill, {})
+			if s_data.has("startup"):
+				cooldowns[new_key][skill] = s_data["startup"]
+
+		if not new_char.get_trinkets().is_empty():
+			trinket_systems[new_key] = TrinketSystem.new(new_char, trinkets_db, status_effects, new_key)
+
+		new_char.data["Name"] = display_name
+		new_char.stats_changed.emit()
+
+		MyEventBus.emit("enemy_summoned", { "who": new_key, "character": new_char })
+		_emit_timer_update()
+
+		MyEventBus.emit("continue_text", { "text": "[b]%s[/b] appeared!" % display_name })
+		await wait_for_writing()
+
 func _calculate_rewards() -> Dictionary:
-	var total_xp   = 0
-	var total_gold = 0
-	var all_drops: Dictionary = {}
-	for e in enemies:
+	var total_xp   = _accumulated_rewards.get("xp",   0)
+	var total_gold = _accumulated_rewards.get("gold",  0)
+	var all_drops: Dictionary = _accumulated_rewards.get("drops", {}).duplicate()
+	for i in range(enemies.size()):
+		if i in _fled_indices:
+			continue
+		var e   = enemies[i]
 		var lvl = e.get_level()
 		total_xp   += int(10.0 * pow(1.5, lvl - 1))
 		total_gold += e.data.get("Gold", 0)

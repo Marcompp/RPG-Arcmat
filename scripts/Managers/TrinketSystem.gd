@@ -16,17 +16,32 @@ func _init(p_owner, p_trinkets_db: Dictionary, p_status_effects: Dictionary, p_o
 	owner_key      = p_owner_key
 	trinkets_db    = p_trinkets_db
 	status_effects = p_status_effects
-	var combined_stats: Dictionary = {}
 	for t in owner.get_trinkets():
 		var tdata  = trinkets_db.get(t, {})
 		var effect = tdata.get("effect", "")
 		match effect:
 			"duelist_combo": _states[t] = { "combo": 0 }
 			"last_stand":    _states[t] = { "used": false }
+			"tally_stacks":  _states[t] = { "stacks": 0 }
+			"low_hp_stats":
+				var threshold = tdata.get("threshold", 50)
+				var hp_pct = int(owner.get_hp() * 100.0 / owner.get_mhp()) if owner.get_mhp() > 0 else 100
+				_states[t] = { "active": hp_pct < threshold }
+	_refresh_flat_bonus()
+
+func _refresh_flat_bonus() -> void:
+	var combined: Dictionary = {}
+	for t in owner.get_trinkets():
+		var tdata = trinkets_db.get(t, {})
+		match tdata.get("effect", ""):
 			"stat_bonus":
 				for stat in tdata.get("stats", {}):
-					combined_stats[stat] = combined_stats.get(stat, 0) + int(tdata["stats"][stat])
-	owner.set_trinket_flat_bonus(combined_stats)
+					combined[stat] = combined.get(stat, 0) + int(tdata["stats"][stat])
+			"low_hp_stats":
+				if _states.has(t) and _states[t].get("active", false):
+					for stat in tdata.get("stats", {}):
+						combined[stat] = combined.get(stat, 0) + int(tdata["stats"][stat])
+	owner.set_trinket_flat_bonus(combined)
 
 func _trinkets_with_effect(effect: String) -> Array:
 	var result = []
@@ -73,6 +88,17 @@ func get_attack_multiplier(target_who: String, attack_element: String) -> float:
 				var char_element = owner.get_element()
 				if char_element != "Neutral" and char_element == attack_element:
 					mult *= 1.0 + bonus
+			"tally_stacks":
+				var step = trinkets_db.get(t, {}).get("magnitude", 3) / 100.0
+				mult *= 1.0 + step * _states[t]["stacks"]
+	return mult
+
+func get_damage_taken_multiplier(living_count: int) -> float:
+	var mult = 1.0
+	for t in _trinkets_with_effect("guardian_shield"):
+		if living_count > 1:
+			var reduction = trinkets_db.get(t, {}).get("magnitude", 60) / 100.0
+			mult *= 1.0 - reduction
 	return mult
 
 # Call after every hit the owner lands.
@@ -134,6 +160,11 @@ func process_battle_start() -> void:
 func reset_combat_state() -> void:
 	for t in _trinkets_with_effect("duelist_combo"):
 		_states[t]["combo"] = 0
+	for t in _trinkets_with_effect("tally_stacks"):
+		_states[t]["stacks"] = 0
+	for t in _trinkets_with_effect("low_hp_stats"):
+		_states[t]["active"] = false
+	_refresh_flat_bonus()
 	if not _trinkets_with_effect("resonance").is_empty():
 		owner.set_element("Neutral")
 	if not _trinkets_with_effect("battle_start_element").is_empty():
@@ -175,6 +206,26 @@ func process_turn_start() -> String:
 		if owner_key != "" and status_effects.has(owner_key):
 			for s in status_effects[owner_key]:
 				s["duration"] = max(0, s["duration"] - 1)
+	for t in _trinkets_with_effect("tally_stacks"):
+		_states[t]["stacks"] += 1
+		lines.append("[color=yellow]%s: mark %d.[/color]" % [t, _states[t]["stacks"]])
+	var stat_changed = false
+	for t in _trinkets_with_effect("low_hp_stats"):
+		var threshold = trinkets_db.get(t, {}).get("threshold", 50)
+		var hp_pct = int(owner.get_hp() * 100.0 / owner.get_mhp())
+		var should_be_active = hp_pct < threshold
+		if should_be_active != _states[t]["active"]:
+			_states[t]["active"] = should_be_active
+			stat_changed = true
+			if should_be_active:
+				var parts = []
+				for stat in trinkets_db.get(t, {}).get("stats", {}):
+					parts.append("+%d %s" % [int(trinkets_db.get(t, {})["stats"][stat]), stat.to_upper()])
+				lines.append("[color=yellow]%s stirs — %s.[/color]" % [t, ", ".join(parts)])
+			else:
+				lines.append("[color=white]%s settles.[/color]" % t)
+	if stat_changed:
+		_refresh_flat_bonus()
 	return "\n".join(lines)
 
 # Heals the owner from post-battle trinkets and returns a display message (or "").

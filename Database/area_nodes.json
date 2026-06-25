@@ -67,7 +67,7 @@
 	  "action": {
 		"name": "Test Fight",
 		"tooltip": "Choose enemy to fight",
-		"event": "debug_apple_woods",
+		"event": "debug_all",
 		"disabled_tooltip": "You already fought an enemy here",
 		"repeatable": true
 	  }
@@ -1336,9 +1336,9 @@
 		]
 	  },
 	  {
-		"name": "Cave Entrance",
+		"name": "Cavern Entrance",
 		  "type": "EXIT",
-	  	"backdrop": "legory_cave.png",
+	  	"backdrop": "legory_cavern.png",
 		  "boss": "Icelady",
 		  "encounter_rate": 0,
 		"entrances": ["SKIRT", "UP", "DOWN"],

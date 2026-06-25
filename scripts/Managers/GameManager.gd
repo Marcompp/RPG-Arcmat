@@ -572,6 +572,9 @@ func start_combat(data):
 
 	game_state.set_value("enemy", enemy_chars[0])
 
+	combat.monster_db_ref = monster_db
+	combat.armor_db       = armor_db
+	combat.weapon_db      = weapon_db
 	combat.start_combat(game_state["player"], enemy_chars)
 
 

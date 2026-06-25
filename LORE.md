@@ -212,6 +212,7 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Slime** — Gelatinous water creatures; naturally regenerate; the most basic magical organism in the world.
 - **Bitefish** — Aggressive river predators; Apple River is more dangerous than it looks.
 - **Bear** — Rare apex predator of Apple Woods. Avoids humans unless cornered.
+- **Big'Un** — Half-legendary ellusive whiskered freshwater fish spoken of in fishermen's tales.
 - **Vampire Bat** — Bloodsucker; dwells in Caves of Light. Drinks blood.
 - **Sparkfish** — Electrified fish native to the Caves of Light.
 - **Chimera** — Hybrid amphibious beast; part lion, part salamander, part goat, with a snake tail. The most powerful beast in Caves of Light.
@@ -227,6 +228,8 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Renegades** — Bertunian criminals who hide out in the Caves of Light. Can sometimes be persuaded.
 - **Troll** — Bulky, hardy humanoid who once, whose civilization once ruled the continent. Now, scattered and territorial, with little in the way of civilization, to the point of being seen as little more than monsters by humans. Speak in simple grammar. All caps when angry.
 - **Cultists / Cultist Patrol** — True believers of Mother Orielli's light cult. Fanatic followers who worship the Light; they actively recruit.
+- **Harlequin** — Performers of the Gilded Hollow Circus, skilled in knife throwing, juggling and dancing. Wear white smiling porcelain masks that conceal their features. Actually demons in disguise - some of them originally humans who were trapped in the circus and subject to demonification
+- **Doppelganger** - Demons with overdevelopped shapeshifting abilities, known to reflexibly mimic those who encounter them.
 - **Pegasus Knight** — Soldiers and mercenaries, not monsters. Engage only if provoked or disrespected.
 - **Frost Fairy** — An elemental fairy, small enough to fit in a person's hand. Sleeps in snowdrifts on Mount Legory; a pure ice spellcaster.
 - **Treasure Hunter** — Fellow adventurers encountered as enemies in Arcmat Ruins. Well-equipped, cunning, competitive.
@@ -250,6 +253,7 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 
 **Named Bosses**
 - **Mother Orielli** — Cult Leader. Offers blessings before combat; fights with Sacrificial Knife, Light and Heal magic.
+- **Ringmaster** — The Circus Ringmaster. A Greater Demon who runs the Gilded Hollow Circus. Will challenge the player to prevent them from leaving, but let them go when they prove more trouble than they're worth. Wears a white mask and a top hat.
 - **Necromancer** — A mad mage who seeks power through the command of undeath. Wields Skull Staff; wears Necromancer Robes.
 - **Carlon, the Mathemagician** — Final boss of Arcmat Ruins. Light element, Level 20. Wields a Geometry Staff; wears Archmage Robes. His signature skill is "Integer" — an application of "Mathemagic", a school of magic, said to be the first, of which he is quite possibly the greatest living user; geometric magical calculation made lethal. A historical Archmage who sought the lost knowledge of the ruins and lost himself in his studies. Cold, academic. Commands Earth, Light, and Thunder spells. 
 

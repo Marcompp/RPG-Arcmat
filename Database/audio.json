@@ -3,7 +3,7 @@
 		"title":       "res://assets/audio/BGM/Title_placeholder.mp3",
 		"gameover":    "res://assets/audio/BGM/gameover.mp3",
 		"combat":      "res://assets/audio/music/boss_placeholder.ogg",
-		"apple_woods": "res://assets/audio/BGM/AppleWoods_placeholder.mp3",
+		"apple_woods": "res://assets/audio/BGM/AppleWoods_placeholder2.mp3",
 		"caves":       "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",
 		"plateau":     "res://assets/audio/BGM/SunsetPlateau_placeholder.mp3",
 		"mountain":    "res://assets/audio/BGM/MtLegory_placeholder.mp3",

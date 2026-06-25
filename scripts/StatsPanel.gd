@@ -129,6 +129,14 @@ func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Con
 	var effect = data.get("effect", "")
 	if effect == "duelist_combo" and not state.is_empty() and state.get("combo", 0) > 0:
 		tooltip += "\nCurrent Combo: %d" % state.get("combo", 0)
+	elif effect == "tally_stacks" and not state.is_empty() and state.get("stacks", 0) > 0:
+		var stacks = state.get("stacks", 0)
+		tooltip += "\nTally Marks: %d (+%d%% damage)" % [stacks, stacks * data.get("magnitude", 3)]
+	elif effect == "low_hp_stats" and not state.is_empty() and state.get("active", false):
+		var parts = []
+		for stat in data.get("stats", {}):
+			parts.append("+%d %s" % [int(data["stats"][stat]), stat.to_upper()])
+		tooltip += "\nActive: %s" % ", ".join(parts)
 	root.tooltip_text = tooltip
 
 	# Icon
@@ -145,11 +153,11 @@ func _make_trinket_icon(name: String, count: int, state: Dictionary = {}) -> Con
 		tex_rect.texture = load(tex_path)
 	root.add_child(tex_rect)
 
-	# Badge: combo count takes priority over stack count
-	var combo = state.get("combo", 0)
 	var badge_text = ""
-	if effect == "duelist_combo" and combo > 0:
-		badge_text = str(combo)
+	if effect == "duelist_combo" and state.get("combo", 0) > 0:
+		badge_text = str(state.get("combo", 0))
+	elif effect == "tally_stacks" and state.get("stacks", 0) > 0:
+		badge_text = str(state.get("stacks", 0))
 	elif count > 1:
 		badge_text = "x%d" % count
 	if badge_text != "":
@@ -457,6 +465,25 @@ func _format_stat_value(value: int, max_value: int) -> String:
 		inner = "[outline_size=2][outline_color=%s]%s[/outline_color][/outline_size]" % [outline, inner]
 	return "[color=%s]%s[/color]" % [color, inner]
 
+func flee_animation():
+	_dead = true
+	if _death_tween:
+		_death_tween.kill()
+
+	_death_gen += 1
+	var gen = _death_gen
+
+	_death_tween = create_tween()
+	_death_tween.tween_property(self, "modulate:a", 0.0, 0.75) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	await get_tree().create_timer(0.75).timeout
+
+	if gen != _death_gen:
+		return
+	_death_tween = null
+	_clear_ui()
+
 func death_animation():
 	_dead = true
 	if _death_tween:
@@ -475,6 +502,8 @@ func death_animation():
 
 	if gen != _death_gen:
 		return
+	if _death_tween:
+		_death_tween.kill()
 	_death_tween = null
 	_clear_ui()
 
@@ -483,7 +512,7 @@ func _cancel_death_anim():
 	if _death_tween:
 		_death_tween.kill()
 		_death_tween = null
-		position = _rest_pos  # só reseta se havia animação rodando
+		position = _rest_pos
 	modulate.a = 1.0
 
 func flash_red():

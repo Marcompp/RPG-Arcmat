@@ -692,6 +692,30 @@
 	"Rarity": null
   },
   {
+	"Name": "Big'Un",
+	"Element": "Water",
+	"Gender": "Male",
+	"Lvl": 5,
+	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"F","Dex":"F","Agi":"E","Lck":"A","Def":"B"},
+	"TrueStats": {"HP": 80},
+	"Drops": {"River King's Whisker": 100},
+	"Gold": 120,
+	"Startup": 4,
+	"Cooldown": 0,
+	"Skill_Chance": 100,
+	"Skills": ["Flee"],
+	"Spells": [],
+	"Preparing": [
+		"thrashes against the line, nearly pulling you off your feet.",
+		"surges toward deeper water, the line biting into its jaw.",
+		"twists and rolls, water churning white around it.",
+		"slaps the surface hard — you feel the vibration through the rod.",
+		"bucks against the hook with everything it has."
+	],
+	"Location": "Apple River",
+	"Rarity": "Hidden"
+  },
+  {
 	"Name": "Chimera",
 	"Element": "Water",
 	"Lvl": 7,
@@ -756,8 +780,16 @@
 	"Startup":1,
 	"Cooldown":2,
 	"Gold":300,
-	"Skills": [],
+	"Start": "Raise Zombie",
+	"Skill_Chance": 90,
+	"Skill_Weights": {
+		"Raise Zombie": 3,
+		"Raise Ghost": 2,
+		"Raise Skeleton": 1
+	},
+	"Skills": ["Raise Zombie", "Raise Ghost", "Raise Skeleton"],
 	"Spells": ["Dark"],
+	"Trinkets": ["Necromancer Cloak"],
 	"Location": "Sundown Plateau",
 	"Rarity": null
   },

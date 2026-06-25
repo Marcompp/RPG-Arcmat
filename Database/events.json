@@ -464,6 +464,9 @@
 	"random_apple": {
 		"steps": [
 			{"type": "random", "outcomes": [
+				{"weight": -2,  "stat_weights": {"lck": 1},  "condition": {"lacks_item": "Rainbow Apple"},
+					"steps":[{"type": "event", "event": "rainbow_apple"}]
+				},
 				{"weight": 1,  "stat_weights": {"lck": 1},  "condition": {"golden_apple": false},
 				 "steps": [
 					{"type": "mark_used", "event": "golden_apple"},
@@ -490,6 +493,15 @@
 					{"type": "show_node"}
 				 ]}
 			]}
+		]
+	},
+	"rainbow_apple": {
+		"steps":[
+			{"type": "text", "text": "Amazing! You find an Apple that is glowing with the seven colors of the rainbow.", "clear": false, "no_wait":true},
+			{"type": "text", "text": "You admire your find. It's way to pretty to eat, so you decide to keep it as jewelry.", "clear": false, "no_wait":false},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "Rainbow Apple"},
+			{"type": "show_node"}
 		]
 	},
 	"golden_apple": {
@@ -738,6 +750,30 @@
 					"steps": [
 						{"type": "event", "event": "fish_sparkfish"}
 				]},
+				{"weight": 7,
+					"steps": [
+						{"type": "event", "event": "fish_river_trout"},
+						{"type": "event", "event": "apple_woods_fish_b"}
+				]},
+				{"weight": 5,
+					"steps": [
+						{"type": "event", "event": "fish_apple_carp"},
+						{"type": "event", "event": "apple_woods_fish_b"}
+				]},
+				{"weight": 2,
+					"steps": [
+						{"type": "event", "event": "fish_minnow"},
+						{"type": "event", "event": "apple_woods_fish_b"}
+				]},
+				{"weight": 1,
+					"steps": [
+						{"type": "event", "event": "fish_thornfish"},
+						{"type": "event", "event": "apple_woods_fish_b"}
+				]},
+			{"weight": 1, "stat_weights": {"lck": 0.3},
+					"steps": [
+						{"type": "event", "event": "fish_bigun"}
+				]},
 				{"weight": 8, "stat_weights": {"dex": -1},
 					"steps": [
 						{"type": "text", "text": "The line catches on something in the current. You pull against it — the rod bends, holds, bends further, and snaps. The pieces hit the water and drift away."}
@@ -799,6 +835,30 @@
 								"steps": [
 									{"type": "event", "event": "fish_sparkfish"}
 							]},
+							{"weight": 4,
+							"steps": [
+								{"type": "event", "event": "fish_river_trout"},
+								{"type": "event", "event": "apple_woods_fish_c"}
+							]},
+							{"weight": 2,
+							"steps": [
+								{"type": "event", "event": "fish_apple_carp"},
+								{"type": "event", "event": "apple_woods_fish_c"}
+							]},
+							{"weight": 5,
+							"steps": [
+								{"type": "event", "event": "fish_minnow"},
+								{"type": "event", "event": "apple_woods_fish_c"}
+							]},
+							{"weight": 4,
+							"steps": [
+								{"type": "event", "event": "fish_thornfish"},
+								{"type": "event", "event": "apple_woods_fish_c"}
+							]},
+						{"weight": 1, "stat_weights": {"lck": 0.3},
+							"steps": [
+								{"type": "event", "event": "fish_bigun"}
+							]},
 							{"weight": 11, "stat_weights": {"dex": -0.5},
 							"steps": [
 								{"type": "text", "text": "The line snags something that doesn't give. You pull harder — the rod bends, cracks, then snaps clean. Whatever was on the line is gone."}
@@ -849,15 +909,32 @@
 							]},
 							{"weight": 12, "stat_weights": {"lck": -0.5}, 
 								"steps": [
-									{"type": "text", "text": "The line goes taut — something heavy and fast, too fast. A bitefish clears the surface entirely and goes straight for you."},
-									{"type": "combat", "enemy": "Bitefish"}
+									{"type": "event", "event": "fish_bitefish"}
 							]},
 							{"weight": 7,  "stat_weights": {"lck": -0.5}, 
 								"steps": [
-									{"type": "text", "text": "The water lights up from below. A sparkfish, big enough to see the charge building in its scales before it breaches."},
-									{"type": "combat", "enemy": "Sparkfish"}
+									{"type": "event", "event": "fish_sparkfish"}
 							]},
-							{"weight": 15,  "stat_weights": {"dex": -1}, 
+							{"weight": 2,
+								"steps": [
+									{"type": "event", "event": "fish_river_trout"},
+									{"type": "text", "text": "Your fishing rod falls apart in your hands...", "clear": false}
+							]},
+							{"weight": 9,
+								"steps": [
+									{"type": "event", "event": "fish_minnow"},
+									{"type": "text", "text": "Your fishing rod falls apart in your hands...", "clear": false}
+							]},
+							{"weight": 6,
+								"steps": [
+									{"type": "event", "event": "fish_thornfish"},
+									{"type": "text", "text": "Your fishing rod falls apart in your hands...", "clear": false}
+							]},
+						{"weight": 1, "stat_weights": {"lck": 0.3},
+								"steps": [
+									{"type": "event", "event": "fish_bigun"}
+							]},
+							{"weight": 15,  "stat_weights": {"dex": -1},
 								"steps": [
 									{"type": "text", "text": "The line catches deep and won't come loose. You haul hard against it — the rod bends into a full arc, holds for one second, and then the whole thing goes. Line, hook, the tip of the rod. That's enough."}
 							]}
@@ -916,6 +993,60 @@
 			{"type": "combat", "enemy": "Sparkfish"}
 		]
 	},
+	"fish_minnow": {
+		"steps": [
+			{"type": "text", "text": "You reel in a minnow barely the length of your finger. You hold it a moment. You throw it back.\n\nYou sat out here for that."}
+		]
+	},
+	"fish_river_trout": {
+		"steps": [
+			{"type": "text", "text": "A proper river trout, wide and silver. Good weight to it."},
+			{"type": "choice", "header": "What will you do?",
+				"choices": [{"choice": "Eat it", "key": "eat"}, {"choice": "Release it", "key": "release"}],
+				"branches": {
+					"eat": [
+						{"type": "text", "text": "You clean it on a flat rock and eat it right there. Not bad.", "no_continue": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal", "amount": 12}},
+						{"type": "text", "text": "[instant]Healed [color=green]12[/color] HP![/instant]", "clear": false}
+					],
+					"release": [
+						{"type": "text", "text": "You hold it in the current a moment and let it go. It disappears into the dark water."}
+					]
+				}
+			}
+		]
+	},
+	"fish_apple_carp": {
+		"steps": [
+			{"type": "text", "text": "A fat, lazy carp, belly round from eating fallen apples off the surface. It hardly fought at all."},
+			{"type": "choice", "header": "What will you do?",
+				"choices": [{"choice": "Eat it", "key": "eat"}, {"choice": "Release it", "key": "release"}],
+				"branches": {
+					"eat": [
+						{"type": "text", "text": "You eat it on the spot. Rich and sweet — whatever those apples did to it, you're not complaining.", "no_continue": true},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "heal", "amount": 18}},
+						{"type": "text", "text": "[instant]Healed [color=green]18[/color] HP![/instant]", "clear": false}
+					],
+					"release": [
+						{"type": "text", "text": "You toss it back. It plops into the water and sinks without much ceremony."}
+					]
+				}
+			}
+		]
+	},
+	"fish_thornfish": {
+		"steps": [
+			{"type": "text", "text": "Something comes up slow and heavy. You reach for it and get a spike through your palm.", "no_continue": true},
+			{"type": "sfx", "sound": "poison"},
+			{"type": "effect", "effect": {"type": "damage", "amount": 3}},
+			{"type": "text", "text": "[instant]Lost [color=red]3[/color] HP.[/instant]\n\nStill caught it, though.", "clear": false},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_gold", "amount": 20},
+			{"type": "text", "text": "You sell it eventually for [color=yellow]20G[/color].", "clear": false}
+		]
+	},
 	"lucky_find": {
 		"steps": [
 			{"type": "text", "text": "You notice something glinting in the dirt."},
@@ -931,6 +1062,47 @@
 			{"type": "show_node"}
 		]
 	},
+	"debug_all": {
+		"steps": [
+			{"type": "text", "text": "Choose a region.", "no_wait":true},
+			{"type": "choice", "header": "Which region?",
+				"choices": [
+					{"choice": "Apple Woods", "key": "apple_woods"},
+					{"choice": "Caves of Light", "key": "caves_of_light"},
+					{"choice": "Sundown Plateau", "key": "sundown_plateau"},
+					{"choice": "Mount Legory", "key": "mount_legory"},
+					{"choice": "Core Cavern", "key": "core_cavern"},
+					{"choice": "Lost Swamp", "key": "lost_swamp"},
+					{"choice": "Arcmat Ruins", "key": "arcmat_ruins"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"apple_woods": [
+						{"type": "event", "event": "debug_apple_woods"}
+					],
+					"caves_of_light": [
+						{"type": "event", "event": "debug_caves_of_light"}
+					],
+					"sundown_plateau": [
+						{"type": "event", "event": "debug_sundown_plateau"}
+					],
+					"mount_legory": [
+						{"type": "event", "event": "debug_mount_legory"}
+					],
+					"core_cavern": [
+						{"type": "event", "event": "debug_core_cavern"}
+					],
+					"lost_swamp": [
+						{"type": "event", "event": "debug_lost_swamp"}
+					],
+					"arcmat_ruins": [
+						{"type": "event", "event": "debug_arcmat_ruins"}
+					],
+					"back": []
+				}
+			}
+		]
+	},
 	"debug_apple_woods": {
 		"steps": [
 			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
@@ -940,8 +1112,14 @@
 					{"choice": "Bandit", "key": "bandit"},
 					{"choice": "Skeleton", "key": "skeleton"},
 					{"choice": "Slime Duo", "key": "slime2"},
+					{"choice": "Bitefish", "key": "bitefish"},
+					{"choice": "Bandit Brothers", "key": "banditbros"},
 					{"choice": "Bear", "key": "bear"},
+					{"choice": "Troll", "key": "troll"},
+					{"choice": "Big'Un", "key": "bigun"},
 					{"choice": "Werewolf", "key": "werewolf"},
+					{"choice": "Agnes", "key": "agnes"},
+					{"choice": "Borin", "key": "borin"},
 					{"choice": "Back", "key": "back", "type": "back"}
 				],
 				"branches": {
@@ -960,11 +1138,262 @@
 					"bear": [
 						{"type":"combat", "enemy": "Bear"}
 					],
+					"bitefish": [
+						{"type":"combat", "enemy": "Bitefish"}
+					],
+					"troll": [
+						{"type":"combat", "enemy": "Troll"}
+					],
+					"banditbros": [
+						{"type":"combat", "enemy": "Bandit Brothers"}
+					],
+					"bigun": [
+						{"type":"combat", "enemy": "Big'Un"}
+					],
+					"agnes": [
+						{"type":"combat", "enemy": "Agnes"}
+					],
+					"borin": [
+						{"type":"combat", "enemy": "Borin"}
+					],
+
 					"werewolf": [
 						{"type":"combat", "enemy": "Werewolf"}
 					],
 					"back": [
 					]
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_caves_of_light": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Vampire Bat", "key": "vampire_bat"},
+					{"choice": "Restless Spirit", "key": "restless_spirit"},
+					{"choice": "Renegade", "key": "renegade"},
+					{"choice": "Cultist", "key": "cultist"},
+					{"choice": "Cultist Patrol", "key": "cultist_patrol"},
+					{"choice": "Sparkfish", "key": "sparkfish"},
+					{"choice": "Chimera", "key": "chimera"},
+					{"choice": "Mother Orielli", "key": "mother_orielli"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"vampire_bat": [
+						{"type":"combat", "enemy": "Vampire Bat"}
+					],
+					"restless_spirit": [
+						{"type":"combat", "enemy": "Restless Spirit"}
+					],
+					"renegade": [
+						{"type":"combat", "enemy": "Renegade"}
+					],
+					"cultist": [
+						{"type":"combat", "enemy": "Cultist"}
+					],
+					"cultist_patrol": [
+						{"type":"combat", "enemy": "Cultist Patrol"}
+					],
+					"sparkfish": [
+						{"type":"combat", "enemy": "Sparkfish"}
+					],
+					"chimera": [
+						{"type":"combat", "enemy": "Chimera"}
+					],
+					"mother_orielli": [
+						{"type":"combat", "enemy": "Mother Orielli"}
+					],
+					"back": []
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_sundown_plateau": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Skeleton Duo", "key": "skeleton_duo"},
+					{"choice": "Mangy Wolf", "key": "mangy_wolf"},
+					{"choice": "Zombie", "key": "zombie"},
+					{"choice": "Ghost", "key": "ghost"},
+					{"choice": "Necromancer", "key": "necromancer"},
+					{"choice": "Abomination", "key": "abomination"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"skeleton_duo": [
+						{"type":"combat", "enemy": "Skeleton Duo"}
+					],
+					"mangy_wolf": [
+						{"type":"combat", "enemy": "Mangy Wolf"}
+					],
+					"zombie": [
+						{"type":"combat", "enemy": "Zombie"}
+					],
+					"ghost": [
+						{"type":"combat", "enemy": "Ghost"}
+					],
+					"necromancer": [
+						{"type":"combat", "enemy": "Necromancer"}
+					],
+					"abomination": [
+						{"type":"combat", "enemy": "Abomination"}
+					],
+					"back": []
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_mount_legory": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Frost Fairy", "key": "frost_fairy"},
+					{"choice": "Bald Eagle", "key": "bald_eagle"},
+					{"choice": "Pegasus Knight", "key": "pegasus_knight"},
+					{"choice": "Icelady", "key": "icelady"},
+					{"choice": "Great Roc", "key": "great_roc"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"frost_fairy": [
+						{"type":"combat", "enemy": "Frost Fairy"}
+					],
+					"bald_eagle": [
+						{"type":"combat", "enemy": "Bald Eagle"}
+					],
+					"pegasus_knight": [
+						{"type":"combat", "enemy": "Pegasus Knight"}
+					],
+					"icelady": [
+						{"type":"combat", "enemy": "Icelady"}
+					],
+					"great_roc": [
+						{"type":"combat", "enemy": "Great Roc"}
+					],
+					"back": []
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_core_cavern": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Wisp", "key": "wisp"},
+					{"choice": "Wyvern", "key": "wyvern"},
+					{"choice": "Drake", "key": "drake"},
+					{"choice": "Lizardman", "key": "lizardman"},
+					{"choice": "Tarvos", "key": "tarvos"},
+					{"choice": "Lizardman Patrol", "key": "lizardman_patrol"},
+					{"choice": "Wisp Cluster", "key": "wisp_cluster"},
+					{"choice": "Cave Troll", "key": "cave_troll"},
+					{"choice": "Infrit", "key": "infrit"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"wisp": [
+						{"type":"combat", "enemy": "Wisp"}
+					],
+					"wyvern": [
+						{"type":"combat", "enemy": "Wyvern"}
+					],
+					"drake": [
+						{"type":"combat", "enemy": "Drake"}
+					],
+					"lizardman": [
+						{"type":"combat", "enemy": "Lizardman"}
+					],
+					"tarvos": [
+						{"type":"combat", "enemy": "Tarvos"}
+					],
+					"lizardman_patrol": [
+						{"type":"combat", "enemy": "Lizardman Patrol"}
+					],
+					"wisp_cluster": [
+						{"type":"combat", "enemy": "Wisp Cluster"}
+					],
+					"cave_troll": [
+						{"type":"combat", "enemy": "Cave Troll"}
+					],
+					"infrit": [
+						{"type":"combat", "enemy": "Infrit"}
+					],
+					"back": []
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_lost_swamp": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Ent", "key": "ent"},
+					{"choice": "Gorgon", "key": "gorgon"},
+					{"choice": "Lost Souls", "key": "lost_souls"},
+					{"choice": "King of the Swamp", "key": "king_of_swamp"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"ent": [
+						{"type":"combat", "enemy": "Ent"}
+					],
+					"gorgon": [
+						{"type":"combat", "enemy": "Gorgon"}
+					],
+					"lost_souls": [
+						{"type":"combat", "enemy": "Lost Souls"}
+					],
+					"king_of_swamp": [
+						{"type":"combat", "enemy": "King of the Swamp"}
+					],
+					"back": []
+				}
+			},
+			{"type": "show_node"}
+		]
+	},
+	"debug_arcmat_ruins": {
+		"steps": [
+			{"type": "text", "text": "Choose an enemy.", "no_wait":true},
+			{"type": "choice", "header": "Which enemy?",
+				"choices": [
+					{"choice": "Gargoyle", "key": "gargoyle"},
+					{"choice": "Treasure Hunter", "key": "treasure_hunter"},
+					{"choice": "Wizard", "key": "wizard"},
+					{"choice": "Guardian", "key": "guardian"},
+					{"choice": "Carlon", "key": "carlon"},
+					{"choice": "Back", "key": "back", "type": "back"}
+				],
+				"branches": {
+					"gargoyle": [
+						{"type":"combat", "enemy": "Gargoyle"}
+					],
+					"treasure_hunter": [
+						{"type":"combat", "enemy": "Treasure Hunter"}
+					],
+					"wizard": [
+						{"type":"combat", "enemy": "Wizard"}
+					],
+					"guardian": [
+						{"type":"combat", "enemy": "Guardian"}
+					],
+					"carlon": [
+						{"type":"combat", "enemy": "Carlon"}
+					],
+					"back": []
 				}
 			},
 			{"type": "show_node"}
@@ -2296,46 +2725,29 @@
 				{
 					"weight": 4, "stat_weights": {"str": -0.5},
 					"steps": [
-						{"type": "text", "text": "The shovel wrenches sideways on a root, twisting out of your grip. The handle clips you across the shin before you catch it."},
+						{"type": "text", "text": "The shovel wrenches sideways on a root, twisting out of your grip. The handle clips you across the shin before you catch it.\n[color=red]-3 HP[/color]"},
 						{"type": "sfx", "sound": "hit"},
-						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						
+						{"type": "effect", "effect": {"type": "damage", "amount": 3}},
 						{"type": "event", "event": "sundown_plateau_dig_b"}
 					]
 				},
 				{
 					"weight": 5, "stat_weights": {"lck": -0.5},
 					"steps": [
-						{"type": "text", "text": "An arm comes up first — palm-down, fingers splayed. Then the rest of it pulls free of the earth."},
-						{"type": "combat", "enemy": "Zombie",
-							"on_victory": [
-								{"type": "text", "text": "It collapses back into the turned soil. You look at the hole."},
-								{"type": "show_node"}
-							]
-						}
+						{"type": "event", "event": "dig_zombie"}
 					]
 				},
 				{
 					"weight": 3, "stat_weights": {"lck": -0.5},
 					"steps": [
-						{"type": "text", "text": "The earth shifts. Something assembled under it — fully intact — rattles upright from the broken ground."},
-						{"type": "combat", "enemy": "Skeleton",
-							"on_victory": [
-								{"type": "text", "text": "You kick the pieces apart. Back to the shovel."},
-								{"type": "show_node"}
-							]
-						}
+						{"type": "event", "event": "dig_skeleton"}
 					]
 				},
 				{
 					"weight": 2, "stat_weights": {"lck": -0.5},
 					"steps": [
-						{"type": "text", "text": "A cold bloom of air — then visible. Something was down there that didn't stay down."},
-						{"type": "combat", "enemy": "Ghost",
-							"on_victory": [
-								{"type": "text", "text": "It dissipates without a word. You check the shovel — still intact."},
-								{"type": "show_node"}
-							]
-						}
+						{"type": "event", "event": "dig_ghost"}
 					]
 				},
 				{
@@ -2435,40 +2847,34 @@
 							{
 								"weight": 8, "stat_weights": {"str": -1},
 								"steps": [
-									{"type": "text", "text": "The shovel head snaps off mid-swing, rings against a buried stone and disappears into the dark. The handle is just a handle now."}
+									{"type": "text", "text": "The shovel head snaps off mid-swing, rings against a buried stone and disappears into the dark. Maybe it's time to retire from graverobbing."}
+								]
+							},
+							{
+								"weight": 6, "stat_weights": {"str": -0.5},
+								"steps": [
+									{"type": "text", "text": "The shovel twists on a root and the handle cracks across your palm. You catch it before it falls.\n[color=red]-3 HP[/color]"},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 3}},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
 								]
 							},
 							{
 								"weight": 6, "stat_weights": {"lck": -0.5},
 								"steps": [
-									{"type": "text", "text": "An arm comes up first. Then the rest."},
-									{"type": "combat", "enemy": "Zombie",
-										"on_victory": [
-											{"type": "text", "text": "It goes still. You look at the hole. Nothing in it."}
-										]
-									}
+									{"type": "event", "event": "dig_zombie"}
 								]
 							},
 							{
 								"weight": 4, "stat_weights": {"lck": -0.5},
 								"steps": [
-									{"type": "text", "text": "Something assembled — fully intact — comes upright from the earth."},
-									{"type": "combat", "enemy": "Skeleton",
-										"on_victory": [
-											{"type": "text", "text": "You kick the pieces apart and get back to work."}
-										]
-									}
+									{"type": "event", "event": "dig_skeleton"}
 								]
 							},
 							{
 								"weight": 2, "stat_weights": {"lck": -0.5},
 								"steps": [
-									{"type": "text", "text": "Cold air. Then visible."},
-									{"type": "combat", "enemy": "Ghost",
-										"on_victory": [
-											{"type": "text", "text": "It dissipates. The shovel is still upright in the earth."}
-										]
-									}
+									{"type": "event", "event": "dig_ghost"}
 								]
 							},
 							{
@@ -2572,13 +2978,27 @@
 							{
 								"weight": 8, "stat_weights": {"lck": -0.5},
 								"steps": [
-									{"type": "text", "text": "An arm comes up first. Then the rest."},
-									{"type": "combat", "enemy": "Zombie",
-										"on_victory": [
-											{"type": "text", "text": "It goes still. The shovel is done. So are you."},
-											{"type": "show_node"}
-										]
-									}
+									{"type": "event", "event": "dig_zombie"}
+								]
+							},
+							{
+								"weight": 8, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "event", "event": "dig_skeleton"}
+								]
+							},
+							{
+								"weight": 8, "stat_weights": {"lck": -0.5},
+								"steps": [
+									{"type": "event", "event": "dig_ghost"}
+								]
+							},
+							{
+								"weight": 10, "stat_weights": {"str": -1},
+								"steps": [
+									{"type": "text", "text": "The loose socket lets the head kick sideways. The handle catches you hard across the forearm.\n[color=red]-3 HP[/color]"},
+									{"type": "sfx", "sound": "hit"},
+									{"type": "effect", "effect": {"type": "damage", "amount": 3}}
 								]
 							},
 							{
@@ -2648,6 +3068,24 @@
 					]
 				}
 			}
+		]
+	},
+	"dig_zombie": {
+		"steps": [
+			{"type": "text", "text": "From the hole you dug, an arm comes up first. Then the rest."},
+			{"type": "combat", "enemy": "Zombie"}
+		]
+	},
+	"dig_skeleton": {
+		"steps": [
+			{"type": "text", "text": "You unearth a small collection of bones. It begins rattling, before coming together to attack."},
+			{"type": "combat", "enemy": "Skeleton","level":6}
+		]
+	},
+	"dig_ghost": {
+		"steps": [
+			{"type": "text", "text": "A cold bloom of air sends a shiver down your spine, before a shape phases through the dirt. Looks like your graverobbing disturbed someone's rest."},
+			{"type": "combat", "enemy": "Ghost"}
 		]
 	},
 	"dig_grave_coins": {
@@ -3535,14 +3973,14 @@
 
 	"core_cavern_mining": {
 		"steps": [
-			{"type": "text", "text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Troll-made — heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."},
+			{"type": "text", "text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Ancient, heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."},
 			{"type": "text", "text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."},
 			{"type": "sfx", "sound": "earth"},
 			{"type": "random", "outcomes": [
 				{
 					"weight": 8, "stat_weights": {"str": -0.5},
 					"steps": [
-						{"type": "text", "text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it."},
+						{"type": "text", "text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it.\n[color=red]-5 HP[/color]"},
 						{"type": "sfx", "sound": "hit"},
 						{"type": "effect", "effect": {"type": "damage", "amount": 5}}
 					]
@@ -3689,7 +4127,7 @@
 							{
 								"weight": 25, "stat_weights": {"str": -1},
 								"steps": [
-									{"type": "text", "text": "The rock fights back. A bad angle, a bad swing — the handle bites into your palm and the impact jars up your arm badly enough to make you drop it. You stand there bleeding, pickaxe at your feet."},
+									{"type": "text", "text": "The rock fights back. A bad angle, a bad swing — the handle bites into your palm and the impact jars up your arm badly enough to make you drop it. You stand there bleeding, pickaxe at your feet.\n[color=red]-5 HP[/color]"},
 									{"type": "sfx", "sound": "hit"},
 									{"type": "effect", "effect": {"type": "damage", "amount": 5}}
 								]
@@ -3782,7 +4220,7 @@
 							{
 								"weight": 40, "stat_weights": {"str": -1},
 								"steps": [
-									{"type": "text", "text": "One swing too many. The handle splits and the head skips off the rock into your knee. You limp back from the face, bleeding, the broken handle still in your fist."},
+									{"type": "text", "text": "One swing too many. The handle splits and the head skips off the rock into your knee. You limp back from the face, bleeding, the broken handle still in your fist.\n[color=red]-5 HP[/color]"},
 									{"type": "sfx", "sound": "hit"},
 									{"type": "effect", "effect": {"type": "damage", "amount": 5}}
 								]
@@ -3903,6 +4341,56 @@
 					]
 				}
 			}
+		]
+	},
+
+	"fish_bigun": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something hits the line. Not a nibble — a yank. The rod bends nearly double."
+			},
+			{
+				"type": "text",
+				"text": "You brace your feet against the bank and pull back. Whatever's down there is pulling harder."
+			},
+			{
+				"type": "text",
+				"text": "A shape rises beneath the surface — wide as a barrel, mud-dark. A head the size of a cooking pot breaks the water. It stares at you with one flat, indifferent eye.\n\nThe biggest catfish you've ever seen. By a considerable margin.",
+				"clear": false
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Hold on and fight!", "key": "fight"},
+					{"choice": "Cut the line and back away.", "key": "cut"}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "text",
+							"text": "You dig your heels in. The catfish surges and splashes. You're not sure how long you can hold."
+						},
+						{
+							"type": "combat",
+							"enemy": "Big'Un"
+						}
+					],
+					"cut": [
+						{
+							"type": "text",
+							"text": "You pull your knife and sever the line. The rod springs back. The shape drops beneath the surface without a sound."
+						},
+						{
+							"type": "text",
+							"text": "The biggest fish you've ever seen, and you let it go. Probably for the best.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{"type": "show_node"}
 		]
 	}
 }

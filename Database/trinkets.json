@@ -218,16 +218,18 @@
 	"Crumbled Epitaph": {
 		"name": "Crumbled Epitaph",
 		"description": "A fragment of headstone. The inscription ends mid-sentence: '...AND HE DID NOT —'. The rest is gone.",
-		"effect_description": "Once per battle, a killing blow instead leaves you at 1 HP.",
-		"effect": "last_stand",
+		"effect_description": "Gain +4 DEF when HP falls below 50%.",
+		"effect": "low_hp_stats",
+		"stats": { "def": 4 },
+		"threshold": 50,
 		"stackable": false
 	},
 	"Tally Stone": {
 		"name": "Tally Stone",
 		"description": "A smooth river stone covered in scratched tally marks — hundreds of them, all the way to the edge. Someone used this to count... something. Probably.",
-		"effect_description": "+3 Strength.",
-		"effect": "stat_bonus",
-		"stats": { "str": 3 },
+		"effect_description": "Gain +3% damage per turn in combat. Stacks accumulate throughout battle.",
+		"effect": "tally_stacks",
+		"magnitude": 3,
 		"stackable": false
 	},
 	"Ferryman's Obol": {
@@ -236,6 +238,22 @@
 		"effect_description": "+4 Luck.",
 		"effect": "stat_bonus",
 		"stats": { "lck": 4 },
+		"stackable": false
+	},
+	"River King's Whisker": {
+		"name": "River King's Whisker",
+		"description": "A stiff, wire-like whisker from the largest catfish anyone in Apple Woods has ever seen. It smells faintly of the river, even after days.",
+		"effect_description": "+15 Max HP, +2 Def.",
+		"effect": "stat_bonus",
+		"stats": { "hp": 15, "def": 2 },
+		"stackable": false
+	},
+	"Necromancer Cloak": {
+		"name": "Necromancer Cloak",
+		"description": "A tattered robe saturated with death-magic. Its protective enchantments grow stronger in the presence of the undead, drawn from the collective animus of nearby thralls.",
+		"effect_description": "Reduces damage taken by 60% while other enemies remain in battle.",
+		"effect": "guardian_shield",
+		"magnitude": 60,
 		"stackable": false
 	}
 }

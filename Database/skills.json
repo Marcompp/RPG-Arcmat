@@ -386,5 +386,70 @@
 		"magic": true,
 		"inherit_stats": false,
 		"inherit_wpn": false
+	},
+	"Dive": {
+		"nome": "Dive",
+		"description": "Removes the user from battle entirely.",
+		"type": "flee",
+		"use_text": "[b][USER][/b] dives back into the depths!",
+		"target": "self",
+		"stats": {
+			"mgt": 0,
+			"acc": 100,
+			"crit": 0
+		},
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Flee": {
+		"nome": "Flee",
+		"description": "Removes the user from battle entirely.",
+		"type": "flee",
+		"use_text": "[b][USER][/b] fled the battle!",
+		"target": "self",
+		"stats": {
+			"mgt": 0,
+			"acc": 100,
+			"crit": 0
+		},
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Raise Zombie": {
+		"nome": "Raise Zombie",
+		"description": "Calls a rotting corpse from the earth to fight.",
+		"type": "summon",
+		"summons": "Zombie",
+		"stats": { "wgt": 0 },
+		"cooldown": 4,
+		"use_text": "[b][USER][/b] raises a [color=green]Zombie[/color] from the grave!"
+	},
+	"Raise Ghost": {
+		"nome": "Raise Ghost",
+		"description": "Tears the veil and drags a restless spirit into battle.",
+		"type": "summon",
+		"summons": "Ghost",
+		"stats": { "wgt": 0 },
+		"cooldown": 4,
+		"use_text": "[b][USER][/b] summons a [color=cyan]Ghost[/color] from beyond!"
+	},
+	"Raise Skeleton": {
+		"nome": "Raise Skeleton",
+		"description": "Animates bleached bones with fell necromantic energy.",
+		"type": "summon",
+		"summons": "Skeleton",
+		"stats": { "wgt": 0 },
+		"cooldown": 4,
+		"use_text": "[b][USER][/b] raises a [color=white]Skeleton[/color] to serve!"
+	},
+	"Wait": {
+		"nome": "Wait",
+		"description": "Does nothing. Passes the turn without acting.",
+		"type": "self",
+		"stats": { "wgt": 0 },
+		"cooldown": 0,
+		"effect": "none",
+		"inherit_stats": false,
+		"inherit_wpn": false
 	}
 }

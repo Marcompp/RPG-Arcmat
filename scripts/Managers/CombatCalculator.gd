@@ -124,13 +124,19 @@ func get_action_wgt(actor, action: Dictionary) -> int:
 		return actor.get_weapon().get("stats", {}).get("wgt", 0)
 	return action.get("db", {}).get(action.get("name", ""), {}).get("stats", {}).get("wgt", 0)
 
-func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dictionary, spells_db: Dictionary, status_effects: Dictionary, status_db: Dictionary) -> Dictionary:
+func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dictionary, spells_db: Dictionary, status_effects: Dictionary, status_db: Dictionary, living_count: int = 1) -> Dictionary:
 	var skills    = e.get_skills()
 	var spells    = e.get_spells()
 
 	# 1. Cooldown + MP filter
 	var available = skills.filter(func(s): return cooldowns[key].get(s, 0) == 0 and skills_db.has(s))
 	available    += spells.filter(func(s): return cooldowns[key].get(s, 0) == 0 and spells_db.has(s) and spells_db[s].get("cost", 0) <= e.get_mp())
+
+	# 1b. Summon filter — only usable when this enemy is the sole survivor
+	available = available.filter(func(s):
+		var t = skills_db.get(s, spells_db.get(s, {})).get("type", "attack")
+		return t != "summon" or living_count == 1
+	)
 
 	# 2. HP threshold filter — skills tagged with "use_when_hp_below" in e.data only appear when hurt enough
 	var hp_pct     = 100.0 * e.get_hp() / max(1, e.get_mhp())

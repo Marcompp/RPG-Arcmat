@@ -124,7 +124,7 @@
 	"Thunder": {
 		"nome": "Thunder",
 		"description": "Calls down three erratic bolts of lightning that each carry high critical potential and a small chance to stun.",
-		"type": "attack",
+		"type": "random",
 		"element": "Thunder",
 		"stats": {
 			"mgt": 5,
@@ -133,6 +133,7 @@
 			"crit": 30
 		},
 		"cost": 6,
+		"hits":20,
 		"min_hits": 1,
 		"max_hits": 3,
 		"hit_text":"[color=cyan]Thunder[/color] struck [TARGET]![wait=0.1]",
