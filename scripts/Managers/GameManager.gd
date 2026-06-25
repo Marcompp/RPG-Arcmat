@@ -661,6 +661,15 @@ func _check_dict_condition(cond, node_index):
 			if req in player.get_skills():
 				return false
 			continue
+		elif key == "lacks_spell":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			if req in player.get_spells():
+				return false
+			if len(player.get_spells()) > travel.MAX_SPELLS:
+				return false
+			continue
 		elif key == "player_name":
 			var player = game_state["player"]
 			if player == null:

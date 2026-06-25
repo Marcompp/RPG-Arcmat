@@ -10,7 +10,9 @@ RPG-Arcmat is a Godot 4.4 turn-based RPG. All scripts are in GDScript (`.gd`). T
 
 Full world-building reference (characters, regions, factions, artifacts, themes, tone) lives in [`LORE.md`](LORE.md). Consult it before writing any in-world text: event dialogue, item descriptions, location flavor text, or NPC lines.
 
-Full game design philosophy (tone, combat design, content guidelines, regional structure) lives in [`DESIGN.md`](DESIGN.md). Consult it before adding new gameplay systems, enemies, events, or areas.
+Full game design philosophy (tone, combat design, content guidelines, regional structure) lives in [`DESIGN.md`](DESIGN.md). Consult it before adding new gameplay systems, enemies, or areas.
+
+Event writing conventions, anti-patterns, branching rules, and NPC voice guidelines live in [`EVENTS.md`](EVENTS.md). Consult it before writing or editing any event.
 
 ## Running the Project
 

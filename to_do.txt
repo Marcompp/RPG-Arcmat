@@ -7,12 +7,28 @@
 ----------------------------------------------------------------
 
 [ ] Remover prints de debug espalhados pelo codigo
-      - Character.gd:201         print(data) em get_name()
-      - TravelManager.gd:487     print('SHOW_EXIT_CHOICES')
-      - TravelManager.gd:618-619 print() dentro de _pick_encounter_monster()
-      - TravelManager.gd:624     print('EMPTY POOL')
-      - GameManager.gd:83        print('GIVING ITEM') + print(data)
-      - GameManager.gd:833-834   print('ITEMT') + print(data)
+      - Character.gd:225          print(data)
+      - EventBus.gd:31            print("Emit:", event_name)
+      - InputRouter.gd:21         print("PUSH →", context)
+      - InputRouter.gd:28         print("POP ←", popped["context"])
+      - InputRouter.gd:44         print("⚠ No input handler")
+      - AudioManager.gd:92        print('BGM PLAY')
+      - AudioManager.gd:96        print(path)
+      - DialogueSystem.gd:83      print('START_TYPING')
+      - DialogueSystem.gd:286     print(current_choices)
+      - DialogueSystem.gd:437     print('WTF TOOLTIP')
+      - DialogueSystem.gd:543     print("BOTÃO CLICADO", index)
+      - EventReader.gd:138        print(step.get("type", ""))
+      - EventReader.gd:181        print('CHOICE')
+      - GameManager.gd:689-690    print(value) + print(req)
+      - TownManager.gd:60         print("Unhandled town action: " + shop_name)
+      - TravelManager.gd:487      print('SHOW_EXIT_CHOICES')
+      - TravelManager.gd:618-619  print() dentro de _pick_encounter_monster()
+      - TravelManager.gd:624      print('EMPTY POOL')
+      - StatsPanel.gd:388         print(width)
+      - StatsPanel.gd:551         print("HOVER OK")
+      - TooltipButton.gd:7        print('_GET_TOOLTIP')
+      - TooltipButton.gd:20       print("TOOLTIP CHAMADO")
 
 [x] "Search for Monsters" envia {} para start_combat
       Cai no inimigo padrao (Slime) em vez de sortear um monstro
@@ -80,6 +96,8 @@
       "Sell" no show_shop_stock() para vender consumaveis e
       equipamentos em excesso por metade do preco de compra.
 
+[ ] Algum jeito de ver inventório na cidade
+
 [ ] Ending e arena
 
 [X] Efetividade de elementos
@@ -120,6 +138,13 @@
 [X] Melhorar tooltip de UI de personagem
 
 [ ] Melhorar tela de confirmação de seleção de personagem
+
+[ ] Limpar arquivos legados
+      scripts/legacy/Main.gd, scripts/legacy/Mainv2.gd e
+      "CombatManager copy.gd" ainda estao no repositorio.
+      Remover ou mover para fora do projeto.
+
+[ ] Refatoração texto (para tradução)
 
 ----------------------------------------------------------------
   CONTEUDO / DADOS
@@ -185,5 +210,11 @@ A fazer
 [ ] Mais itens consumaveis
       Expandir items.json com itens de recuperacao de MP, cura de
       status e itens ofensivos para uso em combate.
+
+[ ] Filtragem de loot
+      DESIGN.md: o jogador nunca deve receber item inutil —
+      arma/equip que ja possui, scroll de skill/spell que ja
+      sabe ou ja atingiu o limite. Implementar cheque de
+      elegibilidade antes de oferecer loot de evento/drop.
 
 ================================================================================

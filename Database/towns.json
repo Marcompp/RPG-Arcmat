@@ -346,5 +346,11 @@
 				"Stock": {}
 			}
 		}
+	},
+	"Arena Town": {
+		"Name": "Lizal-Town",
+		"Type": "Town",
+		"Shops": {},
+		"Next": "Arena"
 	}
 }

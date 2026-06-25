@@ -174,21 +174,9 @@ func start_combat(p, e_or_array):
 	for i in range(enemies.size()):
 		var e   = enemies[i]
 		var key = _ekey(i)
-		status_effects[key] = []
-		cooldowns[key]      = {}
 		enemy_timers.append(e.data.get("Startup", 0))
 		enemy_first_actions.append(true)
-
-		e.set_stat_multipliers({})
-		status_sys.emit_status_update(key)
-
-		for skill in e.get_skills():
-			var skill_data = skills_db.get(skill, {})
-			if skill_data.has("startup"):
-				cooldowns[key][skill] = skill_data["startup"]
-
-		if not e.get_trinkets().is_empty():
-			trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects, key)
+		_register_enemy_slot(e, key)
 
 	MyInputRouter.push(_handle_combat_input, "combat")
 
@@ -447,8 +435,7 @@ func _maybe_select_target(action: Dictionary):
 func _resolve_turn_pair(player_action: Dictionary):
 	state = CombatState.RESOLUTION
 
-	var all_actions: Array     = [player_action]
-	var preparing_indices: Array = []
+	var all_actions: Array = [player_action]
 	var living = _living_indices()
 
 	for i in living:
@@ -468,11 +455,8 @@ func _resolve_turn_pair(player_action: Dictionary):
 			enemy_first_actions[i] = false
 			enemy_timers[i] -= 1
 			#enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
-		else:
-			preparing_indices.append(i)
-			if not is_stunned and not is_frozen:
-				enemy_timers[i] -= 1
-		_emit_timer_update()
+		elif not is_stunned and not is_frozen:
+			all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "timer_tick", "enemy_index": i, "is_first": enemy_first_actions[i] })
 
 	all_actions.sort_custom(func(a, b):
 		return calc.get_action_speed(a["actor"], a) > calc.get_action_speed(b["actor"], b)
@@ -487,18 +471,6 @@ func _resolve_turn_pair(player_action: Dictionary):
 			return
 		if _living_indices().is_empty():
 			break
-
-	var prep_msgs: Array = []
-	for i in preparing_indices:
-		if enemies[i].get_hp() > 0:
-			var _phase_key     = "Preparing" if enemy_first_actions[i] else "Recharging"
-			var _phase_default = "is preparing to attack!" if enemy_first_actions[i] else "is catching its breath."
-			var _phase_raw     = enemies[i].data.get(_phase_key, _phase_default)
-			var phase          = _phase_raw[rng.randi() % _phase_raw.size()] if _phase_raw is Array else _phase_raw
-			prep_msgs.append("[b]%s[/b] %s" % [enemy_display_names[i], phase])
-	if prep_msgs.size() > 0:
-		MyEventBus.emit("continue_text", { "text": "\n".join(prep_msgs) })
-		await wait_for_writing()
 
 	status_sys.process_statuses("player")
 	for i in range(enemies.size()):
@@ -529,6 +501,16 @@ func _execute_turn_action(action: Dictionary):
 			await wait_for_writing()
 		"frozen":
 			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is frozen solid and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
+			await wait_for_writing()
+		"timer_tick":
+			var idx       = action["enemy_index"]
+			var phase_key = "Preparing" if action["is_first"] else "Recharging"
+			var phase_def = "is preparing to attack!" if action["is_first"] else "is catching its breath."
+			var phase_raw = enemies[idx].data.get(phase_key, phase_def)
+			var phase     = phase_raw[rng.randi() % phase_raw.size()] if phase_raw is Array else phase_raw
+			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] %s" % [enemy_display_names[idx], phase] })
+			enemy_timers[idx] -= 1
+			_emit_timer_update()
 			await wait_for_writing()
 		"attack":
 			await _do_attack(action["actor"], action["who"], _target_for(action))
@@ -825,6 +807,18 @@ func _bank_enemy_rewards(idx: int) -> void:
 		if rng.randi_range(1, 100) <= e.data["Drops"][item]:
 			_accumulated_rewards["drops"][item] = _accumulated_rewards["drops"].get(item, 0) + 1
 
+func _register_enemy_slot(e: Character, key: String) -> void:
+	status_effects[key] = []
+	cooldowns[key]      = {}
+	e.set_stat_multipliers({})
+	status_sys.emit_status_update(key)
+	for skill in e.get_skills():
+		var skill_data = skills_db.get(skill, {})
+		if skill_data.has("startup"):
+			cooldowns[key][skill] = skill_data["startup"]
+	if not e.get_trinkets().is_empty():
+		trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects, key)
+
 func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
 	var monster_names = skill_data.get("summons", "")
 	if typeof(monster_names) != TYPE_ARRAY:
@@ -888,18 +882,7 @@ func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
 			enemy_timers.append(monster_data.get("Startup", 0))
 			enemy_first_actions.append(true)
 
-		status_effects[new_key] = []
-		cooldowns[new_key]      = {}
-		new_char.set_stat_multipliers({})
-		status_sys.emit_status_update(new_key)
-
-		for skill in new_char.get_skills():
-			var s_data = skills_db.get(skill, {})
-			if s_data.has("startup"):
-				cooldowns[new_key][skill] = s_data["startup"]
-
-		if not new_char.get_trinkets().is_empty():
-			trinket_systems[new_key] = TrinketSystem.new(new_char, trinkets_db, status_effects, new_key)
+		_register_enemy_slot(new_char, new_key)
 
 		new_char.data["Name"] = display_name
 		new_char.stats_changed.emit()

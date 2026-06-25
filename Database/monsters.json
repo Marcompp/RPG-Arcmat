@@ -209,7 +209,7 @@
 	"Name": "Sparkfish",
 	"Element": "Water",
 	"Gender": "Male",
-	"Lvl": 1,
+	"Lvl": 5,
 	"Stats": {"HP":"D","MP":"C","Str":"D","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
 	"TrueStats":{
 		"HP": 25,
@@ -507,7 +507,7 @@
   },
   {
 	"Name": "Ent",
-	"Element": "Earth",
+	"Element": "Plant",
 	"Lvl": 13,
 	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Dex":"D","Agi":"E","Lck":"E","Def":"C"},
 	"Equip": {
@@ -780,12 +780,12 @@
 	"Startup":1,
 	"Cooldown":2,
 	"Gold":300,
-	"Start": "Raise Zombie",
-	"Skill_Chance": 90,
+	"Start": "Raise Ghost",
+	"Skill_Chance": 100,
 	"Skill_Weights": {
-		"Raise Zombie": 3,
-		"Raise Ghost": 2,
-		"Raise Skeleton": 1
+		"Raise Zombie": 2,
+		"Raise Ghost": 1,
+		"Raise Skeleton": 3
 	},
 	"Skills": ["Raise Zombie", "Raise Ghost", "Raise Skeleton"],
 	"Spells": ["Dark"],
@@ -893,7 +893,7 @@
   },
   {
 	"Name": "King of the Swamp",
-	"Element": "Earth",
+	"Element": "Plant",
 	"Lvl": 15,
 	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
 	"Equip": {
