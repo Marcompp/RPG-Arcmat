@@ -80,6 +80,7 @@
 	},
 	"Bone Club": {
 		"name": "Bone Club",
+		"icon": "bone.png",
 		"description": "A femur shaped into a weapon — one end weighted, the other wrapped with cord. Found buried in the Sundown Plateau. Whoever left it down there knew what they were doing.",
 		"element": "Dark",
 		"wpn_type": "Axe",
@@ -125,6 +126,7 @@
 	},
 	"Scimitar": {
 		"name": "Scimitar",
+		"icon":"scimitar.png",
 		"description": "A heavy curved blade devastating when it connects, though its arc demands room to swing.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 12, "acc": 55, "wgt": 12, "crit": 0, "mys": 0 },
@@ -269,6 +271,7 @@
 	},
 	"Falchion": {
 		"name": "Falchion",
+		"icon":"scimitar.png",
 		"description": "A single-edged blade with a weighted tip that delivers crushing, bone-breaking blows.",
 		"wpn_type": "Sword",
 		"stats": { "mgt": 14, "acc": 60, "wgt": 12, "crit": 0, "mys": 0 },

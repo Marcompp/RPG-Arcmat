@@ -58,6 +58,7 @@
 	},
 	"Lifespark Crystal": {
 		"name": "Lifespark Crystal",
+		"icon": "crystal.png",
 		"description": "A crystal that pulses faintly, like a heartbeat. The warmth inside it is almost alive.",
 		"effect_description": "Shatters automatically when the bearer falls, reviving them with 50% HP. Each crystal grants one revival.",
 		"effect": "auto_revive",
@@ -82,6 +83,7 @@
 	},
 	"Leather Boots": {
 		"name": "Leather Boots",
+		"icon": "boots.png",
 		"description": "A pair of well-broken-in boots with thick soles and room to breathe. They've walked many roads.",
 		"effect_description": "+3 Agility.",
 		"effect": "stat_bonus",
@@ -90,6 +92,7 @@
 	},
 	"Witch Hat": {
 		"name": "Witch Hat",
+		"icon": "witch_hat.png",
 		"description": "A tall, wide-brimmed hat with a slight lean to the left. Still smells faintly of ink and dried flowers.",
 		"effect_description": "+5 Intelligence.",
 		"effect": "stat_bonus",
@@ -153,6 +156,7 @@
 	},
 	"Brilliant Ruby": {
 		"name": "Brilliant Ruby",
+		"icon": "ruby.png",
 		"description": "A ruby the size of a thumb, mined deep in the Core Cavern where the walls still radiate heat. Something burns inside it that hasn't gone out in centuries — not a reflection, not a trick of the light.",
 		"effect_description": "You begin battle as the Fire element.",
 		"effect": "battle_start_element",
@@ -169,6 +173,7 @@
 	},
 	"Sparkling Sapphire": {
 		"name": "Sparkling Sapphire",
+		"icon": "sapphire.png",
 		"description": "A deep blue crystal pulled from an underground stream in the Lost Swamp, still faintly damp. The color shifts with the angle — darker near the base, almost clear at the tip.",
 		"effect_description": "You begin battle as the Water element.",
 		"effect": "battle_start_element",
@@ -177,6 +182,7 @@
 	},
 	"Tough Topaz": {
 		"name": "Tough Topaz",
+		"icon": "topaz.png",
 		"description": "A heavy golden stone with inclusions that catch the light like veins in rock. Miners who've carried one for long days say the weight feels like it belongs there.",
 		"effect_description": "You begin battle as the Earth element.",
 		"effect": "battle_start_element",
@@ -193,6 +199,7 @@
 	},
 	"Abyssal Onyx": {
 		"name": "Abyssal Onyx",
+		"icon": "onyx.png",
 		"description": "A smooth black stone with no grain, no texture, no reflection. It absorbs the light around it the way silence absorbs sound — not by blocking it, but by making it disappear.",
 		"effect_description": "You begin battle as the Dark element.",
 		"effect": "battle_start_element",
@@ -201,6 +208,7 @@
 	},
 	"Verdant Emerald": {
 		"name": "Verdant Emerald",
+		"icon": "emerald.png",
 		"description": "A hexagonal crystal the color of deep forest canopy, found in the upper reaches of Apple Woods where the roots break through the cave ceiling.",
 		"effect_description": "You begin battle as the Wind element.",
 		"effect": "battle_start_element",
