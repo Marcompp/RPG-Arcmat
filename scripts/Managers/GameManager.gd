@@ -575,7 +575,10 @@ func start_combat(data):
 				enemy_data["Lvl"] = level_override
 			for key in overrides:
 				enemy_data[key] = overrides[key]
-		var enmy = Character.new(enemy_data, armor_db, weapon_db, rng)
+		var enemy_data_aux = enemy_data.duplicate()
+		if enemy_data_aux.has("displayName"):
+			enemy_data_aux['Name'] = enemy_data_aux['displayName']
+		var enmy = Character.new(enemy_data_aux, armor_db, weapon_db, rng)
 		game_state.set_value("enemy_%d" % i, enmy)
 		enemy_chars.append(enmy)
 

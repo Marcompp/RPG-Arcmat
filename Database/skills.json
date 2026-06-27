@@ -451,5 +451,19 @@
 		"effect": "none",
 		"inherit_stats": false,
 		"inherit_wpn": false
+	},
+	"Take Flight": {
+		"nome": "Take Flight",
+		"description": "Leaps into the air, drastically reducing incoming physical damage — but becoming a prime target for ranged attacks.",
+		"type": "self",
+		"stats": {
+			"acc": 100,
+			"wgt": 8
+		},
+		"cooldown": 10,
+		"magnitude":10,
+		"effect": "flying",
+		"inherit_stats": false,
+		"inherit_wpn": false
 	}
 }

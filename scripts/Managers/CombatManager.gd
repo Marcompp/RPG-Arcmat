@@ -32,6 +32,7 @@ var rng: RandomNumberGenerator
 
 var enemy_timers: Array = []
 var enemy_first_actions: Array = []
+var enemy_channeling: Array = []
 
 var pending_action: Dictionary = {}
 var _died_enemies: Array = []
@@ -109,6 +110,25 @@ func _emit_timer_update() -> void:
 		timers.append(enemy_timers[i] if enemies[i].get_hp() > 0 else -1)
 	MyEventBus.emit("enemy_timer_update", { "timers": timers })
 
+func _check_channel_trigger(idx: int) -> Dictionary:
+	var moves: Array = enemies[idx].data.get("ChannelMoves", [])
+	if moves.is_empty():
+		return {}
+	var hp_pct = 100.0 * enemies[idx].get_hp() / max(1, enemies[idx].get_mhp())
+	var eligible: Array = []
+	for move in moves:
+		var cond = move.get("condition", "always")
+		var ok = cond == "always" or (cond == "hp_below" and hp_pct <= move.get("threshold", 100))
+		if ok:
+			eligible.append(move)
+	if eligible.is_empty():
+		return {}
+	var pool: Array = []
+	for move in eligible:
+		for _w in range(move.get("weight", 1)):
+			pool.append(move)
+	return pool[rng.randi() % pool.size()]
+
 # ============================================================
 # ENTRY
 # ============================================================
@@ -152,6 +172,7 @@ func start_combat(p, e_or_array):
 	cooldowns           = { "player": {} }
 	enemy_timers        = []
 	enemy_first_actions = []
+	enemy_channeling    = []
 	pending_action      = {}
 	_died_enemies       = []
 	_fled_indices       = []
@@ -176,6 +197,7 @@ func start_combat(p, e_or_array):
 		var key = _ekey(i)
 		enemy_timers.append(e.data.get("Startup", 0))
 		enemy_first_actions.append(true)
+		enemy_channeling.append("")
 		_register_enemy_slot(e, key)
 
 	MyInputRouter.push(_handle_combat_input, "combat")
@@ -324,10 +346,21 @@ func _execute_trinket_start_skills():
 
 func render_player_turn():
 	var living = _living_indices()
-	
+	var now_chaneling = []
+
 	for i in living:
 		if enemy_timers[i] < 0:
-			enemy_timers[i] = enemies[i].data.get("Cooldown", 0)
+			var cm = _check_channel_trigger(i)
+			if not cm.is_empty():
+				enemy_channeling[i] = cm.get("skill", "")
+				enemy_timers[i]     = cm.get("duration", enemies[i].data.get("Cooldown", 0))
+				now_chaneling.append(true)
+			else:
+				enemy_channeling[i] = ""
+				enemy_timers[i]     = enemies[i].data.get("Cooldown", 0)
+				now_chaneling.append(false)
+		else:
+			now_chaneling.append(false)
 
 	_emit_timer_update()
 
@@ -339,12 +372,24 @@ func render_player_turn():
 	for i in living:
 		var t = enemy_timers[i]
 		var n = enemy_display_names[i]
-		if t <= 0:
-			timer_lines.append("[color=red]%s will act this turn![/color]" % n)
-		elif t == 1:
-			timer_lines.append("[color=yellow]%s will act next turn.[/color]" % n)
+		if enemy_channeling[i] != "":
+			if t <= 0:
+				timer_lines.append("[color=red]%s is about to unleash something![/color]" % n)
+			elif now_chaneling[i]:
+				timer_lines.append(
+					CombatUtils.parse_action_text("[color=orange][SELF] has begun channeling something!![/color]",
+						{"SELF": n, "SKILL": enemy_channeling[i]}
+					)
+				)
+			else:
+				timer_lines.append("[color=orange]%s is channeling... (%d)[/color]" % [n, t])
 		else:
-			timer_lines.append("[color=green]%s will act in %d turns.[/color]" % [n, t])
+			if t <= 0:
+				timer_lines.append("[color=red]%s will act this turn![/color]" % n)
+			elif t == 1:
+				timer_lines.append("[color=yellow]%s will act next turn.[/color]" % n)
+			else:
+				timer_lines.append("[color=green]%s will act in %d turns.[/color]" % [n, t])
 
 	show_text(
 		"%s\n%s: %d hp.\n%s\n\nWhat would you like to do?" % [
@@ -451,9 +496,15 @@ func _resolve_turn_pair(player_action: Dictionary):
 			elif is_frozen:
 				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "frozen" })
 			else:
-				all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db, living.size()))
+				if enemy_channeling[i] != "":
+					var skill_name      = enemy_channeling[i]
+					enemy_channeling[i] = ""
+					var db = skills_db if skills_db.has(skill_name) else spells_db
+					all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "skill", "name": skill_name, "db": db, "enemy_index": i })
+				else:
+					all_actions.append(calc.enemy_choose_action(enemies[i], _ekey(i), cooldowns, skills_db, spells_db, status_effects, status_db, living.size()))
 			enemy_first_actions[i] = false
-			enemy_timers[i] -= 1
+			# enemy_timers[i] -= 1
 			#enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
 		elif not is_stunned and not is_frozen:
 			all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "timer_tick", "enemy_index": i, "is_first": enemy_first_actions[i] })
@@ -488,7 +539,9 @@ func _resolve_turn_pair(player_action: Dictionary):
 	await next_turn()
 
 func _execute_turn_action(action: Dictionary):
+	var idx = -1
 	if action["who"] != "player":
+		idx = action.get("enemy_index",0)
 		var esys = _tsys(action["who"])
 		if esys:
 			var msg = esys.process_turn_start()
@@ -503,25 +556,34 @@ func _execute_turn_action(action: Dictionary):
 			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is frozen solid and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
 			await wait_for_writing()
 		"timer_tick":
-			var idx       = action["enemy_index"]
-			var phase_key = "Preparing" if action["is_first"] else "Recharging"
-			var phase_def = "is preparing to attack!" if action["is_first"] else "is catching its breath."
-			var phase_raw = enemies[idx].data.get(phase_key, phase_def)
-			var phase     = phase_raw[rng.randi() % phase_raw.size()] if phase_raw is Array else phase_raw
-			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] %s" % [enemy_display_names[idx], phase] })
+			var phase: String
+			var phase_map = {"SELF":enemy_display_names[idx]}
+			if enemy_channeling[idx] != "":
+				var cm_list = enemies[idx].data.get("ChannelMoves", [])
+				var cm = cm_list.filter(func(m): return m.get("skill", "") == enemy_channeling[idx])
+				var chan_raw = cm[0].get("channel_texts", "[SELF] is channeling...") if not cm.is_empty() else "is channeling..."
+				phase_map["SKILL"] = enemy_channeling[idx]
+			else:
+				var phase_key = "Preparing" if action["is_first"] else "Recharging"
+				var phase_def = "[SELF] is preparing to attack!" if action["is_first"] else "[SELF] is catching its breath."
+				var phase_raw = enemies[idx].data.get(phase_key, phase_def)
+				phase = phase_raw[rng.randi() % phase_raw.size()] if phase_raw is Array else phase_raw
+			MyEventBus.emit("continue_text", { "text":
+				CombatUtils.parse_action_text(phase, phase_map) + "[wait=0.1]" })
+			# MyEventBus.emit("continue_text", { "text": "[b]%s[/b] %s" % [enemy_display_names[idx], phase] })
 			enemy_timers[idx] -= 1
 			_emit_timer_update()
 			await wait_for_writing()
 		"attack":
-			await _do_attack(action["actor"], action["who"], _target_for(action))
+			await _do_attack(action["actor"], action["who"], _target_for(action), idx)
 		_:
 			var data        = action.get("db", {}).get(action.get("name", ""), {})
 			var action_type = data.get("type", "attack")
 			if action["who"] == "player" and action_type in ["aoe", "all", "random"]:
-				await _execute_action(action["actor"], action["who"], action["name"], action["db"], "_")
+				await _execute_action(action["actor"], action["who"], action["name"], action["db"], "_", idx)
 			else:
 				var target = action["actor"] if action_type == "self" else _target_for(action)
-				await _execute_action(action["actor"], action["who"], action["name"], action["db"], target)
+				await _execute_action(action["actor"], action["who"], action["name"], action["db"], target, idx)
 			if action.get("type", "") in ["magic", "spell"]:
 				var spell_element = data.get("element", "")
 				if spell_element != "" and spell_element != action["actor"].get_element():
@@ -534,7 +596,7 @@ func _execute_turn_action(action: Dictionary):
 # DAMAGE & ACTION EXECUTION
 # ============================================================
 
-func _do_attack(actor, who: String, target):
+func _do_attack(actor, who: String, target, idx: int = -1):
 	var weapon   = actor.get_weapon()
 	var wpn_name = weapon.get("name", "") if weapon and not weapon.is_empty() else ""
 	var target_part = ""
@@ -547,6 +609,9 @@ func _do_attack(actor, who: String, target):
 	else:
 		attacktxt = "[b]%s[/b] struck%s with %s![wait=0.1]" % [actor.get_name(), target_part, wpn_name if wpn_name != "" else "bare hands"]
 	MyEventBus.emit("continue_text", { "text": attacktxt })
+	if idx >=0:
+		enemy_timers[idx] -= 10
+		_emit_timer_update()
 	await wait_for_writing()
 
 	var weapon_data = {
@@ -563,10 +628,13 @@ func _do_attack(actor, who: String, target):
 	await _execute_hit(weapon_data, actor, who, target)
 	await wait_for_writing()
 
-func _execute_action(user, who: String, action_name: String, db: Dictionary, target):
+func _execute_action(user, who: String, action_name: String, db: Dictionary, target, idx: int = -1):
 	var data = db.get(action_name, null)
 	if not data:
 		MyEventBus.emit("continue_text", { "text": "...%s?\n" % action_name })
+		if idx >=0:
+			enemy_timers[idx] -= 10
+			_emit_timer_update()
 		await wait_for_continue()
 		return
 
@@ -589,6 +657,9 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 
 	var use_text = data.get("use_text", "[b]%s[/b] used [color=cyan]%s[/color]!" % [user.get_name(), data.get("nome", action_name)])
 	MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(use_text, { "USER": user.get_name(), "TARGET": target_name }) + "[wait=0.1]" })
+	if idx >=0:
+		enemy_timers[idx] -= 10
+		_emit_timer_update()
 	await wait_for_writing()
 
 	if data.get("type", "attack") == "flee":
@@ -807,6 +878,34 @@ func _bank_enemy_rewards(idx: int) -> void:
 		if rng.randi_range(1, 100) <= e.data["Drops"][item]:
 			_accumulated_rewards["drops"][item] = _accumulated_rewards["drops"].get(item, 0) + 1
 
+func _calculate_rewards() -> Dictionary:
+	var total_xp   = _accumulated_rewards.get("xp",   0)
+	var total_gold = _accumulated_rewards.get("gold",  0)
+	var all_drops: Dictionary = _accumulated_rewards.get("drops", {}).duplicate()
+	for i in range(enemies.size()):
+		if i in _fled_indices:
+			continue
+		var e   = enemies[i]
+		var lvl = e.get_level()
+		total_xp   += int(10.0 * pow(1.5, lvl - 1))
+		total_gold += e.data.get("Gold", 0)
+		for item in e.data.get("Drops", {}):
+			if rng.randi_range(1, 100) <= e.data["Drops"][item]:
+				all_drops[item] = all_drops.get(item, 0) + 1
+	return { "xp": total_xp, "gold": total_gold, "drops": all_drops }
+
+func _format_reward_text(r: Dictionary) -> String:
+	var lines = ["[b]Rewards[/b]", "[color=cyan]+%d XP[/color]" % r["xp"]]
+	if r["gold"] > 0:
+		lines.append("[color=yellow]+%dG[/color]" % r["gold"])
+	for item in r["drops"]:
+		lines.append("  • %s" % item)
+	return "\n".join(lines)
+
+# ============================================================
+# SUMMONS
+# ============================================================
+
 func _register_enemy_slot(e: Character, key: String) -> void:
 	status_effects[key] = []
 	cooldowns[key]      = {}
@@ -861,7 +960,10 @@ func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
 		if slot_idx < enemies.size():
 			_bank_enemy_rewards(slot_idx)
 
+		if monster_data.has('displayName'):
+			monster_name = monster_data['displayName']
 		var display_name = monster_name
+
 		_summon_name_counters[monster_name] = _summon_name_counters.get(monster_name, 0) + 1
 		if _summon_name_counters[monster_name] > 1 or name_count.get(monster_name,0) > 1:
 			display_name = "%s %s" % [monster_name, char(64 + _summon_name_counters[monster_name])]
@@ -873,14 +975,16 @@ func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
 		if slot_idx < enemies.size():
 			enemies[slot_idx]             = new_char
 			enemy_display_names[slot_idx] = display_name
-			enemy_timers[slot_idx]        = monster_data.get("Startup", 0)
+			enemy_timers[slot_idx]        = -1 # monster_data.get("Startup", 0)
 			enemy_first_actions[slot_idx] = true
+			enemy_channeling[slot_idx]    = ""
 			_died_enemies.erase(new_key)
 		else:
 			enemies.append(new_char)
 			enemy_display_names.append(display_name)
 			enemy_timers.append(monster_data.get("Startup", 0))
 			enemy_first_actions.append(true)
+			enemy_channeling.append("")
 
 		_register_enemy_slot(new_char, new_key)
 
@@ -893,29 +997,13 @@ func _perform_summon(summoner, summoner_who: String, skill_data: Dictionary):
 		MyEventBus.emit("continue_text", { "text": "[b]%s[/b] appeared!" % display_name })
 		await wait_for_writing()
 
-func _calculate_rewards() -> Dictionary:
-	var total_xp   = _accumulated_rewards.get("xp",   0)
-	var total_gold = _accumulated_rewards.get("gold",  0)
-	var all_drops: Dictionary = _accumulated_rewards.get("drops", {}).duplicate()
-	for i in range(enemies.size()):
-		if i in _fled_indices:
-			continue
-		var e   = enemies[i]
-		var lvl = e.get_level()
-		total_xp   += int(10.0 * pow(1.5, lvl - 1))
-		total_gold += e.data.get("Gold", 0)
-		for item in e.data.get("Drops", {}):
-			if rng.randi_range(1, 100) <= e.data["Drops"][item]:
-				all_drops[item] = all_drops.get(item, 0) + 1
-	return { "xp": total_xp, "gold": total_gold, "drops": all_drops }
-
-func _format_reward_text(r: Dictionary) -> String:
-	var lines = ["[b]Rewards[/b]", "[color=cyan]+%d XP[/color]" % r["xp"]]
-	if r["gold"] > 0:
-		lines.append("[color=yellow]+%dG[/color]" % r["gold"])
-	for item in r["drops"]:
-		lines.append("  • %s" % item)
-	return "\n".join(lines)
+		var start_skill: String = new_char.data.get("Start", "")
+		if start_skill != "":
+			var start_db = skills_db if skills_db.has(start_skill) else spells_db
+			var start_data = start_db.get(start_skill, {})
+			var start_target = new_char if start_data.get("type", "attack") == "self" else player
+			await _execute_action(new_char, new_key, start_skill, start_db, start_target)
+			await wait_for_writing()
 
 # ============================================================
 # UTILITIES

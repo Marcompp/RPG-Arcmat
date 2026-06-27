@@ -104,6 +104,13 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 	if dmg_taken != 1.0:
 		dmg = max(1, int(dmg * dmg_taken))
 
+	if target.stat_multipliers.get("flying", 0.0) > 0.0 and not is_magic:
+		var wpn_type = user.get_weapon().get("wpn_type", "")
+		if wpn_type == "Ranged":
+			dmg = max(1, int(dmg * 1.5))
+		else:
+			dmg = max(1, int(dmg * 0.5))
+
 	result["damage"] = dmg
 	result["text"]  += "[screenshake][instant][color=red]%d[/color] damage![/instant]" % dmg
 
@@ -124,7 +131,7 @@ func get_action_wgt(actor, action: Dictionary) -> int:
 		return actor.get_weapon().get("stats", {}).get("wgt", 0)
 	return action.get("db", {}).get(action.get("name", ""), {}).get("stats", {}).get("wgt", 0)
 
-func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dictionary, spells_db: Dictionary, status_effects: Dictionary, status_db: Dictionary, living_count: int = 1) -> Dictionary:
+func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dictionary, spells_db: Dictionary, status_effects: Dictionary, status_db: Dictionary, living_count: int = 1, enemy_index: int = 0) -> Dictionary:
 	var skills    = e.get_skills()
 	var spells    = e.get_spells()
 
@@ -167,4 +174,4 @@ func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dicti
 			return { "actor": e, "who": key, "type": "skill", "name": chosen, "db": skills_db }
 		if spells_db.has(chosen):
 			return { "actor": e, "who": key, "type": "spell", "name": chosen, "db": spells_db }
-	return { "actor": e, "who": key, "type": "attack" }
+	return { "actor": e, "who": key, "type": "attack", "enemy_index": enemy_index }

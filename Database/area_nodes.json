@@ -2,6 +2,7 @@
 	"Apple Woods": [
 	{
 	  "name": "Road",
+	  "categories": ["road"],
 	  "entrances": ["ROAD", "FOREST"],
 	  "events": [
 			{"chance": 0.2, "event": "travelling_wpn_merchant"},
@@ -75,6 +76,7 @@
 	},
 	{
 	  "name": "Woods",
+	  "categories": ["woods"],
 	  "entrances": ["FOREST"],
 	  "backdrop": "apple_deep.png",
 	  "events": [
@@ -111,6 +113,7 @@
 	},
 	{
 	  "name": "Fork in the Road",
+	  "categories": ["road"],
 	  "entrances": ["ROAD"],
 	  "backdrop": "apple_fork.png",
 	  "events": [
@@ -148,6 +151,7 @@
 	},
 	{
 	  "name": "River",
+	  "categories": ["water"],
 	  "entrances": ["FOREST", "RIVER"],
 	  "backdrop": "apple_river.png",
 	  "arrival": {
@@ -184,6 +188,7 @@
 	},
 	{
 	  "name": "Bridge",
+	  "categories": ["road","water"],
 	  "entrances": ["ROAD", "RIVER"],
 	  "backdrop": "apple_bridge.png",
 	  "enemies": ["Slime Duo","Bitefish","Bandit","Skeleton"],
@@ -229,6 +234,7 @@
 	},
 	{
 	  "name": "Clearing",
+	  "categories": ["woods"],
 	  "entrances": ["ROAD", "FOREST"],
 	  "backdrop": "apple_clearing.png",
 	  "condition": {
@@ -269,6 +275,7 @@
 	},
 	{
 	  "name": "Spring",
+	  "categories": ["water"],
 	  "entrances": ["FOREST", "RIVER"],
 	  "enemies": ["Slime Duo","Bitefish","Slime"],
 	  "backdrop": "apple_spring.png",
@@ -304,6 +311,7 @@
 	},
 	{
 	  "name": "Lake",
+	  "categories": ["water"],
 	  "entrances": ["FOREST", "RIVER"],
 	  "backdrop": "apple_lake.png",
 	  "enemies": ["Slime Duo","Bitefish","Bear","Skeleton","Slime"],
@@ -344,6 +352,7 @@
 	},
 	{
 	  "name": "Cabin",
+	  "categories": [],
 	  "entrances": ["FOREST","CABIN"],
 	  "backdrop": "apple_cabin.png",
 	  "condition": {
@@ -376,6 +385,7 @@
 	},
 	{
 	  "name": "Treasure Spot",
+	  "categories": ["woods"],
 	  "entrances": ["FOREST"],
 	  "backdrop": "apple_clearing.png",
 	  "condition": {
@@ -453,6 +463,7 @@
 	"Caves of Light": [
 	  {
 		"name": "Tunnel",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 	  	"backdrop": "light_tunnel.png",
 		"arrival": {
@@ -487,6 +498,7 @@
 	  },
 	  {
 		"name": "Grotto",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 		"arrival": {
 		  "TUNNEL": [
@@ -521,6 +533,7 @@
 	  },
 	  {
 		"name": "Cavern",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 		"arrival": {
 		  "TUNNEL": [
@@ -556,6 +569,7 @@
 	  },
 	  {
 		"name": "Forked Path",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 	  	"backdrop": "light_fork.png",
 		"arrival": {
@@ -588,6 +602,7 @@
 	  },
 	  {
 		"name": "Spring",
+	  	"categories": ["spring"],
 		"entrances": ["TUNNEL"],
 	  	"condition": {
 			"no_repeat":true
@@ -622,6 +637,7 @@
 	  },
 	  {
 		"name": "Altar",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 	  	"backdrop": "light_altar.png",
 		"condition": {
@@ -656,6 +672,7 @@
 	  },
 	  {
 		"name": "Treasure Chamber",
+	  	"categories": ["cave"],
 		"entrances": ["TUNNEL"],
 	  	"backdrop": "light_dead_end.png",
 		"encounter_rate": 0,
@@ -691,6 +708,7 @@
 	  },
 	  {
 		"name": "Cult Sanctum",
+	  	"categories": [],
 		"entrances": ["TUNNEL","FOLLOW"],
 	  	"backdrop": "light_altar.png",
 	  	"condition": {
@@ -722,6 +740,7 @@
 	  },
 	  {
 		"name": "Dead End Tunnel",
+	  	"categories": ["cave"],
 	  	"backdrop": "light_dead_end.png",
 		"entrances": ["TUNNEL"],
 	  	"condition": {
@@ -777,6 +796,7 @@
 	"Sundown Plateau": [
 		  {
 			"name": "Plateau",
+	  		"categories": ["surface"],
 			"entrances": ["SURFACE"],
 			"arrival": {
 			  "SURFACE": [
@@ -817,6 +837,7 @@
 		  },
 		  {
 			"name": "Catacomb",
+	  		"categories": ["surface"],
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_mausoleum.png",
 	  		"condition": {
@@ -843,6 +864,7 @@
 		  },
 		  {
 			"name": "Catacomb Tunnel",
+	  		"categories": ["catacomb"],
 			"entrances": ["CATACOMB","STEPS"],
 			"backdrop": "sundown_catacomb3.png",
 			"arrival": {
@@ -881,6 +903,7 @@
 		  },
 		  {
 			"name": "Forked Tunnel",
+	  		"categories": ["catacomb"],
 			"backdrop": "sundown_tunnel_split2.png",
 			"entrances": ["CATACOMB","STEPS"],
 			"arrival": {
@@ -916,6 +939,7 @@
 		  },
 		  {
 			"name": "Sanctum",
+	  		"categories": ["catacomb"],
 			"entrances": ["CATACOMB"],
 			"backdrop": "sundown_sanctum2.png",
 			"arrival": {
@@ -948,6 +972,7 @@
 		  },
 		  {
 			"name": "Altar",
+	  		"categories": ["surface"],
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_altar.png",
 			"condition": {
@@ -989,6 +1014,7 @@
 		  },
 		  {
 			"name": "Edge of the Plateau",
+	  		"categories": ["surface"],
 			"backdrop": "sundown_edge.png",
 			"entrances": ["SURFACE", "EDGE"],
 			"arrival": {
@@ -1028,6 +1054,7 @@
 		  },
 		  {
 			"name": "Graveyard",
+	  		"categories": ["surface"],
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_grave2.png",
 			"arrival": {
@@ -1058,6 +1085,7 @@
 		  },
 		  {
 			"name": "Dead End",
+	  		"categories": ["catacomb"],
 			"entrances": ["CATACOMB"],
 			"backdrop": "sundown_cavein2.png",
 			"condition": {
@@ -1108,6 +1136,7 @@
 		  },
 		  {
 			"name": "Circus Grounds",
+	  		"categories": ["surface"],
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_circus.png",
 		  	"encounter_rate": 0,
@@ -1143,6 +1172,7 @@
 	"Mount Legory": [
 		{
 		"name": "Ascent Path",
+	  	"categories": ["cliff"],
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"arrival": {
 		  "SKIRT": [
@@ -1182,6 +1212,7 @@
 	  },
 	  {
 		"name": "Mountain Cave",
+	  	"categories": ["cliff"],
 	  	"backdrop": "legory_cave.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"condition": {
@@ -1225,6 +1256,7 @@
 	  },
 	  {
 		"name": "Mountainside",
+	  	"categories": ["cliff"],
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"arrival": {
 		  "SKIRT": [
@@ -1265,6 +1297,7 @@
 	  },
 	  {
 		"name": "Summit",
+	  	"categories": ["open"],
 	  	"backdrop": "legory_summit.png",
 		"entrances": ["UP"],
 		"condition": {
@@ -1296,6 +1329,7 @@
 	  },
 	  {
 		"name": "Ridge",
+	  	"categories": ["open"],
 	  	"backdrop": "legory_ridge.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"arrival": {
@@ -1337,6 +1371,7 @@
 	  },
 	  {
 		"name": "Archway",
+	  	"categories": ["cliff"],
 	  	"backdrop": "legory_arch.png",
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"condition": {
@@ -1373,10 +1408,10 @@
 	  },
 	  {
 		"name": "Cavern Entrance",
-		  "type": "EXIT",
+		"type": "EXIT",
 	  	"backdrop": "legory_cavern.png",
-		  "boss": "Icelady",
-		  "encounter_rate": 0,
+		"boss": "Icelady",
+		"encounter_rate": 0,
 		"entrances": ["SKIRT", "UP", "DOWN"],
 		"condition": {
 				"no_repeat":true
@@ -1386,18 +1421,19 @@
 			"You reach the entrance to a deep cave in the mountainside."
 		  ]
 		},
-		  "description": [
+		"description": [
 			{ "text": "Hot air wafts out of the entrance." }
-		  ],
+		],
 
-		  "exits": [
+		"exits": [
 			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way inside, descending into the Core Caverns within." }
-		  ]
-		}
+		]
+	  }
 	],
 	"Core Cavern": [
 	  {
 		"name": "Cracked Descent",
+	  	"categories": ["tunnel"],
 		"entrances": ["DESCEND", "DEPTHS"],
 		"arrival": {
 		  "DESCEND": [
@@ -1426,6 +1462,7 @@
 	  },
 	  {
 		"name": "Magma Flow",
+	  	"categories": ["tunnel"],
 		"entrances": ["DEPTHS"],
 		"arrival": {
 		  "DEPTHS": [
@@ -1455,6 +1492,7 @@
 	  },
 	  {
 		"name": "Basalt Bridge",
+	  	"categories": ["grotto"],
 		"entrances": ["DEPTHS"],
 		"arrival": {
 		  "DEPTHS": [
@@ -1480,6 +1518,7 @@
 	  },
 	  {
 		"name": "Obsidian Chamber",
+	  	"categories": [],
 		"backdrop":"core_obsidian.png",
 		"entrances": ["DEPTHS"],
 		"condition": {
@@ -1512,6 +1551,7 @@
 	  },
 	  {
 		"name": "Ash Field",
+	  	"categories": ["grotto"],
 		"backdrop":"core_ash.png",
 		"entrances": ["DEPTHS", "CORE"],
 		"arrival": {
@@ -1541,6 +1581,7 @@
 	  },
 	  {
 		"name": "Core Chamber",
+	  	"categories": ["grotto"],
 		"entrances": ["CORE"],
 		"arrival": {
 		  "CORE": [
@@ -1565,6 +1606,7 @@
 	  },
 	  {
 		"name": "Tunnel",
+	  	"categories": ["tunnel"],
 		"backdrop": "core_tunnel.png",
 		"entrances": ["DEPTHS"],
 		"arrival": {
@@ -1590,6 +1632,7 @@
 	  },
 	  {
 		"name": "Lava Falls",
+	  	"categories": ["tunnel"],
 		"backdrop": "core_fall.png",
 		"condition": {
 			"no_repeat":true
@@ -1618,6 +1661,7 @@
 	  },
 	  {
 		"name": "Ruins",
+	  	"categories": ["ruins"],
 		"backdrop": "core_ruins4.png",
 		"entrances": ["DEPTHS","MINE"],
 		"arrival": {
@@ -1654,6 +1698,7 @@
 	  },
 	  {
 		"name": "Sunken Statue",
+	  	"categories": ["grotto","ruins"],
 		"backdrop": "core_statue8.png",
 		"condition": {
 			"visit_count":{"max":0}
@@ -1690,6 +1735,7 @@
 	  },
 	  {
 		"name": "Mineshaft",
+	  	"categories": ["ruins"],
 		"backdrop": "core_mine.png",
 		"entrances": ["DEPTHS","MINE"],
 		"arrival": {
@@ -1725,6 +1771,7 @@
 	  },
 	  {
 		"name": "Hot Springs",
+	  	"categories": [],
 		"entrances": ["DEPTHS"],
 		"condition": {
 			"visit_count":{"max":0}
@@ -1820,6 +1867,7 @@
 	"Lost Swamp": [
 	  {
 		"name": "Foggy Marsh",
+	  	"categories": ["swamp"],
 		"entrances": ["SWAMP", "DEEP"],
 		"arrival": {
 		  "SWAMP": [
@@ -1844,6 +1892,7 @@
 	  },
 	  {
 		"name": "Sunken Path",
+	  	"categories": ["swamp"],
 		"entrances": ["DEEP"],
 		"arrival": {
 		  "DEEP": [
@@ -1865,6 +1914,7 @@
 	  },
 	  {
 		"name": "Twisted Trees",
+	  	"categories": ["swamp"],
 		"entrances": ["SWAMP", "DEEP"],
 		"arrival": {
 		  "SWAMP": [
@@ -1889,6 +1939,7 @@
 	  },
 	  {
 		"name": "Still Water",
+	  	"categories": ["swamp"],
 		"entrances": ["DEEP"],
 		"arrival": {
 		  "DEEP": [
@@ -1910,6 +1961,7 @@
 	  },
 	  {
 		"name": "Whispering Reeds",
+	  	"categories": ["swamp"],
 		"entrances": ["SWAMP", "DEEP"],
 		"arrival": {
 		  "SWAMP": [
@@ -1934,6 +1986,7 @@
 	  },
 	  {
 		"name": "Lost Shrine",
+	  	"categories": ["swamp"],
 		"entrances": ["DEEP"],
 		"arrival": {
 		  "DEEP": [
@@ -1955,6 +2008,7 @@
 	  },
 	  {
 		"name": "Endless Hollow",
+	  	"categories": ["swamp"],
 		"entrances": ["DEEP"],
 		"arrival": {
 		  "DEEP": [
@@ -1976,6 +2030,7 @@
 	  },
 	  {
 		"name": "Half-Sunken Boat",
+	  	"categories": ["swamp"],
 		"entrances": ["SWAMP", "DEEP"],
 		"arrival": {
 		  "SWAMP": [
@@ -2002,6 +2057,7 @@
 	"Arcmat Ruins": [
 	  {
 		"name": "Outer Threshold",
+	  	"categories": ["ruin"],
 		"entrances": ["SWAMP", "RUINS"],
 		"arrival": {
 		  "SWAMP": [
@@ -2026,6 +2082,7 @@
 	  },
 	  {
 		"name": "Fractured Hall",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2047,6 +2104,7 @@
 	  },
 	  {
 		"name": "Glyph Corridor",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2068,6 +2126,7 @@
 	  },
 	  {
 		"name": "Mechanism Chamber",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2089,6 +2148,7 @@
 	  },
 	  {
 		"name": "Floating Atrium",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2110,6 +2170,7 @@
 	  },
 	  {
 		"name": "Arcane Conduit",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2131,6 +2192,7 @@
 	  },
 	  {
 		"name": "Scriptorium",
+	  	"categories": ["ruin"],
 		"entrances": ["RUINS"],
 		"arrival": {
 		  "RUINS": [
@@ -2152,6 +2214,7 @@
 	  },
 	  {
 		"name": "Core Nexus",
+	  	"categories": ["ruin"],
 		"entrances": ["CORE"],
 		"arrival": {
 		  "CORE": [

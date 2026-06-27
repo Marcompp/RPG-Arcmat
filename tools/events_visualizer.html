@@ -68,7 +68,6 @@
     top:calc(var(--bar-h) + var(--filter-h)); bottom:0; left:0; right:0;
   }
   #table-wrap { flex:1; overflow-y:auto; overflow-x:auto; }
-  #sidebar { width:280px; flex-shrink:0; overflow-y:auto; background:var(--bg3); border-left:1px solid var(--border); padding:14px; }
   #sidebar-placeholder { color:var(--text-muted); font-size:12px; margin-top:20px; text-align:center; }
 
   /* ── TABLE ── */
@@ -147,6 +146,55 @@
     border-left:2px solid #1e4a2e;
   }
   hr { border:none; border-top:1px solid var(--border); margin:8px 0; }
+
+  /* ── SIDEBAR EDIT MODE ── */
+  #sidebar { width:280px; flex-shrink:0; overflow-y:auto; background:var(--bg3); border-left:1px solid var(--border); padding:14px; transition:width .2s; }
+  #sidebar.editing { width:440px; }
+
+  .editor-header {
+    position:sticky; top:-14px; z-index:2; background:var(--bg3);
+    border-bottom:1px solid var(--border); margin:-14px -14px 12px -14px;
+    padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;
+  }
+  .editor-title { font-size:12px; font-weight:700; word-break:break-all; flex:1; }
+  .editor-actions { display:flex; gap:5px; flex-shrink:0; }
+
+  .text-editor {
+    width:100%; resize:none; overflow:hidden; min-height:60px;
+    background:#0a1120; border:1px solid var(--border); border-radius:4px;
+    color:#e2e8f0; font-family:Georgia,'Palatino Linotype',serif;
+    font-size:13px; line-height:1.65; padding:8px 10px;
+    white-space:pre-wrap; word-break:break-word; margin-top:4px;
+    transition:border-color .15s;
+  }
+  .text-editor:focus { outline:none; border-color:#4a6a9f; box-shadow:0 0 0 2px #1a2a4a; }
+  .edit-field {
+    background:#0a1120; border:1px solid var(--border); border-radius:4px;
+    color:var(--text); font-size:12px; padding:4px 8px; width:100%;
+  }
+  .edit-field:focus { outline:none; border-color:#4a6a9f; }
+  .edit-field-sm { width:64px; }
+  .edit-field-row { display:flex; align-items:center; gap:8px; margin:4px 0; }
+  .edit-field-label { font-size:10px; color:var(--text-muted); width:56px; flex-shrink:0; text-transform:uppercase; letter-spacing:.05em; }
+
+  .step-editor-block { border-left:2px solid #475569; padding:5px 0 5px 10px; margin:5px 0; }
+  .step-type-label { font-family:monospace; font-size:10px; font-weight:700; margin-bottom:3px; }
+  .edit-branch-label { color:#3a5a6a; font-size:10px; margin:5px 0 2px 0; font-style:italic; }
+  .edit-cond { font-family:monospace; font-size:10px; color:#a5b4fc; background:var(--bg2); padding:4px 6px; border-radius:3px; margin:3px 0; word-break:break-all; }
+  .edit-readonly-detail { font-size:11px; color:var(--text-muted); }
+  .edit-check-label { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-muted); cursor:pointer; margin:6px 0; }
+  .edit-check-small { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--text-muted); margin-top:3px; cursor:pointer; }
+
+  .dirty-dot { color:#f59e0b; font-size:10px; margin-right:3px; }
+
+  .btn-edit { padding:3px 9px; border-radius:4px; border:1px solid #2a4a7f; background:#1e3a5f; color:var(--text); font-size:11px; cursor:pointer; }
+  .btn-edit:hover { background:#254e80; }
+  .btn-save { padding:4px 12px; border-radius:4px; border:none; background:#166534; color:#86efac; font-size:11px; font-weight:600; cursor:pointer; }
+  .btn-save:hover { background:#15803d; }
+  .btn-cancel { padding:4px 10px; border-radius:4px; border:1px solid var(--border); background:var(--bg2); color:var(--text-muted); font-size:11px; cursor:pointer; }
+  .btn-cancel:hover { color:var(--text); }
+  .btn-download { padding:5px 12px; border-radius:5px; border:none; background:#92400e; color:#fde68a; font-size:12px; font-weight:600; cursor:pointer; flex-shrink:0; display:none; }
+  .btn-download:hover { background:#78350f; }
 </style>
 </head>
 <body>
@@ -164,6 +212,7 @@
   <span class="file-badge missing" id="badge-towns">towns</span>
   <span id="row-count"></span>
   <input type="text" id="search-event" placeholder="Search event name…">
+  <button class="btn-download" id="btn-download" onclick="downloadEvents()"></button>
 </div>
 
 <div id="filterbar">
@@ -223,6 +272,7 @@ let allOccs = [], filteredOccs = [];
 let selectedIdx = -1;
 let sortCol = 'eventName', sortDir = 1;
 let filterRegion = '', filterNode = '', filterType = 'all', filterSearch = '';
+let editBuffer = null, editingEvent = null, dirtyEvents = new Set();
 
 const TAG_COLORS = {
   combat: '#dc2626', random: '#ca8a04', 'if': '#7c3aed',
@@ -467,8 +517,9 @@ function renderTable() {
       ? '<span class="rep-yes">✓</span>'
       : '<span class="rep-no">✗</span>';
     const sel = selectedIdx === i ? ' selected' : '';
+    const dirty = dirtyEvents.has(occ.eventName) ? '<span class="dirty-dot" title="Unsaved changes">●</span>' : '';
     return `<tr data-idx="${i}"${sel}>
-      <td class="col-event"><span style="color:${color}">${esc(occ.eventName)}</span></td>
+      <td class="col-event">${dirty}<span style="color:${color}">${esc(occ.eventName)}</span></td>
       <td class="col-type"><span class="type-pill tp-${esc(occ.type)}">${esc(occ.type)}</span></td>
       <td class="col-source">${occ.sourceId ? esc(occ.sourceId) : '<span style="color:#3a4a5a">—</span>'}</td>
       <td class="col-region">${occ.region ? esc(occ.region) : '<span style="color:#3a4a5a">—</span>'}</td>
@@ -516,6 +567,10 @@ function updateSortArrows() {
 }
 
 function deselect() {
+  if (editingEvent) {
+    editBuffer = null; editingEvent = null;
+    document.getElementById('sidebar').classList.remove('editing');
+  }
   selectedIdx = -1;
   document.querySelectorAll('#tbody tr').forEach(r => r.classList.remove('selected'));
   document.getElementById('sidebar').innerHTML = '<div id="sidebar-placeholder">Click a row to see details.</div>';
@@ -528,8 +583,11 @@ function showSidebar(occ) {
   const color = getEventColor(occ.tags);
   const steps = occ.stepCount;
 
-  let html = `<div class="sb-title" style="color:${color}">${esc(occ.eventName)}</div>`;
-  html += `<div class="sb-meta">${occ.repeatable ? 'repeatable' : 'one-shot'} · ${steps} step${steps !== 1 ? 's' : ''}</div>`;
+  let html = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px">
+    <div class="sb-title" style="color:${color}">${esc(occ.eventName)}</div>
+    <button class="btn-edit" onclick="openEditor('${esc(occ.eventName).replace(/'/g,"\\'")}')">Edit</button>
+  </div>`;
+  html += `<div class="sb-meta">${occ.repeatable ? 'repeatable' : 'one-shot'} · ${steps} step${steps !== 1 ? 's' : ''}${dirtyEvents.has(occ.eventName) ? ' · <span style="color:#f59e0b">unsaved changes</span>' : ''}</div>`;
   html += '<hr>';
 
   // Step type pills
@@ -671,6 +729,213 @@ document.querySelector('thead').addEventListener('click', e => {
   sortOccs();
   renderTable();
 });
+
+// ─── Editor ───────────────────────────────────────────────────────────────────
+function openEditor(eventName) {
+  if (!eventsDb[eventName]) return;
+  editingEvent = eventName;
+  editBuffer = JSON.parse(JSON.stringify(eventsDb[eventName]));
+
+  const sb = document.getElementById('sidebar');
+  sb.classList.add('editing');
+
+  const color = getEventColor(typesMap[eventName] || new Set());
+  const repeatable = editBuffer.repeatable !== false;
+
+  let html = `<div class="editor-header">
+    <div class="editor-title" style="color:${color}">${esc(eventName)}</div>
+    <div class="editor-actions">
+      <button class="btn-save" onclick="saveEdits()">Save</button>
+      <button class="btn-cancel" onclick="cancelEdits()">Cancel</button>
+    </div>
+  </div>`;
+
+  html += `<label class="edit-check-label">
+    <input type="checkbox" id="edit-repeatable"${repeatable ? ' checked' : ''}> Repeatable
+  </label>`;
+
+  html += `<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin:10px 0 4px">Steps</div>`;
+  html += renderEditableSteps(editBuffer.steps, 'steps', 0);
+
+  sb.innerHTML = html;
+  attachEditorListeners();
+}
+
+function renderEditableSteps(steps, pathPrefix, depth) {
+  if (!Array.isArray(steps) || !steps.length) return '';
+  const COLORS = { text:'#4ade80', combat:'#dc2626', choice:'#2563eb', 'if':'#7c3aed', random:'#ca8a04', event:'#0891b2', shop:'#d97706' };
+  let html = '';
+
+  for (let i = 0; i < steps.length; i++) {
+    const s = steps[i];
+    if (!s) continue;
+    const t = s.type || '?';
+    const c = COLORS[t] || '#475569';
+    const sp = `${pathPrefix}.${i}`;
+    const ml = depth * 12;
+
+    html += `<div class="step-editor-block" style="border-left-color:${c};margin-left:${ml}px">`;
+    html += `<div class="step-type-label" style="color:${c}">${esc(t)}</div>`;
+
+    if (t === 'text') {
+      const val = s.text || '';
+      const rows = Math.max(3, (val.match(/\n/g) || []).length + 2);
+      html += `<textarea class="text-editor" data-path="${sp}.text" spellcheck="true" rows="${rows}">${esc(val)}</textarea>`;
+      if (s.clear !== undefined) {
+        html += `<label class="edit-check-small"><input type="checkbox" data-path="${sp}.clear" data-valtype="bool"${s.clear ? ' checked' : ''}> clear screen</label>`;
+      }
+
+    } else if (t === 'choice') {
+      html += `<div class="edit-field-row"><span class="edit-field-label">Header</span><input class="edit-field" type="text" data-path="${sp}.header" value="${esc(s.header||'')}"></div>`;
+      (s.choices || []).forEach((ch, ci) => {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Choice ${ci+1}</span><input class="edit-field" type="text" data-path="${sp}.choices.${ci}.choice" value="${esc(ch.choice||'')}"></div>`;
+      });
+      if (s.branches) {
+        for (const [key, bsteps] of Object.entries(s.branches)) {
+          html += `<div class="edit-branch-label">↳ branch: ${esc(key)}</div>`;
+          html += renderEditableSteps(bsteps, `${sp}.branches.${key}`, depth + 1);
+        }
+      }
+
+    } else if (t === 'combat') {
+      html += `<div class="edit-field-row"><span class="edit-field-label">Enemy</span><input class="edit-field" type="text" data-path="${sp}.enemy" value="${esc(s.enemy||'')}"></div>`;
+      if (s.on_victory?.length) {
+        html += `<div class="edit-branch-label">↳ on_victory</div>`;
+        html += renderEditableSteps(s.on_victory, `${sp}.on_victory`, depth + 1);
+      }
+
+    } else if (t === 'if') {
+      html += `<div class="edit-cond">${esc(JSON.stringify(s.condition || {}))}</div>`;
+      if (s.then?.length) {
+        html += `<div class="edit-branch-label">↳ then</div>`;
+        html += renderEditableSteps(s.then, `${sp}.then`, depth + 1);
+      }
+      if (s.else?.length) {
+        html += `<div class="edit-branch-label">↳ else</div>`;
+        html += renderEditableSteps(s.else, `${sp}.else`, depth + 1);
+      }
+
+    } else if (t === 'random') {
+      (s.outcomes || []).forEach((o, oi) => {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Outcome ${oi+1}</span><input class="edit-field edit-field-sm" type="number" min="0" data-path="${sp}.outcomes.${oi}.weight" data-valtype="number" value="${o.weight ?? 0}"> <span style="font-size:10px;color:var(--text-muted)">weight</span></div>`;
+        if (o.steps?.length) html += renderEditableSteps(o.steps, `${sp}.outcomes.${oi}.steps`, depth + 1);
+      });
+
+    } else {
+      const d = stepDetail(s);
+      if (d) html += `<span class="edit-readonly-detail">${esc(d)}</span>`;
+    }
+
+    html += `</div>`;
+  }
+  return html;
+}
+
+function attachEditorListeners() {
+  const sb = document.getElementById('sidebar');
+
+  const repCheck = document.getElementById('edit-repeatable');
+  if (repCheck) repCheck.addEventListener('change', () => { editBuffer.repeatable = repCheck.checked; });
+
+  sb.querySelectorAll('[data-path]').forEach(el => {
+    const path = el.dataset.path;
+    const valtype = el.dataset.valtype;
+    const update = () => {
+      let v = el.type === 'checkbox' ? el.checked : el.value;
+      if (valtype === 'number') v = Number(v);
+      setByPath(editBuffer, path, v);
+    };
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+
+    if (el.tagName === 'TEXTAREA') {
+      const resize = () => { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; };
+      el.addEventListener('input', resize);
+      requestAnimationFrame(resize);
+    }
+  });
+}
+
+function saveEdits() {
+  if (!editingEvent || !editBuffer) return;
+  const name = editingEvent;
+
+  eventsDb[name] = editBuffer;
+  typesMap[name]   = classifySteps(editBuffer.steps);
+  stepCounts[name] = countSteps(editBuffer.steps);
+  chainMap[name]   = collectChains(editBuffer.steps);
+  editBuffer = null; editingEvent = null;
+
+  dirtyEvents.add(name);
+  updateDownloadBtn();
+
+  buildOccurrences();
+  selectedIdx = -1;
+  applyFilters();
+
+  document.getElementById('sidebar').classList.remove('editing');
+
+  const occ = filteredOccs.find(o => o.eventName === name) || allOccs.find(o => o.eventName === name);
+  if (occ) {
+    const idx = filteredOccs.indexOf(occ);
+    if (idx >= 0) {
+      selectedIdx = idx;
+      document.querySelector(`#tbody tr[data-idx="${idx}"]`)?.classList.add('selected');
+    }
+    showSidebar(occ);
+  }
+}
+
+function cancelEdits() {
+  editBuffer = null; editingEvent = null;
+  document.getElementById('sidebar').classList.remove('editing');
+  if (selectedIdx >= 0 && filteredOccs[selectedIdx]) {
+    showSidebar(filteredOccs[selectedIdx]);
+  } else {
+    document.getElementById('sidebar').innerHTML = '<div id="sidebar-placeholder">Click a row to see details.</div>';
+  }
+}
+
+function updateDownloadBtn() {
+  const btn = document.getElementById('btn-download');
+  if (!btn) return;
+  btn.style.display = dirtyEvents.size > 0 ? '' : 'none';
+  btn.textContent = `⬇ Download events.json (${dirtyEvents.size} changed)`;
+}
+
+function downloadEvents() {
+  const json = JSON.stringify(eventsDb, null, '\t');
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'events.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Path helpers ─────────────────────────────────────────────────────────────
+function getByPath(obj, path) {
+  let cur = obj;
+  for (const p of path.split('.')) {
+    if (cur == null) return undefined;
+    const i = parseInt(p);
+    cur = isNaN(i) ? cur[p] : cur[i];
+  }
+  return cur;
+}
+
+function setByPath(obj, path, value) {
+  const parts = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const idx = parseInt(parts[i]);
+    cur = isNaN(idx) ? cur[parts[i]] : cur[idx];
+    if (cur == null) return;
+  }
+  const last = parts[parts.length - 1];
+  const lastIdx = parseInt(last);
+  if (isNaN(lastIdx)) cur[last] = value;
+  else cur[lastIdx] = value;
+}
 
 // ─── Utils ────────────────────────────────────────────────────────────────────
 function esc(s) {

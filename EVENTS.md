@@ -13,7 +13,10 @@ Whenever an event does something that affects the UI (ie: damage or giving gold,
 
 In most cases, there's no need to explain what happens to an enemy after it's defeated, specially if it doesn't survive. Going straight from a battle to `show node` is preferable to placing a `text` with "The enemy fell down, dead" between them - especially for regular enemies
 
-Every event tree should end with either a `show_node` event, `show_node_text` + `show_node_actions`, or some sort of command that moves the player (`exit` or `to_town`)
+Every event tree should end with either a `show_node` event, `show_node_text` + `show_node_actions`, just `show_node_actions`, or some sort of command that moves the player (`exit` or `to_town`)
+`show_node` is used when the event text should clear after execution (most cases)
+`show_node_text` (with `clear`:false) + `show_node_actions` should be used when the event ends with only a small amount of text on-screen that doesn't need to be cleared, adding to the node text
+just `show_node_actions` should be used when the event never clear text once, usually when it's just a single atmospheric paragraph 
 
 Try to make events as reusable and readable as possible, by using the `event` command instead of repeating commands or making very complex inline trees
 
@@ -99,7 +102,7 @@ Weights are relative — they don't need to sum to 100. A `2 / 6 / 4` split is f
 
 Every event should contribute at least one of: atmosphere, lore, loot, mechanical consequence, or meaningful player agency. An event that does none of these is filler.
 
-Use sensory language for scene-setting: smell, sound, texture, temperature. "The cave smells of wet stone and old fire" is a place. "The cave is dark and ominous" is a description of nothing.
+Use sensory language for scene-setting: smell, sound, texture, temperature. "The cave smells of wet stone and old fire" is a place. "The cave is dark and ominous" is a description of nothing. Don't try to get to poetic or metaphorical. Placed should only smell of things that have a smell, etc.
 
 Avoid generic lines. Even throwaway NPCs should sound like someone with a role and a mood — not "Safe travels" or "Move along." One specific detail (a verbal tic, a grievance, an occupation) makes a line land.
 

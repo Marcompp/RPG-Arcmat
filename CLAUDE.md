@@ -12,6 +12,8 @@ Full world-building reference (characters, regions, factions, artifacts, themes,
 
 Full game design philosophy (tone, combat design, content guidelines, regional structure) lives in [`DESIGN.md`](DESIGN.md). Consult it before adding new gameplay systems, enemies, or areas.
 
+Combat design philosophy (combat flow, combat design, enemy design, etc) lives in [`COMBAT.md`](COMBAT.md). Consult it before modifying the combat system or adding new enemies, encounters, skills, actions and trinkets.
+
 Event writing conventions, anti-patterns, branching rules, and NPC voice guidelines live in [`EVENTS.md`](EVENTS.md). Consult it before writing or editing any event.
 
 ## Running the Project

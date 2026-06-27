@@ -30,6 +30,8 @@
       - TooltipButton.gd:7        print('_GET_TOOLTIP')
       - TooltipButton.gd:20       print("TOOLTIP CHAMADO")
 
+[ ] Log não trata tags corretamente
+
 [x] "Search for Monsters" envia {} para start_combat
       Cai no inimigo padrao (Slime) em vez de sortear um monstro
       da regiao atual. Usar _pick_encounter_monster() igual ao
@@ -220,5 +222,7 @@ A fazer
       arma/equip que ja possui, scroll de skill/spell que ja
       sabe ou ja atingiu o limite. Implementar cheque de
       elegibilidade antes de oferecer loot de evento/drop.
+
+[ ] Resolver redundancias de texto em area nodes
 
 ================================================================================

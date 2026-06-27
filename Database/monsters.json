@@ -16,8 +16,8 @@
 	"Startup":1,
 	"Cooldown":2,
 	"Skill_Chance": 80,
-	"Preparing": ["ripples quietly.", "wobbles in place.", "oozes slowly across the ground."],
-	"Recharging": ["ripples quietly.", "wobbles in place.", "oozes slowly across the ground."],
+	"Preparing": ["[SELF] ripples quietly.", "[SELF] wobbles in place.", "[SELF] oozes slowly across the ground."],
+	"Recharging": ["[SELF] ripples quietly.", "[SELF] wobbles in place.", "[SELF] oozes slowly across the ground."],
 	"Start":"Regen",
 	"Skills": [],
 	"Spells": ["Water","Poison"],
@@ -347,7 +347,7 @@
 	"Gold":80,
 	"Startup":1,
 	"Cooldown":1,
-	"Skills": [],
+	"Skills": ["Take Flight"],
 	"Spells": ["Ice"],
 	"Location": "Mount Legory",
 	"Rarity": 7
@@ -369,6 +369,7 @@
 	"Gold":80,
 	"Startup":1,
 	"Cooldown":1,
+	"Start":"Take Flight",
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -392,6 +393,7 @@
 	"Gold":90,
 	"Startup":2,
 	"Cooldown":2,
+	"Start":"Take Flight",
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -418,6 +420,7 @@
 	"Gold":110,
 	"Startup":2,
 	"Cooldown":2,
+	"Start":"Take Flight",
 	"Skills": [],
 	"Spells": [],
 	"Location": "Mount Legory",
@@ -453,7 +456,7 @@
 		"Dragon Blade": 5
 	},
 	"Gold":90,
-	"Skills": ["Bite"],
+	"Skills": ["Bite","Take Flight"],
 	"Spells": [],
 	"Location": "Core Cavern",
 	"Rarity": 5
@@ -813,6 +816,22 @@
 	"Skills": ["Raise Zombie", "Raise Ghost", "Raise Skeleton"],
 	"Spells": ["Dark"],
 	"Trinkets": ["Necromancer Cloak"],
+	"ChannelMoves": [
+		{
+			"skill": "Mana Explosion",
+			"condition": "hp_below",
+			"threshold": 50,
+			"duration": 2,
+			"channel_start": [
+				"[SELF] draws MP from the dead around it..."
+			],
+			"channel_texts": [
+				"[SELF] draws MP from the dead around it...",
+				"[SELF] trembles as dark energy builds within him."
+			],
+			"weight": 1
+		}
+	],
 	"Location": "Sundown Plateau",
 	"Rarity": null
   },
@@ -971,7 +990,8 @@
   },
 
   {
-	"Name": "Agnes",
+	"Name": "Agnes1",
+	"displayName": "Agnes",
 	"Lvl": 5,
 	"Class": "Fencer",
 	"Stats": {
@@ -999,7 +1019,8 @@
 	}
   },
   {
-	"Name": "Borin",
+	"Name": "Borin1",
+	"displayName": "Borin",
 	"Lvl": 5,
 	"Class": "Woodcutter",
 	"Stats": {

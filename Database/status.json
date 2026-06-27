@@ -105,5 +105,16 @@
 		"stats": {
 			"evade": 1.0
 		}
+	},
+	"flying": {
+		"name": "Flying",
+		"icon": "flying.png",
+		"description": "Takes 0.5× physical damage, but 1.5× from ranged weapons.",
+		"duration": 10,
+		"inflict_text": "[color=cyan][TARGET] takes flight![/color]",
+		"end_text": "[TARGET] lands.",
+		"stats": {
+			"flying": 1.0
+		}
 	}
 }

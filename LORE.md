@@ -100,7 +100,11 @@ The southernmost of the Whitewing Mountains, notable for being located pretty fa
 It demarcates the western border of the petty kingdom of Cidonia.
 The Sundown Plateau lies to east, the Magical Academy of Arcward is located on the western foothills.
 
-Snow-covered, biting wind, thin air. The mountain demands respect. Pegasus Knights patrol the ridge; climbers leave cairns of stones and tokens (prayer beads, coins, cloth strips). A Great Roc nests at the summit.
+Snow-covered, biting wind, thin air. Pegasus Knights patrol the ridge; herds of pegasi are sometimes seen resting on the cliffs. The Great Roc nests at the summit -- a well-known fact -- and almost never comes down.
+
+It's not a place of great metaphysical or cultural significance. Just a dangerous, well-known landmark. Most known for separating Bertunia and Arcward than anything else. Students from Arcward sometimes climb it, as do travelers from Lantern's Reach, but the mountain is too steep and dangerous for regular travel. Everyone avoids the peak because of the Roc.
+
+The player isn't trying to climb the mountain, just cross it.
 
 Key locations: Ascent Path, Mountain Cave (abandoned camp inside), Ridge (steep drops on both sides), Archway (stone arch with old climbers' carvings), Summit (Great Roc's nest, collected weapons, views under clouds).
 
@@ -125,7 +129,6 @@ Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obs
 - **Fenwick's Journal** — Find the remains of a Field Schollar who discovered the ruins, reading his journal is where the player can find most of the exposition about Trolls, their civilization, as well as the whole thing about Lizardmen reappropriating their ruins, something which Fenwick is very annoyed about - he was probably killed by them.
 - **Statue** — Player can admire the statue, or mock it and be attacked by an old troll.
 - **Mine** — In the mineshaft, player can mine for ore using an old pickaxe until it breaks. Str and Lck check. They can dig up some gems that are sure to be worth something (gold, mid), find a vein of gold (gold, high), or find a big gold nugget... that turn's out to be fools' gold on close inspection (gold, low). They can dig up a precious stone (Amber, Ruby or Obsidian). They can dig up a Lifespark Crystal. They can find nothing. Or they can hurt themselves (take 5 hp)
-
 
 ### 6. Lost Swamp
 West of Arcward.
@@ -221,7 +224,7 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Mangy Wolf** — Hungry skinny wolves native to the Sundown Plateau. Often hunt in packs.
 - **Bald Eagle** — Mount Legory's natural hunter. Territorial.
 - **Pegasus** — (usually) pure white winged equines native to snowcapped mountain ranges, such as the Whitewing Mountains (which Mount Legory is a part of). Very prized as war mounts, they are known to dislike males, and vehemently refuse male riders. They live in wild heards that migrate between mountain peaks.
-- **Great Roc** — Massive legendary bird nesting at Mount Legory's summit. Has feathers like blades of stone. Has collected weapons in its nest over decades. Tolerates human presence unless threatened.
+- **Great Roc** — Massive legendary bird nesting at Mount Legory's summit. Has feathers like blades of stone. Has collected weapons in its nest over decades. Tolerates human presence unless threatened, and has almost never strayed from its nest unprovoked. It's presence in the summit is well-known, yet 
 - **Drake** — Wingless draconic beast of Core Cavern. Tamed as mounts for the Lizardmen.
 - **Big Slime** — Gelatinous water creatures; naturally regenerate; able to grow bigger by absorbing the water in the bog. Splits into two slimes when defeated.
 - **Ent** — Ancient tree-being of Lost Swamp. Primordial and slow. The King of the Swamp is an impossibily ancient Ent.
