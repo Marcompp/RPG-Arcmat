@@ -110,6 +110,10 @@
   MELHORIAS DE SISTEMA
 ----------------------------------------------------------------
 
+[ ] Mudar funcionamento de towns para ter duas etapas:
+- TOWN (Shops , (Promote?), Inventory, Rest, Exit)
+- SHOPS (current choices, back)
+
 [/] Backdrop tela inicial e tela de seleção de personagem
 
 [X] Backdrops para diferentes nodes

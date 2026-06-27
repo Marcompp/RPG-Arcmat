@@ -11,6 +11,8 @@ Try to limit the amount of times the player has to press continue overall. Usual
 
 Whenever an event does something that affects the UI (ie: damage or giving gold, etc), the command should immediatelly preceed the text announcement, as to make them happen in synch.
 
+In most cases, there's no need to explain what happens to an enemy after it's defeated, specially if it doesn't survive. Going straight from a battle to `show node` is preferable to placing a `text` with "The enemy fell down, dead" between them - especially for regular enemies
+
 Every event tree should end with either a `show_node` event, `show_node_text` + `show_node_actions`, or some sort of command that moves the player (`exit` or `to_town`)
 
 Try to make events as reusable and readable as possible, by using the `event` command instead of repeating commands or making very complex inline trees
@@ -67,6 +69,7 @@ Compound logic: a plain object `{"a": 1, "b": 2}` is AND. Use `{"any": [{...}, {
 Choice `key` values should be semantic: `"fight"`, `"flee"`, `"yes"`, `"no"`, `"open"`, `"leave"`.
 
 Every key listed in `choices` must have a matching entry in `branches`. Missing keys fall through silently — the player gets no output and no error is raised.
+`choices` with `type`: `back` are special, being able to act as fifth choices thanks to their special spot in the choice layout. They are meant to represent refusal or cancelling or going back 
 
 If an `if`/`else` tree goes 3+ levels deep, extract inner branches into separate named events called via `{"type": "event"}`. Flat trees are readable; deeply nested JSON is not.
 
@@ -103,6 +106,12 @@ Avoid generic lines. Even throwaway NPCs should sound like someone with a role a
 No fourth-wall breaks, no jokes that directly acknowledge this is a game. Absurd things happen and are treated as real by the world. The narration can be funny, and somewhat self-aware, but not in a way that takes away from the world.
 
 Tonal consistency within an event: a grim body-horror encounter shouldn't end with a punchline. A comedic NPC shouldn't die off-screen and pivot to tragedy without setup. Shifts in tone need to be earned.
+
+When something lucky/unlucky happens, a brief exclamation such as "How lucky!" can add to the tone. Projected interiority is fine if not taken too seriously. IE: as something to add a bit of irony to failure states, or very lightly lampshade an absurd event. Ex: Adding something like "...That certainly happened," after an improbable sequence of events.
+
+AVOID cheap gravitas ie: something like "The cold that thinks is worse than the cold that simply is" means absolutely nothing.
+Most events are just normal occurences, that happen to actual people sometimes in over their head, not dramatic metaphors happening to purple-prose prone pretentious idiots.
+Avoid nonsense metaphors and too much personification of innanimate concepts.
 
 **Choices & player agency**
 
@@ -149,7 +158,7 @@ Short events can still have voice. Two lines that are specific and grounded beat
 ---
 
 ## Random Events
-Usually start with a single text sentence without clear, announcing the subject of the event IE: "You see something up ahead."
+Usually start with a single text sentence with `clear=false`, announcing the subject of the event IE: "You see something up ahead."
 If no imediate choice is required, then `no_continue` is false, and the event will continue with a more detail text with `clear`:`true` (which is the default)
 
 ## Action Events

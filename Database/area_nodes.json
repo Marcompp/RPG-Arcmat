@@ -9,6 +9,7 @@
 			{"chance": 0.2, "event": "travelling_healer"},
 			{"chance": 0.2, "event": "travelling_trainer"},
 			{"chance": 0.1, "event": "travelling_bo"},
+			{"chance": 0.15, "event": "stranger_encounter"},
 			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
@@ -118,6 +119,7 @@
 			{"chance": 0.2, "event": "travelling_healer"},
 			{"chance": 0.2, "event": "travelling_trainer"},
 			{"chance": 0.1, "event": "travelling_bo"},
+			{"chance": 0.15, "event": "stranger_encounter"},
 			{"chance": 0.2, "event": "bandit_ambush"}
 	  ],
 	  "arrival": {
@@ -325,6 +327,9 @@
 	  "description": [
 		{ "text": "The surface reflects the sky like glass." },
 		{ "text": "A faint ripple crosses the water.", "chance": 0.5 }
+	  ],
+	  "events": [
+		{"weight": 3, "event": "lady_of_the_lake"}
 	  ],
 	  "exits": [
 		{ "choice": "Find a way around the lake", "leads_to": "FOREST", "travel_text": "You skirt the edge of the lake, weaving through the trees until the water disappears behind you." }
@@ -1131,7 +1136,7 @@
 			  "name": "Enter the Circus",
 			  "tooltip": "Step inside the Gilded Hollow Circus.",
 			  "event": "circus_enter",
-			  "repeatable": false
+			  "repeatable": true
 			}
 		  }
 	],
@@ -1160,12 +1165,20 @@
 		],
 		"events": [
 		  {"chance": 0.35, "event": "legory_frozen_cache"},
-		  {"chance": 0.3, "event": "legory_thin_air"}
+		  {"chance": 0.3, "event": "legory_thin_air"},
+		  {"chance": 0.2, "event": "legory_eagle_nest"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the direct path and work your way around the mountainside, moving across the exposed terrain." }
-		]
+		],
+		"action": {
+		  "name": "Search the scree",
+		  "tooltip": "Pick through the scree at the path's edge for anything left behind.",
+		  "event": "legory_scree_search",
+		  "disabled_tooltip": "You've already searched here.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Mountain Cave",
@@ -1201,7 +1214,14 @@
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You leave the cave and continue up the mountainside, the cold wind hitting you immediately." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You step out of the cave and move along the mountainside, skirting the slope." },
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You leave the cave and descend carefully along the path, the ground unsteady beneath you." }
-		]
+		],
+		"action": {
+		  "name": "Look into the back of the cave",
+		  "tooltip": "There's something in the ice at the back of the cave.",
+		  "event": "legory_frozen_cave",
+		  "disabled_tooltip": "You've already looked.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Mountainside",
@@ -1227,13 +1247,21 @@
 		],
 		"events": [
 		  {"chance": 0.35, "event": "legory_snowdrift"},
-		  {"chance": 0.3, "event": "legory_pegasus_patrol"}
+		  {"chance": 0.3, "event": "legory_pegasus_patrol"},
+		  {"chance": 0.2, "event": "legory_snowed_student"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push on upward, each step uncertain against the loose rock and snow." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You traverse the slope sideways, picking your way carefully across the uneven terrain." },
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You turn and descend carefully, loose stones skittering away beneath your feet." }
-		]
+		],
+		"action": {
+		  "name": "Search the scree",
+		  "tooltip": "Pick through the scree for anything left behind.",
+		  "event": "legory_scree_search",
+		  "disabled_tooltip": "You've already searched here.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Summit",
@@ -1291,13 +1319,21 @@
 		],
 		"events": [
 		  {"chance": 0.4, "event": "legory_updraft"},
-		  {"chance": 0.3, "event": "legory_ridge_edge"}
+		  {"chance": 0.3, "event": "legory_ridge_edge"},
+		  {"chance": 0.25, "event": "legory_pegasus_herd"}
 		],
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You press forward along the ridge, the wind buffeting you as you climb."},
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the narrow ridge and traverse the mountainside, finding slightly more stable ground." },
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend from the ridge carefully, keeping your balance against the relentless wind." }
-		]
+		],
+		"action": {
+		  "name": "Look from the edge",
+		  "tooltip": "Step to the drop and look out over the mountain.",
+		  "event": "legory_overlook",
+		  "disabled_tooltip": "You've already done that.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Archway",
@@ -1596,7 +1632,8 @@
 		  ]
 		},
 		"events": [
-			{"chance": 0.05,"event": "region_treasure_chest"}
+			{"chance": 0.05,"event": "region_treasure_chest"},
+			{"chance": 0.5,"event": "fenwick_journal"}
 		],
 		"description": [
 		  { "text": "The stonework is massive and crude, decorated with tusked figures." },

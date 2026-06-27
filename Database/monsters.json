@@ -375,6 +375,29 @@
 	"Rarity": 8
   },
   {
+	"Name": "Pegasus",
+	"Element": "Wind",
+	"Gender":"Random",
+	"Lvl": 8,
+	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"D","Dex":"C","Agi":"B","Lck":"D","Def":"D"},
+	"TrueStats":{
+		"HP": 30
+	},
+	"Equip": {
+	},
+	"Drops": {
+		"Potion": 70,
+		"Pegasus Feather": 10
+	},
+	"Gold":90,
+	"Startup":2,
+	"Cooldown":2,
+	"Skills": [],
+	"Spells": [],
+	"Location": "Mount Legory",
+	"Rarity": 1
+  },
+  {
 	"Name": "Pegasus Knight",
 	"Element": "Wind",
 	"Gender":"Female",

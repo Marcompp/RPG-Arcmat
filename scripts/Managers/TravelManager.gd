@@ -10,6 +10,8 @@ enum TravelMode {
 	REGION_EXIT,
 	TOWN,
 	TOWN_LEAVE_CONFIRM,
+	TOWN_SHOP_MENU,
+	TOWN_EXPLORE_MENU,
 	SHOP,
 	INVENTORY_MENU,
 	INVENTORY_ITEMS,
@@ -25,6 +27,7 @@ const MAX_SPELLS = 4
 var condition_callback = null
 
 var mode = TravelMode.NODE_ACTIONS
+var _in_town_context: bool = false
 
 var game_manager
 var game_state
@@ -178,6 +181,12 @@ func handle_input(choice):
 		TravelMode.TOWN_LEAVE_CONFIRM:
 			_town.handle_leave_confirm(choice)
 
+		TravelMode.TOWN_SHOP_MENU:
+			_town.handle_shop_submenu(choice)
+
+		TravelMode.TOWN_EXPLORE_MENU:
+			_town.handle_explore_submenu(choice)
+
 		TravelMode.SHOP:
 			_shop.handle_action(choice)
 
@@ -258,6 +267,7 @@ func show_node_text(use_default=false):
 	})
 
 func show_node_actions():
+	_in_town_context = false
 	mode = TravelMode.NODE_ACTIONS
 	if game_manager and game_manager.game_state.has("player"):
 		if game_manager.game_state["player"].get_hp() > 0:
@@ -364,7 +374,10 @@ func _handle_rest_menu(choice):
 		"Close Game":
 			get_tree().quit()
 		_:
-			show_node_actions()
+			if _in_town_context:
+				_town.show_town_actions()
+			else:
+				show_node_actions()
 
 func _handle_node_specific_action(action_data: Dictionary) -> void:
 	if current_node_data.has("_rng_state"):

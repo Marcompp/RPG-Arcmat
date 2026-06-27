@@ -93,6 +93,15 @@ func _ready():
 	MyEventBus.subscribe("give_gold", func(data):
 		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
 	)
+	MyEventBus.subscribe("exchange_equip", func(data):
+		var item_name: String = data.get("item", "")
+		var player = game_state["player"]
+		if player == null or item_name == "" or not weapon_db.has(item_name):
+			return
+		player.data["Equip"]["Weapon"] = item_name
+		player.equipment["weapon"] = weapon_db[item_name]
+		player.recalculate()
+	)
 	MyEventBus.subscribe("give_item", func(data):
 		var item_name: String = data.get("item", "")
 		var player = game_state["player"]
@@ -680,6 +689,12 @@ func _check_dict_condition(cond, node_index):
 			if player == null:
 				return false
 			value = player.get_char_class()
+		elif key == "equipped_weapon_type":
+			var player = game_state["player"]
+			if player == null:
+				return false
+			var weapon = player.get_weapon()
+			value = weapon.get("wpn_type", "") if not weapon.is_empty() else ""
 		elif key == "current_region":
 			value = travel.current_region
 		elif game_state["vars"].has(key):

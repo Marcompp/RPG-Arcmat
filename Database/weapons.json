@@ -411,5 +411,12 @@
 		},
 		"effect": "stun",
 		"chance": 10
+	},
+	"Fool's Axe": {
+		"name": "Fool's Axe",
+		"description": "An axe of pure fools' gold — gleaming, massive, and completely impractical. The material is too brittle for a blade.",
+		"wpn_type": "Axe",
+		"stats": { "mgt": 8, "acc": 40, "wgt": 18, "crit": 0, "mys": 0 },
+		"effect": "none"
 	}
 }

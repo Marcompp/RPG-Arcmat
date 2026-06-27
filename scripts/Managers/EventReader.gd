@@ -196,6 +196,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
 		"give_item":
 			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
+		"exchange_equip":
+			MyEventBus.emit("exchange_equip", {"item": step.get("item", "")})
 		"learn_skill":
 			await MyEventBus.emit_and_await("learn_skill", {"skill": step.get("skill", "")}, "learn_skill_done")
 		"give_region_item":

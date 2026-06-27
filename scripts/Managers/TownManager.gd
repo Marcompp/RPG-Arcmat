@@ -39,25 +39,120 @@ func return_to_town() -> void:
 func show_town_actions() -> void:
 	if _tm.game_manager:
 		SaveManager.save(_tm.game_manager.current_slot, _tm.game_manager)
+	_tm._in_town_context = true
+	var shops = _tm.current_town_data.get("Shops", {})
+	var locations = _tm.current_town_data.get("Locations", {})
+	var shop_cfg = _tm.current_town_data.get("ShopMenu", {})
+	var explore_cfg = _tm.current_town_data.get("ExploreMenu", {})
 	var choices = []
-	for shop_name in _tm.current_town_data.get("Shops", {}):
-		choices.append({"text": shop_name, "type": "action", "tooltip": "Visit " + shop_name})
-	choices.append({"text": "Leave", "type": "back", "tooltip": "Leave " + _tm.current_town})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": "Where would you like to go?"})
+	if not shops.is_empty():
+		choices.append({
+			"text": shop_cfg.get("text", "Shop"),
+			"type": "action",
+			"tooltip": shop_cfg.get("tooltip", "Visit the shops")
+		})
+	if not locations.is_empty():
+		choices.append({
+			"text": explore_cfg.get("text", "Explore"),
+			"type": "action",
+			"tooltip": explore_cfg.get("tooltip", "Explore the town")
+		})
+	choices.append({"text": "Inventory", "type": "action", "tooltip": "View your inventory"})
+	choices.append({"text": "Rest",      "type": "action", "tooltip": "Save and close your session"})
+	choices.append({"text": "Leave Town","type": "back",   "tooltip": "Leave " + _tm.current_town})
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "What would you like to do?"})
 	_tm.mode = TravelManager.TravelMode.TOWN
 
 func handle_action(choice) -> void:
 	if choice.get("type") == "back":
 		_show_leave_confirm()
 		return
+	var shops = _tm.current_town_data.get("Shops", {})
+	var locations = _tm.current_town_data.get("Locations", {})
+	var shop_cfg = _tm.current_town_data.get("ShopMenu", {})
+	var explore_cfg = _tm.current_town_data.get("ExploreMenu", {})
+	var text = choice.get("text", "")
+	if text == shop_cfg.get("text", "Shop"):
+		if shops.size() == 1:
+			var sname = shops.keys()[0]
+			_enter_shop_entry(sname, shops[sname])
+		else:
+			show_shop_submenu()
+	elif text == explore_cfg.get("text", "Explore"):
+		if locations.size() == 1:
+			var lname = locations.keys()[0]
+			_enter_shop_entry(lname, locations[lname])
+		else:
+			show_explore_submenu()
+	elif text == "Inventory":
+		_tm._inventory.show_menu()
+	elif text == "Rest":
+		_tm._show_rest_menu()
+	elif text == "Leave Town":
+		_show_leave_confirm()
+	else:
+		print("Unhandled town action: " + text)
+
+# ------------------------
+# SHOP SUBMENU
+# ------------------------
+
+func show_shop_submenu() -> void:
+	var menu_cfg = _tm.current_town_data.get("ShopMenu", {})
+	var choices = []
+	for shop_name in _tm.current_town_data.get("Shops", {}):
+		choices.append({"text": shop_name, "type": "action", "tooltip": "Visit " + shop_name})
+	choices.append({"text": "Back", "type": "back", "tooltip": "Back to " + _tm.current_town})
+	MyEventBus.emit("show_choices", {
+		"choices": choices,
+		"header": menu_cfg.get("header", "Which shop?")
+	})
+	_tm.mode = TravelManager.TravelMode.TOWN_SHOP_MENU
+
+func handle_shop_submenu(choice) -> void:
+	if choice.get("type") == "back":
+		show_town_actions()
+		return
 	var shop_name = choice.get("text", "")
 	var shops = _tm.current_town_data.get("Shops", {})
 	if shops.has(shop_name):
-		var shop = shops[shop_name]
-		if shop.get("Kind", "") == "Shop":
-			_tm._shop.enter_shop(shop_name, shop)
-			return
-	print("Unhandled town action: " + shop_name)
+		_enter_shop_entry(shop_name, shops[shop_name])
+	else:
+		print("Unknown shop: " + shop_name)
+
+# ------------------------
+# EXPLORE SUBMENU
+# ------------------------
+
+func show_explore_submenu() -> void:
+	var menu_cfg = _tm.current_town_data.get("ExploreMenu", {})
+	var choices = []
+	for loc_name in _tm.current_town_data.get("Locations", {}):
+		choices.append({"text": loc_name, "type": "action", "tooltip": "Visit " + loc_name})
+	choices.append({"text": "Back", "type": "back", "tooltip": "Back to " + _tm.current_town})
+	MyEventBus.emit("show_choices", {
+		"choices": choices,
+		"header": menu_cfg.get("header", "Where would you like to go?")
+	})
+	_tm.mode = TravelManager.TravelMode.TOWN_EXPLORE_MENU
+
+func handle_explore_submenu(choice) -> void:
+	if choice.get("type") == "back":
+		show_town_actions()
+		return
+	var loc_name = choice.get("text", "")
+	var locations = _tm.current_town_data.get("Locations", {})
+	if locations.has(loc_name):
+		_enter_shop_entry(loc_name, locations[loc_name])
+	else:
+		print("Unknown location: " + loc_name)
+
+func _enter_shop_entry(entry_name: String, entry_data: Dictionary) -> void:
+	_tm._shop.enter_shop(entry_name, entry_data)
+
+# ------------------------
+# LEAVE
+# ------------------------
 
 func _show_leave_confirm() -> void:
 	MyEventBus.emit("show_choices", {"choices": [

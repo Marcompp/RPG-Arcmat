@@ -26,7 +26,10 @@ func show_menu() -> void:
 
 func handle_menu(choice) -> void:
 	if choice.get("type") == "back":
-		_tm.show_node_actions()
+		if _tm._in_town_context:
+			_tm._town.show_town_actions()
+		else:
+			_tm.show_node_actions()
 		return
 	match choice["text"]:
 		"Items":    show_items()

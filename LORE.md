@@ -7,7 +7,7 @@ Quick-reference for Claude Code when writing in-world text: event dialogue, item
 ## World Overview
 
 - **Setting:** The continent of Rozar, a far vaster world, with only a small slice of it being visited during the game.
-- **Tone:** Light-hearted, almost absurdist at times, without breaking the world. Mostly grounded. Sensory detail over spectacle (smell of bread, sound of ropes groaning, warmth of crystals). Events can be funny, tense, or eerie — even cartoonish. The world feels lived-in.
+- **Tone:** Light-hearted, almost absurdist at times, without breaking the world. Mostly grounded. Sensory detail over spectacle (smell of bread, sound of ropes groaning, warmth of crystals), mostly literal. Events can be funny, tense, or eerie — even cartoonish. The world feels lived-in.
 - **Magic origin:** All magic traces back to the **Arcmat Ruins** — an impossibly precise ancient structure of black geometry and violet energy. Mages and scholars of all stripes seek to understand its secrets.
 - **Premise** The player plays one of four adventurers who caught wind of a treasure in the Arcmat Ruins. Their journey starts at the Apple Woods, and they travel west to east until they reach the Arcmat Ruins.
 
@@ -34,7 +34,7 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 | **The Blacksmith** | Male | Weapons & armor | Lantern's Reach | Gruff; forge glow and constant hammering; defined by his work, not his words. *Voice:* "You lookin' for something?" / "I'm busy. Tell me if you gonna buy something." *(doesn't even look up from his work)* — sentences short, answers shorter; barely looks up unless you buy something. |
 | **Mother Orielli** | Female | Cult leader | Caves of Light | White and gold robes; charismatic; uses Light and Heal magic. *Voice:* "The light does not give itself freely. It must be earned. Through offering. Through devotion. Through sacrifice willingly made." / "You are not lost. You came here with purpose." / "Then go. The light will find you in its own time." — unhurried, measured; reads people before speaking; never raises her voice; certainty as weapon. |
 | **Count Bomfim the Third** | ??? | Bertunian noble / cultist / necromancer (deceased) | Sundown Catacombs | An arrogant, yet faint-hearted noble who was part of a necromantic cult that wanted to harness the undead-rising power of the Sundown Plateau for their own ends. They wanted an undead army to conquer the continent. They died to the first skeleton they animated. Dramatic voice, pompous, arrogant, and stupid in the beginning, overdramatic and harried in his last entry |
-| **Fenwick** | Male | Lost climber | Mount Legory | Journal found in the Mountain Cave; disappeared near the summit. *Final entry:* "Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—" (ends there). Practical, terse log voice. |
+| **Professor Fenwick** | Male | Arcward Field Schollar | Core Cavern Ruins | Journal found in the Core Cavern; Discovered the ruins of a Troll city at least five-thousand years old, very enthusiastic about this discovery. Never made it out. |
 | **Carlon** | Male | Final boss | Arcmat Ruins | The Mathemagician; legendary Archmage; founder of Arcward; went missing several centuries ago; wields the Geometry Staff; coldly intellectual; Level 20. |
 | **The Apple Witch** | Female | Hermit | Apple Woods cabin | Opens the door before you knock; warns of the Werewolf; trades potions; offers shelter. *Voice:* "I'm always happy to host a visitor." / "Remedies brewed from the woods themselves — mixed them myself." / "Beware, a Werewolf roams these woods. A man, once. A hunter." / "Mind yourself out there." — matter-of-fact hospitality; warns without drama; knows more than she says. |
 | **The Werewolf** | Male | Monster / transformed man | Apple Woods | Once a hunter; his behaviour (things moved, not stolen) suggests he remembers his humanity. |
@@ -105,11 +105,12 @@ Snow-covered, biting wind, thin air. The mountain demands respect. Pegasus Knigh
 Key locations: Ascent Path, Mountain Cave (abandoned camp inside), Ridge (steep drops on both sides), Archway (stone arch with old climbers' carvings), Summit (Great Roc's nest, collected weapons, views under clouds).
 
 **Encounters & Events**
-- **Fenwick's journal** *(Mountain Cave)* — Half-filled. Early entries describe the view from the ridge, the cold, the Pegasus Knights spotted at distance. Final entry: *"Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—"* (ends there).
-- **The Archway** — Inner face covered in climbers' marks accumulated over years. Near the keystone: *"The cold that thinks is worse than the cold that simply is."* Other marks: names of the dead, summit descriptions, a rough map of the ridge scratched in miniature.
-- **Pegasus Knight encounter** — Descends in a slow spiral, lance lowered but not leveled. Standing still → she studies you and leaves. Drawing a weapon → combat.
-- **The Roc** — The legendary titanic beast that roosts at the summit.
-- **The Summit Cairn** — Near the edge; climbers have wedged tokens between the stones (a button, a coin, a strip of cloth). Options: add a stone (+1 Lck), take a token (Ether or Medicine), or sit and rest (full HP/MP restore). The Great Roc watches from its nest — tolerates respectful approach; tolerates retreat; attacks if provoked or if you reach into the nest.
+- **Frozen Cave** *(Mountain Cave)* — Frozen cave at the mountain side, entered with an action. If you look closely, you can almost make out a near-humanoid figure behind a thick sheet of ice at the back of the cave.
+- **Snowed-in Student** — the half-buried remains of a young man in student robes. The journal on him explains that he was an Arcward student who was dared to climb to the top of the mountain behind the school. Unfortunately, he was waylaid when he was nearly attacked by the Roc (I'd heard the stories, of course, of the collossal beast that nests on Mt. Legory's Summit. Wingbeats like gales. Feathers like stone blades. I thought I was a strong enough mage to protect myself. But nothing could have prepared me for how terrifying being in the sights of something so big was.), then caught in a snowstorm. His last regret was never learning any Fire magic. (He has some gold and a Book of Water on his person if the player can still learn it, or a Staff if they can't)
+- **Pegasus Herd** — Player spots a herd of pegasi gracefully roosting ahead. They can either run up to them → they get spooked and flee. admire from afar → nothing happens. approach cautiously → they approach trying to seem non-threatning the closest pegasus, who watches them warily, giving them another choice go back (which ends the event), attack (leading to a fight) or try to tame the pegasus → if the player is female, the Pegasus lets itself be pet, but snorts when the player asks them to be their mount, They present them with a Pegasus Feather trinket before flying off with the herd; if the player is male, (you heard pegasus only accept women as riders, but it'll be fine. ...right?) the pegasus spooks and attacks when they get too close, resulting in a fight that drops the Pegasus Feather.
+- **Pegasus Knight encounter** — Descends in a slow spiral, lance lowered but not leveled. Standing still → she studies you and leaves. Drawing a weapon → combat. Strike up a conversation → she either decides to attack, leaves when you won't hire her, or warns the player about the Icelady.
+- **Eagle Nest** — Nest on the side of the cliff, chosing to mess with it starts a battle with a Bald Eagle for a modest reward
+- **The Roc** — The legendary titanic beast that roosts at the summit. Upon reaching the summit, the player will be given the option to sneak away (immediatelly leaving the node) or stand and fight. Beating the Roc will cause the player to stay in the Node, giving them the opportunity to use the Loot Nest action.
 
 ### 5. Core Cavern
 The volcanic heart beneath Mount Legory. Churning magma, blinding heat. Home to Drakes, fire Wisps, and the territorial Lizardmen / Lizal civilization. The Infrit guards the last chamber.
@@ -120,9 +121,10 @@ The Lizals, often called Lizardmen by humans and hunted as dangerous beasts, est
 
 Key locations: Cracked Descent, Magma Flow, Basalt Bridge (narrow, cracked), Obsidian Chamber (distorted reflections), Ash Field (unstable ground), Core Chamber (churning magma, blinding light), **Lizal-Town**, Hot Springs, Mineshaft (originally a Troll mine, now reclaimed by the Lizardmen), Tunnel, Lava Falls, Ruins (the ruins of a long abandoned Troll settlement), Sunken Statue (giant ancient Troll statue, now half sunken in lava).
 **Encounters & Events**
-- **Lizal patrol** Player can hide to overhear conversation about the Infrit, can fight the lizardmen, or can follow them directly to Lizal-Town.
-- **Statue** Player can admire the statue, or mock it and be attacked by an old troll.
-- **Mine** In the mineshaft, player can mine for ore using an old pickaxe until it breaks. Str and Lck check. They can dig up some gems that are sure to be worth something (gold, mid), find a vein of gold (gold, high), or find a big gold nugget... that turn's out to be fools' gold on close inspection (gold, low). They can dig up a precious stone (Amber, Ruby or Obsidian). They can dig up a Lifespark Crystal. They can find nothing. Or they can hurt themselves (take 5 hp)
+- **Lizal patrol** — Player can hide to overhear conversation about the Infrit, can fight the lizardmen, or can follow them directly to Lizal-Town.
+- **Fenwick's Journal** — Find the remains of a Field Schollar who discovered the ruins, reading his journal is where the player can find most of the exposition about Trolls, their civilization, as well as the whole thing about Lizardmen reappropriating their ruins, something which Fenwick is very annoyed about - he was probably killed by them.
+- **Statue** — Player can admire the statue, or mock it and be attacked by an old troll.
+- **Mine** — In the mineshaft, player can mine for ore using an old pickaxe until it breaks. Str and Lck check. They can dig up some gems that are sure to be worth something (gold, mid), find a vein of gold (gold, high), or find a big gold nugget... that turn's out to be fools' gold on close inspection (gold, low). They can dig up a precious stone (Amber, Ruby or Obsidian). They can dig up a Lifespark Crystal. They can find nothing. Or they can hurt themselves (take 5 hp)
 
 
 ### 6. Lost Swamp
@@ -216,10 +218,12 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Vampire Bat** — Bloodsucker; dwells in Caves of Light. Drinks blood.
 - **Sparkfish** — Electrified fish native to the Caves of Light.
 - **Chimera** — Hybrid amphibious beast; part lion, part salamander, part goat, with a snake tail. The most powerful beast in Caves of Light.
-- **Mangy Wolf** — Hungry skinny wolves native to the Sundown Plateau.
+- **Mangy Wolf** — Hungry skinny wolves native to the Sundown Plateau. Often hunt in packs.
 - **Bald Eagle** — Mount Legory's natural hunter. Territorial.
+- **Pegasus** — (usually) pure white winged equines native to snowcapped mountain ranges, such as the Whitewing Mountains (which Mount Legory is a part of). Very prized as war mounts, they are known to dislike males, and vehemently refuse male riders. They live in wild heards that migrate between mountain peaks.
 - **Great Roc** — Massive legendary bird nesting at Mount Legory's summit. Has feathers like blades of stone. Has collected weapons in its nest over decades. Tolerates human presence unless threatened.
 - **Drake** — Wingless draconic beast of Core Cavern. Tamed as mounts for the Lizardmen.
+- **Big Slime** — Gelatinous water creatures; naturally regenerate; able to grow bigger by absorbing the water in the bog. Splits into two slimes when defeated.
 - **Ent** — Ancient tree-being of Lost Swamp. Primordial and slow. The King of the Swamp is an impossibily ancient Ent.
 - **King of the Swamp** — Ancient Ent who sleeps in the Lost Swamp. Wields Ent Club.
 
@@ -230,7 +234,7 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - **Cultists / Cultist Patrol** — True believers of Mother Orielli's light cult. Fanatic followers who worship the Light; they actively recruit.
 - **Harlequin** — Performers of the Gilded Hollow Circus, skilled in knife throwing, juggling and dancing. Wear white smiling porcelain masks that conceal their features. Actually demons in disguise - some of them originally humans who were trapped in the circus and subject to demonification
 - **Doppelganger** - Demons with overdevelopped shapeshifting abilities, known to reflexibly mimic those who encounter them.
-- **Pegasus Knight** — Soldiers and mercenaries, not monsters. Engage only if provoked or disrespected.
+- **Pegasus Knight** — Female knights who pegasi into battle. Soldiers and mercenaries, not monsters. Clad in light, sky-blue and white armor. Engage only if provoked or disrespected. 
 - **Frost Fairy** — An elemental fairy, small enough to fit in a person's hand. Sleeps in snowdrifts on Mount Legory; a pure ice spellcaster.
 - **Treasure Hunter** — Fellow adventurers encountered as enemies in Arcmat Ruins. Well-equipped, cunning, competitive.
 - **Lizardman / Lizal Patrol** — Sentient humanoids with lizard-features Core Cavern inhabitant. Armed and territorial. Speak with a strong accent, with lots of grunts, and adding extra r's especially before vowels, hissing z sounds.
@@ -357,14 +361,10 @@ In-world written texts. Use these verbatim when referencing them; they are the p
 
 ---
 
-### Fenwick's Journal — Mount Legory, Mountain Cave
-*(Half-filled climber's log. Earlier entries describe the ridge, the cold, Pegasus Knights at distance.)*
-
-> **Day 11.** Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think— *(ends there)*
+### Student's Journal — Mount Legory
+> Chronicles his ill-fated dare to climb Mount Legory
 
 ---
 
-### Arch Inscription — Mount Legory Archway
-*(Carved near the keystone; surrounded by decades of climbers' marks, names of the dead, summit descriptions, a rough map of the ridge scratched in miniature.)*
-
-> The cold that thinks is worse than the cold that simply is.
+### Professor Fenwick's Journal — Core Cavern Ruins
+*(Exploration journal of a Field Scholar working for Arcward, who discovered an impossibly ancient Troll city beneath Mount Legory)*

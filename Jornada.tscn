@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bdjl20mxaqh13" path="res://scripts/StatsPanel.gd" id="3_ej7wp"]
 [ext_resource type="Script" uid="uid://bvhmhrac8xkhg" path="res://scripts/GameUI.gd" id="4_x2e2c"]
 [ext_resource type="Script" uid="uid://do8gp1obqnile" path="res://scripts/Managers/CombatManager.gd" id="5_ubeea"]
-[ext_resource type="Texture2D" path="res://assets/icons/gear.png" id="6_3gle4"]
+[ext_resource type="Texture2D" uid="uid://bh6wsx47ntndu" path="res://assets/icons/gear.png" id="6_3gle4"]
 [ext_resource type="Script" uid="uid://du3fkcqu54bt7" path="res://scripts/Managers/TravelManager.gd" id="6_rki1y"]
 [ext_resource type="Script" uid="uid://eldcn6hvcxf3" path="res://scripts/Managers/AudioManager.gd" id="7_audmgr"]
 [ext_resource type="Script" uid="uid://ce0t6js5r3f6u" path="res://scripts/MainMenu.gd" id="9_tt7o1"]

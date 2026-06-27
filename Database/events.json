@@ -154,24 +154,60 @@
 		]
 	},
 	"lady_of_the_lake": {
+		"repeatable": false,
 		"steps": [
-			{"type":"text", "text": "As you approach the lake, you veer just a bit too close and-", "clear":true},
-			{"type":"sfx", "sfx":"water"},
-			{"type":"text", "text": "Darn, you dropped your axe into the water!", "clear":false},
-			{"type":"text", "text": "As you stand around, feeling sorry for yourself, the water of the lake seems to coalesce into a figure:", "clear":false},
-			{"type":"text", "text": "\"Hail, adventurer,\" a beautiful woman with hair that flows like water appears before you. Her appearance, half-submerged into the lake and clad in naught but water, is distracting, to say the least.", "clear":false},
-			{"type":"text", "text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?", "clear":false},
-			{"type": "choice", "header": "Which axe do you claim?",
-				"choices": [
-					{"choice": "The silver one", "key": "silver"},
-					{"choice": "The gold one", "key": "gold"},
-					{"choice": "Neither", "key": "back"}
+			{
+				"type": "if",
+				"condition": {"equipped_weapon_type": "Axe"},
+				"then": [
+					{"type":"text", "text": "As you approach the lake, you veer just a bit too close and-", "clear":true},
+					{"type":"sfx", "sfx":"water"},
+					{"type":"text", "text": "Darn, you dropped your axe into the water!", "clear":false},
+					{"type":"text", "text": "As you stand around, feeling sorry for yourself, the water of the lake seems to coalesce into a figure:", "clear":false},
+					{"type":"text", "text": "\"Hail, adventurer,\" a beautiful woman with hair that flows like water appears before you. Her appearance, half-submerged into the lake and clad in naught but water, is distracting, to say the least.", "clear":false},
+					{"type":"text", "text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?", "clear":false},
+					{"type": "choice", "header": "Which axe do you claim?",
+						"choices": [
+							{"choice": "The silver one", "key": "silver"},
+							{"choice": "The gold one", "key": "gold"},
+							{"choice": "Neither", "key": "back", "type": "back"}
+						],
+						"branches": {
+							"silver": [
+								{"type": "text", "text": "She regards you for a moment, then nods. The gold axe in her hand sinks.", "clear": true},
+								{"type": "text", "text": "\"Is that so?\" she says. \"Then I grant you your axe,\" she presents you the handle of the gleaming silver axe. You eagerly pick it up.", "clear":false},
+								{"type": "text", "text": "The woman melts back into the water... Looks like you got away with it!\n\n...Except, something is wrong: Your new axe... In your hand, it feels the exact same as your old one.\n\nBy the time you've reached the tree line, you notice the silver is gone. The dreamlike glamour coloring it silver in your eyes is gone. Your axe looks exactly as it always has.\n\nAt least you got your axe back, you guess.", "clear": false},
+								{"type": "show_node"}
+							],
+							"gold": [
+								{"type": "text", "text": "A pause. Long enough to to make you sweat.\n\nThe silver axe in her hand sinks. The gold axe she offers with her other hand is golden — blindingly, absurdly golden.", "clear": true},
+								{"type": "text", "text": "You take it. It's heavier than it should be. The edge is also duller than it should be.\n\nGold is too soft for a blade. Surely you knew this. But this isn't even real gold.\n\nShe's already gone. So is your old axe.", "clear": false},
+								{"type": "exchange_equip", "item": "Fool's Axe"},
+								{"type": "text", "text": "[instant]You got the [color=yellow]Fools' Axe[/color]![/instant]", "clear": false},
+								{"type": "show_node"}
+							],
+							"back": [
+								{"type": "text", "text": "She lowers both axes. Something that might have been a smile moves across her face.\n\n\"No. Neither of those is yours.\"", "clear": true},
+								{"type": "text", "text": "Your axe breaks the surface and floats to your feet, dry despite the water. She says nothing else — just watches you pick it up.\n\nThen she reaches under the surface and offers you something small: a bronze pin, shaped like a shield.", "clear": false},
+								{"type": "text", "text": "\"For honesty,\" she says. \"It is rarer than you'd think.\"", "clear": false},
+								{"type": "sfx", "sound": "item"},
+								{"type": "give_item", "item": "Badge of Valor"},
+								{"type": "show_node"}
+							]
+						}
+					}
 				],
-				"branches": {}
+				"else": [
+					{"type": "text", "text": "As you pass the water's edge, the lake's surface shifts — and rises.", "clear": true},
+					{"type": "text", "text": "A woman steps half-out of the lake, her hair still moving as if submerged. She looks at you. Then at what's on your belt.\n\n\"Hm.\"", "clear": false},
+					{"type": "text", "text": "\"Nothing of yours has found its way into my waters today.\" A beat. \"But you've found your way to me. That's unusual enough.\"\n\nShe reaches below the surface and drops a handful of coin onto the bank without ceremony.", "clear": false},
+					{"type": "give_gold", "amount": 50},
+					{"type": "text", "text": "Found [color=yellow]50G[/color] at the water's edge.", "clear": false},
+					{"type": "text", "text": "\"Safe travels,\" she says — and sinks back under without a ripple.", "clear": false},
+					{"type": "show_node"}
+				]
 			}
 		]
-
-
 	},
 	"travelling_item_merchant": {
 		"repeatable": false,
@@ -372,13 +408,7 @@
 	},
 	"stranger_encounter": {
 		"steps": [
-			{"type": "text", "text": "A stranger steps out from behind a tree."},
-			{"type": "choice", "header": "What do you do?",
-			"choices": [{"choice": "Talk", "key": "talk"}, {"choice": "Ignore", "key": "ignore"}],
-			"branches": {
-				"talk":   [{"type": "text", "text": "He nods and walks away."}],
-				"ignore": [{"type": "text", "text": "You walk past without a word."}]
-			}},
+			{"type": "text", "text": "Someone is coming up the road in the opposite direction — pack on their back, head down, moving quickly. They give you a wide berth without making eye contact, and you do the same. A brief nod as you pass. Then the road is yours again.", "clear": false},
 			{"type": "show_node"}
 		]
 	},
@@ -1402,12 +1432,50 @@
 	"bandit_ambush": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "You hear rustling in the bushes...","clear": false},
-			{"type": "text", "text": "Too late — You walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You be so much easier to rob when you're dead!\""},
-			{"type": "combat", "enemy": "Bandit Brothers",
-				"on_victory": [
-					{"type": "show_node"}
-				]
+			{"type": "text", "text": "You hear rustling in the bushes...", "clear": false},
+			{"type": "text", "text": "Too late — you walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You'll be much easier to rob when you're dead!\""},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Fight", "key": "fight"},
+					{"choice": "Pay them off (100G)", "key": "pay", "condition": {"gold": {"min": 100}}, "disabled_tooltip": "Not enough gold (need 100G)"},
+					{"choice": "Turn them against each other", "key": "trick"}
+				],
+				"branches": {
+					"fight": [
+						{"type": "combat", "enemy": "Bandit Brothers",
+							"on_victory": [
+								{"type": "show_node"}
+							]
+						}
+					],
+					"pay": [
+						{"type": "give_gold", "amount": -100},
+						{"type": "text", "text": "You reach into your purse and shove a fistful of coins at the nearest bandit — not counting, not stopping. You're already moving.\n\nBehind you, you hear them counting. Then arguing about the count.\n\nYou don't look back.", "clear": true},
+						{"type": "show_node"}
+					],
+					"trick": [
+						{"type": "random", "outcomes": [
+							{
+								"weight": 3, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "You glance at the second bandit. 'You know what he said about you back there?'\n\n'What?' The first one turns. 'I never said—'\n'I'm sure you didn't.'\n'You did say something—' 'I never—'\n\nYou're around them and gone before they've finished.", "clear": true},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 7,
+								"steps": [
+									{"type": "text", "text": "'Even we've heard that one.'\n\nThey both take a step forward.", "clear": false, "no_wait": true},
+									{"type": "combat", "enemy": "Bandit Brothers",
+										"on_victory": [
+											{"type": "show_node"}
+										]
+									}
+								]
+							}
+						]}
+					]
+				}
 			}
 		]
 	},
@@ -2516,33 +2584,6 @@
 							}
 						}
 					],
-					"touch": [
-						{"type": "text", "text": "You step into the circle and press your palm to the glowing floor.\n\nThe warmth is immediate — but wrong. It pulls at something in you, testing.", "clear": true},
-						{"type": "random", "outcomes": [
-							{
-								"weight": 2,
-								"steps": [
-									{"type": "text", "text": "Whatever it was looking for, it finds it. A deep resonance moves through you and then stills.", "clear": false},
-									{"type": "sfx", "sound": "heal"},
-									{"type": "modify_stat", "stats": {"mp": 5}},
-									{"type": "text", "text": "You feel permanently changed — something opened.\n[color=teal]Max MP +5[/color]", "clear": false},
-									{"type": "show_node"}
-								]
-							},
-							{
-								"weight": 1,
-								"steps": [
-									{"type": "text", "text": "The glow surges. The bones in the ring rattle and drag themselves together.\n\nA skeleton pulls itself upright at the centre of the chamber. It looks at you.", "clear": true, "no_wait": true},
-									{"type": "combat", "enemy": "Skeleton",
-										"on_victory": [
-											{"type": "text", "text": "The skeleton collapses. The chamber dims. You step back from the circle.", "clear": true},
-											{"type": "show_node"}
-										]
-									}
-								]
-							}
-						]}
-					],
 					"leave": [
 						{"type": "text", "text": "You toss the journals away.", "clear": false},
 						{"type": "show_node"}
@@ -3247,41 +3288,6 @@
 			]}
 		]
 	},
-	"legory_abandoned_camp": {
-		"repeatable": false,
-		"steps": [
-			{"type": "text", "text": "Tucked into the cave's far wall is a climber's camp — a bedroll, a battered pack, and a small journal left on a flat stone. No sign of the owner.", "clear": false},
-			{"type": "choice", "header": "What do you do?",
-				"choices": [
-					{"choice": "Search the pack", "key": "pack"},
-					{"choice": "Read the journal", "key": "journal"},
-					{"choice": "Take everything and go", "key": "take_all"}
-				],
-				"branches": {
-					"pack": [
-						{"type": "text", "text": "Rummaging through it, you find supplies still usable.", "clear": false},
-						{"type": "sfx", "sound": "chest_open"},
-						{"type": "give_item", "item": "Medicine"},
-						{"type": "show_node"}
-					],
-					"journal": [
-						{"type": "text", "text": "The journal is half-filled. The climber's name was Fenwick. Early entries talk about the view from the ridge, the cold, the Pegasus Knights they spotted. The last entry reads:\n\n[color=gray]\"Day 11. Summit tomorrow if the weather holds. I've been hearing something large up near the top — not wind. I think—\"[/color]\n\nThe entry ends there.", "clear": false},
-						{"type": "sfx", "sound": "heal"},
-						{"type": "modify_stat", "stats": {"mp": 3}},
-						{"type": "text", "text": "Fenwick's resolve settles in your chest.\n[color=teal]Max MP +3[/color]", "clear": false},
-						{"type": "show_node"}
-					],
-					"take_all": [
-						{"type": "text", "text": "You take what's useful. Whoever left this behind isn't coming back for it.", "clear": false},
-						{"type": "sfx", "sound": "chest_open"},
-						{"type": "give_item", "item": "Medicine"},
-						{"type": "give_gold", "amount": 30},
-						{"type": "show_node"}
-					]
-				}
-			}
-		]
-	},
 	"legory_snowdrift": {
 		"steps": [
 			{"type": "text", "text": "A shape is half-buried in a fresh snowdrift beside the path — too regular to be rock.", "clear": false},
@@ -3335,33 +3341,56 @@
 	},
 	"legory_pegasus_patrol": {
 		"steps": [
-			{"type": "text", "text": "A shadow sweeps across the snow. You look up — a Pegasus Knight in silver-white armor is circling overhead, watching you.", "clear": false},
-			{"type": "text", "text": "She descends in a slow spiral, lance lowered but not leveled.", "clear": false},
+			{"type": "text", "text": "A shadow sweeps across the snow. You look up — a Pegasus Knight in sky blue and white armor is circling overhead, watching you.", "clear": false},
+			{"type": "text", "text": "She pulls her pegasus into a slow spiral descent, lance lowered but not leveled.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Stand your ground", "key": "stand"},
 					{"choice": "Draw your weapon", "key": "draw"},
-					{"choice": "Step aside and bow", "key": "bow"}
+					{"choice": "Hail her", "key": "talk"}
 				],
 				"branches": {
 					"stand": [
-						{"type": "text", "text": "You hold still and meet her gaze. She pulls up a few paces away, studies you for a long moment, then wheels and climbs back into the sky without a word.", "clear": false},
+						{"type": "text", "text": "You hold still and meet her gaze. She pulls up a few paces away, studies you for a long moment, then pulls the reigns of her mount and climbs back into the sky without a word.", "clear": false},
 						{"type": "show_node"}
 					],
 					"draw": [
 						{"type": "text", "text": "She sees the movement and levels her lance in one fluid motion.", "clear": false, "no_wait": true},
 						{"type": "combat", "enemy": "Pegasus Knight",
 							"on_victory": [
-								{"type": "text", "text": "Her mount carries her away. You watch them disappear around the cliff face.", "clear": true},
 								{"type": "show_node"}
 							]
 						}
 					],
-					"bow": [
-						{"type": "text", "text": "You step aside and incline your head. A pause — then a coin lands in the snow at your feet.\n\n\"For your courtesy,\" she says, and rides the wind back up.", "clear": false},
-						{"type": "give_gold", "amount": 15},
-						{"type": "text", "text": "[color=yellow]+15G[/color]", "clear": false},
-						{"type": "show_node"}
+					"talk": [
+						{"type": "text", "text": "You call out as she circles lower. She levels off, hovering at eye level a few paces out, her pegasus's wings beating slow and steady against the gale."},
+						{"type": "random", "outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{"type": "text", "text": "Apparently, something about you just doesn't agree with her. She doesn't reply — just levels her lance.", "clear": false},
+									{"type": "combat", "enemy": "Pegasus Knight",
+										"on_victory": [
+											{"type": "show_node"}
+										]
+									}
+								]
+							},
+							{
+								"weight": 2,
+								"steps": [
+									{"type": "text", "text": "\"The mountain's been dangerous these days. I could escort you, for coin,\" she offers. \"500, no, 800G for my services, what do you say?\"\n\nShe watches you. When it becomes clear you're not reaching for your coin, she pulls back on the reins.\n\n\"Suit yourself.\" She banks and climbs back into the wind.", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
+								"weight": 4,
+								"steps": [
+									{"type": "text", "text": "\"Whatever you're after, be prepared. There's something in the mountain: a thing of frost, somewhere between a demon and an elemental, with the face of a woman,\" she warns. \"Don't be fooled by a pretty face. If you aren't careful, you'll end up an ice sculpture.\"\n\nShe doesn't wait for a response. Her pegasus rises and she's gone in a few wingbeats.", "clear": false},
+									{"type": "show_node"}
+								]
+							}
+						]}
 					]
 				}
 			}
@@ -3584,6 +3613,359 @@
 		]
 	},
 
+	"legory_scree_search": {
+		"steps": [
+			{"type": "text", "text": "You crouch and work through the loose stones methodically, looking for anything out of place.", "clear": true},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 3, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "A leather satchel, water-damaged, but the coin purse inside held.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_gold", "amount": 30},
+						{"type": "text", "text": "[color=yellow]+30G[/color]", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 3,
+					"steps": [
+						{"type": "text", "text": "Stones, more stones. ...You don't know what you expected.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "A Frost Fairy sleeping under a flat stone. She's awake before you can apologize.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Frost Fairy",
+							"on_victory": [
+								{"type": "text", "text": "She shatters into cold light. The stone sits empty.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				},
+				{
+					"weight": 2,
+					"steps": [
+						{"type": "text", "text": "A short-bladed knife wedged into a crack, blade intact. The grip is cracked from the cold, but it'll do.", "clear": false},
+						{"type": "sfx", "sound": "chest_open"},
+						{"type": "give_item", "item": "Iron Dagger"},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1, "stat_weights": {"lck": 1},
+					"steps": [
+						{"type": "text", "text": "A note folded inside a split stone, sealed with wax. A name, a date, a short prayer. Someone made it this far.", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 5}},
+						{"type": "text", "text": "[color=teal]+5 MP[/color]", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"steps": [
+						{"type": "text", "text": "You accidentally disturb the cliff and trigger a small avalanche — snow falls on your head.\n[color=red]-5 HP[/color]", "clear": false},
+						{"type": "effect", "effect": {"type": "damage", "amount": 5}},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+
+	"legory_overlook": {
+		"steps": [
+			{"type": "text", "text": "You step to the very edge of the ridge.", "clear": true},
+			{"type": "set_var", "vars": {"legory_int_seen": {"add": 0}}},
+			{"type": "random", "outcomes": [
+				{
+					"weight": 1,
+					"steps": [
+						{"type": "text", "text": "Cold wind hits your face. You feel more alive than you have in days.\n[color=teal]+5 MP[/color]", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 5}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"max": 4}},
+					"steps": [
+						{"type": "text", "text": "You gaze down upon the way you came, west. The Sundown Plateau is clearly visible. It looks so small now.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"max": 4}},
+					"steps": [
+						{"type": "text", "text": "You gaze down south from the cliff. Far down, you see the dark pine trees of the Vorwen Woods arrayed beneath you.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"max": 4}},
+					"steps": [
+						{"type": "text", "text": "You gaze down east toward your goal. A patchwork palace stands at the foothills of Mount Legory, likely unreachable from here. Beyond it, the dull mists of the Lost Swamp. Somewhere in that shroud, your adventure's final destination awaits.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"max": 4}},
+					"steps": [
+						{"type": "text", "text": "You peer down onto the valley north of Mount Legory. The verdant green of the Verdina Forest blankets the terrain, and beyond it, the snowcapped peaks of the Whitewing Mountains. Mt. Legory being one of them, yet the most apart.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"min": 4}},
+					"steps": [
+						{"type": "text", "text": "You peer down the cliff, but the cloud layer prevents you from making out much beyond vague shapes on the ground.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"min": 4}},
+					"steps": [
+						{"type": "text", "text": "The summit looms over your view. Nowhere near as far as it once seemed. You spot a massive winged shape, roosting at the very peak.", "clear": false},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"min": 4}},
+					"steps": [
+						{"type": "text", "text": "Your gaze sweeps west to the way you came. From here, you can see the entirety of the Sundown Plateau, and beyond it, Bertunia Castletown, surrounded by the Apple Woods. Seeing how far you've come, you regain your motivation.\n[color=teal]+5 MP[/color]", "clear": false},
+						{"type": "sfx", "sound": "heal"},
+						{"type": "effect", "effect": {"type": "restore_mp", "amount": 5}},
+						{"type": "show_node"}
+					]
+				},
+				{
+					"weight": 1,
+					"condition": {"height": {"min": 4}, "legory_int_seen": 0},
+					"steps": [
+						{"type": "text", "text": "Your gaze sweeps over the distant landscape. Distances that seemed so treacherous up close are so small now. The thought gives you pause. Seeing the world from above really gives you perspective on just how small your problems are.\n[color=cyan]INT +1[/color]", "clear": false},
+						{"type": "set_var", "vars": {"legory_int_seen": {"set": 1}}},
+						{"type": "modify_stat", "stats": {"int": 1}},
+						{"type": "show_node"}
+					]
+				}
+			]}
+		]
+	},
+
+	"legory_frozen_cave": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "You walk up to the cave and go inside."},
+			{"type": "set_backdrop", "backdrop": "legory_frozen3.png"},
+			{"type": "text", "text": "You feel a deep chill as you step into the frozen cave, a layer of ice covering every surface. The back wall is a solid sheet of it — pressed flush against the stone, running floor to ceiling."},
+			{"type": "text", "text": "There's something in it. You have to lean close to be sure, but it's there: a shape, dark against the pale blue. Arms at its sides. Nearly upright. Unmistakably shaped like a person."},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Look closer", "key": "look"},
+					{"choice": "Try to chip the ice", "key": "chip"},
+					{"choice": "Step away", "key": "leave"}
+				],
+				"branches": {
+					"look": [
+						{"type": "text", "text": "You press close until your breath fogs the surface. The figure is dressed — or was dressed, once. You can make out the shape of a coat, stiff and dark. What might be hands, closed. What might be a face, tilted slightly downward.\n\nYou cannot make out any features. The ice is too thick, the light too dim. It could be anyone.", "clear": true},
+						{"type": "show_node"}
+					],
+					"chip": [
+						{"type": "text", "text": "You find a loose stone and try. The ice is harder than it looks — barely scuffs. You try again, harder, at the edge where it meets the wall.", "clear": true},
+						{"type": "text", "text": "A crack runs outward from where you struck, thin as a hair, then stops. The ice holds. Whatever is in there isn't coming out today.", "clear": false},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You step back. The figure doesn't move. Of course it doesn't.\n\nYou stop looking at it.", "clear": true},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"legory_snowed_student": {
+		"repeatable":false,
+		"steps": [
+			{"type": "text", "text": "Something dark juts from the snow ahead — too regular to be rock.", "clear": false},
+			{"type": "text", "text": "It's a boot. Attached to a leg. Half-buried under a drift that must have come down in the last storm. Young man in student's robes, pack still strapped to his back. He's been here a while."},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Search his pack", "key": "search"},
+					{"choice": "Leave him", "key": "leave"}
+				],
+				"branches": {
+					"search": [
+						{"type": "text", "text": "The pack is frozen shut. You work at the clasp until it gives.", "clear": true},
+						{"type": "text", "text": "Inside: coins frozen together, a battered journal, and a wrapped spellbook.", "clear": false},
+						{"type": "text", "text": "The journal handwriting is careful and small — a student's hand. The early pages detail the walk up from Arcward. The weather. The weight of his pack. Then, near the end:\n\n\"I'd heard the stories, of course, of the colossal beast that nests on Mt. Legory's summit. Wingbeats like gales. Feathers like stone blades. I thought I was a strong enough mage to protect myself. But nothing could have prepared me for how terrifying being in the sights of something so big was.\"\n\n\"I ran. I'm not ashamed. I ran, and I hid, and then a storm came. I should have turned back. I know that now.\"\n\n\"I never did learn Fire. Of all the things to regret.\"", "clear": false},
+						{
+							"type": "if",
+							"condition": {"lacks_spell": "Water"},
+							"then": [
+								{"type": "give_gold", "amount": 35},
+								{"type": "text", "text": "[instant]Found [color=yellow]35G[/color] and a [color=teal]Book of Water[/color] in his effects.[/instant]", "clear": false},
+								{"type": "give_item", "item": "Book of Water"}
+							],
+							"else": [
+								{
+									"type": "if",
+									"condition": {"lacks_item": "Arc Staff"},
+									"then":[
+										{"type": "give_gold", "amount": 35},
+										{"type": "text", "text": "[instant]Found [color=yellow]35G[/color] and an [color=teal]Arc Staff[/color] in his effects.[/instant]", "clear": false},
+										{"type": "give_item", "item": "Arc Staff"}
+									],
+									"else":[
+										{"type": "give_gold", "amount": 75},
+										{"type": "text", "text": "[instant]Found [color=yellow]75G[/color] and an [color=teal]Ether[/color] in his effects.[/instant]", "clear": false},
+										{"type": "give_item", "item": "Ether"}
+									]
+								}
+							]
+						},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave him where he is. There's nothing else to do.", "clear": true},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"legory_pegasus_herd": {
+		"repeatable":false,
+		"steps": [
+			{"type": "text", "text": "The ridge opens out ahead, and you stop.", "clear": false},
+			{"type": "text", "text": "There are eight of them, maybe nine. White against white snow, almost invisible until one shifts. A herd of pegasi, roosting along the far edge of the ridge, wings folded tight against the gale. None of them have noticed you yet."},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Run up to them", "key": "run"},
+					{"choice": "Admire from afar", "key": "admire"},
+					{"choice": "Approach carefully", "key": "approach"}
+				],
+				"branches": {
+					"run": [
+						{"type": "text", "text": "The nearest one sees you before you're halfway there. A second later the whole herd is in the air — the wingbeats hit you like a wall of wind, snow scattering everywhere. By the time it settles, the sky is clear.", "clear": true},
+						{"type": "show_node"}
+					],
+					"admire": [
+						{"type": "text", "text": "You watch from where you are. They shift and resettle against the wind, unbothered. One grooms another's wing. After a time, the herd takes off on their own terms, rising easily and disappearing into cloud.\n\nThey were beautiful.", "clear": true},
+						{"type": "show_node"}
+					],
+					"approach": [
+						{"type": "text", "text": "You move slowly, keeping low. The herd notices — several heads come up at once — but you stop at the edge of their comfort and wait.\n\nOne of them separates from the group. Younger than the rest, maybe. It approaches in a way that is trying very hard to seem non-threatening, which is a strange thing to notice in an animal. It stops a few feet away and watches you.", "clear": true},
+						{
+							"type": "choice",
+							"header": "Now what?",
+							"choices": [
+								{"choice": "Go back", "key": "back"},
+								{"choice": "Attack", "key": "attack"},
+								{"choice": "Try to tame it", "key": "tame"}
+							],
+							"branches": {
+								"back": [
+									{"type": "text", "text": "You back away slowly, keeping eye contact. The pegasus watches you go, then turns back to the herd.", "clear": true},
+									{"type": "show_node"}
+								],
+								"attack": [
+									{"type": "text", "text": "You reach for your weapon. The herd erupts — you have about a second before the nearest one is on you.", "clear": true},
+									{"type": "combat", "enemy": "Pegasus", "on_victory": [
+										{"type": "text", "text": "The rest of the herd is long gone. The ridge is very quiet now.", "clear": true},
+										{"type": "show_node"}
+									]}
+								],
+								"tame": [
+									{
+										"type": "if",
+										"condition": {"player_name": "Agnes"},
+										"then": [
+											{"type": "text", "text": "You reach out slowly. The pegasus considers your hand for a long moment — then steps forward and lets you touch its nose. Warmer than you expected, and softer.\n\nYou ask it, with your best attempt at sincerity, if it would like to carry you. The pegasus snorts loudly enough to startle half the herd.\n\nThen it steps back, and a large primary feather comes loose and drifts down into your palm. Faintly iridescent. It regards you one last time, turns, and rejoins the others.", "clear": true},
+											{"type": "give_item", "item": "Pegasus Feather"},
+											{"type": "text", "text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]", "clear": false},
+											{"type": "show_node"}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {"player_name": "Chala"},
+												"then": [
+													{"type": "text", "text": "You reach out slowly. The pegasus considers your hand for a long moment — then steps forward and lets you touch its nose. Warmer than you expected, and softer.\n\nYou ask it, with your best attempt at sincerity, if it would like to carry you. The pegasus snorts loudly enough to startle half the herd.\n\nThen it steps back, and a large primary feather comes loose and drifts down into your palm. Faintly iridescent. It regards you one last time, turns, and rejoins the others.", "clear": true},
+													{"type": "give_item", "item": "Pegasus Feather"},
+													{"type": "text", "text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]", "clear": false},
+													{"type": "show_node"}
+												],
+												"else": [
+													{"type": "text", "text": "You'd heard pegasi only took women as riders, but that was surely just superstition. You reach out slowly.\n\nThe pegasus's eyes go wide the moment your hand gets close. It wheels backward into the herd — and then every single one of them is on you at once.", "clear": true},
+													{"type": "combat", "enemy": "Pegasus", "on_victory": [
+														{"type": "text", "text": "The rest of the herd fled sometime during the fight. There is one large feather caught in a crack in the rock nearby. You take it.", "clear": true},
+														{"type": "give_item", "item": "Pegasus Feather"},
+														{"type": "text", "text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]", "clear": false},
+														{"type": "show_node"}
+													]}
+												]
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"legory_eagle_nest": {
+		"steps": [
+			{"type": "text", "text": "Wedged into a crack in the cliff face — barely a meter from the path — is a nest. Enormous: sticks thick as your fingers, tightly packed, with something pale and smooth at the center.", "clear": false},
+			{"type": "text", "text": "No eagle in sight. For now."},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Leave the nest alone", "key": "leave"},
+					{"choice": "Mess with it", "key": "mess"}
+				],
+				"branches": {
+					"leave": [
+						{"type": "text", "text": "You keep walking. Nothing good comes from antagonizing something with a six-foot wingspan.", "clear": true},
+						{"type": "show_node"}
+					],
+					"mess": [
+						{"type": "text", "text": "You reach in and grab a fistful of nest material. You've barely moved it when the shadow falls over you from above.", "clear": true},
+						{"type": "text", "text": "The eagle drops without a sound, talons first.", "clear": false},
+						{"type": "combat", "enemy": "Bald Eagle", "on_victory": [
+							{"type": "text", "text": "You find a few things scattered in the nest: a coin, a button, something that might have been a clasp once. Modest.", "clear": true},
+							{"type": "give_gold", "amount": 20},
+							{"type": "text", "text": "[instant]Found [color=yellow]20G[/color] worth of scraps.[/instant]", "clear": false},
+							{"type": "show_node"}
+						]}
+					]
+				}
+			}
+		]
+	},
+
 	"enter_lizal_town": {
 		"steps": [
 			{"type": "text", "text": "You step through the carved stone entrance into Lizal-Town, the hum of the settlement filling the air around you."},
@@ -3674,6 +4056,115 @@
 					]
 				}
 			}
+		]
+	},
+
+	"fenwick_journal": {
+		"repeatable": false,
+		"steps": [
+			{"type": "mark_used", "event": "fenwick_journal_found"},
+			{"type": "text", "text": "Something catches your eye at the base of a collapsed arch — half-buried in ash, a satchel.", "clear": false},
+			{"type": "text", "text": "The leather is cracked and pale with dust, but the buckles are different — bright steel, each one stamped with the crossed keys of Arcward. Whoever brought this here had money for good equipment. Or had it issued to them.", "clear": true, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Examine the satchel", "key": "examine"},
+					{"choice": "Leave it", "key": "leave"}
+				],
+				"branches": {
+					"leave": [{"type": "show_node"}],
+					"examine": [{"type": "event", "event": "fenwick_journal_satchel"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_satchel": {
+		"steps": [
+			{"type": "text", "text": "You pull it free from the ash. Heavy. Inside: survey instruments wrapped in cloth, a hand compass with a cracked face, a dried inkwell, a folded map covered in notation too small to read at a glance.\n\nAt the bottom, a coin purse.\n\nA few feet from where the satchel lay, just visible under the ash: something pale. Too regular to be stone. You don't dig further.", "clear": true},
+			{"type": "give_gold", "amount": 45},
+			{"type": "text", "text": "You take the coin purse. [color=yellow]45G[/color].\n\nThe journal is still in the bag.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Read the journal", "key": "read"},
+					{"choice": "Leave it", "key": "leave", "type": "back"}
+				],
+				"branches": {
+					"leave": [{"type": "show_node"}],
+					"read": [{"type": "event", "event": "fenwick_journal_cover"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_cover": {
+		"steps": [
+			{"type": "text", "text": "The cover reads, in careful ink:\n[i]FIELD NOTES — FENWICK, A. — ARCWARD FACULTY — CORE CAVERN EXPEDITION[/i]\n\nBelow that, in the same hand but considerably less tidy:\n[i]DO NOT TOUCH. THIS MEANS YOU.[/i]", "clear": true, "no_wait": true},
+			{"type": "choice", "header": "",
+				"choices": [
+					{"choice": "Keep reading", "key": "next"},
+					{"choice": "Close the journal", "key": "close", "type": "back"}
+				],
+				"branches": {
+					"close": [{"type": "show_node"}],
+					"next": [{"type": "event", "event": "fenwick_journal_day1"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_day1": {
+		"steps": [
+			{"type": "text", "text": "[i]Day 1 — Underground.\n\nLomas called this 'an embarrassment to the faculty.' Hartfield said I'd be back in a week with nothing to show. The Dean granted me a three-week leave of absence with the expression of a man expecting a funeral.\n\nI have been underground for four hours. I have already found dressed stonework of impossible age.\n\nI am vindicated.\n\nThe heat is considerable but entirely survivable. The stonework is massive — cyclopean blocks, no mortar, precisely fitted. Pre-Imperial by centuries, at minimum. The construction is familiar from the Troll artefact comparisons at the Arcward vaults, but the scale here is — I need more paper.[/i]", "clear": true, "no_wait": true},
+			{"type": "choice", "header": "",
+				"choices": [
+					{"choice": "Continue", "key": "next"},
+					{"choice": "Close the journal", "key": "close", "type": "back"}
+				],
+				"branches": {
+					"close": [{"type": "show_node"}],
+					"next": [{"type": "event", "event": "fenwick_journal_day4"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_day4": {
+		"steps": [
+			{"type": "text", "text": "[i]Day 4 — The City.\n\nI have found the city. I cannot convey it. I have been standing in it for three hours and I cannot convey it.\n\nThe stonework is Troll-make beyond any doubt: the proportions, the iconography, the hewn arches, the tusked figures in relief. But the remarkable thing — the finding that is going to turn history on its head — is the preservation. We are surrounded by active magma flows. These structures should be rubble. They are not. Either the Core Cavern was far more stable when these were built, or they were constructed to endure these exact conditions. Both conclusions are extraordinary.\n\nHistory records that the Troll civilisation fell approximately five thousand years ago, when humanity rose and overthrew their dominion over the continent. The Trolls were the dominant power on the land before that — older, larger, and by all accounts formidable. What became of them after the fall has always been poorly understood.\n\nI believe I am looking at the answer. This city, by material dating and comparative analysis, is consistent with that period — or older. Its location, hidden beneath Mt. Legory, isolated from the surface — this was not an outpost. This was a last stronghold. The Trolls didn't simply fall. They retreated underground. They built down here in the heat and dark, and they survived, until the Core Cavern itself swallowed them.\n\nNo one has ever found evidence of this. The historians are going to hate me. I couldn't be more pleased.[/i]", "clear": true, "no_wait": true},
+			{"type": "choice", "header": "",
+				"choices": [
+					{"choice": "Continue", "key": "next"},
+					{"choice": "Close the journal", "key": "close", "type": "back"}
+				],
+				"branches": {
+					"close": [{"type": "show_node"}],
+					"next": [{"type": "event", "event": "fenwick_journal_day6"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_day6": {
+		"steps": [
+			{"type": "text", "text": "[i]Day 6 — Still the City.\n\nSomething is using it.\n\nI discovered it gradually — small modifications, chambers partially cleared, passages reopened recently. I assumed scavengers. Animals.\n\nThen I saw one.\n\nA Lizardman. Large, grey-green, armed with a crude spear that is a considerable insult to the stone it was chipped from. It stared at me from across the chamber. I stared back. Then it withdrew.\n\nThey are living here. In my city — the most significant archaeological site ever uncovered on this continent — and they are using it as a den. I saw claw marks on a relief carving. I saw a cooking fire set in what I am fairly certain is a ceremonial alcove. They don't know what they're standing on. They don't care. Five thousand years of history and they're using it to store provisions and scratch their names into the walls.\n\nThe Troll civilisation built something extraordinary under impossible conditions and kept it intact for millennia.\n\nThese creatures are going to ruin it.[/i]", "clear": true, "no_wait": true},
+			{"type": "choice", "header": "",
+				"choices": [
+					{"choice": "Continue", "key": "next"},
+					{"choice": "Close the journal", "key": "close", "type": "back"}
+				],
+				"branches": {
+					"close": [{"type": "show_node"}],
+					"next": [{"type": "event", "event": "fenwick_journal_day9"}]
+				}
+			}
+		]
+	},
+
+	"fenwick_journal_day9": {
+		"steps": [
+			{"type": "text", "text": "[i]Day 9.\n\nThey're becoming bolder. Three of them at the entrance to my base camp this afternoon, simply staring. One of them had the audacity to pick up one of my survey instruments. I shouted at it. They all scattered.\n\nI want it on record that I find the entire situation deeply undignified. I am a senior faculty member of the most prestigious academic institution on the continent. I descended alone into an active volcanic cave system, mapped a five-thousand-year-old city in nine days, and produced what will unquestionably be the definitive work on pre-Imperial Troll civilisation. The suggestion that I might be impeded on the way out by a handful of territorial lizards is frankly insulting.\n\nI will begin my ascent tomorrow. The notes are complete. Hartfield is going to be insufferable about the dating methodology, but that is a problem for next week.\n\nI'll write more once I'm back above ground.[/i]", "clear": true},
+			{"type": "text", "text": "The rest of the pages are blank.", "clear": false},
+			{"type": "show_node"}
 		]
 	},
 

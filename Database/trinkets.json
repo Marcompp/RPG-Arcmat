@@ -263,5 +263,22 @@
 		"effect": "guardian_shield",
 		"magnitude": 60,
 		"stackable": false
+	},
+	"Pegasus Feather": {
+		"name": "Pegasus Feather",
+		"description": "A large primary feather from a wild mountain pegasus. Impossibly light, faintly iridescent. Still carries the cold of the high peaks.",
+		"effect_description": "+5 Agility.",
+		"effect": "stat_bonus",
+		"stats": { "agi": 5 },
+		"stackable": false
+	},
+	"Badge of Valor": {
+		"name": "Badge of Valor",
+		"description": "A small bronze pin shaped like a shield, pressed into your hand by a woman made of lake water. It's warm. That's probably fine.",
+		"effect_description": "Gain +4 STR and +3 AGI when HP falls below 50%.",
+		"effect": "low_hp_stats",
+		"stats": { "str": 4, "agi": 3 },
+		"threshold": 50,
+		"stackable": false
 	}
 }
