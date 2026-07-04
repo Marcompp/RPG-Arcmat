@@ -106,9 +106,18 @@ func _target_for(action: Dictionary):
 
 func _emit_timer_update() -> void:
 	var timers: Array = []
+	var locked: Array = []
+	var hidden: Array = []
 	for i in range(enemies.size()):
-		timers.append(enemy_timers[i] if enemies[i].get_hp() > 0 else -1)
-	MyEventBus.emit("enemy_timer_update", { "timers": timers })
+		var alive = enemies[i].get_hp() > 0
+		timers.append(enemy_timers[i] if alive else -1)
+		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		locked.append(alive and (is_stunned or is_frozen))
+		var esys = _tsys(_ekey(i))
+		hidden.append(alive and esys != null and esys.has_circadian_mask() and enemy_timers[i] > 0)
+
+	MyEventBus.emit("enemy_timer_update", { "timers": timers, "locked": locked, "hidden": hidden })
 
 func _check_channel_trigger(idx: int) -> Dictionary:
 	var moves: Array = enemies[idx].data.get("ChannelMoves", [])
@@ -187,10 +196,11 @@ func start_combat(p, e_or_array):
 	p.set_stat_multipliers({})
 	status_sys.emit_status_update("player")
 
+	var psys_startup = trinket_systems.get("player", null)
 	for skill in p.get_skills():
 		var skill_data = skills_db.get(skill, {})
 		if skill_data.has("startup"):
-			cooldowns["player"][skill] = skill_data["startup"] + 1
+			cooldowns["player"][skill] = rng.randi_range(1, 5) if psys_startup and psys_startup.has_circadian_mask() else skill_data["startup"] + 1
 
 	for i in range(enemies.size()):
 		var e   = enemies[i]
@@ -199,6 +209,9 @@ func start_combat(p, e_or_array):
 		enemy_first_actions.append(true)
 		enemy_channeling.append("")
 		_register_enemy_slot(e, key)
+		var esys_init = _tsys(key)
+		if esys_init and esys_init.has_circadian_mask():
+			enemy_timers[i] = rng.randi_range(1, 3)
 
 	MyInputRouter.push(_handle_combat_input, "combat")
 
@@ -353,11 +366,13 @@ func render_player_turn():
 			var cm = _check_channel_trigger(i)
 			if not cm.is_empty():
 				enemy_channeling[i] = cm.get("skill", "")
-				enemy_timers[i]     = cm.get("duration", enemies[i].data.get("Cooldown", 0))
+				var esys_ch = _tsys(_ekey(i))
+				enemy_timers[i]     = rng.randi_range(1, 3) if esys_ch and esys_ch.has_circadian_mask() else cm.get("duration", enemies[i].data.get("Cooldown", 0))
 				now_chaneling.append(true)
 			else:
 				enemy_channeling[i] = ""
-				enemy_timers[i]     = enemies[i].data.get("Cooldown", 0)
+				var esys_cd = _tsys(_ekey(i))
+				enemy_timers[i]     = rng.randi_range(1, 3) if esys_cd and esys_cd.has_circadian_mask() else enemies[i].data.get("Cooldown", 0)
 				now_chaneling.append(false)
 		else:
 			now_chaneling.append(false)
@@ -372,7 +387,13 @@ func render_player_turn():
 	for i in living:
 		var t = enemy_timers[i]
 		var n = enemy_display_names[i]
-		if enemy_channeling[i] != "":
+		var esys_t = _tsys(_ekey(i))
+		var hide_timer = esys_t and esys_t.has_circadian_mask()
+		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		if is_stunned or is_frozen:
+			timer_lines.append("[color=cyan]%s ꩜[/color]" % n)
+		elif enemy_channeling[i] != "":
 			if t <= 0:
 				timer_lines.append("[color=red]%s is about to unleash something![/color]" % n)
 			elif now_chaneling[i]:
@@ -382,14 +403,14 @@ func render_player_turn():
 					)
 				)
 			else:
-				timer_lines.append("[color=orange]%s is channeling... (%d)[/color]" % [n, t])
+				timer_lines.append("[color=orange]%s is channeling... (%s)[/color]" % [n, "?" if hide_timer else str(t)])
 		else:
 			if t <= 0:
 				timer_lines.append("[color=red]%s will act this turn![/color]" % n)
 			elif t == 1:
-				timer_lines.append("[color=yellow]%s will act next turn.[/color]" % n)
+				timer_lines.append("[color=yellow]%s will act next turn.[/color]" % n if not hide_timer else "[color=green]%s will act in ? turns.[/color]" % n)
 			else:
-				timer_lines.append("[color=green]%s will act in %d turns.[/color]" % [n, t])
+				timer_lines.append("[color=green]%s will act in %s turns.[/color]" % [n, "?" if hide_timer else str(t)])
 
 	show_text(
 		"%s\n%s: %d hp.\n%s\n\nWhat would you like to do?" % [
@@ -430,7 +451,8 @@ func open_menu(type: String, list, db: Dictionary = {}):
 		"skill": state = CombatState.CHOOSING_SKILL
 		"magic": state = CombatState.CHOOSING_MAGIC
 		"item":  state = CombatState.CHOOSING_ITEM
-	show_choices(menu.build_list_menu(list, type, db, player, cooldowns))
+	var hide_cd = _tsys("player") != null and _tsys("player").has_circadian_mask()
+	show_choices(menu.build_list_menu(list, type, db, player, cooldowns, hide_cd))
 
 func handle_list_choice(choice, type: String):
 	if choice["type"] == "back":
@@ -646,8 +668,9 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		data["stats"]["mgt"] = int(mp_consumed * data.get("magnitude", 1.0))
 	elif data.has("cost"):
 		user.use_mp(data["cost"])
-	if data.has("cooldown") and who != "":
-		cooldowns[who][action_name] = data["cooldown"] +1
+	if data.has("cooldown") and who == "player":
+		var psys_cd = _tsys("player")
+		cooldowns[who][action_name] = rng.randi_range(1, 5) if psys_cd and psys_cd.has_circadian_mask() else data["cooldown"] + 1
 
 	var target_name = "all enemies"
 	if data.get("type", "attack") == "all":
@@ -709,10 +732,30 @@ func _execute_hit(data, user, who: String, target):
 	var hits = int(data.get("hits", 1))
 	if data.has("max_hits") and data["max_hits"] > 1:
 		hits = rng.randi_range(data.get("min_hits", 1), data["max_hits"])
+	var act_data = data
+	var pre_sys = _tsys(who)
+	if pre_sys:
+		var proc_mult = pre_sys.get_proc_chance_mult()
+		if proc_mult != 1.0:
+			var effect = data.get("effect", "none")
+			var action_type = data.get("type", "attack")
+			var has_effect = effect not in ["none", "", "ignore_def"]
+			var src_stats = data.get("stats", {})
+			var is_nondmg = src_stats.get("mgt", 0) == 0 \
+				and not data.get("inherit_stats", false) \
+				and not data.get("inherit_wpn", false) \
+				and action_type not in ["self", "group"]
+			if has_effect or is_nondmg:
+				act_data = data.duplicate()
+				if has_effect:
+					act_data["chance"] = min(100, int(data.get("chance", 100) * proc_mult))
+				if is_nondmg:
+					act_data["stats"] = src_stats.duplicate()
+					act_data["stats"]["acc"] = int(src_stats.get("acc", 90) * proc_mult)
 	for _i in range(hits):
 		if target.get_hp() <= 0:
 			break
-		var result = calc.resolve_action(user, target, data)
+		var result = calc.resolve_action(user, target, act_data)
 		if result.get("missed", false):
 			var miss_txt = "...but missed![wait=0.1]"
 			if data.get("type", "attack") in ["group", "aoe", "all", "random"]:
@@ -839,6 +882,7 @@ func _execute_hit(data, user, who: String, target):
 				status_sys.add_status(target, result["status"], data.get("magnitude", -1))
 				var sdata   = status_db.get(result["status"], {})
 				var inflict = sdata.get("inflict_text", "[color=yellow][TARGET] gained a status effect![/color]")
+				_emit_timer_update()
 				MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(inflict, { "TARGET": _get_display_name(target) }), "linebreak": false })
 				await wait_for_writing()
 
@@ -911,10 +955,6 @@ func _register_enemy_slot(e: Character, key: String) -> void:
 	cooldowns[key]      = {}
 	e.set_stat_multipliers({})
 	status_sys.emit_status_update(key)
-	for skill in e.get_skills():
-		var skill_data = skills_db.get(skill, {})
-		if skill_data.has("startup"):
-			cooldowns[key][skill] = skill_data["startup"]
 	if not e.get_trinkets().is_empty():
 		trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects, key)
 

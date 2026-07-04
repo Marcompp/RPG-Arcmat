@@ -171,8 +171,11 @@ func _player_already_owns(item_name: String) -> bool:
 	var inv = player.get_inventory()
 	if _tm.game_manager.weapon_db.has(item_name) or _tm.game_manager.armor_db.has(item_name):
 		return _player_has_equip(item_name)
-	if _tm.trinkets_db.has(item_name) and not _tm.trinkets_db[item_name].get("stackable", false):
-		return item_name in player.get_trinkets() or inv.has(item_name)
+	if _tm.trinkets_db.has(item_name):
+		if _tm.trinkets_db[item_name].get("stackable", false):
+			return false
+		var family = _tm.game_manager._get_trinket_variant_family(item_name)
+		return family.any(func(v): return v in player.get_trinkets() or inv.has(v))
 	if item_name.begins_with("Book of "):
 		var spell_name = item_name.substr(8)
 		return player.get_spells().has(spell_name) or inv.has(item_name) or player.get_spells().size() >= _tm.MAX_SPELLS
@@ -187,7 +190,11 @@ func _get_shop_item_data(item_name: String) -> Dictionary:
 	if _tm.game_manager.armor_db.has(item_name):
 		return _tm.game_manager.armor_db[item_name]
 	if _tm.trinkets_db.has(item_name):
-		return _tm.trinkets_db[item_name]
+		var tdata = _tm.trinkets_db[item_name]
+		var vs = tdata.get("variants", [])
+		if not vs.is_empty():
+			return _tm.trinkets_db.get(vs[0], tdata)
+		return tdata
 	return _tm.items_db.get(item_name, {})
 
 func _format_shop_tooltip(item_name: String, data: Dictionary) -> String:

@@ -58,13 +58,19 @@ func _ready():
 	)
 	MyEventBus.subscribe("enemy_timer_update", func(data):
 		var timers: Array = data.get("timers", [])
+		var hidden: Array = data.get("hidden", [])
+		var locked: Array = data.get("locked", [])
 		var labels = [cooldown_label, cooldown_label2]
 		for i in range(labels.size()):
 			var t: int = timers[i] if i < timers.size() else -1
 			if t < 0:
 				labels[i].text = ""
+			elif locked[i] if i < locked.size() else false:
+				labels[i].text = "꩜"
 			elif t == 0:
 				labels[i].text = "!"
+			elif hidden[i] if i < hidden.size() else false:
+				labels[i].text = "?"
 			else:
 				labels[i].text = str(t)
 	)

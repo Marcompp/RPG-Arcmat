@@ -451,6 +451,9 @@ func confirm_character():
 	var chara = pending_character
 	rng.randomize()
 	var character = Character.new(chara, armor_db, weapon_db, rng)
+	var starting_trinkets = character.data.get("Trinkets", [])
+	for i in range(starting_trinkets.size()):
+		starting_trinkets[i] = _resolve_trinket_variant(starting_trinkets[i])
 	character.recalculate_trinket_bonus(trinkets_db)
 	game_state["player"] = character
 	game_state["gold"] = character.get_money()
@@ -661,8 +664,9 @@ func _check_dict_condition(cond, node_index):
 			var player = game_state["player"]
 			if player == null:
 				return false
-			var has_equipped = req in player.data.get("Trinkets", [])
-			var has_in_bag   = player.get_inventory().get(req, 0) > 0
+			var family = _get_trinket_variant_family(req)
+			var has_equipped = family.any(func(v): return v in player.data.get("Trinkets", []))
+			var has_in_bag   = family.any(func(v): return player.get_inventory().get(v, 0) > 0)
 			if has_equipped or has_in_bag:
 				return false
 			continue
@@ -1064,7 +1068,8 @@ func _process_item_acquisition(item_name: String, player: Character, price: int 
 		else:
 			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 	elif trinkets_db.has(item_name):
-		await _equip_trinket_acquisition(item_name, player, price, from_shop)
+		var resolved = _resolve_trinket_variant(item_name)
+		await _equip_trinket_acquisition(resolved, player, price, from_shop)
 	else:
 		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 
@@ -1072,11 +1077,13 @@ func _equip_trinket_acquisition(item_name: String, player: Character, price: int
 	if not player.data.has("Trinkets"):
 		player.data["Trinkets"] = []
 	var stackable = trinkets_db[item_name].get("stackable", false)
-	var already_equipped = not stackable and item_name in player.data["Trinkets"]
+	var family = _get_trinket_variant_family(item_name)
+	var already_equipped = not stackable and family.any(func(v): return v in player.data["Trinkets"])
 
 	if from_shop:
 		var data = trinkets_db[item_name]
-		var preview = "[b]%s[/b]  [i](Trinket)[/i]" % item_name
+		var display_name = data.get("name", item_name)
+		var preview = "[b]%s[/b]  [i](Trinket)[/i]" % display_name
 		if data.has("description"):
 			preview += "\n" + data["description"]
 		if data.has("effect_description"):
@@ -1107,20 +1114,38 @@ func _equip_trinket_acquisition(item_name: String, player: Character, price: int
 
 		game_state["gold"] -= price
 
+	var display_name = trinkets_db[item_name].get("name", item_name)
 	if already_equipped:
 		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
-		var text = "[color=#AAAAAA]%s kept in bag (already equipped).[/color]" % item_name
+		var text = "[color=#AAAAAA]%s kept in bag (already equipped).[/color]" % display_name
 		if from_shop:
 			text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
 		MyEventBus.emit("continue_text", {"text": text})
 	else:
 		player.data["Trinkets"].append(item_name)
 		player.stats_changed.emit()
-		var text = "[color=#00E676]%s equipped![/color]" % item_name
+		var text = "[color=#00E676]%s equipped![/color]" % display_name
 		if from_shop:
 			text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
 		MyEventBus.emit("continue_text", {"text": text})
 	await _gm_wait_for_continue()
+
+func _resolve_trinket_variant(item_name: String) -> String:
+	var variants = trinkets_db.get(item_name, {}).get("variants", [])
+	if variants.is_empty():
+		return item_name
+	return variants[rng.randi() % variants.size()]
+
+func _get_trinket_variant_family(item_name: String) -> Array:
+	if trinkets_db.has(item_name):
+		var vs = trinkets_db[item_name].get("variants", [])
+		if not vs.is_empty():
+			return vs
+	for base_id in trinkets_db:
+		var vs = trinkets_db[base_id].get("variants", [])
+		if item_name in vs:
+			return vs
+	return [item_name]
 
 func _offer_learn(learn_name: String, entry: Dictionary, kind: String, player: Character, item_name: String, price: int = 0, from_shop: bool = false):
 	var known: bool

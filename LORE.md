@@ -46,6 +46,7 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 | **Professor Eisenhart** | Male | Alchemy Professor | Arcward | The Alchemy instructor at Arcward. Wears a thick mantle with many pockets and thick glasses and has messy, moss green hair. Cold and heartless. Cares only about academic advancement and experimentation |
 | **Rona** | Female | Weapons seller | Bertunia (Arms and Armaments) | Stocky, soot-stained hands; former soldier; knows every weapon in stock from having swung it herself. *Voice:* "Arms and Armaments. You buying, or just looking?" / "What are you working with? I can point you at the right thing for the job." / "Every weapon in here I've swung myself. None of it's decorative." — direct and professional; engages with customers rather than ignoring them; warm without being soft. |
 | **Fabrice** | ??? | Clothier | Bertunia (Everyman's Clothier) | Immaculately dressed, if a bit flamboyant; . *Voice:* "Welcome to Everyman's Clothier — where everyone can shine!" / "You look radiant darling! Not as radiant as moi, of course, but still." / "The right accessory can bring out the true beauty in anyone." / "Good choice. You'll look fabulous in that, darling!." / "Looking good is an universal right, darling. No need to be shy." / "Hmm, yes... Even you could look nice if you acessorise right." — friendly flamboyant diva; sees her job as bringing up the true beauty in the world; can be a bit insensitive sometimes; has very animated and flamboyant body language; the decor is impeccable despite everything. |
+| **the Postman** | Male | Postman | Any surface place | A tall, square-faced man with squinty eyes and brown-feathered wings in a tall, red cap addorned with an emblem depicting a winged letter; *Voice:* "Ahoy there! Letter for Agnes!" "Good. Stand by." "Here. A letter from ___, addressed to ____" "Are there any more concerns?" "Very well. My job here is done. Be well!" |
 
 ---
 
@@ -158,33 +159,43 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 |---|---|---|
 | **Bertunia Castle Town** | Cobblestone, walled, bustling | Starting hub; smells of woodsmoke and fresh bread; blacksmith's hammer, children chasing through the square, town crier at the fountain. The capital of the petty kingdom of Bertunia, located at the edge of the Apple Woods |
 | **Lantern's Reach** | Frontier outpost at mountain foothills | "Located on the Sundown Plateau, in the transition to Mt.Legory; Last settlement before Mount Legory"; has an Adventurer's Guild that sells skill training scrolls |
-| **Mugell Town** | Rickety boardwalks above swamp water | Town sways in wind; ropes groan; fishermen lower lines through plank gaps; children peer at dark water below; something large moves under the surface; the nearest settlement to Arcward, located on the eastern end of the Lost Swamp, students often visit, and most residents end up working and or supplying the school |
-| **Gilded Hollow Circus** | Travelling circus, Sundown Plateau | Striped tents, torchlight, calliope (tinny, slightly off-key), masked performers, caged animals, eerily empty and sawdust smell |
+| **Mugell Town** | Rickety boardwalks above swamp water | Town sways in wind; ropes groan; fishermen lower lines through plank gaps; children peer at dark water below; something large moves under the surface; the nearest settlement to Arcward, located on the eastern end of the Lost Swamp, students often visit, and most residents end up working and or supplying the school  |
+| **Gilded Hollow Circus** | Travelling circus, Sundown Plateau | Striped tents, torchlight, calliope (tinny, slightly off-key), masked performers, caged animals, eerily empty and sawdust smell  | 
 | **Lizal-town** | Hidden lizardmen commune, Core Cavern | Crude tents of bone and metal and dyed leather, torchlight, lava pools, hot, but slightly less than the rest of the Cavern, communal living, territorial. Getting in requires earning the trust of the Lizardmen. Has the vibe of old school monster town from a SNES rpg or adventure game. Lizals speak with a strong accent accounting for their lizard mouths  |
 | **The Arena** | Golden and glorious | Lighthearted unserious postgame area where the player can fight against every enemy in the game using their fully realised character. Meant to be unserious and dubiously canon |
 
 ### Shop Directory
 
 **Bertunia Castle Town**
+*Shops*
 - Kacha's Shop — items
-- Arms and Armaments — weapons & armour
-- Everyman's Clothier — accessories & armour (eyeglasses, leather boots, backpack, chainmail)
+- Arms and Armaments — weapons
+- Everyman's Clothier — apparel (eyeglasses, leather boots, backpack, chainmail)
 - Drink of Fortune — pub
 
 **Lantern's Reach**
+*Shops*
 - Kacha Outpost — items
 - The Last Anvil — weapons & armour (warm forge glow and constant hammering; the blacksmith barely acknowledges you)
 - Adventurer's Guild — skill scrolls (Block, Dodge, Combo, First Aid)
 - The Tipsy Ghost — pub
 
 **Mugell Town**
+*Shops*
 - Madam Bernadetta's Mystical Emporium — items (burning incense, monster parts in vials, shelves of exotic herbs and beast parts)
 - Merrill's Satin Threads — armour & clothing (fine fabrics; Merrill's contempt for browsers is on open display)
 - Pages Without End — spell books (Fire, Water, Earth, Wind); run by a Kacha (reading glasses, nose usually in a book; gets genuinely excited about the stock)
 - The Gurgling Gorgon — pub
 
 **Gilded Hollow Circus**
-- TBD
+*Shops*
+- Concession Stand — misc shop (Potion, Stimulant, Circus Dagger, Circadian Mask)
+*Attractions*
+- The Stage (fight against Harlequin on first visit, two on second, etc) 
+- House of Mirrors (fight against doppelganger) 
+- Side Attraction? (minigame with prizes)
+- Funhouse (watch creepy presentation?)
+
 
 **Lizal-Town**
 - Elder's Hut - misc

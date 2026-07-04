@@ -9,16 +9,16 @@ func main_choices(player) -> Array:
 		{ "text": "Item",   "type": "item",   "tooltip": "Use an Item" }
 	]
 
-func build_list_menu(list, type: String, db: Dictionary, player, cooldowns: Dictionary) -> Array:
+func build_list_menu(list, type: String, db: Dictionary, player, cooldowns: Dictionary, hide_cooldown_numbers: bool = false) -> Array:
 	var choices = []
 	for item_name in list:
-		var choice = build_action_choice(str(item_name), type, db.get(str(item_name), null), player, cooldowns)
+		var choice = build_action_choice(str(item_name), type, db.get(str(item_name), null), player, cooldowns, hide_cooldown_numbers)
 		if choice != null:
 			choices.append(choice)
 	choices.append({ "text": "Back", "type": "back" })
 	return choices
 
-func build_action_choice(item_name: String, type: String, data, player, cooldowns: Dictionary) -> Variant:
+func build_action_choice(item_name: String, type: String, data, player, cooldowns: Dictionary, hide_cooldown_numbers: bool = false) -> Variant:
 	if data == null:
 		return { "text": item_name, "type": type, "data": item_name }
 
@@ -51,11 +51,11 @@ func build_action_choice(item_name: String, type: String, data, player, cooldown
 	if data.has("cooldown"):
 		var remaining = cooldowns["player"].get(item_name, 0)
 		if remaining > 0:
-			label    += " (%d Turns)" % remaining
+			label    += " (%s)"# % ("?" if hide_cooldown_numbers else "%d Turns" % remaining)
 			disabled  = true
-			tooltip   = "On cooldown - %d turns left" % remaining
+			tooltip   = "On cooldown - %s turns left"# % ("?" if hide_cooldown_numbers else "%d" % remaining)
 		else:
-			label += " (Cooldown: %d)" % data["cooldown"]
+			label += " (Cooldown: %s)" % ("?" if hide_cooldown_numbers else "%d" % data["cooldown"])
 
 	var choice = { "text": label, "type": type, "data": item_name }
 	if disabled:

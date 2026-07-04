@@ -125,6 +125,12 @@ func try_counter_stun() -> bool:
 			return true
 	return false
 
+func get_proc_chance_mult() -> float:
+	return 2.0 if not _trinkets_with_effect("trick_glove").is_empty() else 1.0
+
+func has_circadian_mask() -> bool:
+	return not _trinkets_with_effect("circadian_mask").is_empty()
+
 func get_lifesteal_amount(damage_dealt: int) -> int:
 	var total := 0
 	for t in _trinkets_with_effect("soul_drain"):

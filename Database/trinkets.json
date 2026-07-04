@@ -280,5 +280,48 @@
 		"stats": { "str": 4, "agi": 3 },
 		"threshold": 50,
 		"stackable": false
+	},
+	"Sleeve Ace": {
+		"name": "Sleeve Ace",
+		"icon": "card.png",
+		"description": "A foldable card meant to wrap around the wrist, allowing for various tricks and sleight of hand. A gambler's best friend.",
+		"effect_description": "Doubles the success chance of effects.",
+		"effect": "trick_glove",
+		"stackable": false
+	},
+	"Circadian Mask": {
+		"variants": ["Circadian Mask1","Circadian Mask2","Circadian Mask3","Circadian Mask4"]
+	},
+	"Circadian Mask1": {
+		"name": "Circadian Mask",
+		"icon": "mask.png",
+		"description": "A ceramic mask depicting a blank face used by performers in the Gilded Hollow Circus. Those who wear them become utterly unreadable, taking on their new persona's completely. Some say that, for them, there's no face behind the mask.",
+		"effect_description": "Wielder's cooldowns are hidden and randomised.",
+		"effect": "circadian_mask",
+		"stackable": false
+	},
+	"Circadian Mask2": {
+		"name": "Circadian Mask",
+		"icon": "mask2.png",
+		"description": "A ceramic mask depicting an angry face used by performers in the Gilded Hollow Circus. Those who wear them become utterly unreadable, taking on their new persona's completely. Some say that, for them, there's no face behind the mask.",
+		"effect_description": "Wielder's cooldowns are hidden and randomised.",
+		"effect": "circadian_mask",
+		"stackable": false
+	},
+	"Circadian Mask3": {
+		"name": "Circadian Mask",
+		"icon": "mask3.png",
+		"description": "A ceramic mask depicting a smiling face used by performers in the Gilded Hollow Circus. Those who wear them become utterly unreadable, taking on their new persona's completely. Some say that, for them, there's no face behind the mask.",
+		"effect_description": "Wielder's cooldowns are hidden and randomised.",
+		"effect": "circadian_mask",
+		"stackable": false
+	},
+	"Circadian Mask4": {
+		"name": "Circadian Mask",
+		"icon": "mask4.png",
+		"description": "A ceramic mask depicting a smiling face used by performers in the Gilded Hollow Circus. Those who wear them become utterly unreadable, taking on their new persona's completely. Some say that, for them, there's no face behind the mask.",
+		"effect_description": "Wielder's cooldowns are hidden and randomised.",
+		"effect": "circadian_mask",
+		"stackable": false
 	}
 }

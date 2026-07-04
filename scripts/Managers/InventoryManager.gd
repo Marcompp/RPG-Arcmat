@@ -260,7 +260,8 @@ func show_trinkets() -> void:
 		var tdata     = _tm.trinkets_db.get(trinket_name, {})
 		var count     = equipped_counts[trinket_name]
 		var stackable = tdata.get("stackable", false)
-		var label     = "[Equipped] " + trinket_name + (" x%d" % count if stackable and count > 1 else "")
+		var display_name = tdata.get("name", trinket_name)
+		var label     = "[Equipped] " + display_name + (" x%d" % count if stackable and count > 1 else "")
 		choices.append({
 			"text": label, "type": "trinket_unequip",
 			"data": trinket_name,
@@ -273,7 +274,8 @@ func show_trinkets() -> void:
 		var tdata     = _tm.trinkets_db.get(item_name, {})
 		var count     = inv[item_name]
 		var stackable = tdata.get("stackable", false)
-		var label     = item_name + (" x%d" % count if stackable and count > 1 else "")
+		var display_name = tdata.get("name", item_name)
+		var label     = display_name + (" x%d" % count if stackable and count > 1 else "")
 		if not stackable and item_name in equipped:
 			choices.append({
 				"text": label, "type": "none",
