@@ -418,5 +418,13 @@
 		"wpn_type": "Axe",
 		"stats": { "mgt": 8, "acc": 40, "wgt": 18, "crit": 0, "mys": 0 },
 		"effect": "none"
+	},
+	"Ringmaster's Scepter": {
+		"name": "Ringmaster's Scepter",
+		"description": "A polished black staff crowned with a silver star. It conducts magic as easily as it conducts a performance.",
+		"element": "Dark",
+		"wpn_type": "Staff",
+		"stats": { "mgt": 10, "acc": 85, "wgt": 8, "crit": 10, "mys": 5 },
+		"effect": "none"
 	}
 }

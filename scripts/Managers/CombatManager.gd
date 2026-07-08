@@ -696,6 +696,42 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		await _perform_summon(user, who, data)
 		return
 
+	if data.get("type", "attack") == "random_skill":
+		var exclude_list: Array = data.get("exclude", [])
+		var pool: Array = []
+		for sname in skills_db:
+			if not exclude_list.has(sname):
+				var sd = skills_db.get(sname, {})
+				if sd.get("type", "") != "flee":
+					pool.append({"name": sname, "db": skills_db})
+		for spname in spells_db:
+			if not exclude_list.has(spname):
+				var sp = spells_db.get(spname, {})
+				if sp.get("cost", 0) <= user.get_mp():
+					pool.append({"name": spname, "db": spells_db})
+		if not pool.is_empty():
+			var chosen    = pool[rng.randi() % pool.size()]
+			var cd        = chosen["db"].get(chosen["name"], {})
+			var ct        = cd.get("type", "attack")
+			var ctarget
+			if ct == "self":
+				ctarget = user
+			elif who == "player":
+				var living = _living_indices()
+				if living.is_empty():
+					return
+				ctarget = enemies[living[rng.randi() % living.size()]]
+			else:
+				ctarget = player
+			await _execute_action(user, who, chosen["name"], chosen["db"], ctarget, -1)
+		return
+
+	if data.get("hits_from_idle", false):
+		var actor_sys_idle = _tsys(who)
+		var idle = actor_sys_idle.get_idle_turns() if actor_sys_idle else 0
+		data = data.duplicate()
+		data["hits"] = data.get("base_hits", 1) + idle
+
 	if (who == "player" and data.get("type", "attack") in ["aoe", "all"]) or (who != "player" and data.get("type", "attack") in ["group", "all"]):
 		if who != "player" and data.get("type", "attack") == "all":
 			await _execute_hit(data, user, who, player)
@@ -732,6 +768,7 @@ func _execute_hit(data, user, who: String, target):
 	var hits = int(data.get("hits", 1))
 	if data.has("max_hits") and data["max_hits"] > 1:
 		hits = rng.randi_range(data.get("min_hits", 1), data["max_hits"])
+	var is_magic_hit: bool = data.get("magic", false)
 	var act_data = data
 	var pre_sys = _tsys(who)
 	if pre_sys:
@@ -796,17 +833,23 @@ func _execute_hit(data, user, who: String, target):
 				attack_element = wpn.get("element", "") if wpn and not wpn.is_empty() else ""
 			if attack_element == "":
 				attack_element = "Neutral"
-			var actor_sys  = _tsys(who)
-			var target_sys = _tsys(_who_for(target))
-			result["damage"] = max(1, int(result["damage"] * (actor_sys.get_attack_multiplier(_who_for(target), attack_element) if actor_sys else 1.0)))
-			var living_count = _living_indices().size()
-			result["damage"] = max(1, int(result["damage"] * (target_sys.get_damage_taken_multiplier(living_count) if target_sys else 1.0)))
+			var actor_sys     = _tsys(who)
+			var target_who_str = _who_for(target)
+			var target_sys    = _tsys(target_who_str)
+			result["damage"] = max(1, int(result["damage"] * (actor_sys.get_attack_multiplier(target_who_str, attack_element, is_magic_hit) if actor_sys else 1.0)))
+			var living_count  = _living_indices().size()
+			var target_timer: int = -1
+			if target_who_str.begins_with("enemy_"):
+				var ei = int(target_who_str.substr(6))
+				if ei < enemy_timers.size():
+					target_timer = enemy_timers[ei]
+			result["damage"] = max(1, int(result["damage"] * (target_sys.get_damage_taken_multiplier(living_count, target_timer) if target_sys else 1.0)))
 			result["damage"] = target_sys.check_death_prevention(result["damage"]) if target_sys else result["damage"]
-			if _who_for(target) == "player" and target.get_hp() >= target.get_max_hp():
+			if target_who_str == "player" and target.get_hp() >= target.get_max_hp():
 				result["damage"] = min(result["damage"], target.get_max_hp() - 1)
 			_play_damage_sound(data, user, target)
 			target.take_damage(result["damage"])
-			if actor_sys: actor_sys.on_hit(attack_element)
+			if actor_sys: actor_sys.on_hit(attack_element, is_magic_hit)
 			if target_sys: target_sys.on_owner_hit()
 			_emit_trinket_states()
 			var bandana_msg = target_sys.get_bandana_message() if target_sys else ""
@@ -826,7 +869,7 @@ func _execute_hit(data, user, who: String, target):
 					user.heal(lifesteal)
 					MyEventBus.emit("continue_text", {"text": "[instant][color=green]+%d[/color] HP absorbed![/instant]" % lifesteal, "linebreak": false})
 					await wait_for_writing()
-			if target_sys and _who_for(target) == "player" and target.get_hp() > 0:
+			if target_sys and target_who_str == "player" and target.get_hp() > 0:
 				if target_sys.try_counter_stun():
 					status_sys.add_status(user, "stun", 1)
 					MyEventBus.emit("continue_text", {"text": "\n[b]%s[/b] is startled by the rattle![wait=0.1]" % _get_display_name(user), "linebreak": false})
@@ -955,6 +998,11 @@ func _register_enemy_slot(e: Character, key: String) -> void:
 	cooldowns[key]      = {}
 	e.set_stat_multipliers({})
 	status_sys.emit_status_update(key)
+	var trinkets = e.data.get("Trinkets", [])
+	for i in range(trinkets.size()):
+		var variants = trinkets_db.get(trinkets[i], {}).get("variants", [])
+		if not variants.is_empty():
+			trinkets[i] = variants[rng.randi() % variants.size()]
 	if not e.get_trinkets().is_empty():
 		trinket_systems[key] = TrinketSystem.new(e, trinkets_db, status_effects, key)
 

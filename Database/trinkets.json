@@ -323,5 +323,39 @@
 		"effect_description": "Wielder's cooldowns are hidden and randomised.",
 		"effect": "circadian_mask",
 		"stackable": false
+	},
+	"Spring Glove": {
+		"name": "Spring Glove",
+		"icon": "spring_glove.png",
+		"description": "A fitted glove with a coiled mechanism hidden in the knuckles. The longer it waits, the harder it swings.",
+		"effect_description": "Gain +25% damage for each consecutive turn no damage was dealt. Resets on dealing damage.",
+		"effect": "spring_glove",
+		"magnitude": 25,
+		"stackable": false
+	},
+	"Harlequin Hat": {
+		"name": "Harlequin Hat",
+		"icon": "harlequin_hat.png",
+		"description": "A belled jester's cap taken from one of the Gilded Hollow's performers. Its bells jingle with every strike — never stopping, never hesitating.",
+		"effect_description": "Hits alternate between 50% and 200% damage.",
+		"effect": "harlequin_hat",
+		"stackable": false
+	},
+	"Tailcoat": {
+		"name": "Tailcoat",
+		"icon": "tailcoat.png",
+		"description": "A sequined performance coat whose lining is reinforced with something that isn't cloth.",
+		"effect_description": "Takes only 25% damage while waiting to act.",
+		"effect": "tailcoat",
+		"stackable": false
+	},
+	"Ringmaster's Tophat": {
+		"name": "Ringmaster's Tophat",
+		"icon": "tophat.png",
+		"description": "A tall silk top hat worn by the demon who runs the Gilded Hollow. It is pristine despite the blood on its owner's hands.",
+		"effect_description": "Magical attacks gain +20% damage for each consecutive turn spent without casting. Resets on casting.",
+		"effect": "ringmaster_tophat",
+		"magnitude": 20,
+		"stackable": false
 	}
 }

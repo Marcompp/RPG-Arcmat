@@ -1044,5 +1044,75 @@
 	},
 	"Skills": ["Cleave", "Brace"],
 	"Spells": []
+  },
+  {
+	"Name": "Harlequin",
+	"Element": "Dark",
+	"Lvl": 11,
+	"Stats": {"HP":"C","MP":"E","Str":"B","Int":"F","Dex":"A","Agi":"A","Lck":"C","Def":"D"},
+	"Drops": {
+		"Potion": 50,
+		"Harlequin Hat": 15
+	},
+	"Gold": 150,
+	"Startup": 1,
+	"Cooldown": 2,
+	"Skill_Chance": 70,
+	"Skill_Weights": {"Knife Throw": 2, "Juggle Throw": 2, "Party Trick": 1},
+	"Skills": ["Knife Throw", "Juggle Throw", "Party Trick"],
+	"Spells": [],
+	"Trinkets": ["Circadian Mask", "Spring Glove", "Harlequin Hat"],
+	"Preparing": ["[SELF] flicks a blade between their fingers.", "[SELF] tosses a knife and catches it.", "[SELF] grins beneath the mask."],
+	"Recharging": ["[SELF] catches their knives and grins.", "[SELF] straightens their hat.", "[SELF] twirls a blade idly."],
+	"Location": "Sundown Plateau",
+	"Rarity": "Hidden"
+  },
+  {
+	"Name": "Harlequin Duo",
+	"Enemies": ["Harlequin", "Harlequin"],
+	"Location": "Sundown Plateau",
+	"Rarity": "Hidden"
+  },
+  {
+	"Name": "Ringmaster",
+	"Class": "Greater Demon",
+	"Element": "Dark",
+	"Lvl": 14,
+	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"A","Dex":"C","Agi":"C","Lck":"C","Def":"D"},
+	"TrueStats": {"HP": 80},
+	"Equip": {
+		"Weapon": "Ringmaster's Scepter"
+	},
+	"Drops": {
+		"Ether": 100,
+		"Ringmaster's Tophat": 100,
+		"Ringmaster's Scepter": 25
+	},
+	"Gold": 400,
+	"Startup": 3,
+	"Cooldown": 2,
+	"Skill_Chance": 90,
+	"Skill_Weights": {"Crack the Whip": 2, "Party Trick": 1},
+	"Skills": ["Crack the Whip", "Party Trick"],
+	"Spells": ["Dark", "Fire"],
+	"Trinkets": ["Circadian Mask", "Tailcoat", "Ringmaster's Tophat"],
+	"Preparing": ["[SELF] watches from behind his white mask.", "[SELF] adjusts his hat and says nothing.", "[SELF] taps his scepter against the ring floor."],
+	"Recharging": ["[SELF] straightens his coat and smiles.", "[SELF] sweeps his cape back into place.", "[SELF] tilts his hat and waits."],
+	"ChannelMoves": [
+		{
+			"skill": "Raise Curtain",
+			"condition": "hp_below",
+			"threshold": 50,
+			"duration": 2,
+			"channel_start": ["[SELF] snaps his fingers. Something stirs in the shadows."],
+			"channel_texts": [
+				"[SELF] raises one hand. A silhouette appears in the tent's entrance.",
+				"[SELF] grins beneath his mask. The show must go on."
+			],
+			"weight": 1
+		}
+	],
+	"Location": "Sundown Plateau",
+	"Rarity": null
   }
 ]

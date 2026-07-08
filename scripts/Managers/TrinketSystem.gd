@@ -20,9 +20,12 @@ func _init(p_owner, p_trinkets_db: Dictionary, p_status_effects: Dictionary, p_o
 		var tdata  = trinkets_db.get(t, {})
 		var effect = tdata.get("effect", "")
 		match effect:
-			"duelist_combo": _states[t] = { "combo": 0 }
-			"last_stand":    _states[t] = { "used": false }
-			"tally_stacks":  _states[t] = { "stacks": 0 }
+			"duelist_combo":    _states[t] = { "combo": 0 }
+			"last_stand":       _states[t] = { "used": false }
+			"tally_stacks":     _states[t] = { "stacks": 0 }
+			"spring_glove":     _states[t] = { "idle_turns": -1, "hit_this_round": false }
+			"harlequin_hat":    _states[t] = { "high_next": false }
+			"ringmaster_tophat":_states[t] = { "spell_idle_turns": -1, "spell_hit_this_round": false }
 			"low_hp_stats":
 				var threshold = tdata.get("threshold", 50)
 				var hp_pct = int(owner.get_hp() * 100.0 / owner.get_mhp()) if owner.get_mhp() > 0 else 100
@@ -68,7 +71,7 @@ func is_immune_to_status(status: String) -> bool:
 	return false
 
 # Returns the combined damage multiplier from all owner trinkets (>= 1.0).
-func get_attack_multiplier(target_who: String, attack_element: String) -> float:
+func get_attack_multiplier(target_who: String, attack_element: String, is_magic: bool = false) -> float:
 	var mult = 1.0
 	for t in owner.get_trinkets():
 		var effect = trinkets_db.get(t, {}).get("effect", "")
@@ -91,22 +94,41 @@ func get_attack_multiplier(target_who: String, attack_element: String) -> float:
 			"tally_stacks":
 				var step = trinkets_db.get(t, {}).get("magnitude", 3) / 100.0
 				mult *= 1.0 + step * _states[t]["stacks"]
+			"spring_glove":
+				var step = trinkets_db.get(t, {}).get("magnitude", 25) / 100.0
+				mult *= 1.0 + max(0, _states[t]["idle_turns"]) * step
+			"harlequin_hat":
+				mult *= 2.0 if _states[t]["high_next"] else 0.5
+			"ringmaster_tophat":
+				if is_magic:
+					var step = trinkets_db.get(t, {}).get("magnitude", 20) / 100.0
+					mult *= 1.0 + max(0, _states[t]["spell_idle_turns"]) * step
 	return mult
 
-func get_damage_taken_multiplier(living_count: int) -> float:
+func get_damage_taken_multiplier(living_count: int, owner_timer: int = -1) -> float:
 	var mult = 1.0
 	for t in _trinkets_with_effect("guardian_shield"):
 		if living_count > 1:
 			var reduction = trinkets_db.get(t, {}).get("magnitude", 60) / 100.0
 			mult *= 1.0 - reduction
+	for t in _trinkets_with_effect("tailcoat"):
+		if owner_timer > 0:
+			mult *= 0.25
 	return mult
 
 # Call after every hit the owner lands.
-func on_hit(attack_element: String) -> void:
+func on_hit(attack_element: String, is_magic: bool = false) -> void:
 	for t in _trinkets_with_effect("duelist_combo"):
 		_states[t]["combo"] += 1
 	if not _trinkets_with_effect("resonance").is_empty():
 		owner.set_element(attack_element)
+	for t in _trinkets_with_effect("spring_glove"):
+		_states[t]["hit_this_round"] = true
+	for t in _trinkets_with_effect("harlequin_hat"):
+		_states[t]["high_next"] = not _states[t]["high_next"]
+	if is_magic:
+		for t in _trinkets_with_effect("ringmaster_tophat"):
+			_states[t]["spell_hit_this_round"] = true
 
 # Call after the owner misses.
 func on_miss() -> void:
@@ -162,6 +184,12 @@ func process_battle_start() -> void:
 		if tdata.get("effect", "") == "battle_start_element":
 			owner.set_element(tdata.get("element", "Fire"))
 
+# Returns the number of idle (no damage dealt) turns accumulated by the spring_glove effect.
+func get_idle_turns() -> int:
+	for t in _trinkets_with_effect("spring_glove"):
+		return max(0, _states[t]["idle_turns"])
+	return 0
+
 # Resets all per-battle state (combo, element). Called at end_combat().
 func reset_combat_state() -> void:
 	for t in _trinkets_with_effect("duelist_combo"):
@@ -170,6 +198,14 @@ func reset_combat_state() -> void:
 		_states[t]["stacks"] = 0
 	for t in _trinkets_with_effect("low_hp_stats"):
 		_states[t]["active"] = false
+	for t in _trinkets_with_effect("spring_glove"):
+		_states[t]["idle_turns"] = -1
+		_states[t]["hit_this_round"] = false
+	for t in _trinkets_with_effect("harlequin_hat"):
+		_states[t]["high_next"] = false
+	for t in _trinkets_with_effect("ringmaster_tophat"):
+		_states[t]["spell_idle_turns"] = -1
+		_states[t]["spell_hit_this_round"] = false
 	_refresh_flat_bonus()
 	if not _trinkets_with_effect("resonance").is_empty():
 		owner.set_element("Neutral")
@@ -215,6 +251,18 @@ func process_turn_start() -> String:
 	for t in _trinkets_with_effect("tally_stacks"):
 		_states[t]["stacks"] += 1
 		lines.append("[color=yellow]%s: mark %d.[/color]" % [t, _states[t]["stacks"]])
+	for t in _trinkets_with_effect("spring_glove"):
+		if _states[t]["hit_this_round"]:
+			_states[t]["idle_turns"] = 0
+			_states[t]["hit_this_round"] = false
+		else:
+			_states[t]["idle_turns"] += 1
+	for t in _trinkets_with_effect("ringmaster_tophat"):
+		if _states[t]["spell_hit_this_round"]:
+			_states[t]["spell_idle_turns"] = 0
+			_states[t]["spell_hit_this_round"] = false
+		else:
+			_states[t]["spell_idle_turns"] += 1
 	var stat_changed = false
 	for t in _trinkets_with_effect("low_hp_stats"):
 		var threshold = trinkets_db.get(t, {}).get("threshold", 50)

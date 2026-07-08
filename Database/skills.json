@@ -465,5 +465,65 @@
 		"effect": "flying",
 		"inherit_stats": false,
 		"inherit_wpn": false
+	},
+	"Knife Throw": {
+		"nome": "Knife Throw",
+		"description": "Hurls a rapid flurry of blades at the target, striking twice in quick succession.",
+		"type": "attack",
+		"element": "Neutral",
+		"stats": { "mgt": 14, "acc": 90, "crit": 5, "wgt": 1 },
+		"hits": 2,
+		"cooldown": 1,
+		"effect": "none",
+		"magic": false,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] hurls a flurry of blades!"
+	},
+	"Juggle Throw": {
+		"nome": "Juggle Throw",
+		"description": "A building volley — the longer the wait, the more blades in the air.",
+		"type": "attack",
+		"element": "Neutral",
+		"stats": { "mgt": 8, "acc": 80, "crit": 0, "wgt": 2 },
+		"hits_from_idle": true,
+		"base_hits": 1,
+		"cooldown": 2,
+		"effect": "none",
+		"magic": false,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] begins to juggle..."
+	},
+	"Party Trick": {
+		"nome": "Party Trick",
+		"description": "Pick a card — any card.",
+		"type": "random_skill",
+		"exclude": ["Party Trick"],
+		"cooldown": 1,
+		"use_text": "[b][USER][/b] grins and reaches into their hat..."
+	},
+	"Crack the Whip": {
+		"nome": "Crack the Whip",
+		"description": "A snapping whip strike that leaves the target reeling with a high chance to stun.",
+		"type": "attack",
+		"element": "Neutral",
+		"stats": { "mgt": 22, "acc": 85, "crit": 0, "wgt": 3 },
+		"cooldown": 2,
+		"effect": "stun",
+		"chance": 60,
+		"magic": false,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] cracks his whip!"
+	},
+	"Raise Curtain": {
+		"nome": "Raise Curtain",
+		"description": "Summons a Harlequin from the wings of the performance.",
+		"type": "summon",
+		"summons": "Harlequin",
+		"stats": { "wgt": 0 },
+		"cooldown": 0,
+		"use_text": "[b][USER][/b] snaps his fingers. The curtain rises."
 	}
 }
