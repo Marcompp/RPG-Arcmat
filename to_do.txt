@@ -32,6 +32,20 @@
 
 [ ] Log não trata tags corretamente
 
+[ ] Fix order of enemy trinkets
+
+[ ] Tela de adiquirir Trinkets está quebrada
+
+[ ] Alguns eventos estão quebrados em caves of Light (sem continue)
+
+[ ] No repeat dos nodes não está funcionando corretamente
+
+[ ] Fazer apenas items usaveis aparecer no items command da batalha
+
+[ ] Bug quando revivendo com Shinning Crystal (sem continue)
+
+[X] Bug no display de turnos faltando
+
 [x] "Search for Monsters" envia {} para start_combat
       Cai no inimigo padrao (Slime) em vez de sortear um monstro
       da regiao atual. Usar _pick_encounter_monster() igual ao

@@ -389,7 +389,7 @@
 	  "entrances": ["FOREST"],
 	  "backdrop": "apple_clearing.png",
 	  "condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 	  "encounter_rate": 0,
 	  "events": [
@@ -415,7 +415,7 @@
 	  "name": "Bear Den",
 	  "boss": "Bandit",
 	  "condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 	  "encounter_rate": 0,
 	  "entrances": ["FORREST"],
@@ -641,7 +641,7 @@
 		"entrances": ["TUNNEL"],
 	  	"backdrop": "light_altar.png",
 		"condition": {
-				"visit_count":{"max":0}
+				"visit_once":true
 			},
 		"arrival": {
 		  "TUNNEL": [
@@ -680,7 +680,7 @@
 			{"chance": 1, "event": "region_treasure_chest"}
 		],
 	  	"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"arrival": {
 		  "TUNNEL": [
@@ -712,7 +712,7 @@
 		"entrances": ["TUNNEL","FOLLOW"],
 	  	"backdrop": "light_altar.png",
 	  	"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"encounter_rate":0,
 		"events": [
@@ -841,7 +841,7 @@
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_mausoleum.png",
 	  		"condition": {
-				"visit_count":{"max":0}
+				"visit_once":true
 			},
 			"arrival": {
 			  "SURFACE": [
@@ -1143,7 +1143,7 @@
 			"events": [
 			  {"chance": 1, "event": "circus_enter"}
 			],
-			"condition": { "visit_count": { "max": 0 } },
+			"condition": { "visit_once":true },
 			"arrival": {
 			  "SURFACE": [
 				"The distant sound of music reaches you before anything else — a calliope tune, tinny and slightly off-key, drifting across the plateau. Then you see it: a cluster of striped tents rising improbably from the cracked earth.",
@@ -1301,7 +1301,7 @@
 	  	"backdrop": "legory_summit.png",
 		"entrances": ["UP"],
 		"condition": {
-			"visit_count":{"max":0},
+			"visit_once":true,
 			"var": {
 				"height": { "min": 7 }
 			}
@@ -1522,7 +1522,7 @@
 		"backdrop":"core_obsidian.png",
 		"entrances": ["DEPTHS"],
 		"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"arrival": {
 		  "DEPTHS": [
@@ -1701,7 +1701,7 @@
 	  	"categories": ["grotto","ruins"],
 		"backdrop": "core_statue8.png",
 		"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"entrances": ["DEPTHS", "CORE"],
 		"arrival": {
@@ -1774,7 +1774,7 @@
 	  	"categories": [],
 		"entrances": ["DEPTHS"],
 		"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"encounter_rate": 0,
 		"backdrop": "core_spring.png",
@@ -1804,7 +1804,7 @@
 	  {
 		"name": "Lizal-Town",
 		"condition": {
-			"visit_count":{"max":0}
+			"visit_once":true
 		  },
 		"entrances": ["DEPTHS", "TOWN"],
 		"encounter_rate": 0,

@@ -525,5 +525,12 @@
 		"stats": { "wgt": 0 },
 		"cooldown": 0,
 		"use_text": "[b][USER][/b] snaps his fingers. The curtain rises."
+	},
+	"Mirror Morph": {
+		"nome": "Mirror Morph",
+		"description": "Assumes the exact form of the target, copying their stats, skills, and spells.",
+		"type": "mirror_morph",
+		"stats": { "wgt": 0 },
+		"use_text": "[b][USER][/b] gazes into [b][TARGET][/b] and [color=cyan]shifts[/color]..."
 	}
 }

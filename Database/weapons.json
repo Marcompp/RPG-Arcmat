@@ -188,6 +188,13 @@
 		"stats": { "mgt": 7, "acc": 70, "wgt": 3, "crit": 20, "mys": 3 },
 		"effect": "none"
 	},
+	"Circus Dagger": {
+		"name": "Circus Dagger",
+		"description": "A weighted throwing knife used by Harlequin performers. Perfectly balanced, and uncannily sharp for something so ornate.",
+		"wpn_type": "Dagger",
+		"stats": { "mgt": 9, "acc": 90, "wgt": 3, "crit": 20, "mys": 1 },
+		"effect": "none"
+	},
 	"Greataxe": {
 		"name": "Greataxe",
 		"description": "A colossal two-handed axe capable of felling an enemy in a single thunderous blow.",

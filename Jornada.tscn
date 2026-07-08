@@ -265,7 +265,7 @@ grow_horizontal = 2
 layout_mode = 2
 
 [node name="AreaLabel" type="RichTextLabel" parent="GameUI/TopCenterPanel/VBoxContainer"]
-custom_minimum_size = Vector2(200, 40)
+custom_minimum_size = Vector2(215, 40)
 layout_mode = 2
 theme_override_font_sizes/bold_font_size = 20
 bbcode_enabled = true
@@ -315,8 +315,8 @@ layout_mode = 2
 alignment = 2
 
 [node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
+layout_direction = 3
 layout_mode = 2
-alignment = 2
 
 [node name="NameLabel" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
 clip_contents = false
@@ -441,11 +441,11 @@ theme_override_font_sizes/font_size = 40
 
 [node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2"]
 custom_minimum_size = Vector2(100, 20)
+layout_direction = 3
 layout_mode = 0
 offset_top = 91.0
 offset_right = 226.0
 offset_bottom = 111.0
-alignment = 2
 
 [node name="TopRightWrapper" type="Panel" parent="GameUI/TopRight"]
 custom_minimum_size = Vector2(226, 78)
@@ -596,11 +596,11 @@ theme_override_font_sizes/font_size = 40
 
 [node name="TrinketContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper"]
 custom_minimum_size = Vector2(100, 20)
+layout_direction = 3
 layout_mode = 0
 offset_top = 91.0
 offset_right = 226.0
 offset_bottom = 111.0
-alignment = 2
 
 [node name="OptionsButton" type="Button" parent="GameUI"]
 layout_mode = 0

@@ -148,6 +148,20 @@ func handle_explore_submenu(choice) -> void:
 		print("Unknown location: " + loc_name)
 
 func _enter_shop_entry(entry_name: String, entry_data: Dictionary) -> void:
+	if entry_data.get("Kind", "") == "Event":
+		var shop_backdrop = entry_data.get("Backdrop", "")
+		if shop_backdrop != "":
+			_tm._set_backdrop(shop_backdrop)
+		var event_name = entry_data.get("Event", "")
+		if event_name != "":
+			var event_def = _tm.events_db.get(event_name, {})
+			if not event_def.is_empty():
+				await _tm._run_node_event(event_def)
+				return_to_town()
+				return
+		push_warning("Town event location missing or unknown event: " + entry_name)
+		return_to_town()
+		return
 	_tm._shop.enter_shop(entry_name, entry_data)
 
 # ------------------------

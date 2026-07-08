@@ -655,7 +655,10 @@ func _check_dict_condition(cond, node_index):
 
 		if key == "visit_count":
 			var node_key = travel.current_region + ":" + str(node_index)
+			print('VISIT COUNT')
+			print(node_key)
 			value = game_state["visited_count"].get(node_key, 0)
+			print(value)
 		elif key == "no_repeat":
 			if req == true and node_index == travel.current_node:
 				return false
@@ -836,6 +839,10 @@ func apply_effect(effect):
 		"restore_mp":
 			if player:
 				player.restore_mp(effect.get("amount", 0))
+		"full_heal":
+			if player:
+				player.heal(player.get_mhp())
+				player.restore_mp(player.get_mmp())
 		_:
 			for key in effect.keys():
 				if typeof(effect[key]) == TYPE_INT and game_state["vars"].has(key):

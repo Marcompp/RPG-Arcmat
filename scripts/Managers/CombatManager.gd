@@ -410,7 +410,7 @@ func render_player_turn():
 			elif t == 1:
 				timer_lines.append("[color=yellow]%s will act next turn.[/color]" % n if not hide_timer else "[color=green]%s will act in ? turns.[/color]" % n)
 			else:
-				timer_lines.append("[color=green]%s will act in %s turns.[/color]" % [n, "?" if hide_timer else str(t)])
+				timer_lines.append("[color=green]%s will act in %s turns.[/color]" % [n, "?" if hide_timer else str(int(t))])
 
 	show_text(
 		"%s\n%s: %d hp.\n%s\n\nWhat would you like to do?" % [
@@ -724,6 +724,10 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 			else:
 				ctarget = player
 			await _execute_action(user, who, chosen["name"], chosen["db"], ctarget, -1)
+		return
+
+	if data.get("type", "attack") == "mirror_morph":
+		user.apply_mirror_stats(target)
 		return
 
 	if data.get("hits_from_idle", false):

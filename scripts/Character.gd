@@ -197,6 +197,13 @@ func set_stat_multipliers(mults: Dictionary) -> void:
 	stat_multipliers = mults
 	stats_changed.emit()
 
+func apply_mirror_stats(source: Character) -> void:
+	for stat in ["str", "int", "agi", "dex", "lck", "def"]:
+		base_stats[stat] = source.get_total_stat(stat)
+	recalculate()
+	data["Skills"] = source.get_skills().duplicate()
+	data["Spells"] = source.get_spells().duplicate()
+
 func set_trinket_flat_bonus(b: Dictionary) -> void:
 	_trinket_flat_bonus = b
 	stats_changed.emit()

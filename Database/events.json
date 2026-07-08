@@ -3210,6 +3210,107 @@
 			{"type": "enter_town", "town": "Gilded Hollow Circus"}
 		]
 	},
+	"circus_stage": {
+		"repeatable": true,
+		"steps": [
+			{"type": "text", "text": "A spotlight snaps on above the main stage. The ringmaster's voice echoes from nowhere: \"Ladies and gentlemen — a challenger approaches!\""},
+			{
+				"type": "if",
+				"condition": {"stage_fights": {"min": 1}},
+				"then": [
+					{"type": "text", "text": "Two Harlequins vault onto the stage from either side, knives already drawn. The crowd holds its breath."}
+				],
+				"else": [
+					{"type": "text", "text": "A Harlequin cartwheels onto the stage, knife in hand, porcelain mask obscuring their face."}
+				]
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Join the dance", "key": "fight"},
+					{"choice": "Leave", "key": "leave", "type": "back"}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "if",
+							"condition": {"stage_fights": {"min": 1}},
+							"then": [
+								{"type": "combat", "enemy": "Harlequin Duo",
+								 "on_victory": [
+									{"type": "set_var", "vars": {"stage_fights": 1}},
+									{"type": "effect", "effect": {"type": "full_heal"}},
+									{"type": "text", "text": "The crowd erupts. The Ringmaster's voice cuts through the applause: \"Remarkable. You may go.\""}
+								 ],
+								 "on_defeat": [
+									 {"type": "effect", "effect": {"type": "full_heal"}},
+									{"type": "text", "text": "You come to on the sawdust floor. A blank mask looks down at you.\n\n\"A valiant effort,\" the Ringmaster says. \"We do hope you enjoyed the show.\"\n\nYou are helped to your feet and healed."}
+								 ]}
+							],
+							"else": [
+								{"type": "combat", "enemy": "Harlequin",
+								 "on_victory": [
+									{"type": "set_var", "vars": {"stage_fights": 1}},
+									{"type": "effect", "effect": {"type": "full_heal"}},
+									{"type": "text", "text": "The crowd erupts. The Ringmaster's voice cuts through the applause: \"Remarkable. You may go.\""}
+								 ],
+								 "on_defeat": [
+									{"type": "effect", "effect": {"type": "full_heal"}},
+									{"type": "text", "text": "You come to on the sawdust floor. A blank mask looks down at you.\n\n\"A valiant effort,\" the Ringmaster says. \"We do hope you enjoyed the show.\"\n\nYou are helped to your feet and healed."}
+								 ]}
+							]
+						}
+					],
+					"leave": []
+				}
+			}
+		]
+	},
+	"circus_mirrors": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "The House of Mirrors stands before you, as if taunting. You get a strange feeling as you stand at the entrance."},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{"choice": "Enter", "key": "fight"},
+					{"choice": "Leave", "key": "leave", "type": "back"}
+				],
+				"branches": {
+					"fight": [
+						{"type": "set_backdrop", "backdrop": "circus_mirror2.png"},
+						{"type": "text", "text": "The tent is full of mirrors. Every one shows you looking back — except one, which shows something else entirely."},
+						{"type": "text", "text": "The reflection steps forward."},
+						{"type": "combat", "enemy": "Doppelganger",
+							"on_victory": [
+								{"type": "text", "text": "The mirror shatters. The others show only empty glass now.\n\nYou leave the house of mirrors."}
+							],
+							"on_defeat": [
+								{"type": "set_backdrop", "backdrop": "circus_mirror_out.png"},
+								{"type": "effect", "effect": {"type": "full_heal"}},
+								{"type": "text", "text": "You come to on the floor, just outside the house of mirrors.\n\n...\n\n...That was creepy."}
+							]}
+					],
+					"leave":[]
+				}
+			}
+		]
+	},
+	"circus_exit": {
+		"repeatable": false,
+		"steps": [
+			{"type": "set_backdrop", "backdrop": "sundown_circus.png"},
+			{"type": "text", "text": "You find the entrance flap. Through the canvas, the plateau air reaches you — cold and still.\n\nSomething steps in front of it."},
+			{"type": "text", "text": "The figure is tall, dressed in a tailcoat the colour of deep red wine. A white mask with a carved smile. A top hat, slightly askew. He holds a scepter loosely in one hand.\n\nYou didn't see him arrive."},
+			{"type": "text", "text": "The Ringmaster tilts his head. When he speaks, his voice fills the tent without being raised.\n\n\"Already? The show has only just begun.\""},
+			{"type": "text", "text": "You move toward the flap.\n\nSomething shifts between you and the exit. The Ringmaster stands there — still, unhurried — scepter raised across the gap like a bar across a cage.\n\n\"Our guests don't leave until the show is over.\" He tilts his head. \"And the show is never over.\""},
+			{"type": "combat", "enemy": "Ringmaster", "on_victory": [
+				{"type": "text", "text": "The Ringmaster watches you from behind the mask for a long moment.\n\nThen, with a single precise movement, he steps aside.\n\n\"More trouble than you're worth.\" Something in his voice sounds almost amused. \"Go, then. The show will go on without you.\"", "clear": true}
+			]}
+		]
+	},
 	"legory_frozen_cache": {
 		"steps": [
 			{"type": "text", "text": "A faint glint catches your eye — something is lodged in the ice face beside the path.", "clear": false},

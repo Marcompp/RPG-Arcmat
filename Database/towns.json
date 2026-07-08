@@ -231,7 +231,7 @@
 	"Gilded Hollow Circus": {
 		"Name": "Gilded Hollow Circus",
 		"Type": "Town",
-		"Backdrop": "sundown_circus.png",
+		"Backdrop": "circus_ground.png",
 		"arrival": [
 			"Striped red and purple tents rise out of the dark plateau, torchlight spilling between them. A calliope plays somewhere inside — almost a recognisable tune, but not quite.",
 			"You push through the entrance flap. The smell of sawdust and burning oil hits you first. Performers in sequined costumes and porcelain masks move between the tents without looking at you."
@@ -243,9 +243,49 @@
 			"The sawdust underfoot muffles your footsteps entirely.",
 			"A child in a pointed hat stands between two tents, staring at you with complete stillness."
 		],
-		"ExitTxt": "You duck back through the entrance flap. The plateau stretches out ahead, quiet after the noise inside.",
+		"ExitEvent": "circus_exit",
 		"Next": "Sundown Plateau",
-		"Shops": {}
+		"Shops": {
+			"Concession Stand": {
+				"Name": "Concession Stand",
+				"Kind": "Shop",
+				"Backdrop": "circus_stand.png",
+				"WelcomeText": "An attendant in a smiling white mask leans on the counter. \"Snacks. Souvenirs. Anything you need to enjoy the show.\"",
+				"OtherText": ["The masked attendant nods without looking up."],
+				"PurchaseText": ["\"Good choice.\""],
+				"ambience": [],
+				"Stock": {
+					"Potion": 30,
+					"Stimulant": 25,
+					"Circus Dagger": 120,
+					"Circadian Mask": 150
+				}
+			}
+		},
+		"ShopMenu": { "text": "Shop", "tooltip": "Visit the Concession Stand", "header": "What are you looking for?" },
+		"Locations": {
+			"The Stage": {
+				"Kind": "Event",
+				"Backdrop": "circus_stage2.png",
+				"Event": "circus_stage"
+			},
+			"House of Mirrors": {
+				"Kind": "Event",
+				"Backdrop": "circus_mirror_out.png",
+				"Event": "circus_mirrors"
+			},
+			"Funhouse": {
+				"Kind": "Event",
+				"Backdrop": "circus_stage.png",
+				"Event": "circus_funhouse"
+			},
+			"Minigame Stand": {
+				"Kind": "Event",
+				"Backdrop": "circus_minigame.png",
+				"Event": "circus_minigame"
+			}
+		},
+		"ExploreMenu": { "text": "Attractions", "tooltip": "See the attractions", "header": "Which attraction?" }
 	},
 	"Lizal-Town": {
 		"Name": "Lizal-Town",

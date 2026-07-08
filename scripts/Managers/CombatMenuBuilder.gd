@@ -51,9 +51,9 @@ func build_action_choice(item_name: String, type: String, data, player, cooldown
 	if data.has("cooldown"):
 		var remaining = cooldowns["player"].get(item_name, 0)
 		if remaining > 0:
-			label    += " (%s)"# % ("?" if hide_cooldown_numbers else "%d Turns" % remaining)
+			label    += " (%s)" %  ("%d Turns" % remaining) # ("?" if hide_cooldown_numbers else "%d Turns" % remaining)
 			disabled  = true
-			tooltip   = "On cooldown - %s turns left"# % ("?" if hide_cooldown_numbers else "%d" % remaining)
+			tooltip   = "On cooldown - %s turns left" % ("%d" % remaining) # ("?" if hide_cooldown_numbers else "%d" % remaining)
 		else:
 			label += " (Cooldown: %s)" % ("?" if hide_cooldown_numbers else "%d" % data["cooldown"])
 

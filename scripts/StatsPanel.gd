@@ -37,6 +37,7 @@ const MAX_BAR_WIDTH = 170
 const _WEAPON_TYPE_ICONS: Dictionary = {
 	"Sword":   "sword.png",
 	"Axe":     "axe.png",
+	"Dagger":  "dagger.png",
 	"Ranged":  "ranged.png",
 	"Staff":   "staff.png",
 	"Polearm": "polearm.png"

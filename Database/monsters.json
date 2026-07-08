@@ -245,6 +245,7 @@
 		"Weapon": "Sacrificial Knife",
 		"Armor": "Cult Robes"
 	},
+	"Trinkets":["Prayer Bead"],
 	"Startup":3,
 	"Cooldown":1,
 	"Drops": {
@@ -1033,6 +1034,8 @@
 	  "Lck": "B",
 	  "Def": "B"
 	},
+	"Startup":2,
+	"Cooldown":2,
 	"Equip": {
 	  "Weapon": "Poleaxe",
 	  "Armor": "Tanktop"
@@ -1048,11 +1051,15 @@
   {
 	"Name": "Harlequin",
 	"Element": "Dark",
-	"Lvl": 11,
+	"Lvl": 7,
 	"Stats": {"HP":"C","MP":"E","Str":"B","Int":"F","Dex":"A","Agi":"A","Lck":"C","Def":"D"},
+	"Equip": {
+		"Weapon": "Circus Dagger"
+	},
 	"Drops": {
 		"Potion": 50,
-		"Harlequin Hat": 15
+		"Harlequin Hat": 15,
+		"Spring Glove": 20
 	},
 	"Gold": 150,
 	"Startup": 1,
@@ -1077,7 +1084,7 @@
 	"Name": "Ringmaster",
 	"Class": "Greater Demon",
 	"Element": "Dark",
-	"Lvl": 14,
+	"Lvl": 9,
 	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"A","Dex":"C","Agi":"C","Lck":"C","Def":"D"},
 	"TrueStats": {"HP": 80},
 	"Equip": {
@@ -1114,5 +1121,26 @@
 	],
 	"Location": "Sundown Plateau",
 	"Rarity": null
+  },
+  {
+	"Name": "Doppelganger",
+	"Element": "Dark",
+	"Lvl": 8,
+	"Stats": {"HP":"C","MP":"C","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
+	"Equip": {
+		"Weapon": "Circus Dagger"
+	},
+	"Startup": 2,
+	"Cooldown": 2,
+	"Skill_Chance": 65,
+	"Start": "Mirror Morph",
+	"Skills": [],
+	"Spells": [],
+	"Drops": {},
+	"Gold": 200,
+	"Trinkets": ["Circadian Mask"],
+	"Preparing": ["The doppelganger mirrors you...", "It studies your stance carefully."],
+	"Recharging": ["It moves like a reflection.", "Every gesture — yours, mirrored."],
+	"Location": "Sundown Plateau"
   }
 ]
