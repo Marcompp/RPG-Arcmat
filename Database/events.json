@@ -299,7 +299,7 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "A travelling swordsman hails you from the roadside.", "clear": false},
-			{"type": "text", "text": "A slim man in travelling clothes and a cone hat rests a hand on the pommel of his sword, watching you with an appraising eye.\n\n\"Hold on a moment. I've been on the road long enough — I could use a proper spar.\"\n\nHe tilts his head toward the flat ground off the path.\n\n\"No hard feelings either way. Just a practice bout. What do you say?\"", "clear": true},
+			{"type": "text", "text": "A slim man in travelling clothes and a cone hat rests a hand on the pommel of his sword, watching you with an appraising eye.\n\n\"Hold on a moment. I've been on the road long enough — I could use a proper spar.\"\n\nHe tilts his head toward the flat ground off the path.\n\n\"No hard feelings either way. Just a practice bout. What do you say?\"", "clear": true, "no_continue":true},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Accept the challenge", "key": "accept"},
@@ -335,7 +335,7 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "A travelling weirdo appears in your path.", "clear": false},
-			{"type": "text", "text": "A bald man in flashy clothes stands on the roadside, a long stick resting across his shoulders. His posture is relaxed but precise — the kind that doesn't come without decades of practice.\n\nHe studies you for a moment.\n\n\"You there! I am Bo, the Magical Sword Instructor!\" He slams his stick on the ground. \"You look like you need training! I'll teach you one of my techniques, right here, right now!\"", "clear": true},
+			{"type": "text", "text": "A bald man in flashy clothes stands on the roadside, a long stick resting across his shoulders. His posture is relaxed but precise — the kind that doesn't come without decades of practice.\n\nHe studies you for a moment.\n\n\"You there! I am Bo, the Magical Sword Instructor!\" He slams his stick on the ground. \"You look like you need training! I'll teach you one of my techniques, right here, right now!\"", "clear": true, "no_continue":true},
 			{"type": "choice", "header": "Which technique do you want to learn?",
 				"choices": [
 					{"choice": "Cleave",        "key": "cleave",        "condition": {"lacks_skill": "Cleave"},        "disabled_tooltip": "Already known", "tooltip": "Cleave\nTarget: [color=red]EVERYONE[/color]\nMgt: +7  Acc: 70%\nScales: STR"},
@@ -1094,43 +1094,58 @@
 	},
 	"debug_all": {
 		"steps": [
-			{"type": "text", "text": "Choose a region.", "no_wait":true},
-			{"type": "choice", "header": "Which region?",
+			{"type": "choice", "header": "Debug",
 				"choices": [
-					{"choice": "Apple Woods", "key": "apple_woods"},
-					{"choice": "Caves of Light", "key": "caves_of_light"},
-					{"choice": "Sundown Plateau", "key": "sundown_plateau"},
-					{"choice": "Mount Legory", "key": "mount_legory"},
-					{"choice": "Core Cavern", "key": "core_cavern"},
-					{"choice": "Lost Swamp", "key": "lost_swamp"},
-					{"choice": "Arcmat Ruins", "key": "arcmat_ruins"},
+					{"choice": "Test Fight", "key": "fight"},
+					{"choice": "Test Event", "key": "event"},
 					{"choice": "Back", "key": "back", "type": "back"}
 				],
 				"branches": {
-					"apple_woods": [
-						{"type": "event", "event": "debug_apple_woods"}
+					"fight": [
+						{"type": "text", "text": "Choose a region.", "no_wait":true},
+						{"type": "choice", "header": "Which region?",
+							"choices": [
+								{"choice": "Apple Woods", "key": "apple_woods"},
+								{"choice": "Caves of Light", "key": "caves_of_light"},
+								{"choice": "Sundown Plateau", "key": "sundown_plateau"},
+								{"choice": "Mount Legory", "key": "mount_legory"},
+								{"choice": "Core Cavern", "key": "core_cavern"},
+								{"choice": "Lost Swamp", "key": "lost_swamp"},
+								{"choice": "Arcmat Ruins", "key": "arcmat_ruins"},
+								{"choice": "Back", "key": "back", "type": "back"}
+							],
+							"branches": {
+								"apple_woods": [
+									{"type": "event", "event": "debug_apple_woods"}
+								],
+								"caves_of_light": [
+									{"type": "event", "event": "debug_caves_of_light"}
+								],
+								"sundown_plateau": [
+									{"type": "event", "event": "debug_sundown_plateau"}
+								],
+								"mount_legory": [
+									{"type": "event", "event": "debug_mount_legory"}
+								],
+								"core_cavern": [
+									{"type": "event", "event": "debug_core_cavern"}
+								],
+								"lost_swamp": [
+									{"type": "event", "event": "debug_lost_swamp"}
+								],
+								"arcmat_ruins": [
+									{"type": "event", "event": "debug_arcmat_ruins"}
+								],
+								"back": []
+							}
+						}
 					],
-					"caves_of_light": [
-						{"type": "event", "event": "debug_caves_of_light"}
-					],
-					"sundown_plateau": [
-						{"type": "event", "event": "debug_sundown_plateau"}
-					],
-					"mount_legory": [
-						{"type": "event", "event": "debug_mount_legory"}
-					],
-					"core_cavern": [
-						{"type": "event", "event": "debug_core_cavern"}
-					],
-					"lost_swamp": [
-						{"type": "event", "event": "debug_lost_swamp"}
-					],
-					"arcmat_ruins": [
-						{"type": "event", "event": "debug_arcmat_ruins"}
-					],
-					"back": []
+					"event": [
+						{"type": "debug_event_picker"}
+					]
 				}
-			}
+			},
+			{"type": "show_node"}
 		]
 	},
 	"debug_apple_woods": {
@@ -1252,6 +1267,10 @@
 					{"choice": "Mangy Wolf", "key": "mangy_wolf"},
 					{"choice": "Zombie", "key": "zombie"},
 					{"choice": "Ghost", "key": "ghost"},
+					{"choice": "Harlequin", "key": "harlequin"},
+					{"choice": "Harlequin Duo", "key": "harlequin_duo"},
+					{"choice": "Doppelganger", "key": "doppelganger"},
+					{"choice": "Ringmaster", "key": "ringmaster"},
 					{"choice": "Necromancer", "key": "necromancer"},
 					{"choice": "Abomination", "key": "abomination"},
 					{"choice": "Back", "key": "back", "type": "back"}
@@ -1274,6 +1293,18 @@
 					],
 					"abomination": [
 						{"type":"combat", "enemy": "Abomination"}
+					],
+					"harlequin": [
+						{"type":"combat", "enemy": "Harlequin"}
+					],
+					"harlequin_duo": [
+						{"type":"combat", "enemy": "Harlequin Duo"}
+					],
+					"doppelganger": [
+						{"type":"combat", "enemy": "Doppelganger"}
+					],
+					"ringmaster": [
+						{"type":"combat", "enemy": "Ringmaster"}
 					],
 					"back": []
 				}

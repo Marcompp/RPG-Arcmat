@@ -195,6 +195,13 @@
   .btn-cancel:hover { color:var(--text); }
   .btn-download { padding:5px 12px; border-radius:5px; border:none; background:#92400e; color:#fde68a; font-size:12px; font-weight:600; cursor:pointer; flex-shrink:0; display:none; }
   .btn-download:hover { background:#78350f; }
+
+  .add-step-row { display:flex; gap:5px; align-items:center; padding:5px 0; margin-top:4px; }
+  .add-step-sel { background:#0a1120; border:1px solid var(--border); border-radius:4px; color:var(--text); font-size:11px; padding:3px 6px; }
+  .btn-step-add { padding:3px 9px; border-radius:4px; border:1px solid #1a4a2a; background:#0f2a1a; color:#4ade80; font-size:11px; cursor:pointer; }
+  .btn-step-add:hover { background:#1a4a2a; }
+  .btn-step-del { padding:1px 5px; border-radius:3px; border:none; background:transparent; color:#4a5a7a; font-size:12px; cursor:pointer; line-height:1; }
+  .btn-step-del:hover { background:#3b0a0a; color:#fca5a5; }
 </style>
 </head>
 <body>
@@ -280,6 +287,22 @@ const TAG_COLORS = {
   text: '#16a34a', effect: '#6366f1',
 };
 const EVENT_COLORS = { combat:'#dc2626', random:'#ca8a04', 'if':'#7c3aed', choice:'#2563eb' };
+
+const STEP_DEFAULTS = {
+  text:        { type:'text', text:'', clear:false },
+  choice:      { type:'choice', header:'', choices:[{choice:'Option A',key:'a'},{choice:'Option B',key:'b'}], branches:{a:[],b:[]} },
+  combat:      { type:'combat', enemy:'', on_victory:[] },
+  'if':        { type:'if', condition:{}, then:[], else:[] },
+  random:      { type:'random', outcomes:[{weight:5,steps:[]},{weight:5,steps:[]}] },
+  event:       { type:'event', event:'' },
+  sfx:         { type:'sfx', sound:'' },
+  give_gold:   { type:'give_gold', amount:0 },
+  give_item:   { type:'give_item', item:'' },
+  modify_stat: { type:'modify_stat', stat:'', amount:1 },
+  show_node:   { type:'show_node' },
+  exit_node:   { type:'exit_node', leads_to:'' },
+  mark_used:   { type:'mark_used' },
+};
 
 // ─── File loading ─────────────────────────────────────────────────────────────
 document.getElementById('file-picker').addEventListener('change', e => {
@@ -426,9 +449,26 @@ function buildOccurrences() {
 
   if (townsDb) {
     for (const [tname, tdata] of Object.entries(townsDb)) {
-      if (tdata?.ExitEvent) {
+      if (!tdata) continue;
+      if (tdata.ExitEvent) {
         push({ eventName: tdata.ExitEvent, type: 'town', sourceId: tname, region: null, chance: null });
         referenced.add(tdata.ExitEvent);
+      }
+      if (tdata.Locations) {
+        for (const [locName, loc] of Object.entries(tdata.Locations)) {
+          if (loc?.Kind === 'Event' && loc.Event) {
+            push({ eventName: loc.Event, type: 'town', sourceId: `${tname} → ${locName}`, region: null, chance: null });
+            referenced.add(loc.Event);
+          }
+        }
+      }
+      if (tdata.Shops) {
+        for (const [locName, loc] of Object.entries(tdata.Shops)) {
+          if (loc?.Kind === 'Event' && loc.Event) {
+            push({ eventName: loc.Event, type: 'town', sourceId: `${tname} → ${locName}`, region: null, chance: null });
+            referenced.add(loc.Event);
+          }
+        }
       }
     }
   }
@@ -740,7 +780,6 @@ function openEditor(eventName) {
   sb.classList.add('editing');
 
   const color = getEventColor(typesMap[eventName] || new Set());
-  const repeatable = editBuffer.repeatable !== false;
 
   let html = `<div class="editor-header">
     <div class="editor-title" style="color:${color}">${esc(eventName)}</div>
@@ -750,84 +789,119 @@ function openEditor(eventName) {
     </div>
   </div>`;
 
-  html += `<label class="edit-check-label">
-    <input type="checkbox" id="edit-repeatable"${repeatable ? ' checked' : ''}> Repeatable
-  </label>`;
-
-  html += `<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin:10px 0 4px">Steps</div>`;
-  html += renderEditableSteps(editBuffer.steps, 'steps', 0);
-
+  html += `<div id="editor-body">${buildEditorBodyHtml()}</div>`;
   sb.innerHTML = html;
   attachEditorListeners();
 }
 
+function buildEditorBodyHtml() {
+  const repeatable = editBuffer.repeatable !== false;
+  let html = `<label class="edit-check-label">
+    <input type="checkbox" id="edit-repeatable"${repeatable ? ' checked' : ''}> Repeatable
+  </label>`;
+  html += `<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin:10px 0 4px">Steps</div>`;
+  html += renderEditableSteps(editBuffer.steps, 'steps', 0);
+  return html;
+}
+
+function rerenderEditorBody() {
+  const body = document.getElementById('editor-body');
+  if (!body) return;
+  body.innerHTML = buildEditorBodyHtml();
+  attachEditorListeners();
+}
+
 function renderEditableSteps(steps, pathPrefix, depth) {
-  if (!Array.isArray(steps) || !steps.length) return '';
   const COLORS = { text:'#4ade80', combat:'#dc2626', choice:'#2563eb', 'if':'#7c3aed', random:'#ca8a04', event:'#0891b2', shop:'#d97706' };
+  const STEP_TYPES = ['text','choice','combat','if','random','event','sfx','give_gold','give_item','modify_stat','show_node','exit_node','mark_used'];
+  const ml = depth * 12;
   let html = '';
 
-  for (let i = 0; i < steps.length; i++) {
-    const s = steps[i];
-    if (!s) continue;
-    const t = s.type || '?';
-    const c = COLORS[t] || '#475569';
-    const sp = `${pathPrefix}.${i}`;
-    const ml = depth * 12;
+  if (Array.isArray(steps)) {
+    for (let i = 0; i < steps.length; i++) {
+      const s = steps[i];
+      if (!s) continue;
+      const t = s.type || '?';
+      const c = COLORS[t] || '#475569';
+      const sp = `${pathPrefix}.${i}`;
 
-    html += `<div class="step-editor-block" style="border-left-color:${c};margin-left:${ml}px">`;
-    html += `<div class="step-type-label" style="color:${c}">${esc(t)}</div>`;
+      html += `<div class="step-editor-block" style="border-left-color:${c};margin-left:${ml}px">`;
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+        <div class="step-type-label" style="color:${c}">${esc(t)}</div>
+        <button class="btn-step-del" data-arr="${esc(pathPrefix)}" data-i="${i}" title="Delete step">✕</button>
+      </div>`;
 
-    if (t === 'text') {
-      const val = s.text || '';
-      const rows = Math.max(3, (val.match(/\n/g) || []).length + 2);
-      html += `<textarea class="text-editor" data-path="${sp}.text" spellcheck="true" rows="${rows}">${esc(val)}</textarea>`;
-      if (s.clear !== undefined) {
+      if (t === 'text') {
+        const val = s.text || '';
+        const rows = Math.max(3, (val.match(/\n/g) || []).length + 2);
+        html += `<textarea class="text-editor" data-path="${sp}.text" spellcheck="true" rows="${rows}">${esc(val)}</textarea>`;
         html += `<label class="edit-check-small"><input type="checkbox" data-path="${sp}.clear" data-valtype="bool"${s.clear ? ' checked' : ''}> clear screen</label>`;
-      }
 
-    } else if (t === 'choice') {
-      html += `<div class="edit-field-row"><span class="edit-field-label">Header</span><input class="edit-field" type="text" data-path="${sp}.header" value="${esc(s.header||'')}"></div>`;
-      (s.choices || []).forEach((ch, ci) => {
-        html += `<div class="edit-field-row"><span class="edit-field-label">Choice ${ci+1}</span><input class="edit-field" type="text" data-path="${sp}.choices.${ci}.choice" value="${esc(ch.choice||'')}"></div>`;
-      });
-      if (s.branches) {
-        for (const [key, bsteps] of Object.entries(s.branches)) {
-          html += `<div class="edit-branch-label">↳ branch: ${esc(key)}</div>`;
-          html += renderEditableSteps(bsteps, `${sp}.branches.${key}`, depth + 1);
+      } else if (t === 'choice') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Header</span><input class="edit-field" type="text" data-path="${sp}.header" value="${esc(s.header||'')}"></div>`;
+        (s.choices || []).forEach((ch, ci) => {
+          html += `<div class="edit-field-row"><span class="edit-field-label">Choice ${ci+1}</span><input class="edit-field" type="text" data-path="${sp}.choices.${ci}.choice" value="${esc(ch.choice||'')}"></div>`;
+        });
+        if (s.branches) {
+          for (const [key, bsteps] of Object.entries(s.branches)) {
+            html += `<div class="edit-branch-label">↳ branch: ${esc(key)}</div>`;
+            html += renderEditableSteps(bsteps, `${sp}.branches.${key}`, depth + 1);
+          }
         }
-      }
 
-    } else if (t === 'combat') {
-      html += `<div class="edit-field-row"><span class="edit-field-label">Enemy</span><input class="edit-field" type="text" data-path="${sp}.enemy" value="${esc(s.enemy||'')}"></div>`;
-      if (s.on_victory?.length) {
+      } else if (t === 'combat') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Enemy</span><input class="edit-field" type="text" data-path="${sp}.enemy" value="${esc(s.enemy||'')}"></div>`;
         html += `<div class="edit-branch-label">↳ on_victory</div>`;
-        html += renderEditableSteps(s.on_victory, `${sp}.on_victory`, depth + 1);
-      }
+        html += renderEditableSteps(s.on_victory || [], `${sp}.on_victory`, depth + 1);
 
-    } else if (t === 'if') {
-      html += `<div class="edit-cond">${esc(JSON.stringify(s.condition || {}))}</div>`;
-      if (s.then?.length) {
+      } else if (t === 'if') {
+        html += `<div class="edit-cond">${esc(JSON.stringify(s.condition || {}))}</div>`;
         html += `<div class="edit-branch-label">↳ then</div>`;
-        html += renderEditableSteps(s.then, `${sp}.then`, depth + 1);
-      }
-      if (s.else?.length) {
+        html += renderEditableSteps(s.then || [], `${sp}.then`, depth + 1);
         html += `<div class="edit-branch-label">↳ else</div>`;
-        html += renderEditableSteps(s.else, `${sp}.else`, depth + 1);
+        html += renderEditableSteps(s.else || [], `${sp}.else`, depth + 1);
+
+      } else if (t === 'random') {
+        (s.outcomes || []).forEach((o, oi) => {
+          html += `<div class="edit-field-row"><span class="edit-field-label">Outcome ${oi+1}</span><input class="edit-field edit-field-sm" type="number" min="0" data-path="${sp}.outcomes.${oi}.weight" data-valtype="number" value="${o.weight ?? 0}"> <span style="font-size:10px;color:var(--text-muted)">weight</span></div>`;
+          html += renderEditableSteps(o.steps || [], `${sp}.outcomes.${oi}.steps`, depth + 1);
+        });
+
+      } else if (t === 'event') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Event</span><input class="edit-field" type="text" data-path="${sp}.event" value="${esc(s.event||'')}"></div>`;
+
+      } else if (t === 'sfx') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Sound</span><input class="edit-field" type="text" data-path="${sp}.sound" value="${esc(s.sound||'')}"></div>`;
+
+      } else if (t === 'give_gold') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Amount</span><input class="edit-field edit-field-sm" type="number" data-path="${sp}.amount" data-valtype="number" value="${s.amount ?? 0}"></div>`;
+
+      } else if (t === 'give_item') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Item</span><input class="edit-field" type="text" data-path="${sp}.item" value="${esc(s.item||'')}"></div>`;
+
+      } else if (t === 'modify_stat') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Stat</span><input class="edit-field" type="text" data-path="${sp}.stat" value="${esc(s.stat||'')}"></div>`;
+        html += `<div class="edit-field-row"><span class="edit-field-label">Amount</span><input class="edit-field edit-field-sm" type="number" data-path="${sp}.amount" data-valtype="number" value="${s.amount ?? 0}"></div>`;
+
+      } else if (t === 'exit_node') {
+        html += `<div class="edit-field-row"><span class="edit-field-label">Leads to</span><input class="edit-field" type="text" data-path="${sp}.leads_to" value="${esc(s.leads_to||'')}"></div>`;
+
+      } else {
+        const d = stepDetail(s);
+        if (d) html += `<span class="edit-readonly-detail">${esc(d)}</span>`;
       }
 
-    } else if (t === 'random') {
-      (s.outcomes || []).forEach((o, oi) => {
-        html += `<div class="edit-field-row"><span class="edit-field-label">Outcome ${oi+1}</span><input class="edit-field edit-field-sm" type="number" min="0" data-path="${sp}.outcomes.${oi}.weight" data-valtype="number" value="${o.weight ?? 0}"> <span style="font-size:10px;color:var(--text-muted)">weight</span></div>`;
-        if (o.steps?.length) html += renderEditableSteps(o.steps, `${sp}.outcomes.${oi}.steps`, depth + 1);
-      });
-
-    } else {
-      const d = stepDetail(s);
-      if (d) html += `<span class="edit-readonly-detail">${esc(d)}</span>`;
+      html += `</div>`;
     }
-
-    html += `</div>`;
   }
+
+  // Add step row — always shown at the bottom of every step list
+  const typeOpts = STEP_TYPES.map(t => `<option value="${t}">${t}</option>`).join('');
+  html += `<div class="add-step-row" style="margin-left:${ml}px" data-arr="${esc(pathPrefix)}">
+    <select class="add-step-sel">${typeOpts}</select>
+    <button class="btn-step-add">+ Add</button>
+  </div>`;
+
   return html;
 }
 
@@ -853,6 +927,31 @@ function attachEditorListeners() {
       el.addEventListener('input', resize);
       requestAnimationFrame(resize);
     }
+  });
+
+  sb.querySelectorAll('.btn-step-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const arr = getByPath(editBuffer, btn.dataset.arr);
+      if (Array.isArray(arr)) {
+        arr.splice(parseInt(btn.dataset.i), 1);
+        rerenderEditorBody();
+      }
+    });
+  });
+
+  sb.querySelectorAll('.add-step-row').forEach(row => {
+    row.querySelector('.btn-step-add').addEventListener('click', () => {
+      let arr = getByPath(editBuffer, row.dataset.arr);
+      if (!Array.isArray(arr)) {
+        setByPath(editBuffer, row.dataset.arr, []);
+        arr = getByPath(editBuffer, row.dataset.arr);
+      }
+      const type = row.querySelector('.add-step-sel').value;
+      if (Array.isArray(arr)) {
+        arr.push(JSON.parse(JSON.stringify(STEP_DEFAULTS[type] || { type })));
+        rerenderEditorBody();
+      }
+    });
   });
 }
 

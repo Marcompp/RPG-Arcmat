@@ -67,8 +67,8 @@
 			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
 	  ],
 	  "action": {
-		"name": "Test Fight",
-		"tooltip": "Choose enemy to fight",
+		"name": "Debug",
+		"tooltip": "Debug functionality",
 		"event": "debug_all",
 		"disabled_tooltip": "You already fought an enemy here",
 		"repeatable": true

@@ -108,6 +108,10 @@ var rng: RandomNumberGenerator
 ## Assign to return a step array by event name, e.g. func(n): return events_db.get(n,{}).get("steps",[])
 var event_callback := Callable()
 
+## Assign to return database data by type. Called as db_callback.call("regions") or
+## db_callback.call("region_events", region_name). Used by the debug_event_picker step.
+var db_callback := Callable()
+
 var _active := false
 var was_stopped := false
 
@@ -220,6 +224,8 @@ func _run_step(step: Dictionary) -> void:
 		"shop":
 			MyEventBus.emit("open_event_shop", {"name": step.get("name", "Merchant"), "data": step.get("shop", {})})
 			await MyEventBus.await_event("event_shop_closed")
+		"debug_event_picker":
+			await _run_debug_event_picker()
 		_:
 			push_warning("EventReader: unknown step type '%s'" % step.get("type", "?"))
 
@@ -321,6 +327,76 @@ func _run_event_ref(step: Dictionary) -> void:
 		push_warning("EventReader: unknown event '%s'" % step.get("event", ""))
 		return
 	await _run_sequence(steps)
+
+
+func _run_debug_event_picker() -> void:
+	if not db_callback.is_valid():
+		push_warning("EventReader: debug_event_picker requires db_callback")
+		return
+
+	# Phase 1: pick a region
+	var regions: Dictionary = db_callback.call("regions")
+	var region_choices: Array = []
+	for region_name: String in regions.keys():
+		region_choices.append({"choice": region_name, "key": region_name})
+	region_choices.append({"text": "Back", "key": "back", "type": "back"})
+
+	MyEventBus.emit("show_choices", {
+		"choices": _normalize_choices(region_choices),
+		"header":  "Which region?",
+	})
+	var region_pick: Dictionary = await _capture_input()
+	var chosen_region: String = region_pick.get("key", region_pick.get("choice", ""))
+	if chosen_region.is_empty() or chosen_region == "back":
+		return
+
+	# Phase 2: pick a category (Arrival / Action / Exit)
+	var categories: Dictionary = db_callback.call("region_events", chosen_region)
+	if categories.is_empty():
+		MyEventBus.emit("show_choices", {
+			"choices": [{"text": "Continue", "type": "continue"}],
+			"header":  "No events for " + chosen_region,
+		})
+		await _capture_input()
+		return
+
+	var category_choices: Array = []
+	for cat_name: String in categories.keys():
+		category_choices.append({"choice": cat_name, "key": cat_name})
+	category_choices.append({"text": "Back", "key": "back", "type": "back"})
+
+	MyEventBus.emit("show_choices", {
+		"choices": _normalize_choices(category_choices),
+		"header":  chosen_region + " — category?",
+	})
+	var cat_pick: Dictionary = await _capture_input()
+	var chosen_category: String = cat_pick.get("key", cat_pick.get("choice", ""))
+	if chosen_category.is_empty() or chosen_category == "back":
+		return
+
+	# Phase 3: pick an event from the chosen category
+	var event_names: Array = categories[chosen_category]
+	var event_choices: Array = []
+	for event_name: String in event_names:
+		event_choices.append({"choice": event_name, "key": event_name})
+	event_choices.append({"text": "Back", "key": "back", "type": "back"})
+
+	MyEventBus.emit("show_choices", {
+		"choices": _normalize_choices(event_choices),
+		"header":  chosen_region + " [" + chosen_category + "] — which event?",
+	})
+	var event_pick: Dictionary = await _capture_input()
+	var chosen_event: String = event_pick.get("key", event_pick.get("choice", ""))
+	if chosen_event.is_empty() or chosen_event == "back":
+		return
+
+	# Phase 4: run the chosen event inline
+	if not event_callback.is_valid():
+		push_warning("EventReader: event_callback not set")
+		return
+	var steps: Array = event_callback.call(chosen_event)
+	if not steps.is_empty():
+		await _run_sequence(steps)
 
 
 func _run_if(step: Dictionary) -> void:

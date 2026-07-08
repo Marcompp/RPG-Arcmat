@@ -145,6 +145,12 @@ func enemy_choose_action(e, key: String, cooldowns: Dictionary, skills_db: Dicti
 		return t != "summon" or living_count == 1
 	)
 
+	# 1b. Mana Explosion filter — only usable when this enemy has mp
+	available = available.filter(func(s):
+		var t = skills_db.get(s, spells_db.get(s, {})).get("effect", "")
+		return t != "use_all_mp" or e.get_mp() > 0
+	)
+
 	# 2. HP threshold filter — skills tagged with "use_when_hp_below" in e.data only appear when hurt enough
 	var hp_pct     = 100.0 * e.get_hp() / max(1, e.get_mhp())
 	var thresholds = e.data.get("Skill_HP_Thresholds", {})

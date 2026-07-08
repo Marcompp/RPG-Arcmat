@@ -655,6 +655,42 @@ func _run_node_event(event_def: Dictionary) -> bool:
 		return p.get_stat(stat) if p else 0
 	reader.event_callback = func(event_name: String) -> Array:
 		return events_db.get(event_name, {}).get("steps", [])
+	reader.db_callback = func(type: String, arg: String = "") -> Variant:
+		match type:
+			"regions": return region_db
+			"region_events":
+				var nodes: Array = world_data.get(arg, [])
+				var arrival_seen := {}
+				var action_seen := {}
+				var exit_seen := {}
+				var arrival_events: Array = []
+				var action_events: Array = []
+				var exit_events: Array = []
+				for node in nodes:
+					for ev in node.get("events", []):
+						var n: String = ev.get("event", "")
+						if n and not arrival_seen.has(n):
+							arrival_seen[n] = true
+							arrival_events.append(n)
+					var action_ev: String = node.get("action", {}).get("event", "")
+					if action_ev and not action_seen.has(action_ev):
+						action_seen[action_ev] = true
+						action_events.append(action_ev)
+					for exit in node.get("exits", []):
+						for ev in exit.get("events", []):
+							var n: String = ev.get("event", "")
+							if n and not exit_seen.has(n):
+								exit_seen[n] = true
+								exit_events.append(n)
+				var categories := {}
+				if not arrival_events.is_empty():
+					categories["Arrival"] = arrival_events
+				if not action_events.is_empty():
+					categories["Action"] = action_events
+				if not exit_events.is_empty():
+					categories["Exit"] = exit_events
+				return categories
+		return null
 	await reader.run(steps)
 	var stopped: bool = reader.was_stopped
 	reader.queue_free()

@@ -660,7 +660,7 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 		await wait_for_continue()
 		return
 
-	if data.get("drain_all_mp", false):
+	if data.get("effect", "") == "use_all_mp":
 		var mp_consumed = user.get_mp()
 		user.use_mp(mp_consumed)
 		data = data.duplicate()
@@ -698,16 +698,17 @@ func _execute_action(user, who: String, action_name: String, db: Dictionary, tar
 
 	if data.get("type", "attack") == "random_skill":
 		var exclude_list: Array = data.get("exclude", [])
+		var blacklisted_types = ["flee","summon"]
 		var pool: Array = []
 		for sname in skills_db:
 			if not exclude_list.has(sname):
 				var sd = skills_db.get(sname, {})
-				if sd.get("type", "") != "flee":
+				if not sd.get("blacklist", false) and not blacklisted_types.has(sd.get("type", "")):
 					pool.append({"name": sname, "db": skills_db})
 		for spname in spells_db:
 			if not exclude_list.has(spname):
 				var sp = spells_db.get(spname, {})
-				if sp.get("cost", 0) <= user.get_mp():
+				if not sp.get("blacklist", false) and sp.get("cost", 0) <= user.get_mp() and not blacklisted_types.has(sp.get("type", "")):
 					pool.append({"name": spname, "db": spells_db})
 		if not pool.is_empty():
 			var chosen    = pool[rng.randi() % pool.size()]
