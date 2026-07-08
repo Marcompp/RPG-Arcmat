@@ -315,8 +315,8 @@ layout_mode = 2
 alignment = 2
 
 [node name="StatusContainer" type="HBoxContainer" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
-layout_direction = 3
 layout_mode = 2
+alignment = 2
 
 [node name="NameLabel" type="RichTextLabel" parent="GameUI/TopRight/TopRightWrapper2/Panel/VBoxContainer/NameContainer"]
 clip_contents = false

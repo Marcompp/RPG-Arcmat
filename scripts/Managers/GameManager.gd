@@ -79,6 +79,11 @@ func _ready():
 	MyEventBus.subscribe("change_vars", func(data):
 		apply_vars_changes(data)
 	)
+	MyEventBus.subscribe("mark_event_used", func(data):
+		var event_name = data.get("event", "")
+		if event_name != "":
+			game_state["used_events"][event_name] = true
+	)
 	MyEventBus.subscribe("start_combat", func(data):
 		start_combat(data)
 	)
@@ -707,6 +712,11 @@ func _check_dict_condition(cond, node_index):
 			value = weapon.get("wpn_type", "") if not weapon.is_empty() else ""
 		elif key == "current_region":
 			value = travel.current_region
+		elif key == "event_unused":
+			var used = game_state["used_events"].get(req, false)
+			if used:
+				return false
+			continue
 		elif game_state["vars"].has(key):
 			value = game_state["vars"][key]
 		elif game_state.has(key):

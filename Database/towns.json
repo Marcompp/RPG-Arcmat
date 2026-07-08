@@ -272,7 +272,9 @@
 			"House of Mirrors": {
 				"Kind": "Event",
 				"Backdrop": "circus_mirror_out.png",
-				"Event": "circus_mirrors"
+				"Event": "circus_mirrors",
+				"condition": {"event_unused": "circus_mirrors"},
+				"disabled_tooltip": "You've already been to this attraction"
 			},
 			"Funhouse": {
 				"Kind": "Event",
@@ -285,7 +287,7 @@
 				"Event": "circus_minigame"
 			}
 		},
-		"ExploreMenu": { "text": "Attractions", "tooltip": "See the attractions", "header": "Which attraction?" }
+		"ExploreMenu": { "text": "Attractions", "tooltip": "Check out the attractions", "header": "Which attraction?" }
 	},
 	"Lizal-Town": {
 		"Name": "Lizal-Town",

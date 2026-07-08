@@ -11,6 +11,8 @@ Try to limit the amount of times the player has to press continue overall. Usual
 
 Whenever an event does something that affects the UI (ie: damage or giving gold, etc), the command should immediatelly preceed the text announcement, as to make them happen in synch.
 
+Whenever an event gives an item, the text saying "Got X" should happen BEFORE actually giving the item, since that will trigger its own logic that will ask the player to deal with the aquisition.
+
 In most cases, there's no need to explain what happens to an enemy after it's defeated, specially if it doesn't survive. Going straight from a battle to `show node` is preferable to placing a `text` with "The enemy fell down, dead" between them - especially for regular enemies
 
 Every event tree should end with either a `show_node` event, `show_node_text` + `show_node_actions`, just `show_node_actions`, or some sort of command that moves the player (`exit` or `to_town`)

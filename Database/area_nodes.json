@@ -1140,9 +1140,6 @@
 			"entrances": ["SURFACE"],
 			"backdrop": "sundown_circus.png",
 		  	"encounter_rate": 0,
-			"events": [
-			  {"chance": 1, "event": "circus_enter"}
-			],
 			"condition": { "visit_once":true },
 			"arrival": {
 			  "SURFACE": [

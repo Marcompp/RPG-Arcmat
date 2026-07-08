@@ -456,16 +456,16 @@ func _make_custom_tooltip(text):
 	return label
 
 func _get_tooltip_text(choice, enabled):
-	# tooltip explícito
-	if choice.has("tooltip"):
-		return choice["tooltip"]
-	
 	# fallback inteligente (opcional)
 	if not enabled:
 		if choice.has("disabled_tooltip"):
 			return choice["disabled_tooltip"]
 		if choice.has("condition"):
 			return format_condition_tooltip(choice["condition"])
+
+	# tooltip explícito
+	if choice.has("tooltip"):
+		return choice["tooltip"]
 	
 	return ""
 

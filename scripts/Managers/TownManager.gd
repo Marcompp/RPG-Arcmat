@@ -27,7 +27,9 @@ func enter_town(town_name: String) -> void:
 	show_town_actions()
 
 func return_to_town() -> void:
+	_tm._full_heal_player()
 	MyEventBus.emit("clear_text", {})
+	_tm._transition_backdrop(_tm.current_region)
 	var arrival = _tm.current_town_data.get("shop_exit", [])
 	var ambience = _tm.current_town_data.get("ambience", [])
 	var text = _pick(arrival) if not arrival.is_empty() else "You go back out into %s." % [_tm.current_town]
@@ -75,13 +77,17 @@ func handle_action(choice) -> void:
 	if text == shop_cfg.get("text", "Shop"):
 		if shops.size() == 1:
 			var sname = shops.keys()[0]
-			_enter_shop_entry(sname, shops[sname])
+			var sdata = shops[sname]
+			if _check_entry_condition(sdata):
+				_enter_shop_entry(sname, sdata)
 		else:
 			show_shop_submenu()
 	elif text == explore_cfg.get("text", "Explore"):
 		if locations.size() == 1:
 			var lname = locations.keys()[0]
-			_enter_shop_entry(lname, locations[lname])
+			var ldata = locations[lname]
+			if _check_entry_condition(ldata):
+				_enter_shop_entry(lname, ldata)
 		else:
 			show_explore_submenu()
 	elif text == "Inventory":
@@ -93,15 +99,32 @@ func handle_action(choice) -> void:
 	else:
 		print("Unhandled town action: " + text)
 
+func _check_entry_condition(entry_data: Dictionary) -> bool:
+	var cond = entry_data.get("condition", {})
+	if cond.is_empty():
+		return true
+	if _tm.condition_callback == null:
+		return true
+	return _tm.condition_callback.call(cond, _tm.current_node)
+
 # ------------------------
 # SHOP SUBMENU
 # ------------------------
 
 func show_shop_submenu() -> void:
 	var menu_cfg = _tm.current_town_data.get("ShopMenu", {})
+	var shops = _tm.current_town_data.get("Shops", {})
 	var choices = []
-	for shop_name in _tm.current_town_data.get("Shops", {}):
-		choices.append({"text": shop_name, "type": "action", "tooltip": "Visit " + shop_name})
+	for shop_name in shops:
+		var shop = shops[shop_name]
+		var choice = {"text": shop_name, "type": "action", "tooltip": shop.get("tooltip", "Visit " + shop_name)}
+		if shop.has("condition"):
+			choice["condition"] = shop["condition"]
+		if shop.has("disabled_tooltip"):
+			choice["disabled_tooltip"] = shop["disabled_tooltip"]
+		if shop.has("disabled_text"):
+			choice["disabled_text"] = shop["disabled_text"]
+		choices.append(choice)
 	choices.append({"text": "Back", "type": "back", "tooltip": "Back to " + _tm.current_town})
 	MyEventBus.emit("show_choices", {
 		"choices": choices,
@@ -116,7 +139,10 @@ func handle_shop_submenu(choice) -> void:
 	var shop_name = choice.get("text", "")
 	var shops = _tm.current_town_data.get("Shops", {})
 	if shops.has(shop_name):
-		_enter_shop_entry(shop_name, shops[shop_name])
+		var shop_data = shops[shop_name]
+		if not _check_entry_condition(shop_data):
+			return
+		_enter_shop_entry(shop_name, shop_data)
 	else:
 		print("Unknown shop: " + shop_name)
 
@@ -126,9 +152,18 @@ func handle_shop_submenu(choice) -> void:
 
 func show_explore_submenu() -> void:
 	var menu_cfg = _tm.current_town_data.get("ExploreMenu", {})
+	var locations = _tm.current_town_data.get("Locations", {})
 	var choices = []
-	for loc_name in _tm.current_town_data.get("Locations", {}):
-		choices.append({"text": loc_name, "type": "action", "tooltip": "Visit " + loc_name})
+	for loc_name in locations:
+		var loc = locations[loc_name]
+		var choice = {"text": loc_name, "type": "action", "tooltip": loc.get("tooltip", "Visit " + loc_name)}
+		if loc.has("condition"):
+			choice["condition"] = loc["condition"]
+		if loc.has("disabled_tooltip"):
+			choice["disabled_tooltip"] = loc["disabled_tooltip"]
+		if loc.has("disabled_text"):
+			choice["disabled_text"] = loc["disabled_text"]
+		choices.append(choice)
 	choices.append({"text": "Back", "type": "back", "tooltip": "Back to " + _tm.current_town})
 	MyEventBus.emit("show_choices", {
 		"choices": choices,
@@ -143,7 +178,10 @@ func handle_explore_submenu(choice) -> void:
 	var loc_name = choice.get("text", "")
 	var locations = _tm.current_town_data.get("Locations", {})
 	if locations.has(loc_name):
-		_enter_shop_entry(loc_name, locations[loc_name])
+		var loc_data = locations[loc_name]
+		if not _check_entry_condition(loc_data):
+			return
+		_enter_shop_entry(loc_name, loc_data)
 	else:
 		print("Unknown location: " + loc_name)
 

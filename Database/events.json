@@ -3213,17 +3213,18 @@
 	"circus_stage": {
 		"repeatable": true,
 		"steps": [
-			{"type": "text", "text": "A spotlight snaps on above the main stage. The ringmaster's voice echoes from nowhere: \"Ladies and gentlemen — a challenger approaches!\""},
+			{"type": "text", "text": "A spotlight snaps on above the main stage. The ringmaster's voice echoes from nowhere: \"Ladies and gentlemen — it is time for the dance to begin!\"", "no_wait": true},
 			{
 				"type": "if",
 				"condition": {"stage_fights": {"min": 1}},
 				"then": [
-					{"type": "text", "text": "Two Harlequins vault onto the stage from either side, knives already drawn. The crowd holds its breath."}
+					{"type": "text", "text": "Two Harlequins vault onto the stage from either side, knives already drawn. The crowd holds its breath.", "clear":false, "no_wait":true}
 				],
 				"else": [
-					{"type": "text", "text": "A Harlequin cartwheels onto the stage, knife in hand, porcelain mask obscuring their face."}
+					{"type": "text", "text": "A Harlequin cartwheels onto the stage, knife in hand, porcelain mask obscuring their face.", "clear":false, "no_wait":true}
 				]
 			},
+			{"type": "text", "text": "A spotlight snaps to you, and the ringmaster's voice speaks: \"A challenger approaches! Will they step up and join the dance?\"", "clear":false, "no_wait": true},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -3239,32 +3240,39 @@
 							"then": [
 								{"type": "combat", "enemy": "Harlequin Duo",
 								 "on_victory": [
-									{"type": "set_var", "vars": {"stage_fights": 1}},
-									{"type": "effect", "effect": {"type": "full_heal"}},
-									{"type": "text", "text": "The crowd erupts. The Ringmaster's voice cuts through the applause: \"Remarkable. You may go.\""}
-								 ],
+									{"type": "event", "event": "_circus_stage_victory"}								 
+								],
 								 "on_defeat": [
-									 {"type": "effect", "effect": {"type": "full_heal"}},
-									{"type": "text", "text": "You come to on the sawdust floor. A blank mask looks down at you.\n\n\"A valiant effort,\" the Ringmaster says. \"We do hope you enjoyed the show.\"\n\nYou are helped to your feet and healed."}
-								 ]}
+									{"type": "event", "event": "_circus_stage_defeat"}								 
+								]}
 							],
 							"else": [
 								{"type": "combat", "enemy": "Harlequin",
 								 "on_victory": [
-									{"type": "set_var", "vars": {"stage_fights": 1}},
-									{"type": "effect", "effect": {"type": "full_heal"}},
-									{"type": "text", "text": "The crowd erupts. The Ringmaster's voice cuts through the applause: \"Remarkable. You may go.\""}
-								 ],
+									{"type": "event", "event": "_circus_stage_victory"}								 
+								],
 								 "on_defeat": [
-									{"type": "effect", "effect": {"type": "full_heal"}},
-									{"type": "text", "text": "You come to on the sawdust floor. A blank mask looks down at you.\n\n\"A valiant effort,\" the Ringmaster says. \"We do hope you enjoyed the show.\"\n\nYou are helped to your feet and healed."}
-								 ]}
+									{"type": "event", "event": "_circus_stage_defeat"}								 
+								]}
 							]
 						}
 					],
 					"leave": []
 				}
 			}
+		]
+	},
+	"_circus_stage_victory": {
+		"steps":[
+			{"type": "set_var", "vars": {"stage_fights": 1}},
+			{"type": "effect", "effect": {"type": "full_heal"}},
+			{"type": "text", "text": "The crowd erupts. The Ringmaster's voice cuts through the applause: \"It seems our challenger has triumphed this time! Will they be so lucky when they return?\""}
+		]
+	},
+	"_circus_stage_defeat": {
+		"steps":[
+			{"type": "effect", "effect": {"type": "full_heal"}},
+			{"type": "text", "text": "You come to on the sawdust floor. A blank mask looks down at you.\n\n\"A valiant effort from our challenger, but no dice!\" the Ringmaster says. \"We do hope you enjoyed the show.\"\n\nYou retreat from the stage..."}
 		]
 	},
 	"circus_mirrors": {
@@ -3281,11 +3289,13 @@
 				"branches": {
 					"fight": [
 						{"type": "set_backdrop", "backdrop": "circus_mirror2.png"},
-						{"type": "text", "text": "The tent is full of mirrors. Every one shows you looking back — except one, which shows something else entirely."},
-						{"type": "text", "text": "The reflection steps forward."},
+						{"type": "text", "text": "The tent is full of mirrors. Every one shows you looking back — except one, which shows something else entirely.", "no_wait":true},
+						{"type": "text", "text": "The masked reflection steps forward, brandishing a knife.\n\nYou mirror it and prepare to fight!"},
 						{"type": "combat", "enemy": "Doppelganger",
 							"on_victory": [
-								{"type": "text", "text": "The mirror shatters. The others show only empty glass now.\n\nYou leave the house of mirrors."}
+								{"type": "effect", "effect": {"type": "full_heal"}},
+								{"type": "text", "text": "The mirror shatters. The others show only empty glass now.\n\n...\n\nCreeped out, you leave the house of mirrors."},
+								{"type": "mark_used", "event": "circus_mirrors"}
 							],
 							"on_defeat": [
 								{"type": "set_backdrop", "backdrop": "circus_mirror_out.png"},
