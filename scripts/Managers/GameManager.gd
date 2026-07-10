@@ -25,6 +25,8 @@ enum GameMode {
 
 var current_mode = GameMode.MAIN_MENU
 
+const MAX_SPELLS = 4
+
 var characters = []
 var monster_db = {}
 var armor_db = {}
@@ -595,6 +597,7 @@ func start_combat(data):
 	combat.monster_db_ref = monster_db
 	combat.armor_db       = armor_db
 	combat.weapon_db      = weapon_db
+	combat.game_manager   = self
 	combat.start_combat(game_state["player"], enemy_chars)
 
 
@@ -691,7 +694,7 @@ func _check_dict_condition(cond, node_index):
 				return false
 			if req in player.get_spells():
 				return false
-			if len(player.get_spells()) > travel.MAX_SPELLS:
+			if len(player.get_spells()) > MAX_SPELLS:
 				return false
 			continue
 		elif key == "player_name":
@@ -1152,6 +1155,29 @@ func _resolve_trinket_variant(item_name: String) -> String:
 	if variants.is_empty():
 		return item_name
 	return variants[rng.randi() % variants.size()]
+
+func player_already_owns(item_name: String, p) -> bool:
+	var inv = p.get_inventory()
+	if weapon_db.has(item_name) or armor_db.has(item_name):
+		if inv.get(item_name, 0) > 0:
+			return true
+		for slot in p.equipment:
+			var eq = p.equipment[slot]
+			if typeof(eq) == TYPE_DICTIONARY and eq.get("name", "") == item_name:
+				return true
+		return false
+	if trinkets_db.has(item_name):
+		if trinkets_db[item_name].get("stackable", false):
+			return false
+		var family = _get_trinket_variant_family(item_name)
+		return family.any(func(v): return v in p.get_trinkets() or inv.has(v))
+	if item_name.begins_with("Book of "):
+		var spell_name = item_name.substr(8)
+		return p.get_spells().has(spell_name) or inv.has(item_name) or p.get_spells().size() >= MAX_SPELLS
+	if item_name.ends_with(" Scroll"):
+		var skill_name = item_name.substr(0, item_name.length() - 7)
+		return p.get_skills().has(skill_name) or inv.has(item_name)
+	return false
 
 func _get_trinket_variant_family(item_name: String) -> Array:
 	if trinkets_db.has(item_name):

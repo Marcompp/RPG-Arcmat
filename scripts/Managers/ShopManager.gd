@@ -61,7 +61,7 @@ func show_shop_stock() -> void:
 		var data = _get_shop_item_data(item_name)
 		var label = "%s — %dG" % [item_name, price]
 
-		if _player_already_owns(item_name):
+		if _tm.game_manager.player_already_owns(item_name, _tm.game_state["player"]):
 			choices.append({
 				"text": item_name + " — SOLD OUT",
 				"type": "shop_sold_out",
@@ -155,34 +155,6 @@ func _buy_item(item_name: String, price: int) -> void:
 	MyEventBus.emit("dialogue", {"text": shopkeeper_text, "linebreak": false})
 	show_shop_stock()
 
-func _player_has_equip(item_name: String) -> bool:
-	var player = _tm.game_state["player"]
-	var inv = player.get_inventory()
-	if inv.get(item_name, 0) > 0:
-		return true
-	for slot in player.equipment:
-		var item = player.equipment[slot]
-		if typeof(item) == TYPE_DICTIONARY and item.get("name", "") == item_name:
-			return true
-	return false
-
-func _player_already_owns(item_name: String) -> bool:
-	var player = _tm.game_state["player"]
-	var inv = player.get_inventory()
-	if _tm.game_manager.weapon_db.has(item_name) or _tm.game_manager.armor_db.has(item_name):
-		return _player_has_equip(item_name)
-	if _tm.trinkets_db.has(item_name):
-		if _tm.trinkets_db[item_name].get("stackable", false):
-			return false
-		var family = _tm.game_manager._get_trinket_variant_family(item_name)
-		return family.any(func(v): return v in player.get_trinkets() or inv.has(v))
-	if item_name.begins_with("Book of "):
-		var spell_name = item_name.substr(8)
-		return player.get_spells().has(spell_name) or inv.has(item_name) or player.get_spells().size() >= _tm.MAX_SPELLS
-	if item_name.ends_with(" Scroll"):
-		var skill_name = item_name.substr(0, item_name.length() - 7)
-		return player.get_skills().has(skill_name) or inv.has(item_name)
-	return false
 
 func _get_shop_item_data(item_name: String) -> Dictionary:
 	if _tm.game_manager.weapon_db.has(item_name):

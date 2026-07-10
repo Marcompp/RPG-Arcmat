@@ -12,7 +12,26 @@
 		"Music": "the_mountain-forest.mp3",
 		"BossTxt": "You hear a loud howl echo through the woods.",
 		"ExitTxt": "Through an opening amidst the trees, you spot the walls of Bertunia Castle Town.",
-		"Next": "Bertunia"
+		"Next": "Bertunia",
+		"categories": {
+			"road": {
+				"events": [
+						{"chance": 0.2, "event": "travelling_wpn_merchant"},
+						{"chance": 0.2, "event": "travelling_item_merchant"},
+						{"chance": 0.2, "event": "travelling_healer"},
+						{"chance": 0.2, "event": "travelling_trainer"},
+						{"chance": 0.1, "event": "travelling_bo"},
+						{"chance": 0.15, "event": "stranger_encounter"},
+						{"chance": 0.2, "event": "bandit_ambush"}
+				]
+			},
+			"wood": {
+
+			},
+			"water": {
+	  			"enemies": ["Slime Duo","Bitefish","Bear","Skeleton","Slime"]
+			}
+		}
 	},
 	"Caves of Light":{
 		"Name" : "Caves of Light",
@@ -25,7 +44,18 @@
 		"Events" : ["Lost","CultHideout"],
 		"Backdrop": "light_caves.png",
 		"ExitTxt": "After endless venturing through the mazelike caves, \nyou finally arrive at the exit, emerging onto the Sundown Plateau.",
-		"Next": "Sundown Plateau"
+		"Next": "Sundown Plateau",
+		"categories": {
+			"cave": {
+				"events": [
+					{"chance": 0.2, "event": "cultist_patrol"},
+					{"chance": 0.2, "event": "bat_roost"},
+					{"chance": 0.15, "event": "cave_lost"},
+		  			{"chance": 0.2, "event": "crystal_cluster"},
+					{"chance": 0.05,"event": "region_treasure_chest"}
+				]
+			}
+		}
 	},
 	"Sundown Plateau":{
 		"Name" : "Sundown Plateau",
@@ -39,7 +69,35 @@
 		"Backdrop": "sundown_plateau.png",
 		"Music": "SunsetPlateau_placeholder.mp3",
 		"ExitTxt": "After a long trek through the plateau, you arrive at the foothills of Mt. Legory. Before the climb, you stop at the small settlement of Lantern's Reach.",
-		"Next": "Lantern's Reach"
+		"Next": "Lantern's Reach",
+		"categories": {
+			"surface": {
+				"events": [
+					{"chance": 0.2, "event": "travelling_wpn_merchant"},
+					{"chance": 0.2, "event": "travelling_item_merchant"},
+					{"chance": 0.2, "event": "travelling_healer"},
+					{"chance": 0.2, "event": "travelling_trainer"},
+					{"chance": 0.1, "event": "travelling_bo"},
+					{"chance": 0.35, "event": "sundown_cracked_earth"},
+					{"chance": 0.5, "event": "sundown_old_bonfire"},
+					{"chance": 0.45, "event": "sundown_scavenger_remains"}
+				]
+			},
+			"catacomb": {
+				"events": [
+					{"chance": 0.4, "event": "sundown_bones_in_wall"},
+					{"chance": 0.4, "event": "sundown_tunnel_seep"}
+				],
+				"action": {
+					"name": "Search Ossuary",
+					"tooltip": "Search the catacomb walls for anything left behind.",
+					"event": "sundown_search_ossuary",
+					"disabled_tooltip": "You've already searched here.",
+					"repeatable": false
+				}
+				
+			}
+		}
 	},
 	"Mount Legory":{
 		"Name" : "Mount Legory",
@@ -53,7 +111,18 @@
 		"Backdrop": "mt_legory2.png",
 		"Music": "MtLegory_placeholder.mp3",
 		"ExitTxt": "You find an entrance on the cliffside and delve into it until you discover the Core Cavern.",
-		"Next": "Core Cavern"
+		"Next": "Core Cavern",
+		"categories": {
+			"cliff": {
+				"action": {
+					"name": "Search the scree",
+					"tooltip": "Pick through the scree at the path's edge for anything left behind.",
+					"event": "legory_scree_search",
+					"disabled_tooltip": "You've already searched here.",
+					"repeatable": false
+				}
+			}
+		}
 	},
 		"Core Cavern":{
 		"Name" : "Core Cavern",
@@ -66,7 +135,8 @@
 		"Events" : ["CaveIn"],
 		"Backdrop": "core_cavern.png",
 		"ExitTxt": "At the exit of the Cavern you find yourself at the Lost Swamp,\n But first, you head Mugell Town, a small town elevated on rickety wood platforms above the murky swamp water.",
-		"Next": "Mugell Town"
+		"Next": "Mugell Town",
+		"categories": {}
 	},
 		"Lost Swamp":{
 		"Name" : "Lost Swamp",
@@ -79,7 +149,8 @@
 		"Events" : ["Lost"],
 		"Backdrop": "lost_swamp.png",
 		"ExitTxt": "Treading through the accursed swamp, you find your final destination,\n the Arcmat Ruins, said to be the birthplace of all magic.",
-		"Next": "Arcmat Ruins"
+		"Next": "Arcmat Ruins",
+		"categories": {}
 	},
 		"Arcmat Ruins":{
 		"Name" : "Arcmat Ruins",
@@ -92,6 +163,7 @@
 		"Events" : ["Spring of Lost Knowledge"],
 		"Backdrop": "arcmat.png",
 		"ExitTxt": "After finishing your epic quest,\n you decide to chill and kill monsters and let off some steam at the ARENA!!!",
-		"Next": null
-	} 
+		"Next": null,
+		"categories": {}
+	}
 }

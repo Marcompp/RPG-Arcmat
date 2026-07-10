@@ -444,6 +444,17 @@ function buildOccurrences() {
         push({ eventName: evName, type: 'region', sourceId: rname, region: rname, chance: null });
         referenced.add(evName);
       }
+      for (const [catName, cat] of Object.entries(rdata?.categories || {})) {
+        for (const entry of (cat?.events || [])) {
+          if (!entry?.event) continue;
+          push({ eventName: entry.event, type: 'region', sourceId: `${rname} [${catName}]`, region: rname, chance: entry.chance ?? null });
+          referenced.add(entry.event);
+        }
+        if (cat?.action?.event) {
+          push({ eventName: cat.action.event, type: 'region', sourceId: `${rname} [${catName}]`, region: rname, chance: null });
+          referenced.add(cat.action.event);
+        }
+      }
     }
   }
 

@@ -45,6 +45,7 @@ var trinket_systems: Dictionary = {}
 
 var trinkets_db: Dictionary = {}
 
+var game_manager               = null
 var monster_db_ref: Array      = []
 var armor_db:       Dictionary = {}
 var weapon_db:      Dictionary = {}
@@ -984,6 +985,10 @@ func _calculate_rewards() -> Dictionary:
 		for item in e.data.get("Drops", {}):
 			if rng.randi_range(1, 100) <= e.data["Drops"][item]:
 				all_drops[item] = all_drops.get(item, 0) + 1
+	if game_manager:
+		for item in all_drops.keys():
+			if game_manager.player_already_owns(item, player):
+				all_drops.erase(item)
 	return { "xp": total_xp, "gold": total_gold, "drops": all_drops }
 
 func _format_reward_text(r: Dictionary) -> String:

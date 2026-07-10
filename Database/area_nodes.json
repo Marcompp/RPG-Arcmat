@@ -4,15 +4,6 @@
 	  "name": "Road",
 	  "categories": ["road"],
 	  "entrances": ["ROAD", "FOREST"],
-	  "events": [
-			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"},
-			{"chance": 0.2, "event": "travelling_healer"},
-			{"chance": 0.2, "event": "travelling_trainer"},
-			{"chance": 0.1, "event": "travelling_bo"},
-			{"chance": 0.15, "event": "stranger_encounter"},
-			{"chance": 0.2, "event": "bandit_ambush"}
-	  ],
 	  "arrival": {
 		"FOREST": [
 		  "Branches scrape lightly as you push out of the undergrowth, your footing suddenly steadier as a worn road emerges beneath you."
@@ -116,15 +107,6 @@
 	  "categories": ["road"],
 	  "entrances": ["ROAD"],
 	  "backdrop": "apple_fork.png",
-	  "events": [
-			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"},
-			{"chance": 0.2, "event": "travelling_healer"},
-			{"chance": 0.2, "event": "travelling_trainer"},
-			{"chance": 0.1, "event": "travelling_bo"},
-			{"chance": 0.15, "event": "stranger_encounter"},
-			{"chance": 0.2, "event": "bandit_ambush"}
-	  ],
 	  "arrival": {
 		"ROAD": [
 		  "The path ahead splits cleanly in two, each direction equally worn."
@@ -479,12 +461,6 @@
 		  { "text": "Blue crystals embedded in the rock pulse faintly, casting shifting shadows." },
 		  { "text": "The air is cool and dry, carrying a faint mineral scent.", "chance": 0.5 }
 		],
-		"events": [
-		  {"chance": 0.2, "event": "cultist_patrol"},
-		  {"chance": 0.2, "event": "bat_roost"},
-		  {"chance": 0.15, "event": "cave_lost"},
-			{"chance": 0.05,"event": "region_treasure_chest"}
-		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
 		],
@@ -512,11 +488,6 @@
 		  { "text": "Clusters of blue crystals jut from the stone, glowing softly." },
 		  { "text": "Light refracts across the curved walls in shifting patterns." },
 		  { "text": "Drops of water echo faintly, though no source is visible.", "chance": 0.4 }
-		],
-		"events": [
-		  {"chance": 0.3, "event": "bat_roost"},
-		  {"chance": 0.2, "event": "crystal_cluster"},
-		{"chance": 0.05,"event": "region_treasure_chest"}
 		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
@@ -548,12 +519,6 @@
 		  { "text": "Crystal formations scatter light across the cavern like stars." },
 		  { "text": "The silence here feels immense and heavy.", "chance": 0.4 }
 		],
-		"events": [
-		  {"chance": 0.3, "event": "cultist_patrol"},
-		  {"chance": 0.2, "event": "crystal_cluster"},
-		  {"chance": 0.2, "event": "bat_roost"},
-		  {"chance": 0.05,"event": "region_treasure_chest"}
-		],
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows." },
@@ -580,10 +545,6 @@
 			"The passage forks here, both branches glowing with the same steady, eerie light."
 		  ]
 		},
-		"events": [
-		  {"chance": 0.3, "event": "cultist_patrol"},
-		  {"chance": 0.2, "event": "cave_lost"}
-		],
 		"description": [
 		  { "text": "Both paths seem identical, their walls shimmering softly." },
 		  { "text": "The light here flickers subtly, as if reacting to your presence." }
@@ -812,16 +773,6 @@
 			  { "text": "A faint wind carries dust across the plateau, whispering over the barren land." },
 			  { "text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.", "chance": 0.5 }
 			],
-			"events": [
-			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
-			  {"chance": 0.2, "event": "travelling_item_merchant"},
-			  {"chance": 0.2, "event": "travelling_healer"},
-			  {"chance": 0.2, "event": "travelling_trainer"},
-			  {"chance": 0.1, "event": "travelling_bo"},
-			  {"chance": 0.35, "event": "sundown_cracked_earth"},
-			  {"chance": 0.5, "event": "sundown_old_bonfire"},
-			  {"chance": 0.45, "event": "sundown_scavenger_remains"}
-			],
 			"exits": [
 			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you." },
 			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant." },
@@ -843,6 +794,7 @@
 	  		"condition": {
 				"visit_once":true
 			},
+			"events": [],
 			"arrival": {
 			  "SURFACE": [
 				"You chance upon a small mausoleum demarcating the entrance to an underground catacomb."
@@ -886,17 +838,6 @@
 			  { "text": "Dust drifts through the air with every step." },
 			  { "text": "Faint echoes suggest you are not alone.", "chance": 0.5 }
 			],
-			"events": [
-			  {"chance": 0.4, "event": "sundown_bones_in_wall"},
-			  {"chance": 0.4, "event": "sundown_tunnel_seep"}
-			],
-			"action": {
-			  "name": "Search Ossuary",
-			  "tooltip": "Search the catacomb walls for anything left behind.",
-			  "event": "sundown_search_ossuary",
-			  "disabled_tooltip": "You've already searched here.",
-			  "repeatable": false
-			},
 			"exits": [
 			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
 			]
@@ -921,17 +862,6 @@
 			  { "text": "Both tunnels look equally worn, their stones marked by age." },
 			  { "text": "A faint draft moves through one of the passages." }
 			],
-			"events": [
-			  {"chance": 0.4, "event": "sundown_bones_in_wall"},
-			  {"chance": 0.4, "event": "sundown_tunnel_seep"}
-			],
-			"action": {
-			  "name": "Search Ossuary",
-			  "tooltip": "Search the catacomb walls for anything left behind.",
-			  "event": "sundown_search_ossuary",
-			  "disabled_tooltip": "You've already searched here.",
-			  "repeatable": false
-			},
 			"exits": [
 			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
 			  { "choice": "Go right", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the right passage, the draft guiding you as you press deeper underground." }
@@ -959,13 +889,6 @@
 			"events": [
 			  {"chance": 1, "event": "sundown_sanctum_discovery"}
 			],
-			"action": {
-			  "name": "Search Ossuary",
-			  "tooltip": "Search the catacomb walls for anything left behind.",
-			  "event": "sundown_search_ossuary",
-			  "disabled_tooltip": "You've already searched here.",
-			  "repeatable": false
-			},
 			"exits": [
 			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
 			]
@@ -1065,6 +988,7 @@
 				"Rows of old gravestones stretch across the plateau around you, many broken or sunken into the cracked earth."
 			  ]
 			},
+			"events": [],
 			"description": [
 			  { "text": "The graves are old, many broken or sunken into the earth." },
 			  { "text": "The ground feels disturbed in places." },
@@ -1141,6 +1065,7 @@
 			"backdrop": "sundown_circus.png",
 		  	"encounter_rate": 0,
 			"condition": { "visit_once":true },
+			"events":[],
 			"arrival": {
 			  "SURFACE": [
 				"The distant sound of music reaches you before anything else — a calliope tune, tinny and slightly off-key, drifting across the plateau. Then you see it: a cluster of striped tents rising improbably from the cracked earth.",
@@ -1198,14 +1123,7 @@
 		"exits": [
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the direct path and work your way around the mountainside, moving across the exposed terrain." }
-		],
-		"action": {
-		  "name": "Search the scree",
-		  "tooltip": "Pick through the scree at the path's edge for anything left behind.",
-		  "event": "legory_scree_search",
-		  "disabled_tooltip": "You've already searched here.",
-		  "repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Mountain Cave",
@@ -1283,14 +1201,7 @@
 		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push on upward, each step uncertain against the loose rock and snow." },
 		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You traverse the slope sideways, picking your way carefully across the uneven terrain." },
 		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You turn and descend carefully, loose stones skittering away beneath your feet." }
-		],
-		"action": {
-		  "name": "Search the scree",
-		  "tooltip": "Pick through the scree for anything left behind.",
-		  "event": "legory_scree_search",
-		  "disabled_tooltip": "You've already searched here.",
-		  "repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Summit",

@@ -22,8 +22,6 @@ enum TravelMode {
 	REST_MENU
 }
 
-const MAX_SPELLS = 4
-
 var condition_callback = null
 
 var mode = TravelMode.NODE_ACTIONS
@@ -151,12 +149,44 @@ func _set_current_node(node_index, entrance, node_data={}):
 	var region = world_data[current_region]
 	current_node_data = region[current_node].duplicate()
 	current_node_data.merge(node_data, true)
+	_apply_category_defaults(current_node_data)
 	var node_backdrop = current_node_data.get("backdrop", "")
 	if node_backdrop != "":
 		_set_backdrop(node_backdrop)
 	else:
 		_transition_backdrop(current_region)
 	
+func _apply_category_defaults(node_data: Dictionary) -> void:
+	var cats: Array = node_data.get("categories", [])
+	if cats.is_empty():
+		return
+	var region_cats: Dictionary = region_db.get(current_region, {}).get("categories", {})
+	if region_cats.is_empty():
+		return
+
+	var list_defaults: Dictionary = {}
+	var scalar_defaults: Dictionary = {}
+
+	for cat_name in cats:
+		var cat_def = region_cats.get(cat_name, {})
+		for prop in cat_def:
+			var val = cat_def[prop]
+			if val is Array:
+				if prop not in list_defaults:
+					list_defaults[prop] = []
+				for item in val:
+					if item not in list_defaults[prop]:
+						list_defaults[prop].append(item)
+			else:
+				if prop not in scalar_defaults:
+					scalar_defaults[prop] = val
+	for prop in list_defaults:
+		if not node_data.has(prop):
+			node_data[prop] = list_defaults[prop]
+	for prop in scalar_defaults:
+		if not node_data.has(prop):
+			node_data[prop] = scalar_defaults[prop]
+
 func get_node_key():
 	return current_region + ":" + str(current_node)
 
@@ -660,12 +690,21 @@ func _run_node_event(event_def: Dictionary) -> bool:
 			"regions": return region_db
 			"region_events":
 				var nodes: Array = world_data.get(arg, [])
+				var region_cats: Dictionary = region_db.get(arg, {}).get("categories", {})
 				var arrival_seen := {}
 				var action_seen := {}
 				var exit_seen := {}
 				var arrival_events: Array = []
 				var action_events: Array = []
 				var exit_events: Array = []
+				# Category-level events (nodes that inherit rather than define their own events[])
+				for cat_name in region_cats:
+					for ev in region_cats[cat_name].get("events", []):
+						var n: String = ev.get("event", "")
+						if n and not arrival_seen.has(n):
+							arrival_seen[n] = true
+							arrival_events.append(n)
+				# Node-level events (nodes that override or add to category defaults)
 				for node in nodes:
 					for ev in node.get("events", []):
 						var n: String = ev.get("event", "")
@@ -855,7 +894,7 @@ func _get_valid_treasure(treasure):
 	for item_name in treasure:
 		if item_name.begins_with("Book of "):
 			var spell_name = item_name.substr(8)
-			if known_spells.has(spell_name) or inventory.has(item_name) or len(known_spells) >= MAX_SPELLS:
+			if known_spells.has(spell_name) or inventory.has(item_name) or len(known_spells) >= (game_manager.MAX_SPELLS if game_manager else 4):
 				continue
 		elif item_name.ends_with(" Scroll"):
 			var skill_name = item_name.substr(0, item_name.length() - 7)

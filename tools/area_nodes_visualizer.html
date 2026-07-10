@@ -91,6 +91,8 @@
   }
   .pill-entrance { background: #1e3a5f; color: #93c5fd; }
   .pill-enemy { background: #3b1f10; color: #fdba74; }
+  .pill-category { background: #1e2d1e; color: #86efac; }
+  .inherited-tag { font-size: 9px; color: #6b7280; font-style: italic; margin-left: 4px; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
   .badge-boss { background: #450a0a; color: #fca5a5; }
   .badge-exit { background: #451a03; color: #fed7aa; }
@@ -127,9 +129,10 @@
   <h1>area_nodes</h1>
   <label id="file-label" for="file-picker">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    Load JSON
+    Load JSON files
   </label>
-  <input type="file" id="file-picker" accept=".json">
+  <input type="file" id="file-picker" accept=".json" multiple>
+  <span id="file-status" style="font-size:11px;color:#64748b"></span>
   <select id="region-select" disabled>
     <option>— no file loaded —</option>
   </select>
@@ -186,6 +189,7 @@ const FORCE_DAMP = 0.82;
 // State
 // ─────────────────────────────────────────────────────────────────────────────
 let worldData = null;
+let regionsData = null;
 let showPhantom = false;
 let panX = 0, panY = 0, scale = 1;
 let isPanning = false, panStartX = 0, panStartY = 0, panStartTX = 0, panStartTY = 0;
@@ -232,21 +236,31 @@ function renderLegend() {
 // DATA LOADING
 // ─────────────────────────────────────────────────────────────────────────────
 document.getElementById('file-picker').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      worldData = JSON.parse(ev.target.result);
-      onDataLoaded();
-    } catch (err) {
-      alert('Failed to parse JSON: ' + err.message);
-    }
-  };
-  reader.readAsText(file);
+  const files = [...e.target.files];
+  if (!files.length) return;
+  let pending = files.length;
+  for (const file of files) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (file.name === 'regions.json') regionsData = data;
+        else worldData = data;
+      } catch (err) {
+        alert(`Failed to parse ${file.name}: ` + err.message);
+      }
+      if (--pending === 0) onDataLoaded();
+    };
+    reader.readAsText(file);
+  }
 });
 
 function onDataLoaded() {
+  if (!worldData) return;
+  const parts = ['area_nodes ✓'];
+  if (regionsData) parts.push('regions ✓');
+  else parts.push('regions — not loaded');
+  document.getElementById('file-status').textContent = parts.join(' · ');
   document.getElementById('empty-msg').style.display = 'none';
   const sel = document.getElementById('region-select');
   sel.disabled = false;
@@ -407,11 +421,44 @@ function layoutForce(nodes, edges, W, H) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CATEGORY RESOLUTION  (mirrors _apply_category_defaults in TravelManager.gd)
+// ─────────────────────────────────────────────────────────────────────────────
+function resolveNodes(nodes, regionName) {
+  if (!regionsData) return nodes;
+  const regionCats = (regionsData[regionName] || {}).categories || {};
+  return nodes.map(node => {
+    const cats = node.categories;
+    if (!cats || !cats.length) return node;
+    const listDefaults = {}, scalarDefaults = {};
+    for (const catName of cats) {
+      const catDef = regionCats[catName] || {};
+      for (const [prop, val] of Object.entries(catDef)) {
+        if (Array.isArray(val)) {
+          if (!listDefaults[prop]) listDefaults[prop] = [];
+          for (const item of val)
+            if (!listDefaults[prop].includes(item)) listDefaults[prop].push(item);
+        } else {
+          if (!(prop in scalarDefaults)) scalarDefaults[prop] = val;
+        }
+      }
+    }
+    const resolved = { ...node, _inherited: {} };
+    for (const [prop, val] of Object.entries(listDefaults)) {
+      if (!resolved[prop]) { resolved[prop] = val; resolved._inherited[prop] = true; }
+    }
+    for (const [prop, val] of Object.entries(scalarDefaults)) {
+      if (!resolved[prop]) { resolved[prop] = val; resolved._inherited[prop] = true; }
+    }
+    return resolved;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // RENDER
 // ─────────────────────────────────────────────────────────────────────────────
 function renderRegion(name) {
   clearSidebar();
-  const nodes = worldData[name];
+  const nodes = resolveNodes(worldData[name], name);
   currentGraph = buildGraph(nodes);
   nodeGroups = [];
   const graph = currentGraph;
@@ -796,6 +843,9 @@ function showSidebar(node) {
   html += `<div class="sb-title">${esc(node.name || '?')}</div>`;
   if (node.type === 'EXIT') html += `<span class="badge badge-exit">EXIT</span> `;
   if (node.boss)            html += `<span class="badge badge-boss">BOSS</span>`;
+  if (node.categories && node.categories.length) {
+    html += '<div style="margin-top:6px">' + node.categories.map(c => `<span class="pill pill-category">${esc(c)}</span>`).join('') + '</div>';
+  }
   html += '<hr style="border-color:#2a2a4a;margin:10px 0">';
 
   // entrances
@@ -819,9 +869,11 @@ function showSidebar(node) {
 
   // enemies + boss
   if ((node.enemies && node.enemies.length) || node.boss) {
+    const inh = node._inherited && node._inherited.enemies;
     let inner = '';
     if (node.enemies) inner += node.enemies.map(e => `<span class="pill pill-enemy">${esc(e)}</span>`).join('');
     if (node.boss)    inner += `<span class="badge badge-boss" style="margin-left:4px">⚔ ${esc(node.boss)}</span>`;
+    if (inh) inner += `<span class="inherited-tag">from category</span>`;
     html += section('Enemies', inner);
   }
 
@@ -834,7 +886,9 @@ function showSidebar(node) {
 
   // node-level events
   if (node.events && node.events.length) {
-    html += `<div class="sb-section"><div class="sb-section-label">Node Events</div>`;
+    const inh = node._inherited && node._inherited.events;
+    const label = inh ? 'Node Events <span class="inherited-tag">from category</span>' : 'Node Events';
+    html += `<div class="sb-section"><div class="sb-section-label">${label}</div>`;
     for (const ev of node.events) {
       const pct = Math.round((ev.chance || 0) * 100);
       html += `<div class="event-row">
@@ -851,7 +905,9 @@ function showSidebar(node) {
   // action
   if (node.action) {
     const a = node.action;
-    html += `<div class="sb-section"><div class="sb-section-label">Action</div>
+    const inhAction = node._inherited && node._inherited.action;
+    const actionLabel = inhAction ? 'Action <span class="inherited-tag">from category</span>' : 'Action';
+    html += `<div class="sb-section"><div class="sb-section-label">${actionLabel}</div>
       <div class="sb-row"><span class="sb-key">Name</span><span class="sb-val">${esc(a.name)}</span></div>
       <div class="sb-row"><span class="sb-key">Event</span><span class="sb-val code">${esc(a.event)}</span></div>
       <div class="sb-row"><span class="sb-key">Repeatable</span><span class="sb-val">${a.repeatable ? 'Yes' : 'No'}</span></div>
