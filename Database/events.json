@@ -5086,15 +5086,23 @@
 				"condition": {"event_unused":"circus_clown_intro"},
 				"then": [
 					{"type": "mark_used", "event": "circus_clown_intro"},
+					{"type": "set_var", "vars": {"circus_minigame_fee": {"set": 10}}},
+					{"type": "set_var", "vars": {
+						"circus_strength_wins": {"set": 0}, "circus_strength_losses": {"set": 0}, "circus_strength_played": {"set": 0},
+						"circus_skill_wins": {"set": 0}, "circus_skill_losses": {"set": 0}, "circus_skill_played": {"set": 0},
+						"circus_wit_wins": {"set": 0}, "circus_wit_losses": {"set": 0}, "circus_wit_played": {"set": 0},
+						"circus_luck_wins": {"set": 0}, "circus_luck_losses": {"set": 0}, "circus_luck_played": {"set": 0},
+						"circus_minigame_wins": {"set": 0}, "circus_minigame_losses": {"set": 0}, "circus_minigame_played": {"set": 0}
+					}},
 					{
 						"type": "text",
-						"text": "\"STEP RIGHT UP! STEP RIGHT UUUP!\"\n\nThe voice cuts through the crowd before you've even spotted the source. Perched atop a garish red-and-purple booth, a figure in a split-grinning porcelain mask throws their arms wide and locks eyes with you.\n\n\"YOU! Yes, YOU! You've got that look — the look of someone who NEEDS to be here!\"",
+						"text": "\"STEP RIGHT UP! STEP RIGHT UUUP!\"\n\nThe voice cuts through the crowd before you've even spotted the source. Perched atop a garish red-and-purple booth, a short figure in a split-grinning porcelain mask throws their arms wide and locks eyes with you.\n\n\"YOU! Yes, YOU! You've got that look — the look of someone who NEEDS to be here!\"",
 						"clear": true,
 						"no_continue": true
 					},
 					{
 						"type": "text",
-						"text": "They vault off the booth and land in a crouch that shouldn't quite work, then straighten up with too much energy.\n\n\"Welcome — WELCOME! — to the Games of the Gilded Hollow!\" They throw their arms wide. \"Games of STRENGTH! Games of SKILL! Games of WIT and LUCK and things you haven't thought of YET!\"\n\nThey lean in close. The mask grins. The eyes behind it don't.\n\n\"...And the prizes.\" Their voice drops half a register. \"You'll want to win those prizes.\"",
+						"text": "They vault off the booth and land in a crouch that shouldn't quite work, then straighten up with too much energy.\n\n\"Welcome — WELCOME! — to the Games of the Gilded Hollow!\" They throw their arms wide. \"Games of STRENGTH! Games of SKILL! Games of WIT and LUCK and things you haven't thought of YET!\"\n\n\"Play the games! Seek victory! And you'll get the chance to win FABULOUS prizes!.\"",
 						"clear": false,
 						"no_continue": true
 					}
@@ -5144,13 +5152,13 @@
 				"header": "What would you like to do?",
 				"choices": [
 					{"choice": "Ask about prizes", "key": "prizes"},
-					{"choice": "Ask about Current Wins", "key": "wins"},
+					{"choice": "Ask about current wins", "key": "wins"},
 					{"choice": "Play a Game", "key": "play"},
 					{"choice": "Leave", "key": "back", "type": "back"}
 				],
 				"branches": {
 					"prizes": [],
-					"wins": [],
+					"wins": [{"type": "event", "event": "circus_minigame_score"}],
 					"play": [{"type": "event", "event": "circus_minigame_games"}]
 				}
 			}
@@ -5225,7 +5233,7 @@
 						"branches": {
 							"pay": [
 								{"type": "give_gold", "amount": -100},
-								{"type": "set_var", "vars": {"circus_minigame_played": {"add": 1}}},
+								{"type": "set_var", "vars": {"circus_minigame_played": {"add": 1}, "circus_minigame_fee": {"set": 100}}},
 								{"type": "event", "event": "circus_minigame_wit_play"}
 							],
 							"back": [{"type": "event", "event": "circus_minigame_back"}]
@@ -5276,7 +5284,15 @@
 					{
 						"type": "random",
 						"outcomes": [
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
+							{"weight": 1, "steps": [
+								{	
+									"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus"], 
+									"on_win": [{"type": "event", "event": "circus_wit_victory"}], 
+									"on_tie": [{"type": "event", "event": "circus_wit_victory"}], 
+									"on_fold": [{"type": "event", "event": "circus_wit_defeat"}], 
+									"on_lose": [{"type": "event", "event": "circus_wit_defeat"}]
+								}
+							]},
 							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
 							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["frowny_clown", "surprised_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
 							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
@@ -5313,8 +5329,8 @@
 											{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 										],
 										"else": [
-											{"type": "text", "text": "\"For the Trial of Wit,\" the Gamer Clown announces, climbing atop the booth, \"you shall be facing me in the most brutal, the most STRATEGIC, the most cunningly devised game ever conceived by a mind both fevered and brilliant...\"\n\n[wait=0.1]\n\nThey throw their arms out.", "clear": true, "no_continue": true},
-											{"type": "text", "text": "\"WANDERER'S DICE!\"\n\nThey produce a set of dice from somewhere — sleeve, pocket, thin air, it isn't clear — and set them on the counter with a flourish.", "clear": false, "no_continue": true},
+											{"type": "text", "text": "\"For the Trial of Wit,\" the Gamer Clown announces, climbing atop the booth, \"you shall be facing *ME* in the most brutal, the most STRATEGIC, the most cunningly devised game ever conceived by any mind both fevered and brilliant...\"", "clear": true, "no_continue": true},
+											{"type": "text", "text": "\"[wait=0.1]...[wait=0.1]WANDERER'S DICE!\"\n\nThey produce a set of dice from somewhere — and set them on the counter with a flourish.", "clear": false, "no_continue": true},
 											{"type": "text", "text": "They gesture at you. \"Better get your dice out!\"", "clear": false, "no_continue": false},
 											{"type": "dice_game", "wager": 0, "gamblers": ["gamer_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 										]
@@ -5406,6 +5422,34 @@
 				]
 			},
 			{"type": "show_node"}
+		]
+	},
+
+	"circus_minigame_score": {
+		"steps": [
+			{
+				"type":"text",
+				"text":"[instant][table=7][cell][center][b]Game[/b][/center][/cell][cell][/cell][cell][center][b]Wins[/b][/center][/cell][cell][/cell][cell][center][b]Losses[/b][/center][/cell][cell][/cell][cell][center][b]Times Played[/b][/center][/cell][cell][center]Trial of Strength[/center][/cell][cell][/cell][cell][center][var=\"circus_strength_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_strength_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_strength_played\"][/center][/cell][cell][center]Trial of Skill[/center][/cell][cell][/cell][cell][center][var=\"circus_skill_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_skill_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_skill_played\"][/center][/cell][cell][center]Trial of Wit[/center][/cell][cell][/cell][cell][center][var=\"circus_wit_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_wit_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_wit_played\"][/center][/cell][cell][center]Trial of Luck[/center][/cell][cell][/cell][cell][center][var=\"circus_luck_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_luck_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_luck_played\"][/center][/cell][cell][center][b]Overall[/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_wins\"][/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_losses\"][/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_played\"][/b][/center][/cell][/table][/instant]",
+				"clear":false
+			},
+			{"type": "event", "event": "circus_minigame_continue"}
+		]
+	},
+
+	"circus_minigame_continue": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{"weight": 1, "steps": [{"type": "text", "text": "\"Well?\" They clown's mask stares at you. \"ANYTHING else?\"", "clear": true, "no_continue": true}]},
+					{"weight": 1, "steps": [{"type": "text", "text": "\"What ELSE can I do for you?\"", "clear": true, "no_continue": true}]},
+					{"weight": 1, "steps": [{"type": "text", "text": "The jester leans back in. \"What else?\"", "clear": true, "no_continue": true}]},
+					{"weight": 1, "steps": [{"type": "text", "text": "The jester taps the counter twice. \"Is that ALL you needed?\"", "clear": true, "no_continue": true}]},
+					{"weight": 1, "steps": [{"type": "text", "text": "\"Anything ELSE?\"", "clear": true, "no_continue": true}]}
+				]
+			},
+			{"type": "event", "event": "circus_minigame_choices"}
 		]
 	}
 }

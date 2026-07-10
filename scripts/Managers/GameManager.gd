@@ -156,6 +156,8 @@ func _ready():
 	
 	dialogue.condition_callback = func(cond):
 		return check_condition(cond, travel.current_node)
+	dialogue.var_callback = func(key):
+		return game_state["vars"].get(key, "")
 	travel.condition_callback = func(cond, current_node):
 		return check_condition(cond, current_node)
 	

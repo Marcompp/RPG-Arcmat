@@ -38,6 +38,7 @@ var _is_sliding: bool = false
 var _fixed_sizes: bool = false
 
 var condition_callback = null
+var var_callback = null
 
 var dialogue_log = []
 
@@ -85,7 +86,7 @@ func start_typing(text):
 	_command_map = {}
 	_show_choices_after_typing = true
 	_pending_choices = false
-	var clean = _parse_commands(text, 0)
+	var clean = _parse_commands(_substitute_vars(text), 0)
 	log_add_text(clean)
 	story_text.text = clean
 	typing_id += 1
@@ -114,7 +115,7 @@ func append_text(text):
 	_pending_choices = false
 	_fixed_sizes = false
 	typing_id += 1
-	var clean = _parse_commands(text, visible_chars)
+	var clean = _parse_commands(_substitute_vars(text), visible_chars)
 	log_add_text(clean)
 	story_text.text += clean
 	is_typing = true
@@ -159,6 +160,37 @@ func _type_text(id):
 	if _show_choices_after_typing or _pending_choices:
 		_pending_choices = false
 		show_choices()
+
+func _substitute_vars(text: String) -> String:
+	var result = ""
+	var i = 0
+	while i < text.length():
+		if text[i] != '[':
+			result += text[i]
+			i += 1
+			continue
+		var end = text.find(']', i)
+		if end == -1:
+			result += text[i]
+			i += 1
+			continue
+		var tag = text.substr(i + 1, end - i - 1)
+		if tag.begins_with("var="):
+			var var_name = tag.substr(4).strip_edges().trim_prefix("\"").trim_suffix("\"")
+			var val = ""
+			if var_callback != null:
+				val = var_callback.call(var_name)
+			var val_str: String
+			if typeof(val) == TYPE_FLOAT and int(val) == val:
+				val_str = str(int(val))
+			else:
+				val_str = str(val)
+			result += val_str
+			i = end + 1
+		else:
+			result += text.substr(i, end - i + 1)
+			i = end + 1
+	return result
 
 func _parse_commands(raw_text: String, offset: int) -> String:
 	var clean = ""
