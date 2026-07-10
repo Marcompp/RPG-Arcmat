@@ -40,7 +40,8 @@
 	  "entrances": ["DEBUG"],
 	  "encounter_rate": 0,
 	  "events": [
-			{"chance": 1, "event": "travelling_wpn_merchant"}
+			{"chance": 1, "event": "travelling_wpn_merchant"},
+			{"chance": 1, "event": "travelling_gambler"}
 	  ],
 	  "enemies": ["Slime Duo"],
 	  "arrival": {

@@ -28,6 +28,10 @@ var _rng: RandomNumberGenerator
 func _init(char_data, arm_db, wpn_db, p_rng: RandomNumberGenerator = null, skip_growth: bool = false):
 	_rng = p_rng
 	data = char_data.duplicate()
+	if not data.has("Dice"):
+		data["Dice"] = ["standard", "standard", "standard"]
+	else:
+		data["Dice"] = data["Dice"].duplicate()
 	armor_db = arm_db
 	weapon_db = wpn_db
 

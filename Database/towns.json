@@ -273,7 +273,7 @@
 				"Kind": "Event",
 				"Backdrop": "circus_mirror_out.png",
 				"Event": "circus_mirrors",
-				"condition": {"event_unused": "circus_mirrors"},
+				"condition": {"event_unused": "circus_mirrors_fight"},
 				"disabled_tooltip": "You've already been to this attraction"
 			},
 			"Funhouse": {

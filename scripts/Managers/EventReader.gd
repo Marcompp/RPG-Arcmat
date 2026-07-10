@@ -1,7 +1,7 @@
-# EventReader.gd
+﻿# EventReader.gd
 # Runs a scripted sequence of event steps in order using await.
 #
-# ── Step reference ─────────────────────────────────────────────────────────────
+# â”€â”€ Step reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 #
 #   text    {"type":"text",    "text":"Hello!",   "no_wait":false, "linebreak":false}
 #              Shows text with typewriter. Waits for player to continue unless no_wait is true.
@@ -75,7 +75,7 @@
 #   game_over {"type":"game_over"}
 #              Triggers the Game Over screen and stops the event sequence.
 #
-# ── Usage ──────────────────────────────────────────────────────────────────────
+# â”€â”€ Usage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 #
 #   var reader = EventReader.new()
 #   add_child(reader)
@@ -103,6 +103,12 @@ var condition_callback := Callable()
 ## Assign to return a numeric player stat value by name, e.g. func(s): return player.get_stat(s)
 var stat_callback := Callable()
 
+## Assign to return the player's current gold total, e.g. func(): return game_state["gold"]
+var gold_callback := Callable()
+
+## Assign to return the player's 3 equipped die IDs, e.g. func(): return player.data["Dice"]
+var player_dice_callback := Callable()
+
 var rng: RandomNumberGenerator
 
 ## Assign to return a step array by event name, e.g. func(n): return events_db.get(n,{}).get("steps",[])
@@ -129,7 +135,7 @@ func stop() -> void:
 	was_stopped = true
 
 
-# ── Sequence execution ─────────────────────────────────────────────────────────
+# â”€â”€ Sequence execution â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 func _run_sequence(steps: Array) -> void:
 	for step in steps:
@@ -226,11 +232,27 @@ func _run_step(step: Dictionary) -> void:
 			await MyEventBus.await_event("event_shop_closed")
 		"debug_event_picker":
 			await _run_debug_event_picker()
+		"dice_game":
+			var _dg := DiceGame.new()
+			_dg.capture_input_fn = func() -> Dictionary: return await _capture_input()
+			_dg.wait_for_continue_fn = func() -> void: await _wait_for_continue()
+			_dg.stat_callback = stat_callback
+			_dg.gold_callback = gold_callback
+			_dg.rng = rng
+			_dg.dice_db             = db_callback.call("dice")     if db_callback.is_valid() else {}
+			_dg.gamblers_db         = db_callback.call("gamblers") if db_callback.is_valid() else {}
+			_dg.player_dice_callback = player_dice_callback
+			var _outcome: String = await _dg.run(step)
+			match _outcome:
+				"win":  await _run_sequence(step.get("on_win", []))
+				"tie":  await _run_sequence(step.get("on_tie", step.get("on_win", [])))
+				"fold": await _run_sequence(step.get("on_fold", step.get("on_lose", [])))
+				_:      await _run_sequence(step.get("on_lose", []))
 		_:
 			push_warning("EventReader: unknown step type '%s'" % step.get("type", "?"))
 
 
-# ── Step handlers ──────────────────────────────────────────────────────────────
+# â”€â”€ Step handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 func _run_choice(step: Dictionary) -> void:
 	MyEventBus.emit("show_choices", {
@@ -241,7 +263,7 @@ func _run_choice(step: Dictionary) -> void:
 	var selected: Dictionary = await _capture_input()
 	var branches: Dictionary = step.get("branches", {})
 
-	# Branch match priority: key field → choice text → numeric index
+	# Branch match priority: key field â†’ choice text â†’ numeric index
 	var key = selected.get("key", selected.get("choice", ""))
 	var idx = selected.get("index", -1)
 
@@ -367,7 +389,7 @@ func _run_debug_event_picker() -> void:
 
 	MyEventBus.emit("show_choices", {
 		"choices": _normalize_choices(category_choices),
-		"header":  chosen_region + " — category?",
+		"header":  chosen_region + " â€” category?",
 	})
 	var cat_pick: Dictionary = await _capture_input()
 	var chosen_category: String = cat_pick.get("key", cat_pick.get("choice", ""))
@@ -383,7 +405,7 @@ func _run_debug_event_picker() -> void:
 
 	MyEventBus.emit("show_choices", {
 		"choices": _normalize_choices(event_choices),
-		"header":  chosen_region + " [" + chosen_category + "] — which event?",
+		"header":  chosen_region + " [" + chosen_category + "] â€” which event?",
 	})
 	var event_pick: Dictionary = await _capture_input()
 	var chosen_event: String = event_pick.get("key", event_pick.get("choice", ""))
@@ -424,7 +446,7 @@ func _check_condition(cond: Dictionary) -> bool:
 	return true
 
 
-# ── Input capture ──────────────────────────────────────────────────────────────
+# â”€â”€ Input capture â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 func _wait_for_continue() -> void:
 	MyEventBus.emit("show_choices", {

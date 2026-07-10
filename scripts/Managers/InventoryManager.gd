@@ -226,9 +226,12 @@ func show_misc() -> void:
 		if _tm.items_db.has(item_name) or _tm.game_manager.weapon_db.has(item_name) or _tm.game_manager.armor_db.has(item_name):
 			continue
 		var count = inv[item_name]
+		var display_name = item_name
+		if _tm.game_manager.dice_db.has(item_name):
+			display_name = _tm.game_manager.dice_db[item_name].get("name", item_name)
 		choices.append({
-			"text": "%s x%d" % [item_name, count], "type": "none",
-			"disabled": true, "disabled_text": "%s x%d" % [item_name, count]
+			"text": "%s x%d" % [display_name, count], "type": "none",
+			"disabled": true, "disabled_text": "%s x%d" % [display_name, count]
 		})
 	if choices.is_empty():
 		choices.append({

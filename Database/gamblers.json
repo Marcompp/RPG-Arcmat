@@ -1,0 +1,744 @@
+{
+    "travelling_gambler": {
+        "name": "Travelling Gambler",
+        "dice": ["standard","standard","weighted"],
+        "difficulty": "easy",
+        "stats": {"lck": 3},
+        "banter": {
+            "round_1": [
+                "The Travelling Gambler rubs his hands together: \"Well, here goes nothing!\"",
+                "The Travelling Gambler clasps his hands: \"May Lady Luck smile upon us.\"",
+                "\"Lady Luck, don't abandon me now.\""
+            ],
+            "round_2": [
+                "The Travelling Gambler eyes the community die: \"Now we're getting somewhere.\"",
+                "The Travelling Gambler taps the table: \"Interesting. Very interesting.\""
+            ],
+            "round_3": [
+                "The Travelling Gambler looks at his dice one more time: \"Last chance to ask Lady Luck for a favor.\"",
+                "The Travelling Gambler takes a deep breath: \"Alright. One last roll.\""
+            ],
+            "hand_good_start": [
+                "The Travelling Gambler glances at his dice and grins at you: \"Looks like I've got a winning hand right here.\"",
+                "The Travelling Gambler tries to keep a straight face: \"Lady Luck's been generous today.\""
+            ],
+            "hand_bad_start": [
+                "The Travelling Gambler grimaces: \"Oh, Lady Luck, what have I done to deserve this.\"",
+                "The Travelling Gambler mutters to himself: \"Well. That's not great.\""
+            ],
+            "reroll": [
+                "\"Let's try that again.\"",
+                "\"Can't hurt, right?\"",
+                "\"Lady Luck, be kind.\"",
+                "\"One more roll.\""
+            ],
+            "keep_hand": [
+                "\"My hand's good enough as it is, I think.\"",
+                "\"I'll hold.\""
+            ],
+            "pair_hit": [
+                "\"Ha! Would you look at that.\"",
+                "\"Lady Luck, you old friend.\""
+            ],
+            "good_roll": [
+                "\"Now that's a hand.\"",
+                "\"Lady Luck herself must be watching.\""
+            ],
+            "no_combo": [
+                "\"...Hm.\"",
+                "\"Lady Luck's got a strange sense of humor.\"",
+                "\"Not quite what I was hoping for.\""
+            ],
+            "special_die_self_joker": [
+                "\"Oh — a Joker. Lady Luck favors the bold.\""
+            ],
+            "special_die_self_bridge": [
+                "\"A Bridge! Now there's something.\""
+            ],
+            "react_pair": [
+                "The Travelling Gambler raises an eyebrow: \"Not bad.\""
+            ],
+            "react_good_roll": [
+                "The Travelling Gambler lets out a low whistle: \"That's a fine hand.\"",
+                "The Travelling Gambler shifts in his seat: \"Lady Luck's fickle, I see.\""
+            ],
+            "react_no_combo": [
+                "The Travelling Gambler winces: \"Rough luck there.\"",
+                "The Travelling Gambler shakes his head: \"Even Lady Luck can't help everyone.\""
+            ],
+            "community_favor_self": [
+                "The Travelling Gambler brightens up: \"Oh, that's kind of the table.\"",
+                "The Travelling Gambler smiles at the community die: \"Lady Luck smiles on us all today.\""
+            ],
+            "community_favor_other": [
+                "The Travelling Gambler mutters: \"Lucky bastard.\"",
+                "The Travelling Gambler glances sideways: \"Well. That helps someone.\""
+            ],
+            "special_die_community_joker": [
+                "The Travelling Gambler stares at the Dealer's Die: \"A Joker on the table. Lady Luck's in a mood.\""
+            ],
+            "showdown_start": [
+                "The Travelling Gambler straightens in his seat: \"Alright then. Let Lady Luck have the final say.\"",
+                "The Travelling Gambler exhales slowly: \"Here we go.\""
+            ],
+            "showdown_reveal": [
+                "\"Let's see what Lady Luck brought me.\"",
+                "\"Well. There it is.\""
+            ],
+            "showdown_leading": [
+                "\"Oh, would you look at that.\"",
+                "\"Lady Luck came through after all.\""
+            ],
+            "showdown_best": [
+                "\"Lady Luck... I don't deserve this. But I'll take it.\"",
+                "\"Five Arcs. I've never — Lady Luck truly blessed me today.\""
+            ],
+            "showdown_winning_last": [
+                "\"...and that's how you do it. Thank you, Lady Luck.\"",
+                "The Travelling Gambler exhales: \"Lady Luck never fails the faithful.\""
+            ],
+            "showdown_weak_last": [
+                "\"Well, can't win them all. Lady Luck was sleeping on this one.\"",
+                "\"That's the road for you.\""
+            ],
+            "showdown_losing": [
+                "\"Oh, come on.\"",
+                "\"That's not my hand today.\""
+            ],
+            "showdown_win": [
+                "The Travelling Gambler grins ear to ear: \"I believe that's mine!\"",
+                "The Travelling Gambler laughs: \"Lady Luck, you beautiful thing.\""
+            ],
+            "showdown_lose": [
+                "The Travelling Gambler sighs: \"Hah. Fair enough. You played it well.\"",
+                "The Travelling Gambler shakes his head: \"Lady Luck giveth, Lady Luck taketh away.\""
+            ]
+        }
+    },
+    "veteran_gambler": {
+        "name": "Veteran Gambler",
+        "dice": ["standard","weighted","weighted"],
+        "difficulty": "medium",
+        "stats": {"lck": 5},
+        "banter": {
+            "round_1": [
+                "The Veteran Gambler surveys the table without expression: \"Let's see what we have.\""
+            ],
+            "round_3": [
+                "The Veteran Gambler sets down his dice slowly: \"Last round. Keep your head.\""
+            ],
+            "hand_good_start": [
+                "The Veteran Gambler looks at his hand and says nothing. A faint smile crosses his lips."
+            ],
+            "hand_bad_start": [
+                "The Veteran Gambler clicks his tongue: \"Every hand's a chance.\""
+            ],
+            "reroll": [
+                "\"Worth the risk.\"",
+                "\"I've seen worse odds.\""
+            ],
+            "keep_hand": [
+                "\"I've played enough to know when to stay.\"",
+                "\"Standing pat.\""
+            ],
+            "good_roll": [
+                "\"There it is.\"",
+                "\"That'll do.\""
+            ],
+            "no_combo": [
+                "\"Sometimes the dice have other plans.\"",
+                "\"...I've had worse.\""
+            ],
+            "react_good_roll": [
+                "The Veteran Gambler nods slowly: \"Mm. Decent.\""
+            ],
+            "community_favor_self": [
+                "The Veteran Gambler glances at the community die, then back at his hand: \"The table provides.\""
+            ],
+            "community_favor_other": [
+                "The Veteran Gambler says nothing, but his jaw tightens."
+            ],
+            "special_die_community": [
+                "The Veteran Gambler eyes the Dealer's Die: \"A wild one. This changes things.\""
+            ],
+            "showdown_start": [
+                "The Veteran Gambler folds his hands on the table: \"The moment of truth.\""
+            ],
+            "showdown_reveal": [
+                "\"There it is.\"",
+                "\"Let's see.\""
+            ],
+            "showdown_leading": [
+                "\"That should hold up.\"",
+                "\"Good enough.\""
+            ],
+            "showdown_winning_last": [
+                "\"As expected.\"",
+                "\"The dice don't lie.\""
+            ],
+            "showdown_weak_last": [
+                "\"Couldn't be helped.\"",
+                "\"The odds were against it.\""
+            ],
+            "showdown_losing": [
+                "\"Not my day.\"",
+                "\"Happens.\""
+            ],
+            "showdown_win": [
+                "The Veteran Gambler allows himself a small nod: \"That's the game.\"",
+                "The Veteran Gambler leans back: \"I've seen this hand before. Knew it would come.\""
+            ],
+            "showdown_lose": [
+                "The Veteran Gambler rolls his shoulders: \"Well played.\"",
+                "The Veteran Gambler is quiet for a moment: \"The dice had their say.\""
+            ]
+        }
+    },
+    "shark": {
+        "name": "The Shark",
+        "dice": ["weighted","weighted","weighted"],
+        "difficulty": "hard",
+        "stats": {"lck": 8},
+        "banter": {
+            "round_3": [
+                "The Shark sets his hands flat on the table and looks at you: \"Final round.\""
+            ],
+            "keep_hand": [
+                "\"I'm done.\""
+            ],
+            "good_roll": [
+                "\"Mm.\""
+            ],
+            "react_good_roll": [
+                "The Shark watches your hand for a moment, then looks away: \"Interesting.\""
+            ],
+            "community_favor_self": [
+                "The Shark glances at the Dealer's Die. His expression doesn't change."
+            ],
+            "showdown_start": [
+                "The Shark cracks his knuckles once: \"Show your hands.\""
+            ],
+            "showdown_leading": [
+                "\"Mm.\""
+            ],
+            "showdown_best": [
+                "The Shark sets down his dice without a word. The hand speaks for itself."
+            ],
+            "showdown_winning_last": [
+                "The Shark looks at you flatly: \"I don't lose.\"",
+                "The Shark says nothing. He just extends his hand."
+            ],
+            "showdown_weak_last": [
+                "The Shark's jaw tightens. He says nothing."
+            ],
+            "showdown_losing": [
+                "The Shark says nothing."
+            ],
+            "showdown_win": [
+                "The Shark rakes in the pot without a word.",
+                "The Shark glances at you once, then looks away."
+            ],
+            "showdown_lose": [
+                "The Shark is still for a moment. Then he straightens in his chair."
+            ]
+        }
+    },
+
+    "smiley_clown": {
+        "name": "Smiley Clown",
+        "dice": ["circus", "circus", "standard"],
+        "difficulty": "risky",
+        "stats": {"lck": 4},
+        "banter": {
+            "round_1": [
+                "The Smiley Clown spreads their arms wide: \"Step right up, step right UP! Let us see what luck has brought us todaaaay!\"",
+                "The Smiley Clown claps their hands twice: \"Ready? Ready? Oh, I am READY!\""
+            ],
+            "round_2": [
+                "The Smiley Clown winks at you: \"Still with us? Wonderful! The best part is still to come!\"",
+                "The Smiley Clown hums something tuneless under their breath."
+            ],
+            "round_3": [
+                "The Smiley Clown bounces in their seat: \"The grand finale! The culminating moment! Oh, I can HARDLY stand it!\"",
+                "The Smiley Clown stands up briefly, then sits back down: \"Last round! LAST ROUND!\""
+            ],
+            "hand_good_start": [
+                "The Smiley Clown peeks at their dice and lets out a tiny, delighted squeal.",
+                "The Smiley Clown glances at their dice and begins humming with visible satisfaction."
+            ],
+            "hand_bad_start": [
+                "The Smiley Clown looks at their dice. Their mask continues to smile.",
+                "The Smiley Clown clucks their tongue: \"Oh, well. Nothing a little luck can't fix!\""
+            ],
+            "reroll": [
+                "\"Oops! Let's try that one more time!\"",
+                "\"Hmm-hmm-hmm, one more roll~\"",
+                "\"The crowd demands a re-roll!\"",
+                "\"Out with you! OUT!\""
+            ],
+            "keep_hand": [
+                "\"Perfect. Just. Perfect.\"",
+                "\"Standing pat! Standing PAT!\"",
+                "\"We'll keep that one, yes we will.\""
+            ],
+            "pair_hit": [
+                "\"THERE it is! Did you SEE that?!\"",
+                "\"A match! The crowd goes WILD!\""
+            ],
+            "good_roll": [
+                "\"Ta-daaaaaa~\"",
+                "\"Oh, that is LOVELY.\""
+            ],
+            "no_combo": [
+                "\"Hmm. That wasn't for me. That was for... someone else. Yes.\"",
+                "\"Hee hee hee. It's fine. It's fine it's fine it's fine.\""
+            ],
+            "special_die_self_joker": [
+                "\"A Joker! Oh, the Jokers are my FAVORITE.\"",
+                "\"Hee hee hee! He came out to play!\"",
+                "\"They're all smiling! They're all smiling at me!\""
+            ],
+            "react_pair": [
+                "The Smiley Clown claps their hands rapidly: \"Ooh! A match! A match! How fun for you!\""
+            ],
+            "react_good_roll": [
+                "The Smiley Clown tilts their head: \"Oh my. That IS a hand, isn't it. Hm. Hm hm hm.\""
+            ],
+            "react_no_combo": [
+                "The Smiley Clown points at you and begins to laugh.",
+                "The Smiley Clown covers their mouth with both hands. The laughter is audible through the porcelain."
+            ],
+            "community_favor_self": [
+                "The Smiley Clown slaps the table: \"Oh, the TABLE loves me today!\"",
+                "The Smiley Clown starts humming louder."
+            ],
+            "community_favor_other": [
+                "The Smiley Clown stares at the community die for a long moment. Then smiles. Their mask was already smiling.",
+                "\"That's okay. That's okay that's okay that's okay.\""
+            ],
+            "special_die_community_joker": [
+                "\"A Joker on the TABLE! The table is PLAYING TOO!\""
+            ],
+            "special_die_community": [
+                "The Smiley Clown lets out a long, wheezing sound that might be excitement."
+            ],
+            "showdown_start": [
+                "The Smiley Clown rubs their hands together: \"And now — the REVEAL! My absolute FAVORITE part!\"",
+                "The Smiley Clown pats the table twice: \"Showtime!\""
+            ],
+            "showdown_reveal": [
+                "\"Ladies and gentlemen — there it is.\"",
+                "\"Ta-da!\""
+            ],
+            "showdown_leading": [
+                "\"I'm winning! I'm winning I'm winning I'm WINNING!\"",
+                "\"The Smiley Clown is in first place! Did you know that! FIRST!\""
+            ],
+            "showdown_best": [
+                "\"Five Arcs. FIVE. ARCS. Can you believe? CAN YOU BELIEVE IT?!\"",
+                "\"The best hand! Oh, this is the greatest day of my LIFE!\""
+            ],
+            "showdown_winning_last": [
+                "\"Thank you thank you thank you, the show goes to ME!\"",
+                "\"And the crowd goes — do the thing! Do the CROWD NOISE!\""
+            ],
+            "showdown_weak_last": [
+                "\"Well! That happened! That certainly happened!\"",
+                "\"It was a learning experience. A humbling, beautiful, learning experience.\""
+            ],
+            "showdown_losing": [
+                "\"Ah. That's not mine. That one's not mine.\"",
+                "\"It's fine. I've been better but I'm fine.\""
+            ],
+            "showdown_win": [
+                "The Smiley Clown takes a deep bow: \"Thank you! Thank you, you've been a wonderful audience!\"",
+                "The Smiley Clown begins applauding themselves."
+            ],
+            "showdown_lose": [
+                "The Smiley Clown bows anyway: \"A fine game! Come see us again sometime!\"",
+                "The Smiley Clown goes very still. Then they wave."
+            ]
+        }
+    },
+
+    "gamer_clown": {
+        "name": "Gamer Clown",
+        "dice": ["circus", "circus", "standard"],
+        "difficulty": "wildcard",
+        "stats": {"lck": 4},
+        "banter": {
+            "round_1": [
+                "The Gamer Clown spreads their arms wide: \"Step right up, step right UP! Let us see what luck has brought us todaaaay!\"",
+                "The Gamer Clown claps their hands twice: \"Ready? Ready? Oh, I am READY!\""
+            ],
+            "round_2": [
+                "The Gamer Clown winks at you: \"Still with us? Wonderful! The best part is still to come!\"",
+                "The Gamer Clown hums something tuneless under their breath."
+            ],
+            "round_3": [
+                "The Gamer Clown bounces in their seat: \"The grand finale! The culminating moment! Oh, I can HARDLY stand it!\"",
+                "The Gamer Clown stands up briefly, then sits back down: \"Last round! LAST ROUND!\""
+            ],
+            "hand_good_start": [
+                "The Gamer Clown peeks at their dice and lets out a tiny, delighted squeal.",
+                "The Gamer Clown glances at their dice and begins humming with visible satisfaction."
+            ],
+            "hand_bad_start": [
+                "The Gamer Clown looks at their dice. Their mask continues to smile.",
+                "The Gamer Clown clucks their tongue: \"Oh, well. Nothing a little luck can't fix!\""
+            ],
+            "reroll": [
+                "\"Oops! Let's try that one more time!\"",
+                "\"Hmm-hmm-hmm, one more roll~\"",
+                "\"The crowd demands a re-roll!\"",
+                "\"Out with you! OUT!\""
+            ],
+            "keep_hand": [
+                "\"Perfect. Just. Perfect.\"",
+                "\"Standing pat! Standing PAT!\"",
+                "\"We'll keep that one, yes we will.\""
+            ],
+            "pair_hit": [
+                "\"THERE it is! Did you SEE that?!\"",
+                "\"A match! The crowd goes WILD!\""
+            ],
+            "good_roll": [
+                "\"Ta-daaaaaa~\"",
+                "\"Oh, that is LOVELY.\""
+            ],
+            "no_combo": [
+                "\"Hmm. That wasn't for me. That was for... someone else. Yes.\"",
+                "\"Hee hee hee. It's fine. It's fine it's fine it's fine.\""
+            ],
+            "special_die_self_joker": [
+                "\"A Joker! Oh, the Jokers are my FAVORITE.\"",
+                "\"Hee hee hee! He came out to play!\"",
+                "\"They're all smiling! They're all smiling at me!\""
+            ],
+            "react_pair": [
+                "The Gamer Clown claps their hands rapidly: \"Ooh! A match! A match! How fun for you!\""
+            ],
+            "react_good_roll": [
+                "The Gamer Clown tilts their head: \"Oh my. That IS a hand, isn't it. Hm. Hm hm hm.\""
+            ],
+            "react_no_combo": [
+                "The Gamer Clown points at you and begins to laugh.",
+                "The Gamer Clown covers their mouth with both hands. The laughter is audible through the porcelain."
+            ],
+            "community_favor_self": [
+                "The Gamer Clown slaps the table: \"Oh, the TABLE loves me today!\"",
+                "The Gamer Clown starts humming louder."
+            ],
+            "community_favor_other": [
+                "The Gamer Clown stares at the community die for a long moment. Then smiles. Their mask was already smiling.",
+                "\"That's okay. That's okay that's okay that's okay.\""
+            ],
+            "special_die_community_joker": [
+                "\"A Joker on the TABLE! The table is PLAYING TOO!\""
+            ],
+            "special_die_community": [
+                "The Gamer Clown lets out a long, wheezing sound that might be excitement."
+            ],
+            "showdown_start": [
+                "The Gamer Clown rubs their hands together: \"And now — the REVEAL! My absolute FAVORITE part!\"",
+                "The Gamer Clown pats the table twice: \"Showtime!\""
+            ],
+            "showdown_reveal": [
+                "\"Ladies and gentlemen — there it is.\"",
+                "\"Ta-da!\""
+            ],
+            "showdown_leading": [
+                "\"I'm winning! I'm winning I'm winning I'm WINNING!\"",
+                "\"The Gamer Clown is in first place! Did you know that! FIRST!\""
+            ],
+            "showdown_best": [
+                "\"Five Arcs. FIVE. ARCS. Can you believe? CAN YOU BELIEVE IT?!\"",
+                "\"The best hand! Oh, this is the greatest day of my LIFE!\""
+            ],
+            "showdown_winning_last": [
+                "\"Thank you thank you thank you, the show goes to ME!\"",
+                "\"And the crowd goes — do the thing! Do the CROWD NOISE!\""
+            ],
+            "showdown_weak_last": [
+                "\"Well! That happened! That certainly happened!\"",
+                "\"It was a learning experience. A humbling, beautiful, learning experience.\""
+            ],
+            "showdown_losing": [
+                "\"Ah. That's not mine. That one's not mine.\"",
+                "\"It's fine. I've been better but I'm fine.\""
+            ],
+            "showdown_win": [
+                "The Gamer Clown takes a deep bow: \"Thank you! Thank you, you've been a wonderful audience!\"",
+                "The Gamer Clown begins applauding themselves."
+            ],
+            "showdown_lose": [
+                "The Gamer Clown bows anyway: \"A fine game! Come see us again sometime!\"",
+                "The Gamer Clown goes very still. Then they wave."
+            ]
+        }
+    },
+
+    "frowny_clown": {
+        "name": "Frowny Clown",
+        "dice": ["standard", "standard", "circus"],
+        "difficulty": "conservative",
+        "stats": {"lck": 2},
+        "banter": {
+            "round_1": [
+                "The Frowny Clown stares at their dice: \"It begins. As all things begin. And as all things end.\"",
+                "The Frowny Clown sighs: \"I have been here before. I will be here again.\""
+            ],
+            "round_3": [
+                "The Frowny Clown folds their hands: \"The last round. As I knew it would come. As everything comes, eventually.\""
+            ],
+            "hand_good_start": [
+                "The Frowny Clown looks at their dice: \"It won't last.\""
+            ],
+            "hand_bad_start": [
+                "The Frowny Clown looks at their dice. They do not seem surprised.",
+                "The Frowny Clown sits with their hand for a moment: \"Of course.\""
+            ],
+            "reroll": [
+                "\"Once more. Into the dark.\"",
+                "\"Again. Always again.\""
+            ],
+            "keep_hand": [
+                "\"This is the hand I deserve.\"",
+                "\"I'll keep it. What does it matter.\""
+            ],
+            "pair_hit": [
+                "\"Oh.\"",
+                "\"...that was unexpected.\""
+            ],
+            "no_combo": [
+                "\"As I thought.\"",
+                "\"Yes. That is how it goes.\""
+            ],
+            "special_die_self_joker": [
+                "\"A Joker. They find me wherever I go.\"",
+                "\"Of course it's smiling. They always smile.\""
+            ],
+            "react_good_roll": [
+                "The Frowny Clown watches your dice: \"Enjoy it while it lasts.\""
+            ],
+            "react_no_combo": [
+                "The Frowny Clown nods slowly: \"I know that feeling.\""
+            ],
+            "community_favor_self": [
+                "The Frowny Clown looks at the community die and says nothing. They don't trust this."
+            ],
+            "community_favor_other": [
+                "The Frowny Clown stares at the community die: \"It was never going to be for me.\"",
+                "The Frowny Clown exhales quietly."
+            ],
+            "special_die_community_joker": [
+                "The Frowny Clown looks at the Joker on the table: \"They follow me everywhere.\""
+            ],
+            "showdown_start": [
+                "The Frowny Clown is very still: \"Show me what you have. I already know how this ends.\"",
+                "The Frowny Clown folds their hands: \"The moment of reckoning. It always arrives.\""
+            ],
+            "showdown_reveal": [
+                "\"My hand. Such as it is.\"",
+                "\"There it is.\""
+            ],
+            "showdown_leading": [
+                "\"...Hm. That's more than I expected.\""
+            ],
+            "showdown_winning_last": [
+                "\"...Oh.\"",
+                "\"I didn't expect this. I never expect this.\""
+            ],
+            "showdown_weak_last": [
+                "\"It was always going to end this way.\"",
+                "\"Yes. Yes, I see.\""
+            ],
+            "showdown_losing": [
+                "\"Of course.\"",
+                "\"I knew it when I looked at them.\""
+            ],
+            "showdown_win": [
+                "The Frowny Clown stares at the pot for a long time. They don't seem happy.",
+                "\"I won. I always win and it never helps.\""
+            ],
+            "showdown_lose": [
+                "The Frowny Clown nods: \"Yes. That's right.\"",
+                "The Frowny Clown sits quietly: \"I knew.\""
+            ]
+        }
+    },
+
+    "serious_clown": {
+        "name": "Serious Clown",
+        "dice": ["circus", "standard", "circus"],
+        "difficulty": "pro",
+        "stats": {"lck": 6},
+        "banter": {
+            "round_3": [
+                "The Serious Clown turns to look at you."
+            ],
+            "reroll": [
+                "The Serious Clown picks up one die."
+            ],
+            "keep_hand": [
+                "The Serious Clown places a hand flat on the table and does not move.",
+                "The Serious Clown stares at their dice."
+            ],
+            "special_die_self_joker": [
+                "The Serious Clown stares at the Joker for a long moment."
+            ],
+            "special_die_self": [
+                "The Serious Clown tilts their head very slightly."
+            ],
+            "react_good_roll": [
+                "The Serious Clown looks at your hand."
+            ],
+            "showdown_start": [
+                "The Serious Clown folds their hands on the table.",
+                "The Serious Clown does not move."
+            ],
+            "showdown_reveal": [
+                "The Serious Clown watches you look at their hand."
+            ],
+            "showdown_leading": [
+                "The Serious Clown is very still."
+            ],
+            "showdown_winning_last": [
+                "The Serious Clown turns to face you directly.",
+                "The Serious Clown stands. They do not sit back down."
+            ],
+            "showdown_weak_last": [
+                "The Serious Clown does not react."
+            ],
+            "showdown_losing": [
+                "The Serious Clown does not react."
+            ],
+            "showdown_win": [
+                "The Serious Clown picks up their winnings without a word.",
+                "The Serious Clown does not celebrate."
+            ],
+            "showdown_lose": [
+                "The Serious Clown sits for a moment. Then they stand."
+            ]
+        }
+    },
+
+    "surprised_clown": {
+        "name": "Surprised Clown",
+        "dice": ["circus", "circus", "circus"],
+        "difficulty": "wildcard",
+        "stats": {"lck": 3},
+        "banter": {
+            "round_1": [
+                "The Surprised Clown slaps both hands on the table: \"Oh! Oh! Oh! IT'S TIME!\"",
+                "The Surprised Clown points at the ceiling.",
+                "\"IT'S STARTING.\""
+            ],
+            "round_2": [
+                "The Surprised Clown looks at their hand as if seeing it for the first time: \"WHAT? Still? Oh. Oh yes.\"",
+                "The Surprised Clown blinks rapidly: \"The community die. Did you — did you see it? It was THERE.\""
+            ],
+            "round_3": [
+                "The Surprised Clown straightens up abruptly: \"THE LAST ONE. THIS IS THE LAST ONE.\"",
+                "The Surprised Clown stands, sits, stands again: \"Final round. Final round final round final round.\""
+            ],
+            "hand_good_start": [
+                "The Surprised Clown looks at their dice. Their mouth falls open wider than the mask would suggest.",
+                "\"Good? Is that — is that good? I CAN'T TELL.\""
+            ],
+            "hand_bad_start": [
+                "The Surprised Clown stares at their dice: \"Hm. Hm hm. HM.\"",
+                "The Surprised Clown seems to forget what they were doing."
+            ],
+            "reroll": [
+                "\"YES! Again! I want to see it AGAIN!\"",
+                "\"Roll roll roll the dice.\"",
+                "\"Another one! Quick!\""
+            ],
+            "keep_hand": [
+                "\"No. No no. Wait — no.\"",
+                "\"I'll keep — I'll keep the — yes. Yes? Yes.\""
+            ],
+            "pair_hit": [
+                "\"TWO! They're TWO! What does that MEAN?!\"",
+                "\"The same! The SAME ONE! HOW!\""
+            ],
+            "good_roll": [
+                "\"IS THAT GOOD? SOMEONE TELL ME IF THAT'S GOOD.\"",
+                "\"That's a — wait. Wait wait wait.\""
+            ],
+            "no_combo": [
+                "\"Interesting. Interesting! ...What was I — \"",
+                "\"It doesn't match. But that's FINE. That's GREAT. That's — okay.\""
+            ],
+            "special_die_self_joker": [
+                "\"THE JOKER! THE JOKER IS HERE! HE CAME AGAIN!\"",
+                "\"It's smiling. Why is it smiling at me like that.\""
+            ],
+            "special_die_self": [
+                "\"Oh! Oh no! Oh YES! Oh — oh dear.\""
+            ],
+            "react_pair": [
+                "The Surprised Clown points at your dice: \"Wait. WAIT. THEY MATCH! THEY MATCH!\""
+            ],
+            "react_good_roll": [
+                "The Surprised Clown stares at your hand, then at their own, then at the ceiling.",
+                "The Surprised Clown grabs the edge of the table: \"That's a LOT — oh.\""
+            ],
+            "react_no_combo": [
+                "The Surprised Clown nods rapidly at nothing in particular.",
+                "The Surprised Clown doesn't seem to have noticed."
+            ],
+            "community_favor_self": [
+                "The Surprised Clown gasps at the community die: \"FOR ME? Is that FOR ME?!\""
+            ],
+            "community_favor_other": [
+                "The Surprised Clown stares at the community die: \"...not mine. That was not mine.\"",
+                "The Surprised Clown points at the community die and then looks away."
+            ],
+            "special_die_community_joker": [
+                "The Surprised Clown stands up: \"A JOKER ON THE TABLE. A JOKER ON THE — sit down. I am sitting down.\""
+            ],
+            "special_die_community": [
+                "The Surprised Clown makes a noise. Not a word. Just a noise."
+            ],
+            "showdown_start": [
+                "The Surprised Clown seems to have been surprised by the showdown: \"OH. OH IT'S TIME. ALREADY.\"",
+                "The Surprised Clown twitches: \"Show. It's the show now. The show part.\""
+            ],
+            "showdown_reveal": [
+                "\"Here — here's — look at this. LOOK AT THIS.\"",
+                "\"I forgot what I had.\""
+            ],
+            "showdown_leading": [
+                "\"I'M WINNING? Am I — I AM!\"",
+                "\"That's more than yours! I counted!\""
+            ],
+            "showdown_best": [
+                "\"WHAT. WHAT IS HAPPENING. WHY ARE THERE SO MANY.\"",
+                "\"Five Arcs?! I didn't — HOW.\""
+            ],
+            "showdown_winning_last": [
+                "\"I WIN! I — wait. Do I win? I WIN!\"",
+                "\"The last one and it's MINE! IT'S MINE!\""
+            ],
+            "showdown_weak_last": [
+                "\"Oh no. Oh no oh no. That's not enough is it. That's not enough.\"",
+                "\"I thought — I always think it's going to be different.\""
+            ],
+            "showdown_losing": [
+                "\"That's less. Is that less? That seems like less.\"",
+                "\"Hmm. Hmm hmm. Hmm.\""
+            ],
+            "showdown_win": [
+                "The Surprised Clown looks at the pot. Looks at you. Looks at the pot again.",
+                "The Surprised Clown begins collecting their winnings mid-sentence: \"I — the — yes! Yes! I — \""
+            ],
+            "showdown_lose": [
+                "The Surprised Clown looks at the table for a long moment: \"Oh. Oh, I see.\"",
+                "The Surprised Clown tilts their head all the way to one side."
+            ]
+        }
+    }
+
+}

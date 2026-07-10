@@ -683,10 +683,17 @@ func _run_node_event(event_def: Dictionary) -> bool:
 	reader.stat_callback = func(stat: String) -> int:
 		var p = game_manager.game_state.get("player")
 		return p.get_stat(stat) if p else 0
+	reader.gold_callback = func() -> int:
+		return game_manager.game_state["gold"] if game_manager.game_state else 0
+	reader.player_dice_callback = func() -> Array:
+		var p = game_manager.game_state.get("player")
+		return p.data.get("Dice", ["standard","standard","standard"]) if p else ["standard","standard","standard"]
 	reader.event_callback = func(event_name: String) -> Array:
 		return events_db.get(event_name, {}).get("steps", [])
 	reader.db_callback = func(type: String, arg: String = "") -> Variant:
 		match type:
+			"dice":     return game_manager.dice_db
+			"gamblers": return game_manager.gamblers_db
 			"regions": return region_db
 			"region_events":
 				var nodes: Array = world_data.get(arg, [])

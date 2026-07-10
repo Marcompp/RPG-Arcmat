@@ -24,6 +24,7 @@
 		"Potion": 5,
 		"Medicine": 5
 	},
+	"Dice": ["standard","standard","standard"],
 	"Relationships": {
 	  "Agnes": null,
 	  "Borin": "Rival",
@@ -56,6 +57,7 @@
 	},
 	"Skills": ["Cleave", "Brace"],
 	"Spells": [],
+	"Dice": ["standard","standard","standard"],
 	"Relationships": {
 	  "Agnes": "Rival",
 	  "Borin": null,
@@ -88,6 +90,7 @@
 		"Potion": 3,
 		"Ether": 4
 	},
+	"Dice": ["standard","standard","standard"],
 	"Relationships": {
 	  "Agnes": null,
 	  "Borin": "Sibling",
@@ -123,6 +126,7 @@
 		"Bomb": 1,
 		"Stimulant":2
 	},
+	"Dice": ["standard","standard","weighted"],
 	"Relationships": {
 	  "Agnes": "Threat",
 	  "Borin": null,

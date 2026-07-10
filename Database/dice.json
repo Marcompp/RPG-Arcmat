@@ -1,0 +1,43 @@
+{
+    "standard": {
+        "id": "standard",
+        "name": "Standard Die",
+        "values": [1,2,3,4,5,6],
+        "description": "Standard die carved from ivory, used in roadside games of Wanderer's Dice."
+    },
+    "weighted": {
+        "id": "weighted",
+        "name": "Weighted Die",
+        "color": "gray",
+        "values": [1,2,3,4,5,5,6,6],
+        "description": "A die carved from uneven bone, meant for games of chance. Weighted so high-rolls are more frequent."
+    },
+    "circus": {
+        "id": "circus",
+        "name": "Circus Die",
+        "color": "purple",
+        "values": [1,1,6,"J","J","J"],
+        "description": "A peculiar periwinkle die used for games of chance, that sounds like it has a bell inside. Several of its faces show Jokers in eerie circus masks."
+    },
+    "bertunia": {
+        "id": "bertunia",
+        "name": "Bertunia Die",
+        "color": "blue",
+        "values": [0,0,1,2,5,6,7,7],
+        "description": "A variant die used in Bertunia Castle Town. Includes a face for the Knight, arm extended to form a 7, and the Rogue, crouched and bunched up to form a 0."
+    },
+    "lantern": {
+        "id": "lantern",
+        "name": "Lantern Die",
+        "color": "orange",
+        "values": ["B",1,2,5,6,"B"],
+        "description": "A glowing die used in certain variants of Wanderer's Dice. Includes the face of the Bridge - which is able to bridge the climb from high to low sequences."
+    },
+    "crown": {
+        "id": "crown",
+        "name": "Crown Die",
+        "color": "yellow",
+        "values": [2,3,4,5,6,"C"],
+        "description": "A golden jewel-encrusted die. Includes the face of the Crown - which is able to crown any hand to raise its standing."
+    }
+}

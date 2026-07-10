@@ -34,6 +34,8 @@ var weapon_db = {}
 var spell_db = {}
 var skill_db = {}
 var trinkets_db = {}
+var dice_db = {}
+var gamblers_db = {}
 
 var in_combat = false
 var _suppress_defeat_game_over: bool = false
@@ -164,6 +166,8 @@ func _ready():
 	spell_db    = load_json("res://Database/spells.json")
 	skill_db    = load_json("res://Database/skills.json")
 	trinkets_db = load_json("res://Database/trinkets.json")
+	dice_db     = load_json("res://Database/dice.json")
+	gamblers_db = load_json("res://Database/gamblers.json")
 
 	dialogue.visible = false
 	main_menu.new_game_requested.connect(_on_main_menu_new_game)
@@ -715,6 +719,11 @@ func _check_dict_condition(cond, node_index):
 			value = weapon.get("wpn_type", "") if not weapon.is_empty() else ""
 		elif key == "current_region":
 			value = travel.current_region
+		elif key == "event_used":
+			var used = game_state["used_events"].get(req, false)
+			if not used:
+				return false
+			continue
 		elif key == "event_unused":
 			var used = game_state["used_events"].get(req, false)
 			if used:
@@ -1091,7 +1100,11 @@ func _process_item_acquisition(item_name: String, player: Character, price: int 
 		var resolved = _resolve_trinket_variant(item_name)
 		await _equip_trinket_acquisition(resolved, player, price, from_shop)
 	else:
-		player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
+		var die_id: String = item_name if dice_db.has(item_name) else _find_die_id_by_name(item_name)
+		if die_id != "":
+			await _offer_die_acquisition(die_id, player)
+		else:
+			player.data["Inventory"][item_name] = player.data["Inventory"].get(item_name, 0) + 1
 
 func _equip_trinket_acquisition(item_name: String, player: Character, price: int = 0, from_shop: bool = false):
 	if not player.data.has("Trinkets"):
@@ -1149,6 +1162,117 @@ func _equip_trinket_acquisition(item_name: String, player: Character, price: int
 			text += "\n[color=yellow]Gold: %dG[/color]" % game_state["gold"]
 		MyEventBus.emit("continue_text", {"text": text})
 	await _gm_wait_for_continue()
+
+func _find_die_id_by_name(display_name: String) -> String:
+	for die_id in dice_db:
+		if dice_db[die_id].get("name", "") == display_name:
+			return die_id
+	return ""
+
+func _offer_die_acquisition(die_id: String, player: Character) -> void:
+	var new_data: Dictionary = dice_db.get(die_id, {})
+	var new_name: String = new_data.get("name", die_id)
+	var equipped: Array = player.data.get("Dice", ["standard", "standard", "standard"])
+
+	MyEventBus.emit("dialogue", {"text": _build_die_comparison_text(die_id, player)})
+
+	var choices: Array = []
+	for i in range(3):
+		var eid: String = equipped[i]
+		var ename: String = dice_db.get(eid, {}).get("name", eid)
+		choices.append({"text": "Replace Die %d  (%s)" % [i + 1, ename], "type": "replace", "data": i})
+	choices.append({"text": "Keep My Dice", "type": "keep"})
+
+	var state = {"chosen": -2, "done": false}
+	MyInputRouter.push(func(choice):
+		var t = choice.get("type", "")
+		if t == "replace":
+			state["chosen"] = choice.get("data", -1)
+			state["done"] = true
+			MyInputRouter.pop()
+		elif t == "keep":
+			state["chosen"] = -1
+			state["done"] = true
+			MyInputRouter.pop()
+	, "die_prompt")
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "New Die Found!"})
+	while not state["done"]:
+		await get_tree().process_frame
+
+	if not player.data.has("Inventory"):
+		player.data["Inventory"] = {}
+
+	if state["chosen"] >= 0:
+		var slot: int = state["chosen"]
+		var old_id: String = equipped[slot]
+		var old_name: String = dice_db.get(old_id, {}).get("name", old_id)
+		player.data["Dice"][slot] = die_id
+		player.data["Inventory"][old_id] = player.data["Inventory"].get(old_id, 0) + 1
+		MyEventBus.emit("continue_text", {
+			"text": "[color=#00E676]%s slotted into Die %d![/color]\n[color=#AAAAAA]%s returned to bag.[/color]" % [new_name, slot + 1, old_name]
+		})
+	else:
+		player.data["Inventory"][die_id] = player.data["Inventory"].get(die_id, 0) + 1
+		MyEventBus.emit("continue_text", {
+			"text": "[color=#AAAAAA]%s added to bag.[/color]" % new_name
+		})
+	await _gm_wait_for_continue()
+
+func _build_die_comparison_text(new_die_id: String, player: Character) -> String:
+	var new_data: Dictionary = dice_db.get(new_die_id, {})
+	var new_name: String = new_data.get("name", new_die_id)
+	var equipped: Array = player.data.get("Dice", ["standard", "standard", "standard"])
+
+	var text = "[b]New Die Found![/b]\n[b]%s[/b]" % new_name
+	var nc: String = new_data.get("color", "")
+	if nc:
+		text += "  [color=%s][■][/color]" % nc
+	if new_data.has("description"):
+		text += "\n" + new_data["description"]
+	text += "\n\n"
+
+	var all_ids: Array = equipped + [new_die_id]
+	var all_faces: Dictionary = {}
+	var dists: Array = []
+	for did in all_ids:
+		var vals: Array = dice_db.get(did, {}).get("values", [1, 2, 3, 4, 5, 6])
+		var counts: Dictionary = {}
+		for v in vals:
+			var k = str(v)
+			counts[k] = counts.get(k, 0) + 1
+			all_faces[k] = true
+		dists.append({"counts": counts, "total": vals.size()})
+
+	var face_order = ["0","1","2","3","4","5","6","7","B","J","C"]
+	var faces: Array = []
+	for f in face_order:
+		if all_faces.has(f):
+			faces.append(f)
+
+	var face_labels = {"0":"Rogue","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"Knight","B":"Bridge","J":"Joker","C":"Crown"}
+
+	text += "[instant][table=5]"
+	text += "[cell][/cell]"
+	for i in range(3):
+		text += "[cell][center][b]Die %d[/b][/center][/cell]" % (i + 1)
+	text += "[cell][center][b][color=#00E676]New[/color][/b][/center][/cell]"
+	for face in faces:
+		text += "[cell]%s[/cell]" % face_labels.get(face, face)
+		for i in range(4):
+			var dist: Dictionary = dists[i]
+			var pct: float = 0.0
+			if dist["counts"].has(face):
+				pct = float(dist["counts"][face]) / float(dist["total"]) * 100.0
+			var cell: String
+			if pct <= 0.0:
+				cell = "[center][color=#555555]—[/color][/center]"
+			elif i == 3:
+				cell = "[center][color=#00E676]%.0f%%[/color][/center]" % pct
+			else:
+				cell = "[center]%.0f%%[/center]" % pct
+			text += "[cell]%s[/cell]" % cell
+	text += "[/table][/instant]"
+	return text
 
 func _resolve_trinket_variant(item_name: String) -> String:
 	var variants = trinkets_db.get(item_name, {}).get("variants", [])
