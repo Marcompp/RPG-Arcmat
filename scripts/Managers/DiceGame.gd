@@ -6,16 +6,16 @@ extends RefCounted
 # Returns "win", "tie", or "lose".  Outcome sequences are run by the caller.
 
 const HIERARCHY := \
-"Five Arcs        —  five of a kind
+"Five Arcs         —  five of a kind
 The Pilgrimage     —  five in a row  (ex: 2-3-4-5-6)
-Four Arcs         —  four of a kind
+Four Arcs          —  four of a kind
 The Stairwell      —  four in a row with a pair inside  (ex: 1-1-2-3-4)
 The Long Road      —  four in a row  (ex: 1-2-3-4)
 The Hearth         —  triple + pair  (ex: 1-1-1-2-2)
 Royal Climb        —  three in a row + a separate pair  (ex: 1-2-3-5-5)
-Three Arcs        —  three of a kind
+Three Arcs         —  three of a kind
 Lover's Climb      —  three in a row with two pairs inside  (ex: 1-1-2-2-3)
-Double Pair        —  two different pairs  (ex: 1-1-2-2)
+Double Trouble     —  two different pairs  (ex: 1-1-2-2)
 Drunkard's Climb   —  three in a row with a pair inside  (ex: 1-1-2-3)
 The Climb          —  three in a row  (ex: 1-2-3)
 Wanderer's Hand    —  pair of 4, 5, 6, 7 or Bridge
@@ -83,6 +83,10 @@ var player_dice_callback: Callable
 var rng: RandomNumberGenerator
 var dice_db: Dictionary
 var gamblers_db: Dictionary
+## Callable() -> void — brief pause after dice SFX; caller wires it
+var delay_fn: Callable
+## Set false to disable NPC-to-NPC banter (NPC reacting to other NPC rerolls / stand pats)
+var npc_crossreact: bool = true
 
 
 func run(step: Dictionary) -> String:
@@ -119,17 +123,39 @@ func run(step: Dictionary) -> String:
 
 	var hierarchy_btn := {"text": "Hand Rankings", "key": "hierarchy", "type": "back"}
 
-	# ── Phase 1: Initial rolls ───────────────────────────────────
+	# ── Setup Phase ───────────────────────────────────────────────
+	# 1. NPC game_start banter
+	if not npcs.is_empty():
+		await _banter(npcs[rng.randi() % npcs.size()], "game_start", 0.7)
+
+	# 2. Dice rolled out of sight
 	var player_hand: Array = [
 		_roll_die(player_types[0]),
 		_roll_die(player_types[1]),
 		_roll_die(player_types[2])
 	]
-	MyEventBus.emit("dialogue", {
-		"text": "The dice are passed around the table.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids)
-	})
+	await _say("The starting dice are rolled out of sight.")
+	await _dice_roll_sfx()
 
-	# ── Phase 1 Re-roll: player ──────────────────────────────────
+	# 3. Player sees their hand
+	await _say("You roll: " + _fmt_typed(player_hand, player_types))
+
+	# 4. NPCs react to their own initial hands
+	for npc in npcs:
+		var init_rank: int = _rank_n(npc["dice"] + community)
+		if init_rank >= 3000:
+			await _banter(npc, "hand_good_start", 0.35)
+		elif init_rank == 0:
+			await _banter(npc, "hand_bad_start", 0.35)
+
+	# ── Round 1 ───────────────────────────────────────────────────
+	# 5. Show table
+	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
+	# 6. Round banter
+	if not npcs.is_empty():
+		await _banter(npcs[rng.randi() % npcs.size()], "round_1", 0.55)
+
+	# 7/8/9. Player reroll
 	var reroll_choices: Array = [
 		{"text": "Re-roll the %s" % _face_name(player_hand[0]), "key": "0"},
 		{"text": "Re-roll the %s" % _face_name(player_hand[1]), "key": "1"},
@@ -148,34 +174,40 @@ func run(step: Dictionary) -> String:
 		await wait_for_continue_fn.call()
 		MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
 	if rk1 != "stand":
+		await _say("You re-roll a die.")
+		await _dice_roll_sfx()
 		var lck: int = stat_callback.call("lck") if stat_callback.is_valid() else 0
 		player_hand[int(rk1)] = _roll_typed_with_lck(player_types[int(rk1)], lck)
-		MyEventBus.emit("continue_text", {
-			"text": "\n↳ You re-roll a die.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids),
-			"linebreak": false
-		})
-		await MyEventBus.await_event("typing_finished")
+		await _say("You rolled %s!" % _fmt_roll_result(player_hand[int(rk1)]))
 		await _react_to_player_reroll(npcs, int(rk1), player_hand, community)
+		await _say("Your hand: " + _fmt_typed(player_hand, player_types))
+	else:
+		await _say("You hold pat.")
+		await _react_stand_pat(npcs)
 
-	# ── Phase 1 Re-roll: NPCs ────────────────────────────────────
-	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "round_1", 0.55)
+	# 10. NPC turns
 	await _run_npc_phase(npcs, community, 1, player_hand, player_types, comm_ids)
-
 	await wait_for_continue_fn.call()
 
-	# ── Community die 1 ─────────────────────────────────────────
+	# ── Community Die 1 ───────────────────────────────────────────
 	community.append(community_pool[0])
-	MyEventBus.emit("dialogue", {
-		"text": "The first Dealer's Die is rolled.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids)
-	})
+	await _say("The first Dealer's Die is rolled.")
+	await _dice_roll_sfx()
+	await _say("Rolled %s!" % _fmt_roll_result(community[0]))
 	await _react_to_community_die(npcs, community)
-	await wait_for_continue_fn.call()
 
-	# ── Phase 2 Re-roll: player ──────────────────────────────────
-	MyEventBus.emit("dialogue", {
-		"text": _table(player_hand, player_types, npcs, community, comm_ids) + "\n\nRe-roll one of your private dice?"
-	})
+	# ── Round 2 ───────────────────────────────────────────────────
+	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
+	if not npcs.is_empty():
+		var sp2: Dictionary = npcs[rng.randi() % npcs.size()]
+		var sp2_rank: int = _rank_n(sp2["dice"] + community)
+		var round2_keys: Array = ["round_2"]
+		if sp2_rank >= 3000:
+			round2_keys.append("round_good_hand")
+		elif sp2_rank == 0:
+			round2_keys.append("round_bad_hand")
+		await _banter_pool(sp2, round2_keys, 0.55)
+
 	var reroll2_choices: Array = [
 		{"text": "Re-roll the %s" % _face_name(player_hand[0]), "key": "0"},
 		{"text": "Re-roll the %s" % _face_name(player_hand[1]), "key": "1"},
@@ -192,36 +224,42 @@ func run(step: Dictionary) -> String:
 			break
 		MyEventBus.emit("dialogue", {"text": HIERARCHY})
 		await wait_for_continue_fn.call()
-		MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids) + "\n\nRe-roll one of your private dice?"})
+		MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
 	if rk2 != "stand":
+		await _say("You re-roll a die.")
+		await _dice_roll_sfx()
 		var lck2: int = stat_callback.call("lck") if stat_callback.is_valid() else 0
 		player_hand[int(rk2)] = _roll_typed_with_lck(player_types[int(rk2)], lck2)
-		MyEventBus.emit("continue_text", {
-			"text": "\n↳ You re-roll a die.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids),
-			"linebreak": false
-		})
-		await MyEventBus.await_event("typing_finished")
+		await _say("You rolled %s!" % _fmt_roll_result(player_hand[int(rk2)]))
 		await _react_to_player_reroll(npcs, int(rk2), player_hand, community)
+		await _say("Your hand: " + _fmt_typed(player_hand, player_types))
+	else:
+		await _say("You hold pat.")
+		await _react_stand_pat(npcs)
 
-	# ── Phase 2 Re-roll: NPCs ────────────────────────────────────
-	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "round_2", 0.55)
 	await _run_npc_phase(npcs, community, 2, player_hand, player_types, comm_ids)
-
 	await wait_for_continue_fn.call()
 
-	# ── Community die 2 ─────────────────────────────────────────
+	# ── Community Die 2 ───────────────────────────────────────────
 	community.append(community_pool[1])
-	MyEventBus.emit("dialogue", {
-		"text": "The second Dealer's Die is rolled.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids)
-	})
+	MyEventBus.emit("dialogue", {"text": "The second Dealer's Die is rolled."})
+	await _dice_roll_sfx()
+	await _say("Rolled %s!" % _fmt_roll_result(community[1]))
 	await _react_to_community_die(npcs, community)
 	await wait_for_continue_fn.call()
 
-	# ── Phase 3 Re-roll: player ──────────────────────────────────
-	MyEventBus.emit("dialogue", {
-		"text": _table(player_hand, player_types, npcs, community, comm_ids) + "\n\nOne last chance to re-roll."
-	})
+	# ── Round 3 ───────────────────────────────────────────────────
+	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
+	if not npcs.is_empty():
+		var sp3: Dictionary = npcs[rng.randi() % npcs.size()]
+		var sp3_rank: int = _rank_n(sp3["dice"] + community)
+		var round3_keys: Array = ["round_3"]
+		if sp3_rank >= 4000:
+			round3_keys.append("round_good_hand")
+		elif sp3_rank <= 1999:
+			round3_keys.append("round_bad_hand")
+		await _banter_pool(sp3, round3_keys, 0.55)
+
 	var reroll3_choices: Array = [
 		{"text": "Re-roll the %s" % _face_name(player_hand[0]), "key": "0"},
 		{"text": "Re-roll the %s" % _face_name(player_hand[1]), "key": "1"},
@@ -238,50 +276,41 @@ func run(step: Dictionary) -> String:
 			break
 		MyEventBus.emit("dialogue", {"text": HIERARCHY})
 		await wait_for_continue_fn.call()
-		MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids) + "\n\nOne last chance to re-roll."})
+		MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids)})
 	if rk3 != "stand":
+		await _say("You re-roll a die.")
+		await _dice_roll_sfx()
 		var lck3: int = stat_callback.call("lck") if stat_callback.is_valid() else 0
 		player_hand[int(rk3)] = _roll_typed_with_lck(player_types[int(rk3)], lck3)
-		MyEventBus.emit("continue_text", {
-			"text": "\n↳ You re-roll a die.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids),
-			"linebreak": false
-		})
-		await MyEventBus.await_event("typing_finished")
+		await _say("You rolled %s!" % _fmt_roll_result(player_hand[int(rk3)]))
 		await _react_to_player_reroll(npcs, int(rk3), player_hand, community)
+		await _say("Your hand: " + _fmt_typed(player_hand, player_types))
+	else:
+		await _say("You hold pat.")
+		await _react_stand_pat(npcs)
 
-	# ── Phase 3 Re-roll: NPCs ────────────────────────────────────
-	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "round_3", 0.55)
 	await _run_npc_phase(npcs, community, 3, player_hand, player_types, comm_ids)
 
-	await wait_for_continue_fn.call()
-
-	# ── Showdown ─────────────────────────────────────────────────
+	# ── Showdown ──────────────────────────────────────────────────
 	var p_final: Array = player_hand + community
 	var player_rank: int = _rank_n(p_final)
 	var best_npc_rank: int = 0
 	for npc in npcs:
 		best_npc_rank = max(best_npc_rank, _rank_n(npc["dice"] + community))
 
-	MyEventBus.emit("dialogue", {
-		"text": "The hands are revealed.\n\n" + _table(player_hand, player_types, npcs, community, comm_ids)
-	})
+	MyEventBus.emit("dialogue", {"text": "Showdown!"})
 	if not npcs.is_empty():
 		await _banter(npcs[rng.randi() % npcs.size()], "showdown_start", 0.6)
 
-	# Reveal NPC hands one by one, banter after each
+	# NPCs reveal in reverse order
 	var best_rank_so_far: int = player_rank
-	for i in range(npcs.size()):
+	for i in range(npcs.size() - 1, -1, -1):
 		var npc: Dictionary = npcs[i]
-		npc["revealed"] = [true, true, true]
+		var npc_name: String = (npc["name"] as String).capitalize()
 		var npc_rank: int = _rank_n(npc["dice"] + community)
-		var is_last: bool = (i == npcs.size() - 1)
+		var is_last: bool = (i == 0)
 
-		MyEventBus.emit("continue_text", {
-			"text": "\n" + _table(player_hand, player_types, npcs, community, comm_ids) + "\n",
-			"linebreak": false
-		})
-		await MyEventBus.await_event("typing_finished")
+		await _say("%s reveals their hand." % npc_name)
 
 		var fired := false
 		if not fired and npc_rank >= 9000:
@@ -297,23 +326,62 @@ func run(step: Dictionary) -> String:
 		if not fired:
 			fired = await _banter(npc, "showdown_reveal", 0.4)
 
+		npc["revealed"] = [true, true, true]
+		await _say("%s's hand: " % npc_name + _row(npc_name, npc["dice"], npc["dice_types"], community, comm_ids))
+
+		if npcs.size() > 1:
+			var other_idx: int = (i + 1) % npcs.size()
+			await _banter_showdown_react(npcs[other_idx], npc_rank, best_rank_so_far, 0.5)
+
 		best_rank_so_far = max(best_rank_so_far, npc_rank)
+
+	# Player reveals last
+	await _say("You reveal your hand:")
+	await _say("Your hand: " + _row("You", player_hand, player_types, community, comm_ids))
+	for npc in npcs:
+		await _banter_showdown_react(npc, player_rank, best_rank_so_far, 0.4)
+	await wait_for_continue_fn.call()
+
+	# ── Results ───────────────────────────────────────────────────
+	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, comm_ids, true)})
+
+	if player_rank > best_npc_rank:
+		await _say("You win the pot.")
+		MyEventBus.emit("give_gold", {"amount": pot})
+	elif player_rank == best_npc_rank:
+		await _say("A tie. The wager is returned.")
+		MyEventBus.emit("give_gold", {"amount": player_committed})
+	else:
+		await _say("You lose.")
+
+	var best_overall: int = max(player_rank, best_npc_rank)
+	var top_count: int = (1 if player_rank == best_overall else 0)
+	for npc in npcs:
+		if _rank_n(npc["dice"] + community) == best_overall:
+			top_count += 1
+	var player_result_key: String
+	if player_rank == best_overall and top_count == 1:
+		player_result_key = "showdown_npc_lose"
+	elif player_rank == best_overall:
+		player_result_key = "showdown_npc_tie"
+	else:
+		player_result_key = "showdown_npc_win"
+	for npc in npcs:
+		var npc_rank: int = _rank_n(npc["dice"] + community)
+		var result_keys: Array = [player_result_key]
+		if npc_rank == best_overall and top_count == 1:
+			result_keys.append("showdown_win")
+		elif npc_rank == best_overall:
+			result_keys.append("showdown_tie")
+		else:
+			result_keys.append("showdown_lose")
+		await _banter_pool(npc, result_keys, 1.0)
 
 	await wait_for_continue_fn.call()
 
-	# Post-reveal win/lose banter
-	for npc in npcs:
-		var npc_rank: int = _rank_n(npc["dice"] + community)
-		if npc_rank == best_npc_rank and best_npc_rank > player_rank:
-			await _banter(npc, "showdown_win", 0.6)
-		elif player_rank > npc_rank:
-			await _banter(npc, "showdown_lose", 0.4)
-
 	if player_rank > best_npc_rank:
-		MyEventBus.emit("give_gold", {"amount": pot})
 		return "win"
 	elif player_rank == best_npc_rank:
-		MyEventBus.emit("give_gold", {"amount": player_committed})
 		return "tie"
 	return "lose"
 
@@ -350,7 +418,7 @@ func _row_npc(label: String, private_dice: Array, private_types: Array, revealed
 	for i in range(private_dice.size()):
 		var color: String = _die_color(private_types[i]) if i < private_types.size() else ""
 		if revealed[i]:
-			var face: String = _face_name(private_dice[i])
+			var face: String = _face_char(private_dice[i])
 			parts.append("[color=%s]%s[/color]" % [color, face] if color else face)
 			known.append(private_dice[i])
 		else:
@@ -366,7 +434,7 @@ func _fmt_typed(dice: Array, die_types: Array) -> String:
 	var parts: Array = []
 	for i in range(dice.size()):
 		var color: String = _die_color(die_types[i]) if i < die_types.size() else ""
-		var face: String = _face_name(dice[i])
+		var face: String = _face_char(dice[i])
 		if color:
 			parts.append("[color=%s]%s[/color]" % [color, face])
 		else:
@@ -383,6 +451,26 @@ func _face_name(v) -> String:
 		if v == "J": return "Joker"
 		if v == "B": return "Bridge"
 	return str(int(v))
+
+
+func _face_char(v) -> String:
+	if v is String: return v
+	if v is int:
+		if v == 0: return "Rogue"
+		if v == 7: return "Knight"
+		return str(v)
+	return str(v)
+
+
+func _fmt_roll_result(v) -> String:
+	if v is String:
+		if v == "J": return "Joker (J)"
+		if v == "B": return "Bridge (B)"
+	if v is int:
+		if v == 0: return "Rogue"
+		if v == 7: return "Knight"
+		return str(v)
+	return str(v)
 
 
 # ── Hand ranking ──────────────────────────────────────────────────────────────
@@ -414,7 +502,7 @@ func _name_n(dice: Array) -> String:
 	if rank >= 5500: return "Royal Climb"
 	if rank >= 5000: return "Three Arcs"
 	if rank >= 4500: return "Lover's Climb"
-	if rank >= 4000: return "Double Pair"
+	if rank >= 4000: return "Double Trouble"
 	if rank >= 3500: return "Drunkard's Climb"
 	if rank >= 3000: return "The Climb"
 	if rank >= 2000: return "Wanderer's Hand"
@@ -522,7 +610,7 @@ func _rank_pure(numerics: Array, bridges: int) -> int:
 		if all_in:
 			return 4500 + run_high
 
-	# 4000 — Double Pair
+	# 4000 — Double Trouble
 	if pair_vals.size() >= 2:
 		return 4000 + _prv(pair_vals[-1]) * 10 + _prv(pair_vals[-2])
 
@@ -805,21 +893,90 @@ func _banter(npc: Dictionary, trigger: String, chance: float = 0.45) -> bool:
 	return true
 
 
-# Handles the NPC re-roll turn for one phase, including all banter injection.
+func _banter_pool(npc: Dictionary, keys: Array, chance: float = 1.0) -> bool:
+	var pool: Array = []
+	for key in keys:
+		pool += npc.get("banter", {}).get(key, [])
+	if pool.is_empty() or rng.randf() > chance:
+		return false
+	await _say(pool[rng.randi() % pool.size()])
+	return true
+
+
+func _banter_showdown_react(npc: Dictionary, revealed_rank: int, best_so_far: int, chance: float) -> bool:
+	var key: String
+	if revealed_rank > best_so_far:
+		key = "showdown_react_best"
+	elif revealed_rank >= 2000:
+		key = "showdown_react_good"
+	else:
+		key = "showdown_react_bad"
+	return await _banter(npc, key, chance)
+
+
+func _is_special_face_ext(face) -> bool:
+	if face is String: return true
+	if face is int: return face == 0 or face == 7
+	return false
+
+
+func _special_die_key(face) -> String:
+	if face is String:
+		if face == "J": return "joker"
+		if face == "B": return "bridge"
+		if face == "C": return "crown"
+	if face is int:
+		if face == 0: return "rogue"
+		if face == 7: return "knight"
+	return ""
+
+
+func _dice_roll_sfx() -> void:
+	MyEventBus.emit("play_sfx", {"id": "dice"})
+	if delay_fn.is_valid():
+		await delay_fn.call()
+
+
+func _react_stand_pat(reactors: Array) -> void:
+	if reactors.is_empty():
+		return
+	var reactor: Dictionary = reactors[rng.randi() % reactors.size()]
+	await _banter(reactor, "react_stand_pat", 0.35)
+
+
+func _react_to_npc_reroll(all_npcs: Array, acting_npc: Dictionary, rerolled_idx: int, community: Array) -> void:
+	var others: Array = all_npcs.filter(func(n): return n != acting_npc)
+	if others.is_empty():
+		return
+	var new_face = acting_npc["dice"][rerolled_idx]
+	var other_pool: Array = []
+	for i in range(acting_npc["dice"].size()):
+		if i != rerolled_idx:
+			other_pool.append(acting_npc["dice"][i])
+	other_pool += community
+	var reactor: Dictionary = others[rng.randi() % others.size()]
+	if _is_good_visible(acting_npc["dice"] + community):
+		await _banter(reactor, "react_good_roll", 0.35)
+	elif _creates_pair(new_face, other_pool):
+		await _banter(reactor, "react_pair", 0.35)
+	elif not _face_has_synergy(new_face, other_pool):
+		await _banter(reactor, "react_no_combo", 0.35)
+
+
 func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Array, player_types: Array, comm_ids: Array) -> void:
 	for npc in npcs:
-		var full_rank: int = _rank_n(npc["dice"] + community)
-		if full_rank >= 3000:
-			await _banter(npc, "hand_good_start", 0.35)
-		elif full_rank == 0:
-			await _banter(npc, "hand_bad_start", 0.35)
-
+		var npc_name: String = (npc["name"] as String).capitalize()
 		var action: int = _npc_decide(npc, community, phase, npc.get("difficulty", "easy"))
 		if action >= 0:
+			# 10a: NPC rerolls
+			await _say("%s re-rolls a die." % npc_name)
 			await _banter(npc, "reroll")
+			await _dice_roll_sfx()
 			npc["dice"][action] = _roll_die(npc["dice_types"][action])
 			npc["revealed"][action] = true
 			var new_face = npc["dice"][action]
+
+			await _say("%s rolled %s!" % [npc_name, _fmt_roll_result(new_face)])
 
 			var other_pool: Array = []
 			for i in range(npc["dice"].size()):
@@ -827,16 +984,11 @@ func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Arra
 					other_pool.append(npc["dice"][i])
 			other_pool += community
 
-			MyEventBus.emit("continue_text", {
-				"text": "\n%s re-rolls a die.\n\n" % (npc["name"] as String).capitalize() + _table(player_hand, player_types, npcs, community, comm_ids),
-				"linebreak": false
-			})
-			await MyEventBus.await_event("typing_finished")
-
 			var fired := false
-			if not fired and _is_special_face(new_face):
-				var specific_self := "special_die_self_joker" if new_face == "J" else "special_die_self_bridge"
-				fired = await _banter(npc, specific_self, 0.4)
+			if not fired and _is_special_face_ext(new_face):
+				var suffix: String = _special_die_key(new_face)
+				if not suffix.is_empty():
+					fired = await _banter(npc, "special_die_self_" + suffix, 0.4)
 				if not fired:
 					fired = await _banter(npc, "special_die_self", 0.4)
 			if not fired and _is_good_visible(other_pool + [new_face]):
@@ -845,26 +997,30 @@ func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Arra
 				fired = await _banter(npc, "pair_hit", 0.4)
 			if not fired and not _face_has_synergy(new_face, other_pool):
 				fired = await _banter(npc, "no_combo", 0.4)
+
+			if npc_crossreact:
+				await _react_to_npc_reroll(npcs, npc, action, community)
+			await _say("%s's hand: " % npc_name + _row_npc(npc_name, npc["dice"], npc["dice_types"], npc["revealed"], community, comm_ids))
 		else:
+			# 10b: NPC holds pat
+			await _say("%s held pat." % npc_name)
 			await _banter(npc, "keep_hand")
+			if npc_crossreact:
+				var others: Array = npcs.filter(func(n): return n != npc)
+				await _react_stand_pat(others)
 
 
 func _react_to_player_reroll(npcs: Array, rerolled_idx: int, player_hand: Array, community: Array) -> void:
 	if npcs.is_empty():
 		return
 	var new_face = player_hand[rerolled_idx]
-	var other_pool: Array = []
-	for i in range(player_hand.size()):
-		if i != rerolled_idx:
-			other_pool.append(player_hand[i])
-	other_pool += community
 	var reactor: Dictionary = npcs[rng.randi() % npcs.size()]
-	if _is_good_visible(player_hand + community):
-		await _banter(reactor, "react_good_roll", 0.35)
-	elif _creates_pair(new_face, other_pool):
-		await _banter(reactor, "react_pair", 0.35)
-	elif not _face_has_synergy(new_face, other_pool):
-		await _banter(reactor, "react_no_combo", 0.35)
+	if _is_good_visible([new_face] + community):
+		await _banter(reactor, "react_good_roll", 0.45)
+	elif _creates_pair(new_face, community):
+		await _banter(reactor, "react_pair", 0.45)
+	elif not _face_has_synergy(new_face, community):
+		await _banter(reactor, "react_no_combo", 0.45)
 
 
 func _react_to_community_die(npcs: Array, community: Array) -> void:
@@ -872,16 +1028,17 @@ func _react_to_community_die(npcs: Array, community: Array) -> void:
 		return
 	var new_comm = community[-1]
 	var comm_before: Array = community.slice(0, community.size() - 1)
-	var reactor_idx: int = rng.randi() % npcs.size()
-	var reactor: Dictionary = npcs[reactor_idx]
-	var reactor_pool: Array = _npc_visible_dice(reactor) + comm_before
-	if _face_has_synergy(new_comm, reactor_pool):
-		await _banter(reactor, "community_favor_self", 0.5)
-	else:
-		await _banter(reactor, "community_favor_other", 0.5)
-	if _is_special_face(new_comm):
-		var comm_reactor: Dictionary = npcs[(reactor_idx + 1) % npcs.size()] if npcs.size() > 1 else reactor
-		var specific_comm := "special_die_community_joker" if new_comm == "J" else "special_die_community_bridge"
-		var spec_fired := await _banter(comm_reactor, specific_comm, 0.55)
-		if not spec_fired:
-			await _banter(comm_reactor, "special_die_community", 0.55)
+	for npc in npcs:
+		var fired := false
+		if _is_special_face_ext(new_comm):
+			var suffix: String = _special_die_key(new_comm)
+			if not suffix.is_empty():
+				fired = await _banter(npc, "special_die_community_" + suffix, 1.0)
+			if not fired:
+				fired = await _banter(npc, "special_die_community", 1.0)
+		if not fired:
+			var npc_pool: Array = _npc_visible_dice(npc) + comm_before
+			if _face_has_synergy(new_comm, npc_pool):
+				await _banter(npc, "community_favor_self", 1.0)
+			else:
+				await _banter(npc, "community_favor_other", 1.0)

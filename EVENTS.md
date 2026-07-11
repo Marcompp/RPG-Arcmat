@@ -43,7 +43,7 @@ They greatly contribute to the identity of the node.
 
 Always place `mark_used` **before** the event body — if the player saves and quits mid-event, the state is already committed:
 ```json
-{"type": "if", "condition": {"my_event_done": 0}, "then": [
+{"type": "if", "condition": {"event_unused": "my_event_done"}, "then": [
   {"type": "mark_used", "event": "my_event_done"},
   ...body...
 ], "else": [...repeat or skip...]}
