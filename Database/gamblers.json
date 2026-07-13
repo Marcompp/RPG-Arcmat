@@ -390,7 +390,7 @@
 
     "smiley_clown": {
         "name": "Smiley Clown",
-        "dice": ["circus", "circus", "standard"],
+        "dice": ["trick1", "trick2", "standard"],
         "difficulty": "risky",
         "stats": {"lck": 4},
         "banter": {
@@ -556,7 +556,7 @@
 
     "gamer_clown": {
         "name": "Gamer Clown",
-        "dice": ["circus", "circus", "standard"],
+        "dice": ["trick3", "trick2", "standard"],
         "difficulty": "wildcard",
         "stats": {"lck": 4},
         "banter": {
@@ -722,7 +722,7 @@
 
     "frowny_clown": {
         "name": "Frowny Clown",
-        "dice": ["standard", "standard", "circus"],
+        "dice": ["standard", "standard", "trick"],
         "difficulty": "conservative",
         "stats": {"lck": 2},
         "banter": {
@@ -861,7 +861,7 @@
 
     "serious_clown": {
         "name": "Serious Clown",
-        "dice": ["circus", "standard", "circus"],
+        "dice": ["trick2", "standard", "trick1"],
         "difficulty": "pro",
         "stats": {"lck": 6},
         "banter": {
@@ -944,23 +944,23 @@
             "showdown_react_bad": [
                 "The Serious Clown glances away."
             ],
-            "showdown_win": [
+            "showdown_npc_win": [
                 "The Serious Clown picks up their winnings without a word.",
                 "The Serious Clown does not celebrate."
             ],
-            "showdown_tie": [
+            "showdown_npc_tie": [
                 "The Serious Clown stares at the tied hands for a long moment.",
                 "The Serious Clown sets their dice down and does not stand."
             ],
-            "showdown_lose": [
-                "The Serious Clown sits for a moment. Then they stand."
+            "showdown_npc_lose": [
+                "The Serious Clown sits for a moment. Then they stand. Then, they are gone."
             ]
         }
     },
 
     "surprised_clown": {
         "name": "Surprised Clown",
-        "dice": ["circus", "circus", "circus"],
+        "dice": ["trick1", "circus3", "trick2"],
         "difficulty": "wildcard",
         "stats": {"lck": 3},
         "banter": {
@@ -1121,6 +1121,175 @@
             "showdown_npc_tie": [
                 "\"A TIE?! A TIE?! HOW?! WHEN?! I DON'T — \"",
                 "The Surprised Clown looks between the tied hands, genuinely overwhelmed."
+            ]
+        }
+    },
+
+    "skeleton_gambler": {
+        "name": "Skeleton Gambler",
+        "dice": ["skull", "bone", "standard"],
+        "difficulty": "medium",
+        "stats": {"lck": 4},
+        "banter": {
+            "game_start": [
+                "The jaw clicks open. Words come out slow, hollow. \"Sit. Play. I have been waiting.\"",
+                "He sets out his dice one by one with careful fingers."
+            ],
+            "round_1": [
+                "The skull tilts to one side. Watching.",
+                "A dry rattle as he picks up his dice."
+            ],
+            "round_2": [
+                "He rolls without ceremony.",
+                "Still. Patient. The dead are good at that."
+            ],
+            "round_3": [
+                "A long pause before he picks up his dice. As if thinking."
+            ],
+            "round_good_hand": [
+                "The jaw doesn't move. But something changes in his posture.",
+                "He sets his dice down with quiet care."
+            ],
+            "round_bad_hand": [
+                "He sets the dice down with the same care as always.",
+                "He looks at the dice. No expression. There never is."
+            ],
+            "hand_good_start": [
+                "He holds his dice loosely. Unhurried.",
+                "A rattle of fingers across bone."
+            ],
+            "hand_bad_start": [
+                "He looks at his dice for a moment. Nothing on his face. There never is.",
+                "He rolls again. No comment."
+            ],
+            "reroll": [
+                "Bone on bone.",
+                "Click. Clatter. Click.",
+                "He rolls again without a word."
+            ],
+            "keep_hand": [
+                "He sets his dice flat and folds his hands.",
+                "He doesn't move. The hand is set."
+            ],
+            "pair_hit": [
+                "A rattle that might be satisfaction.",
+                "He notes it. Sets the die down with care."
+            ],
+            "good_roll": [
+                "He doesn't react. Just notes it.",
+                "A hollow sound at the back of his jaw. Not quite a laugh."
+            ],
+            "no_combo": [
+                "He studies the result.",
+                "He looks at the dice. Sets them down again."
+            ],
+            "special_die_self_joker": [
+                "The Skull stares back at both of you.",
+                "\"All roads lead here,\" he says, tapping the skull face."
+            ],
+            "special_die_self_knight": [
+                "He looks at the Knight face without expression. \"Old rank.\"",
+                "He tilts his head at the face. Sets it down."
+            ],
+            "special_die_self_rogue": [
+                "He examines the Rogue face. Sets it down without comment.",
+                "He holds the die up briefly. Nods at it."
+            ],
+            "special_die_self_bridge": [
+                "He tilts his head at the Bridge face. Taps it once.",
+                "\"A bridge,\" he says quietly. Nothing else."
+            ],
+            "react_pair": [
+                "A soft knock of bone on bone.",
+                "He moves one die slightly. Lines them up."
+            ],
+            "react_good_roll": [
+                "He nods slightly.",
+                "A creak of neck bone. Something like respect."
+            ],
+            "react_no_combo": [
+                "He doesn't move.",
+                "He watches you. Waiting."
+            ],
+            "react_stand_pat": [
+                "He folds his hands on the stump.",
+                "Still. Like he has all the time in the world."
+            ],
+            "community_favor_self": [
+                "\"The bones favor me.\" A hollow rattle follows.",
+                "He taps the community dice once. Satisfied."
+            ],
+            "community_favor_other": [
+                "He looks at the community dice. Then at you. Nods once.",
+                "He doesn't react. Just waits."
+            ],
+            "special_die_community_joker": [
+                "\"The skull, there in the middle.\" He looks at it a long time.",
+                "He reaches out and touches the skull face. Doesn't roll it."
+            ],
+            "special_die_community_knight": [
+                "He tips his head toward the Knight face. Old recognition.",
+                "He studies the Knight. Nods."
+            ],
+            "special_die_community_rogue": [
+                "He considers the Rogue face with hollow eyes.",
+                "He looks at the Rogue face a moment longer than the others."
+            ],
+            "special_die_community_bridge": [
+                "\"A bridge.\" He says it quietly. \"Useful thing.\"",
+                "He taps the Bridge face once."
+            ],
+            "showdown_start": [
+                "Bone fingers press flat on the stone. \"Show.\"",
+                "He leans forward just slightly."
+            ],
+            "showdown_reveal": [
+                "\"Lay them out.\"",
+                "He waits."
+            ],
+            "showdown_leading": [
+                "He looks at your dice. Then his. Says nothing.",
+                "He holds still. His hand is ahead."
+            ],
+            "showdown_best": [
+                "His hand is good. He knows it.",
+                "He doesn't gloat. Just waits."
+            ],
+            "showdown_winning_last": [
+                "He hasn't moved. He doesn't need to.",
+                "He watches the table. Patient."
+            ],
+            "showdown_weak_last": [
+                "He looks at his dice flatly.",
+                "He sets one die down. Studies it."
+            ],
+            "showdown_losing": [
+                "He studies your hand.",
+                "He looks from your dice to his. Long pause."
+            ],
+            "showdown_react_best": [
+                "He looks from your dice to his. A long pause.",
+                "\"Good hand.\" Low, hollow."
+            ],
+            "showdown_react_good": [
+                "\"You play well.\" Not an empty compliment.",
+                "He nods once at your dice."
+            ],
+            "showdown_react_bad": [
+                "He holds still. Waiting for you to fold.",
+                "He watches the table."
+            ],
+            "showdown_win": [
+                "\"The bones decide. Not me.\" He draws in the coins.",
+                "He gathers the pot with unhurried care."
+            ],
+            "showdown_tie": [
+                "He divides the pot evenly. Sets your half in front of you without a word.",
+                "He counts it out. Exact halves."
+            ],
+            "showdown_lose": [
+                "He holds still for a long moment. Then pushes the pot across. \"...Play again sometime.\"",
+                "He looks at your hand a while before pushing the winnings over."
             ]
         }
     }

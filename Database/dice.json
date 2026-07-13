@@ -12,12 +12,48 @@
         "values": [1,2,3,4,5,5,6,6],
         "description": "A die carved from uneven bone, meant for games of chance. Weighted so high-rolls are more frequent."
     },
+    "trick": {
+        "id": "trick",
+        "name": "Trick Die",
+        "color": "purple",
+        "values": [1,1,2,3,3,4,5,5,"J"]
+    },
+    "trick2": {
+        "id": "trick2",
+        "name": "Trick Die2",
+        "color": "purple",
+        "values": [0,0,0,4,4,4,7,2,"J"]
+    },
+    "trick3": {
+        "id": "trick3",
+        "name": "Trick Die3",
+        "color": "purple",
+        "values": [1,1,1,5,5,5,3,7,"J"]
+    },
+    "trick1": {
+        "id": "trick1",
+        "name": "Trick Die1",
+        "color": "purple",
+        "values": [2,2,2,6,6,6,3,1,"J"]
+    },
     "circus": {
         "id": "circus",
         "name": "Circus Die",
         "color": "purple",
-        "values": [1,1,6,"J","J","J"],
+        "values": [0,1,6,"J","J","J"],
         "description": "A peculiar periwinkle die used for games of chance, that sounds like it has a bell inside. Several of its faces show Jokers in eerie circus masks."
+    },
+    "circus2": {
+        "id": "circus2",
+        "name": "Circus Die3",
+        "color": "purple",
+        "values": [2,4,5,"J","J","J"]
+    },
+    "circus3": {
+        "id": "circus3",
+        "name": "Circus Die3",
+        "color": "purple",
+        "values": [1,3,7,"J","J","J"]
     },
     "bertunia": {
         "id": "bertunia",
@@ -33,11 +69,86 @@
         "values": ["B",1,2,5,6,"B"],
         "description": "A glowing die used in certain variants of Wanderer's Dice. Includes the face of the Bridge - which is able to bridge the climb from high to low sequences."
     },
+    "bone": {
+        "id": "bone",
+        "name": "Bonecarved Die",
+        "color": "red",
+        "values": ["S","S","S","S",1,2,3],
+        "description": "A die carved from the bones of the long dead. Many of its faces are carved with the Skull."
+    },
+    "skull": {
+        "id": "skull",
+        "name": "Skull-Carved Die",
+        "color": "red",
+        "values": ["S","S","S","S","S","S"],
+        "description": "A die carved from exhumed remains of the long dead. Its faces are carved with the sign of the Skull."
+    },
+    "rune": {
+        "id": "rune",
+        "name": "Runecarved Die",
+        "color": "indigo",
+        "values": [0,1,2,3,5,7,"M","M"]
+    },
     "crown": {
         "id": "crown",
         "name": "Crown Die",
         "color": "yellow",
         "values": [2,3,4,5,6,"C"],
         "description": "A golden jewel-encrusted die. Includes the face of the Crown - which is able to crown any hand to raise its standing."
+    },
+    "decadent": {
+        "id": "decadent",
+        "name": "Decadent Die",
+        "color": "gold",
+        "values": ["S","S","S","S","C","C"],
+        "description": "A haunted die carved from funerary gold and haunted by the dead. Two of its faces are carved with the Crown - and four with the Skull."
+    },
+    "crude": {
+        "id": "crude",
+        "name": "Crude Die",
+        "color": "gray",
+        "values": [1,2,3,"X","X","X"],
+        "description": "A die crudely carved from bone using unsophisticated methods. Half its faces are Blank."
+    },
+    "blank": {
+        "id": "blank",
+        "name": "Blank Die",
+        "color": "gray",
+        "values": ["X","X","X","X","X","X"],
+        "description": "A die crudely carved from vulcanic rock. All its faces are Blank."
+    },
+    "special": {
+        "id": "special",
+        "name": "Special Die",
+        "color": "lime",
+        "values": ["S","B","T","M","J","C"]
+    },
+    "priest": {
+        "id": "priest",
+        "name": "Priest's Die",
+        "color": "white",
+        "values": [1, 2, 3, 4, 5, "P"],
+        "description": "A die blessed by the Wanderer's clergy. One face bears the sign of the Priest."
+    },
+    "dragon": {
+        "id": "dragon",
+        "name": "Dragon Die",
+        "color": "green",
+        "values": [1, 3, 5, 6, "D", "D"],
+        "description": "A die carved from dragon scale. Two faces bear the mark of the Dragon."
+    },
+    "magician": {
+        "id": "magician",
+        "name": "Magician's Die",
+        "color": "teal",
+        "values": [2, 3, 4, 6, "M", "M"],
+        "description": "A die carved from enchanted wood. Two faces bear the sign of the Magician."
+    },
+    "crystal": {
+        "id": "crystal",
+        "name": "Crystal Die",
+        "color": "cyan",
+        "values": [3, 5, 6, "P", "P", "P"],
+        "description": "A die formed inside a glowing crystal cluster, still faintly warm. Three of its faces bear the sign of the Priest."
     }
 }

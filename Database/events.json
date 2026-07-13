@@ -1904,6 +1904,16 @@
 								]
 							},
 							{
+								"weight": 2, "stat_weights": {"lck": 1},
+								"steps": [
+									{"type": "text", "text": "The cluster breaks open. Suspended in the hollow center — a small die, carved from the crystal itself, glowing the same color as the formation.", "clear": false},
+									{"type": "sfx", "sound": "chest_open"},
+									{"type": "give_item", "item": "crystal"},
+									{"type": "text", "text": "You found a [color=cyan]Crystal Die[/color].", "clear": false},
+									{"type": "show_node"}
+								]
+							},
+							{
 								"weight": 7,
 								"steps": [
 									{"type": "text", "text": "A shard catches your hand on the way out.", "clear": false, "no_continue": true},
@@ -2851,6 +2861,13 @@
 					]
 				},
 				{
+					"weight": 2, "stat_weights": {"lck": 0.5},
+					"steps": [
+						{"type": "event", "event": "dig_bone_die"},
+						{"type": "event", "event": "sundown_plateau_dig_b"}
+					]
+				},
+				{
 					"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Lifespark Crystal"},
 					"steps": [
 						{"type": "event", "event": "dig_lifespark_crystal"},
@@ -2978,6 +2995,13 @@
 								]
 							},
 							{
+								"weight": 1, "stat_weights": {"lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_bone_die"},
+									{"type": "event", "event": "sundown_plateau_dig_c"}
+								]
+							},
+							{
 								"weight": 1, "stat_weights": {"lck": 0.5}, "condition": {"lacks_item": "Lifespark Crystal"},
 								"steps": [
 									{"type": "event", "event": "dig_lifespark_crystal"},
@@ -3098,6 +3122,12 @@
 								]
 							},
 							{
+								"weight": 1, "stat_weights": {"lck": 0.5},
+								"steps": [
+									{"type": "event", "event": "dig_bone_die"}
+								]
+							},
+							{
 								"weight": 1, "stat_weights": {"lck": 1}, "condition": {"lacks_item": "Lifespark Crystal"},
 								"steps": [
 									{"type": "event", "event": "dig_lifespark_crystal"}
@@ -3190,6 +3220,14 @@
 			{"type": "sfx", "sound": "item"},
 			{"type": "give_item", "item": "Bone Club"},
 			{"type": "text", "text": "You found a [color=red]Bone Club[/color]."}
+		]
+	},
+	"dig_bone_die": {
+		"steps": [
+			{"type": "text", "text": "Something small and light, wedged between two flat stones — a die, cut from old bone. The pips are worn near-smooth. Whoever is buried here came prepared for the long wait."},
+			{"type": "sfx", "sound": "item"},
+			{"type": "give_item", "item": "bone"},
+			{"type": "text", "text": "You found a [color=red]Bonecarved Die[/color]."}
 		]
 	},
 	"dig_lifespark_crystal": {
@@ -5063,7 +5101,19 @@
 					],
 					"high": [
 						{"type": "dice_game", "wager": 75, "gamblers": ["travelling_gambler"], "community_dice": ["standard", "standard"],
-							"on_win":  [{"type": "text", "text": "Your hand takes the pot. He stares at the dice for a long moment, then counts out the gold.\n\n\"...Bones don't lie.\""}],
+							"on_win": [
+								{"type": "if",
+								 "condition": {"event_unused": "gambler_high_stakes_win"},
+								 "then": [
+									{"type": "mark_used", "event": "gambler_high_stakes_win"},
+									{"type": "text", "text": "Your hand takes the pot. He stares at the dice for a long time — longer than he's looked at you the whole game.\n\n\"...Bones don't lie.\" He counts out the gold. Then, without a word, he reaches into his coat and sets something on the stump beside the coins.\n\n\"Take it. Someone with that kind of nerve deserves a fair die.\"\n\nIt's a carved bone die, heavier than it should be."},
+									{"type": "give_item", "item": "weighted"}
+								 ],
+								 "else": [
+									{"type": "text", "text": "Your hand takes the pot. He stares at the dice for a long moment, then counts out the gold.\n\n\"...Bones don't lie.\""}
+								 ]
+								}
+							],
 							"on_tie":  [{"type": "text", "text": "He studies the table. Pushes back your stake. Says nothing."}],
 							"on_fold": [{"type": "text", "text": "You fold. He pulls the pot to his side with both hands.\n\n\"High stakes. Wise choice.\""}],
 							"on_lose": [{"type": "text", "text": "He pulls the coins to his side of the stump slowly.\n\n\"High stakes, high lessons.\""}]},
@@ -5071,6 +5121,49 @@
 					],
 					"leave": [
 						{"type": "text", "text": "\"Another time, then.\" He goes back to rolling the dice between his fingers."},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"skeleton_gambler": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "Among the headstones, a figure sits hunched over a flat-topped grave marker. Three dice on the stone in front of it. It doesn't have eyes anymore, but the empty sockets turn toward you when you approach.\n\n\"Sit,\" it says, in a voice like air through old stone. \"One game. That is all I ask.\""},
+			{"type": "choice", "header": "Play or leave.",
+				"choices": [
+					{"choice": "50 gold — one game",
+						"key": "play",
+						"condition": {"gold": {"min": 50}},
+						"disabled_text": "50 gold (can't afford)",
+						"disabled_tooltip": "Requires at least 50G"},
+					{"choice": "Walk away", "key": "leave"}
+				],
+				"branches": {
+					"play": [
+						{"type": "dice_game", "wager": 50, "gamblers": ["skeleton_gambler"], "community_dice": ["bone", "standard"],
+							"on_win": [
+								{"type": "text", "text": "Your hand takes it. He holds still for a moment, then counts out the coins and sets them in front of you.\n\n\"...Well played.\" He reaches behind the headstone and sets a die on the stone between you. Small, carved from bone, every face the same mark. \"Keep it. Something to remember the game by.\""},
+								{"type": "give_item", "item": "skull"}
+							],
+							"on_tie": [
+								{"type": "text", "text": "A dead match. He divides the pot exactly and sets your half in front of you without a word. Then he reaches behind the headstone and places a small die on the stone between you. Every face carved with the same sign.\n\n\"Even hands. Take this anyway.\""},
+								{"type": "give_item", "item": "skull"}
+							],
+							"on_fold": [
+								{"type": "text", "text": "You set your dice down. He pulls the pot to his side with careful hands.\n\n\"Wise, perhaps.\" He doesn't look up from the stone. \"Come back when you are ready.\""}
+							],
+							"on_lose": [
+								{"type": "text", "text": "He sweeps the coins to his side slowly. Then reaches behind the headstone and sets a small bone die on the grave marker between you. Every face carved with the same sign.\n\n\"The game leaves something behind,\" he says. \"It always does.\""},
+								{"type": "give_item", "item": "skull"}
+							]
+						},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You back away from the grave. The skeleton watches you go, then looks back down at its dice.\n\nIt doesn't call after you."},
 						{"type": "show_node"}
 					]
 				}
@@ -5286,18 +5379,18 @@
 						"outcomes": [
 							{"weight": 1, "steps": [
 								{	
-									"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus"], 
+									"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus2"], 
 									"on_win": [{"type": "event", "event": "circus_wit_victory"}], 
 									"on_tie": [{"type": "event", "event": "circus_wit_victory"}], 
 									"on_fold": [{"type": "event", "event": "circus_wit_defeat"}], 
 									"on_lose": [{"type": "event", "event": "circus_wit_defeat"}]
 								}
 							]},
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["frowny_clown", "surprised_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
-							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]}
+							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
+							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["frowny_clown", "surprised_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
+							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
+							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]},
+							{"weight": 1, "steps": [{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}]}
 						]
 					}
 				],
@@ -5308,7 +5401,7 @@
 						"then": [
 							{"type": "text", "text": "The Gamer Clown stands very still for a moment.\n\n\"...I'm surprised,\" they say. \"Genuinely.\"\n\nThey tilt their head.\n\n\"You wouldn't like me when I'm surprised.\"", "clear": true, "no_continue": true},
 							{"type": "text", "text": "They split into three.\n\nThe new one's mask is frozen mid-gasp — wide eyes, open mouth, arrested mid-shock.\n\n\"Get your dice out,\" they say. The other two agree, very loudly.", "clear": false, "no_continue": false},
-							{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
+							{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "surprised_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 						],
 						"else": [
 							{
@@ -5317,7 +5410,7 @@
 								"then": [
 									{"type": "text", "text": "The Gamer Clown leans on the counter and looks at you for a long moment.\n\n\"You're going to regret this third one.\" They say it almost warmly.\n\nThen they split.\n\nThree figures, this time: the grinning one, the frowning one, and a third — flat-faced, blank-masked, completely expressionless.", "clear": true, "no_continue": true},
 									{"type": "text", "text": "The Serious Clown stares at you.\n\nThe other two make noise. You focus on the Serious Clown.", "clear": false, "no_continue": false},
-									{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "serious_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
+									{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown", "serious_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 								],
 								"else": [
 									{
@@ -5326,13 +5419,13 @@
 										"then": [
 											{"type": "text", "text": "The Gamer Clown steps up onto the booth counter.\n\n\"Ready for round two?\" They spread their arms wide — and then something happens.\n\nThey split.\n\nTwo figures drop to either side of the counter: one with a mask fixed in a permanent grin, one with a mask pulled into a long, deep frown.", "clear": true, "no_continue": true},
 											{"type": "text", "text": "The Smiley Clown claps their hands. The Frowny Clown sighs.\n\n\"Better get your dice out,\" they say, not quite in unison.", "clear": false, "no_continue": false},
-											{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
+											{"type": "dice_game", "wager": 0, "gamblers": ["smiley_clown", "frowny_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 										],
 										"else": [
 											{"type": "text", "text": "\"For the Trial of Wit,\" the Gamer Clown announces, climbing atop the booth, \"you shall be facing *ME* in the most brutal, the most STRATEGIC, the most cunningly devised game ever conceived by any mind both fevered and brilliant...\"", "clear": true, "no_continue": true},
 											{"type": "text", "text": "\"[wait=0.1]...[wait=0.1]WANDERER'S DICE!\"\n\nThey produce a set of dice from somewhere — and set them on the counter with a flourish.", "clear": false, "no_continue": true},
 											{"type": "text", "text": "They gesture at you. \"Better get your dice out!\"", "clear": false, "no_continue": false},
-											{"type": "dice_game", "wager": 0, "gamblers": ["gamer_clown"], "community_dice": ["circus", "circus"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
+											{"type": "dice_game", "wager": 0, "gamblers": ["gamer_clown"], "community_dice": ["circus", "circus2"], "on_win": [{"type": "event", "event": "circus_wit_victory"}], "on_tie": [{"type": "event", "event": "circus_wit_victory"}], "on_fold": [{"type": "event", "event": "circus_wit_defeat"}], "on_lose": [{"type": "event", "event": "circus_wit_defeat"}]}
 										]
 									}
 								]

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderer's Dice — Hand Tester</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f0f1a; --bg2: #16213e; --bg3: #1a1a2e; --bg4: #0d1520;
+  --border: #2a2a4a; --text: #e2e8f0; --muted: #94a3b8;
+  --gold: #c9a84c; --red: #c0392b; --purple: #7c3aed; --orange: #ea580c;
+}
+html, body { min-height:100%; background:var(--bg); color:var(--text); font-family:system-ui,sans-serif; font-size:14px; }
+
+header {
+  position:sticky; top:0; z-index:10;
+  background:var(--bg3); border-bottom:1px solid var(--border);
+  padding:10px 20px; display:flex; align-items:center; gap:12px;
+}
+header h1 { font-size:14px; font-weight:600; color:var(--muted); }
+
+main { max-width:620px; margin:40px auto; padding:0 20px 60px; }
+
+/* ── Dice Row ── */
+#dice-row { display:flex; gap:10px; justify-content:center; margin-bottom:16px; }
+
+.die-btn {
+  width:100px; height:100px; border-radius:10px;
+  border:2px solid var(--border); background:var(--bg2);
+  cursor:pointer; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:3px;
+  transition:transform .1s, box-shadow .15s;
+  user-select:none; flex-shrink:0;
+}
+.die-btn:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,.4); }
+.die-btn:active { transform:translateY(0); }
+.die-symbol { font-size:34px; font-weight:700; line-height:1; color:var(--text); }
+.die-label  { font-size:10px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+
+/* per-face styling */
+.die-btn[data-face="empty"] { border-color:#1e1e30; }
+.die-btn[data-face="empty"] .die-symbol { color:#2a2a4a; font-weight:300; }
+
+.die-btn[data-face="0"] { border-color:#475569; background:#1c2536; }
+.die-btn[data-face="1"],.die-btn[data-face="2"],.die-btn[data-face="3"],
+.die-btn[data-face="4"],.die-btn[data-face="5"],.die-btn[data-face="6"] { border-color:#334155; background:#171f2e; }
+.die-btn[data-face="7"] { border-color:#4b6380; background:#1c2c3e; }
+.die-btn[data-face="B"] { border-color:#6d28d9; background:#1b0e40; }
+.die-btn[data-face="B"] .die-symbol { color:#a78bfa; }
+.die-btn[data-face="C"] { border-color:var(--gold); background:#1e1605; }
+.die-btn[data-face="C"] .die-symbol { color:var(--gold); }
+.die-btn[data-face="J"] { border-color:var(--orange); background:#1e0e04; }
+.die-btn[data-face="J"] .die-symbol { color:#fb923c; }
+.die-btn[data-face="S"] { border-color:#7f1d1d; background:#1a0707; }
+.die-btn[data-face="S"] .die-symbol { color:#f87171; }
+.die-btn[data-face="X"] { border-color:#1f1f1f; background:#0a0a0a; }
+.die-btn[data-face="X"] .die-symbol { color:#374151; }
+
+/* ── Hint ── */
+.hint { text-align:center; font-size:11px; color:#3a3a5a; margin-bottom:28px; }
+
+/* ── Result ── */
+#result {
+  text-align:center; padding:24px 20px; margin-bottom:20px;
+  background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+  transition:border-color .2s;
+}
+#hand-name { font-size:28px; font-weight:700; letter-spacing:.02em; margin-bottom:6px; color:var(--muted); }
+#hand-sub  { font-size:12px; color:#4a5060; }
+
+#result.t-low    { border-color:#334155; }
+#result.t-low    #hand-name { color:#94a3b8; }
+#result.t-mid    { border-color:#1d4a6a; }
+#result.t-mid    #hand-name { color:#7dd3fc; }
+#result.t-high   { border-color:#14532d; }
+#result.t-high   #hand-name { color:#86efac; }
+#result.t-elite  { border-color:#78380a; }
+#result.t-elite  #hand-name { color:var(--gold); }
+#result.t-apex   { border-color:#581c87; }
+#result.t-apex   #hand-name { color:#e879f9; }
+#result.t-void   { border-color:#1e3a5f; }
+#result.t-void   #hand-name { color:#93c5fd; font-style:italic; }
+
+/* ── Button ── */
+.btn {
+  padding:6px 14px; border-radius:6px; border:1px solid var(--border);
+  background:var(--bg2); color:var(--text); cursor:pointer; font-size:12px;
+  transition:background .15s;
+}
+.btn:hover { background:#1a2540; }
+
+/* ── Hierarchy ── */
+details { margin-top:8px; }
+details summary {
+  cursor:pointer; padding:8px 12px; border-radius:6px;
+  border:1px solid var(--border); font-size:12px; color:var(--muted);
+  list-style:none; display:flex; align-items:center; gap:6px;
+}
+details summary::-webkit-details-marker { display:none; }
+details summary::before { content:"▶"; font-size:9px; color:#4a4a6a; }
+details[open] summary::before { content:"▼"; }
+details pre {
+  margin-top:8px; padding:16px; border-radius:8px;
+  background:var(--bg2); border:1px solid var(--border);
+  font-family:'Courier New',monospace; font-size:12px; line-height:1.75;
+  color:var(--muted); white-space:pre;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Wanderer's Dice — Hand Tester</h1>
+  <button class="btn" id="clear-btn" style="margin-left:auto">Clear All</button>
+</header>
+
+<main>
+  <div id="dice-row"></div>
+  <p class="hint">Left-click to advance face &nbsp;·&nbsp; Right-click to go back</p>
+
+  <div id="result">
+    <div id="hand-name">—</div>
+    <div id="hand-sub">No dice active</div>
+  </div>
+
+  <details>
+    <summary>Hand Hierarchy Reference</summary>
+    <pre id="hier-text"></pre>
+  </details>
+</main>
+
+<script>
+// ── Constants (mirrored from DiceGame.gd) ───────────────────────────────────
+const FACE_JOKER="J",FACE_BRIDGE="B",FACE_CROWN="C",FACE_SKULL="S",FACE_BLANK="X";
+const FACE_ROGUE=0, FACE_KNIGHT=7, NUMERIC_COUNT=8;
+
+const RANK_FULL_CIRCUS=11000, RANK_DOMINIUM=10300, RANK_FIRST_BLIGHT=10220,
+  RANK_KINGS_GRAVE=10190, RANK_CROWNED_PREMONITION=10180, RANK_FOUR_DAY_REIGN=10170,
+  RANK_KINGS_THREE_ARCS=10160, RANK_CROWNED_FOUR_ARCS=10150, RANK_NECRONOMICON=10100,
+  RANK_DYNASTIC_MARRIAGE=10050, RANK_DEAD_DYNASTY=10020, RANK_FIVE_ARCS=10000,
+  RANK_PREMONITION=9200, RANK_KINGS_CLIMB=9100, RANK_CROWNED_LONG_ROAD=9050,
+  RANK_PILGRIMAGE=9000, RANK_KINGS_SKULL=8200, RANK_KINGS_EYES=8170,
+  RANK_KINGS_WANDERER=8150, RANK_KINGS_COMMON=8100, RANK_TRIUMVIRATE=8050,
+  RANK_CROWNED_GRAVEYARD=8035, RANK_CROWNED_THREE_ARCS=8020, RANK_FOUR_ARCS=8000,
+  RANK_WIDOWER=7520, RANK_STAIRWELL=7500, RANK_CROWNED_DRUNKARDS_CLIMB=7100,
+  RANK_CROWNED_CLIMB=7050, RANK_LONG_ROAD=7000, RANK_SUMMIT=6500,
+  RANK_CROWNED_DUET=6080, RANK_HEARTH=6000, RANK_GRAVEYARD=5900,
+  RANK_PEREGRINE=5500, RANK_KINGS_HAND=5200, RANK_CROWNED_SNAKE_EYES=5120,
+  RANK_CROWNED_WANDERERS_HAND=5100, RANK_CROWNED_COMMON=5080, RANK_THREE_ARCS=5000,
+  RANK_LOVERS_CLIMB=4500, RANK_DOUBLE_DUET=4000, RANK_DRUNKARDS_CLIMB=3500,
+  RANK_CROWNED_SKULL=3450, RANK_SNAKE_EYES=3400, RANK_CLIMB=3000,
+  RANK_CROWNED_HAND=2900, RANK_WANDERERS_HAND=2000, RANK_COMMON=1000, RANK_THE_VOID=-1;
+
+// ── Ranking logic (ported from DiceGame.gd) ─────────────────────────────────
+
+function prv(v) { return v === FACE_BRIDGE ? FACE_KNIGHT : (typeof v === 'string' ? parseInt(v) : v); }
+
+function runEndingAt(unique, top) {
+  const vals = [top]; let c = top - 1;
+  while (unique.includes(c)) { vals.unshift(c); c--; }
+  return [vals.length, vals];
+}
+
+function runStartingAt(unique, bot) {
+  const vals = [bot]; let c = bot + 1;
+  while (unique.includes(c)) { vals.push(c); c++; }
+  return [vals.length, vals];
+}
+
+function bestRun(unique, useBridge) {
+  let bLen=0, bHigh=0, bVals=[];
+  if (unique.length > 0) {
+    let cs=0, cl=1;
+    for (let i=1; i<unique.length; i++) {
+      if (unique[i] === unique[i-1]+1) { cl++; }
+      else {
+        if (cl>bLen || (cl===bLen && unique[i-1]>bHigh)) { bLen=cl; bHigh=unique[i-1]; bVals=unique.slice(cs,i); }
+        cs=i; cl=1;
+      }
+    }
+    if (cl>bLen || (cl===bLen && unique[unique.length-1]>bHigh)) { bLen=cl; bHigh=unique[unique.length-1]; bVals=unique.slice(cs); }
+  }
+  if (bLen===0 && unique.length>0) { bLen=1; bHigh=unique[unique.length-1]; bVals=[unique[unique.length-1]]; }
+  if (!useBridge) return [bLen, bHigh, bVals];
+
+  // top extension
+  for (const top of [FACE_KNIGHT, 6]) {
+    if (unique.includes(top)) {
+      const ri = runEndingAt(unique, top); const extLen = ri[0]+1;
+      if (extLen>bLen || (extLen===bLen && top>bHigh)) { bLen=extLen; bHigh=top; bVals=[...ri[1], FACE_BRIDGE]; }
+    }
+  }
+  // bottom extension
+  for (const bot of [FACE_ROGUE, 1]) {
+    if (unique.includes(bot)) {
+      const ri = runStartingAt(unique, bot); const extLen=ri[0]+1; const extHigh=bot+ri[0]-1;
+      if (extLen>bLen || (extLen===bLen && extHigh>bHigh)) { bLen=extLen; bHigh=extHigh; bVals=[FACE_BRIDGE, ...ri[1]]; }
+    }
+  }
+  // wrap
+  for (const top of [FACE_KNIGHT, 6]) {
+    if (!unique.includes(top)) continue;
+    const hi = runEndingAt(unique, top);
+    for (const bot of [FACE_ROGUE, 1]) {
+      if (!unique.includes(bot)) continue;
+      const lo = runStartingAt(unique, bot); const total = hi[0]+1+lo[0];
+      if (total>bLen || (total===bLen && top>bHigh)) { bLen=total; bHigh=top; bVals=[...hi[1], FACE_BRIDGE, ...lo[1]]; }
+    }
+  }
+  return [bLen, bHigh, bVals];
+}
+
+function rankNumeric(nums, bridges) {
+  if (nums.length===0 && bridges===0) return 0;
+  const unique = [...new Set([...nums].sort((a,b)=>a-b))];
+  const counts = new Map();
+  for (const v of nums) counts.set(v, (counts.get(v)||0)+1);
+  if (bridges>=1) counts.set(FACE_BRIDGE, bridges);
+
+  let pairs=[], triple=null, quad=null, penta=null;
+  for (const [val,cnt] of counts) {
+    if (val===FACE_BRIDGE) continue;
+    if (cnt>=5) penta=val;
+    else if (cnt===4) quad=val;
+    else if (cnt===3) triple=val;
+    else if (cnt===2) pairs.push(val);
+  }
+  pairs.sort((a,b) => prv(a)-prv(b));
+
+  const [rLen, rHigh, rVals] = bestRun(unique, bridges>=1);
+
+  if (penta!==null)                                       return RANK_FIVE_ARCS + prv(penta);
+  if (rLen>=5)                                            return RANK_PILGRIMAGE + rHigh;
+  if (quad!==null)                                        return RANK_FOUR_ARCS + prv(quad);
+  if (rLen>=4 && pairs.length>=1 && rVals.includes(pairs[pairs.length-1]))
+                                                          return RANK_STAIRWELL + rHigh;
+  if (rLen>=4)                                            return RANK_LONG_ROAD + rHigh;
+  if (triple!==null && rLen>=3 && rVals.includes(triple)) return RANK_SUMMIT + prv(triple)*10 + rHigh;
+  if (triple!==null && pairs.length>=1)                   return RANK_HEARTH + prv(triple)*10 + prv(pairs[0]);
+  if (rLen>=3 && pairs.length===1 && !rVals.includes(pairs[0]))
+                                                          return RANK_PEREGRINE + rHigh*10 + prv(pairs[0]);
+  if (triple!==null) {
+    let ho=0; for (const v of nums) { if (v!==triple) ho=Math.max(ho,v); }
+    return RANK_THREE_ARCS + prv(triple)*10 + ho;
+  }
+  if (rLen>=3 && pairs.length>=2 && pairs.every(p => rVals.includes(p)))
+                                                          return RANK_LOVERS_CLIMB + rHigh;
+  if (pairs.length>=2)                                    return RANK_DOUBLE_DUET + prv(pairs[pairs.length-1])*10 + prv(pairs[pairs.length-2]);
+  if (rLen>=3 && pairs.length===1 && rVals.includes(pairs[0]))
+                                                          return RANK_DRUNKARDS_CLIMB + rHigh;
+  if ((counts.get(FACE_ROGUE)||0) >= 2)                   return RANK_SNAKE_EYES;
+  if (rLen>=3)                                            return RANK_CLIMB + rLen*100 + rHigh;
+  if (pairs.length===1) {
+    const pv=pairs[0], prvv=prv(pv); let hk=0;
+    for (const v of nums) { if (v!==pv) hk=Math.max(hk,v); }
+    return (prvv>=4 ? RANK_WANDERERS_HAND : RANK_COMMON) + prvv*10 + hk;
+  }
+  return nums.length>0 ? Math.max(...nums) : 0;
+}
+
+function rankToTier(r) {
+  if (r>=RANK_FIVE_ARCS)     return "five_arcs";
+  if (r>=RANK_PILGRIMAGE)    return "pilgrimage";
+  if (r>=RANK_FOUR_ARCS)     return "four_arcs";
+  if (r>=RANK_STAIRWELL)     return "stairwell";
+  if (r>=RANK_LONG_ROAD)     return "long_road";
+  if (r>=RANK_SUMMIT)        return "summit";
+  if (r>=RANK_HEARTH)        return "hearth";
+  if (r>=RANK_PEREGRINE)     return "royal_climb";
+  if (r>=RANK_THREE_ARCS)    return "three_arcs";
+  if (r>=RANK_LOVERS_CLIMB)  return "lovers_climb";
+  if (r>=RANK_DOUBLE_DUET)   return "double_trouble";
+  if (r>=RANK_DRUNKARDS_CLIMB) return "drunkard_climb";
+  if (r>=RANK_SNAKE_EYES)    return "snake_eyes";
+  if (r>=RANK_CLIMB)         return "climb";
+  if (r>=RANK_WANDERERS_HAND) return "high_pair";
+  if (r>=RANK_COMMON)        return "low_pair";
+  return "none";
+}
+
+function crownRank(crowns, base) {
+  const tier = rankToTier(base);
+  if (crowns>=5) return RANK_DOMINIUM;
+  if (crowns===4) return RANK_FOUR_DAY_REIGN;
+  if (crowns===3) {
+    if (tier==="low_pair"||tier==="high_pair"||tier==="snake_eyes") return RANK_DYNASTIC_MARRIAGE;
+    return Math.max(base, RANK_TRIUMVIRATE);
+  }
+  if (crowns===2) {
+    const m = {"none":RANK_KINGS_HAND,"low_pair":RANK_KINGS_COMMON,"high_pair":RANK_KINGS_WANDERER,
+               "snake_eyes":RANK_KINGS_EYES,"climb":RANK_KINGS_CLIMB,"three_arcs":RANK_KINGS_THREE_ARCS};
+    return m[tier] ?? Math.max(base, RANK_KINGS_HAND);
+  }
+  const m = {"none":RANK_CROWNED_HAND,"low_pair":RANK_CROWNED_COMMON,"high_pair":RANK_CROWNED_WANDERERS_HAND,
+             "snake_eyes":RANK_CROWNED_SNAKE_EYES,"double_trouble":RANK_CROWNED_DUET,"climb":RANK_CROWNED_CLIMB,
+             "drunkard_climb":RANK_CROWNED_DRUNKARDS_CLIMB,"three_arcs":RANK_CROWNED_THREE_ARCS,
+             "long_road":RANK_CROWNED_LONG_ROAD,"four_arcs":RANK_CROWNED_FOUR_ARCS};
+  return m[tier] ?? Math.max(base, RANK_CROWNED_HAND);
+}
+
+function skullRank(skulls, crowns, base) {
+  if (skulls>=5) return RANK_NECRONOMICON;
+  if (skulls===4) return crowns>=1 ? RANK_CROWNED_PREMONITION : RANK_PREMONITION;
+  if (skulls===3) {
+    if (crowns>=2) return RANK_KINGS_GRAVE;
+    if (crowns>=1) return RANK_CROWNED_GRAVEYARD;
+    return base>=RANK_COMMON ? RANK_WIDOWER : RANK_GRAVEYARD;
+  }
+  if (skulls===1 && crowns>0) {
+    if (crowns>=4) return RANK_FIRST_BLIGHT;
+    if (crowns>=3) return RANK_DEAD_DYNASTY;
+    if (crowns>=2) return RANK_KINGS_SKULL;
+    return RANK_CROWNED_SKULL;
+  }
+  return 0;
+}
+
+function rankPure(nums, bridges, crowns=0, skulls=0) {
+  const base = rankNumeric(nums, bridges);
+  let best = base;
+  if (crowns>0) best = Math.max(best, crownRank(crowns, base));
+  if (skulls>0) best = Math.max(best, skullRank(skulls, crowns, base));
+  return best;
+}
+
+function bestWithJokers(nums, bridges, jokers, crowns=0, skulls=0) {
+  if (jokers===0) return rankPure(nums, bridges, crowns, skulls);
+  let best=0;
+  for (let v=0; v<NUMERIC_COUNT; v++)
+    best = Math.max(best, bestWithJokers([...nums, v], bridges, jokers-1, crowns, skulls));
+  return best;
+}
+
+function rankN(dice) {
+  let jokers=0, bridges=0, crowns=0, skulls=0, blanks=0; const nums=[];
+  for (const v of dice) {
+    if (typeof v==='string') {
+      if (v===FACE_JOKER) jokers++;
+      else if (v===FACE_BRIDGE) bridges++;
+      else if (v===FACE_CROWN) crowns++;
+      else if (v===FACE_SKULL) skulls++;
+      else if (v===FACE_BLANK) blanks++;
+    } else nums.push(v);
+  }
+  if (blanks===5)   return RANK_THE_VOID;
+  if (jokers>=5)    return RANK_FULL_CIRCUS;
+  if (jokers===0)   return rankPure(nums, bridges, crowns, skulls);
+  return bestWithJokers(nums, bridges, jokers, crowns, skulls);
+}
+
+function nameN(dice) {
+  const r = rankN(dice);
+  if (r===RANK_THE_VOID)               return "The Void";
+  if (r>=RANK_FULL_CIRCUS)             return "Full Circus";
+  if (r>=RANK_DOMINIUM)                return "The Dominium";
+  if (r>=RANK_FIRST_BLIGHT)            return "First Blight";
+  if (r>=RANK_KINGS_GRAVE)             return "King's Grave";
+  if (r>=RANK_CROWNED_PREMONITION)     return "Crowned Premonition";
+  if (r>=RANK_FOUR_DAY_REIGN)          return "Four Day Reign";
+  if (r>=RANK_DYNASTIC_MARRIAGE)       return "Dynastic Marriage";
+  if (r>=RANK_DEAD_DYNASTY)            return "Dead Dynasty";
+  if (r>=RANK_KINGS_THREE_ARCS)        return "King's Three Arcs";
+  if (r>=RANK_CROWNED_FOUR_ARCS)       return "Crowned Four Arcs";
+  if (r>=RANK_NECRONOMICON)            return "The Necronomicon";
+  if (r>=RANK_FIVE_ARCS)               return "Five Arcs";
+  if (r>=RANK_PREMONITION)             return "The Premonition";
+  if (r>=RANK_KINGS_CLIMB)             return "The King's Climb";
+  if (r>=RANK_CROWNED_LONG_ROAD)       return "Crowned Long Road";
+  if (r>=RANK_PILGRIMAGE)              return "The Pilgrimage";
+  if (r>=RANK_KINGS_SKULL)             return "King's Skull";
+  if (r>=RANK_KINGS_EYES)              return "King's Eyes";
+  if (r>=RANK_KINGS_WANDERER)          return "The King's Wanderer";
+  if (r>=RANK_KINGS_COMMON)            return "The King's Common";
+  if (r>=RANK_TRIUMVIRATE)             return "The Triumvirate";
+  if (r>=RANK_CROWNED_GRAVEYARD)       return "Crowned Graveyard";
+  if (r>=RANK_CROWNED_THREE_ARCS)      return "Crowned Three Arcs";
+  if (r>=RANK_FOUR_ARCS)               return "Four Arcs";
+  if (r>=RANK_WIDOWER)                 return "The Widower";
+  if (r>=RANK_STAIRWELL)               return "The Stairwell";
+  if (r>=RANK_CROWNED_DRUNKARDS_CLIMB) return "Crowned Drunkard's Climb";
+  if (r>=RANK_CROWNED_CLIMB)           return "The Crowned Climb";
+  if (r>=RANK_LONG_ROAD)               return "The Long Road";
+  if (r>=RANK_SUMMIT)                  return "The Summit";
+  if (r>=RANK_CROWNED_DUET)            return "Crowned Duet";
+  if (r>=RANK_HEARTH)                  return "The Hearth";
+  if (r>=RANK_GRAVEYARD)               return "Graveyard";
+  if (r>=RANK_PEREGRINE)               return "The Peregrine";
+  if (r>=RANK_KINGS_HAND)              return "King's Hand";
+  if (r>=RANK_CROWNED_SNAKE_EYES)      return "Crowned Snake Eyes";
+  if (r>=RANK_CROWNED_WANDERERS_HAND)  return "Crowned Wanderer's Hand";
+  if (r>=RANK_CROWNED_COMMON)          return "The Crowned Common";
+  if (r>=RANK_THREE_ARCS)              return "Three Arcs";
+  if (r>=RANK_LOVERS_CLIMB)            return "Lover's Climb";
+  if (r>=RANK_DOUBLE_DUET)             return "Double Duet";
+  if (r>=RANK_DRUNKARDS_CLIMB)         return "Drunkard's Climb";
+  if (r>=RANK_CROWNED_SKULL)           return "Crowned Skull";
+  if (r>=RANK_SNAKE_EYES)              return "Snake Eyes";
+  if (r>=RANK_CLIMB)                   return "The Climb";
+  if (r>=RANK_CROWNED_HAND)            return "Crowned Hand";
+  if (r>=RANK_WANDERERS_HAND)          return "Wanderer's Hand";
+  if (r>=RANK_COMMON)                  return "The Common";
+  return "Dead Hand";
+}
+
+// ── UI ──────────────────────────────────────────────────────────────────────
+
+const CYCLE = [null, 0, 1, 2, 3, 4, 5, 6, 7, "B", "C", "J", "S", "X"];
+const LABELS = { null:"", 0:"Rogue", 7:"Knight", B:"Bridge", C:"Crown", J:"Joker", S:"Skull", X:"Blank" };
+const SYMBOLS = { null:"—" };
+
+const slots = [null, null, null, null, null];
+
+function faceKey(f) { return f===null ? "empty" : String(f); }
+function faceSymbol(f) { return f===null ? "—" : String(f); }
+function faceLabel(f) { return LABELS[f===null ? null : (typeof f==='number' ? f : f)] || ""; }
+
+function renderDice() {
+  const row = document.getElementById("dice-row");
+  row.innerHTML = "";
+  slots.forEach((f, i) => {
+    const btn = document.createElement("button");
+    btn.className = "die-btn";
+    btn.dataset.face = faceKey(f);
+    btn.innerHTML = `<span class="die-symbol">${faceSymbol(f)}</span>` +
+      (faceLabel(f) ? `<span class="die-label">${faceLabel(f)}</span>` : "");
+    btn.addEventListener("click", () => step(i, 1));
+    btn.addEventListener("contextmenu", e => { e.preventDefault(); step(i, -1); });
+    row.appendChild(btn);
+  });
+}
+
+function step(i, dir) {
+  const pos = CYCLE.indexOf(slots[i]);
+  slots[i] = CYCLE[(pos + dir + CYCLE.length) % CYCLE.length];
+  renderDice();
+  update();
+}
+
+function tierClass(rank) {
+  if (rank===RANK_THE_VOID)         return "t-void";
+  if (rank<=0)                      return "";
+  if (rank>=RANK_FIVE_ARCS)         return "t-apex";
+  if (rank>=RANK_FOUR_ARCS)         return "t-elite";
+  if (rank>=RANK_THREE_ARCS)        return "t-high";
+  if (rank>=RANK_CLIMB)             return "t-mid";
+  if (rank>=RANK_COMMON)            return "t-low";
+  return "";
+}
+
+function update() {
+  const active = slots.filter(f => f !== null);
+  const nameEl = document.getElementById("hand-name");
+  const subEl  = document.getElementById("hand-sub");
+  const res    = document.getElementById("result");
+
+  if (active.length===0) {
+    nameEl.textContent = "—";
+    subEl.textContent  = "No dice active";
+    res.className      = "";
+    return;
+  }
+
+  const rank = rankN(active);
+  const name = nameN(active);
+  const faceSummary = active.map(f => String(f)).join("  ");
+
+  nameEl.textContent = name;
+  subEl.textContent  = `[ ${faceSummary} ]  ·  Rank: ${rank}`;
+  res.className      = tierClass(rank);
+}
+
+// ── Hierarchy text ───────────────────────────────────────────────────────────
+document.getElementById("hier-text").textContent =
+`RANK    NAME                        DESCRIPTION
+──────────────────────────────────────────────────────────────────
+11000   Full Circus                 5 Jokers — best hand
+10300   The Dominium                5 Crowns
+10220   First Blight                4 Crowns + Skull
+10190   King's Grave                2 Crowns + 3 Skulls
+10180   Crowned Premonition         1 Crown + 4 Skulls
+10170   Four Day Reign              4 Crowns
+10160   King's Three Arcs           2 Crowns + Three Arcs
+10150   Crowned Four Arcs           1 Crown + Four Arcs
+10100   The Necronomicon            5 Skulls
+10000   Five Arcs                   5 of a kind
+ 9200   The Premonition             4 Skulls
+ 9100   The King's Climb            2 Crowns + 3-in-a-row
+ 9050   Crowned Long Road           1 Crown + 4-in-a-row
+ 9000   The Pilgrimage              5-in-a-row  (Bridge can extend)
+ 8200   King's Skull                2 Crowns + Skull
+ 8170   King's Eyes                 2 Crowns + Snake Eyes
+ 8150   The King's Wanderer         2 Crowns + high pair
+ 8100   The King's Common           2 Crowns + low pair
+ 8050   The Triumvirate             3 Crowns
+ 8035   Crowned Graveyard           1 Crown + 3 Skulls
+ 8020   Crowned Three Arcs          1 Crown + Three Arcs
+ 8000   Four Arcs                   4 of a kind
+ 7520   The Widower                 3 Skulls + base hand ≥ Common
+ 7500   The Stairwell               4-in-a-row + pair inside
+ 7100   Crowned Drunkard's Climb    1 Crown + Drunkard's Climb
+ 7050   The Crowned Climb           1 Crown + 3-in-a-row
+ 7000   The Long Road               4-in-a-row
+ 6500   The Summit                  triple inside 3-in-a-row
+ 6080   Crowned Duet                1 Crown + Double Duet
+ 6000   The Hearth                  triple + pair
+ 5900   Graveyard                   3 Skulls (no base hand)
+ 5500   The Peregrine               3-in-a-row + separate pair
+ 5200   King's Hand                 2 Crowns (no base)
+ 5120   Crowned Snake Eyes          1 Crown + Snake Eyes
+ 5100   Crowned Wanderer's Hand     1 Crown + high pair
+ 5080   The Crowned Common          1 Crown + low pair
+ 5000   Three Arcs                  3 of a kind
+ 4500   Lover's Climb               3-in-a-row + 2 pairs inside
+ 4000   Double Duet                 2 different pairs
+ 3500   Drunkard's Climb            3-in-a-row + pair inside
+ 3450   Crowned Skull               1 Crown + Skull
+ 3400   Snake Eyes                  pair of 0s (Rogues)
+ 3000   The Climb                   3-in-a-row
+ 2900   Crowned Hand                1 Crown (no base)
+ 2000   Wanderer's Hand             pair of 4–7
+ 1000   The Common                  pair of 1–3
+    0   Dead Hand                   no match
+   −1   The Void                    5 Blanks — forced draw
+
+Bridge (B): extends a run at the high end (touching 6 or 7) or
+            low end (touching 0 or 1), or wraps both ends.
+            Counts once per hand. Does NOT form pairs.`;
+
+document.getElementById("clear-btn").addEventListener("click", () => {
+  for (let i=0; i<5; i++) slots[i]=null;
+  renderDice(); update();
+});
+
+renderDice();
+update();
+</script>
+</body>
+</html>

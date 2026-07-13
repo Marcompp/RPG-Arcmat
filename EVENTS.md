@@ -20,6 +20,8 @@ Every event tree should end with either a `show_node` event, `show_node_text` + 
 `show_node_text` (with `clear`:false) + `show_node_actions` should be used when the event ends with only a small amount of text on-screen that doesn't need to be cleared, adding to the node text
 just `show_node_actions` should be used when the event never clear text once, usually when it's just a single atmospheric paragraph 
 
+Any text immediatelly preceeding a dice game should have `no_continue`:false
+
 Try to make events as reusable and readable as possible, by using the `event` command instead of repeating commands or making very complex inline trees
 
 **What sorts of things are events:**

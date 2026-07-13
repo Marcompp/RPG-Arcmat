@@ -239,4 +239,37 @@ A fazer
 
 [ ] Resolver redundancias de texto em area nodes
 
+-------------------------
+  DICE GAME
+-------------------------
+[ ] Fix missing Wait for continue
+
+[ ] Fix missing SFX
+
+[ ] Fix espaçamento entre linhas (linhas referentes à mesma ação não devem ter linebreak entre eles)
+
+[ ] Implementar mais
+
+[ ] Colocar Weighted Die como recompença em travelling_gambler ao vencer o high stakes game a primeira vez
+
+[ ] Colocar Bone Die como recompença possível da ação cavar em Sundown Plateau
+
+[ ] Evento Skeleton Gambler em Sundown Plateau (recompença: Skullcarved Die)
+
+[ ] Game House em Arena Town - escolher qualquer ruleset (dealer's die): 
+      a) "Standard Game" ["standard"x2]
+      b) "Bertunian Game ["bertunia x2]
+      c) "Undead Game" ["skull", "bone"]
+      d) "Enchanted Game" ["rune"x2]
+      e) "Dungeon Game" ["crude"x2]
+      f) "Circus Game ["circus x2]
+      g) "Royal Game" ["crown"x2]
+      h) "Sundown Game" ["bridge"x2]
+      i) "Decadent Game" ["decadent"x2]
+      j) "" []
+      k) "Special Game" []
+
+[ ] Bug fix: Repetindo o X's hand: X's: HAND 
+
+
 ================================================================================

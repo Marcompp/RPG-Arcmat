@@ -989,7 +989,9 @@
 				"Rows of old gravestones stretch across the plateau around you, many broken or sunken into the cracked earth."
 			  ]
 			},
-			"events": [],
+			"events": [
+			  {"chance": 0.75, "event": "skeleton_gambler"}
+			],
 			"description": [
 			  { "text": "The graves are old, many broken or sunken into the earth." },
 			  { "text": "The ground feels disturbed in places." },
