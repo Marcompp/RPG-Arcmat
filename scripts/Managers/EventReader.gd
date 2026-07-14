@@ -1,7 +1,7 @@
-﻿# EventReader.gd
+# EventReader.gd
 # Runs a scripted sequence of event steps in order using await.
 #
-# â”€â”€ Step reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# # â”€â”€ Step reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 #
 #   text    {"type":"text",    "text":"Hello!",   "no_wait":false, "linebreak":false}
 #              Shows text with typewriter. Waits for player to continue unless no_wait is true.
@@ -108,6 +108,12 @@ var gold_callback := Callable()
 
 ## Assign to return the player's 3 equipped die IDs, e.g. func(): return player.data["Dice"]
 var player_dice_callback := Callable()
+
+## Assign to format a die's tooltip, e.g. TravelManager._format_die_tooltip(die_id, die_data)
+var die_tooltip_callback := Callable()
+
+## Assign to return the player's display name, e.g. func(): return player.get_name()
+var player_name_callback := Callable()
 
 var rng: RandomNumberGenerator
 
@@ -235,13 +241,20 @@ func _run_step(step: Dictionary) -> void:
 		"dice_game":
 			var _dg := DiceGame.new()
 			_dg.capture_input_fn = func() -> Dictionary: return await _capture_input()
-			_dg.wait_for_continue_fn = func() -> void: await _wait_for_continue()
+			_dg.wait_for_continue_fn = func() -> Dictionary:
+				MyEventBus.emit("show_choices", {
+					"choices": [{"text": "Continue", "type": "continue"}],
+					"header": ""
+				})
+				return await _capture_input()
 			_dg.stat_callback = stat_callback
 			_dg.gold_callback = gold_callback
-			_dg.rng = rng
+			_dg.rng = rng			
 			_dg.dice_db             = db_callback.call("dice")     if db_callback.is_valid() else {}
 			_dg.gamblers_db         = db_callback.call("gamblers") if db_callback.is_valid() else {}
 			_dg.player_dice_callback = player_dice_callback
+			_dg.die_tooltip_callback = die_tooltip_callback
+			_dg.player_name_callback = player_name_callback
 			var _outcome: String = await _dg.run(step)
 			match _outcome:
 				"win":  await _run_sequence(step.get("on_win", []))

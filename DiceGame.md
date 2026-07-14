@@ -98,6 +98,7 @@ of the key die (higher is better).
 | The Long Road | Four consecutive | 1-2-3-4 |
 | The Summit | Triple overlapping a three-in-a-row | 3-3-3-2-4 |
 | The Hearth | Triple + pair | 1-1-1-2-2 |
+| Lucky Sevens | Three Knights | 7-7-7 |
 | The Peregrine | Three-in-a-row + separate pair | 1-2-3-5-5 |
 | Three Arcs | Three of a kind | 5-5-5 |
 | Lover's Climb | Three consecutive + two pairs, all inside the run | 1-1-2-2-3 |
@@ -122,8 +123,10 @@ of the key die (higher is better).
 | Four Day Reign | Four Crowns |
 | Dynastic Marriage | Three Crowns + any pair |
 | Dead Dynasty | Three Crowns + one Skull |
+| King's Lucky Sevens | Two Crowns + three Knights |
 | King's Grave | Two Crowns + one Skull |
 | The Necronomicon | Five Skulls |
+| Jackpot | Five Knights |
 | The Premonition | Four Skulls |
 | King's Skull | Two Crowns + one Skull |
 | The Triumvirate | Three Crowns |
@@ -139,8 +142,8 @@ One Crown can upgrade any (physically possible) hand. The upgrade naming follows
 
 | Crowns | Upgrade applied to |
 |---|---|
-| 1 Crown | Crowned Hand (lone Crown) / Crowned Common / Crowned Wanderer's Hand / Crowned Snake Eyes / Crowned Duet / Crowned Climb / Crowned Drunkard's Climb / Crowned Three Arcs / Crowned Long Road / Crowned Four Arcs / Crowned Graveyard |
-| 2 Crowns | King's Hand / King's Common / King's Wanderer / King's Eyes / King's Climb / King's Three Arcs |
+| 1 Crown | Crowned Hand (lone Crown) / Crowned Common / Crowned Wanderer's Hand / Crowned Snake Eyes / Crowned Duet / Crowned Climb / Crowned Drunkard's Climb / Crowned Lucky Sevens / Crowned Three Arcs / Crowned Long Road / Crowned Four Arcs / Crowned Graveyard |
+| 2 Crowns | King's Hand / King's Common / King's Wanderer / King's Eyes / King's Climb / King's Lucky Sevens / King's Three Arcs |
 | 3 Crowns | The Triumvirate (overrides pair tier) / Dynastic Marriage (with a pair) |
 | 4 Crowns | Four Day Reign |
 | 5 Crowns | The Dominium |
@@ -305,6 +308,28 @@ picks randomly at a given chance per trigger.
 | `showdown_react_best/good/bad` | NPC reacts to a hand revealed by another player |
 | `showdown_win/tie/lose` | NPC's final result |
 | `showdown_npc_win/lose/tie` | NPC comments on the overall match result |
+
+### Banter Text Placeholders
+
+Banter lines (and other data-driven text routed through `_parse_game_text`, like `start_text`)
+may use `[KEY]`-style placeholders, replaced at display time. Unset keys are left as literal
+`[KEY]` text, so only use a placeholder where it's documented to apply below.
+
+| Key | Value | Applies to |
+|---|---|---|
+| `[PLAYER]` | The player's name | Every trigger |
+| `[SELF]` | The name of the NPC currently speaking | Every trigger |
+| `[SUBJECT]` | The name of the participant being reacted to | `react_*`, `react_stand_pat`, `showdown_react_*` |
+| `[NPC1]` / `[NPC2]` / `[NPC3]` | Name of the first / second / third NPC participant (omitted if that seat is empty) | Every trigger |
+| `[NPCs]` | All NPC names joined as "A, B and C" | Every trigger |
+| `[FACE]` | The die face being rerolled (`reroll`) or just rolled/revealed (`react_*`, `good_roll`, `pair_hit`, `no_combo`, `special_die_*`, `community_favor_*`) | Reroll/roll-reaction triggers |
+| `[HAND]` | The name of the hand in question | `hand_good_start`, `hand_bad_start`, `round_*`, `showdown_*` |
+| `[SELF_HAND]` | The name of the speaking NPC's own current hand | Every trigger |
+| `[RANDOM_HAND]` / `[RANDOM_HIGH_HAND]` / `[RANDOM_LOW_HAND]` | A random hand name (any / top half / bottom half of the hierarchy) reachable with the dice actually in this game — for bluffing | Every trigger |
+| `[WINNER]` / `[WINNER_HAND]` | The name/hand of whoever is currently or finally ahead | `showdown_losing`, `showdown_weak_last`, `showdown_lose`, `showdown_npc_*` |
+| `[DRAW_WITH]` | The other participant(s) this NPC tied with, joined as "A, B and C" | `showdown_tie`, `showdown_npc_tie` |
+| `[WAGER]` | The amount wagered by each participant | Every trigger |
+| `[TOTAL_WAGER]` / `[POT]` | The full pot (sum of all wagers) to be given to the winner | Every trigger |
 
 ---
 

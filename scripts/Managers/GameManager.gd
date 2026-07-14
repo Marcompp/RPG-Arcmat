@@ -53,6 +53,33 @@ signal character_updated(char)
 func get_var(key, default := 0):
 	return game_state["vars"].get(key, default)
 
+# DICE STUFF
+
+const FACE_ORDER := [
+	"0", "1", "2", "3", "4", "5", "6", "7",
+	"B", "J", "C", "P", "M", "D", "S", "X"
+]
+
+var FACE_LABELS := {
+	"0": "Rogue",
+	"1": "1",
+	"2": "2",
+	"3": "3",
+	"4": "4",
+	"5": "5",
+	"6": "6",
+	"7": "Knight",
+	"B": "Bridge",
+	"J": "Joker",
+	"C": "Crown",
+	"P": "Priest",
+	"M": "Magician",
+	"D": "Dragon",
+	"S": "Skull",
+	"X": "Blank"
+}
+
+
 # ------------------------
 # INIT
 # ------------------------
@@ -1220,60 +1247,134 @@ func _offer_die_acquisition(die_id: String, player: Character) -> void:
 		})
 	await _gm_wait_for_continue()
 
-func _build_die_comparison_text(new_die_id: String, player: Character) -> String:
+func _gm_equip_die_from_inventory(die_id: String, player: Character) -> void:
+	var new_data: Dictionary = dice_db.get(die_id, {})
+	var new_name: String = new_data.get("name", die_id)
+	var equipped: Array = player.data.get("Dice", ["standard", "standard", "standard"])
+
+	MyEventBus.emit("dialogue", {"text": _build_die_comparison_text(die_id, player, "Equip Die?")})
+
+	var choices: Array = []
+	for i in range(3):
+		var eid: String = equipped[i]
+		var ename: String = dice_db.get(eid, {}).get("name", eid)
+		choices.append({"text": "Replace Die %d  (%s)" % [i + 1, ename], "type": "replace", "data": i})
+	choices.append({"text": "Cancel", "type": "cancel"})
+
+	var state = {"chosen": -2, "done": false}
+	MyInputRouter.push(func(choice):
+		var t = choice.get("type", "")
+		if t == "replace":
+			state["chosen"] = choice.get("data", -1)
+			state["done"] = true
+			MyInputRouter.pop()
+		elif t == "cancel":
+			state["chosen"] = -1
+			state["done"] = true
+			MyInputRouter.pop()
+	, "die_inv_prompt")
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Equip Die?"})
+	while not state["done"]:
+		await get_tree().process_frame
+
+	if state["chosen"] >= 0:
+		var slot: int = state["chosen"]
+		var old_id: String = equipped[slot]
+		var old_name: String = dice_db.get(old_id, {}).get("name", old_id)
+		player.data["Dice"][slot] = die_id
+		player.consume_item(die_id)
+		if not player.data.has("Inventory"):
+			player.data["Inventory"] = {}
+		player.data["Inventory"][old_id] = player.data["Inventory"].get(old_id, 0) + 1
+		MyEventBus.emit("continue_text", {
+			"text": "[color=#00E676]%s slotted into Die %d![/color]\n[color=#AAAAAA]%s returned to bag.[/color]" % [new_name, slot + 1, old_name]
+		})
+		await _gm_wait_for_continue()
+
+func get_die_rates(die_id):
+	var die: Dictionary = dice_db.get(die_id, {})
+	var vals: Array = die.get("values", [1, 2, 3, 4, 5, 6])
+	var counts := {}
+	var faces = []
+	for v in vals:
+		var key := str(v)
+		if not v is String:
+			key = str(int(v))
+		counts[key] = counts.get(key, 0) + 1
+		if not faces.has(key):
+			faces.append(key)
+
+	var pcts = {}
+
+	for face in faces:
+		pcts[face] = int(round(float(counts[face]) * 100.0 / vals.size()))
+	return pcts
+
+
+func build_die_rates_text(die_id):
+	var pcts = get_die_rates(die_id)
+
+	var parts: Array[String] = []
+	for face in FACE_ORDER:
+		if pcts.has(face):
+			if FACE_LABELS.get(face,face) != face:
+				parts.append("[b]%s[/b] (%s): %d%%" % [face, FACE_LABELS.get(face, face), pcts[face]])	
+			else:
+				parts.append("[b]%s[/b]: %d%%" % [FACE_LABELS.get(face, face), pcts[face]])
+
+	return parts
+
+
+func _build_die_comparison_text(new_die_id: String, player: Character, title: String = "New Die Found!") -> String:
 	var new_data: Dictionary = dice_db.get(new_die_id, {})
 	var new_name: String = new_data.get("name", new_die_id)
 	var equipped: Array = player.data.get("Dice", ["standard", "standard", "standard"])
 
-	var text = "[b]New Die Found![/b]\n[b]%s[/b]" % new_name
+	var text := "[b]%s[/b]\n[b]%s[/b]" % [title, new_name]
 	var nc: String = new_data.get("color", "")
-	if nc:
-		text += "  [color=%s][■][/color]" % nc
+	if nc != "":
+		text += "  [color=%s]■[/color]" % nc
+	else:
+		text += "  ■"
 	if new_data.has("description"):
-		text += "\n" + new_data["description"]
-	text += "\n\n"
+		text += "\n%s" % new_data["description"]
 
-	var all_ids: Array = equipped + [new_die_id]
-	var all_faces: Dictionary = {}
-	var dists: Array = []
-	for did in all_ids:
-		var vals: Array = dice_db.get(did, {}).get("values", [1, 2, 3, 4, 5, 6])
-		var counts: Dictionary = {}
-		for v in vals:
-			var k = str(v)
-			counts[k] = counts.get(k, 0) + 1
-			all_faces[k] = true
-		dists.append({"counts": counts, "total": vals.size()})
+	text += "\n\n[b]Current Dice:[/b]\n"
+	text += "[instant][table=4]"
 
-	var face_order = ["0","1","2","3","4","5","6","7","B","J","C"]
-	var faces: Array = []
-	for f in face_order:
-		if all_faces.has(f):
-			faces.append(f)
+	var add_row = func(slot_name: String, die_id: String, highlight := false) -> String:
+		var die: Dictionary = dice_db.get(die_id, {})
+		var die_name: String = die.get("name", die_id)
+		var color: String = die.get("color", "")
 
-	var face_labels = {"0":"Rogue","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"Knight","B":"Bridge","J":"Joker","C":"Crown"}
+		var parts: Array[String] = build_die_rates_text(die_id)
 
-	text += "[instant][table=5]"
-	text += "[cell][/cell]"
-	for i in range(3):
-		text += "[cell][center][b]Die %d[/b][/center][/cell]" % (i + 1)
-	text += "[cell][center][b][color=#00E676]New[/color][/b][/center][/cell]"
-	for face in faces:
-		text += "[cell]%s[/cell]" % face_labels.get(face, face)
-		for i in range(4):
-			var dist: Dictionary = dists[i]
-			var pct: float = 0.0
-			if dist["counts"].has(face):
-				pct = float(dist["counts"][face]) / float(dist["total"]) * 100.0
-			var cell: String
-			if pct <= 0.0:
-				cell = "[center][color=#555555]—[/color][/center]"
-			elif i == 3:
-				cell = "[center][color=#00E676]%.0f%%[/color][/center]" % pct
-			else:
-				cell = "[center]%.0f%%[/center]" % pct
-			text += "[cell]%s[/cell]" % cell
+		var display_name := die_name
+		if color != "":
+			display_name += " [color=%s]■[/color]" % color
+		else:
+			display_name += " ■"
+
+		if highlight:
+			display_name = "[color=#00E676]%s[/color]" % display_name
+
+		var row = ""
+		row += "[cell]%s[/cell]" % slot_name
+		row += "[cell]%s[/cell]" % display_name
+		row += "[cell] —  [/cell]"
+		row += "[cell]%s[/cell]" % "  •  ".join(parts)
+		return row
+
+	text += add_row.call("Slot 1:", equipped[0])
+	text += add_row.call("Slot 2:", equipped[1])
+	text += add_row.call("Slot 3:", equipped[2])
+
+	text += "[cell][b]New Die[/b]:[/cell][cell][b][/b][/cell][cell][/cell][cell][/cell]"
+
+	text += add_row.call("", new_die_id, true)
+
 	text += "[/table][/instant]"
+
 	return text
 
 func _resolve_trinket_variant(item_name: String) -> String:

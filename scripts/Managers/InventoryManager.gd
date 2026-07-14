@@ -221,29 +221,58 @@ func show_misc() -> void:
 	_tm.mode = TravelManager.TravelMode.INVENTORY_MISC
 	var player = _tm.game_state["player"]
 	var inv = player.get_inventory()
+	var dice_db = _tm.game_manager.dice_db
 	var choices = []
-	for item_name in inv:
-		if _tm.items_db.has(item_name) or _tm.game_manager.weapon_db.has(item_name) or _tm.game_manager.armor_db.has(item_name):
-			continue
-		var count = inv[item_name]
-		var display_name = item_name
-		if _tm.game_manager.dice_db.has(item_name):
-			display_name = _tm.game_manager.dice_db[item_name].get("name", item_name)
+
+	var equipped_counts: Dictionary = {}
+	for die_id in player.data.get("Dice", []):
+		equipped_counts[die_id] = equipped_counts.get(die_id, 0) + 1
+	for die_id in equipped_counts:
+		var ddata = dice_db.get(die_id, {})
+		var dname = ddata.get("name", die_id)
+		var count = equipped_counts[die_id]
+		var label = "[EQUIPPED] " + dname + (" x%d" % count if count > 1 else "")
 		choices.append({
-			"text": "%s x%d" % [display_name, count], "type": "none",
-			"disabled": true, "disabled_text": "%s x%d" % [display_name, count]
+			"text": label, "type": "none",
+			"disabled": true, "disabled_text": label,
+			"disabled_tooltip": _tm._format_die_tooltip(die_id, ddata)
 		})
+
+	for item_name in inv:
+		var count = inv[item_name]
+		if dice_db.has(item_name):
+			var ddata = dice_db.get(item_name, {})
+			var dname = ddata.get("name", item_name)
+			var label = dname + (" x%d" % count if count > 1 else "")
+			choices.append({
+				"text": label, "type": "die_equip", "data": item_name,
+				"tooltip": _tm._format_die_tooltip(item_name, ddata)
+			})
+		elif not _tm.items_db.has(item_name) and not _tm.game_manager.weapon_db.has(item_name) \
+				and not _tm.game_manager.armor_db.has(item_name):
+			choices.append({
+				"text": "%s x%d" % [item_name, count], "type": "none",
+				"disabled": true, "disabled_text": "%s x%d" % [item_name, count]
+			})
+
 	if choices.is_empty():
 		choices.append({
 			"text": "(Nothing here)", "type": "none",
 			"disabled": true, "disabled_text": "(Nothing here)"
 		})
 	choices.append({"text": "Back", "type": "back"})
-	MyEventBus.emit("show_choices", {"choices": choices, "header": "Misc"})
+	var fixed_sizes = len(choices) > 3
+	MyEventBus.emit("show_choices", {"choices": choices, "header": "Misc", "fixed_sizes": fixed_sizes})
 
 func handle_misc(choice) -> void:
 	if choice.get("type") == "back":
 		show_menu()
+		return
+	if choice.get("type") == "die_equip":
+		var die_id = choice.get("data", "")
+		var player = _tm.game_state["player"]
+		await _tm.game_manager._gm_equip_die_from_inventory(die_id, player)
+		show_misc()
 
 # ------------------------
 # TRINKETS

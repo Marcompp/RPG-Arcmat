@@ -1092,6 +1092,65 @@
 			{"type": "show_node"}
 		]
 	},
+	"debug_give_dice": {
+		"repeatable": true,
+		"steps": [
+			{"type": "choice", "header": "Give which die?",
+				"choices": [
+					{"choice": "Standard Die",     "key": "standard"},
+					{"choice": "Weighted Die",      "key": "weighted"},
+					{"choice": "Trick Die",         "key": "trick"},
+					{"choice": "Trick Die1",        "key": "trick1"},
+					{"choice": "Trick Die2",        "key": "trick2"},
+					{"choice": "Trick Die3",        "key": "trick3"},
+					{"choice": "Circus Die",        "key": "circus"},
+					{"choice": "Circus Die3 (2)",   "key": "circus2"},
+					{"choice": "Circus Die3 (3)",   "key": "circus3"},
+					{"choice": "Bertunia Die",      "key": "bertunia"},
+					{"choice": "Lantern Die",       "key": "lantern"},
+					{"choice": "Bonecarved Die",    "key": "bone"},
+					{"choice": "Skull-Carved Die",  "key": "skull"},
+					{"choice": "Runecarved Die",    "key": "rune"},
+					{"choice": "Crown Die",         "key": "crown"},
+					{"choice": "Decadent Die",      "key": "decadent"},
+					{"choice": "Crude Die",         "key": "crude"},
+					{"choice": "Blank Die",         "key": "blank"},
+					{"choice": "Special Die",       "key": "special"},
+					{"choice": "Priest's Die",      "key": "priest"},
+					{"choice": "Dragon Die",        "key": "dragon"},
+					{"choice": "Magician's Die",    "key": "magician"},
+					{"choice": "Crystal Die",       "key": "crystal"},
+					{"choice": "Cancel",            "key": "cancel", "type": "back"}
+				],
+				"branches": {
+					"standard":  [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "standard"}],
+					"weighted":  [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "weighted"}],
+					"trick":     [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "trick"}],
+					"trick1":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "trick1"}],
+					"trick2":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "trick2"}],
+					"trick3":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "trick3"}],
+					"circus":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "circus"}],
+					"circus2":   [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "circus2"}],
+					"circus3":   [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "circus3"}],
+					"bertunia":  [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "bertunia"}],
+					"lantern":   [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "lantern"}],
+					"bone":      [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "bone"}],
+					"skull":     [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "skull"}],
+					"rune":      [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "rune"}],
+					"crown":     [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "crown"}],
+					"decadent":  [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "decadent"}],
+					"crude":     [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "crude"}],
+					"blank":     [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "blank"}],
+					"special":   [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "special"}],
+					"priest":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "priest"}],
+					"dragon":    [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "dragon"}],
+					"magician":  [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "magician"}],
+					"crystal":   [{"type": "sfx", "sound": "item"}, {"type": "give_item", "item": "crystal"}],
+					"cancel": []
+				}
+			}
+		]
+	},
 	"debug_all": {
 		"steps": [
 			{"type": "choice", "header": "Debug",
@@ -5065,7 +5124,23 @@
 	},
 	"travelling_gambler": {
 		"steps": [
-			{"type": "text", "text": "A weathered man sits at a stump by the roadside, three carved bone dice rolling idly between his fingers. He looks up as you approach.\n\n\"Care for a game? Wanderer's Dice — oldest game on the road.\""},
+			{"type": "text", "text": "You spot someone up ahead.", "clear": false},
+			{
+				"type": "text", 
+				"text": "A weathered man sits at a stump by the roadside, three carved bone dice rolling idly between his fingers. He looks up as you approach.\n\n\"Care for a game? Wanderer's Dice — oldest game on the road.\"",
+				"no_continue":true
+			},
+			{"type": "event", "event": "_travelling_gambler_game"}
+		]
+	},
+	"_travelling_gambler_rematch": {
+		"steps": [
+			{"type": "text", "text": "\"Now, you up for another game, kid?\"", "clear":false, "no_continue":false},
+			{"type": "event", "event": "_travelling_gambler_game"}
+		]
+	},
+	"_travelling_gambler_game": {
+		"steps": [
 			{"type": "choice", "header": "Name your ante.",
 				"choices": [
 					{"choice": "15 gold — small stakes", "key": "low",
@@ -5080,24 +5155,25 @@
 						"condition": {"gold": {"min": 75}},
 						"disabled_text": "75 gold (can't afford)",
 						"disabled_tooltip": "Requires at least 75G"},
-					{"choice": "Not interested", "key": "leave"}
+					{"choice": "How do you play?", "key": "info"},
+					{"choice": "Not interested", "key": "leave", "type":"back"}
 				],
 				"branches": {
 					"low":  [
 						{"type": "dice_game", "wager": 15, "gamblers": ["travelling_gambler"], "community_dice": ["standard", "standard"],
-							"on_win":  [{"type": "text", "text": "Your hand takes the pot. He slides the coins across without complaint.\n\n\"Well played.\""}],
-							"on_tie":  [{"type": "text", "text": "A dead match. He pushes your stake back without a word."}],
-							"on_fold": [{"type": "text", "text": "You lay your dice down. He sweeps the pot to his side of the stump.\n\n\"Smart. Sometimes folding is the only play.\""}],
-							"on_lose": [{"type": "text", "text": "He lays his hand flat on the stump and sweeps the coins off with practiced calm.\n\n\"Better luck next time, friend.\""}]},
-						{"type": "show_node"}
+							"on_win":  [{"type": "text", "text": "Your hand takes the pot. He slides the coins across without complaint.\n\n\"Well played.\"", "no_continue":true}],
+							"on_tie":  [{"type": "text", "text": "A dead match. He pushes your stake back without a word.", "no_continue":true}],
+							"on_fold": [{"type": "text", "text": "You lay your dice down. He sweeps the pot to his side of the stump.\n\n\"Smart. Sometimes folding is the only play.\"", "no_continue":true}],
+							"on_lose": [{"type": "text", "text": "He lays his hand flat on the stump and sweeps the coins off with practiced calm.\n\n\"Better luck next time, friend.\"", "no_continue":true}]},
+						{"type": "event", "event": "_travelling_gambler_rematch"}
 					],
 					"mid":  [
 						{"type": "dice_game", "wager": 35, "gamblers": ["travelling_gambler"], "community_dice": ["standard", "standard"],
-							"on_win":  [{"type": "text", "text": "Your hand takes the pot. He counts out the coins and sets them in front of you.\n\n\"You've played before.\""}],
-							"on_tie":  [{"type": "text", "text": "Neither hand better. He returns your stake without a word."}],
-							"on_fold": [{"type": "text", "text": "You fold. He nods once and pulls the pot to his side.\n\n\"No shame in knowing when to walk.\""}],
-							"on_lose": [{"type": "text", "text": "He adds your coins to his purse with a dry smile.\n\n\"The bones decide, not me.\""}]},
-						{"type": "show_node"}
+							"on_win":  [{"type": "text", "text": "Your hand takes the pot. He counts out the coins and sets them in front of you.\n\n\"You've played before.\"", "no_continue":true}],
+							"on_tie":  [{"type": "text", "text": "Neither hand better. He returns your stake without a word.", "no_continue":true}],
+							"on_fold": [{"type": "text", "text": "You fold. He nods once and pulls the pot to his side.\n\n\"No shame in knowing when to walk.\"", "no_continue":true}],
+							"on_lose": [{"type": "text", "text": "He adds your coins to his purse with a dry smile.\n\n\"The bones decide, not me.\"", "no_continue":true}]},
+						{"type": "event", "event": "_travelling_gambler_rematch"}
 					],
 					"high": [
 						{"type": "dice_game", "wager": 75, "gamblers": ["travelling_gambler"], "community_dice": ["standard", "standard"],
@@ -5106,22 +5182,28 @@
 								 "condition": {"event_unused": "gambler_high_stakes_win"},
 								 "then": [
 									{"type": "mark_used", "event": "gambler_high_stakes_win"},
-									{"type": "text", "text": "Your hand takes the pot. He stares at the dice for a long time — longer than he's looked at you the whole game.\n\n\"...Bones don't lie.\" He counts out the gold. Then, without a word, he reaches into his coat and sets something on the stump beside the coins.\n\n\"Take it. Someone with that kind of nerve deserves a fair die.\"\n\nIt's a carved bone die, heavier than it should be."},
-									{"type": "give_item", "item": "weighted"}
+									{"type": "text", "text": "Your hand takes the pot. Your opponent stares at the dice for a long time — longer than he's looked at you the whole game.\n\n\"...Good game.\"\n\n\"You've got gumption, kid. Take this, too: Someone with that kind of nerve deserves a better die.\"\n\nIt's a carved bone die, just a bit heavier than it should be. The secret to Traveller's Dice is in the dice you've got, see? And sometimes, you need something with more... consistent results.\""},
+									{"type": "give_item", "item": "weighted"},
+									{"type": "text", "text": "The travelling gambler smiles.\n\n\"You'll encounter all sorts dice people use in road, some fairer than others, so you've stack things as far in your favor as you can, see?\"\n\n\"Make sure to check the rules often, and keep your mouth shut about what you've got, and you're gonna go far, kid.\"", "no_continue":true}
 								 ],
 								 "else": [
-									{"type": "text", "text": "Your hand takes the pot. He stares at the dice for a long moment, then counts out the gold.\n\n\"...Bones don't lie.\""}
+									{"type": "text", "text": "Your hand takes the pot. The man stares at the dice for a long moment, then smiles.\n\n\"...Good game, kid.\""}
 								 ]
 								}
 							],
-							"on_tie":  [{"type": "text", "text": "He studies the table. Pushes back your stake. Says nothing."}],
-							"on_fold": [{"type": "text", "text": "You fold. He pulls the pot to his side with both hands.\n\n\"High stakes. Wise choice.\""}],
-							"on_lose": [{"type": "text", "text": "He pulls the coins to his side of the stump slowly.\n\n\"High stakes, high lessons.\""}]},
-						{"type": "show_node"}
+							"on_tie":  [{"type": "text", "text": "Your opponent studies the table. Pushes back your stake. \"...Good game.\"", "no_continue":true}],
+							"on_fold": [{"type": "text", "text": "You fold. Your opponent pulls the pot to his side with both hands.\n\n\"High stakes. Wise choice.\"", "no_continue":true}],
+							"on_lose": [{"type": "text", "text": "He pulls the coins to his side of the stump slowly.\n\n\"High stakes, high lessons. Never gamble what you don't want Lady Luck to keep.\"", "no_continue":true}]},
+						{"type": "event", "event": "_travelling_gambler_rematch"}
 					],
 					"leave": [
-						{"type": "text", "text": "\"Another time, then.\" He goes back to rolling the dice between his fingers."},
+						{"type": "text", "text": "\"Another time, then.\" He goes back to rolling the dice between his fingers as you walk away."},
 						{"type": "show_node"}
+					],
+					"info": [
+						{"type": "text", "text": "He leans back and rolls one of the dice across his knuckles.\n\n\"Simple enough. Each of us has three private dice. Two more go in the middle — Dealer's dice — and those belong to the table. You pick any five from the lot to build your best hand.\"\n\nHe lines three dice on the stump.\n\n\"Three chances to swap one of yours out. After the first two rounds, a middle die gets turned face-up — changes what you can work with. Third round done, everybody shows what they've got.\"\n\n\"Pairs, runs, threes-of-a-kind — runs beat pairs, threes beat runs. Longer runs beat shorter ones. There are special faces too, once you get fancier dice.\"\n\n\"Full list of hands is right there during play, so no need to memorize anything. Lady Luck handles the rest.\""},
+						{"type": "text", "text": "The travelling gambler leans back and offers you a die.\n\n\"So? Interested in trying it out?\"", "no_continue": true},
+						{"type": "event", "event": "_travelling_gambler_game"}
 					]
 				}
 			}
@@ -5131,7 +5213,8 @@
 	"skeleton_gambler": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Among the headstones, a figure sits hunched over a flat-topped grave marker. Three dice on the stone in front of it. It doesn't have eyes anymore, but the empty sockets turn toward you when you approach.\n\n\"Sit,\" it says, in a voice like air through old stone. \"One game. That is all I ask.\""},
+			{"type": "text", "text": "You spot something up ahead:\"", "clear":false},
+			{"type": "text", "text": "Among the headstones, a half-buried figure hunches over a flat-topped grave marker. Three dice on the stone in front of it. It doesn't have eyes anymore, but the empty sockets turn toward you when you approach.\n\n\"Sit,\" it says, in a voice like air through old stone. \"One game of Wandering Dice. That is all I ask.\"", "no_continue":true},
 			{"type": "choice", "header": "Play or leave.",
 				"choices": [
 					{"choice": "50 gold — one game",

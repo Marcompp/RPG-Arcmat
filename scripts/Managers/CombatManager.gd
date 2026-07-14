@@ -585,6 +585,7 @@ func _execute_turn_action(action: Dictionary):
 				var cm_list = enemies[idx].data.get("ChannelMoves", [])
 				var cm = cm_list.filter(func(m): return m.get("skill", "") == enemy_channeling[idx])
 				var chan_raw = cm[0].get("channel_texts", "[SELF] is channeling...") if not cm.is_empty() else "is channeling..."
+				phase = chan_raw[rng.randi() % chan_raw.size()] if chan_raw is Array else chan_raw
 				phase_map["SKILL"] = enemy_channeling[idx]
 			else:
 				var phase_key = "Preparing" if action["is_first"] else "Recharging"

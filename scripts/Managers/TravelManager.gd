@@ -688,6 +688,10 @@ func _run_node_event(event_def: Dictionary) -> bool:
 	reader.player_dice_callback = func() -> Array:
 		var p = game_manager.game_state.get("player")
 		return p.data.get("Dice", ["standard","standard","standard"]) if p else ["standard","standard","standard"]
+	reader.die_tooltip_callback = _format_die_tooltip
+	reader.player_name_callback = func() -> String:
+		var p = game_manager.game_state.get("player")
+		return p.get_name() if p else "Wanderer"
 	reader.event_callback = func(event_name: String) -> Array:
 		return events_db.get(event_name, {}).get("steps", [])
 	reader.db_callback = func(type: String, arg: String = "") -> Variant:
@@ -882,6 +886,34 @@ func _format_trinket_tooltip(trinket_name: String, data: Dictionary) -> String:
 		lines.append(data["description"])
 	if data.has("effect_description"):
 		lines.append(data["effect_description"])
+	return "\n".join(lines)
+
+func _format_die_tooltip(die_id: String, die_data: Dictionary, include_name: bool = true) -> String:
+	var dname : String = die_data.get("display_name",die_data.get("name", die_id))
+	var color : String = die_data.get("color", "")
+	var desc : String = die_data.get("description", "")
+	var vals: Array = die_data.get("values", [1, 2, 3, 4, 5, 6])
+
+	var color_square : String = (" [color=%s]■[/color]" % color) if color != "" else " ■"
+	var lines := []
+	if include_name:
+		lines.append("%s%s" % [dname, color_square])
+	if desc != "":
+		lines.append("\n%s" % desc)
+
+	var counts := {}
+	for v in vals:
+		var key := str(int(v)) if not v is String else str(v)
+		counts[key] = counts.get(key, 0) + 1
+
+	var parts: Array[String] = game_manager.build_die_rates_text(die_id)
+
+	var rr_text = "\n[b]Roll Rates:[/b]"
+	if not include_name:
+		rr_text += color_square
+	rr_text += "\n"
+
+	lines.append(rr_text + "[table=4][cell]"+ "[/cell][cell]  •  [/cell][cell]".join(parts) + "[/cell][/table]")
 	return "\n".join(lines)
 
 func _get_valid_treasure(treasure):

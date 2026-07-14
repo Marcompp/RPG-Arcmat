@@ -13,6 +13,7 @@ The Stairwell      —  four in a row with a pair inside  (ex: 1-1-2-3-4)
 The Long Road      —  four in a row  (ex: 1-2-3-4)
 The Hearth         —  triple + pair  (ex: 1-1-1-2-2)
 The Summit         —  three in a row with a trio inside (ex: 1-2-3-3-3)
+Lucky Sevens       —  three Knights  (ex: 7-7-7)  [only when Knight is in play]
 The Peregrine      —  three in a row + a separate pair  (ex: 1-2-3-5-5)
 Three Arcs         —  three of a kind
 Lover's Climb      —  three in a row with two pairs inside  (ex: 1-1-2-2-3)
@@ -24,15 +25,23 @@ The Common         —  pair of 1, 2 or 3
 Dead Hand          —  no match
 ──
 Special faces:
-  Rogue  (0)    —  low numeric; in a pair becomes Snake Eyes, the most powerful pair in the game (above The Climb) but loses uniques when paired with other combinations or in higher numbers, runs normally
-  Knight (7)    —  high numeric; pairs high, runs normally
-  Crown  (C)    —  the most powerful face; can upgrade any hand to a state even stronger than if the Crown was a Joker; Five Crowns (The Imperium) is the second best hand in the game
+  Hero    (9)   —  high numeric
+  Bard    (8)   —  high numeric
+  Knight  (7)   —  high numeric; pairs high, runs normally; three Knights (Lucky Sevens) beats The Peregrine; five Knights (Jackpot) ranks between Dead Dynasty and The Necronomicon
+  Rogue   (0)   —  low numeric; in a pair becomes Snake Eyes, the most powerful pair in the game (above The Climb) but loses uniques when paired with other combinations or in higher numbers, runs normally
+  Crown   (C)   —  the most powerful face; can upgrade any hand to a state even stronger than if the Crown was a Joker; Five Crowns (The Imperium) is the second best hand in the game
 					Hierarchy goes 1 Crown (Crowned <Hand>) < 2 Crown (King's <Hand>) < 3 Crowns (Triumvirate / Dynastic <Hand>) < 4 Crowns (Four Day Reign) < 5 Crowns
-  Joker  (J)    —  wild; counts as any numeric value 0–7; Five Jokers (Full Circus) is the most powerful hand in the game
-  Bridge (B)    —  connects 6 or 7 to 0 or 1 in a run; usable once per sequence
-  Skull  (S)	—  does nothing alone or as a pair; in greater numbers or in conjuction with Crowns, forms hands beyond the norm
+  Joker   (J)   —  wild; counts as any numeric value 0–7; Five Jokers (Full Circus) is the most powerful hand in the game
+  Bridge  (B)   —  connects 6 or 7 to 0 or 1 in a run; usable once per sequence
+  Skull   (S)	—  does nothing alone or as a pair; in greater numbers or in conjuction with Crowns, forms hands beyond the norm
 					Hands formed: Three Skull (Graveyard) (above Peregrine) < Four Skull (Premonition) (under Five Arcs) < Five Skull (The Necronomicon) (above Five Arcs)
-  Blank  (X)    —  does nothing; five Blanks form The Void, which ends the game in a draw"
+  Blank   (X)   —  does nothing; five Blanks form The Void, which ends the game in a draw
+  Random  (?)   —  becomes a different random number 0-6 before rolls
+Action Faces:
+  Priest  (P)   —  when rolled alone, transforms every dice in every other hand into standard - turning special faces into random numbers (0-6)
+  Magician(M)   —  when rolled on re-roll, trades itself for another participant's dice - when rolled by the Dealer, forces all participants to reroll dice on rotation
+  Dragon  (D)   —  when rolled alone, destroys one of the currently active Dealer's Dice (if possible)
+  "
 
 
 const AI_PROFILES := {
@@ -97,11 +106,11 @@ const RANK_FIRST_BLIGHT            := 10220
 const RANK_KINGS_GRAVE             := 10190
 const RANK_CROWNED_PREMONITION     := 10180
 const RANK_FOUR_DAY_REIGN          := 10170
-const RANK_KINGS_THREE_ARCS        := 10160
-const RANK_CROWNED_FOUR_ARCS       := 10150
-const RANK_NECRONOMICON            := 10100
-const RANK_DYNASTIC_MARRIAGE       := 10050
-const RANK_DEAD_DYNASTY            := 10020
+const RANK_NECRONOMICON            := 10140
+const RANK_DEAD_DYNASTY            := 10100
+const RANK_DYNASTIC_MARRIAGE       := 10070
+const RANK_KINGS_THREE_ARCS        := 10060
+const RANK_CROWNED_FOUR_ARCS       := 10050
 const RANK_FIVE_ARCS               := 10000
 const RANK_PREMONITION             := 9200
 const RANK_KINGS_CLIMB             := 9100
@@ -133,6 +142,10 @@ const RANK_THREE_ARCS              := 5000
 const RANK_LOVERS_CLIMB            := 4500
 const RANK_DOUBLE_DUET             := 4000
 const RANK_DRUNKARDS_CLIMB         := 3500
+const RANK_LUCKY_SEVENS            := 5700   # three Knights; between RANK_PEREGRINE and RANK_GRAVEYARD
+const RANK_CROWNED_LUCKY_SEVENS    := 8027   # C + three Knights; between RANK_CROWNED_THREE_ARCS and RANK_CROWNED_GRAVEYARD
+const RANK_KINGS_LUCKY_SEVENS      := 10065  # C-C + three Knights; between RANK_KINGS_THREE_ARCS and RANK_DYNASTIC_MARRIAGE
+const RANK_JACKPOT                 := 10110  # five Knights; between RANK_DEAD_DYNASTY and RANK_NECRONOMICON
 const RANK_CROWNED_SKULL           := 3450
 const RANK_SNAKE_EYES              := 3400
 const RANK_CLIMB                   := 3000
@@ -141,15 +154,32 @@ const RANK_WANDERERS_HAND          := 2000
 const RANK_COMMON                  := 1000
 const RANK_THE_VOID                := -1  # sentinel: five Blanks; forces a draw
 
+#  ── Star ranks ────────────────────────────────────────────────────
+
+const SEVEN_STAR                   := [RANK_FULL_CIRCUS, RANK_THE_VOID]
+const SIX_STAR                     := RANK_FOUR_DAY_REIGN
+const FIVE_HALF_STAR               := RANK_CROWNED_FOUR_ARCS
+const FIVE_STAR                    := RANK_PILGRIMAGE
+const FOUR_HALF_STAR               := RANK_TRIUMVIRATE
+const FOUR_STAR                    := RANK_WIDOWER
+const THREE_HALF_STAR              := RANK_CROWNED_DRUNKARDS_CLIMB
+const THREE_STAR                   := RANK_CROWNED_DUET
+const TWO_HALF_STAR                := RANK_CROWNED_SNAKE_EYES
+const TWO_STAR                     := RANK_DRUNKARDS_CLIMB
+const ONE_HALF_STAR                := RANK_CLIMB
+const ONE_STAR                     := RANK_COMMON
+
 # ── Misc numeric constants ────────────────────────────────────────────────────
 const MAX_RANK                := 11100.0  # slightly above RANK_FULL_CIRCUS; used for EV normalisation
 const LCK_ADVANTAGE_THRESHOLD := 10
-const ADVANTAGE_ROLLS         := 2
+const LCK_BONUS_INTERVAL      := 5
 const SORT_JOKER              := 100.0
 const SORT_CROWN              := 9.0
 const SORT_TRIGGER            := 8.0  # Priest / Magician / Dragon — kept by AI (effect faces)
 const SORT_BRIDGE             := 8.5
 const SORT_SKULL              := 6.0
+
+
 
 ## Callable() -> Dictionary  — resolves with the chosen choice dict
 var capture_input_fn: Callable
@@ -161,6 +191,10 @@ var stat_callback: Callable
 var gold_callback: Callable
 ## Callable() -> Array  — returns player's 3 equipped die IDs, e.g. ["standard","weighted","standard"]
 var player_dice_callback: Callable
+## Callable(die_id: String, die_data: Dictionary) -> String — formats a die's tooltip (see TravelManager._format_die_tooltip)
+var die_tooltip_callback: Callable
+## Callable() -> String — returns the player's display name
+var player_name_callback: Callable
 var rng: RandomNumberGenerator
 var dice_db: Dictionary
 var gamblers_db: Dictionary
@@ -170,8 +204,17 @@ var delay_fn: Callable
 var npc_crossreact: bool = false #true
 
 
+var priest_triggered: bool = false
+## Amount wagered by each participant this match — set once in run(), read by _base_replace_map for [WAGER]
+var current_wager: int = 0
+## Total pot (wager × participant count) this match — set once in run(), read by _base_replace_map for [TOTAL_WAGER]
+var current_pot: int = 0
+
+
 func run(step: Dictionary) -> String:
+	priest_triggered = false
 	var wager: int = step.get("wager", 0)
+	current_wager = wager
 
 	if wager > 0:
 		MyEventBus.emit("give_gold", {"amount": -wager})
@@ -180,9 +223,10 @@ func run(step: Dictionary) -> String:
 	for gid in step.get("gamblers", []):
 		var gdata: Dictionary = gamblers_db.get(gid, {})
 		var gdice_types: Array = gdata.get("dice", ["standard", "standard", "standard"])
+		var gnpc_lck: int = gdata.get("stats", {}).get("lck", 0)
 		var gdice: Array = []
 		for dt in gdice_types:
-			gdice.append(_roll_die(dt))
+			gdice.append(_roll_typed_with_lck(dt, gnpc_lck, false))
 		npcs.append({
 			"name": gdata.get("name", gid),
 			"dice": gdice,
@@ -190,32 +234,47 @@ func run(step: Dictionary) -> String:
 			"revealed": [false, false, false],
 			"folded": false,
 			"difficulty": gdata.get("difficulty", "easy"),
+			"lck": gnpc_lck,
 			"banter": gdata.get("banter", {}),
 		})
 
 	var pot: int = wager * (1 + npcs.size())
+	current_pot = pot
 	var player_committed: int = wager
 	var player_types: Array = player_dice_callback.call() if player_dice_callback.is_valid() \
 		else ["standard", "standard", "standard"]
 
 	var comm_ids: Array = step.get("community_dice", ["standard", "standard"])
+	var active_ranks: Dictionary = _active_hand_ranks(player_types, npcs, comm_ids)
 	var community_pool: Array = [_roll_die(comm_ids[0]), _roll_die(comm_ids[1])]
 	var community: Array = []
 	# live_comm_ids mirrors community, tracking die types for display/color; modified by Dragon/Priest
 	var live_comm_ids: Array = []
 
+	npc_crossreact = step.get("npc_crossreact", false)
+
 	# ── Setup Phase ───────────────────────────────────────────────
+	# 0. Clear textbox + startgame text
+	var start_map = _base_replace_map(npcs)
+	MyEventBus.emit("dialogue", {
+		"text": _parse_game_text(step.get("start_text",
+										"You and your opponent settle down for a match of Wanderer's Dice."), start_map)
+			})
+
+
 	# 1. NPC game_start banter
 	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "game_start", 0.7)
+		var start_speaker: Dictionary = npcs[rng.randi() % npcs.size()]
+		await _banter(start_speaker, "game_start", 1, _banter_map(start_speaker, npcs, community, active_ranks), true, false)
 
 	# 2. Dice rolled out of sight
+	var init_lck: int = stat_callback.call("lck") if stat_callback.is_valid() else 0
 	var player_hand: Array = [
-		_roll_die(player_types[0]),
-		_roll_die(player_types[1]),
-		_roll_die(player_types[2])
+		_roll_typed_with_lck(player_types[0], init_lck, false),
+		_roll_typed_with_lck(player_types[1], init_lck, false),
+		_roll_typed_with_lck(player_types[2], init_lck, false)
 	]
-	await _say("The starting dice are rolled out of sight.")
+	await _say("The starting dice are rolled out of sight.",true)
 	await _dice_roll_sfx()
 
 	# 3. Player sees their hand
@@ -224,27 +283,31 @@ func run(step: Dictionary) -> String:
 	# 4. NPCs react to their own initial hands
 	for npc in npcs:
 		var init_rank: int = _rank_n(npc["dice"] + community)
+		var hand_start_map := _banter_map(npc, npcs, community, active_ranks, {"HAND": _rank_name(init_rank)})
 		if init_rank >= RANK_CLIMB:
-			await _banter(npc, "hand_good_start", 0.35)
+			await _banter(npc, "hand_good_start", 0.35, hand_start_map, true, true)
 		elif init_rank == 0:
-			await _banter(npc, "hand_bad_start", 0.35)
+			await _banter(npc, "hand_bad_start", 0.35, hand_start_map, true, true)
+	await wait_for_continue_fn.call()
 
 	# ── Round 1 ───────────────────────────────────────────────────
 	# 5. Show table
 	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, live_comm_ids)})
 	# 6. Round banter
 	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "round_1", 0.55)
+		var round1_speaker: Dictionary = npcs[rng.randi() % npcs.size()]
+		await _banter(round1_speaker, "round_1", 0.55, _banter_map(round1_speaker, npcs, community, active_ranks), true)
 
 	# 7/8/9. Player reroll
 	var rk1 := await _pick_reroll(player_hand, "Re-roll one die?", player_types, npcs, community, live_comm_ids)
-	await _do_player_reroll(rk1, player_hand, player_types, npcs, community, live_comm_ids)
+	await _do_player_reroll(rk1, player_hand, player_types, npcs, community, live_comm_ids, active_ranks)
 
 	# 10. NPC turns
-	await _run_npc_phase(npcs, community, 1, player_hand, player_types, live_comm_ids)
+	await _run_npc_phase(npcs, community, 1, player_hand, player_types, live_comm_ids, active_ranks)
 	await wait_for_continue_fn.call()
 
 	# ── Community Die 1 ───────────────────────────────────────────
+	MyEventBus.emit("clear_text", {})
 	community.append(community_pool[0])
 	live_comm_ids.append(comm_ids[0])
 	await _say("The first Dealer's Die is rolled.")
@@ -252,19 +315,21 @@ func run(step: Dictionary) -> String:
 	await _say("Rolled %s!" % _fmt_roll_result(community[-1]))
 	if _is_trigger_face(community[-1]):
 		await _resolve_community_effect(community[-1], community, live_comm_ids, player_hand, player_types, npcs)
-	await _react_to_community_die(npcs, community)
+	await _react_to_community_die(npcs, community, active_ranks)
+	await wait_for_continue_fn.call()
 
 	# ── Round 2 ───────────────────────────────────────────────────
 	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, live_comm_ids)})
-	await _npc_round_banter(npcs, community, "round_2", RANK_CLIMB, 1)
+	await _npc_round_banter(npcs, community, "round_2", RANK_CLIMB, 1, active_ranks)
 
 	var rk2 := await _pick_reroll(player_hand, "Re-roll one private die?", player_types, npcs, community, live_comm_ids)
-	await _do_player_reroll(rk2, player_hand, player_types, npcs, community, live_comm_ids)
+	await _do_player_reroll(rk2, player_hand, player_types, npcs, community, live_comm_ids, active_ranks)
 
-	await _run_npc_phase(npcs, community, 2, player_hand, player_types, live_comm_ids)
+	await _run_npc_phase(npcs, community, 2, player_hand, player_types, live_comm_ids, active_ranks)
 	await wait_for_continue_fn.call()
 
 	# ── Community Die 2 ───────────────────────────────────────────
+	MyEventBus.emit("clear_text", {})
 	community.append(community_pool[1])
 	live_comm_ids.append(comm_ids[1])
 	await _say("The second Dealer's Die is rolled.")
@@ -272,19 +337,22 @@ func run(step: Dictionary) -> String:
 	await _say("Rolled %s!" % _fmt_roll_result(community[-1]))
 	if _is_trigger_face(community[-1]):
 		await _resolve_community_effect(community[-1], community, live_comm_ids, player_hand, player_types, npcs)
-	await _react_to_community_die(npcs, community)
+	await _react_to_community_die(npcs, community, active_ranks)
 	await wait_for_continue_fn.call()
 
 	# ── Round 3 ───────────────────────────────────────────────────
+	MyEventBus.emit("clear_text", {})
 	MyEventBus.emit("dialogue", {"text": _table(player_hand, player_types, npcs, community, live_comm_ids)})
-	await _npc_round_banter(npcs, community, "round_3", RANK_DOUBLE_DUET, RANK_WANDERERS_HAND)
+	await _npc_round_banter(npcs, community, "round_3", RANK_DOUBLE_DUET, RANK_WANDERERS_HAND, active_ranks)
 
 	var rk3 := await _pick_reroll(player_hand, "Re-roll one private die?", player_types, npcs, community, live_comm_ids)
-	await _do_player_reroll(rk3, player_hand, player_types, npcs, community, live_comm_ids)
+	await _do_player_reroll(rk3, player_hand, player_types, npcs, community, live_comm_ids, active_ranks)
 
-	await _run_npc_phase(npcs, community, 3, player_hand, player_types, live_comm_ids)
+	await _run_npc_phase(npcs, community, 3, player_hand, player_types, live_comm_ids, active_ranks)
+	await wait_for_continue_fn.call()
 
 	# ── Showdown ──────────────────────────────────────────────────
+	MyEventBus.emit("clear_text", {})
 	var p_final: Array = player_hand + community
 	var player_rank: int = _rank_n(p_final)
 	var npc_ranks: Array = []
@@ -296,46 +364,55 @@ func run(step: Dictionary) -> String:
 
 	MyEventBus.emit("dialogue", {"text": "Showdown!"})
 	if not npcs.is_empty():
-		await _banter(npcs[rng.randi() % npcs.size()], "showdown_start", 0.6)
+		var showdown_speaker: Dictionary = npcs[rng.randi() % npcs.size()]
+		await _banter(showdown_speaker, "showdown_start", 0.6, _banter_map(showdown_speaker, npcs, community, active_ranks))
 
 	# NPCs reveal in reverse order
 	var best_rank_so_far: int = player_rank
+	var best_rank_holder: String = _player_name()
 	for i in range(npcs.size() - 1, -1, -1):
 		var npc: Dictionary = npcs[i]
 		var npc_name: String = (npc["name"] as String).capitalize()
 		var npc_rank: int = npc_ranks[i]
 		var is_last: bool = (i == 0)
+		var reveal_map := _banter_map(npc, npcs, community, active_ranks,
+			{"HAND": _rank_name(npc_rank), "WINNER": best_rank_holder, "WINNER_HAND": _rank_name(best_rank_so_far)})
 
 		await _say("%s reveals their hand." % npc_name)
 
 		var fired := false
 		if not fired and npc_rank >= RANK_PILGRIMAGE:
-			fired = await _banter(npc, "showdown_best", 0.7)
+			fired = await _banter(npc, "showdown_best", 0.7, reveal_map)
 		if not fired and is_last and npc_rank > best_rank_so_far:
-			fired = await _banter(npc, "showdown_winning_last", 0.7)
+			fired = await _banter(npc, "showdown_winning_last", 0.7, reveal_map)
 		if not fired and is_last and npc_rank < best_rank_so_far:
-			fired = await _banter(npc, "showdown_weak_last", 0.5)
+			fired = await _banter(npc, "showdown_weak_last", 0.5, reveal_map)
 		if not fired and npc_rank > best_rank_so_far:
-			fired = await _banter(npc, "showdown_leading", 0.5)
+			fired = await _banter(npc, "showdown_leading", 0.5, reveal_map)
 		if not fired and npc_rank < best_rank_so_far:
-			fired = await _banter(npc, "showdown_losing", 0.45)
+			fired = await _banter(npc, "showdown_losing", 0.45, reveal_map)
 		if not fired:
-			fired = await _banter(npc, "showdown_reveal", 0.4)
+			fired = await _banter(npc, "showdown_reveal", 0.4, reveal_map)
 
 		npc["revealed"] = [true, true, true]
-		await _say("%s's hand: " % npc_name + _row(npc_name, npc["dice"], npc["dice_types"], community, live_comm_ids))
+		await _say(_row(("%s's hand" % npc_name), npc["dice"], npc["dice_types"], community, live_comm_ids))
 
 		if npcs.size() > 1 and npc_crossreact:
 			var other_idx: int = (i + 1) % npcs.size()
-			await _banter_showdown_react(npcs[other_idx], npc_rank, best_rank_so_far, 0.5)
+			var reactor: Dictionary = npcs[other_idx]
+			await _banter_showdown_react(reactor, npc_rank, best_rank_so_far, 0.5,
+				_banter_map(reactor, npcs, community, active_ranks, {"SUBJECT": npc_name, "HAND": _rank_name(npc_rank)}))
 
+		if npc_rank > best_rank_so_far:
+			best_rank_holder = npc_name
 		best_rank_so_far = max(best_rank_so_far, npc_rank)
 
 	# Player reveals last
 	await _say("You reveal your hand:")
-	await _say("Your hand: " + _row("You", player_hand, player_types, community, live_comm_ids))
+	await _say(_row("Your hand", player_hand, player_types, community, live_comm_ids))
 	for npc in npcs:
-		await _banter_showdown_react(npc, player_rank, best_rank_so_far, 0.4)
+		await _banter_showdown_react(npc, player_rank, best_rank_so_far, 0.4,
+			_banter_map(npc, npcs, community, active_ranks, {"SUBJECT": _player_name(), "HAND": _rank_name(player_rank)}))
 	await wait_for_continue_fn.call()
 
 	# ── Results ───────────────────────────────────────────────────
@@ -367,6 +444,14 @@ func run(step: Dictionary) -> String:
 			player_result_key = "showdown_npc_tie"
 		else:
 			player_result_key = "showdown_npc_win"
+
+		var winner_entities: Array = []
+		if player_rank == best_overall:
+			winner_entities.append({"name": _player_name(), "index": -1})
+		for j in range(npcs.size()):
+			if npc_ranks[j] == best_overall:
+				winner_entities.append({"name": (npcs[j].get("name", "") as String).capitalize(), "index": j})
+
 		for i in range(npcs.size()):
 			var npc: Dictionary = npcs[i]
 			var npc_rank: int = npc_ranks[i]
@@ -377,7 +462,17 @@ func run(step: Dictionary) -> String:
 				result_keys.append("showdown_tie")
 			else:
 				result_keys.append("showdown_lose")
-			await _banter_pool(npc, result_keys, 1.0)
+			var result_extra := {"HAND": _rank_name(npc_rank)}
+			if winner_entities.size() == 1:
+				result_extra["WINNER"] = winner_entities[0]["name"]
+				result_extra["WINNER_HAND"] = _rank_name(best_overall)
+			elif winner_entities.size() > 1:
+				var partners: Array = []
+				for w in winner_entities:
+					if w["index"] != i:
+						partners.append(w["name"])
+				result_extra["DRAW_WITH"] = _join_names(partners)
+			await _banter_pool(npc, result_keys, 1.0, _banter_map(npc, npcs, community, active_ranks, result_extra))
 
 	await wait_for_continue_fn.call()
 
@@ -395,7 +490,7 @@ func run(step: Dictionary) -> String:
 func _table(player_hand: Array, player_types: Array, npcs: Array, community: Array, comm_ids: Array, reveal_all: bool = false) -> String:
 	var lines: Array = []
 	if not community.is_empty():
-		lines.append("Community:  [b]%s[/b]\n" % _fmt_typed(community, comm_ids))
+		lines.append("Dealer's Dice:  [b]%s[/b]\n" % _fmt_typed(community, comm_ids))
 	lines.append(_row("You", player_hand, player_types, community, comm_ids))
 	for npc in npcs:
 		if not npc["folded"]:
@@ -412,8 +507,8 @@ func _row(label: String, private_dice: Array, private_types: Array, community: A
 	var all_dice: Array = private_dice + community
 	var priv_str: String = _fmt_typed(private_dice, private_types)
 	if community.is_empty():
-		return "%s:  [b]%s[/b]  —  %s" % [label, priv_str, _name_n(all_dice)]
-	return "%s:  [b]%s  /  %s[/b]  —  %s" % [label, priv_str, _fmt_typed(community, comm_ids), _name_n(all_dice)]
+		return "%s:  [b]%s[/b]  —  %s" % [label, priv_str, _name_star_n(all_dice)]
+	return "%s:  [b]%s  /  %s[/b]  —  %s" % [label, priv_str, _fmt_typed(community, comm_ids), _name_star_n(all_dice)]
 
 
 func _row_npc(label: String, private_dice: Array, private_types: Array, revealed: Array, community: Array, comm_ids: Array) -> String:
@@ -513,9 +608,33 @@ func _rank_n(dice: Array) -> int:
 		return _rank_pure(numerics, bridges, crowns, skulls)
 	return _best_with_jokers(numerics, bridges, jokers, crowns, skulls)
 
-
-func _name_n(dice: Array) -> String:
+func _star_n(dice):
 	var rank: int = _rank_n(dice)
+	return star_rank(rank)
+
+func star_rank(rank: int) -> String:
+	if rank in SEVEN_STAR:
+		return "★★★★★★★"
+	const THRESHOLDS := [
+		[SIX_STAR,        6, false],
+		[FIVE_HALF_STAR,  5, true ],
+		[FIVE_STAR,       5, false],
+		[FOUR_HALF_STAR,  4, true ],
+		[FOUR_STAR,       4, false],
+		[THREE_HALF_STAR, 3, true ],
+		[THREE_STAR,      3, false],
+		[TWO_HALF_STAR,   2, true ],
+		[TWO_STAR,        2, false],
+		[ONE_HALF_STAR,   1, true ],
+		[ONE_STAR,        1, false],
+	]
+	for t in THRESHOLDS:
+		if rank >= t[0]:
+			return "★".repeat(t[1]) + ("⯨" if t[2] else "")
+	return ""
+
+
+func _rank_name(rank:int) -> String:
 	if rank == RANK_THE_VOID:            return "The Void"
 	if rank >= RANK_FULL_CIRCUS:         return "Full Circus"
 	if rank >= RANK_DOMINIUM:            return "The Dominium"
@@ -523,11 +642,13 @@ func _name_n(dice: Array) -> String:
 	if rank >= RANK_KINGS_GRAVE:         return "King's Grave"
 	if rank >= RANK_CROWNED_PREMONITION: return "Crowned Premonition"
 	if rank >= RANK_FOUR_DAY_REIGN:      return "Four Day Reign"
-	if rank >= RANK_DYNASTIC_MARRIAGE:   return "Dynastic Marriage"
+	if rank >= RANK_NECRONOMICON:        return "The Necronomicon"
+	if rank >= RANK_JACKPOT:             return "Jackpot"
 	if rank >= RANK_DEAD_DYNASTY:        return "Dead Dynasty"
+	if rank >= RANK_DYNASTIC_MARRIAGE:   return "Dynastic Marriage"
+	if rank >= RANK_KINGS_LUCKY_SEVENS:  return "King's Lucky Sevens"
 	if rank >= RANK_KINGS_THREE_ARCS:    return "King's Three Arcs"
 	if rank >= RANK_CROWNED_FOUR_ARCS:   return "Crowned Four Arcs"
-	if rank >= RANK_NECRONOMICON:        return "The Necronomicon"
 	if rank >= RANK_FIVE_ARCS:           return "Five Arcs"
 	if rank >= RANK_PREMONITION:         return "The Premonition"
 	if rank >= RANK_KINGS_CLIMB:         return "The King's Climb"
@@ -538,8 +659,9 @@ func _name_n(dice: Array) -> String:
 	if rank >= RANK_KINGS_WANDERER:      return "The King's Wanderer"
 	if rank >= RANK_KINGS_COMMON:        return "The King's Common"
 	if rank >= RANK_TRIUMVIRATE:         return "The Triumvirate"
-	if rank >= RANK_CROWNED_GRAVEYARD:   return "Crowned Graveyard"
-	if rank >= RANK_CROWNED_THREE_ARCS:  return "Crowned Three Arcs"
+	if rank >= RANK_CROWNED_GRAVEYARD:        return "Crowned Graveyard"
+	if rank >= RANK_CROWNED_LUCKY_SEVENS:     return "Crowned Lucky Sevens"
+	if rank >= RANK_CROWNED_THREE_ARCS:       return "Crowned Three Arcs"
 	if rank >= RANK_FOUR_ARCS:           return "Four Arcs"
 	if rank >= RANK_WIDOWER:             return "The Widower"
 	if rank >= RANK_STAIRWELL:           return "The Stairwell"
@@ -550,6 +672,7 @@ func _name_n(dice: Array) -> String:
 	if rank >= RANK_CROWNED_DUET:        return "Crowned Duet"
 	if rank >= RANK_HEARTH:              return "The Hearth"
 	if rank >= RANK_GRAVEYARD:           return "Graveyard"
+	if rank >= RANK_LUCKY_SEVENS:        return "Lucky Sevens"
 	if rank >= RANK_PEREGRINE:           return "The Peregrine"
 	if rank >= RANK_KINGS_HAND:          return "King's Hand"
 	if rank >= RANK_CROWNED_SNAKE_EYES:  return "Crowned Snake Eyes"
@@ -567,6 +690,14 @@ func _name_n(dice: Array) -> String:
 	if rank >= RANK_COMMON:              return "The Common"
 	return "Dead Hand"
 
+
+func _name_n(dice: Array) -> String:
+	var rank: int = _rank_n(dice)
+	return _rank_name(rank)
+
+func _name_star_n(dice: Array) -> String:
+	var rank: int = _rank_n(dice)
+	return "%s (%s)" % [_rank_name(rank), star_rank(rank)]
 
 # Brute-force Joker substitution: try each numeric value 0–7 for each Joker
 func _best_with_jokers(numerics: Array, bridges: int, jokers: int, crowns: int = 0, skulls: int = 0) -> int:
@@ -605,7 +736,7 @@ func _rank_numeric(numerics: Array, bridges: int) -> int:
 	var quad_val = null
 	var penta_val = null
 	for val in counts:
-		if val == FACE_BRIDGE:
+		if val is String and val == FACE_BRIDGE:
 			continue  # Bridge is a run extender; it never pairs
 		var cnt: int = counts[val]
 		if cnt >= 5: penta_val = val
@@ -622,8 +753,10 @@ func _rank_numeric(numerics: Array, bridges: int) -> int:
 
 	# ── Hierarchy checks ──────────────────────────────────────────
 
-	# Five Arcs
+	# Five Arcs / Jackpot (five Knights)
 	if penta_val != null:
+		if penta_val == FACE_KNIGHT:
+			return RANK_JACKPOT
 		return RANK_FIVE_ARCS + _prv(penta_val)
 
 	# The Pilgrimage (5 consecutive including Bridge)
@@ -655,6 +788,10 @@ func _rank_numeric(numerics: Array, bridges: int) -> int:
 	if run_len >= 3 and pair_vals.size() == 1:
 		if not run_values.has(pair_vals[0]):
 			return RANK_PEREGRINE + run_high * 10 + _prv(pair_vals[0])
+
+	# Lucky Sevens (three Knights — elevated above generic Three Arcs)
+	if triple_val == FACE_KNIGHT:
+		return RANK_LUCKY_SEVENS
 
 	# Three Arcs
 	if triple_val != null:
@@ -725,6 +862,7 @@ func _rank_to_tier(rank: int) -> String:
 	if rank >= RANK_LONG_ROAD:     return "long_road"
 	if rank >= RANK_SUMMIT:        return "summit"
 	if rank >= RANK_HEARTH:        return "hearth"
+	if rank >= RANK_LUCKY_SEVENS:  return "lucky_sevens"
 	if rank >= RANK_PEREGRINE:     return "royal_climb"
 	if rank >= RANK_THREE_ARCS:    return "three_arcs"
 	if rank >= RANK_LOVERS_CLIMB:  return "lovers_climb"
@@ -749,13 +887,14 @@ func _crown_rank(crowns: int, base_rank: int) -> int:
 		return max(base_rank, RANK_TRIUMVIRATE)
 	if crowns == 2:
 		match tier:
-			"none":        return RANK_KINGS_HAND
-			"low_pair":    return RANK_KINGS_COMMON
-			"high_pair":   return RANK_KINGS_WANDERER
-			"snake_eyes":  return RANK_KINGS_EYES
-			"climb":       return RANK_KINGS_CLIMB
-			"three_arcs":  return RANK_KINGS_THREE_ARCS
-			_:             return max(base_rank, RANK_KINGS_HAND)
+			"none":          return RANK_KINGS_HAND
+			"low_pair":      return RANK_KINGS_COMMON
+			"high_pair":     return RANK_KINGS_WANDERER
+			"snake_eyes":    return RANK_KINGS_EYES
+			"climb":         return RANK_KINGS_CLIMB
+			"lucky_sevens":  return RANK_KINGS_LUCKY_SEVENS
+			"three_arcs":    return RANK_KINGS_THREE_ARCS
+			_:               return max(base_rank, RANK_KINGS_HAND)
 	# crowns == 1
 	match tier:
 		"none":            return RANK_CROWNED_HAND
@@ -765,6 +904,7 @@ func _crown_rank(crowns: int, base_rank: int) -> int:
 		"double_trouble":  return RANK_CROWNED_DUET
 		"climb":           return RANK_CROWNED_CLIMB
 		"drunkard_climb":  return RANK_CROWNED_DRUNKARDS_CLIMB
+		"lucky_sevens":    return RANK_CROWNED_LUCKY_SEVENS
 		"three_arcs":      return RANK_CROWNED_THREE_ARCS
 		"long_road":       return RANK_CROWNED_LONG_ROAD
 		"four_arcs":       return RANK_CROWNED_FOUR_ARCS
@@ -955,22 +1095,44 @@ func _roll_raw(count: int) -> Array:
 	return result
 
 
+func _lck_roll_count(lck: int) -> int:
+	if lck < LCK_ADVANTAGE_THRESHOLD:
+		return 1
+	return 2 + (lck - LCK_ADVANTAGE_THRESHOLD) / LCK_BONUS_INTERVAL
+
+
 func _roll_with_lck(lck: int) -> int:
-	var rolls: int = ADVANTAGE_ROLLS if lck >= LCK_ADVANTAGE_THRESHOLD else 1
 	var best: int = 0
-	for i in range(rolls):
+	for _i in range(_lck_roll_count(lck)):
 		best = max(best, rng.randi_range(1, 6))
 	return best
 
 
-func _roll_typed_with_lck(die_id: String, lck: int):
-	var count := ADVANTAGE_ROLLS if lck >= LCK_ADVANTAGE_THRESHOLD else 1
+func _roll_typed_with_lck(die_id: String, lck: int, prefer_triggers: bool = false, deprioritized: Array = []):
 	var best = null
-	for _i in range(count):
+	for _i in range(_lck_roll_count(lck)):
 		var v = _roll_die(die_id)
-		if best == null or _sort_value(v) > _sort_value(best):
+		if best == null:
 			best = v
+		else:
+			var v_trig    : bool = _is_trigger_face(v)    and not (v in deprioritized)
+			var best_trig : bool = _is_trigger_face(best) and not (best in deprioritized)
+			if prefer_triggers and v_trig and not best_trig:
+				best = v
+			elif not prefer_triggers and best_trig and not v_trig:
+				best = v
+			elif v_trig == best_trig and _sort_value(v) > _sort_value(best):
+				best = v
 	return best
+
+
+func _deprioritized_triggers(community: Array) -> Array:
+	var out: Array = []
+	if community.is_empty():
+		out.append(FACE_DRAGON)
+	if priest_triggered:
+		out.append(FACE_PRIEST)
+	return out
 
 
 # Returns index of the worst die to re-roll; J and B are kept (treated as high value)
@@ -1025,12 +1187,55 @@ func _is_good_visible(dice: Array) -> bool:
 	return _rank_n(dice) >= RANK_CLIMB
 
 
-func _say(line: String) -> void:
-	MyEventBus.emit("continue_text", {"text": line, "linebreak": false})
+func _say(line: String, linebreak: bool = false) -> void:
+	MyEventBus.emit("continue_text", {"text": line, "linebreak": linebreak})
 	await MyEventBus.await_event("typing_finished")
 
 
-func _banter(npc: Dictionary, trigger: String, chance: float = 0.45) -> bool:
+func _player_name() -> String:
+	return player_name_callback.call() if player_name_callback.is_valid() else "Wanderer"
+
+
+func _join_names(names: Array) -> String:
+	if names.is_empty():
+		return ""
+	if names.size() == 1:
+		return names[0]
+	if names.size() == 2:
+		return "%s and %s" % [names[0], names[1]]
+	return "%s and %s" % [", ".join(names.slice(0, names.size() - 1)), names[-1]]
+
+
+func _random_hand_name(ranks: Array) -> String:
+	if ranks.is_empty():
+		return ""
+	return _rank_name(ranks[rng.randi() % ranks.size()])
+
+
+func _base_replace_map(npcs: Array) -> Dictionary:
+	var map := {"PLAYER": _player_name(), "WAGER": current_wager, "TOTAL_WAGER": current_pot, "POT": current_pot}
+	var names: Array = []
+	for i in range(npcs.size()):
+		var n_name: String = (npcs[i].get("name", "") as String).capitalize()
+		names.append(n_name)
+		if i < 3:
+			map["NPC%d" % (i + 1)] = n_name
+	map["NPCs"] = _join_names(names)
+	return map
+
+
+func _banter_map(npc: Dictionary, npcs: Array, community: Array, active_ranks: Dictionary, extra: Dictionary = {}) -> Dictionary:
+	var map := _base_replace_map(npcs)
+	map["SELF"] = (npc.get("name", "") as String).capitalize()
+	map["SELF_HAND"] = _rank_name(_rank_n(npc.get("dice", []) + community))
+	map["RANDOM_HAND"] = _random_hand_name(active_ranks.get("all", []))
+	map["RANDOM_HIGH_HAND"] = _random_hand_name(active_ranks.get("high", []))
+	map["RANDOM_LOW_HAND"] = _random_hand_name(active_ranks.get("low", []))
+	map.merge(extra)
+	return map
+
+
+func _banter(npc: Dictionary, trigger: String, chance: float = 0.45, replace_map: Dictionary = {}, linebreak: bool = false, suffix: bool = false) -> bool:
 	var b: Dictionary = npc.get("banter", {})
 	if not b.has(trigger):
 		return false
@@ -1039,21 +1244,22 @@ func _banter(npc: Dictionary, trigger: String, chance: float = 0.45) -> bool:
 		return false
 	if rng.randf() > chance:
 		return false
-	await _say(lines[rng.randi() % lines.size()])
+	var line: String = _parse_game_text(lines[rng.randi() % lines.size()], replace_map)
+	await _say(line + ("\n" if suffix else ""), linebreak)
 	return true
 
 
-func _banter_pool(npc: Dictionary, keys: Array, chance: float = 1.0) -> bool:
+func _banter_pool(npc: Dictionary, keys: Array, chance: float = 1.0, replace_map: Dictionary = {}) -> bool:
 	var pool: Array = []
 	for key in keys:
 		pool += npc.get("banter", {}).get(key, [])
 	if pool.is_empty() or rng.randf() > chance:
 		return false
-	await _say(pool[rng.randi() % pool.size()])
+	await _say(_parse_game_text(pool[rng.randi() % pool.size()], replace_map))
 	return true
 
 
-func _banter_showdown_react(npc: Dictionary, revealed_rank: int, best_so_far: int, chance: float) -> bool:
+func _banter_showdown_react(npc: Dictionary, revealed_rank: int, best_so_far: int, chance: float, replace_map: Dictionary = {}) -> bool:
 	var key: String
 	if revealed_rank > best_so_far:
 		key = "showdown_react_best"
@@ -1061,7 +1267,7 @@ func _banter_showdown_react(npc: Dictionary, revealed_rank: int, best_so_far: in
 		key = "showdown_react_good"
 	else:
 		key = "showdown_react_bad"
-	return await _banter(npc, key, chance)
+	return await _banter(npc, key, chance, replace_map)
 
 
 func _is_special_face_ext(face) -> bool:
@@ -1099,14 +1305,14 @@ func _dice_roll_sfx() -> void:
 		await delay_fn.call()
 
 
-func _react_stand_pat(reactors: Array) -> void:
+func _react_stand_pat(reactors: Array, all_npcs: Array, community: Array, active_ranks: Dictionary, subject_name: String) -> void:
 	if reactors.is_empty():
 		return
 	var reactor: Dictionary = reactors[rng.randi() % reactors.size()]
-	await _banter(reactor, "react_stand_pat", 0.35)
+	await _banter(reactor, "react_stand_pat", 0.35, _banter_map(reactor, all_npcs, community, active_ranks, {"SUBJECT": subject_name}), true)
 
 
-func _react_to_npc_reroll(all_npcs: Array, acting_npc: Dictionary, rerolled_idx: int, community: Array) -> void:
+func _react_to_npc_reroll(all_npcs: Array, acting_npc: Dictionary, rerolled_idx: int, community: Array, active_ranks: Dictionary) -> void:
 	var others: Array = all_npcs.filter(func(n): return n != acting_npc)
 	if others.is_empty():
 		return
@@ -1117,24 +1323,26 @@ func _react_to_npc_reroll(all_npcs: Array, acting_npc: Dictionary, rerolled_idx:
 			other_pool.append(acting_npc["dice"][i])
 	other_pool += community
 	var reactor: Dictionary = others[rng.randi() % others.size()]
+	var subject_name: String = (acting_npc.get("name", "") as String).capitalize()
+	var react_map := _banter_map(reactor, all_npcs, community, active_ranks, {"SUBJECT": subject_name, "FACE": _face_name(new_face)})
 	if _is_good_visible(acting_npc["dice"] + community):
-		await _banter(reactor, "react_good_roll", 0.35)
+		await _banter(reactor, "react_good_roll", 0.35, react_map)
 	elif _creates_pair(new_face, other_pool):
-		await _banter(reactor, "react_pair", 0.35)
+		await _banter(reactor, "react_pair", 0.35, react_map)
 	elif not _face_has_synergy(new_face, other_pool):
-		await _banter(reactor, "react_no_combo", 0.35)
+		await _banter(reactor, "react_no_combo", 0.35, react_map)
 
 
-func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Array, player_types: Array, comm_ids: Array) -> void:
+func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Array, player_types: Array, comm_ids: Array, active_ranks: Dictionary) -> void:
 	for npc in npcs:
 		var npc_name: String = (npc["name"] as String).capitalize()
 		var action: int = _npc_decide(npc, community, phase, npc.get("difficulty", "easy"))
 		if action >= 0:
 			# 10a: NPC rerolls
-			await _say("%s re-rolls a die." % npc_name)
-			await _banter(npc, "reroll")
+			await _say("%s re-rolls a die." % npc_name, true)
+			await _banter(npc, "reroll", 0.45, _banter_map(npc, npcs, community, active_ranks, {"FACE": _face_name(npc["dice"][action])}))
 			await _dice_roll_sfx()
-			npc["dice"][action] = _roll_die(npc["dice_types"][action])
+			npc["dice"][action] = _roll_typed_with_lck(npc["dice_types"][action], npc.get("lck", 0), true, _deprioritized_triggers(community))
 			npc["revealed"][action] = true
 			var new_face = npc["dice"][action]
 
@@ -1146,84 +1354,89 @@ func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Arra
 					other_pool.append(npc["dice"][i])
 			other_pool += community
 
+			var roll_map := _banter_map(npc, npcs, community, active_ranks, {"FACE": _face_name(new_face)})
 			var fired := false
 			if _is_special_face_ext(new_face):
 				var suffix: String = _special_die_key(new_face)
 				if not suffix.is_empty():
-					fired = await _banter(npc, "special_die_self_" + suffix, 0.4)
+					fired = await _banter(npc, "special_die_self_" + suffix, 0.4, roll_map)
 				if not fired:
-					fired = await _banter(npc, "special_die_self", 0.4)
+					fired = await _banter(npc, "special_die_self", 0.4, roll_map)
 			if not fired and _is_good_visible(other_pool + [new_face]):
-				fired = await _banter(npc, "good_roll", 0.4)
+				fired = await _banter(npc, "good_roll", 0.4, roll_map)
 			if not fired and _creates_pair(new_face, other_pool):
-				fired = await _banter(npc, "pair_hit", 0.4)
+				fired = await _banter(npc, "pair_hit", 0.4, roll_map)
 			if not fired and not _face_has_synergy(new_face, other_pool):
-				await _banter(npc, "no_combo", 0.4)
+				await _banter(npc, "no_combo", 0.4, roll_map)
 
 			if _is_trigger_face(new_face):
 				await _resolve_npc_reroll_effect(new_face, npc, action, player_hand, player_types, npcs, community, comm_ids)
 
 			if npc_crossreact:
-				await _react_to_npc_reroll(npcs, npc, action, community)
+				await _react_to_npc_reroll(npcs, npc, action, community, active_ranks)
 			await _say("%s's hand: " % npc_name + _row_npc(npc_name, npc["dice"], npc["dice_types"], npc["revealed"], community, comm_ids))
 		else:
 			# 10b: NPC holds pat
-			await _say("%s held pat." % npc_name)
-			await _banter(npc, "keep_hand")
+			await _say("%s held pat." % npc_name, true)
+			await _banter(npc, "keep_hand", 0.45, _banter_map(npc, npcs, community, active_ranks))
 			if npc_crossreact:
 				var others: Array = npcs.filter(func(n): return n != npc)
-				await _react_stand_pat(others)
+				await _react_stand_pat(others, npcs, community, active_ranks, npc_name)
 
 
-func _react_to_player_reroll(npcs: Array, rerolled_idx: int, player_hand: Array, community: Array) -> void:
+func _react_to_player_reroll(npcs: Array, rerolled_idx: int, player_hand: Array, community: Array, active_ranks: Dictionary) -> void:
 	if npcs.is_empty():
 		return
 	var new_face = player_hand[rerolled_idx]
 	var reactor: Dictionary = npcs[rng.randi() % npcs.size()]
+	var react_map := _banter_map(reactor, npcs, community, active_ranks, {"SUBJECT": _player_name(), "FACE": _face_name(new_face)})
 	if _is_good_visible([new_face] + community):
-		await _banter(reactor, "react_good_roll", 0.45)
+		await _banter(reactor, "react_good_roll", 0.45, react_map, true)
 	elif _creates_pair(new_face, community):
-		await _banter(reactor, "react_pair", 0.45)
+		await _banter(reactor, "react_pair", 0.45, react_map, true)
 	elif not _face_has_synergy(new_face, community):
-		await _banter(reactor, "react_no_combo", 0.45)
+		await _banter(reactor, "react_no_combo", 0.45, react_map, true)
 
 
-func _react_to_community_die(npcs: Array, community: Array) -> void:
+func _react_to_community_die(npcs: Array, community: Array, active_ranks: Dictionary) -> void:
 	if npcs.is_empty() or community.is_empty():
 		return
 	var new_comm = community[-1]
 	var comm_before: Array = community.slice(0, community.size() - 1)
 	for npc in npcs:
 		var fired := false
+		var comm_map := _banter_map(npc, npcs, community, active_ranks, {"FACE": _face_name(new_comm)})
 		if _is_special_face_ext(new_comm):
 			var suffix: String = _special_die_key(new_comm)
 			if not suffix.is_empty():
-				fired = await _banter(npc, "special_die_community_" + suffix, 1.0)
+				fired = await _banter(npc, "special_die_community_" + suffix, 1.0, comm_map, true)
 			if not fired:
-				fired = await _banter(npc, "special_die_community", 1.0)
+				fired = await _banter(npc, "special_die_community", 1.0, comm_map, true)
 		if not fired:
 			var npc_pool: Array = _npc_visible_dice(npc) + comm_before
 			if _face_has_synergy(new_comm, npc_pool):
-				await _banter(npc, "community_favor_self", 1.0)
+				await _banter(npc, "community_favor_self", 1.0, comm_map, true)
 			else:
-				await _banter(npc, "community_favor_other", 1.0)
+				await _banter(npc, "community_favor_other", 1.0, comm_map, true)
 
 
 # ── Run helpers ───────────────────────────────────────────────────────────────
 
-func _build_reroll_choices(player_hand: Array) -> Array:
-	return [
-		{"text": "Re-roll the %s" % _face_name(player_hand[0]), "key": "0"},
-		{"text": "Re-roll the %s" % _face_name(player_hand[1]), "key": "1"},
-		{"text": "Re-roll the %s" % _face_name(player_hand[2]), "key": "2"},
-		{"text": "Stand pat", "key": "stand"},
-		{"text": "Hand Rankings", "key": "hierarchy", "type": "back"},
-	]
+func _build_reroll_choices(player_hand: Array, player_types: Array) -> Array:
+	var choices := []
+	for i in range(3):
+		var die_id: String = player_types[i]
+		var tooltip: String = die_tooltip_callback.call(die_id, dice_db.get(die_id, {})) \
+			if die_tooltip_callback.is_valid() else ""
+		choices.append({"text": "Re-roll the %s" % _face_name(player_hand[i]), "key": str(i), "tooltip": tooltip})
+	choices.append({"text": "Stand pat", "key": "stand", "tooltip": "Stand pat and keep your current hand as is"})
+	choices.append({"text": "Hand Rankings", "key": "hierarchy", "type": "back", "tooltip": "View the hand ranking table and special dice faces"})
+	return choices
 
 
 func _pick_reroll(player_hand: Array, header: String, player_types: Array, npcs: Array, community: Array, comm_ids: Array) -> String:
 	while true:
-		MyEventBus.emit("show_choices", {"choices": _build_reroll_choices(player_hand), "header": header})
+		MyEventBus.emit("show_choices", {"choices": _build_reroll_choices(player_hand, player_types), "header": header})
 		var rr: Dictionary = await capture_input_fn.call()
 		var rk: String = rr.get("key", "stand")
 		if rk != "hierarchy":
@@ -1234,23 +1447,24 @@ func _pick_reroll(player_hand: Array, header: String, player_types: Array, npcs:
 	return "stand"
 
 
-func _do_player_reroll(rk: String, player_hand: Array, player_types: Array, npcs: Array, community: Array, comm_ids: Array) -> void:
+func _do_player_reroll(rk: String, player_hand: Array, player_types: Array, npcs: Array, community: Array, comm_ids: Array, active_ranks: Dictionary) -> void:
 	if rk != "stand":
 		await _say("You re-roll a die.")
 		await _dice_roll_sfx()
 		var lck: int = stat_callback.call("lck") if stat_callback.is_valid() else 0
-		player_hand[int(rk)] = _roll_typed_with_lck(player_types[int(rk)], lck)
+		var triggers_useful: bool = not npcs.is_empty() or not community.is_empty()
+		player_hand[int(rk)] = _roll_typed_with_lck(player_types[int(rk)], lck, triggers_useful, _deprioritized_triggers(community))
 		await _say("You rolled %s!" % _fmt_roll_result(player_hand[int(rk)]))
-		await _react_to_player_reroll(npcs, int(rk), player_hand, community)
+		await _react_to_player_reroll(npcs, int(rk), player_hand, community, active_ranks)
 		if _is_trigger_face(player_hand[int(rk)]):
 			await _resolve_player_reroll_effect(player_hand[int(rk)], int(rk), player_hand, player_types, npcs, community, comm_ids)
 		await _say("Your hand: " + _fmt_typed(player_hand, player_types))
 	else:
 		await _say("You hold pat.")
-		await _react_stand_pat(npcs)
+		await _react_stand_pat(npcs, npcs, community, active_ranks, _player_name())
 
 
-func _npc_round_banter(npcs: Array, community: Array, round_key: String, high_threshold: int, low_threshold: int) -> void:
+func _npc_round_banter(npcs: Array, community: Array, round_key: String, high_threshold: int, low_threshold: int, active_ranks: Dictionary) -> void:
 	if npcs.is_empty():
 		return
 	var sp: Dictionary = npcs[rng.randi() % npcs.size()]
@@ -1260,7 +1474,7 @@ func _npc_round_banter(npcs: Array, community: Array, round_key: String, high_th
 		keys.append("round_good_hand")
 	elif rank < low_threshold:
 		keys.append("round_bad_hand")
-	await _banter_pool(sp, keys, 0.55)
+	await _banter_pool(sp, keys, 0.55, _banter_map(sp, npcs, community, active_ranks, {"HAND": _rank_name(rank)}))
 
 
 # ── Hierarchy builder ─────────────────────────────────────────────────────────
@@ -1275,17 +1489,69 @@ func _active_faces(player_types: Array, npcs: Array, comm_ids: Array) -> Diction
 	var f := {"crown": false, "joker": false, "bridge": false, "skull": false, "rogue": false, "knight": false, "blank": false, "priest": false, "magician": false, "dragon": false}
 	for die_id in ids:
 		for v in dice_db.get(die_id, {}).get("values", []):
-			if v == FACE_CROWN:       f["crown"] = true
-			elif v == FACE_JOKER:     f["joker"] = true
-			elif v == FACE_BRIDGE:    f["bridge"] = true
-			elif v == FACE_SKULL:     f["skull"] = true
-			elif v == FACE_BLANK:     f["blank"] = true
-			elif v == FACE_PRIEST:    f["priest"] = true
-			elif v == FACE_MAGICIAN:  f["magician"] = true
-			elif v == FACE_DRAGON:    f["dragon"] = true
-			elif v is int and v == FACE_ROGUE:  f["rogue"] = true
-			elif v is int and v == FACE_KNIGHT: f["knight"] = true
+			if v is String:
+				match v:
+					FACE_CROWN:    f["crown"]    = true
+					FACE_JOKER:    f["joker"]    = true
+					FACE_BRIDGE:   f["bridge"]   = true
+					FACE_SKULL:    f["skull"]    = true
+					FACE_BLANK:    f["blank"]    = true
+					FACE_PRIEST:   f["priest"]   = true
+					FACE_MAGICIAN: f["magician"] = true
+					FACE_DRAGON:   f["dragon"]   = true
+			elif v is int:
+				if v == FACE_ROGUE:   f["rogue"]  = true
+				elif v == FACE_KNIGHT: f["knight"] = true
 	return f
+
+
+func _active_hand_ranks(player_types: Array, npcs: Array, comm_ids: Array) -> Dictionary:
+	var f := _active_faces(player_types, npcs, comm_ids)
+	var crown: bool = f["crown"]
+	var joker: bool = f["joker"]
+	var skull: bool = f["skull"]
+	var rogue: bool = f["rogue"]
+	var knight: bool = f["knight"]
+	var both: bool = crown and skull
+
+	var ranks: Array = []
+	if joker: ranks.append(RANK_FULL_CIRCUS)
+	if crown:
+		ranks.append(RANK_DOMINIUM)
+		if both: ranks.append(RANK_FIRST_BLIGHT)
+		ranks.append(RANK_FOUR_DAY_REIGN)
+	if skull: ranks.append(RANK_NECRONOMICON)
+	if knight: ranks.append(RANK_JACKPOT)
+	if skull and both: ranks.append(RANK_DEAD_DYNASTY)
+	if crown: ranks.append(RANK_DYNASTIC_MARRIAGE)
+	ranks.append(RANK_FIVE_ARCS)
+	if skull: ranks.append(RANK_PREMONITION)
+	ranks.append(RANK_PILGRIMAGE)
+	if both: ranks.append(RANK_KINGS_SKULL)
+	if crown: ranks.append(RANK_TRIUMVIRATE)
+	ranks.append(RANK_FOUR_ARCS)
+	if skull: ranks.append(RANK_WIDOWER)
+	ranks.append(RANK_STAIRWELL)
+	ranks.append(RANK_LONG_ROAD)
+	ranks.append(RANK_SUMMIT)
+	ranks.append(RANK_HEARTH)
+	if skull: ranks.append(RANK_GRAVEYARD)
+	if knight: ranks.append(RANK_LUCKY_SEVENS)
+	ranks.append(RANK_PEREGRINE)
+	if crown: ranks.append(RANK_KINGS_HAND)
+	ranks.append(RANK_THREE_ARCS)
+	ranks.append(RANK_LOVERS_CLIMB)
+	ranks.append(RANK_DOUBLE_DUET)
+	ranks.append(RANK_DRUNKARDS_CLIMB)
+	if both: ranks.append(RANK_CROWNED_SKULL)
+	if rogue: ranks.append(RANK_SNAKE_EYES)
+	ranks.append(RANK_CLIMB)
+	if crown: ranks.append(RANK_CROWNED_HAND)
+	ranks.append(RANK_WANDERERS_HAND)
+	ranks.append(RANK_COMMON)
+
+	var mid: int = ranks.size() / 2
+	return {"all": ranks, "high": ranks.slice(0, mid), "low": ranks.slice(mid)}
 
 
 func _build_hierarchy(player_types: Array, npcs: Array, comm_ids: Array) -> String:
@@ -1301,58 +1567,96 @@ func _build_hierarchy(player_types: Array, npcs: Array, comm_ids: Array) -> Stri
 	var max_num = "7" if knight else "6"
 	var min_num = "0" if rogue else "1"
 
-	var lines: Array = []
+	var rows: Array = []
+
+	var add_row = func(rows: Array, rank: int, explanation: String) -> void:
+		rows.append(
+			"[cell]%s[/cell][cell]  [/cell][cell]%s[/cell][cell] — [/cell][cell]%s[/cell]" %
+			[
+				star_rank(rank),
+				_rank_name(rank),
+				explanation
+			]
+		)
 
 	if joker:
-		lines.append("Full Circus             —  five Jokers (ex: J-J-J-J-J)")
+		add_row.call(rows, RANK_FULL_CIRCUS, "five Jokers (ex: J-J-J-J-J)")
+
 	if crown:
-		lines.append("The Dominium            —  five Crowns (ex: C-C-C-C-C)")
+		add_row.call(rows, RANK_DOMINIUM, "five Crowns (ex: C-C-C-C-C)")
 		if both:
-			lines.append("First Blight           —  Skull + four Crowns  (ex: C-C-C-C-S)")
-		lines.append("Four Day Reign          —  four Crowns (ex: C-C-C-C)")
+			add_row.call(rows, RANK_FIRST_BLIGHT, "Skull + four Crowns (ex: C-C-C-C-S)")
+		add_row.call(rows, RANK_FOUR_DAY_REIGN, "four Crowns (ex: C-C-C-C)")
+
 	if skull:
-		lines.append("The Necronomicon        —  five Skulls (ex: S-S-S-S-S)")
+		add_row.call(rows, RANK_NECRONOMICON, "five Skulls (ex: S-S-S-S-S)")
+
+	if knight:
+		add_row.call(rows, RANK_JACKPOT, "five Knights (ex: 7-7-7-7-7)")
+
+	if skull and both:
+		add_row.call(rows, RANK_DEAD_DYNASTY, "Skull + three Crowns (ex: C-C-C-S)")
+
 	if crown:
-		lines.append("The Dynastic Marriage   —  three Crowns + any pair (ex: C-C-C-1-1)")
-		if both:
-			lines.append("Dead Dynasty            —  Skull + three Crowns  (ex: C-C-C-S)")
-	lines.append("Five Arcs               —  five of a kind")
+		add_row.call(rows, RANK_DYNASTIC_MARRIAGE, "three Crowns + any pair (ex: C-C-C-1-1)")
+
+	add_row.call(rows, RANK_FIVE_ARCS, "five of a kind")
+
 	if skull:
-		lines.append("The Premonition         —  four Skulls (ex: S-S-S-S)")
-	lines.append("The Pilgrimage          —  five in a row  (ex: 2-3-4-5-6)")
+		add_row.call(rows, RANK_PREMONITION, "four Skulls (ex: S-S-S-S)")
+
+	add_row.call(rows, RANK_PILGRIMAGE, "five in a row (ex: 2-3-4-5-6)")
+
 	if both:
-		lines.append("King's Skull            —  two Crowns + Skull  (ex: C-C-S)")
+		add_row.call(rows, RANK_KINGS_SKULL, "two Crowns + Skull (ex: C-C-S)")
+
 	if crown:
-		lines.append("The Triumvirate         —  three Crowns (ex: C-C-C)")
-	lines.append("Four Arcs               —  four of a kind")
+		add_row.call(rows, RANK_TRIUMVIRATE, "three Crowns (ex: C-C-C)")
+
+	add_row.call(rows, RANK_FOUR_ARCS, "four of a kind")
+
 	if skull:
-		lines.append("The Widower             —  three Skulls + pair  (ex: S-S-S-1-1)")
-	lines.append("The Stairwell           —  four in a row with a pair inside  (ex: 1-1-2-3-4)")
-	lines.append("The Long Road           —  four in a row  (ex: 1-2-3-4)")
-	lines.append("The Summit              —  triple overlapping a climb  (ex: 3-3-3-2-4)")
-	lines.append("The Hearth              —  triple + pair  (ex: 1-1-1-2-2)")
+		add_row.call(rows, RANK_WIDOWER, "three Skulls + pair (ex: S-S-S-1-1)")
+
+	add_row.call(rows, RANK_STAIRWELL, "four in a row with a pair inside (ex: 1-1-2-3-4)")
+	add_row.call(rows, RANK_LONG_ROAD, "four in a row (ex: 1-2-3-4)")
+	add_row.call(rows, RANK_SUMMIT, "triple overlapping a climb (ex: 3-3-3-2-4)")
+	add_row.call(rows, RANK_HEARTH, "triple + pair (ex: 1-1-1-2-2)")
+
 	if skull:
-		lines.append("Graveyard               —  three Skulls  (ex: S-S-S)")
-	lines.append("The Peregrine             —  three in a row + a separate pair  (ex: 1-2-3-5-5)")
+		add_row.call(rows, RANK_GRAVEYARD, "three Skulls (ex: S-S-S)")
+
+	if knight:
+		add_row.call(rows, RANK_LUCKY_SEVENS, "three Knights (ex: 7-7-7)")
+
+	add_row.call(rows, RANK_PEREGRINE, "three in a row + a separate pair (ex: 1-2-3-5-5)")
+
 	if crown:
-		lines.append("King's Hand             —  two Crowns   (ex: C-C)")
-	lines.append("Three Arcs              —  three of a kind")
-	lines.append("Lover's Climb           —  three in a row with two pairs inside  (ex: 1-1-2-2-3)")
-	lines.append("Double Duet          —  two different pairs  (ex: 1-1-2-2)")
-	lines.append("Drunkard's Climb        —  three in a row with a pair inside  (ex: 1-1-2-3)")
+		add_row.call(rows, RANK_KINGS_HAND, "two Crowns (ex: C-C)")
+
+	add_row.call(rows, RANK_THREE_ARCS, "three of a kind")
+	add_row.call(rows, RANK_LOVERS_CLIMB, "three in a row with two pairs inside (ex: 1-1-2-2-3)")
+	add_row.call(rows, RANK_DOUBLE_DUET, "two different pairs (ex: 1-1-2-2)")
+	add_row.call(rows, RANK_DRUNKARDS_CLIMB, "three in a row with a pair inside (ex: 1-1-2-3)")
+
 	if both:
-		lines.append("Crowned Skull           —  Crown + Skull  (ex: C-S)")
+		add_row.call(rows, RANK_CROWNED_SKULL, "Crown + Skull (ex: C-S)")
+
 	if rogue:
-		lines.append("Snake Eyes              —  pair of Rogues  (0-0)")
-	lines.append("The Climb               —  three in a row  (ex: 1-2-3)")
+		add_row.call(rows, RANK_SNAKE_EYES, "pair of Rogues (0-0)")
+
+	add_row.call(rows, RANK_CLIMB, "three in a row (ex: 1-2-3)")
+
 	if crown:
-		lines.append("Crowned Hand            —  Crown alone")
+		add_row.call(rows, RANK_CROWNED_HAND, "Crown alone")
+
 	if bridge:
-		lines.append("Wanderer's Hand         —  pair of 4-%s or Bridge" % max_num)
+		add_row.call(rows, RANK_WANDERERS_HAND, "pair of 4-%s or Bridge" % max_num)
 	else:
-		lines.append("Wanderer's Hand         —  pair of 4-%s" % max_num)
-	lines.append("The Common              —  pair of 1-3")
-	lines.append("Dead Hand               —  no match")
+		add_row.call(rows, RANK_WANDERERS_HAND, "pair of 4-%s" % max_num)
+
+	add_row.call(rows, RANK_COMMON, "pair of 1-3")
+	rows.append("[cell][/cell][cell]  [/cell][cell]Dead Hand[/cell][cell] — [/cell][cell]no match[/cell]")
 
 	var special: Array = []
 	if crown:
@@ -1368,10 +1672,16 @@ func _build_hierarchy(player_types: Array, npcs: Array, comm_ids: Array) -> Stri
 	if blank:
 		special.append("  Blank  (X)    —  does nothing; five Blanks form The Void, which ends the game in a draw")
 
-	var out: String = "\n".join(lines)
+	var out: String = "[table=5]%s[/table]" % "".join(rows)
 	if not special.is_empty():
 		out += "\n──\nSpecial faces:\n" + "\n".join(special)
 	return out
+
+
+func _parse_game_text(text,values):
+	for key in values:
+		text = text.replace("[" + key + "]", str(values[key]))
+	return text
 
 
 # ── Trigger-face resolvers ────────────────────────────────────────────────────
@@ -1407,6 +1717,7 @@ func _priest_standardize(die_arr: Array, type_arr: Array, idx: int) -> void:
 
 
 func _effect_priest_reroll(is_player: bool, npc_idx: int, player_hand: Array, player_types: Array, npcs: Array, community: Array, comm_ids: Array) -> void:
+	priest_triggered = true
 	await _say("Priest! Every die outside the hand is converted to a standard die.")
 	if is_player:
 		for npc in npcs:
@@ -1427,6 +1738,7 @@ func _effect_priest_reroll(is_player: bool, npc_idx: int, player_hand: Array, pl
 
 
 func _effect_priest_community(player_hand: Array, player_types: Array, npcs: Array) -> void:
+	priest_triggered = true
 	await _say("Priest! All players' private dice are converted to standard dice.")
 	for i in range(player_hand.size()):
 		_priest_standardize(player_hand, player_types, i)
