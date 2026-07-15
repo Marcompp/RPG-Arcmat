@@ -116,6 +116,10 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 
 	var effect = data.get("effect", "none")
 	var chance = data.get("chance", 100)
+	if effect == "random_status":
+		var pool = data.get("status_pool", [])
+		if not pool.is_empty():
+			effect = pool[rng.randi_range(0, pool.size() - 1)]
 	if effect != "none" and effect != "" and effect != "ignore_def" and rng.randi_range(1, 100) <= chance:
 		result["status"] = effect
 

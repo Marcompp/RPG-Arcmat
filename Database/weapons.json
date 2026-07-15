@@ -433,5 +433,12 @@
 		"wpn_type": "Staff",
 		"stats": { "mgt": 10, "acc": 85, "wgt": 8, "crit": 10, "mys": 5 },
 		"effect": "none"
+	},
+	"Ringmaster's Whip": {
+		"name": "Ringmaster's Whip",
+		"description": "A braided leather whip used to put the circus's caged beasts through their paces. Even out of the ring, its crack makes something in the back of your mind want to sit and heel.",
+		"wpn_type": "Ranged",
+		"stats": { "mgt": 10, "acc": 92, "wgt": 4, "crit": 8, "mys": 3 },
+		"effect": "none"
 	}
 }

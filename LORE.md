@@ -47,7 +47,7 @@ When encountered as a Boss, uses a Poleaxe and the Woodcutter class, representin
 | **Rona** | Female | Weapons seller | Bertunia (Arms and Armaments) | Stocky, soot-stained hands; former soldier; knows every weapon in stock from having swung it herself. *Voice:* "Arms and Armaments. You buying, or just looking?" / "What are you working with? I can point you at the right thing for the job." / "Every weapon in here I've swung myself. None of it's decorative." — direct and professional; engages with customers rather than ignoring them; warm without being soft. |
 | **Fabrice** | ??? | Clothier | Bertunia (Everyman's Clothier) | Immaculately dressed, if a bit flamboyant; . *Voice:* "Welcome to Everyman's Clothier — where everyone can shine!" / "You look radiant darling! Not as radiant as moi, of course, but still." / "The right accessory can bring out the true beauty in anyone." / "Good choice. You'll look fabulous in that, darling!." / "Looking good is an universal right, darling. No need to be shy." / "Hmm, yes... Even you could look nice if you acessorise right." — friendly flamboyant diva; sees her job as bringing up the true beauty in the world; can be a bit insensitive sometimes; has very animated and flamboyant body language; the decor is impeccable despite everything. |
 | **the Postman** | Male | Postman | Any surface place | A tall, square-faced man with squinty eyes and brown-feathered wings in a tall, red cap addorned with an emblem depicting a winged letter; *Voice:* "Ahoy there! Letter for Agnes!" "Good. Stand by." "Here. A letter from ___, addressed to ____" "Are there any more concerns?" "Very well. My job here is done. Be well!" |
-| **Gamer Clown** | Gender ambiguous | Gilded Hollow Circus (Minigame Stand) | A demon clown from the Gilded Hollow Circus who runs the Minigame Stand, running rigged games for prizes. Dresses in red and purple and wears a porcelain mask split between an exagerated frown and grin. Speaks in an overly animated manner, giving bombastic speeches and dramatic pep talks, sing-songing, dancing around, while also being very annoying and taunting the player. A trickster type. Has the strange ability to split into several clowns with masks depicting different emotions. Above all, a sleasy rigged sideshow game master, a con artist more than a performer |
+| **Gamer Clown** | Gender ambiguous | Gilded Hollow Circus (Minigame Stand) | A demon clown from the Gilded Hollow Circus who runs the Minigame Stand, running rigged games for prizes. Dresses in red and purple and wears a porcelain mask split between an exagerated frown and grin. NEVER allude to anything being behind the mask; they might not have a face at all. Speaks in an  animated manner, giving bombastic speeches and dramatic pep talks, sing-songing, jokingly dancing around, while also being very annoying and taunting the player. A trickster type. Has the strange ability to split into several clowns with masks depicting different emotions. Above all, a sleasy rigged sideshow game master, a con artist more than a performer |
 | **The Ringmaster** | Male? | Gilded Hollow Circus | A Greater Demon who runs the Gilded Hollow Circus, speaks as if putting on a performance. Can be charming, but is mostly sinister... Wants to trap people in his circus forever, first by drawing them in with the flashy performances, slowly hypnotising them into staying and slowly transitioning becoming demons in the circus,and not letting them leave should that not work, first by dangling new fun things in front of them, then by guilt tripping, then by violence. |
 
 
@@ -197,6 +197,40 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
 - The Stage (fight against Harlequin on first visit, two on second, etc) 
 - House of Mirrors (fight against doppelganger) 
 - Side Attraction? (minigame with prizes)
+    Minigames:
+        Test of Strength:
+        Test of Skill: 
+            Game of Darts - influenced by DEX
+                Player gets three throws, and has a chance to get 0, 2, 4, 6, 8, 10 or 15 points
+                Must reach a certain total to win
+                This total goes up with each win - by five wins, a perfect run is needed
+        Test of Wit:
+            Quiz Game - influenced by INT
+                the player gets to answer questions about the game and world (5 per game)
+                if the question is about worldbuilding information they've already encountered, the correct answer will be highlighted
+                otherwise, there'll be an INT-determined chance of the correct answer being highlighted anyway, depending on the question's difficulty
+                    Easy: Mostly obvious game mechanics questions and questions about the player's immediate surroundings in the circus - INTx2 % chance of the answer being highlighted
+                    Medium:
+                    Hard: Worldbuilding questions
+                    Impossible: Worldbuilding questions about things the player cannot possibly have encountered thus far - INT/2% chance of the answer being highlighted
+                    Trick: Trick questions and questions without correct answers
+                Difficulty ramps up after each win:
+                    0 wins: Needs 3/5 correct answers, easy questions only
+                    1 wins: Needs 3/5 correct answers, easy and medium questions
+                    2 wins: Needs 4/5 correct answers, easy, medium and trick questions
+                    3 wins: Needs 4/5 correct answers, medium or hard questions
+                    4 wins: Needs 4/5 correct answers, hard, impossible or trick questions
+                    5+ wins:Needs 5/5 correnc answers, impossible or trick questions only
+        Test of Luck:
+            Wanderer's Dice
+                Game of wanderer's dice with one Circus and one Trick community dice
+                Opponents change after each win:
+                    0 wins: Gamer Clown
+                    1 wins: Smiley Clown + Frowny Clown
+                    2 wins: Smiley Clown + Frowny Clown + Serious Clown
+                    3 wins: Smiley Clown + Surprised Clown + Serious Clown
+                    4+ wins:Random Trio of Clowns
+
     Prizes:
         1 Win:  Potion
         2 Wins: Stimulant
@@ -204,9 +238,9 @@ Key locations: Outer Threshold, Fractured Hall (suspended cubes held by violet e
         4 Wins: Circus Die
         5 Wins: Party Trick Scroll
         6 Wins: Lifespark Crystal
-        7 Wins: 
+        7 Wins: Ringmaster's Whip
         8 Wins: Juggle Throw Scroll
-        9 Wins: 
+        9 Wins: Chaos Bell
         10 Wins:Gamemaster's Crown
 
 

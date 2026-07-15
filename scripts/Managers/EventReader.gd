@@ -251,6 +251,7 @@ func _run_step(step: Dictionary) -> void:
 			_dg.gold_callback = gold_callback
 			_dg.rng = rng			
 			_dg.dice_db             = db_callback.call("dice")     if db_callback.is_valid() else {}
+			_dg.faces_db            = db_callback.call("faces")    if db_callback.is_valid() else {}
 			_dg.gamblers_db         = db_callback.call("gamblers") if db_callback.is_valid() else {}
 			_dg.player_dice_callback = player_dice_callback
 			_dg.die_tooltip_callback = die_tooltip_callback

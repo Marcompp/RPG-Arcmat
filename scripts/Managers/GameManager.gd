@@ -35,6 +35,7 @@ var spell_db = {}
 var skill_db = {}
 var trinkets_db = {}
 var dice_db = {}
+var faces_db = {}
 var gamblers_db = {}
 
 var in_combat = false
@@ -59,25 +60,6 @@ const FACE_ORDER := [
 	"0", "1", "2", "3", "4", "5", "6", "7",
 	"B", "J", "C", "P", "M", "D", "S", "X"
 ]
-
-var FACE_LABELS := {
-	"0": "Rogue",
-	"1": "1",
-	"2": "2",
-	"3": "3",
-	"4": "4",
-	"5": "5",
-	"6": "6",
-	"7": "Knight",
-	"B": "Bridge",
-	"J": "Joker",
-	"C": "Crown",
-	"P": "Priest",
-	"M": "Magician",
-	"D": "Dragon",
-	"S": "Skull",
-	"X": "Blank"
-}
 
 
 # ------------------------
@@ -196,6 +178,7 @@ func _ready():
 	skill_db    = load_json("res://Database/skills.json")
 	trinkets_db = load_json("res://Database/trinkets.json")
 	dice_db     = load_json("res://Database/dice.json")
+	faces_db    = load_json("res://Database/faces.json")
 	gamblers_db = load_json("res://Database/gamblers.json")
 
 	dialogue.visible = false
@@ -1317,10 +1300,11 @@ func build_die_rates_text(die_id):
 	var parts: Array[String] = []
 	for face in FACE_ORDER:
 		if pcts.has(face):
-			if FACE_LABELS.get(face,face) != face:
-				parts.append("[b]%s[/b] (%s): %d%%" % [face, FACE_LABELS.get(face, face), pcts[face]])	
+			var label: String = faces_db.get(face, {}).get("name", face)
+			if label != face:
+				parts.append("[b]%s[/b] (%s): %d%%" % [face, label, pcts[face]])
 			else:
-				parts.append("[b]%s[/b]: %d%%" % [FACE_LABELS.get(face, face), pcts[face]])
+				parts.append("[b]%s[/b]: %d%%" % [label, pcts[face]])
 
 	return parts
 

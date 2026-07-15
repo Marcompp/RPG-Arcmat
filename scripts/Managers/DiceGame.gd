@@ -173,11 +173,6 @@ const ONE_STAR                     := RANK_COMMON
 const MAX_RANK                := 11100.0  # slightly above RANK_FULL_CIRCUS; used for EV normalisation
 const LCK_ADVANTAGE_THRESHOLD := 10
 const LCK_BONUS_INTERVAL      := 5
-const SORT_JOKER              := 100.0
-const SORT_CROWN              := 9.0
-const SORT_TRIGGER            := 8.0  # Priest / Magician / Dragon — kept by AI (effect faces)
-const SORT_BRIDGE             := 8.5
-const SORT_SKULL              := 6.0
 
 
 
@@ -197,6 +192,8 @@ var die_tooltip_callback: Callable
 var player_name_callback: Callable
 var rng: RandomNumberGenerator
 var dice_db: Dictionary
+## Special-face metadata (name/sort_value/is_trigger/banter_key), keyed by face code — see Database/faces.json
+var faces_db: Dictionary
 var gamblers_db: Dictionary
 ## Callable() -> void — brief pause after dice SFX; caller wires it
 var delay_fn: Callable
@@ -362,37 +359,37 @@ func run(step: Dictionary) -> String:
 	for r in npc_ranks:
 		best_npc_rank = max(best_npc_rank, r)
 
-	MyEventBus.emit("dialogue", {"text": "Showdown!"})
+	MyEventBus.emit("dialogue", {"text": "SHOWDOWN!\n"})
 	if not npcs.is_empty():
 		var showdown_speaker: Dictionary = npcs[rng.randi() % npcs.size()]
-		await _banter(showdown_speaker, "showdown_start", 0.6, _banter_map(showdown_speaker, npcs, community, active_ranks))
+		await _banter(showdown_speaker, "showdown_start", 0.6, _banter_map(showdown_speaker, npcs, community, active_ranks),true)
 
 	# NPCs reveal in reverse order
-	var best_rank_so_far: int = player_rank
-	var best_rank_holder: String = _player_name()
+	var best_rank_so_far: int = 0
+	var best_rank_holder: String = ""
 	for i in range(npcs.size() - 1, -1, -1):
 		var npc: Dictionary = npcs[i]
 		var npc_name: String = (npc["name"] as String).capitalize()
 		var npc_rank: int = npc_ranks[i]
 		var is_last: bool = (i == 0)
 		var reveal_map := _banter_map(npc, npcs, community, active_ranks,
-			{"HAND": _rank_name(npc_rank), "WINNER": best_rank_holder, "WINNER_HAND": _rank_name(best_rank_so_far)})
+			{"HAND": _rank_name(npc_rank), "WINNER": best_rank_holder, "WINNER_HAND": _rank_name(best_rank_so_far)},)
 
 		await _say("%s reveals their hand." % npc_name)
 
 		var fired := false
 		if not fired and npc_rank >= RANK_PILGRIMAGE:
 			fired = await _banter(npc, "showdown_best", 0.7, reveal_map)
-		if not fired and is_last and npc_rank > best_rank_so_far:
+		if not fired and is_last and npc_rank > best_rank_so_far and i > 0:
 			fired = await _banter(npc, "showdown_winning_last", 0.7, reveal_map)
 		if not fired and is_last and npc_rank < best_rank_so_far:
 			fired = await _banter(npc, "showdown_weak_last", 0.5, reveal_map)
-		if not fired and npc_rank > best_rank_so_far:
+		if not fired and npc_rank > best_rank_so_far and i > 0:
 			fired = await _banter(npc, "showdown_leading", 0.5, reveal_map)
-		if not fired and npc_rank < best_rank_so_far:
+		if not fired and npc_rank < best_rank_so_far and i > 0:
 			fired = await _banter(npc, "showdown_losing", 0.45, reveal_map)
 		if not fired:
-			fired = await _banter(npc, "showdown_reveal", 0.4, reveal_map)
+			fired = await _banter(npc, "showdown_reveal", 0.8, reveal_map)
 
 		npc["revealed"] = [true, true, true]
 		await _say(_row(("%s's hand" % npc_name), npc["dice"], npc["dice_types"], community, live_comm_ids))
@@ -408,7 +405,7 @@ func run(step: Dictionary) -> String:
 		best_rank_so_far = max(best_rank_so_far, npc_rank)
 
 	# Player reveals last
-	await _say("You reveal your hand:")
+	await _say("You reveal your hand:",true)
 	await _say(_row("Your hand", player_hand, player_types, community, live_comm_ids))
 	for npc in npcs:
 		await _banter_showdown_react(npc, player_rank, best_rank_so_far, 0.4,
@@ -420,13 +417,12 @@ func run(step: Dictionary) -> String:
 
 	var void_draw: bool = player_rank == RANK_THE_VOID or best_npc_rank == RANK_THE_VOID
 	if void_draw:
-		await _say("The Void. The game ends in a draw.")
+		await _say("The Void.\nThe game ends in a draw.",true)
 		MyEventBus.emit("give_gold", {"amount": player_committed})
 	elif player_rank > best_npc_rank:
-		await _say("You win the pot.")
-		MyEventBus.emit("give_gold", {"amount": pot})
+		await _say("YOU WIN!",true)
 	elif player_rank == best_npc_rank:
-		await _say("A tie. The wager is returned.")
+		await _say("Tie game...", true)
 		MyEventBus.emit("give_gold", {"amount": player_committed})
 	else:
 		await _say("You lose.")
@@ -444,7 +440,6 @@ func run(step: Dictionary) -> String:
 			player_result_key = "showdown_npc_tie"
 		else:
 			player_result_key = "showdown_npc_win"
-
 		var winner_entities: Array = []
 		if player_rank == best_overall:
 			winner_entities.append({"name": _player_name(), "index": -1})
@@ -472,17 +467,36 @@ func run(step: Dictionary) -> String:
 					if w["index"] != i:
 						partners.append(w["name"])
 				result_extra["DRAW_WITH"] = _join_names(partners)
-			await _banter_pool(npc, result_keys, 1.0, _banter_map(npc, npcs, community, active_ranks, result_extra))
+			await _banter_pool(npc, result_keys, 1.0, _banter_map(npc, npcs, community, active_ranks, result_extra), true)
+	else:
+		for i in range(npcs.size()):
+			var npc: Dictionary = npcs[i]
+			var npc_rank: int = npc_ranks[i]
+			var result_extra := {"HAND": _rank_name(npc_rank)}
+			await _banter_pool(npc, ['showdown_npc_tie','showdown_void'], 1.0, _banter_map(npc, npcs, community, active_ranks, result_extra), true)
 
-	await wait_for_continue_fn.call()
+	var result = "lose"
 
 	if void_draw:
-		return "tie"
+		result = "tie"
 	elif player_rank > best_npc_rank:
 		return "win"
 	elif player_rank == best_npc_rank:
 		return "tie"
-	return "lose"
+
+	if pot > 0:
+		if result == 'tie':
+			MyEventBus.emit("play_sfx", {"sound": "chest_open"})
+			MyEventBus.emit("give_gold", {"amount": player_committed})
+			await _say("You take back your [color=yellow]%sG[/color]..." % str(player_committed), true)
+		if result == "win":
+			MyEventBus.emit("play_sfx", {"sound": "chest_open"})
+			MyEventBus.emit("give_gold", {"amount": pot})
+			await _say("You won the full pot: [color=yellow]%sG[/color]!" % str(pot), true)
+
+	await wait_for_continue_fn.call()
+	return result
+
 
 
 # ── Display helpers ───────────────────────────────────────────────────────────
@@ -543,41 +557,28 @@ func _fmt_typed(dice: Array, die_types: Array) -> String:
 
 func _face_name(v) -> String:
 	if v is int:
-		if v == FACE_ROGUE: return "Rogue"
-		if v == FACE_KNIGHT: return "Knight"
-		return str(int(v))
+		return faces_db.get(str(int(v)), {}).get("name", str(int(v)))
 	if v is String:
-		if v == FACE_JOKER:    return "Joker"
-		if v == FACE_BRIDGE:   return "Bridge"
-		if v == FACE_CROWN:    return "Crown"
-		if v == FACE_SKULL:    return "Skull"
-		if v == FACE_PRIEST:   return "Priest"
-		if v == FACE_MAGICIAN: return "Magician"
-		if v == FACE_DRAGON:   return "Dragon"
+		return faces_db.get(v, {}).get("name", v)
 	return str(int(v))
 
 
 func _face_char(v) -> String:
 	if v is String: return v
 	var i := int(v)
-	if i == FACE_ROGUE: return "Rogue"
-	if i == FACE_KNIGHT: return "Knight"
-	return str(i)
+	return faces_db.get(str(i), {}).get("name", str(i))
 
 
 func _fmt_roll_result(v) -> String:
 	if v is String:
-		if v == FACE_JOKER:    return "Joker (J)"
-		if v == FACE_BRIDGE:   return "Bridge (B)"
-		if v == FACE_CROWN:    return "Crown (C)"
-		if v == FACE_SKULL:    return "Skull (S)"
-		if v == FACE_PRIEST:   return "Priest (P)"
-		if v == FACE_MAGICIAN: return "Magician (M)"
-		if v == FACE_DRAGON:   return "Dragon (D)"
+		var str_entry: Dictionary = faces_db.get(v, {})
+		if str_entry.has("name"):
+			return "%s (%s)" % [str_entry["name"], v]
 		return v
 	var i := int(v)
-	if i == FACE_ROGUE: return "Rogue (0)"
-	if i == FACE_KNIGHT: return "Knight (7)"
+	var int_entry: Dictionary = faces_db.get(str(i), {})
+	if int_entry.has("name"):
+		return "%s (%d)" % [int_entry["name"], i]
 	return str(i)
 
 
@@ -1096,19 +1097,29 @@ func _roll_raw(count: int) -> Array:
 
 
 func _lck_roll_count(lck: int) -> int:
+	if lck == 0:
+		return 2
 	if lck < LCK_ADVANTAGE_THRESHOLD:
 		return 1
 	return 2 + (lck - LCK_ADVANTAGE_THRESHOLD) / LCK_BONUS_INTERVAL
 
 
 func _roll_with_lck(lck: int) -> int:
-	var best: int = 0
-	for _i in range(_lck_roll_count(lck)):
-		best = max(best, rng.randi_range(1, 6))
-	return best
+	var worst: bool = lck == 0
+	var picked: int = 0
+	for i in range(_lck_roll_count(lck)):
+		var v: int = rng.randi_range(1, 6)
+		if i == 0:
+			picked = v
+		elif worst:
+			picked = min(picked, v)
+		else:
+			picked = max(picked, v)
+	return picked
 
 
 func _roll_typed_with_lck(die_id: String, lck: int, prefer_triggers: bool = false, deprioritized: Array = []):
+	var worst: bool = lck == 0
 	var best = null
 	for _i in range(_lck_roll_count(lck)):
 		var v = _roll_die(die_id)
@@ -1121,8 +1132,11 @@ func _roll_typed_with_lck(die_id: String, lck: int, prefer_triggers: bool = fals
 				best = v
 			elif not prefer_triggers and best_trig and not v_trig:
 				best = v
-			elif v_trig == best_trig and _sort_value(v) > _sort_value(best):
-				best = v
+			elif v_trig == best_trig:
+				if worst and _sort_value(v) < _sort_value(best):
+					best = v
+				elif not worst and _sort_value(v) > _sort_value(best):
+					best = v
 	return best
 
 
@@ -1146,12 +1160,7 @@ func _worst_idx(dice: Array) -> int:
 
 func _sort_value(v) -> float:
 	if v is String:
-		if v == FACE_JOKER:    return SORT_JOKER
-		if v == FACE_CROWN:    return SORT_CROWN
-		if v == FACE_BRIDGE:   return SORT_BRIDGE
-		if v == FACE_PRIEST or v == FACE_MAGICIAN or v == FACE_DRAGON: return SORT_TRIGGER
-		if v == FACE_SKULL:    return SORT_SKULL
-		return 50.0
+		return faces_db.get(v, {}).get("sort_value", 50.0)
 	return float(v)
 
 
@@ -1249,13 +1258,13 @@ func _banter(npc: Dictionary, trigger: String, chance: float = 0.45, replace_map
 	return true
 
 
-func _banter_pool(npc: Dictionary, keys: Array, chance: float = 1.0, replace_map: Dictionary = {}) -> bool:
+func _banter_pool(npc: Dictionary, keys: Array, chance: float = 1.0, replace_map: Dictionary = {}, linebreak: bool =false) -> bool:
 	var pool: Array = []
 	for key in keys:
 		pool += npc.get("banter", {}).get(key, [])
 	if pool.is_empty() or rng.randf() > chance:
 		return false
-	await _say(_parse_game_text(pool[rng.randi() % pool.size()], replace_map))
+	await _say(_parse_game_text(pool[rng.randi() % pool.size()], replace_map),linebreak)
 	return true
 
 
@@ -1267,7 +1276,7 @@ func _banter_showdown_react(npc: Dictionary, revealed_rank: int, best_so_far: in
 		key = "showdown_react_good"
 	else:
 		key = "showdown_react_bad"
-	return await _banter(npc, key, chance, replace_map)
+	return await _banter(npc, key, chance, replace_map, true)
 
 
 func _is_special_face_ext(face) -> bool:
@@ -1278,21 +1287,14 @@ func _is_special_face_ext(face) -> bool:
 
 func _special_die_key(face) -> String:
 	if face is String:
-		if face == FACE_JOKER:    return "joker"
-		if face == FACE_BRIDGE:   return "bridge"
-		if face == FACE_CROWN:    return "crown"
-		if face == FACE_SKULL:    return "skull"
-		if face == FACE_PRIEST:   return "priest"
-		if face == FACE_MAGICIAN: return "magician"
-		if face == FACE_DRAGON:   return "dragon"
+		return faces_db.get(face, {}).get("banter_key", "")
 	if face is int:
-		if face == FACE_ROGUE: return "rogue"
-		if face == FACE_KNIGHT: return "knight"
+		return faces_db.get(str(face), {}).get("banter_key", "")
 	return ""
 
 
 func _is_trigger_face(face) -> bool:
-	return face is String and (face == FACE_PRIEST or face == FACE_MAGICIAN or face == FACE_DRAGON)
+	return face is String and faces_db.get(face, {}).get("is_trigger", false)
 
 
 func _is_standard_face(face) -> bool:
@@ -1301,8 +1303,7 @@ func _is_standard_face(face) -> bool:
 
 func _dice_roll_sfx() -> void:
 	MyEventBus.emit("play_sfx", {"sound": "dice"})
-	if delay_fn.is_valid():
-		await delay_fn.call()
+	_say("...[wait=0.4]")
 
 
 func _react_stand_pat(reactors: Array, all_npcs: Array, community: Array, active_ranks: Dictionary, subject_name: String) -> void:
@@ -1359,8 +1360,8 @@ func _run_npc_phase(npcs: Array, community: Array, phase: int, player_hand: Arra
 			if _is_special_face_ext(new_face):
 				var suffix: String = _special_die_key(new_face)
 				if not suffix.is_empty():
-					fired = await _banter(npc, "special_die_self_" + suffix, 0.4, roll_map)
-				if not fired:
+					fired = await _banter(npc, "special_die_self_" + suffix, 0.6, roll_map)
+				elif not fired:
 					fired = await _banter(npc, "special_die_self", 0.4, roll_map)
 			if not fired and _is_good_visible(other_pool + [new_face]):
 				fired = await _banter(npc, "good_roll", 0.4, roll_map)

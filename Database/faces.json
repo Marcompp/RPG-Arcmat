@@ -1,0 +1,12 @@
+{
+    "0": {"name": "Rogue",    "banter_key": "rogue"},
+    "7": {"name": "Knight",   "banter_key": "knight"},
+    "J": {"name": "Joker",    "sort_value": 100.0, "banter_key": "joker"},
+    "C": {"name": "Crown",    "sort_value": 9.0,   "banter_key": "crown"},
+    "B": {"name": "Bridge",   "sort_value": 8.5,   "banter_key": "bridge"},
+    "P": {"name": "Priest",   "sort_value": 8.0, "is_trigger": true, "banter_key": "priest"},
+    "M": {"name": "Magician", "sort_value": 8.0, "is_trigger": true, "banter_key": "magician"},
+    "D": {"name": "Dragon",   "sort_value": 8.0, "is_trigger": true, "banter_key": "dragon"},
+    "S": {"name": "Skull",    "sort_value": 6.0,   "banter_key": "skull"},
+    "X": {"name": "Blank"}
+}

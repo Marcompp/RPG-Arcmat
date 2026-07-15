@@ -273,3 +273,61 @@ A fazer
 
 
 ================================================================================
+
+Dice game ideas:
+
+Special face idea: the Escort ( E ) 
+- forms a Group with every different non-numeric face present.  
+Base Hands: 
+-Two different non-numeric faces including E ex: E + X = Escort's Hand (above a Wanderer's Hand) (counts as a pair for the purposes of forming Double Duet, the Hearth, the Peregrine or the Dynastic Marriage) 
+-Three different non-numeric faces including E ex: E + X + B = Manage au Trois (above Three Arcs) (counts as a trio for the purposes of forming the Hearth) 
+-Four different non-numeric faces including E ex: E + X + B + S = Conspiracy (above Four Arcs) 
+-Five different non-numeric faces including E ex: E + X + B + S + M = Baccanal (above Five Arcs) 
+
+Crowned Variants: 
+-Escort's Hand + 1 Crown = Crowned Escort's Hand (above Crowned Wanderer's Hand) 
+-Escort's Hand + 2 Crowns = King's Meeting (above King's Wanderer) 
+-Escort's Hand + 3 Crowns = Dynastic Marriage 
+-Manage au Trois + 1 Crown = Crowned Threesome (above Crowned Three Arcs) 
+-Manage au Trois + 2 Crowns = King's Threesome (above King's Three Arcs) 
+-Conspiracy + 1 Crown = Crowned Conspiracy (above Crowned Four Arcs) 
+
+Because Escort + Crown would technically be an Escort's Hand: 
+-Escort + Crown = Crowned Escort (above Crowned Hand) 
+-Escort + 2 Crowns = King's Escort (above King's Hand) 
+-Escort + 3 Crowns = Courtesain (above Triumvirate) 
+-Escort + 4 Crowns = Red Queen (above Four Day Reign) 
+
+Because Escort + Graveyard overlaps with Escort's Hand: 
+-Escort + 3 Skulls = Escort's Grave (above Graveyard) 
+-Escort + 3 Skulls + Crown = Crowned Escort's Grave (above Crowned Graveyard) 
+-Escort's Hand + Graveyard = The Widower (because Escort's Hand is counted as a pair)
+
+Trimmed down version
+
+Special face idea: the Escort ( E ) 
+- forms a Escort Group with every different non-numeric face present.  
+Base Hands: 
+-Escort Group of 3 ex: E + X + B = Manage au Trois (above Three Arcs) 
+-Escort Group of 4 E ex: E + X + B + S = Rendezvous (above Four Arcs) 
+-Escort Group of 5 ex: E + X + B + S + M = Baccanal (above Five Arcs) 
+
+Crowned Variants: 
+-Manage au Trois + 1 Crown = Crowned Threesome (above Crowned Three Arcs) 
+-Manage au Trois + 2 Crowns = King's Threesome (above King's Three Arcs) 
+-Rendevouz + 1 Crown = Crowned Rendezvous (above Crowned Four Arcs) 
+
+Because Escort + Crown would technically be an Escort's Hand: 
+-Escort Group of 2 + Crown = Crowned Escort (above Crowned Wanderer's Hand) 
+-Escort Group of 2 + 2 Crowns = King's Escort (above King's Wanderer) 
+-Escort Group of 2 + 3 Crowns = Red Queen (above Dynastic Marriage)
+
+Because Escort + Graveyard overlaps with Escort's Hand: 
+-Escort Group of 2 + 3 Skulls = Decadence (above Premonition) 
+-Escort + 3 Skulls + Crown = Novisvania (above Crowned Premonition) 
+
+Edge Cases:
+Escort Group of 3 + Pair = The Courtiers (above the Hearth)
+Escort Group of 2 + Pair + Crown = Royal Courtiers
+Escort Group of 3, overlapping run of 3 = Promenade (above The Summit)
+Escort Group of 2, overlapping run of 3 + Crown = Royal Promenade 

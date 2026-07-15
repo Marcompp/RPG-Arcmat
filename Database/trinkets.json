@@ -115,6 +115,15 @@
 		"skill": "Gorgon Eye",
 		"stackable": false
 	},
+	"Chaos Bell": {
+		"name": "Chaos Bell",
+		"icon": "bell.png",
+		"description": "A dented brass bell salvaged from a jester's cap, rung once too often for anyone's comfort. It won't ring on command — only right as a fight is about to start, and never the same note twice.",
+		"effect_description": "At the start of battle, rings out and inflicts a random status effect (beneficial or harmful) on every combatant, player included.",
+		"effect": "battle_start_skill",
+		"skill": "Chaos Bell",
+		"stackable": false
+	},
 	"Backpack": {
 		"name": "Backpack",
 		"description": "A canvas pack with reinforced straps and a surprising number of pockets. Seems to fit more than it should.",
@@ -356,6 +365,15 @@
 		"effect_description": "Magical attacks gain +20% damage for each consecutive turn spent without casting. Resets on casting.",
 		"effect": "ringmaster_tophat",
 		"magnitude": 20,
+		"stackable": false
+	},
+	"Gamemaster's Crown": {
+		"name": "Gamemaster's Crown",
+		"description": "A small, tarnished crown, sized for someone with a mask instead of a face. It shouldn't fit. It does.",
+		"effect_description": "Gain +6 LCK and +4 DEX when HP falls below 50%.",
+		"effect": "low_hp_stats",
+		"stats": {"lck": 6, "dex": 4},
+		"threshold": 50,
 		"stackable": false
 	}
 }

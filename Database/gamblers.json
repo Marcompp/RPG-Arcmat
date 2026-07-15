@@ -8,7 +8,8 @@
             "game_start": [
                 "The Travelling Gambler rubs his hands together: \"Well, here goes nothing!\"",
                 "The Travelling Gambler clasps his hands: \"May Lady Luck smile upon us.\"",
-                "\"Lady Luck, don't abandon me now.\""
+                "The Travelling Gambler rubs his hands together: \"Lady Luck, don't abandon me now.\"",
+                "The Travelling Gambler leans back. \"Remember, I put in [WAGER]G and you put in [WAGER]G; that means the winner gets all of [POT]G\""
             ],
             "round_1": [
                 "The Travelling Gambler smirks: \"Time to make some moves, eh?\"",
@@ -392,7 +393,7 @@
         "name": "Smiley Clown",
         "dice": ["trick1", "trick2", "standard"],
         "difficulty": "risky",
-        "stats": {"lck": 4},
+        "stats": {"lck": 0},
         "banter": {
             "game_start": [
                 "The Smiley Clown spreads their arms wide: \"Ladies and gentlemen — LET THE GAME BEGIN!\"",
@@ -523,10 +524,6 @@
                 "\"Well! That happened! That certainly happened!\"",
                 "\"It was a learning experience. A humbling, beautiful, learning experience.\""
             ],
-            "showdown_losing": [
-                "\"Ah. That's not mine. That one's not mine.\"",
-                "\"It's fine. I've been better but I'm fine.\""
-            ],
             "showdown_react_best": [
                 "The Smiley Clown grabs the table edge: \"THAT'S the one! THAT is the ONE!\"",
                 "The Smiley Clown gives a slow, dramatic bow of acknowledgment."
@@ -558,164 +555,135 @@
         "name": "Gamer Clown",
         "dice": ["trick3", "trick2", "standard"],
         "difficulty": "wildcard",
-        "stats": {"lck": 4},
+        "stats": {"lck": 0},
         "banter": {
             "game_start": [
-                "The Gamer Clown cracks their knuckles dramatically: \"It is TIME. Oh, it is VERY time.\"",
-                "The Gamer Clown leans forward: \"I have been practicing. Mentally. In my mind. I am ready.\""
+                "The Gamer Clown rolls up their sleeves, slow and deliberate: \"Step right up. Let's see what the dice decide... or what I decide the dice will do.\"",
+                "The Gamer Clown leans forward: \"Ah, a fresh mark — a fresh FRIEND. Sit. Play. You'll enjoy losing to me.\""
             ],
             "round_1": [
-                "The Gamer Clown spreads their arms wide: \"Step right up, step right UP! Let us see what luck has brought us todaaaay!\"",
-                "The Gamer Clown claps their hands twice: \"Ready? Ready? Oh, I am READY!\""
+                "The Gamer Clown spreads their arms: \"Round one! Place your faith in luck, sweetheart. It won't help, but it's charming to watch.\"",
+                "\"Let the dice fall where I — where THEY please.\" The Gamer Clown catches themself and shakes their head."
             ],
             "round_2": [
-                "The Gamer Clown winks at you: \"Still with us? Wonderful! The best part is still to come!\"",
-                "The Gamer Clown hums something tuneless under their breath."
+                "\"Still here? Good.\" The Gamer Clown leans in. \"Means you haven't caught on yet.\"",
+                "The Gamer Clown hums an old carnival tune, off-key on purpose."
             ],
             "round_3": [
-                "The Gamer Clown bounces in their seat: \"The grand finale! The culminating moment! Oh, I can HARDLY stand it!\"",
-                "The Gamer Clown stands up briefly, then sits back down: \"Last round! LAST ROUND!\""
+                "\"Last round, dear heart.\" The Gamer Clown taps the table twice. \"Every good run needs a proper stumble at the end.\"",
+                "The Gamer Clown cracks their neck: \"Final round. Let's give the crowd a show.\""
             ],
             "round_good_hand": [
-                "The Gamer Clown cracks their knuckles: \"I am running the numbers and the numbers are VERY FAVORABLE.\"",
-                "\"This hand... is exactly what the strategy called for. Yes. Yes YES.\""
+                "The Gamer Clown's mask tilts. \"Hm. That's a decent hand I've got there. I'm almost sorry about this.\"",
+                "\"Careful now,\" the Gamer Clown murmurs, \"I'm on a roll here.\""
             ],
             "round_bad_hand": [
-                "The Gamer Clown frowns: \"The RNG is being unkind. It happens. It's fine. I adapt.\"",
-                "\"Suboptimal. But the comeback arc begins HERE.\""
+                "The Gamer Clown chuckles low: \"Oh, that's a rough one. Don't worry — the house always has a plan.\"",
+                "\"Tsk. Bad luck.\" The Gamer Clown's mask droops. \"Or is it luck at all?\""
             ],
             "hand_good_start": [
-                "The Gamer Clown peeks at their dice and lets out a tiny, delighted squeal.",
-                "The Gamer Clown glances at their dice and begins humming with visible satisfaction."
+                "The Gamer Clown peeks at their dice and hums a little tune, just slightly too pleased.",
+                "The Gamer Clown hums, satisfied, and doesn't bother hiding it."
             ],
             "hand_bad_start": [
-                "The Gamer Clown looks at their dice. Their mask continues to smile.",
-                "The Gamer Clown clucks their tongue: \"Oh, well. Nothing a little luck can't fix!\""
+                "The Gamer Clown looks at their dice. The mask keeps smiling and frowning at once; nothing visible underneath.",
+                "\"Oh well,\" the Gamer Clown mutters. \"Gotta lead them on sometimes.\""
             ],
             "reroll": [
-                "\"Oops! Let's try that one more time!\"",
-                "\"Hmm-hmm-hmm, one more roll~\"",
-                "\"The crowd demands a re-roll!\"",
-                "\"Out with you! OUT!\""
+                "\"Let's try that again, shall we?\" The Gamer Clown's fingers are already moving the dice.",
+                "\"One more roll. For the show.\"",
+                "\"Out you go. Back in you come.\""
             ],
             "keep_hand": [
-                "\"Perfect. Just. Perfect.\"",
-                "\"Standing pat! Standing PAT!\"",
-                "\"We'll keep that one, yes we will.\""
+                "\"That'll do just fine.\" The Gamer Clown folds their hands.",
+                "\"We'll keep this one. No sense pushing a good thing.\""
             ],
             "pair_hit": [
-                "\"THERE it is! Did you SEE that?!\"",
-                "\"A match! The crowd goes WILD!\""
+                "\"There it is.\" The Gamer Clown taps the table. \"Isn't that convenient.\"",
+                "\"A match. Fancy that.\""
             ],
             "good_roll": [
-                "\"Ta-daaaaaa~\"",
-                "\"Oh, that is LOVELY.\""
+                "\"Ta-da.\" Said flat, like they knew all along. Because they did.",
+                "\"Oh, lovely. Just lovely.\""
             ],
             "no_combo": [
-                "\"Hmm. That wasn't for me. That was for... someone else. Yes.\"",
-                "\"Hee hee hee. It's fine. It's fine it's fine it's fine.\""
+                "\"Hm. Nothing there.\" The Gamer Clown doesn't sound surprised. \"Shame.\""
             ],
             "special_die_self_joker": [
-                "\"A Joker! Oh, the Jokers are my FAVORITE.\"",
-                "\"Hee hee hee! He came out to play!\"",
-                "\"They're all smiling! They're all smiling at me!\""
+                "\"A Joker.\" The Gamer Clown's mask seems to grin yet frown wider. \"Now THAT one likes me.\"",
+                "\"Joker~ Joker~. Do you know what it does? Well, too bad!\"",
+                "\"Hee. He came out to play. He usually does, for me.\""
             ],
-            "special_die_self_knight": [
-                "\"A KNIGHT! High value! This is what we WANTED, chat!\"",
-                "The Gamer Clown pumps their fist."
-            ],
-            "special_die_self_rogue": [
-                "\"A Rogue. Low floor, but you know what they say about Rogues. Actually I don't know. But I'll figure it out.\"",
-                "\"Rogue. Interesting. INTERESTING.\""
+            "special_die_self": [
+                "\"This one's special~!\"",
+                "\"Hmm, how about that?\""
             ],
             "react_pair": [
-                "The Gamer Clown claps their hands rapidly: \"Ooh! A match! A match! How fun for you!\""
+                "The Gamer Clown claps once, slow and mocking: \"A match. How nice for you.\""
             ],
             "react_good_roll": [
-                "The Gamer Clown tilts their head: \"Oh my. That IS a hand, isn't it. Hm. Hm hm hm.\""
+                "The Gamer Clown tilts their head: \"Oh. That IS a hand, isn't it. Hm.\""
             ],
             "react_no_combo": [
-                "The Gamer Clown points at you and begins to laugh.",
-                "The Gamer Clown covers their mouth with both hands. The laughter is audible through the porcelain."
+                "The Gamer Clown watches you fail to connect anything, and starts to laugh — quietly, behind the mask, but you can hear it."
             ],
             "react_stand_pat": [
-                "The Gamer Clown nods with great seriousness: \"A bold strategy. Classic. Bold and classic.\"",
-                "\"They're not rolling! They're just — sitting there with what they have! Incredible!\""
+                "The Gamer Clown nods slowly: \"Standing pat. Bold. Or foolish. We'll find out together.\""
             ],
             "community_favor_self": [
-                "The Gamer Clown slaps the table: \"Oh, the TABLE loves me today!\"",
-                "The Gamer Clown starts humming louder."
+                "The Gamer Clown taps the table: \"Amazing! It's almost as if I control the Dealer, too. Oh, wait.\""
             ],
             "community_favor_other": [
-                "The Gamer Clown stares at the community die for a long moment. Then smiles. Their mask was already smiling.",
-                "\"That's okay. That's okay that's okay that's okay.\""
+                "The Gamer Clown watches the community die a beat too long. \"...That's fine. That's fine.\" It is not fine."
             ],
             "special_die_community_joker": [
-                "\"A Joker on the TABLE! The table is PLAYING TOO!\""
+                "\"A Joker on the table.\" The Gamer Clown spreads their hands. \"Everybody's invited to the joke, apparently.\""
             ],
             "special_die_community_knight": [
-                "\"Community Knight! This affects EVERYONE'S build!\""
+                "\"Community Knight. That'll matter for everyone.\" The Gamer Clown says it like a threat wrapped in good cheer."
             ],
             "special_die_community_rogue": [
-                "\"Community Rogue. Low card for the table. Adjust your reads accordingly.\""
+                "\"Community Rogue. Low card for the table.\" A shrug. \"Adjust accordingly, dear.\""
             ],
             "special_die_community_bridge": [
-                "\"A Bridge on the community! THE RUN POTENTIAL IS INSANE!\""
+                "\"A Bridge, on the table.\" The mask's grin seems to widen. \"Now THAT could get interesting.\""
             ],
             "special_die_community": [
-                "The Gamer Clown lets out a long, wheezing sound that might be excitement."
+                "The Gamer Clown lets out a long, wheezing little laugh at the community die. Hard to tell if it's delight or hunger."
             ],
             "showdown_start": [
-                "The Gamer Clown rubs their hands together: \"And now — the REVEAL! My absolute FAVORITE part!\"",
-                "The Gamer Clown pats the table twice: \"Showtime!\""
+                "The Gamer Clown rubs their hands together: \"And now — the reveal. Always the best part of the show.\"",
+                "\"Showtime,\" the Gamer Clown says, patting the table twice, no longer bothering to sound kind about it."
             ],
             "showdown_reveal": [
-                "\"Ladies and gentlemen — there it is.\"",
-                "\"Ta-da!\""
-            ],
-            "showdown_leading": [
-                "\"I'm winning! I'm winning I'm winning I'm WINNING!\"",
-                "\"The Gamer Clown is in first place! Did you know that! FIRST!\""
+                "\"There it is, ladies and gentlemen.\"",
+                "\"Ta-da.\""
             ],
             "showdown_best": [
-                "\"Five Arcs. FIVE. ARCS. Can you believe? CAN YOU BELIEVE IT?!\"",
-                "\"The best hand! Oh, this is the greatest day of my LIFE!\""
-            ],
-            "showdown_winning_last": [
-                "\"Thank you thank you thank you, the show goes to ME!\"",
-                "\"And the crowd goes — do the thing! Do the CROWD NOISE!\""
-            ],
-            "showdown_weak_last": [
-                "\"Well! That happened! That certainly happened!\"",
-                "\"It was a learning experience. A humbling, beautiful, learning experience.\""
+                "\"[SELF_HAND].\" The Gamer Clown spreads the hand out like a magician finishing a trick. \"Would you look at that.\"",
+                "\"Best hand at the table. Every time, somehow. Funny how that works.\""
             ],
             "showdown_losing": [
-                "\"Ah. That's not mine. That one's not mine.\"",
-                "\"It's fine. I've been better but I'm fine.\""
+                "\"Ah. [HAND]. Did not expect that.\" The Gamer Clown doesn't seem especially concerned. \"Well played. Well played indeed.\"",
+                "\"Lost that one. It happens. Rarely, but it happens.\""
             ],
             "showdown_react_best": [
-                "The Gamer Clown slaps the table: \"THAT'S the meta. THAT is what we call the META.\"",
-                "\"Okay. OKAY. New read. New read on the situation.\""
+                "The Gamer Clown taps the table, watching your hand: \"Well now. That's a genuinely good hand. Didn't expect that from you.\""
             ],
             "showdown_react_good": [
-                "\"Ooooh. Respectable. VERY respectable.\"",
-                "The Gamer Clown taps their chin: \"Strong. Not optimal, but strong.\""
+                "\"Respectable,\" the Gamer Clown says, almost sincere. \"Very respectable.\""
             ],
             "showdown_react_bad": [
-                "The Gamer Clown winces with sympathy: \"That's... a starting position. You can build from nothing.\"",
-                "\"Mm. Mm mm mm.\""
+                "The Gamer Clown winces with theatrical sympathy: \"Oh, dear. Well. Everyone has to start somewhere.\""
             ],
             "showdown_npc_win": [
-                "The Gamer Clown points at the winner: \"THERE it is. Classic endgame play. CLASSIC.\"",
-                "\"The dice don't lie! The dice NEVER lie!\""
+                "The Gamer Clown stands. \"And the winner is... ME!\"\nThe Gamer Clown dances a little jig at the table, then claps twice: \"Too bad, so sad. Better luck next time.\""
             ],
             "showdown_npc_lose": [
-                "The Gamer Clown stands: \"Ladies and gentlemen, the champion! UNPRECEDENTED skill!\"",
-                "The Gamer Clown begins narrating the moment to no one: \"And here — we see — a perfect read —\""
+                "\"And the winner is... YOU!\"\nThe Gamer Clown stands and claps, slow and pointed: \"Ladies and gentlemen — a winner. How refreshing.\""
             ],
             "showdown_npc_tie": [
-                "\"A TIE! The ultimate balanced outcome! The MOST INTERESTING result!\"",
-                "The Gamer Clown looks like they've witnessed something legendary: \"I've run these numbers. This HAPPENS.\""
+                "\"A tie game!\" The Gamer Clown spreads their arms. \"The ultimate balanced outcome!\"\n\"Still, too bad for you, only victories count, I'm afraid.\""
             ]
         }
     },
@@ -863,7 +831,7 @@
         "name": "Serious Clown",
         "dice": ["trick2", "standard", "trick1"],
         "difficulty": "pro",
-        "stats": {"lck": 6},
+        "stats": {"lck": 0},
         "banter": {
             "game_start": [
                 "The Serious Clown straightens in their chair.",
@@ -962,7 +930,7 @@
         "name": "Surprised Clown",
         "dice": ["trick1", "circus3", "trick2"],
         "difficulty": "wildcard",
-        "stats": {"lck": 3},
+        "stats": {"lck": 0},
         "banter": {
             "game_start": [
                 "\"OH! IT'S STARTING! IT'S STARTING RIGHT NOW!\"",
@@ -1129,7 +1097,7 @@
         "name": "Skeleton Gambler",
         "dice": ["skull", "bone", "standard"],
         "difficulty": "medium",
-        "stats": {"lck": 4},
+        "stats": {"lck": 0},
         "banter": {
             "game_start": [
                 "The jaw clicks open. Words come out slow, hollow. \"Sit. Play. I have been waiting.\"",

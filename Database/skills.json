@@ -269,6 +269,23 @@
 		"inherit_stats": false,
 		"inherit_wpn": false
 	},
+	"Chaos Bell": {
+		"nome": "Chaos Bell",
+		"description": "A discordant chime that unravels fate for everyone within earshot.",
+		"type": "all",
+		"stats": {
+			"mgt": 0,
+			"acc": 100,
+			"crit": 0
+		},
+		"cooldown": 1,
+		"effect": "random_status",
+		"status_pool": ["poison", "regen", "burn", "defense_up", "freeze", "stun", "blind", "break", "brace", "elusive"],
+		"chance": 100,
+		"inherit_stats": false,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] rings a small brass bell..."
+	},
 	"Shiver": {
 		"nome": "Shiver",
 		"description": "An ice-cold attack that chills the target to the bone, with a chance to freeze them solid.",
