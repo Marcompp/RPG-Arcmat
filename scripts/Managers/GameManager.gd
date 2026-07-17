@@ -37,6 +37,7 @@ var trinkets_db = {}
 var dice_db = {}
 var faces_db = {}
 var gamblers_db = {}
+var questions_db = {}
 
 var in_combat = false
 var _suppress_defeat_game_over: bool = false
@@ -109,7 +110,13 @@ func _ready():
 			player.apply_level_up(data.get("stats", {}))
 	)
 	MyEventBus.subscribe("give_gold", func(data):
-		game_state["gold"] = game_state["gold"] + data.get("amount", 0)
+		var amount: int = data.get("amount", 0)
+		var var_name: String = data.get("var", "")
+		if var_name != "":
+			amount = get_var(var_name, 0)
+		if data.get("invert", false):
+			amount = -amount
+		game_state["gold"] = game_state["gold"] + amount
 	)
 	MyEventBus.subscribe("exchange_equip", func(data):
 		var item_name: String = data.get("item", "")
@@ -180,6 +187,7 @@ func _ready():
 	dice_db     = load_json("res://Database/dice.json")
 	faces_db    = load_json("res://Database/faces.json")
 	gamblers_db = load_json("res://Database/gamblers.json")
+	questions_db = load_json("res://Database/questions.json")
 
 	dialogue.visible = false
 	main_menu.new_game_requested.connect(_on_main_menu_new_game)

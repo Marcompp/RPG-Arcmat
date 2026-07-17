@@ -699,6 +699,7 @@ func _run_node_event(event_def: Dictionary) -> bool:
 			"dice":     return game_manager.dice_db
 			"faces":    return game_manager.faces_db
 			"gamblers": return game_manager.gamblers_db
+			"questions": return game_manager.questions_db
 			"regions": return region_db
 			"region_events":
 				var nodes: Array = world_data.get(arg, [])

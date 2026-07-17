@@ -37,6 +37,8 @@
 #
 #   give_gold {"type":"give_gold","amount":100}
 #              Adds gold to the player. Instant, no wait.
+#              Optional "var":"var_name" uses that game var's value instead of "amount".
+#              Optional "invert":true negates the resolved amount (for deductions).
 #
 #   give_item {"type":"give_item","item":"Iron Sword"}
 #              Gives the player an item. If it is a weapon or armor, shows the
@@ -209,7 +211,11 @@ func _run_step(step: Dictionary) -> void:
 		"mark_used":
 			MyEventBus.emit("mark_event_used", {"event": step.get("event", "")})
 		"give_gold":
-			MyEventBus.emit("give_gold", {"amount": step.get("amount", 0)})
+			MyEventBus.emit("give_gold", {
+				"amount": step.get("amount", 0),
+				"var": step.get("var", ""),
+				"invert": step.get("invert", false),
+			})
 		"give_item":
 			await MyEventBus.emit_and_await("give_item", {"item": step.get("item", "")}, "give_item_done")
 		"exchange_equip":
@@ -262,6 +268,23 @@ func _run_step(step: Dictionary) -> void:
 				"tie":  await _run_sequence(step.get("on_tie", step.get("on_win", [])))
 				"fold": await _run_sequence(step.get("on_fold", step.get("on_lose", [])))
 				_:      await _run_sequence(step.get("on_lose", []))
+		"quiz_game":
+			var _qg := QuizGame.new()
+			_qg.capture_input_fn = func() -> Dictionary: return await _capture_input()
+			_qg.wait_for_continue_fn = func() -> Dictionary:
+				MyEventBus.emit("show_choices", {
+					"choices": [{"text": "Continue", "type": "continue"}],
+					"header": ""
+				})
+				return await _capture_input()
+			_qg.stat_callback = stat_callback
+			_qg.condition_callback = condition_callback
+			_qg.rng = rng
+			_qg.questions_db = db_callback.call("questions") if db_callback.is_valid() else {}
+			var _qoutcome: String = await _qg.run(step)
+			match _qoutcome:
+				"win": await _run_sequence(step.get("on_win", []))
+				_:    await _run_sequence(step.get("on_lose", []))
 		_:
 			push_warning("EventReader: unknown step type '%s'" % step.get("type", "?"))
 

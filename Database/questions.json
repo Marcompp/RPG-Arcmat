@@ -1,0 +1,154 @@
+{
+	"easy": [
+		{
+			"prompt": "What stat determines your chances in the Trial of Wit?",
+			"answers": ["Strength", "Agility", "Intelligence", "Luck"],
+			"correct": 2
+		},
+		{
+			"prompt": "What stat determines your chances in the Trial of Skill's game of darts?",
+			"answers": ["Dexterity", "Defense", "Luck", "Intelligence"],
+			"correct": 0
+		},
+		{
+			"prompt": "How many questions are asked per round of the Trial of Wit?",
+			"answers": ["3", "5", "7", "10"],
+			"correct": 1
+		},
+		{
+			"prompt": "What is the standard entry fee to play a Trial at the Gilded Hollow Circus?",
+			"answers": ["10 Gold", "50 Gold", "100 Gold", "It's free"],
+			"correct": 2
+		},
+		{
+			"prompt": "What does the Gamer Clown's mask look like?",
+			"answers": ["A grinning skull", "Half grin, half frown", "A blank white oval", "A fanged demon face"],
+			"correct": 1
+		}
+	],
+	"medium": [
+		{
+			"prompt": "What creature terrorizes the Apple Woods, said to be a hunter who lost himself to a curse?",
+			"answers": ["A Bear", "A Werewolf", "A Gorgon", "An Ent"],
+			"correct": 1
+		},
+		{
+			"prompt": "Who leads the Cult of Light, operating out of the Caves of Light?",
+			"answers": ["Count Bomfim the Third", "Mother Orielli", "Professor Fenwick", "The Ringmaster"],
+			"correct": 1
+		},
+		{
+			"prompt": "Where is the legendary Sword of Maciera found?",
+			"answers": ["Lodged in a stone in Apple Woods", "In the Great Roc's nest", "In Lizal-Town", "In the Arcmat Ruins"],
+			"correct": 0
+		},
+		{
+			"prompt": "What frontier settlement sits at the foothills of Mount Legory, home to the Adventurer's Guild?",
+			"answers": ["Mugell Town", "Bertunia Castle Town", "Lantern's Reach", "Lizal-Town"],
+			"correct": 2
+		},
+		{
+			"prompt": "Why are the dead known to rise on the Sundown Plateau?",
+			"answers": ["A curse laid by the Ringmaster", "The Caves of Light's power radiating up from underground", "Old experiments by Carlon the Mathemagician", "Nobody has ever offered a theory"],
+			"correct": 1,
+			"known_if": {"current_region": "Sundown Plateau"}
+		}
+	],
+	"hard": [
+		{
+			"prompt": "What actually happened when Count Bomfim the Third's cult completed their ritual?",
+			"answers": ["They summoned the Necromancer", "They raised a single regular skeleton", "They tore open a portal to the Arcmat Ruins", "They accidentally provoked the Ringmaster"],
+			"correct": 1
+		},
+		{
+			"prompt": "Which trinket grants its bearer a mercy save from a killing blow, leaving them at 1 HP instead of 0?",
+			"answers": ["Lifespark Crystal", "Woodcutter's Bandana", "Prayer Bead", "Black Skull"],
+			"correct": 1
+		},
+		{
+			"prompt": "What are the Gilded Hollow Circus's masked Harlequin performers actually?",
+			"answers": ["Ordinary human performers", "Demons in disguise — some once human", "Golems built by the Ringmaster", "Illusions with no physical form at all"],
+			"correct": 1,
+			"known_if": {"current_region": "Sundown Plateau"}
+		},
+		{
+			"prompt": "What two schools of magic does Mother Orielli wield?",
+			"answers": ["Fire and Dark", "Light and Heal", "Thunder and Poison", "Earth and Wind"],
+			"correct": 1
+		},
+		{
+			"prompt": "Which faction's mounted warriors ride pegasi and refuse to accept male riders?",
+			"answers": ["The Cult of Light", "The Adventurer's Guild", "The Pegasus Knights", "The Lizal patrol"],
+			"correct": 2
+		}
+	],
+	"impossible": [
+		{
+			"prompt": "What legendary beast nests at the summit of Mount Legory, decades of collected weapons around it?",
+			"answers": ["The Great Roc", "A Wyvern", "The King of the Swamp", "An Infrit"],
+			"correct": 0
+		},
+		{
+			"prompt": "What is the name of the hidden Lizardman settlement deep in the Core Cavern?",
+			"answers": ["Lizal-Town", "Core Hollow", "Drakehome", "The Sunken City"],
+			"correct": 0
+		},
+		{
+			"prompt": "What ancient civilization built the ruins now claimed by the Lizals in the Core Cavern, over five thousand years ago?",
+			"answers": ["The Lizals themselves", "The Trolls", "The builders of the Arcmat Ruins", "The Cult of Light"],
+			"correct": 1
+		},
+		{
+			"prompt": "Who is the legendary Archmage said to have founded the Magical Academy of Arcward, and who lies at the heart of the Arcmat Ruins?",
+			"answers": ["The Infrit", "The Necromancer", "Carlon, the Mathemagician", "The King of the Swamp"],
+			"correct": 2
+		},
+		{
+			"prompt": "What ancient being sleeps within the Lost Swamp, wielding a club torn from its own branches?",
+			"answers": ["The King of the Swamp", "A Gorgon", "The Great Roc", "A Wisp Cluster"],
+			"correct": 0
+		}
+	],
+	"trick": [
+		{
+			"prompt": "What does the Gamer Clown look like without their mask?",
+			"answers": ["A grinning demon", "An ordinary human", "A featureless void", "Nobody has ever seen — and maybe there's nothing to see"],
+			"correct": -1
+		},
+		{
+			"prompt": "What exact color is the Ringmaster's top hat?",
+			"answers": ["Black", "Red", "Purple", "White"],
+			"correct": -1
+		},
+		{
+			"prompt": "Which of these is NOT one of the four protagonists?",
+			"answers": ["Agnes", "Borin", "Chala", "Danilo"],
+			"correct": 3,
+			"correct_responses": [
+				"\"Ha! Got you.\" The clown wags a finger. \"Close, but no. Close doesn't count.\"",
+				"\"Sneaky, right?\" They look delighted with themselves, not with you. \"I do love that one.\""
+			],
+			"wrong_responses": [
+				"\"So close!\" They cackle. \"That's the trick, though. It's supposed to sound right.\"",
+				"\"Wrong!\" The mask seems to grin wider. \"That name was just close enough to fool you, wasn't it?\""
+			]
+		},
+		{
+			"prompt": "How many elements exist in the world, counting both primary and secondary?",
+			"answers": ["8", "6", "14", "20"],
+			"correct": 2
+		},
+		{
+			"prompt": "What does the Trial of Strength actually involve?",
+			"answers": ["An arm-wrestling contest", "A weightlifting contest", "It's still being set up", "A tug of war"],
+			"correct": 2,
+			"correct_responses": [
+				"\"...Okay, that one's just embarrassing for me,\" the clown mutters. \"Yes. Fine. Correct.\"",
+				"\"You've clearly talked to me before,\" they sigh. \"Yes. Still being set up. Don't remind me.\""
+			],
+			"wrong_responses": [
+				"\"Wrong! It's a magnificent, fully-operational attraction!\" A pause. \"...Okay, it's not. It's still being set up. But wrong!\""
+			]
+		}
+	]
+}
