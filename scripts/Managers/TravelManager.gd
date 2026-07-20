@@ -285,6 +285,9 @@ func get_node_text(use_default=false):
 	var text = ""
 	text += get_arrival_text(current_node_data, use_default)
 	text += "\n\n" + get_dynamic_paragraph(current_node_data)
+	var bonus_text = get_bonus_paragraph(current_node_data)
+	if bonus_text != "":
+		text += "\n\n" + bonus_text
 	current_entrance = ""
 	return text
 
@@ -779,37 +782,49 @@ func get_arrival_text(node, use_default=false):
 	
 	return ""
 
+func _filter_and_pick_paragraph(entries: Array):
+	var valid = []
+
+	for p in entries:
+		if typeof(p) == TYPE_STRING:
+			valid.append({ "text": p })
+			continue
+
+		var ok = true
+
+		if p.has("condition"):
+			ok = _evaluate_node(p["condition"], current_node)
+
+		if ok and p.has("chance"):
+			if rng.randf() > p["chance"]:
+				ok = false
+
+		if ok:
+			valid.append(p)
+
+	if valid.is_empty():
+		return null
+
+	var chosen = _pick(valid)
+
+	if chosen.has("effect"):
+		MyEventBus.emit("apply_effect",chosen["effect"])
+
+	return chosen.get("text", "")
+
 func get_dynamic_paragraph(node):
 	if not node.has("description"):
 		return node.get("name", "???")
 
-	var valid = []
+	var result = _filter_and_pick_paragraph(node["description"])
+	return result if result != null else node.get("name", "???")
 
-	for p in node["description"]:
-		var ok = true
+func get_bonus_paragraph(node):
+	if not node.has("bonus_text"):
+		return ""
 
-		if typeof(p) == TYPE_STRING:
-			valid.append({ "text": p })
-		else:
-			if p.has("condition"):
-				ok = _evaluate_node(p["condition"], current_node)
-			
-			if ok and p.has("chance"):
-				if rng.randf() > p["chance"]:
-					ok = false
-			
-			if ok:
-				valid.append(p)
-	
-	if valid.is_empty():
-		return node.get("name", "???")
-	
-	var chosen = _pick(valid)
-	
-	if chosen.has("effect"):
-		MyEventBus.emit("apply_effect",chosen["effect"])
-	
-	return chosen.get("text", "")
+	var result = _filter_and_pick_paragraph(node["bonus_text"])
+	return result if result != null else ""
 
 
 # ------------------------

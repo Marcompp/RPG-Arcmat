@@ -1,4 +1,4 @@
-{
+﻿{
 	"Apple Woods":{
 		"Name" : "Apple Woods",
 		"Type": "Dungeon",
@@ -127,7 +127,12 @@
 					"event": "legory_scree_search",
 					"disabled_tooltip": "You've already searched here.",
 					"repeatable": false
-				}
+				},
+				"bonus_text": [
+					{ "text": "The summit looms impossibly far above, lost in the haze.", "condition": {"height": {"max": 2}} },
+					{ "text": "You've made real progress up the mountain; the summit looks closer now, though still distant.", "condition": {"height": {"min": 3, "max": 5}} },
+					{ "text": "The summit is close now, you can make out details in the rock and ice above.", "condition": {"height": {"min": 6}} }
+				]
 			}
 		}
 	},
