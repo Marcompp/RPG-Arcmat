@@ -53,7 +53,14 @@
 					{"chance": 0.15, "event": "cave_lost"},
 		  			{"chance": 0.2, "event": "crystal_cluster"},
 					{"chance": 0.05,"event": "region_treasure_chest"}
-				]
+				],
+				"action": {
+					"name": "Bask in the light",
+					"tooltip": "Bask in the light to recover MP.",
+					"event": "bask_light",
+					"disabled_tooltip": "You've already absorbed the light here.",
+					"repeatable": false
+				}
 			}
 		}
 	},

@@ -174,6 +174,8 @@ func _ready():
 		return check_condition(cond, travel.current_node)
 	dialogue.var_callback = func(key):
 		return game_state["vars"].get(key, "")
+	dialogue.gold_callback = func():
+		return game_state["gold"]
 	travel.condition_callback = func(cond, current_node):
 		return check_condition(cond, current_node)
 	

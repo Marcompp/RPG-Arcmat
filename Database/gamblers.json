@@ -1260,6 +1260,52 @@
                 "He looks at your hand a while before pushing the winnings over."
             ]
         }
+    },
+
+    "cultist_gambler": {
+        "name": "Cultist",
+        "dice": ["crystal", "crystal", "crystal"],
+        "difficulty": "medium",
+        "stats": {"lck": 4},
+        "banter": {
+            "special_die_self_priest": ["The cultist turns up a Priest and doesn't look surprised. \"Watch,\" they say. \"The Light doesn't favor a stacked hand — it plainens every die at this table but the one that showed it.\""],
+            "special_die_community_priest": ["A Priest turns face-up on the table itself. \"There,\" the cultist says. \"The Light doesn't play favorites. Every hand at this table loses its tricks the moment it shows.\""],
+            "game_start": [
+                "The cultist sets three dice in a row, unhurried. \"Let's see what the Light reveals.\"",
+                "\"Sit,\" the cultist says, already shuffling their dice. \"The Light favors those who show up.\""
+            ],
+            "round_1": ["The cultist rolls without ceremony: \"Begin.\""],
+            "round_2": ["\"The table changes,\" the cultist murmurs, watching the community die turn face-up."],
+            "round_3": ["\"Last round,\" the cultist says. \"The Light has seen enough of us both to decide.\""],
+            "round_good_hand": ["The cultist's hands go still over their dice. \"This will do.\""],
+            "round_bad_hand": ["The cultist studies their hand without expression. \"The Light is testing me, it seems.\""],
+            "hand_good_start": ["The cultist glances at their dice and says nothing, which is somehow worse."],
+            "hand_bad_start": ["The cultist looks at their dice and exhales slowly. \"As expected.\""],
+            "reroll": ["\"Again,\" the cultist says. \"The Light rewards those who ask twice.\""],
+            "keep_hand": ["\"This is enough,\" the cultist says, folding their hands over the dice."],
+            "pair_hit": ["\"There,\" the cultist says quietly. \"The Light provides.\""],
+            "good_roll": ["The cultist studies the roll and nods once, to no one."],
+            "no_combo": ["\"Nothing,\" the cultist says, unbothered. \"The Light gives what it gives.\""],
+            "react_pair": ["The cultist's eyes move to your matched dice. \"Fortunate.\""],
+            "react_good_roll": ["The cultist studies your hand for a long moment. \"The Light is generous with you today.\""],
+            "react_no_combo": ["The cultist watches you come up empty and says nothing at all."],
+            "react_stand_pat": ["\"Holding,\" the cultist notes. \"Confidence, or surrender. The Light doesn't distinguish.\""],
+            "community_favor_self": ["The cultist glances at the table. \"The Light provides for the patient.\""],
+            "community_favor_other": ["The cultist's expression doesn't change. \"That one wasn't for me.\""],
+            "showdown_start": ["The cultist sets their hands flat on the stone. \"Show what the Light has given you.\""],
+            "showdown_reveal": ["\"Here,\" the cultist says, laying out their hand."],
+            "showdown_leading": ["The cultist studies the table. \"...Interesting.\""],
+            "showdown_best": ["The cultist looks at their own hand for a moment, almost surprised. \"The Light is generous today.\""],
+            "showdown_winning_last": ["The cultist doesn't move to collect the pot right away. \"As it should be.\""],
+            "showdown_weak_last": ["\"It seems the Light had other plans,\" the cultist says, unbothered."],
+            "showdown_losing": ["The cultist studies your hand without visible disappointment. \"So be it.\""],
+            "showdown_react_best": ["The cultist studies your hand a long moment. \"That's a hand worth remembering.\""],
+            "showdown_react_good": ["\"Not bad,\" the cultist allows."],
+            "showdown_react_bad": ["The cultist says nothing, which somehow reads as kindness."],
+            "showdown_win": ["The cultist gathers the coins with quiet certainty. \"The Light provides for those who trust it.\""],
+            "showdown_tie": ["The cultist divides the pot evenly, without comment. \"The Light is patient today.\""],
+            "showdown_lose": ["The cultist slides the coins across without complaint. \"The Light provided. Not for me, this time.\""]
+        }
     }
 
 }

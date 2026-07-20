@@ -465,14 +465,7 @@
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Grotto",
@@ -495,14 +488,7 @@
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You push straight through the grotto and continue into the glowing tunnel beyond." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You turn right and follow the passage as it curves deeper into the cave." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Cavern",
@@ -525,14 +511,7 @@
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You veer right and follow the tunnel as it winds away from the cavern." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Forked Path",
@@ -554,14 +533,7 @@
 		"exits": [
 		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left branch, its walls glowing with the same steady luminescence." },
 		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You choose the right path, stepping into the glowing passage as it curves ahead." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Spring",
@@ -660,14 +632,7 @@
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move on from the glittering chamber, the tunnel closing in as you press forward." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 	  {
 		"name": "Cult Sanctum",
@@ -683,23 +648,30 @@
 		],
 		"arrival": {
 		  "TUNNEL": [
-			"Strange symbols glow faintly as you step into a hidden sanctum."
+			"Strange symbols glow faintly as you step into a hidden sanctum filled with cloaked figures."
 		  ],
 		  "FOLLOW": [
-			"The passage opens into a wider chamber filled with cloaked figures."
+			"The passage opens into a wider chamber filled with cloaked figures gathered for some kind of ritual."
 		  ],
 		  "default": [
-			"Carved symbols cover the walls of this hidden sanctum, each one pulsing with dim blue energy."
+			"The sanctum is filled with cloaked figures, all looking at Mother Orielli."
 		  ]
 		},
 		"description": [
-		  { "text": "Symbols carved into the stone pulse with dim blue light." },
-		  { "text": "The air feels charged, almost alive." },
-		  { "text": "A low hum resonates through the chamber.", "chance": 0.6 }
+		  { "text": "The cultists kneel around the altar." },
+		  { "text": "The air feels charged, almost alive, as the speaker stands before the cult." },
+		  { "text": "A low hum resonates through the chamber, alongside the murmurs of the cultists.", "chance": 0.6 }
 		],
 		"exits": [
 		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view." }
-		]
+		],
+		"action": {
+					"name": "Interact with the cultists",
+					"tooltip": "Spend a moment with the cultists in the sanctum.",
+					"event": "cultist_talk",
+					"disabled_tooltip": "You've already talked to every cultist here.",
+					"repeatable": true
+				}
 	  },
 	  {
 		"name": "Dead End Tunnel",
@@ -727,14 +699,7 @@
 		],
 		"exits": [
 		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
-		],
-		"action": {
-			"name": "Bask in the light",
-			"tooltip": "Bask in the light to recover MP.",
-			"event": "bask_light",
-			"disabled_tooltip": "You've already absorbed the light here.",
-			"repeatable": false
-		}
+		]
 	  },
 		{
 		  "name": "Cave Exit",

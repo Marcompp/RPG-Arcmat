@@ -39,6 +39,7 @@ var _fixed_sizes: bool = false
 
 var condition_callback = null
 var var_callback = null
+var gold_callback = null
 
 var dialogue_log = []
 
@@ -161,6 +162,11 @@ func _type_text(id):
 		_pending_choices = false
 		show_choices()
 
+func _stringify_var(val) -> String:
+	if typeof(val) == TYPE_FLOAT and int(val) == val:
+		return str(int(val))
+	return str(val)
+
 func _substitute_vars(text: String) -> String:
 	var result = ""
 	var i = 0
@@ -180,12 +186,13 @@ func _substitute_vars(text: String) -> String:
 			var val = ""
 			if var_callback != null:
 				val = var_callback.call(var_name)
-			var val_str: String
-			if typeof(val) == TYPE_FLOAT and int(val) == val:
-				val_str = str(int(val))
-			else:
-				val_str = str(val)
-			result += val_str
+			result += _stringify_var(val)
+			i = end + 1
+		elif tag == "gold":
+			var val = 0
+			if gold_callback != null:
+				val = gold_callback.call()
+			result += _stringify_var(val)
 			i = end + 1
 		else:
 			result += text.substr(i, end - i + 1)
@@ -286,7 +293,7 @@ func show_choices(fixed_sizes: bool = false):
 	hide_choices()
 	visible_choice_map.clear()
 
-	choice_label.text = "[b]" + choice_header + "[/b]"
+	choice_label.text = "[b]" + _substitute_vars(choice_header) + "[/b]"
 
 	# Separate displayable normal choices from the back choice
 	var displayable: Array = []
@@ -323,10 +330,10 @@ func show_choices(fixed_sizes: bool = false):
 			var enabled = evaluate_choice(choice)
 			var button = buttons[i]
 
-			button.text = choice["disabled_text"] if (not enabled and choice.has("disabled_text")) else choice["text"]
+			button.text = _substitute_vars(choice["disabled_text"] if (not enabled and choice.has("disabled_text")) else choice["text"])
 			apply_button_style(button, choice, enabled)
 
-			var tooltip = _get_tooltip_text(choice, enabled)
+			var tooltip = _substitute_vars(_get_tooltip_text(choice, enabled))
 			button.tooltip_text = tooltip if tooltip else ""
 			button.has_tooltip  = tooltip != "" and tooltip != null
 
@@ -348,9 +355,9 @@ func show_choices(fixed_sizes: bool = false):
 	var has_back = false
 	for c in current_choices:
 		if c.get("type", "") == "back":
-			back_button.text = c["text"]
+			back_button.text = _substitute_vars(c["text"])
 			apply_button_style(back_button, c, true)
-			back_button.tooltip_text = _get_tooltip_text(c, true)
+			back_button.tooltip_text = _substitute_vars(_get_tooltip_text(c, true))
 			back_button.show()
 			has_back = true
 			break
