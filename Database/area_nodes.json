@@ -1929,34 +1929,33 @@
 		  { "choice": "Inspect the boat", "leads_to": "DEEP", "value": 1, "travel_text": "You wade closer to the wreck and look it over, searching the waterlogged hull before moving on." },
 		  { "choice": "Move on", "leads_to": "SWAMP", "value": 1, "travel_text": "You leave the broken boat behind and continue through the fog." }
 		]
-	  }
-	],
-	"Arcmat Ruins": [
+	  },
 	  {
-		"name": "Outer Threshold",
-	  	"categories": ["ruin"],
-		"entrances": ["SWAMP", "RUINS"],
+		"name": "Ruin Threshold",
+		"type": "EXIT",
+		"entrances": ["SWAMP", "DEEP"],
+		"boss": "King of the Swamp",
+		"encounter_rate": 0,
 		"arrival": {
-		  "SWAMP": [
-			"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
-		  ],
-		  "RUINS": [
-			"The silent geometry of the ruins surrounds you once more, their surfaces humming faintly with power."
-		  ],
-		  "default": [
-			"You stand at the edge of the Arcmat Ruins, where the swamp fog ends and precise black geometric structures begin."
-		  ]
+			"SWAMP": [
+				"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
+			],
+			"DEEP": [
+				"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
+			],
+			"default": [
+				"You stand at the edge of the Arcmat Ruins, where the swamp fog ends and precise black geometric structures begin."
+			]
 		},
 		"description": [
-		  { "text": "Massive onyx blocks form walls of precise, unnatural symmetry." },
-		  { "text": "Thin streams of violet energy arc between the stones." },
-		  { "text": "The fog does not enter here.", "chance": 0.6 }
+			{ "text": "You feel as though as you are being watched." }
 		],
 		"exits": [
-		  { "choice": "Enter the ruins", "leads_to": "RUINS", "value": 1, "travel_text": "You step through the threshold, the fog cutting away as the black geometry of the ruins closes around you." },
-		  { "choice": "Return to the swamp", "leads_to": "SWAMP", "value": 1, "travel_text": "You step back through the threshold, and the fog rushes in immediately, swallowing the ruins behind you." }
+			{ "choice": "Enter the ruins", "leads_to": "TERMINAL", "travel_text": "You step through the entrance, the fog cutting away as the black geometry of the ruins closes around you." }
 		]
-	  },
+		}
+	],
+	"Arcmat Ruins": [
 	  {
 		"name": "Fractured Hall",
 	  	"categories": ["ruin"],

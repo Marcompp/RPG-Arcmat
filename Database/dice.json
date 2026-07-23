@@ -125,6 +125,13 @@
         "values": ["X","X","X","X","X","X"],
         "description": "A die crudely carved from vulcanic rock. All its faces are Blank."
     },
+    "pebble": {
+        "id": "pebble",
+        "name": "Pebble Die",
+        "color": "gray",
+        "values": ["X","X","X","X","X","X"],
+        "description": "A dice-shaped pebble that can be used to play Wanderer's Dice. All its faces are Blank."
+    },
     "special": {
         "id": "special",
         "name": "Special Die",
@@ -143,7 +150,7 @@
         "name": "Dragon Die",
         "color": "green",
         "values": [1, 3, 5, 6, "D", "D"],
-        "description": "A die carved from dragon scale. Two faces bear the mark of the Dragon."
+        "description": "A die carved from wyvern bone. Two faces bear the mark of the Dragon."
     },
     "magician": {
         "id": "magician",
@@ -158,5 +165,19 @@
         "color": "cyan",
         "values": [3, 5, 6, "P", "P", "P"],
         "description": "A die formed inside a glowing crystal cluster, still faintly warm. Three of its faces bear the sign of the Priest."
+    },
+    "d8": {
+        "id": "d8",
+        "name": "Eight-sided Die",
+        "color": "blue",
+        "values": [0, 1, 2, 3, 4, 5, 6, 7],
+        "description": "An eight-sided die used in certain variants of Wanderer's Dice."
+    },
+    "d10": {
+        "id": "d10",
+        "name": "Ten-sided Die",
+        "color": "blue",
+        "values": ["X", 0, 1, 2, 3, 4, 5, 6, 7, "C"],
+        "description": "An ten-sided die used in certain variants of Wanderer's Dice."
     }
 }

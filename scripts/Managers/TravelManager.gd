@@ -288,6 +288,12 @@ func get_node_text(use_default=false):
 	var bonus_text = get_bonus_paragraph(current_node_data)
 	if bonus_text != "":
 		text += "\n\n" + bonus_text
+	if current_node_data.get("type", "") != "EXIT":
+		var region_length = region_db.get(current_region, {}).get("Length", INF)
+		var progress = game_state.get("area_progress").get(current_region, 0) if game_state else 0
+		if progress >= region_length:
+			var boss_text = region_db.get(current_region, {}).get("BossTxt", "You feel as though you are being watched...")
+			text += "\n\n" + boss_text
 	current_entrance = ""
 	return text
 
@@ -507,11 +513,15 @@ func handle_exit_choice(choice):
 
 func handle_exit(exit):
 	current_entrance = exit.get("leads_to", current_entrance)
-	
-	MyEventBus.emit("add_progress", {"progress": exit.get("value", 1), "region": current_region})
+
+	var exit_value = exit.get("value", 1)
+	var pre_add_progress = game_state.get("area_progress").get(current_region, 0) if game_state else 0
+
+	MyEventBus.emit("add_progress", {"progress": exit_value, "region": current_region})
 	apply_exit_vars(exit)
 
-	var next_node = pick_next_node(current_entrance)
+	var exit_progress_check = pre_add_progress if exit_value > 0 else -1
+	var next_node = pick_next_node(current_entrance, exit_progress_check)
 	
 	var travel_text = exit.get("travel_text", "You press on for a while.")
 	var text = travel_text + "\n\n...\n[wait=0.2]\n...[wait=0.2]"
@@ -571,7 +581,7 @@ func get_valid_nodes(entrance):
 
 	return valid
 
-func pick_next_node(entrance):
+func pick_next_node(entrance, progress_override: int = -1):
 	var valid = get_valid_nodes(entrance)
 
 	if valid.is_empty():
@@ -579,7 +589,8 @@ func pick_next_node(entrance):
 		return current_node
 
 	var region_length = region_db.get(current_region, {}).get("Length", INF)
-	var progress = game_state.get("area_progress").get(current_region,0) if game_state else 0
+	var progress = progress_override if progress_override >= 0 \
+		else (game_state.get("area_progress").get(current_region,0) if game_state else 0)
 	var region_nodes = world_data[current_region]
 
 	if progress >= region_length:
