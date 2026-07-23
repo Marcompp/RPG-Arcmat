@@ -1,0 +1,149 @@
+{
+	"bertunia_exit": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "set_backdrop",
+				"backdrop": "bertunia_exit.png"
+			},
+			{
+				"type": "if",
+				"condition": {
+					"player_name": "Agnes"
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "As you step through Bertunia's gate, a familiar broad-shouldered figure blocks your path, arms crossed and expression sour.\n\n\"Well, well. Agnes the spoiled, off to play adventurer again.\""
+					},
+					{
+						"type": "text",
+						"text": "You meet his gaze without blinking.\n\n\"I've heard worse. From people worth listening to.\""
+					},
+					{
+						"type": "text",
+						"text": "\"This isn't a tea party,\" Borin says, unmoved. \"The Caves'll chew you up and spit you out.\""
+					},
+					{
+						"type": "text",
+						"text": "\"Then step aside and let it try.\"\n\nYou rest a hand on your rapier.\n\n\"Or are you going to keep talking?\""
+					},
+					{
+						"type": "combat",
+						"enemy": "Borin1",
+						"on_victory": [
+							{
+								"type": "text",
+								"text": "Borin staggers back. He gives you a long look — something unreadable in it — and then, without a word, steps off the road.\n\nYou don't say anything either.",
+								"clear": true
+							}
+						]
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"player_name": "Borin"
+						},
+						"then": [
+							{
+								"type": "text",
+								"text": "You're barely past the gate when a sharp voice cuts through the air.\n\n\"You? Going into the Caves?\"\n\nAgnes steps out from the shadow of the wall, rapier already in hand.\n\n\"Don't make me laugh, farmhand.\""
+							},
+							{
+								"type": "text",
+								"text": "\"Put the sword away, Agnes.\""
+							},
+							{
+								"type": "text",
+								"text": "\"I'm doing you a favour.\" She tilts her head, something cruel in the smile. \"Go home. Chop wood — it's what you're good at.\""
+							},
+							{
+								"type": "text",
+								"text": "\"Last warning.\"\n\nShe lunges."
+							},
+							{
+								"type": "combat",
+								"enemy": "Agnes1",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "Agnes straightens up, brushing herself off. She's breathing harder than she'd like.\n\n\"...Not bad.\" A pause. \"For a bumpkin.\"\n\nShe doesn't wait for a response.",
+										"clear": true
+									}
+								]
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"player_name": "Chala"
+								},
+								"then": [
+									{
+										"type": "text",
+										"text": "You've only taken a few steps outside the gate when a familiar voice stops you.\n\n\"Chala.\"\n\nBorin stands in the road ahead. His expression is the one he uses when he's already made up his mind.\n\n\"Turn around.\""
+									},
+									{
+										"type": "text",
+										"text": "\"You can't stop me, Borin.\""
+									},
+									{
+										"type": "text",
+										"text": "\"You're my little sister.\" His voice doesn't waver. \"You're not going into those caves.\""
+									},
+									{
+										"type": "text",
+										"text": "\"I'm a mage. I can handle myself.\"\n\nYou hold his gaze.\n\n\"And I have to do this.\""
+									},
+									{
+										"type": "text",
+										"text": "A long silence. Borin exhales.\n\n\"...If you can beat me, I'll let you through. Deal?\""
+									},
+									{
+										"type": "combat",
+										"enemy": "Borin1",
+										"on_victory": [
+											{
+												"type": "text",
+												"text": "Borin sits in the dirt for a moment, catching his breath. Then he reaches up and ruffles your hair.\n\nYou duck away immediately.\n\n\"Just come back in one piece. That's all I ask.\"",
+												"clear": true
+											}
+										]
+									}
+								],
+								"else": [
+									{
+										"type": "text",
+										"text": "You're almost through the gate when something sharp buries itself in the wood beside your head.\n\nA rapier.\n\n\"Don't. Move.\"\n\nA young woman in fencing clothes is already closing the distance. Her eyes are cold.\n\n\"I saw you watching that merchant back there.\""
+									},
+									{
+										"type": "text",
+										"text": "\"I wasn't — look, I don't even have a —\"\n\n\"Thieves always have an explanation.\" She raises the rapier. \"Save it.\""
+									},
+									{
+										"type": "text",
+										"text": "You take a step back.\n\n\"...I really don't want to do this.\""
+									},
+									{
+										"type": "combat",
+										"enemy": "Agnes1",
+										"on_victory": [
+											{
+												"type": "text",
+												"text": "Agnes picks herself up. She takes a long look at you — the gear, the way you fought, the absence of anything stolen.\n\nA long pause.\n\n\"...You're not a thief.\"\n\nShe crosses to the gate, pulls her rapier free, and walks away without another word.",
+												"clear": true
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

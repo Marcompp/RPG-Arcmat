@@ -2,101 +2,155 @@
 	"Fire": {
 		"color": "#ff5522",
 		"weak": [
-			"Water", "Wind", "Earth", "Ice", "Mind"
+			"Water",
+			"Wind",
+			"Earth",
+			"Ice",
+			"Mind"
 		],
 		"resist": [
-			"Fire", "Dark", "Light", "Plant", "Metal"
+			"Fire",
+			"Dark",
+			"Light",
+			"Plant",
+			"Metal"
 		],
 		"immune": []
 	},
 	"Water": {
 		"color": "#44aaff",
 		"weak": [
-			"Thunder", "Plant"
+			"Thunder",
+			"Plant"
 		],
 		"resist": [
-			"Fire", "Water", "Metal"
+			"Fire",
+			"Water",
+			"Metal"
 		],
 		"immune": []
 	},
 	"Wind": {
 		"color": "#88ffcc",
 		"weak": [
-			"Thunder", "Ice"
+			"Thunder",
+			"Ice"
 		],
 		"resist": [
 			"Plant"
 		],
-		"immune": ["Earth"]
+		"immune": [
+			"Earth"
+		]
 	},
 	"Earth": {
 		"color": "#cc8844",
 		"weak": [
-			"Water", "Plant", "Metal"
+			"Water",
+			"Plant",
+			"Metal"
 		],
 		"resist": [
-			"Fire", "Wind", "Poison"
+			"Fire",
+			"Wind",
+			"Poison"
 		],
-		"immune": ["Thunder"]
+		"immune": [
+			"Thunder"
+		]
 	},
 	"Thunder": {
 		"color": "#ffee00",
 		"weak": [
-			"Earth", "Mind"
+			"Earth",
+			"Mind"
 		],
 		"resist": [
-			"Thunder", "Dark", "Light", "Metal"
+			"Thunder",
+			"Dark",
+			"Light",
+			"Metal"
 		],
 		"immune": []
 	},
 	"Ice": {
 		"color": "#aaddff",
 		"weak": [
-			"Fire", "Metal"
+			"Fire",
+			"Metal"
 		],
 		"resist": [
-			"Water", "Wind", "Ice", "Plant"
+			"Water",
+			"Wind",
+			"Ice",
+			"Plant"
 		],
 		"immune": []
 	},
 	"Dark": {
 		"color": "#aa44ff",
 		"weak": [
-			"Fire", "Thunder", "Light"
+			"Fire",
+			"Thunder",
+			"Light"
 		],
 		"resist": [
-			"Dark", "Spirit", "Mind"
+			"Dark",
+			"Spirit",
+			"Mind"
 		],
 		"immune": []
 	},
 	"Light": {
 		"color": "#ffffaa",
 		"weak": [
-			"Dark", "Plant", "Poison"
+			"Dark",
+			"Plant",
+			"Poison"
 		],
 		"resist": [
-			"Fire", "Thunder", "Light", "Spirit", "Ether"
+			"Fire",
+			"Thunder",
+			"Light",
+			"Spirit",
+			"Ether"
 		],
 		"immune": []
 	},
 	"Plant": {
 		"color": "#44cc44",
 		"weak": [
-			"Fire", "Wind", "Ice", "Poison"
+			"Fire",
+			"Wind",
+			"Ice",
+			"Poison"
 		],
 		"resist": [
-			"Water", "Earth", "Thunder", "Light", "Plant", "Ether"
+			"Water",
+			"Earth",
+			"Thunder",
+			"Light",
+			"Plant",
+			"Ether"
 		],
 		"immune": []
 	},
 	"Metal": {
 		"color": "#cccccc",
 		"weak": [
-			"Fire", "Mind"
+			"Fire",
+			"Mind"
 		],
 		"resist": [
-			"Wind", "Earth", "Ice", "Light", "Plant",
-			"Metal", "Poison", "Ether", "Neutral"
+			"Wind",
+			"Earth",
+			"Ice",
+			"Light",
+			"Plant",
+			"Metal",
+			"Poison",
+			"Ether",
+			"Neutral"
 		],
 		"immune": []
 	},
@@ -106,27 +160,38 @@
 			"Mind"
 		],
 		"resist": [
-			"Plant", "Poison"
+			"Plant",
+			"Poison"
 		],
 		"immune": []
 	},
 	"Spirit": {
 		"color": "#cc88ff",
 		"weak": [
-			"Fire", "Dark", "Light", "Spirit"
+			"Fire",
+			"Dark",
+			"Light",
+			"Spirit"
 		],
 		"resist": [
-			"Ice", "Poison", "Mind"
+			"Ice",
+			"Poison",
+			"Mind"
 		],
-		"immune": ["Metal", "Neutral"]
+		"immune": [
+			"Metal",
+			"Neutral"
+		]
 	},
 	"Mind": {
 		"color": "#ff88cc",
 		"weak": [
-			"Dark", "Spirit"
+			"Dark",
+			"Spirit"
 		],
 		"resist": [
-			"Mind", "Ether"
+			"Mind",
+			"Ether"
 		],
 		"immune": []
 	},
@@ -136,7 +201,11 @@
 			"Ether"
 		],
 		"resist": [
-			"Fire", "Water", "Wind", "Earth", "Mind"
+			"Fire",
+			"Water",
+			"Wind",
+			"Earth",
+			"Mind"
 		],
 		"immune": []
 	},
@@ -144,6 +213,8 @@
 		"color": "#aaaaaa",
 		"weak": [],
 		"resist": [],
-		"immune": ["Spirit"]
+		"immune": [
+			"Spirit"
+		]
 	}
 }

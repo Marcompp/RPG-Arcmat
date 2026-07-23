@@ -70,7 +70,15 @@ func _ready():
 	town_db = load_json("res://Database/towns.json")
 	items_db    = load_json("res://Database/items.json")
 	trinkets_db = load_json("res://Database/trinkets.json")
-	events_db   = load_json("res://Database/events.json")
+	events_db = {}
+	var events_dir = DirAccess.open("res://Database/events/")
+	if events_dir:
+		events_dir.list_dir_begin()
+		var fname = events_dir.get_next()
+		while fname != "":
+			if fname.ends_with(".json"):
+				events_db.merge(load_json("res://Database/events/" + fname))
+			fname = events_dir.get_next()
 
 	MyEventBus.subscribe("character_selected", func(_data):
 		current_region = "Apple Woods"

@@ -1,0 +1,2476 @@
+{
+	"circus_minigame": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"event_unused": "circus_clown_intro"
+				},
+				"then": [
+					{
+						"type": "mark_used",
+						"event": "circus_clown_intro"
+					},
+					{
+						"type": "set_var",
+						"vars": {
+							"circus_minigame_fee": {
+								"set": 10
+							}
+						}
+					},
+					{
+						"type": "set_var",
+						"vars": {
+							"circus_strength_wins": {
+								"set": 0
+							},
+							"circus_strength_losses": {
+								"set": 0
+							},
+							"circus_strength_played": {
+								"set": 0
+							},
+							"circus_skill_wins": {
+								"set": 0
+							},
+							"circus_skill_losses": {
+								"set": 0
+							},
+							"circus_skill_played": {
+								"set": 0
+							},
+							"circus_wit_wins": {
+								"set": 0
+							},
+							"circus_wit_losses": {
+								"set": 0
+							},
+							"circus_wit_played": {
+								"set": 0
+							},
+							"circus_luck_wins": {
+								"set": 0
+							},
+							"circus_luck_losses": {
+								"set": 0
+							},
+							"circus_luck_played": {
+								"set": 0
+							},
+							"circus_minigame_wins": {
+								"set": 0
+							},
+							"circus_minigame_losses": {
+								"set": 0
+							},
+							"circus_minigame_played": {
+								"set": 0
+							}
+						}
+					},
+					{
+						"type": "text",
+						"text": "\"Step right up, step right up!\"\n\nPerched atop a garish red-and-purple booth, a short figure in a porcelain mask — one half grinning, the other frowning — throws their arms wide as you approach.\n\n\"You. Yes, you. You've got the look of someone who to wants to have some fun!\"",
+						"clear": true,
+						"no_continue": true
+					},
+					{
+						"type": "text",
+						"text": "They vault off the booth and land in a crouch that shouldn't quite work, then straighten up, with too much energy.\n\n\"Welcome — welcome — to the Games of the Gilded Hollow.\" They spread their arms wide. \"Games of strength! Games of skill! Games of wit and luck and more!\"\n\n\"Play the games! Seek victory! And who knows — maybe you'll walk away with something Fabulous!\" [font_size=-2]\"Nobody ever has. But I do like to say it.\"[/font_size]",
+						"clear": false,
+						"no_continue": true
+					}
+				],
+				"else": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"Back again.\" They spot you before you're halfway to the booth. \"Of course you are. They always come back.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "They see you coming from across the grounds. The mask tilts sideways.\n\n\"Oh, it's you.\" A pause. \"Feeling lucky today? Or just feeling generous?\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"Back for more, are we?\" The clown claps twice, sharply, and drops into a bow. \"Splendid. Truly.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "The mask turns toward you before you've said a word.\n\n\"You again.\" They clap once. \"Good, good! I was starting to get bored.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"Ah!\" They point as you approach. \"My favorite — no, I say that to everyone.\" They lower the finger. \"But you. You're actually starting to grow on me. Or maybe not. Who knows?\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_choices"
+			}
+		]
+	},
+	"circus_minigame_back": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"No?\" They look at the empty counter. \"Fine. You know where I am when you change your mind.\"",
+								"clear": true,
+								"no_continue": false
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Tch.\" They turn away and start rearranging dice. \"Come back when you're feeling generous.\"",
+								"clear": true,
+								"no_continue": false
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They stare at you. Then wave a hand. \"Go. Go on. Come back richer.\"",
+								"clear": true,
+								"no_continue": false
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_choices"
+			}
+		]
+	},
+	"circus_minigame_choices": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The calliope grinds through a half-familiar melody somewhere deeper in the grounds.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A cheer rises from further in the circus. Then it stops, cleanly.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "One of the harlequins drifts past behind the booth, white mask blank, not looking at you.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The smell of fried oil and sawdust hangs heavy around the stand.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "From somewhere behind the tent, something shifts in its cage and then goes still.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"So.\" They point at you. \"What'll it be?\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They lean on the counter and tap it twice. \"What'll it be?\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Don't be shy.\" They wave a hand. \"Pick your poison.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They stare. The mask grins. And frowns. \"Well?\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Take your time.\" They drum their fingers on the counter. \"I'm not going anywhere. Neither are you, really.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "choice",
+				"header": "What would you like to do?",
+				"choices": [
+					{
+						"choice": "Ask about prizes",
+						"key": "prizes"
+					},
+					{
+						"choice": "Ask about current wins",
+						"key": "wins"
+					},
+					{
+						"choice": "Play a Game",
+						"key": "play"
+					},
+					{
+						"choice": "Leave",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"prizes": [
+						{
+							"type": "event",
+							"event": "circus_reward_list"
+						}
+					],
+					"wins": [
+						{
+							"type": "event",
+							"event": "circus_minigame_score"
+						}
+					],
+					"play": [
+						{
+							"type": "event",
+							"event": "circus_minigame_games"
+						}
+					]
+				}
+			}
+		]
+	},
+	"circus_minigame_continue": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Well?\" The clown's mask stares at you. \"Anything else?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"What else can I do for you?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The clown leans back in. \"What else?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The clown taps the counter twice. \"Is that all you needed?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Anything else?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_choices"
+			}
+		]
+	},
+	"circus_minigame_dispatch": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"circus_which_minigame": 1
+				},
+				"then": [
+					{
+						"type": "event",
+						"event": "circus_minigame_strength"
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_which_minigame": 2
+						},
+						"then": [
+							{
+								"type": "event",
+								"event": "circus_minigame_skill"
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_which_minigame": 3
+								},
+								"then": [
+									{
+										"type": "event",
+										"event": "circus_minigame_wit"
+									}
+								],
+								"else": [
+									{
+										"type": "event",
+										"event": "circus_minigame_luck"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"circus_minigame_games": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Wonderful!\" They clap once. \"What would you like to play?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"That's the spirit!\" The clown leans over the counter, mask getting uncomfortably close. \"We're going to have so much fun together...\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They spread their arms wide. \"Step right up! Which trial will you challenge, this time?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "choice",
+				"header": "What would you like to play?",
+				"choices": [
+					{
+						"choice": "Trial of Strength",
+						"key": "strength"
+					},
+					{
+						"choice": "Trial of Skill",
+						"key": "skill"
+					},
+					{
+						"choice": "Trial of Wit",
+						"key": "wit"
+					},
+					{
+						"choice": "Trial of Luck",
+						"key": "luck"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"strength": [
+						{
+							"type": "set_var",
+							"vars": {
+								"circus_which_minigame": {
+									"set": 1
+								}
+							}
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_pay"
+						}
+					],
+					"skill": [
+						{
+							"type": "set_var",
+							"vars": {
+								"circus_which_minigame": {
+									"set": 2
+								}
+							}
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_pay"
+						}
+					],
+					"wit": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"The Trial of Wit.\" The Gamer Clown spins around and faces you. \"Good choice! I've been waiting for someone to pick Wit.\"",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "They stop. Tilt their head sideways. \"Wit,\" they repeat, slowly. \"Interesting choice.\" One side of the mask grins wider, the other frowns harder. Or maybe it always looked like that.",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"Ah, the brainy type.\" They tap the side of their mask. \"Most go for one of the others first. Not you. I respect that. It won't help you, but I respect it.\"",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "set_var",
+							"vars": {
+								"circus_which_minigame": {
+									"set": 3
+								}
+							}
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_pay"
+						}
+					],
+					"luck": [
+						{
+							"type": "set_var",
+							"vars": {
+								"circus_which_minigame": {
+									"set": 4
+								}
+							}
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_pay"
+						}
+					],
+					"back": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"Lame.\" They turn away. \"You're lame. Absolutely lame. Do something.\"",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "They stare at you for a long moment.\n\n\"...You're funny.\" The mask tilts. \"What do you want to do now?\"",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"Changed your mind?\" They shrug with their whole body. \"Fine. Back to the start, back to the start. We've got all the time in the world.\"",
+											"clear": true,
+											"no_continue": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_choices"
+						}
+					]
+				}
+			}
+		]
+	},
+	"circus_minigame_luck": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_luck_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_luck_wins": {
+						"min": 4
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "They rub their hands together. \"Back for more? Back for more. You just keep coming back.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "The mask stares at you. \"I genuinely cannot tell if you're very good or very lucky. Either way.\" They shrug. \"Let's find out.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You.\" They point. \"You are becoming a problem. A wonderful, profitable — for me — problem.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "They count on their fingers, lips moving. Then give up. \"You've come back more times than I can count. That's... well, it probably says more about me than you, no?\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"I had to send for reinforcements,\" they say, entirely sincere. \"You'll see.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"frowny_clown",
+											"surprised_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"surprised_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"surprised_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_luck_wins": 3
+						},
+						"then": [
+							{
+								"type": "text",
+								"text": "The Gamer Clown goes very still for a moment.\n\n\"...I'm impressed,\" they say. \"Genuinely.\"\n\nThey tilt their head.\n\n\"You wouldn't like me when I'm surprised.\"",
+								"clear": true,
+								"no_continue": true
+							},
+							{
+								"type": "text",
+								"text": "They split into three.\n\nThe new one's mask is frozen mid-gasp — wide eyes, open mouth, arrested mid-shock.\n\n\"Get your dice out,\" they say. The other two agree, very quietly, like this happens often.",
+								"clear": false,
+								"no_continue": false
+							},
+							{
+								"type": "dice_game",
+								"wager": 0,
+								"gamblers": [
+									"smiley_clown",
+									"surprised_clown",
+									"serious_clown"
+								],
+								"community_dice": [
+									"circus",
+									"circus2"
+								],
+								"on_win": [
+									{
+										"type": "event",
+										"event": "circus_luck_victory"
+									}
+								],
+								"on_tie": [
+									{
+										"type": "event",
+										"event": "circus_luck_victory"
+									}
+								],
+								"on_fold": [
+									{
+										"type": "event",
+										"event": "circus_luck_defeat"
+									}
+								],
+								"on_lose": [
+									{
+										"type": "event",
+										"event": "circus_luck_defeat"
+									}
+								]
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_luck_wins": 2
+								},
+								"then": [
+									{
+										"type": "text",
+										"text": "The Gamer Clown leans on the counter and looks at you for a long moment.\n\n\"You're going to regret trying for a third win.\" They say it almost fondly.\n\nThen they split.\n\nThree figures, this time: the grinning one, the frowning one, and a third — flat-faced, blank-masked, completely expressionless.",
+										"clear": true,
+										"no_continue": true
+									},
+									{
+										"type": "text",
+										"text": "The Serious Clown stares at you.\n\nThe other two make noise. You focus on the Serious Clown.",
+										"clear": false,
+										"no_continue": false
+									},
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_luck_wins": {
+												"min": 1
+											}
+										},
+										"then": [
+											{
+												"type": "text",
+												"text": "\"You might've beaten me once, but that doesn't mean it'll happen again, I'm afraid.\"\n\nThe Gamer Clown steps up onto the booth counter.\n\n\"Ready for round two?\" They spread their arms wide — and then something happens.\n\nThey split.\n\nTwo figures drop to either side of the counter: one with a mask fixed in a permanent grin, one with a mask pulled into a long, deep frown.",
+												"clear": true,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "The Smiley Clown claps their hands. The Frowny Clown sighs.\n\n\"Better get your dice out,\" they say, not quite in unison.",
+												"clear": false,
+												"no_continue": false
+											},
+											{
+												"type": "dice_game",
+												"wager": 0,
+												"gamblers": [
+													"smiley_clown",
+													"frowny_clown"
+												],
+												"community_dice": [
+													"circus",
+													"circus2"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_tie": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_fold": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												]
+											}
+										],
+										"else": [
+											{
+												"type": "text",
+												"text": "\"For the Trial of Luck,\" the Gamer Clown announces, climbing atop the booth, \"you shall be facing *ME* in the most brutal, the most STRATEGIC, the most cunningly devised game ever conceived by any mind both fevered and brilliant...\"",
+												"clear": true,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "\"[wait=0.1]...[wait=0.1]WANDERER'S DICE!\"\n\nThey produce a set of dice from somewhere and set them on the counter with a flourish.",
+												"clear": false,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "They gesture at you. \"Better get your dice out!\"",
+												"clear": false,
+												"no_continue": false
+											},
+											{
+												"type": "dice_game",
+												"wager": 0,
+												"gamblers": [
+													"gamer_clown"
+												],
+												"community_dice": [
+													"circus",
+													"circus2"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_tie": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_fold": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"circus_minigame_pay": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_played": {
+						"min": 1
+					}
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Entry fee: one hundred gold.\" They hold out a hand. \"You win, you get it back. You lose...\" The mask grins. \"Well. You had fun.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "choice",
+						"header": "Pay the fee to play?",
+						"choices": [
+							{
+								"choice": "Pay 100G",
+								"key": "pay",
+								"condition": {
+									"gold": {
+										"min": 100
+									}
+								},
+								"disabled_tooltip": "Not enough gold."
+							},
+							{
+								"choice": "Back",
+								"key": "back",
+								"type": "back"
+							}
+						],
+						"branches": {
+							"pay": [
+								{
+									"type": "give_gold",
+									"amount": -100
+								},
+								{
+									"type": "set_var",
+									"vars": {
+										"circus_minigame_played": {
+											"add": 1
+										},
+										"circus_minigame_fee": {
+											"set": 100
+										}
+									}
+								},
+								{
+									"type": "event",
+									"event": "circus_minigame_dispatch"
+								}
+							],
+							"back": [
+								{
+									"type": "event",
+									"event": "circus_minigame_back"
+								}
+							]
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "text",
+						"text": "\"Standard entry is one hundred gold,\" they say, then hold up a finger. \"But — since it's your first time — the first game's on the house. Ten gold. A steal. Don't tell the management.\" A beat. \"Or am I the management? It's been so long, sometimes I forget.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "choice",
+						"header": "Pay the fee to play?",
+						"choices": [
+							{
+								"choice": "Pay 10G",
+								"key": "pay",
+								"condition": {
+									"gold": {
+										"min": 10
+									}
+								},
+								"disabled_tooltip": "Not enough gold."
+							},
+							{
+								"choice": "Back",
+								"key": "back",
+								"type": "back"
+							}
+						],
+						"branches": {
+							"pay": [
+								{
+									"type": "give_gold",
+									"amount": -10
+								},
+								{
+									"type": "set_var",
+									"vars": {
+										"circus_minigame_played": {
+											"set": 1
+										}
+									}
+								},
+								{
+									"type": "event",
+									"event": "circus_minigame_dispatch"
+								}
+							],
+							"back": [
+								{
+									"type": "event",
+									"event": "circus_minigame_back"
+								}
+							]
+						}
+					}
+				]
+			}
+		]
+	},
+	"circus_minigame_replay": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Play again for 100G?",
+				"choices": [
+					{
+						"choice": "Pay 100G",
+						"key": "pay",
+						"condition": {
+							"gold": {
+								"min": 100
+							}
+						},
+						"disabled_tooltip": "Not enough gold."
+					},
+					{
+						"choice": "No thanks",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"pay": [
+						{
+							"type": "give_gold",
+							"amount": -100
+						},
+						{
+							"type": "event",
+							"event": "circus_minigame_dispatch"
+						}
+					],
+					"back": [
+						{
+							"type": "event",
+							"event": "circus_minigame_continue"
+						}
+					]
+				}
+			}
+		]
+	},
+	"circus_minigame_score": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[instant][table=7][cell][center][b]Game[/b][/center][/cell][cell][/cell][cell][center][b]Wins[/b][/center][/cell][cell][/cell][cell][center][b]Losses[/b][/center][/cell][cell][/cell][cell][center][b]Times Played[/b][/center][/cell][cell][center]Trial of Strength[/center][/cell][cell][/cell][cell][center][var=\"circus_strength_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_strength_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_strength_played\"][/center][/cell][cell][center]Trial of Skill[/center][/cell][cell][/cell][cell][center][var=\"circus_skill_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_skill_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_skill_played\"][/center][/cell][cell][center]Trial of Wit[/center][/cell][cell][/cell][cell][center][var=\"circus_wit_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_wit_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_wit_played\"][/center][/cell][cell][center]Trial of Luck[/center][/cell][cell][/cell][cell][center][var=\"circus_luck_wins\"][/center][/cell][cell][/cell][cell][center][var=\"circus_luck_losses\"][/center][/cell][cell][/cell][cell][center][var=\"circus_luck_played\"][/center][/cell][cell][center][b]Overall[/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_wins\"][/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_losses\"][/b][/center][/cell][cell][/cell][cell][center][b][var=\"circus_minigame_played\"][/b][/center][/cell][/table][/instant]",
+				"clear": false
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_continue"
+			}
+		]
+	},
+	"circus_minigame_skill": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_skill_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_skill_wins": {
+						"min": 5
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "The mask goes very still. \"Every dart, dead center, every single time.\" They set the darts down slowly. \"No room for anything less. Go on, then. Impress me.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You again.\" They don't bother with the board this time — just point at the tiny bullseye, alone against the frame. \"You know what's needed. Let's see it.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "For a long moment, they say nothing at all. Then, quietly: \"Perfect or nothing. Same as always.\" They don't even bother explaining anymore.",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "set_var",
+						"vars": {
+							"circus_skill_threshold": {
+								"set": 45
+							},
+							"circus_skill_score": {
+								"set": 0
+							},
+							"circus_skill_progress": {
+								"set": -45
+							}
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_skill_wins": 4
+						},
+						"then": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "They don't bother swapping the board — it's already impossibly small, the fifteen-ring no wider than a fingertip. \"Barely any room for error left. Show me.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Four.\" The mask doesn't move for a moment. \"Nobody gets this far. You understand that, right?\" They hand over the darts anyway.",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "They set the smallest board yet against the frame without comment — just a long look at you before stepping back.",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_threshold": {
+										"set": 38
+									},
+									"circus_skill_score": {
+										"set": 0
+									},
+									"circus_skill_progress": {
+										"set": -38
+									}
+								}
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_skill_wins": 3
+								},
+								"then": [
+									{
+										"type": "random",
+										"outcomes": [
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "The board they hang this time is barely bigger than a dinner plate, every ring crowded close together. They step back, arms crossed. \"Go on, then.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"Three wins.\" They exhale through the mask, a strange, hollow sound. \"Alright. Let's make this interesting.\" The board shrinks again.",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "They pin up a board so small you can barely make out the rings from here. \"Still feeling confident?\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											}
+										]
+									},
+									{
+										"type": "set_var",
+										"vars": {
+											"circus_skill_threshold": {
+												"set": 31
+											},
+											"circus_skill_score": {
+												"set": 0
+											},
+											"circus_skill_progress": {
+												"set": -31
+											}
+										}
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_skill_wins": 2
+										},
+										"then": [
+											{
+												"type": "random",
+												"outcomes": [
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "They squint at you and swap the board again — smaller still, the bullseye barely a coin's width. They toss you the darts. \"Let's see if that was luck.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Two in a row.\" They tap the mask, thoughtful. \"Either you're good, or I'm unlucky. Let's find out which.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "The board shrinks again, rings crowding the center. \"Getting harder to be impressed,\" they say, not sounding impressed at all.",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													}
+												]
+											},
+											{
+												"type": "set_var",
+												"vars": {
+													"circus_skill_threshold": {
+														"set": 24
+													},
+													"circus_skill_score": {
+														"set": 0
+													},
+													"circus_skill_progress": {
+														"set": -24
+													}
+												}
+											}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {
+													"circus_skill_wins": {
+														"min": 1
+													}
+												},
+												"then": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Round two.\" They swap the target board for a smaller one, rings drawn tighter. \"Should still be easy for someone as talented as you.\" The mask's grin looks unconvinced.",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They produce a fresh board, noticeably smaller than the last, and pin it up without a word. \"Go on. Surprise me again.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Back for another round?\" They twirl a dart between two fingers. \"Let's see if the first one was a fluke.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "set_var",
+														"vars": {
+															"circus_skill_threshold": {
+																"set": 17
+															},
+															"circus_skill_score": {
+																"set": 0
+															},
+															"circus_skill_progress": {
+																"set": -17
+															}
+														}
+													}
+												],
+												"else": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They reach under the counter and produce three darts, each fletched in mismatched circus colors. \"Simple enough.\" They set a battered target board upright behind the booth.",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Darts!\" They pull three of them from behind their back with a flourish, spinning one between gloved fingers. \"Nothing to it. Watch — no, wait, you throw. I watch.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They produce three darts and a battered target board in the same motion, as if they'd been holding both the whole time. \"Three throws. That's all it takes.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "set_var",
+														"vars": {
+															"circus_skill_threshold": {
+																"set": 10
+															},
+															"circus_skill_score": {
+																"set": 0
+															},
+															"circus_skill_progress": {
+																"set": -10
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Score [var=\"circus_skill_threshold\"] or better, and you win.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "[var=\"circus_skill_threshold\"] points. That's the number to beat.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You'll need [var=\"circus_skill_threshold\"] or higher this time.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_dart_game"
+			}
+		]
+	},
+	"circus_minigame_strength": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "text",
+				"text": "\"The Trial of Strength...\" The clown pauses. \"Ah — that ring's still being set up, actually. Very embarrassing.\" They slide your coins back across the counter. \"On the house. Come back another time.\"",
+				"clear": true,
+				"no_continue": true
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_fee": 10
+				},
+				"then": [
+					{
+						"type": "give_gold",
+						"amount": 10
+					}
+				],
+				"else": [
+					{
+						"type": "give_gold",
+						"amount": 100
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_back"
+			}
+		]
+	},
+	"circus_minigame_victory": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "sfx",
+				"sound": "chest_open"
+			},
+			{
+				"type": "give_gold",
+				"amount": 100
+			},
+			{
+				"type": "text",
+				"text": "You got [color=yellow]100G[/color].",
+				"clear": false,
+				"no_continue": true
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_minigame_wins": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 1
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "From beneath the counter, they produce a small vial and slide it over. \"A little something for the road.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Potion"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 2
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Getting good at this.\" They toss you a vial that fizzes faintly on its own. \"Don't drink it out of curiosity.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Stimulant"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 3
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Three in a row.\" They produce a shimmering vial, careful not to touch it directly. \"Careful with that one.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Ether"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 4
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Four wins.\" The mask tilts, almost impressed. They press a peculiar periwinkle die into your palm — it hums faintly. \"That one likes you. Try not to lose it.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "circus"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 5
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Five!\" They produce a scroll from absolutely nowhere and hand it over with a flourish. \"Learn a little something of mine.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Party Trick Scroll"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 6
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Six wins.\" For a moment, the mask stops moving entirely. Then they set a faintly glowing crystal on the counter. \"...That one's not really a prize. Take care of it.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Lifespark Crystal"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 7
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Seven.\" They go very quiet, then produce a long coiled whip from behind the booth — one that definitely wasn't there a moment ago. \"...The boss won't miss this. Probably.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Ringmaster's Whip"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 8
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Eight!\" Another scroll appears between their fingers, like it was always going to. \"One more trick, on the house.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Juggle Throw Scroll"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 9
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Nine wins.\" They produce a small dented bell and turn it over in their hands before setting it down. \"This one rings when it wants to. Not before.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Chaos Bell"
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_minigame_wins": 10
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "\"Ten.\" The clown goes utterly still. Then, slowly, they lift something from beneath the booth: a small, tarnished crown, sized for someone with a mask instead of a face. \"...Nobody's gotten this far before. Truly. Wear it well.\"",
+						"clear": false,
+						"no_continue": true
+					},
+					{
+						"type": "give_item",
+						"item": "Gamemaster's Crown"
+					}
+				]
+			}
+		]
+	},
+	"circus_minigame_wit": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_wit_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_wit_wins": {
+						"min": 5
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"Perfect score,\" the clown says flatly. \"That's what I need from you now. Five for five. Impossible questions, trick questions, no easy ones left. This is the real Trial of Wit.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You've beaten me enough times that I've stopped being nice about it.\" They fan out a final, ominous-looking deck. \"Five out of five. Good luck. You'll need it.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "quiz_game",
+						"required_correct": 5,
+						"difficulties": [
+							"impossible",
+							"trick"
+						],
+						"on_win": [
+							{
+								"type": "event",
+								"event": "circus_wit_victory"
+							}
+						],
+						"on_lose": [
+							{
+								"type": "event",
+								"event": "circus_wit_defeat"
+							}
+						]
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_wit_wins": 4
+						},
+						"then": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Four wins.\" The mask stops moving for a second. \"Fine. FINE. Have the really nasty questions. Some worldbuilding you couldn't possibly know yet. Some tricks. Good luck.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"You're really doing this to me,\" they mutter, shuffling in a set of cards that seem to glow faintly with malice. \"Four of five. Go on, then.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "quiz_game",
+								"required_correct": 4,
+								"difficulties": [
+									"hard",
+									"impossible",
+									"trick"
+								],
+								"on_win": [
+									{
+										"type": "event",
+										"event": "circus_wit_victory"
+									}
+								],
+								"on_lose": [
+									{
+										"type": "event",
+										"event": "circus_wit_defeat"
+									}
+								]
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_wit_wins": 3
+								},
+								"then": [
+									{
+										"type": "random",
+										"outcomes": [
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"No more easy ones,\" the clown announces, almost offended. \"You've earned yourself the real questions. Still need four of five, though.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"Alright, alright.\" They crack their gloved knuckles. \"Let's see if you actually know things, or if you just got lucky.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											}
+										]
+									},
+									{
+										"type": "quiz_game",
+										"required_correct": 4,
+										"difficulties": [
+											"medium",
+											"hard"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_wit_victory"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_wit_defeat"
+											}
+										]
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_wit_wins": 2
+										},
+										"then": [
+											{
+												"type": "random",
+												"outcomes": [
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Ooh, someone's on a streak.\" The mask grins wider. \"Four out of five now. And I'm throwing in a few... special questions.\" They wink. Or seem to. Hard to tell with the mask.",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Getting good, aren't you.\" They produce a card with a suspiciously smug flourish. \"Some of these might not have answers at all. Have fun with that.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													}
+												]
+											},
+											{
+												"type": "quiz_game",
+												"required_correct": 4,
+												"difficulties": [
+													"easy",
+													"medium",
+													"trick"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_wit_victory"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_wit_defeat"
+													}
+												]
+											}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {
+													"circus_wit_wins": {
+														"min": 1
+													}
+												},
+												"then": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Round two of the brains department,\" the clown says, shuffling the cards. \"Slightly trickier questions this time. Still just need three of five.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"You again.\" They tilt their head. \"Fine. Let's raise the bar — just a little.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "quiz_game",
+														"required_correct": 3,
+														"difficulties": [
+															"easy",
+															"medium"
+														],
+														"on_win": [
+															{
+																"type": "event",
+																"event": "circus_wit_victory"
+															}
+														],
+														"on_lose": [
+															{
+																"type": "event",
+																"event": "circus_wit_defeat"
+															}
+														]
+													}
+												],
+												"else": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"The Trial of Wit!\" The Gamer Clown produces a stack of cards from nowhere and fans them out dramatically. \"Five questions. Three right, and you win. Simple as that — for now.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Ohhh, a thinker.\" They tap their mask. \"Let's see what's rattling around in there.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Five questions!\" they announce to nobody in particular. \"Get three right and you'll walk away a winner. Or a very lucky guesser. I won't judge — much.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "quiz_game",
+														"required_correct": 3,
+														"difficulties": [
+															"easy"
+														],
+														"on_win": [
+															{
+																"type": "event",
+																"event": "circus_wit_victory"
+															}
+														],
+														"on_lose": [
+															{
+																"type": "event",
+																"event": "circus_wit_defeat"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

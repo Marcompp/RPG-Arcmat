@@ -1,0 +1,439 @@
+{
+	"apple_orchard": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You spot a small orchard of apple trees up ahead.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Pick an apple to eat?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "event",
+							"event": "random_apple"
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You move on without an apple.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"find_mushroom": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You notice a small cluster of mushrooms growing at the base of a mossy rock.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "show_node_actions"
+			}
+		]
+	},
+	"lady_of_the_lake": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"equipped_weapon_type": "Axe"
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "As you approach the lake, you veer just a bit too close and-",
+						"clear": true
+					},
+					{
+						"type": "sfx",
+						"sfx": "water"
+					},
+					{
+						"type": "text",
+						"text": "Darn, you dropped your axe into the water!",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "As you stand around, feeling sorry for yourself, the water of the lake seems to coalesce into a figure:",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "\"Hail, adventurer,\" a beautiful woman with hair that flows like water appears before you. Her appearance, half-submerged into the lake and clad in naught but water, is distracting, to say the least.",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?",
+						"clear": false,
+						"no_wait": true
+					},
+					{
+						"type": "choice",
+						"header": "Which axe do you claim?",
+						"choices": [
+							{
+								"choice": "The silver one",
+								"key": "silver"
+							},
+							{
+								"choice": "The gold one",
+								"key": "gold"
+							},
+							{
+								"choice": "Neither",
+								"key": "back",
+								"type": "back"
+							}
+						],
+						"branches": {
+							"silver": [
+								{
+									"type": "text",
+									"text": "She regards you for a moment, then nods. The gold axe in her hand sinks.",
+									"clear": true
+								},
+								{
+									"type": "text",
+									"text": "\"Is that so?\" she says. \"Then I grant you your axe,\" she presents you the handle of the gleaming silver axe. You eagerly pick it up.",
+									"clear": false
+								},
+								{
+									"type": "text",
+									"text": "The woman melts back into the water... Looks like you got away with it!\n\n...Except, something is wrong: Your new axe... In your hand, it feels the exact same as your old one.\n\nBy the time you've reached the tree line, you notice the silver is gone. The dreamlike glamour coloring it silver in your eyes is gone. Your axe looks exactly as it always has.\n\nAt least you got your axe back, you guess.",
+									"clear": false
+								},
+								{
+									"type": "show_node"
+								}
+							],
+							"gold": [
+								{
+									"type": "text",
+									"text": "A pause. Long enough to to make you sweat.\n\nThe silver axe in her hand sinks. The gold axe she offers with her other hand is golden — blindingly, absurdly golden.",
+									"clear": true
+								},
+								{
+									"type": "text",
+									"text": "You take it. It's heavier than it should be. The edge is also duller than it should be.\n\nGold is too soft for a blade. Surely you knew this. But this isn't even real gold.\n\nShe's already gone. So is your old axe.",
+									"clear": false
+								},
+								{
+									"type": "exchange_equip",
+									"item": "Fool's Axe"
+								},
+								{
+									"type": "text",
+									"text": "[instant]You got the [color=yellow]Fools' Axe[/color]![/instant]",
+									"clear": false
+								},
+								{
+									"type": "show_node"
+								}
+							],
+							"back": [
+								{
+									"type": "text",
+									"text": "She lowers both axes. Something that might have been a smile moves across her face.\n\n\"No. Neither of those is yours.\"",
+									"clear": true
+								},
+								{
+									"type": "text",
+									"text": "Your axe breaks the surface and floats to your feet, dry despite the water. She says nothing else — just watches you pick it up.\n\nThen she reaches under the surface and offers you something small: a bronze pin, shaped like a shield.",
+									"clear": false
+								},
+								{
+									"type": "text",
+									"text": "\"For honesty,\" she says. \"It is rarer than you'd think.\"",
+									"clear": false
+								},
+								{
+									"type": "sfx",
+									"sound": "item"
+								},
+								{
+									"type": "give_item",
+									"item": "Badge of Valor"
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "text",
+						"text": "As you pass the water's edge, the lake's surface shifts — and rises.",
+						"clear": true
+					},
+					{
+						"type": "text",
+						"text": "A woman steps half-out of the lake, her hair still moving as if submerged. She looks at you. Then at what's on your belt.\n\n\"Hm.\"",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "\"Nothing of yours has found its way into my waters today.\" A beat. \"But you've found your way to me. That's unusual enough.\"\n\nShe reaches below the surface and drops a handful of coin onto the bank without ceremony.",
+						"clear": false
+					},
+					{
+						"type": "give_gold",
+						"amount": 50
+					},
+					{
+						"type": "text",
+						"text": "Found [color=yellow]50G[/color] at the water's edge.",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "\"Safe travels,\" she says — and sinks back under without a ripple.",
+						"clear": false
+					},
+					{
+						"type": "show_node"
+					}
+				]
+			}
+		]
+	},
+	"spring_water": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You take a sip of the spring's crystal-clear water."
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "heal",
+					"amount": 10
+				}
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 10
+				}
+			},
+			{
+				"type": "text",
+				"text": "You drink deeply.\nHP and MP restored by [color=green]10[/color].",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"sword_in_stone": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You spot something up ahead.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "Sticking out of a large stone at the center of the clearing, is a gleaming sword.\nNext to it, an inscription:\n'Only the worthy may wield.'",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Try to pull the sword from the stone?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "text",
+							"text": "You try and pull the sword with all your might...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt won't budge...",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "choice",
+							"header": "Try again?",
+							"choices": [
+								{
+									"choice": "Yes",
+									"key": "yes"
+								},
+								{
+									"choice": "No",
+									"key": "no"
+								}
+							],
+							"branches": {
+								"yes": [
+									{
+										"type": "text",
+										"text": "You gather your strength again and pull the sword...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt's no use...",
+										"clear": false,
+										"no_wait": true
+									},
+									{
+										"type": "choice",
+										"header": "Try again?",
+										"choices": [
+											{
+												"choice": "Yes",
+												"key": "yes"
+											},
+											{
+												"choice": "No",
+												"key": "no"
+											}
+										],
+										"branches": {
+											"yes": [
+												{
+													"type": "text",
+													"text": "You take a deep breath and pull...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt might've shifted a little this time!",
+													"clear": false,
+													"no_wait": true
+												},
+												{
+													"type": "choice",
+													"header": "Try again?",
+													"choices": [
+														{
+															"choice": "Yes",
+															"key": "yes"
+														},
+														{
+															"choice": "No",
+															"key": "no"
+														}
+													],
+													"branches": {
+														"yes": [
+															{
+																"type": "text",
+																"text": "You gather your strength again and pull the sword...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nIt's still stuck! It might be time to give up...",
+																"clear": false,
+																"no_wait": true
+															},
+															{
+																"type": "choice",
+																"header": "Try again?",
+																"choices": [
+																	{
+																		"choice": "Yes",
+																		"key": "yes"
+																	},
+																	{
+																		"choice": "No",
+																		"key": "no"
+																	}
+																],
+																"branches": {
+																	"yes": [
+																		{
+																			"type": "text",
+																			"text": "You focus your determination and pull with all you have...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]\nFinally, the sword comes loose!",
+																			"clear": false
+																		},
+																		{
+																			"type": "text",
+																			"text": "You got the Sword of Maciera!",
+																			"clear": false
+																		},
+																		{
+																			"type": "give_item",
+																			"item": "Sword of Maciera"
+																		}
+																	],
+																	"no": [
+																		{
+																			"type": "text",
+																			"text": "You give up and try to put the sword in the stone out of mind...",
+																			"clear": false,
+																			"no_wait": true
+																		}
+																	]
+																}
+															}
+														]
+													}
+												}
+											],
+											"no": [
+												{
+													"type": "text",
+													"text": "You give up and try to put the sword in the stone out of mind...",
+													"clear": false,
+													"no_wait": true
+												}
+											]
+										}
+									}
+								],
+								"no": [
+									{
+										"type": "text",
+										"text": "You give up and try to put the sword in the stone out of mind...",
+										"clear": false,
+										"no_wait": true
+									}
+								]
+							}
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave the sword in the stone where it is...",
+							"clear": false,
+							"no_wait": true
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	}
+}

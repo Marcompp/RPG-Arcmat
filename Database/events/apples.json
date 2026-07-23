@@ -1,0 +1,769 @@
+{
+	"blue_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a mysterious sky-blue apple gleaming among the tree branches...",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "text",
+							"text": "You bite into the apple...[wait=0.1]\nHow refreshing!",
+							"clear": false,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 20
+							}
+						},
+						{
+							"type": "text",
+							"text": "[instant]Healed [color=green]20[/color] MP![/instant]",
+							"clear": false
+						},
+						{
+							"type": "if",
+							"condition": {
+								"event_unused": "blue_apple"
+							},
+							"then": [
+								{
+									"type": "modify_stat",
+									"stats": {
+										"int": 1
+									}
+								},
+								{
+									"type": "text",
+									"text": "[instant]Gained [color=green]+1[/color] Int![/instant]",
+									"clear": false
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. You weren't hungry anyway.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"brown_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a dubious-looking brown apple.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "event",
+				"event": "brown_apple_aux"
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"brown_apple_aux": {
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "text",
+							"text": "You bite into the apple...[wait=0.1]"
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 10,
+									"steps": [
+										{
+											"type": "text",
+											"text": "It's rotten!",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "poison"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 5
+											}
+										},
+										{
+											"type": "text",
+											"text": "You feel queasy...\n[instant]Lost [color=red]5[/color] HP![/instant]",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 10,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You grimace your teeth reach the apple's rotten core...\nNot able to stomach it, you toss the apple away in disgust...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 0,
+									"stat_weights": {
+										"lck": 2
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "What luck!\nIt's a super-rare Chocolate Apple!",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "heal"
+										},
+										{
+											"type": "modify_stat",
+											"stats": {
+												"lck": 5
+											}
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "heal",
+												"amount": 15
+											}
+										},
+										{
+											"type": "text",
+											"text": "The sweet chocolate empowers you...\n[instant]Healed [color=green]15[/color] HP![/instant]\n[color=green]Gained 5 Lck![/color]",
+											"clear": false
+										}
+									]
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. It was probably rotten anyway.",
+							"clear": false
+						}
+					]
+				}
+			}
+		]
+	},
+	"golden_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a Golden Apple gleaming amidst the apple trees.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "mark_used",
+							"event": "golden_apple"
+						},
+						{
+							"type": "text",
+							"text": "You bite into the apple...[wait=0.1]\nYour taste buds sing with joy!",
+							"clear": false,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "modify_stat",
+							"stats": {
+								"hp": 5
+							}
+						},
+						{
+							"type": "text",
+							"text": "You feel your body grow stronger. \n[color=green]Max HP +5![/color]",
+							"clear": false
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. It probably wasn't that special anyway.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"green_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find an appetising green apple.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 5,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You bite into the apple...[wait=0.1]\nIt's so juicy!",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "heal"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "heal",
+												"amount": 10
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Healed [color=green]15[/color] HP![/instant]",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "There was a worm inside the apple!\nYou toss it away in disgust...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Ugh, it's not even close to being ripe!",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "heal"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "heal",
+												"amount": 5
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Healed [color=green]5[/color] HP![/instant]",
+											"clear": false
+										}
+									]
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. You weren't hungry anyway.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"hearty_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[instant]Jackpot![/instant][wait=0.1]\nYou find a hearty-looking bright red apple gleaming among the tree branches.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "text",
+							"text": "You bite into the apple...[wait=0.1]\nDelicious!",
+							"clear": false,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 20
+							}
+						},
+						{
+							"type": "text",
+							"text": "[instant]Healed [color=green]20[/color] HP![/instant]",
+							"clear": false
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. You weren't hungry anyway.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"pick_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You look for an apple to take from the lower branches.",
+				"clear": false
+			},
+			{
+				"type": "event",
+				"event": "random_apple"
+			}
+		]
+	},
+	"purple_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a suspicious-looking purple apple among the tree roots.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "text",
+							"text": "You bite into the apple...[wait=0.1]"
+						},
+						{
+							"type": "text",
+							"text": "It's poisonous!",
+							"clear": false,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "poison"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "damage",
+								"amount": 10
+							}
+						},
+						{
+							"type": "text",
+							"text": "[instant]Lost [color=red]10[/color] HP![/instant]",
+							"clear": false
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You toss the suspicious apple to some birds.\nAfter some moments, the birds fall from the sky, dead.\nLooks like you made a good call...",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"rainbow_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Amazing! You find an Apple that is glowing with the seven colors of the rainbow.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "text",
+				"text": "You admire your find. It's way to pretty to eat, so you decide to keep it as jewelry.",
+				"clear": false,
+				"no_wait": false
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Rainbow Apple"
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"random_apple": {
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": -2,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Rainbow Apple"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "rainbow_apple"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"event_unused": "golden_apple"
+						},
+						"steps": [
+							{
+								"type": "mark_used",
+								"event": "golden_apple"
+							},
+							{
+								"type": "event",
+								"event": "golden_apple"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "mark_used",
+								"event": "blue_apple"
+							},
+							{
+								"type": "event",
+								"event": "blue_apple"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "hearty_apple"
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "event",
+								"event": "red_apple"
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "event",
+								"event": "green_apple"
+							}
+						]
+					},
+					{
+						"weight": 12,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "brown_apple"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "purple_apple"
+							}
+						]
+					},
+					{
+						"weight": 15,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You look around but find nothing worth taking.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"red_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a bright red apple.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "event",
+				"event": "red_apple_aux"
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"red_apple_aux": {
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Eat it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 5,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You bite into the apple...[wait=0.1]\nIt's juicy and sweet!",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "heal"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "heal",
+												"amount": 10
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Healed [color=green]10[/color] HP![/instant]",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "There was a worm inside the apple!\nYou toss it away in disgust...",
+											"clear": false
+										}
+									]
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it. You weren't hungry anyway.",
+							"clear": false
+						}
+					]
+				}
+			}
+		]
+	}
+}

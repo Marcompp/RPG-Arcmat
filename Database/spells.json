@@ -133,10 +133,10 @@
 			"crit": 30
 		},
 		"cost": 6,
-		"hits":20,
+		"hits": 20,
 		"min_hits": 1,
 		"max_hits": 3,
-		"hit_text":"[color=cyan]Thunder[/color] struck [TARGET]![wait=0.1]",
+		"hit_text": "[color=cyan]Thunder[/color] struck [TARGET]![wait=0.1]",
 		"magic": true,
 		"inherit_stats": true,
 		"inherit_wpn": false,

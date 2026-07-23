@@ -1,0 +1,14 @@
+{
+	"enter_arcward": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You follow the causeway up out of the fog, the mist thinning until the gates of Magical Academy of Arcward rise ahead of you, lantern-lit and solid."
+			},
+			{
+				"type": "enter_town",
+				"town": "Magical Academy of Arcward"
+			}
+		]
+	}
+}

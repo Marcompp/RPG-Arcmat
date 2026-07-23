@@ -87,7 +87,9 @@
 		"description": "A pair of well-broken-in boots with thick soles and room to breathe. They've walked many roads.",
 		"effect_description": "+3 Agility.",
 		"effect": "stat_bonus",
-		"stats": { "agi": 3 },
+		"stats": {
+			"agi": 3
+		},
 		"stackable": false
 	},
 	"Witch Hat": {
@@ -96,7 +98,9 @@
 		"description": "A tall, wide-brimmed hat with a slight lean to the left. Still smells faintly of ink and dried flowers.",
 		"effect_description": "+5 Intelligence.",
 		"effect": "stat_bonus",
-		"stats": { "int": 5 },
+		"stats": {
+			"int": 5
+		},
 		"stackable": false
 	},
 	"Chainmail": {
@@ -104,7 +108,9 @@
 		"description": "Hundreds of hand-linked rings of steel, worn smooth by years of use. Heavier than it looks.",
 		"effect_description": "+4 Defense.",
 		"effect": "stat_bonus",
-		"stats": { "def": 4 },
+		"stats": {
+			"def": 4
+		},
 		"stackable": false
 	},
 	"Gorgon Eye": {
@@ -129,7 +135,12 @@
 		"description": "A canvas pack with reinforced straps and a surprising number of pockets. Seems to fit more than it should.",
 		"effect_description": "After each battle, scavenge a random item.",
 		"effect": "scavenge",
-		"loot_table": ["Potion", "Potion", "Ether", "Bomb"],
+		"loot_table": [
+			"Potion",
+			"Potion",
+			"Ether",
+			"Bomb"
+		],
 		"stackable": false
 	},
 	"Funny Bone": {
@@ -177,7 +188,9 @@
 		"description": "A blocky piece of volcanic glass with one edge that formed clean — no knapping needed. The Lizals of the Core Cavern say obsidian only cuts perfectly once, on the break. After that, you're just chipping.",
 		"effect_description": "+10% critical hit chance.",
 		"effect": "stat_bonus",
-		"stats": { "crit": 10 },
+		"stats": {
+			"crit": 10
+		},
 		"stackable": false
 	},
 	"Sparkling Sapphire": {
@@ -229,7 +242,9 @@
 		"description": "A waterlogged boot, found at the end of your line instead of anything useful. Still structurally intact, if you squint. Smells like the wet fur.",
 		"effect_description": "Agility +1. It is still a boot.",
 		"effect": "stat_bonus",
-		"stats": { "agi": 1 },
+		"stats": {
+			"agi": 1
+		},
 		"stackable": false
 	},
 	"Crumbled Epitaph": {
@@ -237,7 +252,9 @@
 		"description": "A fragment of headstone. The inscription ends mid-sentence: '...AND HE DID NOT —'. The rest is gone.",
 		"effect_description": "Gain +4 DEF when HP falls below 50%.",
 		"effect": "low_hp_stats",
-		"stats": { "def": 4 },
+		"stats": {
+			"def": 4
+		},
 		"threshold": 50,
 		"stackable": false
 	},
@@ -254,7 +271,9 @@
 		"description": "An ancient coin, heavier than it should be. Both faces worn to a faint impression of a boat. Used in burial customs of centuries past.",
 		"effect_description": "+4 Luck.",
 		"effect": "stat_bonus",
-		"stats": { "lck": 4 },
+		"stats": {
+			"lck": 4
+		},
 		"stackable": false
 	},
 	"River King's Whisker": {
@@ -262,7 +281,10 @@
 		"description": "A stiff, wire-like whisker from the largest catfish anyone in Apple Woods has ever seen. It smells faintly of the river, even after days.",
 		"effect_description": "+15 Max HP, +2 Def.",
 		"effect": "stat_bonus",
-		"stats": { "hp": 15, "def": 2 },
+		"stats": {
+			"hp": 15,
+			"def": 2
+		},
 		"stackable": false
 	},
 	"Necromancer Cloak": {
@@ -278,7 +300,9 @@
 		"description": "A large primary feather from a wild mountain pegasus. Impossibly light, faintly iridescent. Still carries the cold of the high peaks.",
 		"effect_description": "+5 Agility.",
 		"effect": "stat_bonus",
-		"stats": { "agi": 5 },
+		"stats": {
+			"agi": 5
+		},
 		"stackable": false
 	},
 	"Badge of Valor": {
@@ -286,7 +310,10 @@
 		"description": "A small bronze pin shaped like a shield, pressed into your hand by a woman made of lake water. It's warm. That's probably fine.",
 		"effect_description": "Gain +4 STR and +3 AGI when HP falls below 50%.",
 		"effect": "low_hp_stats",
-		"stats": { "str": 4, "agi": 3 },
+		"stats": {
+			"str": 4,
+			"agi": 3
+		},
 		"threshold": 50,
 		"stackable": false
 	},
@@ -299,7 +326,12 @@
 		"stackable": false
 	},
 	"Circadian Mask": {
-		"variants": ["Circadian Mask1","Circadian Mask2","Circadian Mask3","Circadian Mask4"]
+		"variants": [
+			"Circadian Mask1",
+			"Circadian Mask2",
+			"Circadian Mask3",
+			"Circadian Mask4"
+		]
 	},
 	"Circadian Mask1": {
 		"name": "Circadian Mask",
@@ -372,7 +404,10 @@
 		"description": "A small, tarnished crown, sized for someone with a mask instead of a face. It shouldn't fit. It does.",
 		"effect_description": "Gain +6 LCK and +4 DEX when HP falls below 50%.",
 		"effect": "low_hp_stats",
-		"stats": {"lck": 6, "dex": 4},
+		"stats": {
+			"lck": 6,
+			"dex": 4
+		},
 		"threshold": 50,
 		"stackable": false
 	}

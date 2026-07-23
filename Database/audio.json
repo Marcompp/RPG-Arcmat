@@ -1,69 +1,105 @@
 {
 	"music": {
-		"title":       "res://assets/audio/BGM/Title_placeholder.mp3",
-		"gameover":    "res://assets/audio/BGM/gameover.mp3",
-		"combat":      "res://assets/audio/music/boss_placeholder.ogg",
+		"title": "res://assets/audio/BGM/Title_placeholder.mp3",
+		"gameover": "res://assets/audio/BGM/gameover.mp3",
+		"combat": "res://assets/audio/music/boss_placeholder.ogg",
 		"apple_woods": "res://assets/audio/BGM/AppleWoods_placeholder2.mp3",
-		"caves":       "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",
-		"plateau":     "res://assets/audio/BGM/SunsetPlateau_placeholder.mp3",
-		"mountain":    "res://assets/audio/BGM/MtLegory_placeholder.mp3",
-		"core":        "res://assets/audio/BGM/CoreCavern_placeholder.mp3",
-		"swamp":       "res://assets/audio/BGM/LostSwamp_placeholder2.mp3",
-		"ruins":       "res://assets/audio/BGM/Arcmat_placeholder2.mp3",
-		"castletown":  "res://assets/audio/BGM/Bertunia_placeholder.mp3",
-		"hilltown":    "res://assets/audio/BGM/LanternsReach_placeholder.mp3",
-		"village":     "res://assets/audio/BGM/Mugell_placeholder.mp3",
-		"circus":      "res://assets/audio/BGM/Circus_placeholder.mp3",
-		"academy":     "res://assets/audio/BGM/Arcward_placeholder.mp3",
-		"lizal":       "res://assets/audio/BGM/Lizal_placeholder2.mp3"
+		"caves": "res://assets/audio/BGM/CavesOfLight_placeholder.mp3",
+		"plateau": "res://assets/audio/BGM/SunsetPlateau_placeholder.mp3",
+		"mountain": "res://assets/audio/BGM/MtLegory_placeholder.mp3",
+		"core": "res://assets/audio/BGM/CoreCavern_placeholder.mp3",
+		"swamp": "res://assets/audio/BGM/LostSwamp_placeholder2.mp3",
+		"ruins": "res://assets/audio/BGM/Arcmat_placeholder2.mp3",
+		"castletown": "res://assets/audio/BGM/Bertunia_placeholder.mp3",
+		"hilltown": "res://assets/audio/BGM/LanternsReach_placeholder.mp3",
+		"village": "res://assets/audio/BGM/Mugell_placeholder.mp3",
+		"circus": "res://assets/audio/BGM/Circus_placeholder.mp3",
+		"academy": "res://assets/audio/BGM/Arcward_placeholder.mp3",
+		"lizal": "res://assets/audio/BGM/Lizal_placeholder2.mp3"
 	},
 	"ambiance": {
 		"forest": "res://assets/audio/BGS/forest_ambience.mp3",
-		"river":  "res://assets/audio/BGS/river_ambience.ogg",
-		"cave":   "res://assets/audio/ambiance/cave.ogg",
-		"wind":   "res://assets/audio/ambiance/wind.ogg",
-		"swamp":  "res://assets/audio/ambiance/swamp.ogg"
+		"river": "res://assets/audio/BGS/river_ambience.ogg",
+		"cave": "res://assets/audio/ambiance/cave.ogg",
+		"wind": "res://assets/audio/ambiance/wind.ogg",
+		"swamp": "res://assets/audio/ambiance/swamp.ogg"
 	},
 	"regions": {
-		"Apple Woods":    { "music": "apple_woods", "ambiance": "forest" },
-		"Caves of Light": { "music": "caves",       "ambiance": "cave"   },
-		"Sundown Plateau":{ "music": "plateau",     "ambiance": "wind"   },
-		"Mount Legory":   { "music": "mountain",    "ambiance": "wind"   },
-		"Core Cavern":    { "music": "core",        "ambiance": "cave"   },
-		"Lost Swamp":     { "music": "swamp",       "ambiance": "swamp"  },
-		"Arcmat Ruins":   { "music": "ruins",       "ambiance": ""       },
-		"Bertunia":       { "music": "castletown",  "ambiance": "town"   },
-		"Mugell Village": { "music": "village",     "ambiance": "town"   },
-		"Lantern's Reach":{ "music": "hilltown",    "ambiance": "town"   },
-		"Lizal-Town":     { "music": "lizal",       "ambiance": "cave"   },
-		"Gilded Hollow Circus":{ "music": "circus", "ambiance": ""       },
-		"Arcward Academy of Magic":{ "music": "academy","ambiance": ""   }
+		"Apple Woods": {
+			"music": "apple_woods",
+			"ambiance": "forest"
+		},
+		"Caves of Light": {
+			"music": "caves",
+			"ambiance": "cave"
+		},
+		"Sundown Plateau": {
+			"music": "plateau",
+			"ambiance": "wind"
+		},
+		"Mount Legory": {
+			"music": "mountain",
+			"ambiance": "wind"
+		},
+		"Core Cavern": {
+			"music": "core",
+			"ambiance": "cave"
+		},
+		"Lost Swamp": {
+			"music": "swamp",
+			"ambiance": "swamp"
+		},
+		"Arcmat Ruins": {
+			"music": "ruins",
+			"ambiance": ""
+		},
+		"Bertunia": {
+			"music": "castletown",
+			"ambiance": "town"
+		},
+		"Mugell Village": {
+			"music": "village",
+			"ambiance": "town"
+		},
+		"Lantern's Reach": {
+			"music": "hilltown",
+			"ambiance": "town"
+		},
+		"Lizal-Town": {
+			"music": "lizal",
+			"ambiance": "cave"
+		},
+		"Gilded Hollow Circus": {
+			"music": "circus",
+			"ambiance": ""
+		},
+		"Arcward Academy of Magic": {
+			"music": "academy",
+			"ambiance": ""
+		}
 	},
 	"sfx": {
-		"attack":       "res://assets/audio/SFX/smash.wav",
-		"sword":        "res://assets/audio/SFX/slash.mp3",
-		"axe":          "res://assets/audio/SFX/slash.mp3",
-		"polearm":      "res://assets/audio/SFX/stab.mp3",
-		"ranged":       "res://assets/audio/SFX/stab.mp3",
-		"staff":        "res://assets/audio/SFX/smash.wav",
-		"heal":         "res://assets/audio/SFX/heal.ogg",
-
-		"water":        "res://assets/audio/SFX/water.ogg",
-		"fire":         "res://assets/audio/SFX/fire.ogg",
-		"wind":         "res://assets/audio/SFX/wind.ogg",
-		"earth":        "res://assets/audio/SFX/earth.ogg",
-		"light":        "res://assets/audio/SFX/light.ogg",
-		"dark":         "res://assets/audio/SFX/dark.ogg",
-		"thunder":      "res://assets/audio/SFX/thunder.ogg",
-		"ice":          "res://assets/audio/SFX/ice.ogg",
-
-		"level_up":     "res://assets/audio/SFX/level_up.ogg",
-		"victory":      "res://assets/audio/SFX/victory.ogg",
-		"item_get":     "res://assets/audio/SFX/chest.ogg",
-		"chest":        "res://assets/audio/SFX/chest.ogg",
+		"attack": "res://assets/audio/SFX/smash.wav",
+		"sword": "res://assets/audio/SFX/slash.mp3",
+		"axe": "res://assets/audio/SFX/slash.mp3",
+		"polearm": "res://assets/audio/SFX/stab.mp3",
+		"ranged": "res://assets/audio/SFX/stab.mp3",
+		"staff": "res://assets/audio/SFX/smash.wav",
+		"heal": "res://assets/audio/SFX/heal.ogg",
+		"water": "res://assets/audio/SFX/water.ogg",
+		"fire": "res://assets/audio/SFX/fire.ogg",
+		"wind": "res://assets/audio/SFX/wind.ogg",
+		"earth": "res://assets/audio/SFX/earth.ogg",
+		"light": "res://assets/audio/SFX/light.ogg",
+		"dark": "res://assets/audio/SFX/dark.ogg",
+		"thunder": "res://assets/audio/SFX/thunder.ogg",
+		"ice": "res://assets/audio/SFX/ice.ogg",
+		"level_up": "res://assets/audio/SFX/level_up.ogg",
+		"victory": "res://assets/audio/SFX/victory.ogg",
+		"item_get": "res://assets/audio/SFX/chest.ogg",
+		"chest": "res://assets/audio/SFX/chest.ogg",
 		"menu_confirm": "res://assets/audio/SFX/menu_confirm.ogg",
-		"menu_cancel":  "res://assets/audio/SFX/menu_cancel.ogg",
-
-		"dice":         "res://assets/audio/SFX/dice2.mp3"
+		"menu_cancel": "res://assets/audio/SFX/menu_cancel.ogg",
+		"dice": "res://assets/audio/SFX/dice2.mp3"
 	}
 }

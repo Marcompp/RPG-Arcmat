@@ -1,0 +1,415 @@
+{
+	"bask_light": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You bask in the light emanating from the caves...\n[wait=0.1]...[wait=0.1]",
+				"clear": true,
+				"no_continue": true
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 10
+				}
+			},
+			{
+				"type": "text",
+				"text": "Your mind clears.\nMP restored by [color=teal]10[/color].",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"cave_in": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The mountain shudders. A deep crack splits the ceiling above and a cascade of rock and dust comes down — you have about two seconds.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Run for it",
+						"key": "run"
+					},
+					{
+						"choice": "Brace and cover your head",
+						"key": "brace"
+					}
+				],
+				"branches": {
+					"run": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"agi": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You sprint and clear the worst of it. Dust and small debris rain down on your back, but nothing catastrophic. You keep moving."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You're almost clear when a chunk of basalt clips your shoulder. The impact is sharp and immediate."
+										},
+										{
+											"type": "sfx",
+											"sound": "hit"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 15
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"brace": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 70,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You press against the nearest wall, arms over your head. The debris rattles and bounces around you. When the dust settles, you're intact."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 30,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A section of ceiling comes down directly overhead. You take the worst of it on your raised arms, but it's still bad."
+										},
+										{
+											"type": "sfx",
+											"sound": "hit"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 20
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"cave_lost": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "The tunnels blur together. The same crystals. The same shadows. The same glow from every direction at once.\n\nYou've lost track of where you came from.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Follow the light",
+						"key": "light"
+					},
+					{
+						"choice": "Retrace your steps",
+						"key": "retrace"
+					},
+					{
+						"choice": "Keep moving",
+						"key": "move"
+					}
+				],
+				"branches": {
+					"light": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 5,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "The crystals pulse slightly brighter in one direction. Maybe you imagined it. Either way, you follow — and the passage opens ahead.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The crystals lead you in a wide circle. You emerge from the wrong direction, wasting precious time.",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "TUNNEL",
+												"travel_text": "You retrace your steps, unsure how much ground you've lost.",
+												"value": -2
+											}
+										}
+									]
+								}
+							]
+						}
+					],
+					"retrace": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 5,
+									"stat_weights": {
+										"dex": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You note the scuffs in the dust, the faint impressions in the grit. Slowly, the path resolves.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The stone floor gives nothing away. Every passage looks identical in both directions.",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "TUNNEL",
+												"travel_text": "You pick a direction and commit to it, hoping to find something familiar.",
+												"value": 0
+											}
+										}
+									]
+								}
+							]
+						}
+					],
+					"move": [
+						{
+							"type": "text",
+							"text": "You pick a direction and walk.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "After a long while, the passage opens somewhere new. Not ideal, but somewhere.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You walk for what feels like an hour and find nothing useful. You double back, worn out.",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "poison"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 3
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Lost [color=red]3[/color] HP from exhaustion.[/instant]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"bat_roost": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A cluster of Vampire Bats hangs from a low overhang just ahead, wings folded tight, eyes glinting in the crystal light.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Back away slowly",
+						"key": "back"
+					},
+					{
+						"choice": "Toss a stone past them",
+						"key": "distract"
+					},
+					{
+						"choice": "Charge through",
+						"key": "charge"
+					}
+				],
+				"branches": {
+					"back": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 5,
+									"stat_weights": {
+										"agi": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You ease backward, footstep by footstep. The bats shift and resettle. You find another way around.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A loose stone catches your heel. The sound is enough.",
+											"clear": false,
+											"no_wait": true
+										},
+										{
+											"type": "combat",
+											"enemy": "Vampire Bat",
+											"on_victory": [
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					],
+					"distract": [
+						{
+							"type": "text",
+							"text": "You palm a loose stone and pitch it far down the passage. It clatters — and the roost erupts. Shapes scatter into the dark. You duck and push through.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"charge": [
+						{
+							"type": "text",
+							"text": "You lower your head and run straight through. Wings beat around you from every direction —",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Vampire Bat",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	}
+}

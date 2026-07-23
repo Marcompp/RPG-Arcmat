@@ -53,7 +53,7 @@
 		},
 		"cooldown": 3,
 		"effect": "recharge",
-		"magnitude":2,
+		"magnitude": 2,
 		"inherit_stats": false,
 		"inherit_wpn": false,
 		"battle_only": true,

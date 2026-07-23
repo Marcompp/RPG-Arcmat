@@ -1,0 +1,1804 @@
+{
+	"legory_arch_inscription": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "The inner face of the arch is covered in carvings — small, deliberate marks left by climbers over years. Names, tallies, short phrases. Near the keystone, someone carved: [color=gray]\"The cold that thinks is worse than the cold that simply is.\"[/color]",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Study the markings",
+						"key": "study"
+					},
+					{
+						"choice": "Sketch a copy",
+						"key": "sketch"
+					},
+					{
+						"choice": "Press on",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"study": [
+						{
+							"type": "text",
+							"text": "You spend a few minutes reading — names of the dead, descriptions of the summit, a rough map of the ridge scratched in miniature. It adds up to a picture of what's ahead.",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "modify_stat",
+							"stats": {
+								"mp": 5
+							}
+						},
+						{
+							"type": "text",
+							"text": "Understanding the mountain steadies your mind.\n[color=teal]Max MP +5[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"sketch": [
+						{
+							"type": "text",
+							"text": "You copy what you can into the back of your pack. Later, by firelight, you'll be able to read it properly.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You pass beneath the arch and keep moving.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_eagle_nest": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Wedged into a crack in the cliff face — barely a meter from the path — is a nest. Enormous: sticks thick as your fingers, tightly packed, with something pale and smooth at the center.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "No eagle in sight. For now.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Leave the nest alone",
+						"key": "leave"
+					},
+					{
+						"choice": "Mess with it",
+						"key": "mess"
+					}
+				],
+				"branches": {
+					"leave": [
+						{
+							"type": "text",
+							"text": "You keep walking. Nothing good comes from antagonizing something with a six-foot wingspan.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"mess": [
+						{
+							"type": "text",
+							"text": "You reach in and grab a fistful of nest material. You've barely moved it when the shadow falls over you from above.",
+							"clear": true
+						},
+						{
+							"type": "text",
+							"text": "The eagle drops without a sound, talons first.",
+							"clear": false
+						},
+						{
+							"type": "combat",
+							"enemy": "Bald Eagle",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "You find a few things scattered in the nest: a coin, a button, something that might have been a clasp once. Modest.",
+									"clear": true
+								},
+								{
+									"type": "give_gold",
+									"amount": 20
+								},
+								{
+									"type": "text",
+									"text": "[instant]Found [color=yellow]20G[/color] worth of scraps.[/instant]",
+									"clear": false
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_frozen_cache": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A faint glint catches your eye — something is lodged in the ice face beside the path.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Chip it out",
+						"key": "chip"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"chip": [
+						{
+							"type": "text",
+							"text": "You work at the ice with your hands, breaking away chunks...[wait=0.2]",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "A small bundle wrapped in oilskin — some traveler's cache.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Potion"
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Nothing. Just rock. The effort leaves your hands raw.\n[color=red]-6 HP[/color]",
+											"clear": false
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 6
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"stat_weights": {
+										"dex": -1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "A pocket of trapped air bursts outward — a sharp spray of frost hits you square.\n[color=red]-14 HP[/color]",
+											"clear": false
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 14
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "Whatever it is, it can stay there.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_frozen_cave": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You walk up to the cave and go inside."
+			},
+			{
+				"type": "set_backdrop",
+				"backdrop": "legory_frozen3.png"
+			},
+			{
+				"type": "text",
+				"text": "You feel a deep chill as you step into the frozen cave, a layer of ice covering every surface. The back wall is a solid sheet of it — pressed flush against the stone, running floor to ceiling."
+			},
+			{
+				"type": "text",
+				"text": "There's something in it. You have to lean close to be sure, but it's there: a shape, dark against the pale blue. Arms at its sides. Nearly upright. Unmistakably shaped like a person.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Look closer",
+						"key": "look"
+					},
+					{
+						"choice": "Try to chip the ice",
+						"key": "chip"
+					},
+					{
+						"choice": "Step away",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"look": [
+						{
+							"type": "text",
+							"text": "You press close until your breath fogs the surface. The figure is dressed — or was dressed, once. You can make out the shape of a coat, stiff and dark. What might be hands, closed. What might be a face, tilted slightly downward.\n\nYou cannot make out any features. The ice is too thick, the light too dim. It could be anyone.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"chip": [
+						{
+							"type": "text",
+							"text": "You find a loose stone and try. The ice is harder than it looks — barely scuffs. You try again, harder, at the edge where it meets the wall.",
+							"clear": true
+						},
+						{
+							"type": "text",
+							"text": "A crack runs outward from where you struck, thin as a hair, then stops. The ice holds. Whatever is in there isn't coming out today.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You step back. The figure doesn't move. Of course it doesn't.\n\nYou stop looking at it.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_overlook": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You step to the very edge of the ridge.",
+				"clear": true
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"legory_int_seen": {
+						"add": 0
+					}
+				}
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Cold wind hits your face. You feel more alive than you have in days.\n[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down upon the way you came, west. The Sundown Plateau is clearly visible. It looks so small now.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down south from the cliff. Far down, you see the dark pine trees of the Vorwen Woods arrayed beneath you.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down east toward your goal. A patchwork palace stands at the foothills of Mount Legory, likely unreachable from here. Beyond it, the dull mists of the Lost Swamp. Somewhere in that shroud, your adventure's final destination awaits.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You peer down onto the valley north of Mount Legory. The verdant green of the Verdina Forest blankets the terrain, and beyond it, the snowcapped peaks of the Whitewing Mountains. Mt. Legory being one of them, yet the most apart.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You peer down the cliff, but the cloud layer prevents you from making out much beyond vague shapes on the ground.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The summit looms over your view. Nowhere near as far as it once seemed. You spot a massive winged shape, roosting at the very peak.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Your gaze sweeps west to the way you came. From here, you can see the entirety of the Sundown Plateau, and beyond it, Bertunia Castletown, surrounded by the Apple Woods. Seeing how far you've come, you regain your motivation.\n[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							},
+							"legory_int_seen": 0
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Your gaze sweeps over the distant landscape. Distances that seemed so treacherous up close are so small now. The thought gives you pause. Seeing the world from above really gives you perspective on just how small your problems are.\n[color=cyan]INT +1[/color]",
+								"clear": false
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"legory_int_seen": {
+										"set": 1
+									}
+								}
+							},
+							{
+								"type": "modify_stat",
+								"stats": {
+									"int": 1
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"legory_pegasus_herd": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "The ridge opens out ahead, and you stop.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "There are eight of them, maybe nine. White against white snow, almost invisible until one shifts. A herd of pegasi, roosting along the far edge of the ridge, wings folded tight against the gale. None of them have noticed you yet.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Run up to them",
+						"key": "run"
+					},
+					{
+						"choice": "Admire from afar",
+						"key": "admire"
+					},
+					{
+						"choice": "Approach carefully",
+						"key": "approach"
+					}
+				],
+				"branches": {
+					"run": [
+						{
+							"type": "text",
+							"text": "The nearest one sees you before you're halfway there. A second later the whole herd is in the air — the wingbeats hit you like a wall of wind, snow scattering everywhere. By the time it settles, the sky is clear.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"admire": [
+						{
+							"type": "text",
+							"text": "You watch from where you are. They shift and resettle against the wind, unbothered. One grooms another's wing. After a time, the herd takes off on their own terms, rising easily and disappearing into cloud.\n\nThey were beautiful.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"approach": [
+						{
+							"type": "text",
+							"text": "You move slowly, keeping low. The herd notices — several heads come up at once — but you stop at the edge of their comfort and wait.\n\nOne of them separates from the group. Younger than the rest, maybe. It approaches in a way that is trying very hard to seem non-threatening, which is a strange thing to notice in an animal. It stops a few feet away and watches you.",
+							"clear": true,
+							"no_wait": true
+						},
+						{
+							"type": "choice",
+							"header": "Now what?",
+							"choices": [
+								{
+									"choice": "Go back",
+									"key": "back"
+								},
+								{
+									"choice": "Attack",
+									"key": "attack"
+								},
+								{
+									"choice": "Try to tame it",
+									"key": "tame"
+								}
+							],
+							"branches": {
+								"back": [
+									{
+										"type": "text",
+										"text": "You back away slowly, keeping eye contact. The pegasus watches you go, then turns back to the herd.",
+										"clear": true
+									},
+									{
+										"type": "show_node"
+									}
+								],
+								"attack": [
+									{
+										"type": "text",
+										"text": "You reach for your weapon. The herd erupts — you have about a second before the nearest one is on you.",
+										"clear": true
+									},
+									{
+										"type": "combat",
+										"enemy": "Pegasus",
+										"on_victory": [
+											{
+												"type": "text",
+												"text": "The rest of the herd is long gone. The ridge is very quiet now.",
+												"clear": true
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									}
+								],
+								"tame": [
+									{
+										"type": "if",
+										"condition": {
+											"player_name": "Agnes"
+										},
+										"then": [
+											{
+												"type": "text",
+												"text": "You reach out slowly. The pegasus considers your hand for a long moment — then steps forward and lets you touch its nose. Warmer than you expected, and softer.\n\nYou ask it, with your best attempt at sincerity, if it would like to carry you. The pegasus snorts loudly enough to startle half the herd.\n\nThen it steps back, and a large primary feather comes loose and drifts down into your palm. Faintly iridescent. It regards you one last time, turns, and rejoins the others.",
+												"clear": true
+											},
+											{
+												"type": "give_item",
+												"item": "Pegasus Feather"
+											},
+											{
+												"type": "text",
+												"text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {
+													"player_name": "Chala"
+												},
+												"then": [
+													{
+														"type": "text",
+														"text": "You reach out slowly. The pegasus considers your hand for a long moment — then steps forward and lets you touch its nose. Warmer than you expected, and softer.\n\nYou ask it, with your best attempt at sincerity, if it would like to carry you. The pegasus snorts loudly enough to startle half the herd.\n\nThen it steps back, and a large primary feather comes loose and drifts down into your palm. Faintly iridescent. It regards you one last time, turns, and rejoins the others.",
+														"clear": true
+													},
+													{
+														"type": "give_item",
+														"item": "Pegasus Feather"
+													},
+													{
+														"type": "text",
+														"text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]",
+														"clear": false
+													},
+													{
+														"type": "show_node"
+													}
+												],
+												"else": [
+													{
+														"type": "text",
+														"text": "You'd heard pegasi only took women as riders, but that was surely just superstition. You reach out slowly.\n\nThe pegasus's eyes go wide the moment your hand gets close. It wheels backward into the herd — and then every single one of them is on you at once.",
+														"clear": true
+													},
+													{
+														"type": "combat",
+														"enemy": "Pegasus",
+														"on_victory": [
+															{
+																"type": "text",
+																"text": "The rest of the herd fled sometime during the fight. There is one large feather caught in a crack in the rock nearby. You take it.",
+																"clear": true
+															},
+															{
+																"type": "give_item",
+																"item": "Pegasus Feather"
+															},
+															{
+																"type": "text",
+																"text": "[instant]Received [color=teal]Pegasus Feather[/color].[/instant]",
+																"clear": false
+															},
+															{
+																"type": "show_node"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_pegasus_patrol": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A shadow sweeps across the snow. You look up — a Pegasus Knight in sky blue and white armor is circling overhead, watching you.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "She pulls her pegasus into a slow spiral descent, lance lowered but not leveled.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Stand your ground",
+						"key": "stand"
+					},
+					{
+						"choice": "Draw your weapon",
+						"key": "draw"
+					},
+					{
+						"choice": "Hail her",
+						"key": "talk"
+					}
+				],
+				"branches": {
+					"stand": [
+						{
+							"type": "text",
+							"text": "You hold still and meet her gaze. She pulls up a few paces away, studies you for a long moment, then pulls the reigns of her mount and climbs back into the sky without a word.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"draw": [
+						{
+							"type": "text",
+							"text": "She sees the movement and levels her lance in one fluid motion.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Pegasus Knight",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"talk": [
+						{
+							"type": "text",
+							"text": "You call out as she circles lower. She levels off, hovering at eye level a few paces out, her pegasus's wings beating slow and steady against the gale."
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Apparently, something about you just doesn't agree with her. She doesn't reply — just levels her lance.",
+											"clear": false
+										},
+										{
+											"type": "combat",
+											"enemy": "Pegasus Knight",
+											"on_victory": [
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"The mountain's been dangerous these days. I could escort you, for coin,\" she offers. \"500, no, 800G for my services, what do you say?\"\n\nShe watches you. When it becomes clear you're not reaching for your coin, she pulls back on the reins.\n\n\"Suit yourself.\" She banks and climbs back into the wind.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 4,
+									"steps": [
+										{
+											"type": "text",
+											"text": "\"Whatever you're after, be prepared. There's something in the mountain: a thing of frost, somewhere between a demon and an elemental, with the face of a woman,\" she warns. \"Don't be fooled by a pretty face. If you aren't careful, you'll end up an ice sculpture.\"\n\nShe doesn't wait for a response. Her pegasus rises and she's gone in a few wingbeats.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_ridge_edge": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The path narrows to almost nothing. You find yourself looking out — the drop on either side falls away into white cloud.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Look out over the edge",
+						"key": "look"
+					},
+					{
+						"choice": "Keep your eyes on the path",
+						"key": "focus"
+					}
+				],
+				"branches": {
+					"look": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 2,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "Far below, something glints against the rock. By the time you descend past that point, you've worked out how to reach it — a traveler's purse wedged into a ledge only visible from above.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_gold",
+											"amount": 25
+										},
+										{
+											"type": "text",
+											"text": "[color=yellow]+25G[/color]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Nothing but cloud and rock below. The scale of the drop makes your legs briefly unreliable.\n[color=red]-5 HP[/color]",
+											"clear": false
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 5
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"focus": [
+						{
+							"type": "text",
+							"text": "You keep your gaze on the next foothold. The ridge passes under you one careful step at a time.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_scree_search": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You crouch and work through the loose stones methodically, looking for anything out of place.",
+				"clear": true
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "A leather satchel, water-damaged, but the coin purse inside held.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 30
+							},
+							{
+								"type": "text",
+								"text": "[color=yellow]+30G[/color]",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Stones, more stones. ...You don't know what you expected.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A Frost Fairy sleeping under a flat stone. She's awake before you can apologize.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "combat",
+								"enemy": "Frost Fairy",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "She shatters into cold light. The stone sits empty.",
+										"clear": true
+									},
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A short-bladed knife wedged into a crack, blade intact. The grip is cracked from the cold, but it'll do.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_item",
+								"item": "Iron Dagger"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "A note folded inside a split stone, sealed with wax. A name, a date, a short prayer. Someone made it this far.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "text",
+								"text": "[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You accidentally disturb the cliff and trigger a small avalanche — snow falls on your head.\n[color=red]-5 HP[/color]",
+								"clear": false
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"legory_snowdrift": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A shape is half-buried in a fresh snowdrift beside the path — too regular to be rock.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Dig it out",
+						"key": "dig"
+					},
+					{
+						"choice": "Move on",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"dig": [
+						{
+							"type": "text",
+							"text": "You kneel and start pulling away the packed snow...[wait=0.2]",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "A traveler's coin purse — frozen solid but intact.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_gold",
+											"amount": 30
+										},
+										{
+											"type": "text",
+											"text": "[color=yellow]+30G[/color]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A mountain goat, frozen solid. Its expression suggests it died surprised.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A Frost Fairy explodes out of the snow, furious at being disturbed.",
+											"clear": false,
+											"no_wait": true
+										},
+										{
+											"type": "combat",
+											"enemy": "Frost Fairy",
+											"on_victory": [
+												{
+													"type": "text",
+													"text": "The fairy dissolves into sparks of cold light. The drift is empty beneath where she slept.",
+													"clear": true
+												},
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the drift alone and continue up the mountain.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_snowed_student": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something dark juts from the snow ahead — too regular to be rock.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "It's a boot. Attached to a leg. Half-buried under a drift that must have come down in the last storm. Young man in student's robes, pack still strapped to his back. He's been here a while.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Search his pack",
+						"key": "search"
+					},
+					{
+						"choice": "Leave him",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"search": [
+						{
+							"type": "text",
+							"text": "The pack is frozen shut. You work at the clasp until it gives.",
+							"clear": true
+						},
+						{
+							"type": "text",
+							"text": "Inside: coins frozen together, a battered journal, and a wrapped spellbook.",
+							"clear": false
+						},
+						{
+							"type": "text",
+							"text": "The journal handwriting is careful and small — a student's hand. The early pages detail the walk up from Arcward. The weather. The weight of his pack. Then, near the end:\n\n\"I'd heard the stories, of course, of the colossal beast that nests on Mt. Legory's summit. Wingbeats like gales. Feathers like stone blades. I thought I was a strong enough mage to protect myself. But nothing could have prepared me for how terrifying being in the sights of something so big was.\"\n\n\"I ran. I'm not ashamed. I ran, and I hid, and then a storm came. I should have turned back. I know that now.\"\n\n\"I never did learn Fire. Of all the things to regret.\"",
+							"clear": false
+						},
+						{
+							"type": "if",
+							"condition": {
+								"lacks_spell": "Water"
+							},
+							"then": [
+								{
+									"type": "give_gold",
+									"amount": 35
+								},
+								{
+									"type": "text",
+									"text": "[instant]Found [color=yellow]35G[/color] and a [color=teal]Book of Water[/color] in his effects.[/instant]",
+									"clear": false
+								},
+								{
+									"type": "give_item",
+									"item": "Book of Water"
+								}
+							],
+							"else": [
+								{
+									"type": "if",
+									"condition": {
+										"lacks_item": "Arc Staff"
+									},
+									"then": [
+										{
+											"type": "give_gold",
+											"amount": 35
+										},
+										{
+											"type": "text",
+											"text": "[instant]Found [color=yellow]35G[/color] and an [color=teal]Arc Staff[/color] in his effects.[/instant]",
+											"clear": false
+										},
+										{
+											"type": "give_item",
+											"item": "Arc Staff"
+										}
+									],
+									"else": [
+										{
+											"type": "give_gold",
+											"amount": 75
+										},
+										{
+											"type": "text",
+											"text": "[instant]Found [color=yellow]75G[/color] and an [color=teal]Ether[/color] in his effects.[/instant]",
+											"clear": false
+										},
+										{
+											"type": "give_item",
+											"item": "Ether"
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave him where he is. There's nothing else to do.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_summit": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "At the center of the summit, a nest the size of a cottage — branches thick as your arm, bones from things large enough to be unsettling — rises against the sky. Perched in it, still as carved stone, is the Great Roc.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "It turns one eye toward you. Then the other. It doesn't move.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Attack",
+						"key": "fight"
+					},
+					{
+						"choice": "Raid the nest while it watches",
+						"key": "raid"
+					},
+					{
+						"choice": "Back away slowly",
+						"key": "retreat"
+					},
+					{
+						"choice": "Look around the perimeter",
+						"key": "look"
+					}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "text",
+							"text": "You draw your weapon. The Roc unfolds.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Great Roc",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The Roc folds. The summit goes quiet — just wind and the sound of your own breathing.",
+									"clear": true
+								},
+								{
+									"type": "give_gold",
+									"amount": 250
+								},
+								{
+									"type": "give_item",
+									"item": "Medicine"
+								},
+								{
+									"type": "text",
+									"text": "[color=yellow]+250G[/color]",
+									"clear": false
+								},
+								{
+									"type": "event",
+									"event": "legory_summit_cairn"
+								}
+							]
+						}
+					],
+					"raid": [
+						{
+							"type": "text",
+							"text": "You edge toward the nest, eyes on the Roc. It watches you. You reach in...[wait=0.2]",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 2,
+									"stat_weights": {
+										"agi": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You snatch a Javelin from the nest and step back before the Roc reacts. It ruffles and settles. You don't push your luck.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Javelin"
+										},
+										{
+											"type": "give_gold",
+											"amount": 50
+										},
+										{
+											"type": "text",
+											"text": "[color=yellow]+50G[/color]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The Roc lunges the moment your hand enters the nest.",
+											"clear": false,
+											"no_wait": true
+										},
+										{
+											"type": "combat",
+											"enemy": "Great Roc",
+											"on_victory": [
+												{
+													"type": "text",
+													"text": "The Roc goes still. You take what you came for from the shattered nest.",
+													"clear": true
+												},
+												{
+													"type": "give_item",
+													"item": "Javelin"
+												},
+												{
+													"type": "give_gold",
+													"amount": 50
+												},
+												{
+													"type": "text",
+													"text": "[color=yellow]+50G[/color]",
+													"clear": false
+												},
+												{
+													"type": "event",
+													"event": "legory_summit_cairn"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					],
+					"retreat": [
+						{
+							"type": "text",
+							"text": "You back away one step at a time. The Roc watches until you're off the summit plateau, then looks away.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"look": [
+						{
+							"type": "text",
+							"text": "Keeping distance from the nest, you make a slow circuit of the summit's edge.",
+							"clear": false
+						},
+						{
+							"type": "event",
+							"event": "legory_summit_cairn"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_summit_cairn": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Near the edge, a cairn of stacked stones stands against the sky. Between the rocks, climbers have wedged small tokens — a button, a coin, a strip of cloth. A tradition. You're here now.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Add a stone",
+						"key": "add"
+					},
+					{
+						"choice": "Take a token",
+						"key": "take"
+					},
+					{
+						"choice": "Sit and rest",
+						"key": "rest"
+					}
+				],
+				"branches": {
+					"add": [
+						{
+							"type": "text",
+							"text": "You find a loose stone near your feet and set it on the top. It holds.",
+							"clear": false
+						},
+						{
+							"type": "modify_stat",
+							"stats": {
+								"lck": 1
+							}
+						},
+						{
+							"type": "text",
+							"text": "[color=yellow]Luck +1[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"take": [
+						{
+							"type": "text",
+							"text": "You pick through the tokens and take one that catches your eye.",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "give_item",
+											"item": "Ether"
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "give_item",
+											"item": "Medicine"
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"rest": [
+						{
+							"type": "text",
+							"text": "You sit with your back to the cairn and let yourself stop. Below, the whole world is clouds.",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "text",
+							"text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"legory_thin_air": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The air up here is thin. Each breath takes more effort than it should.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You push through it.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A wave of dizziness washes over you.\n[color=red]-8 HP[/color]",
+								"clear": false
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 8
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The thin air clears your head. Your thoughts feel sharp, almost bright.\n[color=teal]+10 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 10
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"legory_updraft": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A powerful updraft roars up from the cliff below, catching you full in the chest.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"stat_weights": {
+							"agi": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You lean into it and let it push you forward. The wind does half the work.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "It nearly takes you off your feet. You scramble to stay on the ridge, scraping your hands on the rock.\n[color=red]-6 HP[/color]",
+								"clear": false
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 6
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You dig in your heels and wait for it to pass. The wind screams, then fades.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

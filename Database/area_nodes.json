@@ -1,749 +1,1247 @@
 {
 	"Apple Woods": [
-	{
-	  "name": "Road",
-	  "categories": ["road"],
-	  "entrances": ["ROAD", "FOREST"],
-	  "arrival": {
-		"FOREST": [
-		  "Branches scrape lightly as you push out of the undergrowth, your footing suddenly steadier as a worn road emerges beneath you."
-		],
-		"ROAD": [
-		  "The familiar road stretches on, its surface worn smooth by countless footsteps."
-		],
-		"default": [
-		  "A worn dirt road cuts through the apple woods here, the trees pressing close on either side."
-		]
-	  },
-	  "description": [
-		{ "text": "A narrow dirt road cuts through the woods, its surface worn smooth by years of travel."},
-		{ "text": "Fallen apples lie crushed along the roadside, filling the air with a faintly sweet scent." },
-		{ "text": "Sunlight flickers through the branches overhead.", "chance": 0.5 }
-	  ],
-	  "exits": [
-		{ "choice": "Continue on the path", "leads_to": "ROAD", "value": 1.2,
-			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
-		{ "choice": "Leave the path", "leads_to": "FOREST", "travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in." },
-		{ "choice": "Debug", "leads_to": "DEBUG", "value": 1.2,
-			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
-		],
-	  "action": {
-		"name": "Pick an apple",
-		"tooltip": "Pick an apple off the side of the road to eat.",
-		"event": "pick_apple",
-		"disabled_tooltip": "You've already picked an apple here.",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Debug",
-	  "entrances": ["DEBUG"],
-	  "encounter_rate": 0,
-	  "events": [
-			{"chance": 1, "event": "travelling_wpn_merchant"},
-			{"chance": 1, "event": "travelling_gambler"},
-			{"chance": 1, "event": "debug_give_dice"}
-	  ],
-	  "enemies": ["Slime Duo"],
-	  "arrival": {
-		"ROAD": [
-		  "Debug."
-		],
-		"default": [
-		  "Debug."
-		]
-	  },
-	  "exits": [
-		{ "choice": "Debug", "leads_to": "DEBUG", "value": 0,
-			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  },
-		{ "choice": "Cabin", "leads_to": "CABIN", "value": 0,
-			"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."  }
-	  ],
-	  "action": {
-		"name": "Debug",
-		"tooltip": "Debug functionality",
-		"event": "debug_all",
-		"disabled_tooltip": "You already fought an enemy here",
-		"repeatable": true
-	  }
-	},
-	{
-	  "name": "Woods",
-	  "categories": ["woods"],
-	  "entrances": ["FOREST"],
-	  "backdrop": "apple_deep.png",
-	  "events": [
-		{"chance": 0.1, "event": "red_apple"},
-		{"chance": 0.1, "event": "apple_orchard"},
-		{"chance": 0.1, "event": "find_mushroom"},
-		{"chance": 0.1, "event": "golden_apple"},
-		{"chance": 0.05,"event": "region_treasure_chest"}
-		],
-	  "arrival": {
-		"FOREST": [
-		  "The trees close in around you, swallowing the last traces of any clear path."
-		],
-		"default": [
-		  "You are deep in the apple woods, surrounded by tall trees and thick undergrowth."
-		]
-	  },
-	  "description": [
-		{ "text": "Tall trees crowd together, their branches knitting a dim canopy overhead." },
-		{ "text": "The forest floor is thick with leaves, each step muffled." },
-		{ "text": "A distant rustling echoes through the trees.", "chance": 0.4 }
-	  ],
-	  "exits": [
-		{ "choice": "Continue deeper into the woods", "leads_to": "FOREST", "travel_text": "You push through the tangle of growth, the canopy thickening overhead as the forest deepens around you." },
-		{ "choice": "Try to find a trail", "leads_to": "FOREST", "travel_text": "You search for a break in the undergrowth, weaving between trunks and fallen branches in hopes of finding a path." }
-	  ],
-	  "action": {
-		"name": "Pick an apple",
-		"tooltip": "Pick an apple to eat.",
-		"event": "pick_apple",
-		"disabled_tooltip": "You've already picked an apple here.",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Fork in the Road",
-	  "categories": ["road"],
-	  "entrances": ["ROAD"],
-	  "backdrop": "apple_fork.png",
-	  "arrival": {
-		"ROAD": [
-		  "The path ahead splits cleanly in two, each direction equally worn."
-		],
-		"default": [
-		  "The road splits here, its two branches equally worn and equally uncertain."
-		]
-	  },
-	  "description": [
-		{ "text": "A weathered signpost stands here, its markings long faded." },
-		{ "text": "The air is still, as if waiting for your decision." }
-	  ],
-	  "exits": [
-		{ "choice": "Go left", "leads_to": "ROAD", "travel_text": "You take the left fork and follow the worn road, the other path disappearing behind you." },
-		{ "choice": "Go right", "leads_to": "ROAD", "travel_text": "You veer right and press on along the road, leaving the fork behind." }
-	  ],
-	  "action": {
-		"name": "Pick an apple",
-		"tooltip": "Pick an apple off the side of the road to eat.",
-		"event": "pick_apple",
-		"disabled_tooltip": "You've already picked an apple here.",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "River",
-	  "categories": ["water"],
-	  "entrances": ["FOREST", "RIVER"],
-	  "backdrop": "apple_river.png",
-	  "arrival": {
-		"FOREST": [
-		  "The sound of rushing water grows louder until the trees part, revealing a wide river."
-		],
-		"RIVER": [
-		  "You continue along the riverbank, the current rushing beside you."
-		],
-		"RAPIDS": [
-			"You somehow manage to grab on to one of the river banks and pull yourself out of the water."
-		],
-		"default": [
-		  "A wide river runs through the woods here, its current swift and cold."
-		]
-	  },
-	  "description": [
-		{ "text": "A wide river cuts through the woods, its current swift." },
-		{ "text": "Sunlight glints off the moving water." },
-		{ "text": "Leaves swirl along the surface.", "chance": 0.5 }
-	  ],
-	  "exits": [
-		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You walk along the riverbank, the water rushing steadily beside you as you follow its course." },
-		{ "choice": "Try to cross the river", "leads_to": "FOREST", "value": 0.8, "travel_text": "You wade into the current, the cold water rising to your waist. You fight across and emerge on the far bank, dripping and breathless." },
-		{ "choice": "Try to go around", "leads_to": "FOREST", "travel_text": "You backtrack along the edge of the river, searching for a narrower crossing before pressing back into the forest." }
-	  ],
-	  "action": {
-		"name": "Fish",
-		"tooltip": "Someone left a rod wedged between the rocks. Try your luck.",
-		"disabled_tooltip": "You already fished here.",
-		"event": "apple_woods_fishing",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Bridge",
-	  "categories": ["road","water"],
-	  "entrances": ["ROAD", "RIVER"],
-	  "backdrop": "apple_bridge.png",
-	  "enemies": ["Slime Duo","Bitefish","Bandit","Skeleton"],
-	  "events": [
-			{"chance": 0.2, "event": "travelling_wpn_merchant"},
-			{"chance": 0.2, "event": "travelling_item_merchant"},
-			{"chance": 0.2, "event": "travelling_healer"},
-			{"chance": 0.2, "event": "travelling_trainer"},
-			{"chance": 0.1, "event": "travelling_bo"},
-			{"chance": 0.2, "event": "bandit_ambush"}
-	  ],
-	  "condition": {
-			"no_repeat":true
-		  },
-	  "arrival": {
-		"ROAD": [
-		  "The road leads you to an old wooden bridge spanning the river."
-		],
-		"RIVER": [
-		  "Following the river, you come upon a creaking wooden bridge."
-		],
-		"default": [
-		  "An old wooden bridge spans the river here, its moss-covered planks worn smooth."
-		]
-	  },
-	  "description": [
-		{ "text": "An old wooden bridge creaks softly above the rushing water." },
-		{ "text": "Moss clings to the worn planks." }
-	  ],
-	  "exits": [
-		{ "choice": "Follow the riverbank", "leads_to": "RIVER", "travel_text": "You leave the bridge behind and walk along the riverbank, the current rushing beside you." },
-		{ "choice": "Cross the bridge", "leads_to": "ROAD", "value": 1.2, "travel_text": "You cross the creaking bridge with careful steps, the old planks flexing underfoot before you reach solid ground.",
-			"events": [{"event":"rickety_bridge", "chance":0.4}]
-		}
-	  ],
-	  "action": {
-		"name": "Check under the bridge",
-		"tooltip": "Look for loot under the bridge",
-		"event": "under_bridge",
-		"disabled_tooltip": "You've already checked under the bridge",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Clearing",
-	  "categories": ["woods"],
-	  "entrances": ["ROAD", "FOREST"],
-	  "backdrop": "apple_clearing.png",
-	  "condition": {
-			"no_repeat":true
-		  },
-	  "arrival": {
-		"FOREST": [
-		  "The dense trees suddenly part, revealing an open clearing."
-		],
-		"ROAD": [
-		  "The road widens into a quiet clearing."
-		],
-		"default": [
-		  "A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
-		]
-	  },
-	  "description": [
-		{ "text": "Grass sways gently in the open space." },
-		{ "text": "The air feels still here." }
-	  ],
-	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the open clearing behind and step back into the forest, the trees quickly closing around you." }
-	  ],
-	  "events": [
-		{"chance": 0.1, "event": "sword_in_stone"},
-		{"chance": 0.1, "event": "apple_orchard"},
-		{"chance": 0.2, "event": "find_mushroom"},
-		{"chance": 0.1, "event": "gold_chest"},
-		{"chance": 0.05,"event": "region_treasure_chest"}
-		],
-	  "action": {
-		"name": "Pick an apple",
-		"tooltip": "Pick an apple on the side of the clearing to eat.",
-		"event": "pick_apple",
-		"disabled_tooltip": "You've already picked an apple here.",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Spring",
-	  "categories": ["water"],
-	  "entrances": ["FOREST", "RIVER"],
-	  "enemies": ["Slime Duo","Bitefish","Slime"],
-	  "backdrop": "apple_spring.png",
-	  "condition": {
-			"no_repeat":true
-		  },
-	  "arrival": {
-		"FOREST": [
-		  "A soft trickling sound draws you toward a small spring."
-		],
-		"RIVER": [
-		  "Breaking from the riverbank, you find a quiet spring nearby."
-		],
-		"default": [
-		  "A small spring wells up from the earth here, its sound soft and constant."
-		]
-	  },
-	  "description": [
-		{ "text": "Clear water bubbles gently from the earth." },
-		{ "text": "The sound is calming." },
-		{ "text": "The water is crystal-clear."}
-	  ],
-	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You step away from the spring and press deeper into the forest, the sound of trickling water fading behind you." }
-	  ],
-	  "action": {
-		"name": "Drink from the spring",
-		"tooltip": "Drink from the spring to recover HP and MP",
-		"event": "spring_water",
-		"disabled_tooltip": "You already drank from the spring",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Lake",
-	  "categories": ["water"],
-	  "entrances": ["FOREST", "RIVER"],
-	  "backdrop": "apple_lake.png",
-	  "enemies": ["Slime Duo","Bitefish","Bear","Skeleton","Slime"],
-	  "condition": {
-			"no_repeat":true
-		  },
-	  "arrival": {
-		"FOREST": [
-		  "The trees begin to thin until the forest opens onto a crystal-clear lake."
-		],
-		"RIVER": [
-		  "The river widens and empties into a vast, still lake."
-		],
-		"RAPIDS": [
-			"The current carries you until you wash away at the margin of a vast lake."
-		],
-		"default": [
-		  "A lake of crystal-clear water stretches before you."
-		]
-	  },
-	  "description": [
-		{ "text": "The surface reflects the sky like glass." },
-		{ "text": "A faint ripple crosses the water.", "chance": 0.5 }
-	  ],
-	  "events": [
-		{"weight": 3, "event": "lady_of_the_lake"}
-	  ],
-	  "exits": [
-		{ "choice": "Find a way around the lake", "leads_to": "FOREST", "travel_text": "You skirt the edge of the lake, weaving through the trees until the water disappears behind you." }
-	  ],
-	  "action": {
-		"name": "Fish",
-		"tooltip": "A weathered rod leans against a driftwood log at the water's edge.",
-		"disabled_tooltip": "The rod is in two pieces now.",
-		"event": "apple_woods_fishing",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Cabin",
-	  "categories": [],
-	  "entrances": ["FOREST","CABIN"],
-	  "backdrop": "apple_cabin.png",
-	  "condition": {
-			"no_repeat":true
-		  },
-	  "arrival": {
-		"FOREST": [
-		  "Through the trees, a lone wooden cabin comes into view."
-		],
-		"default": [
-		  "A lone wooden cabin stands among the trees here, weathered but intact."
-		]
-	  },
-	  "description": [
-		{ "text": "The structure creaks softly, aged but standing." }
-	  ],
-	  "events": [
-		{"chance": 0, "event": "cabin_apple_woods"}
-	  ],
-	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You leave the cabin standing in silence and push back into the forest, the shadows swallowing you quickly." }
-	  ],
-	  "action": {
-		"name": "Enter the cabin",
-		"tooltip": "Go into the cabin.",
-		"event": "cabin_apple_woods",
-		"disabled_tooltip": "You've already gone into the cabin.",
-		"repeatable": false
-	  }
-	},
-	{
-	  "name": "Treasure Spot",
-	  "categories": ["woods"],
-	  "entrances": ["FOREST"],
-	  "backdrop": "apple_clearing.png",
-	  "condition": {
-			"visit_once":true
-		  },
-	  "encounter_rate": 0,
-	  "events": [
-			{"chance": 1, "event": "region_treasure_chest"}
-	  ],
-	  "arrival": {
-		"FOREST": [
-		  "Something about the ground here seems disturbed."
-		],
-		"default": [
-		  "A patch of recently disturbed earth marks this spot in the forest."
-		]
-	  },
-	  "description": [
-		{ "text": "The soil looks recently turned." },
-		{ "text": "A faint sense of possibility lingers.", "chance": 0.5 }
-	  ],
-	  "exits": [
-		{ "choice": "Go deeper into the woods", "leads_to": "FOREST", "travel_text": "You move on from the disturbed ground and press deeper into the trees." }
-	  ]
-	}, 
-	{
-	  "name": "Bear Den",
-	  "boss": "Bandit",
-	  "condition": {
-			"visit_once":true
-		  },
-	  "encounter_rate": 0,
-	  "entrances": ["FORREST"],
-	  "arrival": {
-		"FOREST": [
-		  "You come upon a dark hollow in an ancient tree — a crude camp littered with stolen goods."
-		],
-		"default": [
-		  "A crude camp sits within a hollow tree. Someone is here."
-		]
-	  },
-	  "description": [
-		{ "text": "The camp is occupied. There is no element of surprise." }
-	  ],
-	  "exits": [
-		{ "choice": "Flee into the woods", "leads_to": "FOREST", "travel_text": "You turn and run back into the undergrowth." }
-	  ]
-	},
-	{
-	  "name": "Forest Edge",
-	  "type": "EXIT",
-	  "backdrop": "apple_end2.png",
-	  "entrances": ["ROAD", "FOREST"],
-	  "boss": "Werewolf",
-	  "encounter_rate": 0,
-	  "arrival": {
-		"FOREST": [
-		  "As you traipse through the trees, the edge of the woods is starting to come into sight."
-		],
-		"ROAD": [
-		  "As you follow the well-trodden path, the edge of the woods is starting to come into sight."
-		],
-		"default": [
-		  "A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
-		]
-	  },
-	  "description": [
-		{ "text": "You feel as though you are being watched." }
-	  ],
-	  "exits": [
-		{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make for the edge of the Apple Woods." }
-	  ]
-	}
-	],
-	"Caves of Light": [
-	  {
-		"name": "Tunnel",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-	  	"backdrop": "light_tunnel.png",
-		"arrival": {
-		  "TUNNEL": [
-			"The narrow passage continues, its walls shimmering faintly with a silvery-yellow glow."
-		  ],
-		  "default": [
-			"A glowing tunnel stretches before you, its walls lined with faintly pulsing crystals."
-		  ]
-		},
-		"description": [
-		  { "text": "The tunnel stretches ahead, its walls radiating a soft, steady light." },
-		  { "text": "Blue crystals embedded in the rock pulse faintly, casting shifting shadows." },
-		  { "text": "The air is cool and dry, carrying a faint mineral scent.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step." }
-		]
-	  },
-	  {
-		"name": "Grotto",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-		"arrival": {
-		  "TUNNEL": [
-			"The passage opens into a grotto, its walls glittering with luminous blue crystals."
-		  ],
-		  "default": [
-			"You stand in a crystal grotto, its curved walls alive with shifting blue light."
-		  ]
-		},
-		"description": [
-		  { "text": "Clusters of blue crystals jut from the stone, glowing softly." },
-		  { "text": "Light refracts across the curved walls in shifting patterns." },
-		  { "text": "Drops of water echo faintly, though no source is visible.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave." },
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You push straight through the grotto and continue into the glowing tunnel beyond." },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You turn right and follow the passage as it curves deeper into the cave." }
-		]
-	  },
-	  {
-		"name": "Cavern",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-		"arrival": {
-		  "TUNNEL": [
-			"The tunnel widens into a vast cavern, its glowing walls stretching into the distance."
-		  ],
-		  "default": [
-			"A vast cavern surrounds you, its glowing walls rising into shadow far overhead."
-		  ]
-		},
-		"description": [
-		  { "text": "The ceiling rises high above, lost in a haze of reflected light." },
-		  { "text": "Crystal formations scatter light across the cavern like stars." },
-		  { "text": "The silence here feels immense and heavy.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You head left, the crystal light trailing along the passage walls as you move." },
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows." },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You veer right and follow the tunnel as it winds away from the cavern." }
-		]
-	  },
-	  {
-		"name": "Forked Path",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-	  	"backdrop": "light_fork.png",
-		"arrival": {
-		  "TUNNEL": [
-			"The glowing passage splits, each branch lit by the same eerie radiance."
-		  ],
-		  "default": [
-			"The passage forks here, both branches glowing with the same steady, eerie light."
-		  ]
-		},
-		"description": [
-		  { "text": "Both paths seem identical, their walls shimmering softly." },
-		  { "text": "The light here flickers subtly, as if reacting to your presence." }
-		],
-		"exits": [
-		  { "choice": "Go left", "leads_to": "TUNNEL", "value": 1, "travel_text": "You take the left branch, its walls glowing with the same steady luminescence." },
-		  { "choice": "Go right", "leads_to": "TUNNEL", "value": 1, "travel_text": "You choose the right path, stepping into the glowing passage as it curves ahead." }
-		]
-	  },
-	  {
-		"name": "Spring",
-	  	"categories": ["spring"],
-		"entrances": ["TUNNEL"],
-	  	"condition": {
-			"no_repeat":true
-		  },
-		"arrival": {
-		  "TUNNEL": [
-			"A faint glow intensifies ahead, revealing a luminous underground spring."
-		  ],
-		  "default": [
-			"A luminous underground spring rests here, its waters glowing faintly with crystal light."
-		  ]
-		},
-		"description": [
-		  { "text": "Clear water glows faintly, reflecting the crystal light." },
-		  { "text": "Ripples shimmer with shifting hues of blue and gold." },
-		  { "text": "The air feels strangely fresh here.", "chance": 0.5 }
-		],
-		"events": [
-		  {"chance": 0.5, "event": "wounded_spirit"},
-		  {"chance": 0.05,"event": "region_treasure_chest"}
-		],
-		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the glowing spring behind and continue along the passage, the hum of crystal light surrounding you." }
-		],
-		"action": {
-			"name": "Drink from the spring",
-			"tooltip": "Drink from the spring to recover HP and MP",
-			"event": "spring_water",
-			"disabled_tooltip": "You already drank from the spring",
-			"repeatable": false
-		}
-	  },
-	  {
-		"name": "Altar",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-	  	"backdrop": "light_altar.png",
-		"condition": {
-				"visit_once":true
-			},
-		"arrival": {
-		  "TUNNEL": [
-			"The passage leads to a raised stone altar, illuminated by concentrated crystal light."
-		  ],
-		  "default": [
-			"A stone altar stands at the center of this chamber, bathed in concentrated crystal light."
-		  ]
-		},
-		"description": [
-		  { "text": "The altar is carved from the same luminous stone as the cave." },
-		  { "text": "Faint markings shimmer across its surface." },
-		  { "text": "The air hums faintly with unseen energy.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You step away from the altar and continue deeper into the cave, the passage narrowing ahead." }
-		],
-		"events": [
-			{"chance": 0.05,"event": "region_treasure_chest"}
-		],
-		"action": {
-			"name": "Approach the altar",
-			"tooltip": "Interact with the stone altar.",
-			"event": "altar_offering",
-			"disabled_tooltip": "You've already interacted with the altar.",
-			"repeatable": false
-		}
-	  },
-	  {
-		"name": "Treasure Chamber",
-	  	"categories": ["cave"],
-		"entrances": ["TUNNEL"],
-	  	"backdrop": "light_dead_end.png",
-		"encounter_rate": 0,
-		"events": [
-			{"chance": 1, "event": "region_treasure_chest"}
-		],
-	  	"condition": {
-			"visit_once":true
-		  },
-		"arrival": {
-		  "TUNNEL": [
-			"Light intensifies as you enter a chamber where crystals cluster densely along the walls."
-		  ],
-		  "default": [
-			"A chamber dense with crystals surrounds you, small objects glinting among the stones."
-		  ]
-		},
-		"description": [
-		  { "text": "The chamber glitters with reflected light from countless crystal surfaces." },
-		  { "text": "Small objects lie scattered among the stones." },
-		  { "text": "Something valuable might be hidden here.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You move on from the glittering chamber, the tunnel closing in as you press forward." }
-		]
-	  },
-	  {
-		"name": "Cult Sanctum",
-	  	"categories": [],
-		"entrances": ["TUNNEL","FOLLOW"],
-	  	"backdrop": "light_altar.png",
-	  	"condition": {
-			"visit_once":true
-		  },
-		"encounter_rate":0,
-		"events": [
-		  {"chance": 1, "event": "cultist_sermon"}
-		],
-		"arrival": {
-		  "TUNNEL": [
-			"Strange symbols glow faintly as you step into a hidden sanctum filled with cloaked figures."
-		  ],
-		  "FOLLOW": [
-			"The passage opens into a wider chamber filled with cloaked figures gathered for some kind of ritual."
-		  ],
-		  "default": [
-			"The sanctum is filled with cloaked figures, all looking at Mother Orielli."
-		  ]
-		},
-		"description": [
-		  { "text": "The cultists kneel around the altar." },
-		  { "text": "The air feels charged, almost alive, as the speaker stands before the cult." },
-		  { "text": "A low hum resonates through the chamber, alongside the murmurs of the cultists.", "chance": 0.6 }
-		],
-		"exits": [
-		  { "choice": "Press forward", "leads_to": "TUNNEL", "value": 1, "travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view." }
-		],
-		"action": {
-					"name": "Interact with the cultists",
-					"tooltip": "Spend a moment with the cultists in the sanctum.",
-					"event": "cultist_talk",
-					"disabled_tooltip": "You've already talked to every cultist here.",
-					"repeatable": true
-				}
-	  },
-	  {
-		"name": "Dead End Tunnel",
-	  	"categories": ["cave"],
-	  	"backdrop": "light_dead_end.png",
-		"entrances": ["TUNNEL"],
-	  	"condition": {
-			"no_repeat":true
-		  },
-		"arrival": {
-		  "TUNNEL": [
-			"The glowing passage abruptly ends in a smooth wall of stone."
-		  ],
-		  "default": [
-			"The passage ends here in a solid wall of stone, the crystal light dimmer than before."
-		  ]
-		},
-		"description": [
-		  { "text": "The light here is dimmer, as if fading." },
-		  { "text": "The silence is absolute." }
-		],
-		"events": [
-		  {"chance": 0.7, "event": "renegade_pack"},
-		  {"chance": 0.05,"event": "region_treasure_chest"}
-		],
-		"exits": [
-		  { "choice": "Turn back", "leads_to": "TUNNEL", "value": 0, "travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind." }
-		]
-	  },
 		{
-		  "name": "Cave Exit",
-		  "backdrop": "light_sundown.png",
-		  "type": "EXIT",
-		  "entrances": ["TUNNEL"],
-		  "boss": "Chimera",
-		  "encounter_rate": 0,
-		  "arrival": {
-			"TUNNEL": [
-			  "As you follow the tunnel you spot an exit up ahead."
-			]
-		  },
-		  "description": [
-			{ "text": "You feel as though you are being watched." }
-		  ],
-		  "exits": [
-			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
-		  ]
-		}
-	],
-	"Sundown Plateau": [
-		  {
-			"name": "Plateau",
-	  		"categories": ["surface"],
-			"entrances": ["SURFACE"],
+			"name": "Road",
+			"categories": [
+				"road"
+			],
+			"entrances": [
+				"ROAD",
+				"FOREST"
+			],
 			"arrival": {
-			  "SURFACE": [
-				"A vast plateau stretches around you, where the light of the setting sun casts long shadows across uneven ground.",
-				"A vast plateau continues around you, where the sky glows dimly and the earth feels strangely hollow beneath your feet."
-			  ],
-			"default":[
-				"The land rises into a vast plateau, where the light of the setting sun casts long shadows across uneven ground."
+				"FOREST": [
+					"Branches scrape lightly as you push out of the undergrowth, your footing suddenly steadier as a worn road emerges beneath you."
+				],
+				"ROAD": [
+					"The familiar road stretches on, its surface worn smooth by countless footsteps."
+				],
+				"default": [
+					"A worn dirt road cuts through the apple woods here, the trees pressing close on either side."
 				]
 			},
 			"description": [
-			  { "text": "The ground is dry and cracked, dotted with weathered stones and shallow depressions." },
-			  { "text": "A faint wind carries dust across the plateau, whispering over the barren land." },
-			  { "text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.", "chance": 0.5 }
+				{
+					"text": "A narrow dirt road cuts through the woods, its surface worn smooth by years of travel."
+				},
+				{
+					"text": "Fallen apples lie crushed along the roadside, filling the air with a faintly sweet scent."
+				},
+				{
+					"text": "Sunlight flickers through the branches overhead.",
+					"chance": 0.5
+				}
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you." },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant." },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You veer right and continue across the barren expanse, dust rising faintly with each step." }
+				{
+					"choice": "Continue on the path",
+					"leads_to": "ROAD",
+					"value": 1.2,
+					"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."
+				},
+				{
+					"choice": "Leave the path",
+					"leads_to": "FOREST",
+					"travel_text": "You step off the road and into the undergrowth, branches brushing against you as the trees close in."
+				},
+				{
+					"choice": "Debug",
+					"leads_to": "DEBUG",
+					"value": 1.2,
+					"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."
+				}
+			],
+			"action": {
+				"name": "Pick an apple",
+				"tooltip": "Pick an apple off the side of the road to eat.",
+				"event": "pick_apple",
+				"disabled_tooltip": "You've already picked an apple here.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Debug",
+			"entrances": [
+				"DEBUG"
+			],
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1,
+					"event": "travelling_wpn_merchant"
+				},
+				{
+					"chance": 1,
+					"event": "travelling_gambler"
+				},
+				{
+					"chance": 1,
+					"event": "debug_give_dice"
+				}
+			],
+			"enemies": [
+				"Slime Duo"
+			],
+			"arrival": {
+				"ROAD": [
+					"Debug."
+				],
+				"default": [
+					"Debug."
+				]
+			},
+			"exits": [
+				{
+					"choice": "Debug",
+					"leads_to": "DEBUG",
+					"value": 0,
+					"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."
+				},
+				{
+					"choice": "Cabin",
+					"leads_to": "CABIN",
+					"value": 0,
+					"travel_text": "You press onward on the dirt road, following the well-trodden path through the woods for a while."
+				}
+			],
+			"action": {
+				"name": "Debug",
+				"tooltip": "Debug functionality",
+				"event": "debug_all",
+				"disabled_tooltip": "You already fought an enemy here",
+				"repeatable": true
+			}
+		},
+		{
+			"name": "Woods",
+			"categories": [
+				"woods"
+			],
+			"entrances": [
+				"FOREST"
+			],
+			"backdrop": "apple_deep.png",
+			"events": [
+				{
+					"chance": 0.1,
+					"event": "red_apple"
+				},
+				{
+					"chance": 0.1,
+					"event": "apple_orchard"
+				},
+				{
+					"chance": 0.1,
+					"event": "find_mushroom"
+				},
+				{
+					"chance": 0.1,
+					"event": "golden_apple"
+				},
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"arrival": {
+				"FOREST": [
+					"The trees close in around you, swallowing the last traces of any clear path."
+				],
+				"default": [
+					"You are deep in the apple woods, surrounded by tall trees and thick undergrowth."
+				]
+			},
+			"description": [
+				{
+					"text": "Tall trees crowd together, their branches knitting a dim canopy overhead."
+				},
+				{
+					"text": "The forest floor is thick with leaves, each step muffled."
+				},
+				{
+					"text": "A distant rustling echoes through the trees.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Continue deeper into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You push through the tangle of growth, the canopy thickening overhead as the forest deepens around you."
+				},
+				{
+					"choice": "Try to find a trail",
+					"leads_to": "FOREST",
+					"travel_text": "You search for a break in the undergrowth, weaving between trunks and fallen branches in hopes of finding a path."
+				}
+			],
+			"action": {
+				"name": "Pick an apple",
+				"tooltip": "Pick an apple to eat.",
+				"event": "pick_apple",
+				"disabled_tooltip": "You've already picked an apple here.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Fork in the Road",
+			"categories": [
+				"road"
+			],
+			"entrances": [
+				"ROAD"
+			],
+			"backdrop": "apple_fork.png",
+			"arrival": {
+				"ROAD": [
+					"The path ahead splits cleanly in two, each direction equally worn."
+				],
+				"default": [
+					"The road splits here, its two branches equally worn and equally uncertain."
+				]
+			},
+			"description": [
+				{
+					"text": "A weathered signpost stands here, its markings long faded."
+				},
+				{
+					"text": "The air is still, as if waiting for your decision."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go left",
+					"leads_to": "ROAD",
+					"travel_text": "You take the left fork and follow the worn road, the other path disappearing behind you."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "ROAD",
+					"travel_text": "You veer right and press on along the road, leaving the fork behind."
+				}
+			],
+			"action": {
+				"name": "Pick an apple",
+				"tooltip": "Pick an apple off the side of the road to eat.",
+				"event": "pick_apple",
+				"disabled_tooltip": "You've already picked an apple here.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "River",
+			"categories": [
+				"water"
+			],
+			"entrances": [
+				"FOREST",
+				"RIVER"
+			],
+			"backdrop": "apple_river.png",
+			"arrival": {
+				"FOREST": [
+					"The sound of rushing water grows louder until the trees part, revealing a wide river."
+				],
+				"RIVER": [
+					"You continue along the riverbank, the current rushing beside you."
+				],
+				"RAPIDS": [
+					"You somehow manage to grab on to one of the river banks and pull yourself out of the water."
+				],
+				"default": [
+					"A wide river runs through the woods here, its current swift and cold."
+				]
+			},
+			"description": [
+				{
+					"text": "A wide river cuts through the woods, its current swift."
+				},
+				{
+					"text": "Sunlight glints off the moving water."
+				},
+				{
+					"text": "Leaves swirl along the surface.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the riverbank",
+					"leads_to": "RIVER",
+					"travel_text": "You walk along the riverbank, the water rushing steadily beside you as you follow its course."
+				},
+				{
+					"choice": "Try to cross the river",
+					"leads_to": "FOREST",
+					"value": 0.8,
+					"travel_text": "You wade into the current, the cold water rising to your waist. You fight across and emerge on the far bank, dripping and breathless."
+				},
+				{
+					"choice": "Try to go around",
+					"leads_to": "FOREST",
+					"travel_text": "You backtrack along the edge of the river, searching for a narrower crossing before pressing back into the forest."
+				}
+			],
+			"action": {
+				"name": "Fish",
+				"tooltip": "Someone left a rod wedged between the rocks. Try your luck.",
+				"disabled_tooltip": "You already fished here.",
+				"event": "apple_woods_fishing",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Bridge",
+			"categories": [
+				"road",
+				"water"
+			],
+			"entrances": [
+				"ROAD",
+				"RIVER"
+			],
+			"backdrop": "apple_bridge.png",
+			"enemies": [
+				"Slime Duo",
+				"Bitefish",
+				"Bandit",
+				"Skeleton"
+			],
+			"events": [
+				{
+					"chance": 0.2,
+					"event": "travelling_wpn_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_item_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_healer"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_trainer"
+				},
+				{
+					"chance": 0.1,
+					"event": "travelling_bo"
+				},
+				{
+					"chance": 0.2,
+					"event": "bandit_ambush"
+				}
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"ROAD": [
+					"The road leads you to an old wooden bridge spanning the river."
+				],
+				"RIVER": [
+					"Following the river, you come upon a creaking wooden bridge."
+				],
+				"default": [
+					"An old wooden bridge spans the river here, its moss-covered planks worn smooth."
+				]
+			},
+			"description": [
+				{
+					"text": "An old wooden bridge creaks softly above the rushing water."
+				},
+				{
+					"text": "Moss clings to the worn planks."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the riverbank",
+					"leads_to": "RIVER",
+					"travel_text": "You leave the bridge behind and walk along the riverbank, the current rushing beside you."
+				},
+				{
+					"choice": "Cross the bridge",
+					"leads_to": "ROAD",
+					"value": 1.2,
+					"travel_text": "You cross the creaking bridge with careful steps, the old planks flexing underfoot before you reach solid ground.",
+					"events": [
+						{
+							"event": "rickety_bridge",
+							"chance": 0.4
+						}
+					]
+				}
+			],
+			"action": {
+				"name": "Check under the bridge",
+				"tooltip": "Look for loot under the bridge",
+				"event": "under_bridge",
+				"disabled_tooltip": "You've already checked under the bridge",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Clearing",
+			"categories": [
+				"woods"
+			],
+			"entrances": [
+				"ROAD",
+				"FOREST"
+			],
+			"backdrop": "apple_clearing.png",
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"FOREST": [
+					"The dense trees suddenly part, revealing an open clearing."
+				],
+				"ROAD": [
+					"The road widens into a quiet clearing."
+				],
+				"default": [
+					"A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
+				]
+			},
+			"description": [
+				{
+					"text": "Grass sways gently in the open space."
+				},
+				{
+					"text": "The air feels still here."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go deeper into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You leave the open clearing behind and step back into the forest, the trees quickly closing around you."
+				}
+			],
+			"events": [
+				{
+					"chance": 0.1,
+					"event": "sword_in_stone"
+				},
+				{
+					"chance": 0.1,
+					"event": "apple_orchard"
+				},
+				{
+					"chance": 0.2,
+					"event": "find_mushroom"
+				},
+				{
+					"chance": 0.1,
+					"event": "gold_chest"
+				},
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"action": {
+				"name": "Pick an apple",
+				"tooltip": "Pick an apple on the side of the clearing to eat.",
+				"event": "pick_apple",
+				"disabled_tooltip": "You've already picked an apple here.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Spring",
+			"categories": [
+				"water"
+			],
+			"entrances": [
+				"FOREST",
+				"RIVER"
+			],
+			"enemies": [
+				"Slime Duo",
+				"Bitefish",
+				"Slime"
+			],
+			"backdrop": "apple_spring.png",
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"FOREST": [
+					"A soft trickling sound draws you toward a small spring."
+				],
+				"RIVER": [
+					"Breaking from the riverbank, you find a quiet spring nearby."
+				],
+				"default": [
+					"A small spring wells up from the earth here, its sound soft and constant."
+				]
+			},
+			"description": [
+				{
+					"text": "Clear water bubbles gently from the earth."
+				},
+				{
+					"text": "The sound is calming."
+				},
+				{
+					"text": "The water is crystal-clear."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go deeper into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You step away from the spring and press deeper into the forest, the sound of trickling water fading behind you."
+				}
+			],
+			"action": {
+				"name": "Drink from the spring",
+				"tooltip": "Drink from the spring to recover HP and MP",
+				"event": "spring_water",
+				"disabled_tooltip": "You already drank from the spring",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Lake",
+			"categories": [
+				"water"
+			],
+			"entrances": [
+				"FOREST",
+				"RIVER"
+			],
+			"backdrop": "apple_lake.png",
+			"enemies": [
+				"Slime Duo",
+				"Bitefish",
+				"Bear",
+				"Skeleton",
+				"Slime"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"FOREST": [
+					"The trees begin to thin until the forest opens onto a crystal-clear lake."
+				],
+				"RIVER": [
+					"The river widens and empties into a vast, still lake."
+				],
+				"RAPIDS": [
+					"The current carries you until you wash away at the margin of a vast lake."
+				],
+				"default": [
+					"A lake of crystal-clear water stretches before you."
+				]
+			},
+			"description": [
+				{
+					"text": "The surface reflects the sky like glass."
+				},
+				{
+					"text": "A faint ripple crosses the water.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"weight": 3,
+					"event": "lady_of_the_lake"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Find a way around the lake",
+					"leads_to": "FOREST",
+					"travel_text": "You skirt the edge of the lake, weaving through the trees until the water disappears behind you."
+				}
+			],
+			"action": {
+				"name": "Fish",
+				"tooltip": "A weathered rod leans against a driftwood log at the water's edge.",
+				"disabled_tooltip": "The rod is in two pieces now.",
+				"event": "apple_woods_fishing",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Cabin",
+			"categories": [],
+			"entrances": [
+				"FOREST",
+				"CABIN"
+			],
+			"backdrop": "apple_cabin.png",
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"FOREST": [
+					"Through the trees, a lone wooden cabin comes into view."
+				],
+				"default": [
+					"A lone wooden cabin stands among the trees here, weathered but intact."
+				]
+			},
+			"description": [
+				{
+					"text": "The structure creaks softly, aged but standing."
+				}
+			],
+			"events": [
+				{
+					"chance": 0,
+					"event": "cabin_apple_woods"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go deeper into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You leave the cabin standing in silence and push back into the forest, the shadows swallowing you quickly."
+				}
+			],
+			"action": {
+				"name": "Enter the cabin",
+				"tooltip": "Go into the cabin.",
+				"event": "cabin_apple_woods",
+				"disabled_tooltip": "You've already gone into the cabin.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Treasure Spot",
+			"categories": [
+				"woods"
+			],
+			"entrances": [
+				"FOREST"
+			],
+			"backdrop": "apple_clearing.png",
+			"condition": {
+				"visit_once": true
+			},
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1,
+					"event": "region_treasure_chest"
+				}
+			],
+			"arrival": {
+				"FOREST": [
+					"Something about the ground here seems disturbed."
+				],
+				"default": [
+					"A patch of recently disturbed earth marks this spot in the forest."
+				]
+			},
+			"description": [
+				{
+					"text": "The soil looks recently turned."
+				},
+				{
+					"text": "A faint sense of possibility lingers.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go deeper into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You move on from the disturbed ground and press deeper into the trees."
+				}
+			]
+		},
+		{
+			"name": "Bear Den",
+			"boss": "Bandit",
+			"condition": {
+				"visit_once": true
+			},
+			"encounter_rate": 0,
+			"entrances": [
+				"FORREST"
+			],
+			"arrival": {
+				"FOREST": [
+					"You come upon a dark hollow in an ancient tree — a crude camp littered with stolen goods."
+				],
+				"default": [
+					"A crude camp sits within a hollow tree. Someone is here."
+				]
+			},
+			"description": [
+				{
+					"text": "The camp is occupied. There is no element of surprise."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Flee into the woods",
+					"leads_to": "FOREST",
+					"travel_text": "You turn and run back into the undergrowth."
+				}
+			]
+		},
+		{
+			"name": "Forest Edge",
+			"type": "EXIT",
+			"backdrop": "apple_end2.png",
+			"entrances": [
+				"ROAD",
+				"FOREST"
+			],
+			"boss": "Werewolf",
+			"encounter_rate": 0,
+			"arrival": {
+				"FOREST": [
+					"As you traipse through the trees, the edge of the woods is starting to come into sight."
+				],
+				"ROAD": [
+					"As you follow the well-trodden path, the edge of the woods is starting to come into sight."
+				],
+				"default": [
+					"A quiet clearing opens in the middle of the forest, the trees holding back at its edge."
+				]
+			},
+			"description": [
+				{
+					"text": "You feel as though you are being watched."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press On",
+					"leads_to": "TERMINAL",
+					"travel_text": "You make for the edge of the Apple Woods."
+				}
+			]
+		}
+	],
+	"Caves of Light": [
+		{
+			"name": "Tunnel",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"backdrop": "light_tunnel.png",
+			"arrival": {
+				"TUNNEL": [
+					"The narrow passage continues, its walls shimmering faintly with a silvery-yellow glow."
+				],
+				"default": [
+					"A glowing tunnel stretches before you, its walls lined with faintly pulsing crystals."
+				]
+			},
+			"description": [
+				{
+					"text": "The tunnel stretches ahead, its walls radiating a soft, steady light."
+				},
+				{
+					"text": "Blue crystals embedded in the rock pulse faintly, casting shifting shadows."
+				},
+				{
+					"text": "The air is cool and dry, carrying a faint mineral scent.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You move forward through the glowing passage, the crystal light shifting around you with each step."
+				}
+			]
+		},
+		{
+			"name": "Grotto",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"arrival": {
+				"TUNNEL": [
+					"The passage opens into a grotto, its walls glittering with luminous blue crystals."
+				],
+				"default": [
+					"You stand in a crystal grotto, its curved walls alive with shifting blue light."
+				]
+			},
+			"description": [
+				{
+					"text": "Clusters of blue crystals jut from the stone, glowing softly."
+				},
+				{
+					"text": "Light refracts across the curved walls in shifting patterns."
+				},
+				{
+					"text": "Drops of water echo faintly, though no source is visible.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go left",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You take the left passage, its shimmering walls guiding you deeper into the cave."
+				},
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You push straight through the grotto and continue into the glowing tunnel beyond."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You turn right and follow the passage as it curves deeper into the cave."
+				}
+			]
+		},
+		{
+			"name": "Cavern",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"arrival": {
+				"TUNNEL": [
+					"The tunnel widens into a vast cavern, its glowing walls stretching into the distance."
+				],
+				"default": [
+					"A vast cavern surrounds you, its glowing walls rising into shadow far overhead."
+				]
+			},
+			"description": [
+				{
+					"text": "The ceiling rises high above, lost in a haze of reflected light."
+				},
+				{
+					"text": "Crystal formations scatter light across the cavern like stars."
+				},
+				{
+					"text": "The silence here feels immense and heavy.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go left",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You head left, the crystal light trailing along the passage walls as you move."
+				},
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You press straight ahead, the vast cavern receding behind you as the tunnel narrows."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You veer right and follow the tunnel as it winds away from the cavern."
+				}
+			]
+		},
+		{
+			"name": "Forked Path",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"backdrop": "light_fork.png",
+			"arrival": {
+				"TUNNEL": [
+					"The glowing passage splits, each branch lit by the same eerie radiance."
+				],
+				"default": [
+					"The passage forks here, both branches glowing with the same steady, eerie light."
+				]
+			},
+			"description": [
+				{
+					"text": "Both paths seem identical, their walls shimmering softly."
+				},
+				{
+					"text": "The light here flickers subtly, as if reacting to your presence."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go left",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You take the left branch, its walls glowing with the same steady luminescence."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You choose the right path, stepping into the glowing passage as it curves ahead."
+				}
+			]
+		},
+		{
+			"name": "Spring",
+			"categories": [
+				"spring"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"TUNNEL": [
+					"A faint glow intensifies ahead, revealing a luminous underground spring."
+				],
+				"default": [
+					"A luminous underground spring rests here, its waters glowing faintly with crystal light."
+				]
+			},
+			"description": [
+				{
+					"text": "Clear water glows faintly, reflecting the crystal light."
+				},
+				{
+					"text": "Ripples shimmer with shifting hues of blue and gold."
+				},
+				{
+					"text": "The air feels strangely fresh here.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"chance": 0.5,
+					"event": "wounded_spirit"
+				},
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You leave the glowing spring behind and continue along the passage, the hum of crystal light surrounding you."
+				}
+			],
+			"action": {
+				"name": "Drink from the spring",
+				"tooltip": "Drink from the spring to recover HP and MP",
+				"event": "spring_water",
+				"disabled_tooltip": "You already drank from the spring",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Altar",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"backdrop": "light_altar.png",
+			"condition": {
+				"visit_once": true
+			},
+			"arrival": {
+				"TUNNEL": [
+					"The passage leads to a raised stone altar, illuminated by concentrated crystal light."
+				],
+				"default": [
+					"A stone altar stands at the center of this chamber, bathed in concentrated crystal light."
+				]
+			},
+			"description": [
+				{
+					"text": "The altar is carved from the same luminous stone as the cave."
+				},
+				{
+					"text": "Faint markings shimmer across its surface."
+				},
+				{
+					"text": "The air hums faintly with unseen energy.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You step away from the altar and continue deeper into the cave, the passage narrowing ahead."
+				}
+			],
+			"events": [
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"action": {
+				"name": "Approach the altar",
+				"tooltip": "Interact with the stone altar.",
+				"event": "altar_offering",
+				"disabled_tooltip": "You've already interacted with the altar.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Treasure Chamber",
+			"categories": [
+				"cave"
+			],
+			"entrances": [
+				"TUNNEL"
+			],
+			"backdrop": "light_dead_end.png",
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1,
+					"event": "region_treasure_chest"
+				}
+			],
+			"condition": {
+				"visit_once": true
+			},
+			"arrival": {
+				"TUNNEL": [
+					"Light intensifies as you enter a chamber where crystals cluster densely along the walls."
+				],
+				"default": [
+					"A chamber dense with crystals surrounds you, small objects glinting among the stones."
+				]
+			},
+			"description": [
+				{
+					"text": "The chamber glitters with reflected light from countless crystal surfaces."
+				},
+				{
+					"text": "Small objects lie scattered among the stones."
+				},
+				{
+					"text": "Something valuable might be hidden here.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You move on from the glittering chamber, the tunnel closing in as you press forward."
+				}
+			]
+		},
+		{
+			"name": "Cult Sanctum",
+			"categories": [],
+			"entrances": [
+				"TUNNEL",
+				"FOLLOW"
+			],
+			"backdrop": "light_altar.png",
+			"condition": {
+				"visit_once": true
+			},
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1,
+					"event": "cultist_sermon"
+				}
+			],
+			"arrival": {
+				"TUNNEL": [
+					"Strange symbols glow faintly as you step into a hidden sanctum filled with cloaked figures."
+				],
+				"FOLLOW": [
+					"The passage opens into a wider chamber filled with cloaked figures gathered for some kind of ritual."
+				],
+				"default": [
+					"The sanctum is filled with cloaked figures, all looking at Mother Orielli."
+				]
+			},
+			"description": [
+				{
+					"text": "The cultists kneel around the altar."
+				},
+				{
+					"text": "The air feels charged, almost alive, as the speaker stands before the cult."
+				},
+				{
+					"text": "A low hum resonates through the chamber, alongside the murmurs of the cultists.",
+					"chance": 0.6
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press forward",
+					"leads_to": "TUNNEL",
+					"value": 1,
+					"travel_text": "You leave the humming sanctum behind and continue along the passage, the symbols fading from view."
+				}
+			],
+			"action": {
+				"name": "Interact with the cultists",
+				"tooltip": "Spend a moment with the cultists in the sanctum.",
+				"event": "cultist_talk",
+				"disabled_tooltip": "You've already talked to every cultist here.",
+				"repeatable": true
+			}
+		},
+		{
+			"name": "Dead End Tunnel",
+			"categories": [
+				"cave"
+			],
+			"backdrop": "light_dead_end.png",
+			"entrances": [
+				"TUNNEL"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"TUNNEL": [
+					"The glowing passage abruptly ends in a smooth wall of stone."
+				],
+				"default": [
+					"The passage ends here in a solid wall of stone, the crystal light dimmer than before."
+				]
+			},
+			"description": [
+				{
+					"text": "The light here is dimmer, as if fading."
+				},
+				{
+					"text": "The silence is absolute."
+				}
+			],
+			"events": [
+				{
+					"chance": 0.7,
+					"event": "renegade_pack"
+				},
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Turn back",
+					"leads_to": "TUNNEL",
+					"value": 0,
+					"travel_text": "You turn and retrace your steps through the dimming passage, leaving the dead end behind."
+				}
+			]
+		},
+		{
+			"name": "Cave Exit",
+			"backdrop": "light_sundown.png",
+			"type": "EXIT",
+			"entrances": [
+				"TUNNEL"
+			],
+			"boss": "Chimera",
+			"encounter_rate": 0,
+			"arrival": {
+				"TUNNEL": [
+					"As you follow the tunnel you spot an exit up ahead."
+				]
+			},
+			"description": [
+				{
+					"text": "You feel as though you are being watched."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press On",
+					"leads_to": "TERMINAL",
+					"travel_text": "You make your way out of the Caves of Light."
+				}
+			]
+		}
+	],
+	"Sundown Plateau": [
+		{
+			"name": "Plateau",
+			"categories": [
+				"surface"
+			],
+			"entrances": [
+				"SURFACE"
+			],
+			"arrival": {
+				"SURFACE": [
+					"A vast plateau stretches around you, where the light of the setting sun casts long shadows across uneven ground.",
+					"A vast plateau continues around you, where the sky glows dimly and the earth feels strangely hollow beneath your feet."
+				],
+				"default": [
+					"The land rises into a vast plateau, where the light of the setting sun casts long shadows across uneven ground."
+				]
+			},
+			"description": [
+				{
+					"text": "The ground is dry and cracked, dotted with weathered stones and shallow depressions."
+				},
+				{
+					"text": "A faint wind carries dust across the plateau, whispering over the barren land."
+				},
+				{
+					"text": "The light here feels dimmer than it should, as if something beneath the ground is swallowing it.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Go left",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You shift direction and move left across the plateau, the cracked earth stretching out unchanged before you."
+				},
+				{
+					"choice": "Press forward",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You press on across the plateau, the dry ground crunching underfoot as the horizon remains flat and distant."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You veer right and continue across the barren expanse, dust rising faintly with each step."
+				}
 			],
 			"action": {
 				"name": "Dig for valuables",
@@ -752,1403 +1250,2613 @@
 				"event": "sundown_plateau_dig",
 				"repeatable": false
 			}
-		  },
-		  {
+		},
+		{
 			"name": "Catacomb",
-	  		"categories": ["surface"],
-			"entrances": ["SURFACE"],
+			"categories": [
+				"surface"
+			],
+			"entrances": [
+				"SURFACE"
+			],
 			"backdrop": "sundown_mausoleum.png",
-	  		"condition": {
-				"visit_once":true
+			"condition": {
+				"visit_once": true
 			},
 			"events": [],
 			"arrival": {
-			  "SURFACE": [
-				"You chance upon a small mausoleum demarcating the entrance to an underground catacomb."
-			  ],
-			  "default": [
-				"A small mausoleum rises from the plateau here, its stone entrance descending into darkness below."
-			  ]
+				"SURFACE": [
+					"You chance upon a small mausoleum demarcating the entrance to an underground catacomb."
+				],
+				"default": [
+					"A small mausoleum rises from the plateau here, its stone entrance descending into darkness below."
+				]
 			},
 			"description": [
-			  { "text": "Cold air rises from below, carrying a faint, stale scent." },
-			  { "text": "You hear something shifting beneath the earth.", "chance": 0.4 }
+				{
+					"text": "Cold air rises from below, carrying a faint, stale scent."
+				},
+				{
+					"text": "You hear something shifting beneath the earth.",
+					"chance": 0.4
+				}
 			],
 			"exits": [
-			  { "choice": "Enter the catacomb", "leads_to": "DESCENT", "value": 1,
-				"travel_text": "You descend into the catacombs, the light fading from your surroundings as you make your way down the stone steps. \n In the dark, narrow tunnels stretch beneath the plateau."
-			},
-			  { "choice": "Go around", "leads_to": "SURFACE", "value": 1, "travel_text": "You give the entrance a wide berth and continue across the plateau, leaving the mausoleum behind." }
+				{
+					"choice": "Enter the catacomb",
+					"leads_to": "DESCENT",
+					"value": 1,
+					"travel_text": "You descend into the catacombs, the light fading from your surroundings as you make your way down the stone steps. \n In the dark, narrow tunnels stretch beneath the plateau."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You give the entrance a wide berth and continue across the plateau, leaving the mausoleum behind."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Catacomb Tunnel",
-	  		"categories": ["catacomb"],
-			"entrances": ["CATACOMB","STEPS"],
+			"categories": [
+				"catacomb"
+			],
+			"entrances": [
+				"CATACOMB",
+				"STEPS"
+			],
 			"backdrop": "sundown_catacomb3.png",
 			"arrival": {
-			  "ENTRANCE": [
-				"You descend into the catacombs, where narrow tunnels stretch beneath the plateau."
-			  ],
-			  "STEPS": [
-				"Your steps echo as a dark tunnel stretches in front of you."
-			  ],
-			  "CATACOMB": [
-				"Your steps echo as the dark tunnel stretches in front of you."
-			  ],
-			  "default": [
-				"A narrow tunnel stretches around you, its old stone walls worn and crumbling in the dark."
-			  ]
+				"ENTRANCE": [
+					"You descend into the catacombs, where narrow tunnels stretch beneath the plateau."
+				],
+				"STEPS": [
+					"Your steps echo as a dark tunnel stretches in front of you."
+				],
+				"CATACOMB": [
+					"Your steps echo as the dark tunnel stretches in front of you."
+				],
+				"default": [
+					"A narrow tunnel stretches around you, its old stone walls worn and crumbling in the dark."
+				]
 			},
 			"description": [
-			  { "text": "The walls are lined with old stonework, worn and crumbling." },
-			  { "text": "Dust drifts through the air with every step." },
-			  { "text": "Faint echoes suggest you are not alone.", "chance": 0.5 }
+				{
+					"text": "The walls are lined with old stonework, worn and crumbling."
+				},
+				{
+					"text": "Dust drifts through the air with every step."
+				},
+				{
+					"text": "Faint echoes suggest you are not alone.",
+					"chance": 0.5
+				}
 			],
 			"exits": [
-			  { "choice": "Press forward", "leads_to": "CATACOMB", "value": 1, "travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step." }
+				{
+					"choice": "Press forward",
+					"leads_to": "CATACOMB",
+					"value": 1,
+					"travel_text": "You move deeper into the tunnel, the darkness pressing closer with every step."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Forked Tunnel",
-	  		"categories": ["catacomb"],
+			"categories": [
+				"catacomb"
+			],
 			"backdrop": "sundown_tunnel_split2.png",
-			"entrances": ["CATACOMB","STEPS"],
+			"entrances": [
+				"CATACOMB",
+				"STEPS"
+			],
 			"arrival": {
-			  "STEPS": [
-				"The underground passage splits, its branches vanishing into darkness."
-			  ],
-			  "CATACOMB": [
-				"The underground passage splits, its branches vanishing into darkness."
-			  ],
-			  "default": [
-				"The tunnel splits here, two passages disappearing separately into the dark."
-			  ]
+				"STEPS": [
+					"The underground passage splits, its branches vanishing into darkness."
+				],
+				"CATACOMB": [
+					"The underground passage splits, its branches vanishing into darkness."
+				],
+				"default": [
+					"The tunnel splits here, two passages disappearing separately into the dark."
+				]
 			},
 			"description": [
-			  { "text": "Both tunnels look equally worn, their stones marked by age." },
-			  { "text": "A faint draft moves through one of the passages." }
+				{
+					"text": "Both tunnels look equally worn, their stones marked by age."
+				},
+				{
+					"text": "A faint draft moves through one of the passages."
+				}
 			],
 			"exits": [
-			  { "choice": "Go left", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the left passage, your footsteps echoing into the dark ahead." },
-			  { "choice": "Go right", "leads_to": "CATACOMB", "value": 1, "travel_text": "You take the right passage, the draft guiding you as you press deeper underground." }
+				{
+					"choice": "Go left",
+					"leads_to": "CATACOMB",
+					"value": 1,
+					"travel_text": "You take the left passage, your footsteps echoing into the dark ahead."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "CATACOMB",
+					"value": 1,
+					"travel_text": "You take the right passage, the draft guiding you as you press deeper underground."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Sanctum",
-	  		"categories": ["catacomb"],
-			"entrances": ["CATACOMB"],
+			"categories": [
+				"catacomb"
+			],
+			"entrances": [
+				"CATACOMB"
+			],
 			"backdrop": "sundown_sanctum2.png",
 			"arrival": {
-			  "CATACOMB": [
-				"You step into a circular chamber where something long forgotten was once worshipped."
-			  ],
-			  "default": [
-				"A circular stone chamber opens around you, its pillars etched with old symbols and a faint glow seeping up from the floor."
-			  ]
+				"CATACOMB": [
+					"You step into a circular chamber where something long forgotten was once worshipped."
+				],
+				"default": [
+					"A circular stone chamber opens around you, its pillars etched with old symbols and a faint glow seeping up from the floor."
+				]
 			},
 			"description": [
-			  { "text": "Stone pillars ring the chamber, their surfaces etched with worn symbols." },
-			  { "text": "A faint glow seeps up from cracks in the floor." },
-			  { "text": "The air hums with lingering magic.", "chance": 0.6 }
+				{
+					"text": "Stone pillars ring the chamber, their surfaces etched with worn symbols."
+				},
+				{
+					"text": "A faint glow seeps up from cracks in the floor."
+				},
+				{
+					"text": "The air hums with lingering magic.",
+					"chance": 0.6
+				}
 			],
-			"encounter_rate":0,
+			"encounter_rate": 0,
 			"events": [
-			  {"chance": 1, "event": "sundown_sanctum_discovery"}
+				{
+					"chance": 1,
+					"event": "sundown_sanctum_discovery"
+				}
 			],
 			"exits": [
-			  { "choice": "Leave the catacomb", "leads_to": "SURFACE", "value": 1, "travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau." }
+				{
+					"choice": "Leave the catacomb",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You retrace your steps through the tunnels, climbing upward until dim light filters in from above. You emerge onto the plateau."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Altar",
-	  		"categories": ["surface"],
-			"entrances": ["SURFACE"],
+			"categories": [
+				"surface"
+			],
+			"entrances": [
+				"SURFACE"
+			],
 			"backdrop": "sundown_altar.png",
 			"condition": {
-					"no_repeat":true
+				"no_repeat": true
+			},
+			"arrival": {
+				"SURFACE": [
+					"A crumbling altar rises among the graves, its stone darkened by time."
+				],
+				"default": [
+					"A crumbling stone altar stands here on the plateau, its surface darkened by time and long abandoned."
+				]
+			},
+			"description": [
+				{
+					"text": "The altar is stained and cracked, its purpose long abandoned."
 				},
-			"arrival": {
-			  "SURFACE": [
-				"A crumbling altar rises among the graves, its stone darkened by time."
-			  ],
-			  "default": [
-				"A crumbling stone altar stands here on the plateau, its surface darkened by time and long abandoned."
-			  ]
-			},
-			"description": [
-			  { "text": "The altar is stained and cracked, its purpose long abandoned." },
-			  { "text": "Offerings—now little more than dust—rest at its base." },
-			  { "text": "You feel a faint unease standing here.", "chance": 0.5 }
+				{
+					"text": "Offerings—now little more than dust—rest at its base."
+				},
+				{
+					"text": "You feel a faint unease standing here.",
+					"chance": 0.5
+				}
 			],
 			"events": [
-			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
-			  {"chance": 0.2, "event": "travelling_item_merchant"},
-			  {"chance": 0.2, "event": "travelling_healer"},
-			  {"chance": 0.2, "event": "travelling_trainer"},
-			  {"chance": 0.1, "event": "travelling_bo"},
-			  {"chance": 0.05,"event": "region_treasure_chest"}
+				{
+					"chance": 0.2,
+					"event": "travelling_wpn_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_item_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_healer"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_trainer"
+				},
+				{
+					"chance": 0.1,
+					"event": "travelling_bo"
+				},
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
 			],
 			"action": {
-			  "name": "Examine the altar",
-			  "tooltip": "Take a closer look at the crumbling stone.",
-			  "event": "sundown_altar_event",
-			  "disabled_tooltip": "You've already examined the altar.",
-			  "repeatable": false
+				"name": "Examine the altar",
+				"tooltip": "Take a closer look at the crumbling stone.",
+				"event": "sundown_altar_event",
+				"disabled_tooltip": "You've already examined the altar.",
+				"repeatable": false
 			},
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You move left across the plateau, leaving the altar standing alone behind you." },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You press on past the altar, continuing across the barren expanse." },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You turn right and move on, the altar shrinking behind you in the flat landscape." }
+				{
+					"choice": "Go left",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You move left across the plateau, leaving the altar standing alone behind you."
+				},
+				{
+					"choice": "Press forward",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You press on past the altar, continuing across the barren expanse."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You turn right and move on, the altar shrinking behind you in the flat landscape."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Edge of the Plateau",
-	  		"categories": ["surface"],
+			"categories": [
+				"surface"
+			],
 			"backdrop": "sundown_edge.png",
-			"entrances": ["SURFACE", "EDGE"],
+			"entrances": [
+				"SURFACE",
+				"EDGE"
+			],
 			"arrival": {
-			  "SURFACE": [
-				"The land drops away sharply at the edge of the plateau."
-			  ],
-			  "EDGE": [
-				"You follow the edge, the drop always just within sight."
-			  ],
-			  "default": [
-				"The plateau ends abruptly here, the ground dropping away into darkness far below."
-			  ]
+				"SURFACE": [
+					"The land drops away sharply at the edge of the plateau."
+				],
+				"EDGE": [
+					"You follow the edge, the drop always just within sight."
+				],
+				"default": [
+					"The plateau ends abruptly here, the ground dropping away into darkness far below."
+				]
 			},
 			"description": [
-			  { "text": "Far below, darkness swallows the landscape." },
-			  { "text": "Loose stones tumble into the void when disturbed." },
-			  { "text": "A cold wind rises from below.", "chance": 0.5 }
+				{
+					"text": "Far below, darkness swallows the landscape."
+				},
+				{
+					"text": "Loose stones tumble into the void when disturbed."
+				},
+				{
+					"text": "A cold wind rises from below.",
+					"chance": 0.5
+				}
 			],
 			"events": [
-			  {"chance": 0.2, "event": "travelling_wpn_merchant"},
-			  {"chance": 0.2, "event": "travelling_item_merchant"},
-			  {"chance": 0.2, "event": "travelling_healer"},
-			  {"chance": 0.2, "event": "travelling_trainer"},
-			  {"chance": 0.1, "event": "travelling_bo"}
+				{
+					"chance": 0.2,
+					"event": "travelling_wpn_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_item_merchant"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_healer"
+				},
+				{
+					"chance": 0.2,
+					"event": "travelling_trainer"
+				},
+				{
+					"chance": 0.1,
+					"event": "travelling_bo"
+				}
 			],
 			"exits": [
-			  { "choice": "Follow the edge", "leads_to": "EDGE", "value": 1, "travel_text": "You move along the rim, the sheer drop always close at your side." },
-			  { "choice": "Move away from the edge", "leads_to": "SURFACE", "value": 1, "travel_text": "You step back from the drop and move inward across the plateau, the edge receding behind you." }
+				{
+					"choice": "Follow the edge",
+					"leads_to": "EDGE",
+					"value": 1,
+					"travel_text": "You move along the rim, the sheer drop always close at your side."
+				},
+				{
+					"choice": "Move away from the edge",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You step back from the drop and move inward across the plateau, the edge receding behind you."
+				}
 			],
 			"action": {
-			  "name": "Peer over the edge",
-			  "tooltip": "Look over the edge.",
-			  "event": "sundown_edge_look",
-			  "disabled_tooltip": "You've already searched here.",
-			  "repeatable": false
+				"name": "Peer over the edge",
+				"tooltip": "Look over the edge.",
+				"event": "sundown_edge_look",
+				"disabled_tooltip": "You've already searched here.",
+				"repeatable": false
 			}
-		  },
-		  {
+		},
+		{
 			"name": "Graveyard",
-	  		"categories": ["surface"],
-			"entrances": ["SURFACE"],
+			"categories": [
+				"surface"
+			],
+			"entrances": [
+				"SURFACE"
+			],
 			"backdrop": "sundown_grave2.png",
 			"arrival": {
-			  "SURFACE": [
-				"Rows of gravestones stretch across the plateau, their shadows long and uneven."
-			  ],
-			  "default": [
-				"Rows of old gravestones stretch across the plateau around you, many broken or sunken into the cracked earth."
-			  ]
+				"SURFACE": [
+					"Rows of gravestones stretch across the plateau, their shadows long and uneven."
+				],
+				"default": [
+					"Rows of old gravestones stretch across the plateau around you, many broken or sunken into the cracked earth."
+				]
 			},
 			"events": [
-			  {"chance": 0.75, "event": "skeleton_gambler"}
+				{
+					"chance": 0.75,
+					"event": "skeleton_gambler"
+				}
 			],
 			"description": [
-			  { "text": "The graves are old, many broken or sunken into the earth." },
-			  { "text": "The ground feels disturbed in places." },
-			  { "text": "For a moment, you think something moved beneath the soil.", "chance": 0.5 }
+				{
+					"text": "The graves are old, many broken or sunken into the earth."
+				},
+				{
+					"text": "The ground feels disturbed in places."
+				},
+				{
+					"text": "For a moment, you think something moved beneath the soil.",
+					"chance": 0.5
+				}
 			],
 			"action": {
-			  "name": "Enter the graveyard",
-			  "tooltip": "Move among the graves and see what stirs.",
-			  "event": "sundown_graveyard_enter",
-			  "disabled_tooltip": "You've already searched here.",
-			  "repeatable": false
+				"name": "Enter the graveyard",
+				"tooltip": "Move among the graves and see what stirs.",
+				"event": "sundown_graveyard_enter",
+				"disabled_tooltip": "You've already searched here.",
+				"repeatable": false
 			},
 			"exits": [
-			  { "choice": "Go left", "leads_to": "SURFACE", "value": 1, "travel_text": "You weave between the headstones and move left, leaving the graveyard behind." },
-			  { "choice": "Press forward", "leads_to": "SURFACE", "value": 1, "travel_text": "You pass through the rows of graves and continue across the plateau." },
-			  { "choice": "Go right", "leads_to": "SURFACE", "value": 1, "travel_text": "You move right through the graveyard and continue on across the open ground." }
+				{
+					"choice": "Go left",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You weave between the headstones and move left, leaving the graveyard behind."
+				},
+				{
+					"choice": "Press forward",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You pass through the rows of graves and continue across the plateau."
+				},
+				{
+					"choice": "Go right",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You move right through the graveyard and continue on across the open ground."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Dead End",
-	  		"categories": ["catacomb"],
-			"entrances": ["CATACOMB"],
+			"categories": [
+				"catacomb"
+			],
+			"entrances": [
+				"CATACOMB"
+			],
 			"backdrop": "sundown_cavein2.png",
 			"condition": {
-					"no_repeat":true
-				},
+				"no_repeat": true
+			},
 			"arrival": {
-			  "CATACOMB": [
-				"The tunnel narrows until it ends in a collapsed wall of stone."
-			  ],
-			  "default": [
-				"The tunnel ends here in a collapsed wall of loose rubble, the silence total."
-			  ]
+				"CATACOMB": [
+					"The tunnel narrows until it ends in a collapsed wall of stone."
+				],
+				"default": [
+					"The tunnel ends here in a collapsed wall of loose rubble, the silence total."
+				]
 			},
 			"description": [
-			  { "text": "Loose rubble blocks the way forward." },
-			  { "text": "The silence here feels suffocating." }
+				{
+					"text": "Loose rubble blocks the way forward."
+				},
+				{
+					"text": "The silence here feels suffocating."
+				}
 			],
-			"encounter_rate":0,
+			"encounter_rate": 0,
 			"events": [
-			  {"chance": 1, "event": "sundown_rubble_dig"}
+				{
+					"chance": 1,
+					"event": "sundown_rubble_dig"
+				}
 			],
 			"exits": [
-			  { "choice": "Turn back", "leads_to": "CATACOMB", "value": 0, "travel_text": "You turn back into the tunnel, your footsteps retreating the way you came." }
+				{
+					"choice": "Turn back",
+					"leads_to": "CATACOMB",
+					"value": 0,
+					"travel_text": "You turn back into the tunnel, your footsteps retreating the way you came."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Foothills",
 			"type": "EXIT",
 			"boss": "Necromancer",
-			"entrances": ["SURFACE","EDGE"],
+			"entrances": [
+				"SURFACE",
+				"EDGE"
+			],
 			"arrival": {
-			  "SURFACE": [
-				"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
-			  ],
-			  "EDGE": [
-				"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
-			  ],
-			  "default": [
-				"You are at the foothills of Mt. Legory."
-			  ]
+				"SURFACE": [
+					"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
+				],
+				"EDGE": [
+					"The terrain starts to get steeper as you approach the foothills of Mt. Legory."
+				],
+				"default": [
+					"You are at the foothills of Mt. Legory."
+				]
 			},
 			"description": [
-			  { "text": "Mt. Legory looms ahead." }
+				{
+					"text": "Mt. Legory looms ahead."
+				}
 			],
 			"exits": [
-				{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
+				{
+					"choice": "Press On",
+					"leads_to": "TERMINAL",
+					"travel_text": "You make your way out of the Caves of Light."
+				}
 			]
-		  },
-		  {
+		},
+		{
 			"name": "Circus Grounds",
-	  		"categories": ["surface"],
-			"entrances": ["SURFACE"],
+			"categories": [
+				"surface"
+			],
+			"entrances": [
+				"SURFACE"
+			],
 			"backdrop": "sundown_circus.png",
-		  	"encounter_rate": 0,
-			"condition": { "visit_once":true },
-			"events":[],
+			"encounter_rate": 0,
+			"condition": {
+				"visit_once": true
+			},
+			"events": [],
 			"arrival": {
-			  "SURFACE": [
-				"The distant sound of music reaches you before anything else — a calliope tune, tinny and slightly off-key, drifting across the plateau. Then you see it: a cluster of striped tents rising improbably from the cracked earth.",
-				"You crest a low rise and stop short. A travelling circus has made camp on the plateau, its coloured pennants snapping in the wind, firelight glowing through canvas."
-			  ],
-			  "default": [
-				"The striped tents of a travelling circus stand against the dimming sky."
-			  ]
+				"SURFACE": [
+					"The distant sound of music reaches you before anything else — a calliope tune, tinny and slightly off-key, drifting across the plateau. Then you see it: a cluster of striped tents rising improbably from the cracked earth.",
+					"You crest a low rise and stop short. A travelling circus has made camp on the plateau, its coloured pennants snapping in the wind, firelight glowing through canvas."
+				],
+				"default": [
+					"The striped tents of a travelling circus stand against the dimming sky."
+				]
 			},
 			"description": [
-			  { "text": "The smell of sawdust and something animal drifts from the tents." },
-			  { "text": "A painted sign reads: GILDED HOLLOW CIRCUS — ALL WELCOME.", "chance": 0.6 },
-			  { "text": "You can hear laughter and the shuffle of an unseen crowd from within.", "chance": 0.5 }
+				{
+					"text": "The smell of sawdust and something animal drifts from the tents."
+				},
+				{
+					"text": "A painted sign reads: GILDED HOLLOW CIRCUS — ALL WELCOME.",
+					"chance": 0.6
+				},
+				{
+					"text": "You can hear laughter and the shuffle of an unseen crowd from within.",
+					"chance": 0.5
+				}
 			],
 			"exits": [
-			  { "choice": "Move on", "leads_to": "SURFACE", "value": 1, "travel_text": "You leave the circus behind and continue across the plateau, the music fading with distance." }
+				{
+					"choice": "Move on",
+					"leads_to": "SURFACE",
+					"value": 1,
+					"travel_text": "You leave the circus behind and continue across the plateau, the music fading with distance."
+				}
 			],
 			"action": {
-			  "name": "Enter the Circus",
-			  "tooltip": "Step inside the Gilded Hollow Circus.",
-			  "event": "circus_enter",
-			  "repeatable": true
+				"name": "Enter the Circus",
+				"tooltip": "Step inside the Gilded Hollow Circus.",
+				"event": "circus_enter",
+				"repeatable": true
 			}
-		  }
+		}
 	],
 	"Mount Legory": [
 		{
-		"name": "Ascent Path",
-	  	"categories": ["cliff"],
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"arrival": {
-		  "SKIRT": [
-			"The land begins to rise sharply as you step onto a winding mountain path, the air growing colder with each step."
-		  ],
-		  "UP": [
-			"You continue your climb, the path narrowing as the slope steepens."
-		  ],
-		  "DOWN": [
-			"You descend onto a more stable stretch of path, though the cold still bites at your skin."
-		  ],
-		  "default": [
-			"A narrow path cuts across the mountainside here, edged by loose stones and swept by cold wind."
-		  ]
-		},
-		"description": [
-		  { "text": "A narrow path cuts across the mountainside, edged by loose stones." },
-		  { "text": "Cold wind sweeps down from above, carrying fine snow." },
-		  { "text": "The air is thin, each breath slightly harder than the last.", "chance": 0.5 }
-		],
-		"events": [
-		  {"chance": 0.35, "event": "legory_frozen_cache"},
-		  {"chance": 0.3, "event": "legory_thin_air"},
-		  {"chance": 0.2, "event": "legory_eagle_nest"}
-		],
-		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper." },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the direct path and work your way around the mountainside, moving across the exposed terrain." }
-		]
-	  },
-	  {
-		"name": "Mountain Cave",
-	  	"categories": ["cliff"],
-	  	"backdrop": "legory_cave.png",
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"condition": {
-				"no_repeat":true
+			"name": "Ascent Path",
+			"categories": [
+				"cliff"
+			],
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"arrival": {
+				"SKIRT": [
+					"The land begins to rise sharply as you step onto a winding mountain path, the air growing colder with each step."
+				],
+				"UP": [
+					"You continue your climb, the path narrowing as the slope steepens."
+				],
+				"DOWN": [
+					"You descend onto a more stable stretch of path, though the cold still bites at your skin."
+				],
+				"default": [
+					"A narrow path cuts across the mountainside here, edged by loose stones and swept by cold wind."
+				]
 			},
-		"arrival": {
-		  "SKIRT": [
-			"A dark opening in the rock offers shelter from the wind."
-		  ],
-		  "UP": [
-			"You duck into a cave carved into the mountainside, escaping the harsh wind."
-		  ],
-		  "DOWN": [
-			"The cave mouth appears below, a brief refuge from the cold."
-		  ],
-		  "default": [
-			"A rough cave carved into the rock offers a break from the wind and the cold of the mountainside."
-		  ]
+			"description": [
+				{
+					"text": "A narrow path cuts across the mountainside, edged by loose stones."
+				},
+				{
+					"text": "Cold wind sweeps down from above, carrying fine snow."
+				},
+				{
+					"text": "The air is thin, each breath slightly harder than the last.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"chance": 0.35,
+					"event": "legory_frozen_cache"
+				},
+				{
+					"chance": 0.3,
+					"event": "legory_thin_air"
+				},
+				{
+					"chance": 0.2,
+					"event": "legory_eagle_nest"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb higher",
+					"leads_to": "UP",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": 1
+						}
+					},
+					"travel_text": "You push upward along the narrow path, the air thinning as the slope grows steeper."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SKIRT",
+					"value": 1,
+					"travel_text": "You leave the direct path and work your way around the mountainside, moving across the exposed terrain."
+				}
+			]
 		},
-		"description": [
-		  { "text": "The cave walls are rough, offering some protection from the wind." },
-		  { "text": "Faint echoes bounce within the hollow space." },
-		  { "text": "The air is still, but bitterly cold.", "chance": 0.4 }
-		],
-		"encounter_rate":0,
-		"events": [
-		  {"chance": 1.0, "event": "legory_abandoned_camp"}
-		],
-		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You leave the cave and continue up the mountainside, the cold wind hitting you immediately." },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You step out of the cave and move along the mountainside, skirting the slope." },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You leave the cave and descend carefully along the path, the ground unsteady beneath you." }
-		],
-		"action": {
-		  "name": "Look into the back of the cave",
-		  "tooltip": "There's something in the ice at the back of the cave.",
-		  "event": "legory_frozen_cave",
-		  "disabled_tooltip": "You've already looked.",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Mountainside",
-	  	"categories": ["cliff"],
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"arrival": {
-		  "SKIRT": [
-			"You move along the exposed mountainside, with little between you and the drop below."
-		  ],
-		  "UP": [
-			"The slope steepens as you press upward along the mountainside."
-		  ],
-		  "DOWN": [
-			"You descend carefully along the slope, each step uncertain."
-		  ],
-		  "default": [
-			"The open mountainside stretches around you, the slope steep and the footing uncertain beneath the snow."
-		  ]
-		},
-		"description": [
-		  { "text": "Snow gathers in patches along the uneven ground." },
-		  { "text": "Loose stones shift underfoot." },
-		  { "text": "The wind howls across the rock face.", "chance": 0.5 }
-		],
-		"events": [
-		  {"chance": 0.35, "event": "legory_snowdrift"},
-		  {"chance": 0.3, "event": "legory_pegasus_patrol"},
-		  {"chance": 0.2, "event": "legory_snowed_student"}
-		],
-		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You push on upward, each step uncertain against the loose rock and snow." },
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You traverse the slope sideways, picking your way carefully across the uneven terrain." },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You turn and descend carefully, loose stones skittering away beneath your feet." }
-		]
-	  },
-	  {
-		"name": "Summit",
-	  	"categories": ["open"],
-	  	"backdrop": "legory_summit.png",
-		"entrances": ["UP"],
-		"condition": {
-			"visit_once":true,
-			"var": {
-				"height": { "min": 7 }
+		{
+			"name": "Mountain Cave",
+			"categories": [
+				"cliff"
+			],
+			"backdrop": "legory_cave.png",
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"SKIRT": [
+					"A dark opening in the rock offers shelter from the wind."
+				],
+				"UP": [
+					"You duck into a cave carved into the mountainside, escaping the harsh wind."
+				],
+				"DOWN": [
+					"The cave mouth appears below, a brief refuge from the cold."
+				],
+				"default": [
+					"A rough cave carved into the rock offers a break from the wind and the cold of the mountainside."
+				]
+			},
+			"description": [
+				{
+					"text": "The cave walls are rough, offering some protection from the wind."
+				},
+				{
+					"text": "Faint echoes bounce within the hollow space."
+				},
+				{
+					"text": "The air is still, but bitterly cold.",
+					"chance": 0.4
+				}
+			],
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1.0,
+					"event": "legory_abandoned_camp"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb higher",
+					"leads_to": "UP",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": 1
+						}
+					},
+					"travel_text": "You leave the cave and continue up the mountainside, the cold wind hitting you immediately."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SKIRT",
+					"value": 1,
+					"travel_text": "You step out of the cave and move along the mountainside, skirting the slope."
+				},
+				{
+					"choice": "Climb down",
+					"leads_to": "DOWN",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": -1
+						}
+					},
+					"travel_text": "You leave the cave and descend carefully along the path, the ground unsteady beneath you."
+				}
+			],
+			"action": {
+				"name": "Look into the back of the cave",
+				"tooltip": "There's something in the ice at the back of the cave.",
+				"event": "legory_frozen_cave",
+				"disabled_tooltip": "You've already looked.",
+				"repeatable": false
 			}
-		  },
-		"arrival": {
-		  "UP": [
-			"At last, you reach the summit. The world stretches endlessly below, half-hidden beneath drifting clouds."
-		  ],
-		  "default": [
-			"You stand at the summit of Mount Legory, the world spread far below beneath drifting clouds and relentless wind."
-		  ]
 		},
-		"description": [
-		  { "text": "The peak is barren, covered in wind-scoured snow." },
-		  { "text": "The sky feels vast and close at the same time." },
-		  { "text": "The wind here is relentless.", "chance": 0.6 }
-		],
-		"encounter_rate":0,
-		"events": [
-		  {"chance": 1.0, "event": "legory_summit"}
-		],
-		"exits": [
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -2 }}, "travel_text": "You begin the descent, the wind still howling at your back as the peak rises above you once more." }
-		]
-	  },
-	  {
-		"name": "Ridge",
-	  	"categories": ["open"],
-	  	"backdrop": "legory_ridge.png",
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"arrival": {
-		  "SKIRT": [
-			"A narrow ridge stretches ahead, with steep drops on either side."
-		  ],
-		  "UP": [
-			"You step onto a precarious ridge, the wind pushing hard against you."
-		  ],
-		  "DOWN": [
-			"The ridge widens slightly as you descend onto it."
-		  ],
-		  "default": [
-			"A narrow ridge of rock runs beneath your feet, steep drops falling away on both sides."
-		  ]
+		{
+			"name": "Mountainside",
+			"categories": [
+				"cliff"
+			],
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"arrival": {
+				"SKIRT": [
+					"You move along the exposed mountainside, with little between you and the drop below."
+				],
+				"UP": [
+					"The slope steepens as you press upward along the mountainside."
+				],
+				"DOWN": [
+					"You descend carefully along the slope, each step uncertain."
+				],
+				"default": [
+					"The open mountainside stretches around you, the slope steep and the footing uncertain beneath the snow."
+				]
+			},
+			"description": [
+				{
+					"text": "Snow gathers in patches along the uneven ground."
+				},
+				{
+					"text": "Loose stones shift underfoot."
+				},
+				{
+					"text": "The wind howls across the rock face.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"chance": 0.35,
+					"event": "legory_snowdrift"
+				},
+				{
+					"chance": 0.3,
+					"event": "legory_pegasus_patrol"
+				},
+				{
+					"chance": 0.2,
+					"event": "legory_snowed_student"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb higher",
+					"leads_to": "UP",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": 1
+						}
+					},
+					"travel_text": "You push on upward, each step uncertain against the loose rock and snow."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SKIRT",
+					"value": 1,
+					"travel_text": "You traverse the slope sideways, picking your way carefully across the uneven terrain."
+				},
+				{
+					"choice": "Climb down",
+					"leads_to": "DOWN",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": -1
+						}
+					},
+					"travel_text": "You turn and descend carefully, loose stones skittering away beneath your feet."
+				}
+			]
 		},
-		"description": [
-		  { "text": "The path is narrow, with little room for error." },
-		  { "text": "Snow is swept thin by constant wind." },
-		  { "text": "One misstep could send you tumbling.", "chance": 0.6 }
-		],
-		"events": [
-		  {"chance": 0.4, "event": "legory_updraft"},
-		  {"chance": 0.3, "event": "legory_ridge_edge"},
-		  {"chance": 0.25, "event": "legory_pegasus_herd"}
-		],
-		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You press forward along the ridge, the wind buffeting you as you climb."},
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You leave the narrow ridge and traverse the mountainside, finding slightly more stable ground." },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend from the ridge carefully, keeping your balance against the relentless wind." }
-		],
-		"action": {
-		  "name": "Look from the edge",
-		  "tooltip": "Step to the drop and look out over the mountain.",
-		  "event": "legory_overlook",
-		  "disabled_tooltip": "You've already done that.",
-		  "repeatable": false
+		{
+			"name": "Summit",
+			"categories": [
+				"open"
+			],
+			"backdrop": "legory_summit.png",
+			"entrances": [
+				"UP"
+			],
+			"condition": {
+				"visit_once": true,
+				"var": {
+					"height": {
+						"min": 7
+					}
+				}
+			},
+			"arrival": {
+				"UP": [
+					"At last, you reach the summit. The world stretches endlessly below, half-hidden beneath drifting clouds."
+				],
+				"default": [
+					"You stand at the summit of Mount Legory, the world spread far below beneath drifting clouds and relentless wind."
+				]
+			},
+			"description": [
+				{
+					"text": "The peak is barren, covered in wind-scoured snow."
+				},
+				{
+					"text": "The sky feels vast and close at the same time."
+				},
+				{
+					"text": "The wind here is relentless.",
+					"chance": 0.6
+				}
+			],
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1.0,
+					"event": "legory_summit"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb down",
+					"leads_to": "DOWN",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": -2
+						}
+					},
+					"travel_text": "You begin the descent, the wind still howling at your back as the peak rises above you once more."
+				}
+			]
+		},
+		{
+			"name": "Ridge",
+			"categories": [
+				"open"
+			],
+			"backdrop": "legory_ridge.png",
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"arrival": {
+				"SKIRT": [
+					"A narrow ridge stretches ahead, with steep drops on either side."
+				],
+				"UP": [
+					"You step onto a precarious ridge, the wind pushing hard against you."
+				],
+				"DOWN": [
+					"The ridge widens slightly as you descend onto it."
+				],
+				"default": [
+					"A narrow ridge of rock runs beneath your feet, steep drops falling away on both sides."
+				]
+			},
+			"description": [
+				{
+					"text": "The path is narrow, with little room for error."
+				},
+				{
+					"text": "Snow is swept thin by constant wind."
+				},
+				{
+					"text": "One misstep could send you tumbling.",
+					"chance": 0.6
+				}
+			],
+			"events": [
+				{
+					"chance": 0.4,
+					"event": "legory_updraft"
+				},
+				{
+					"chance": 0.3,
+					"event": "legory_ridge_edge"
+				},
+				{
+					"chance": 0.25,
+					"event": "legory_pegasus_herd"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb higher",
+					"leads_to": "UP",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": 1
+						}
+					},
+					"travel_text": "You press forward along the ridge, the wind buffeting you as you climb."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SKIRT",
+					"value": 1,
+					"travel_text": "You leave the narrow ridge and traverse the mountainside, finding slightly more stable ground."
+				},
+				{
+					"choice": "Climb down",
+					"leads_to": "DOWN",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": -1
+						}
+					},
+					"travel_text": "You descend from the ridge carefully, keeping your balance against the relentless wind."
+				}
+			],
+			"action": {
+				"name": "Look from the edge",
+				"tooltip": "Step to the drop and look out over the mountain.",
+				"event": "legory_overlook",
+				"disabled_tooltip": "You've already done that.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Archway",
+			"categories": [
+				"cliff"
+			],
+			"backdrop": "legory_arch.png",
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"SKIRT": [
+					"A natural stone arch rises from the mountainside, shaped by wind and time."
+				],
+				"UP": [
+					"You pass beneath a towering stone arch, its shadow offering brief shelter."
+				],
+				"DOWN": [
+					"A stone arch looms ahead as you descend, framing the path forward."
+				],
+				"default": [
+					"A natural stone arch rises from the mountainside here, worn smooth by centuries of wind and ice."
+				]
+			},
+			"description": [
+				{
+					"text": "The arch stands against the wind, worn smooth over countless years."
+				},
+				{
+					"text": "Snow gathers in its sheltered base."
+				},
+				{
+					"text": "The wind whistles as it passes through the opening.",
+					"chance": 0.5
+				}
+			],
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1.0,
+					"event": "legory_arch_inscription"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Climb higher",
+					"leads_to": "UP",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": 1
+						}
+					},
+					"travel_text": "You pass beneath the arch and continue your climb, the stone frame falling behind you."
+				},
+				{
+					"choice": "Go around",
+					"leads_to": "SKIRT",
+					"value": 1,
+					"travel_text": "You move out from beneath the arch and continue along the mountainside, circling wider."
+				},
+				{
+					"choice": "Climb down",
+					"leads_to": "DOWN",
+					"value": 0.9,
+					"var": {
+						"height": {
+							"add": -1
+						}
+					},
+					"travel_text": "You descend past the arch, moving carefully along the slope."
+				}
+			]
+		},
+		{
+			"name": "Cavern Entrance",
+			"type": "EXIT",
+			"backdrop": "legory_cavern.png",
+			"boss": "Icelady",
+			"encounter_rate": 0,
+			"entrances": [
+				"SKIRT",
+				"UP",
+				"DOWN"
+			],
+			"condition": {
+				"no_repeat": true
+			},
+			"arrival": {
+				"default": [
+					"You reach the entrance to a deep cave in the mountainside."
+				]
+			},
+			"description": [
+				{
+					"text": "Hot air wafts out of the entrance."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press On",
+					"leads_to": "TERMINAL",
+					"travel_text": "You make your way inside, descending into the Core Caverns within."
+				}
+			]
 		}
-	  },
-	  {
-		"name": "Archway",
-	  	"categories": ["cliff"],
-	  	"backdrop": "legory_arch.png",
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"condition": {
-				"no_repeat":true
-			},
-		"arrival": {
-		  "SKIRT": [
-			"A natural stone arch rises from the mountainside, shaped by wind and time."
-		  ],
-		  "UP": [
-			"You pass beneath a towering stone arch, its shadow offering brief shelter."
-		  ],
-		  "DOWN": [
-			"A stone arch looms ahead as you descend, framing the path forward."
-		  ],
-		  "default": [
-			"A natural stone arch rises from the mountainside here, worn smooth by centuries of wind and ice."
-		  ]
-		},
-		"description": [
-		  { "text": "The arch stands against the wind, worn smooth over countless years." },
-		  { "text": "Snow gathers in its sheltered base." },
-		  { "text": "The wind whistles as it passes through the opening.", "chance": 0.5 }
-		],
-		"encounter_rate":0,
-		"events": [
-		  {"chance": 1.0, "event": "legory_arch_inscription"}
-		],
-		"exits": [
-		  { "choice": "Climb higher", "leads_to": "UP", "value": 0.9, "var":{"height": { "add": 1 }}, "travel_text": "You pass beneath the arch and continue your climb, the stone frame falling behind you."},
-		  { "choice": "Go around", "leads_to": "SKIRT", "value": 1, "travel_text": "You move out from beneath the arch and continue along the mountainside, circling wider." },
-		  { "choice": "Climb down", "leads_to": "DOWN", "value": 0.9, "var":{"height": { "add": -1 }}, "travel_text": "You descend past the arch, moving carefully along the slope." }
-		]
-	  },
-	  {
-		"name": "Cavern Entrance",
-		"type": "EXIT",
-	  	"backdrop": "legory_cavern.png",
-		"boss": "Icelady",
-		"encounter_rate": 0,
-		"entrances": ["SKIRT", "UP", "DOWN"],
-		"condition": {
-				"no_repeat":true
-			},
-		"arrival": {
-		  "default": [
-			"You reach the entrance to a deep cave in the mountainside."
-		  ]
-		},
-		"description": [
-			{ "text": "Hot air wafts out of the entrance." }
-		],
-
-		"exits": [
-			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way inside, descending into the Core Caverns within." }
-		]
-	  }
 	],
 	"Core Cavern": [
-	  {
-		"name": "Cracked Descent",
-	  	"categories": ["tunnel"],
-		"entrances": ["DESCEND", "DEPTHS"],
-		"arrival": {
-		  "DESCEND": [
-			"The rock fractures beneath your path as heat rises from below, the air thick and suffocating."
-		  ],
-		  "DEPTHS": [
-			"You press deeper into the cavern, the glow of magma intensifying with every step."
-		  ],
-		  "default": [
-			"The stone around you is fractured and glowing, heat rising steadily from the depths below."
-		  ]
-		},
-		"description": [
-		  { "text": "Cracks in the stone glow faintly with molten light." },
-		  { "text": "Heat radiates from below, distorting the air." },
-		  { "text": "Small stones shift and tumble into unseen depths.", "chance": 0.4 }
-		],
-		"events": [
-		  {"chance": 0.20, "event": "cave_in"},
-		  {"chance": 0.10, "event": "wisp_cluster"}
-		],
-		"exits": [
-		  { "choice": "Descend further", "leads_to": "DEPTHS", "value": 1, "travel_text": "You push deeper, the heat intensifying as the glow of magma grows brighter below." },
-		  { "choice": "Climb back", "leads_to": "ASCEND", "value": 1, "travel_text": "You turn and climb back the way you came, the heat pressing against your back as you rise." }
-		]
-	  },
-	  {
-		"name": "Magma Flow",
-	  	"categories": ["tunnel"],
-		"entrances": ["DEPTHS"],
-		"arrival": {
-		  "DEPTHS": [
-			"A river of molten rock cuts across your path, its surface churning with unbearable heat."
-		  ],
-		  "default": [
-			"A slow river of molten rock cuts across the cavern here, its surface churning and its light fierce."
-		  ]
-		},
-		"description": [
-		  { "text": "Magma flows slowly but relentlessly, glowing bright orange." },
-		  { "text": "The heat is intense, forcing you to keep your distance." },
-		  { "text": "Occasional bursts of gas ripple across the surface.", "chance": 0.5 }
-		],
-		"events": [
-		  {"chance": 0.20, "event": "cave_in"}
-		],
-		"exits": [
-		  { "choice": "Follow the magma flow", "leads_to": "DEPTHS", "value": 0.9, "travel_text": "You follow the edge of the flow, the molten rock churning beside you as you press deeper." },
-		  { "choice": "Search for a crossing", "leads_to": "DEPTHS", "value": 0.7, "travel_text": "You search along the bank for a narrow point, carefully testing the ground before picking your way forward." }
-		],
-		"action": {
-		  "name": "Try the shortcut",
-		  "tooltip": "A narrow path runs along the magma channel's edge.",
-		  "event": "lava_crossing"
-		}
-	  },
-	  {
-		"name": "Basalt Bridge",
-	  	"categories": ["grotto"],
-		"entrances": ["DEPTHS"],
-		"arrival": {
-		  "DEPTHS": [
-			"A narrow bridge of hardened basalt stretches across a glowing magma channel."
-		  ],
-		  "default": [
-			"A narrow basalt bridge spans a channel of glowing magma here, cracked but holding against the heat."
-		  ]
-		},
-		"description": [
-		  { "text": "The bridge is cracked but stable—for now." },
-		  { "text": "Heat rises in waves from the magma below." },
-		  { "text": "The stone creaks faintly under pressure.", "chance": 0.4 }
-		],
-		"events": [
-		  {"chance": 0.20, "event": "cave_in"},
-		  {"chance": 0.15, "event": "lizal_patrol"}
-		],
-		"exits": [
-		  { "choice": "Cross the bridge", "leads_to": "DEPTHS", "value": 1, "travel_text": "You cross the basalt bridge with careful steps, the heat rising beneath you until you reach the other side." },
-		  { "choice": "Turn back", "leads_to": "ASCEND", "value": 0, "travel_text": "You step back from the bridge and begin the climb upward, leaving the magma behind." }
-		]
-	  },
-	  {
-		"name": "Obsidian Chamber",
-	  	"categories": [],
-		"backdrop":"core_obsidian.png",
-		"entrances": ["DEPTHS"],
-		"condition": {
-			"visit_once":true
-		  },
-		"arrival": {
-		  "DEPTHS": [
-			"The cavern opens into a chamber of smooth, black obsidian reflecting the glow of molten light."
-		  ],
-		  "default": [
-			"Smooth obsidian walls surround you, reflecting the magma glow in distorted, shifting images."
-		  ]
-		},
-		"description": [
-		  { "text": "The walls are glassy and sharp, reflecting distorted images." },
-		  { "text": "Your reflection shifts unnaturally across the surfaces." },
-		  { "text": "A deep rumble echoes through the chamber.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Press deeper", "leads_to": "CORE", "value": 1, "travel_text": "You move deeper into the cavern, the walls narrowing as the heat becomes almost unbearable." },
-		  { "choice": "Retreat", "leads_to": "ASCEND", "value": 0, "travel_text": "You back away from the glassy walls and begin climbing upward, the distorted reflections fading behind you." }
-		],
-		"action": {
-		  "name": "Study the reflection",
-		  "tooltip": "Examine your warped reflection in the obsidian.",
-		  "event": "obsidian_reflection",
-		  "disabled_tooltip": "You've examined this place.",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Ash Field",
-	  	"categories": ["grotto"],
-		"backdrop":"core_ash.png",
-		"entrances": ["DEPTHS", "CORE"],
-		"arrival": {
-		  "DEPTHS": [
-			"The ground softens into thick ash, each step sinking slightly."
-		  ],
-		  "CORE": [
-			"You reach a patch of ash blanketing the ground, the glow of the magma behind you."
-		  ],
-		  "default": [
-			"A field of deep ash stretches around you, the ground unstable and the air thick with dry heat."
-		  ]
-		},
-		"description": [
-		  { "text": "Ash drifts slowly through the air." },
-		  { "text": "The ground is unstable, hiding cracks beneath the surface." },
-		  { "text": "Heat pulses from below in uneven waves.", "chance": 0.5 }
-		],
-		"events": [
-		  {"chance": 0.20, "event": "ash_burial"},
-		  {"chance": 0.15, "event": "lizal_patrol"}
-		],
-		"exits": [
-		  { "choice": "Push deeper", "leads_to": "CORE", "value": 1, "travel_text": "You wade through the ash, each step sinking slightly as you press further toward the core." },
-		  { "choice": "Climb upward", "leads_to": "ASCEND", "value": 1, "travel_text": "You turn away from the deep and begin climbing, the ash thinning as the heat slowly lessens." }
-		]
-	  },
-	  {
-		"name": "Core Chamber",
-	  	"categories": ["grotto"],
-		"entrances": ["CORE"],
-		"arrival": {
-		  "CORE": [
-			"The vast chamber stretches on as you reach a platform overlooking the heart of the mountain."
-		  ],
-		  "DEPTHS": [
-			"You reach a opening at the mountain's heart—a vast chamber of churning magma and blinding light."
-		  ],
-		  "default": [
-			"You stand at the heart of the mountain, surrounded by churning magma and the blinding light of the core."
-		  ]
-		},
-		"description": [
-		  { "text": "Magma surges and collapses in an endless cycle." },
-		  { "text": "The heat is overwhelming, pressing against your entire body." },
-		  { "text": "The air vibrates with raw, destructive energy.", "chance": 0.7 }
-		],
-		"exits": [
-		  { "choice": "Press on", "leads_to": "CORE", "value": 1, "travel_text": "You push forward despite the overwhelming heat, drawn toward the churning magma at the mountain's heart." },
-		  { "choice": "Find another way", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pull back from the core, retreating into an opening on the side of the chamber as the roar of magma fades slightly behind you." }
-		]
-	  },
-	  {
-		"name": "Tunnel",
-	  	"categories": ["tunnel"],
-		"backdrop": "core_tunnel.png",
-		"entrances": ["DEPTHS"],
-		"arrival": {
-		  "DEPTHS": [
-			"The passage narrows into a low tunnel, forcing you to duck as the walls press close on either side."
-		  ],
-		  "default": [
-			"A low, winding tunnel cuts through the basalt here, the air hot and close."
-		  ]
-		},
-		"description": [
-		  { "text": "The tunnel walls are scored with old chisel marks." },
-		  { "text": "The passage is narrow, the ceiling barely clearing your head." },
-		  { "text": "Somewhere ahead, heat pulses rhythmically through the stone.", "chance": 0.4 }
-		],
-		"events": [
-		  {"chance": 0.15, "event": "lizal_patrol"},
-		  {"chance": 0.07, "event": "drake_wounded"}
-		],
-		"exits": [
-		  { "choice": "Press through", "leads_to": "DEPTHS", "value": 1, "travel_text": "You squeeze through the low passage, the basalt walls brushing your shoulders before the cavern opens again." }
-		]
-	  },
-	  {
-		"name": "Lava Falls",
-	  	"categories": ["tunnel"],
-		"backdrop": "core_fall.png",
-		"condition": {
-			"no_repeat":true
-		  },
-		"entrances": ["DEPTHS"],
-		"arrival": {
-		  "DEPTHS": [
-			  "A cascade of molten rock blocks your path — a waterfall of lava pouring into a glowing pool below."
-		],
-		"default": [
-			  "A roar of cascading molten rock fills the chamber — a waterfall of lava pouring into a glowing pool below.",
-			"A curtain of lava spills from a high ledge into a churning pool, casting everything in violent orange light."
-		  ]
-		},
-		"events": [
-			{"chance": 0.05,"event": "region_treasure_chest"}
-		],
-		"description": [
-		  { "text": "The lava falls in a steady curtain, impossibly bright." },
-		  { "text": "The roar is deafening up close, drowning out your thoughts." },
-		  { "text": "Flecks of molten rock drift upward on the heat.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Find another way", "leads_to": "DEPTHS", "value": 1, "travel_text": "You back away from the roaring falls, the light fading as you follow a different tunnel." }
-		]
-	  },
-	  {
-		"name": "Ruins",
-	  	"categories": ["ruins"],
-		"backdrop": "core_ruins4.png",
-		"entrances": ["DEPTHS","MINE"],
-		"arrival": {
-		  "MINE": [
-			"The rails lead you into the remains of a what might've been an unloading structure. The collapsed stone walls reveal the remains of a long forgotten settlement."
-		  ],
-		  "DEPTHS": [
-			"The cavern widens into the remains of a settlement — crumbling stone arches and collapsed walls half-buried under ash."
-		  ],
-		  "default": [
-			"Broken stone structures rise from the ash here, the remnants of a civilization long abandoned."
-		  ]
-		},
-		"events": [
-			{"chance": 0.05,"event": "region_treasure_chest"},
-			{"chance": 0.5,"event": "fenwick_journal"}
-		],
-		"description": [
-		  { "text": "The stonework is massive and crude, decorated with tusked figures." },
-		  { "text": "Collapsed arches and doorframes jut from the ash at odd angles." },
-		  { "text": "Something was carved into the stonework, now too worn to read.", "chance": 0.5 },
-		  { "text": "A smell of old ash and something older still lingers here.", "chance": 0.3 }
-		],
-		"exits": [
-		  { "choice": "Cross the ruins", "leads_to": "DEPTHS", "value": 1, "travel_text": "You pick through the collapsed stonework, ash rising around your feet, before emerging on the far side." },
-		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the ruins behind and continue deeper into the cavern." }
-		],
-		"action": {
-		  "name": "Read the inscription",
-		  "tooltip": "One section of stonework still has legible Troll script.",
-		  "event": "troll_inscription",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Sunken Statue",
-	  	"categories": ["grotto","ruins"],
-		"backdrop": "core_statue8.png",
-		"condition": {
-			"visit_once":true
-		  },
-		"entrances": ["DEPTHS", "CORE"],
-		"arrival": {
-		  "DEPTHS": [
-			"The cavern opens onto a vast ledge overlooking a sea of slow lava — and rising from it, a colossal stone figure, half-submerged."
-		  ],
-		  "CORE": [
-			"Deeper into the chamber, you spot a huge tusked statue, half tipped over into a pool of lava."
-		  ],
-		  "default": [
-			"A giant stone-and-metal statue rises from the lava here, its lower half long since submerged in the slow creep of molten rock.",
-			"The massive statue's tusked form looms, it's lower half submerged in molten rock."
-		  ]
-		},
-		"description": [
-		  { "text": "The tusked statue is ancient — likely carved by Troll hands, enormous and rough-hewn." },
-		  { "text": "Its upper half still reaches above the lava, one arm raised as if in warning." },
-		  { "text": "The lava creeps slowly around the base, swallowing more each year.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Skirt around", "leads_to": "CORE", "value": 1, "travel_text": "You skirt around the edge of the pool and walk past the statue, the heat building with every step." },
-		  { "choice": "Move on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You turn from the statue and find an opening on the side of the chamber and delve into it." }
-		],
-		"action": {
-		  "name": "Examine the statue",
-		  "tooltip": "Get a closer look at the ancient Troll statue from the ledge.",
-		  "disabled_tooltip": "You've already examined the statue.",
-		  "event": "sunken_statue_vigil",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Mineshaft",
-	  	"categories": ["ruins"],
-		"backdrop": "core_mine.png",
-		"entrances": ["DEPTHS","MINE"],
-		"arrival": {
-		  "MINE": [
-			"The mines stretch farther still, the mineshaft spliting off again as cavern widens."
-		  ],
-		  "DEPTHS": [
-			"You pass through a carved archway into a system of old mining shafts, the tunnels braced with scorched timber."
-		  ],
-		  "default": [
-			"Mining tunnels branch in several directions here, very old infrastructure reclaimed for new purposes."
-		  ]
-		},
-		"description": [
-		  { "text": "Newer markings cover the old ones — someone has reclaimed this place." },
-		  { "text": "The smell of something metallic and warm drifts from the deeper shafts.", "chance": 0.5 },
-		  { "text": "A distant clang of metal echoes from somewhere in the dark.", "chance": 0.4 }
-		],
-		"events": [
-		  {"chance": 0.07, "event": "drake_wounded"}
-		],
-		"exits": [
-		  { "choice": "Press on", "leads_to": "DEPTHS", "value": 1, "travel_text": "You press deeper into the tunnels, the walls closing in and the air growing heavier." },
-		  { "choice": "Follow the mineshaft", "leads_to": "MINE", "value": 1, "travel_text": "You follow the cart rails into a tunnel, delving deeper into the mines." }
-		],
-		"action": {
-		  "name": "Mine for ore",
-		  "tooltip": "Pick up an ancient pickaxe and try to mine a seam for treasure.",
-		  "disabled_tooltip": "Nothing left to mine with.",
-		  "event": "core_cavern_mining",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Hot Springs",
-	  	"categories": [],
-		"entrances": ["DEPTHS"],
-		"condition": {
-			"visit_once":true
-		  },
-		"encounter_rate": 0,
-		"backdrop": "core_spring.png",
-		"arrival": {
-		  "DEPTHS": [
-			"The path opens beside a series of glowing mineral pools, steam rising from water heated by the mountain itself."
-		  ],
-		  "default": [
-			"Steaming pools of mineral water sit in shallow basins of pale rock, fed by heat from deep below."
-		  ]
-		},
-		"description": [
-		  { "text": "The water glows faintly orange from the mineral content." },
-		  { "text": "Steam drifts across the pools in slow, curling waves." },
-		  { "text": "The air here is damp rather than dry, a rare relief from the cavern's usual heat.", "chance": 0.5 },
-		  { "text": "The pools bubble gently, warm but not scalding at the edges.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Continue deeper", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the warmth of the springs behind and press further into the cavern." }
-		],
-		"action": {
-		  "name": "Soak in the springs",
-		  "tooltip": "Rest in the hot springs to recover HP and MP.",
-		  "event": "hot_springs_rest"
-		}
-	  },
-	  {
-		"name": "Lizal-Town",
-		"condition": {
-			"visit_once":true
-		  },
-		"entrances": ["DEPTHS", "TOWN"],
-		"encounter_rate": 0,
-		"backdrop": "core_lizal2.png",
-		"events": [
-		  {"chance": 1, "event": "enter_lizal_town"}
-		],
-		"arrival": {
-		  "DEPTHS": [
-			"The tunnels open abruptly onto a wide, low cavern — and you realize you are standing at the edge of a settlement."
-		  ],
-		  "TOWN": [
-			"The tunnels end in a wide, low cavern — and you realize the Lizardmen have led you to a full-blown settlement."
-		  ],
-		  "default": [
-			"Lizal-Town fills the wide cavern, its low stone structures and firelit passages alive with the movement of Lizal inhabitants."
-		  ]
-		},
-		"description": [
-		  { "text": "Low stone buildings line the paths, carved directly from the cavern walls." },
-		  { "text": "Lizals move through the settlement with purpose, sparing you wary looks." },
-		  { "text": "The smell of cooked meat and hot metal drifts from deeper in the settlement.", "chance": 0.5 },
-		  { "text": "Firelight flickers from a dozen carved alcoves.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Return to the cavern", "leads_to": "DEPTHS", "value": 1, "travel_text": "You leave the settlement behind and return to the dark passages of the Core Cavern." }
-		],
-		"action": {
-		  "name": "Enter the town",
-		  "tooltip": "Visit Lizal-Town.",
-		  "event": "enter_lizal_town"
-		}
-	  },
 		{
-		  "name": "Cavern Exit",
-		  "backdrop": "core_exit2.png",
-		  "type": "EXIT",
-		  "entrances": ["CORE","DEPTHS","MINE"],
-		  "boss": "Infrit",
-		  "encounter_rate": 0,
-		  "arrival": {
-			"MINE": [
-			  "The rails abruptly end at the entrance of a chamber where dull light streams down from an exit above."
+			"name": "Cracked Descent",
+			"categories": [
+				"tunnel"
 			],
-			"DEPTHS": [
-			  "The tunnel opens up into a chamber where dull light streams down from an exit above."
+			"entrances": [
+				"DESCEND",
+				"DEPTHS"
 			],
-			"CORE": [
-			  "At the very end of the chamber, you find an opening from which dull light pours down from above."
+			"arrival": {
+				"DESCEND": [
+					"The rock fractures beneath your path as heat rises from below, the air thick and suffocating."
+				],
+				"DEPTHS": [
+					"You press deeper into the cavern, the glow of magma intensifying with every step."
+				],
+				"default": [
+					"The stone around you is fractured and glowing, heat rising steadily from the depths below."
+				]
+			},
+			"description": [
+				{
+					"text": "Cracks in the stone glow faintly with molten light."
+				},
+				{
+					"text": "Heat radiates from below, distorting the air."
+				},
+				{
+					"text": "Small stones shift and tumble into unseen depths.",
+					"chance": 0.4
+				}
+			],
+			"events": [
+				{
+					"chance": 0.2,
+					"event": "cave_in"
+				},
+				{
+					"chance": 0.1,
+					"event": "wisp_cluster"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Descend further",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You push deeper, the heat intensifying as the glow of magma grows brighter below."
+				},
+				{
+					"choice": "Climb back",
+					"leads_to": "ASCEND",
+					"value": 1,
+					"travel_text": "You turn and climb back the way you came, the heat pressing against your back as you rise."
+				}
 			]
-		  },
-		  "description": [
-			{ "text": "You feel as though you are being watched." }
-		  ],
-		  "exits": [
-			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
-		  ]
+		},
+		{
+			"name": "Magma Flow",
+			"categories": [
+				"tunnel"
+			],
+			"entrances": [
+				"DEPTHS"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"A river of molten rock cuts across your path, its surface churning with unbearable heat."
+				],
+				"default": [
+					"A slow river of molten rock cuts across the cavern here, its surface churning and its light fierce."
+				]
+			},
+			"description": [
+				{
+					"text": "Magma flows slowly but relentlessly, glowing bright orange."
+				},
+				{
+					"text": "The heat is intense, forcing you to keep your distance."
+				},
+				{
+					"text": "Occasional bursts of gas ripple across the surface.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"chance": 0.2,
+					"event": "cave_in"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the magma flow",
+					"leads_to": "DEPTHS",
+					"value": 0.9,
+					"travel_text": "You follow the edge of the flow, the molten rock churning beside you as you press deeper."
+				},
+				{
+					"choice": "Search for a crossing",
+					"leads_to": "DEPTHS",
+					"value": 0.7,
+					"travel_text": "You search along the bank for a narrow point, carefully testing the ground before picking your way forward."
+				}
+			],
+			"action": {
+				"name": "Try the shortcut",
+				"tooltip": "A narrow path runs along the magma channel's edge.",
+				"event": "lava_crossing"
+			}
+		},
+		{
+			"name": "Basalt Bridge",
+			"categories": [
+				"grotto"
+			],
+			"entrances": [
+				"DEPTHS"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"A narrow bridge of hardened basalt stretches across a glowing magma channel."
+				],
+				"default": [
+					"A narrow basalt bridge spans a channel of glowing magma here, cracked but holding against the heat."
+				]
+			},
+			"description": [
+				{
+					"text": "The bridge is cracked but stable—for now."
+				},
+				{
+					"text": "Heat rises in waves from the magma below."
+				},
+				{
+					"text": "The stone creaks faintly under pressure.",
+					"chance": 0.4
+				}
+			],
+			"events": [
+				{
+					"chance": 0.2,
+					"event": "cave_in"
+				},
+				{
+					"chance": 0.15,
+					"event": "lizal_patrol"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Cross the bridge",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You cross the basalt bridge with careful steps, the heat rising beneath you until you reach the other side."
+				},
+				{
+					"choice": "Turn back",
+					"leads_to": "ASCEND",
+					"value": 0,
+					"travel_text": "You step back from the bridge and begin the climb upward, leaving the magma behind."
+				}
+			]
+		},
+		{
+			"name": "Obsidian Chamber",
+			"categories": [],
+			"backdrop": "core_obsidian.png",
+			"entrances": [
+				"DEPTHS"
+			],
+			"condition": {
+				"visit_once": true
+			},
+			"arrival": {
+				"DEPTHS": [
+					"The cavern opens into a chamber of smooth, black obsidian reflecting the glow of molten light."
+				],
+				"default": [
+					"Smooth obsidian walls surround you, reflecting the magma glow in distorted, shifting images."
+				]
+			},
+			"description": [
+				{
+					"text": "The walls are glassy and sharp, reflecting distorted images."
+				},
+				{
+					"text": "Your reflection shifts unnaturally across the surfaces."
+				},
+				{
+					"text": "A deep rumble echoes through the chamber.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press deeper",
+					"leads_to": "CORE",
+					"value": 1,
+					"travel_text": "You move deeper into the cavern, the walls narrowing as the heat becomes almost unbearable."
+				},
+				{
+					"choice": "Retreat",
+					"leads_to": "ASCEND",
+					"value": 0,
+					"travel_text": "You back away from the glassy walls and begin climbing upward, the distorted reflections fading behind you."
+				}
+			],
+			"action": {
+				"name": "Study the reflection",
+				"tooltip": "Examine your warped reflection in the obsidian.",
+				"event": "obsidian_reflection",
+				"disabled_tooltip": "You've examined this place.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Ash Field",
+			"categories": [
+				"grotto"
+			],
+			"backdrop": "core_ash.png",
+			"entrances": [
+				"DEPTHS",
+				"CORE"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"The ground softens into thick ash, each step sinking slightly."
+				],
+				"CORE": [
+					"You reach a patch of ash blanketing the ground, the glow of the magma behind you."
+				],
+				"default": [
+					"A field of deep ash stretches around you, the ground unstable and the air thick with dry heat."
+				]
+			},
+			"description": [
+				{
+					"text": "Ash drifts slowly through the air."
+				},
+				{
+					"text": "The ground is unstable, hiding cracks beneath the surface."
+				},
+				{
+					"text": "Heat pulses from below in uneven waves.",
+					"chance": 0.5
+				}
+			],
+			"events": [
+				{
+					"chance": 0.2,
+					"event": "ash_burial"
+				},
+				{
+					"chance": 0.15,
+					"event": "lizal_patrol"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Push deeper",
+					"leads_to": "CORE",
+					"value": 1,
+					"travel_text": "You wade through the ash, each step sinking slightly as you press further toward the core."
+				},
+				{
+					"choice": "Climb upward",
+					"leads_to": "ASCEND",
+					"value": 1,
+					"travel_text": "You turn away from the deep and begin climbing, the ash thinning as the heat slowly lessens."
+				}
+			]
+		},
+		{
+			"name": "Core Chamber",
+			"categories": [
+				"grotto"
+			],
+			"entrances": [
+				"CORE"
+			],
+			"arrival": {
+				"CORE": [
+					"The vast chamber stretches on as you reach a platform overlooking the heart of the mountain."
+				],
+				"DEPTHS": [
+					"You reach a opening at the mountain's heart—a vast chamber of churning magma and blinding light."
+				],
+				"default": [
+					"You stand at the heart of the mountain, surrounded by churning magma and the blinding light of the core."
+				]
+			},
+			"description": [
+				{
+					"text": "Magma surges and collapses in an endless cycle."
+				},
+				{
+					"text": "The heat is overwhelming, pressing against your entire body."
+				},
+				{
+					"text": "The air vibrates with raw, destructive energy.",
+					"chance": 0.7
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press on",
+					"leads_to": "CORE",
+					"value": 1,
+					"travel_text": "You push forward despite the overwhelming heat, drawn toward the churning magma at the mountain's heart."
+				},
+				{
+					"choice": "Find another way",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You pull back from the core, retreating into an opening on the side of the chamber as the roar of magma fades slightly behind you."
+				}
+			]
+		},
+		{
+			"name": "Tunnel",
+			"categories": [
+				"tunnel"
+			],
+			"backdrop": "core_tunnel.png",
+			"entrances": [
+				"DEPTHS"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"The passage narrows into a low tunnel, forcing you to duck as the walls press close on either side."
+				],
+				"default": [
+					"A low, winding tunnel cuts through the basalt here, the air hot and close."
+				]
+			},
+			"description": [
+				{
+					"text": "The tunnel walls are scored with old chisel marks."
+				},
+				{
+					"text": "The passage is narrow, the ceiling barely clearing your head."
+				},
+				{
+					"text": "Somewhere ahead, heat pulses rhythmically through the stone.",
+					"chance": 0.4
+				}
+			],
+			"events": [
+				{
+					"chance": 0.15,
+					"event": "lizal_patrol"
+				},
+				{
+					"chance": 0.07,
+					"event": "drake_wounded"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press through",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You squeeze through the low passage, the basalt walls brushing your shoulders before the cavern opens again."
+				}
+			]
+		},
+		{
+			"name": "Lava Falls",
+			"categories": [
+				"tunnel"
+			],
+			"backdrop": "core_fall.png",
+			"condition": {
+				"no_repeat": true
+			},
+			"entrances": [
+				"DEPTHS"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"A cascade of molten rock blocks your path — a waterfall of lava pouring into a glowing pool below."
+				],
+				"default": [
+					"A roar of cascading molten rock fills the chamber — a waterfall of lava pouring into a glowing pool below.",
+					"A curtain of lava spills from a high ledge into a churning pool, casting everything in violent orange light."
+				]
+			},
+			"events": [
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				}
+			],
+			"description": [
+				{
+					"text": "The lava falls in a steady curtain, impossibly bright."
+				},
+				{
+					"text": "The roar is deafening up close, drowning out your thoughts."
+				},
+				{
+					"text": "Flecks of molten rock drift upward on the heat.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Find another way",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You back away from the roaring falls, the light fading as you follow a different tunnel."
+				}
+			]
+		},
+		{
+			"name": "Ruins",
+			"categories": [
+				"ruins"
+			],
+			"backdrop": "core_ruins4.png",
+			"entrances": [
+				"DEPTHS",
+				"MINE"
+			],
+			"arrival": {
+				"MINE": [
+					"The rails lead you into the remains of a what might've been an unloading structure. The collapsed stone walls reveal the remains of a long forgotten settlement."
+				],
+				"DEPTHS": [
+					"The cavern widens into the remains of a settlement — crumbling stone arches and collapsed walls half-buried under ash."
+				],
+				"default": [
+					"Broken stone structures rise from the ash here, the remnants of a civilization long abandoned."
+				]
+			},
+			"events": [
+				{
+					"chance": 0.05,
+					"event": "region_treasure_chest"
+				},
+				{
+					"chance": 0.5,
+					"event": "fenwick_journal"
+				}
+			],
+			"description": [
+				{
+					"text": "The stonework is massive and crude, decorated with tusked figures."
+				},
+				{
+					"text": "Collapsed arches and doorframes jut from the ash at odd angles."
+				},
+				{
+					"text": "Something was carved into the stonework, now too worn to read.",
+					"chance": 0.5
+				},
+				{
+					"text": "A smell of old ash and something older still lingers here.",
+					"chance": 0.3
+				}
+			],
+			"exits": [
+				{
+					"choice": "Cross the ruins",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You pick through the collapsed stonework, ash rising around your feet, before emerging on the far side."
+				},
+				{
+					"choice": "Move on",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You leave the ruins behind and continue deeper into the cavern."
+				}
+			],
+			"action": {
+				"name": "Read the inscription",
+				"tooltip": "One section of stonework still has legible Troll script.",
+				"event": "troll_inscription",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Sunken Statue",
+			"categories": [
+				"grotto",
+				"ruins"
+			],
+			"backdrop": "core_statue8.png",
+			"condition": {
+				"visit_once": true
+			},
+			"entrances": [
+				"DEPTHS",
+				"CORE"
+			],
+			"arrival": {
+				"DEPTHS": [
+					"The cavern opens onto a vast ledge overlooking a sea of slow lava — and rising from it, a colossal stone figure, half-submerged."
+				],
+				"CORE": [
+					"Deeper into the chamber, you spot a huge tusked statue, half tipped over into a pool of lava."
+				],
+				"default": [
+					"A giant stone-and-metal statue rises from the lava here, its lower half long since submerged in the slow creep of molten rock.",
+					"The massive statue's tusked form looms, it's lower half submerged in molten rock."
+				]
+			},
+			"description": [
+				{
+					"text": "The tusked statue is ancient — likely carved by Troll hands, enormous and rough-hewn."
+				},
+				{
+					"text": "Its upper half still reaches above the lava, one arm raised as if in warning."
+				},
+				{
+					"text": "The lava creeps slowly around the base, swallowing more each year.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Skirt around",
+					"leads_to": "CORE",
+					"value": 1,
+					"travel_text": "You skirt around the edge of the pool and walk past the statue, the heat building with every step."
+				},
+				{
+					"choice": "Move on",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You turn from the statue and find an opening on the side of the chamber and delve into it."
+				}
+			],
+			"action": {
+				"name": "Examine the statue",
+				"tooltip": "Get a closer look at the ancient Troll statue from the ledge.",
+				"disabled_tooltip": "You've already examined the statue.",
+				"event": "sunken_statue_vigil",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Mineshaft",
+			"categories": [
+				"ruins"
+			],
+			"backdrop": "core_mine.png",
+			"entrances": [
+				"DEPTHS",
+				"MINE"
+			],
+			"arrival": {
+				"MINE": [
+					"The mines stretch farther still, the mineshaft spliting off again as cavern widens."
+				],
+				"DEPTHS": [
+					"You pass through a carved archway into a system of old mining shafts, the tunnels braced with scorched timber."
+				],
+				"default": [
+					"Mining tunnels branch in several directions here, very old infrastructure reclaimed for new purposes."
+				]
+			},
+			"description": [
+				{
+					"text": "Newer markings cover the old ones — someone has reclaimed this place."
+				},
+				{
+					"text": "The smell of something metallic and warm drifts from the deeper shafts.",
+					"chance": 0.5
+				},
+				{
+					"text": "A distant clang of metal echoes from somewhere in the dark.",
+					"chance": 0.4
+				}
+			],
+			"events": [
+				{
+					"chance": 0.07,
+					"event": "drake_wounded"
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press on",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You press deeper into the tunnels, the walls closing in and the air growing heavier."
+				},
+				{
+					"choice": "Follow the mineshaft",
+					"leads_to": "MINE",
+					"value": 1,
+					"travel_text": "You follow the cart rails into a tunnel, delving deeper into the mines."
+				}
+			],
+			"action": {
+				"name": "Mine for ore",
+				"tooltip": "Pick up an ancient pickaxe and try to mine a seam for treasure.",
+				"disabled_tooltip": "Nothing left to mine with.",
+				"event": "core_cavern_mining",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Hot Springs",
+			"categories": [],
+			"entrances": [
+				"DEPTHS"
+			],
+			"condition": {
+				"visit_once": true
+			},
+			"encounter_rate": 0,
+			"backdrop": "core_spring.png",
+			"arrival": {
+				"DEPTHS": [
+					"The path opens beside a series of glowing mineral pools, steam rising from water heated by the mountain itself."
+				],
+				"default": [
+					"Steaming pools of mineral water sit in shallow basins of pale rock, fed by heat from deep below."
+				]
+			},
+			"description": [
+				{
+					"text": "The water glows faintly orange from the mineral content."
+				},
+				{
+					"text": "Steam drifts across the pools in slow, curling waves."
+				},
+				{
+					"text": "The air here is damp rather than dry, a rare relief from the cavern's usual heat.",
+					"chance": 0.5
+				},
+				{
+					"text": "The pools bubble gently, warm but not scalding at the edges.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Continue deeper",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You leave the warmth of the springs behind and press further into the cavern."
+				}
+			],
+			"action": {
+				"name": "Soak in the springs",
+				"tooltip": "Rest in the hot springs to recover HP and MP.",
+				"event": "hot_springs_rest"
+			}
+		},
+		{
+			"name": "Lizal-Town",
+			"condition": {
+				"visit_once": true
+			},
+			"entrances": [
+				"DEPTHS",
+				"TOWN"
+			],
+			"encounter_rate": 0,
+			"backdrop": "core_lizal2.png",
+			"events": [
+				{
+					"chance": 1,
+					"event": "enter_lizal_town"
+				}
+			],
+			"arrival": {
+				"DEPTHS": [
+					"The tunnels open abruptly onto a wide, low cavern — and you realize you are standing at the edge of a settlement."
+				],
+				"TOWN": [
+					"The tunnels end in a wide, low cavern — and you realize the Lizardmen have led you to a full-blown settlement."
+				],
+				"default": [
+					"Lizal-Town fills the wide cavern, its low stone structures and firelit passages alive with the movement of Lizal inhabitants."
+				]
+			},
+			"description": [
+				{
+					"text": "Low stone buildings line the paths, carved directly from the cavern walls."
+				},
+				{
+					"text": "Lizals move through the settlement with purpose, sparing you wary looks."
+				},
+				{
+					"text": "The smell of cooked meat and hot metal drifts from deeper in the settlement.",
+					"chance": 0.5
+				},
+				{
+					"text": "Firelight flickers from a dozen carved alcoves.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Return to the cavern",
+					"leads_to": "DEPTHS",
+					"value": 1,
+					"travel_text": "You leave the settlement behind and return to the dark passages of the Core Cavern."
+				}
+			],
+			"action": {
+				"name": "Enter the town",
+				"tooltip": "Visit Lizal-Town.",
+				"event": "enter_lizal_town"
+			}
+		},
+		{
+			"name": "Cavern Exit",
+			"backdrop": "core_exit2.png",
+			"type": "EXIT",
+			"entrances": [
+				"CORE",
+				"DEPTHS",
+				"MINE"
+			],
+			"boss": "Infrit",
+			"encounter_rate": 0,
+			"arrival": {
+				"MINE": [
+					"The rails abruptly end at the entrance of a chamber where dull light streams down from an exit above."
+				],
+				"DEPTHS": [
+					"The tunnel opens up into a chamber where dull light streams down from an exit above."
+				],
+				"CORE": [
+					"At the very end of the chamber, you find an opening from which dull light pours down from above."
+				]
+			},
+			"description": [
+				{
+					"text": "You feel as though you are being watched."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Press On",
+					"leads_to": "TERMINAL",
+					"travel_text": "You make your way out of the Caves of Light."
+				}
+			]
 		}
 	],
 	"Lost Swamp": [
-	  {
-		"name": "Foggy Marsh",
-	  	"categories": ["swamp", "lost_fog"],
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"A thick white fog swallows the landscape as you step into the swamp, obscuring everything beyond a few steps.",
-			"You push through the mist, but nothing changes—the swamp stretches endlessly in all directions."
-		  ],
-		  "default": [
-			"You stand in the foggy marsh, shallow water pooling around your feet and thick mist obscuring everything beyond a few steps."
-		  ]
-		},
-		"description": [
-		  { "text": "Shallow water pools around your feet, hidden beneath layers of mud." },
-		  { "text": "The fog dulls all sound, leaving only your own movements." },
-		  { "text": "Shapes seem to move just beyond your vision.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Wade forward", "leads_to": "SWAMP", "value": 0, "travel_text": "You push forward through the fog and the shallow water, each step pulling against the mud beneath.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Turn back", "leads_to": "SWAMP", "value": 0, "travel_text": "You turn and push back through the fog, retracing your steps as best you can.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Sunken Path",
-	  	"backdrop": "lost_road2.png",
-	  	"categories": ["swamp", "lost_fog"],
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"Your foot finds something solid beneath the water—a submerged path, barely visible through the fog."
-		  ],
-		  "default": [
-			"Old stones form a path just beneath the murky water here, appearing and disappearing unpredictably."
-		  ]
-		},
-		"description": [
-		  { "text": "Old stones form a path beneath the murky water." },
-		  { "text": "The path vanishes and reappears unpredictably." },
-		  { "text": "You are not sure if it leads anywhere at all.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Follow the path", "leads_to": "SWAMP", "value": 0, "travel_text": "You continue carefully along the submerged stones, testing each step before moving forward.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Step off into the swamp", "leads_to": "SWAMP", "value": 0, "travel_text": "You leave the path and step into the murky water, the ground immediately less certain beneath you.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Twisted Trees",
-	  	"categories": ["swamp", "lost_fog"],
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"Dark, twisted trees loom from the fog, their shapes barely visible.",
-			"The trees close in tighter, their forms warped and unnatural."
-		  ],
-		  "default": [
-			"Dark, gnarled trees press close around you, their trunks bent at impossible angles and their roots rising from the water."
-		  ]
-		},
-		"description": [
-		  { "text": "The trunks bend at impossible angles." },
-		  { "text": "Roots rise from the water like grasping fingers." },
-		  { "text": "You feel watched.", "chance": 0.6 }
-		],
-		"exits": [
-		  { "choice": "Push through the trees", "leads_to": "SWAMP", "value": 0, "travel_text": "You force your way between the gnarled trunks, roots snagging at your feet as you press deeper.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Retreat carefully", "leads_to": "SWAMP", "value": 0, "travel_text": "You back away through the twisted trees, moving slowly to avoid the grasping roots.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Still Water",
-	  	"categories": ["swamp", "lost_fog"],
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"The ground gives way to a wide expanse of still, dark water."
-		  ],
-		  "default": [
-			"A wide expanse of perfectly still, dark water stretches before you, its depth impossible to read."
-		  ]
-		},
-		"description": [
-		  { "text": "The surface is perfectly still, like glass." },
-		  { "text": "You cannot see how deep it goes." },
-		  { "text": "Something disturbs the water far from you.", "chance": 0.4 }
-		],
-		"exits": [
-		  { "choice": "Skirt the edge", "leads_to": "SWAMP", "value": 0, "travel_text": "You move carefully along the edge of the still water, keeping to the firmer ground.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Wade through", "leads_to": "SWAMP", "value": 0, "travel_text": "You step into the dark water, its stillness broken around you as you wade forward.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Whispering Reeds",
-	  	"categories": ["swamp", "lost_fog"],
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"Tall reeds emerge from the fog, swaying despite the still air.",
-			"The reeds close around you, their soft rustling forming indistinct whispers."
-		  ],
-		  "default": [
-			"Tall reeds surround you on all sides, their rustling carrying sounds almost like voices."
-		  ]
-		},
-		"description": [
-		  { "text": "The reeds brush softly against you as you pass." },
-		  { "text": "The sound almost resembles voices." },
-		  { "text": "You almost understand what they're saying.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Follow the whispers", "leads_to": "SWAMP", "value": 0, "travel_text": "You let the sound draw you forward, pressing deeper through the swaying reeds.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Ignore them and move on", "leads_to": "SWAMP", "value": 0, "travel_text": "You push through the reeds without listening, focusing on finding firmer ground.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Lost Shrine",
-	  	"categories": ["swamp"],
-	  	"backdrop": "lost_shrine2.png",
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"A crumbling shrine emerges from the fog, half-sunken into the swamp."
-		  ],
-		  "default": [
-			"A crumbling stone shrine rises half-sunken from the swamp here, its carvings worn beyond recognition."
-		  ]
-		},
-		"description": [
-		  { "text": "Stone carvings are worn beyond recognition." },
-		  { "text": "The structure leans, slowly sinking into the mud." },
-		  { "text": "It feels like this place should not be found.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Leave quickly", "leads_to": "SWAMP", "value": 0, "travel_text": "You turn from the shrine and move quickly back into the fog, the structure disappearing behind you.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		],
-		"action": {
-		  "name": "Search the shrine",
-		  "tooltip": "Circle the shrine and probe its crumbling structure.",
-		  "event": "lost_shrine_search",
-		  "disabled_tooltip": "You've already searched the shrine.",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Endless Hollow",
-	  	"categories": ["swamp", "lost_fog"],
-	  	"backdrop": "lost_fog2.png",
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"The fog thickens until even the ground beneath you fades from view."
-		  ],
-		  "default": [
-			"The fog is total here—you can barely see your own hands, and every sound is swallowed by the mist."
-		  ]
-		},
-		"description": [
-		  { "text": "You can barely see your own hands." },
-		  { "text": "Sound is completely muffled." },
-		  { "text": "You are no longer sure which way you came from.", "chance": 0.7 }
-		],
-		"exits": [
-		  { "choice": "Keep moving", "leads_to": "SWAMP", "value": 0, "travel_text": "You press forward blindly, one hand outstretched, hoping the fog will thin.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
-		  { "choice": "Stand still", "leads_to": "SWAMP", "value": 0, "travel_text": "You stop and wait, listening to the muffled silence until some sense of direction returns.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		]
-	  },
-	  {
-		"name": "Half-Sunken Boat",
-	  	"categories": ["swamp"],
-	  	"backdrop": "lost_boat2.png",
-		"entrances": ["SWAMP"],
-		"arrival": {
-		  "SWAMP": [
-			"The outline of a broken boat appears through the fog.",
-			"You almost miss it—a half-sunken boat drifting silently in the water."
-		  ],
-		  "default": [
-			"A half-sunken wooden boat lists in the water nearby, its hull rotted and waterlogged."
-		  ]
-		},
-		"description": [
-		  { "text": "The wood is rotted and waterlogged." },
-		  { "text": "It looks like it hasn't moved in years." },
-		  { "text": "Someone must have come this way before.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Move on", "leads_to": "SWAMP", "value": 0, "travel_text": "You leave the broken boat behind and continue through the fog.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
-		],
-		"action": {
-		  "name": "Inspect the boat",
-		  "tooltip": "Look over the waterlogged hull.",
-		  "event": "half_sunken_boat_inspect",
-		  "disabled_tooltip": "You've already searched the wreck.",
-		  "repeatable": false
-		}
-	  },
-	  {
-		"name": "Arcward Gate",
-	  	"categories": ["swamp"],
-		"condition": {
-		  "visit_once": true
-		},
-		"entrances": ["SWAMP", "TOWN"],
-		"encounter_rate": 0,
-		"events": [
-		  {"chance": 1, "event": "enter_arcward"}
-		],
-		"arrival": {
-		  "SWAMP": [
-			"The fog thins just enough to reveal a raised stone causeway, cutting straight and deliberate through the marsh—the first thing you've seen here that wasn't shaped by rot."
-		  ],
-		  "TOWN": [
-			"The causeway leads you back down into the fog, the Academy's spires vanishing behind you."
-		  ],
-		  "default": [
-			"A raised stone causeway rises out of the swamp here, leading toward the distant spires of the Magical Academy of Arcward."
-		  ]
-		},
-		"description": [
-		  { "text": "The stonework is clean and mortared—nothing else in the swamp is." },
-		  { "text": "Lantern-posts line the causeway, still lit against the fog." }
-		],
-		"exits": [
-		  { "choice": "Return to the swamp", "leads_to": "SWAMP", "value": 1, "travel_text": "You step off the causeway and back into the fog, the lantern-light fading behind you." }
-		],
-		"action": {
-		  "name": "Enter the Academy",
-		  "tooltip": "Approach the gates of Magical Academy of Arcward.",
-		  "event": "enter_arcward"
-		}
-	  },
-	  {
-		"name": "Ruin Threshold",
-		"type": "EXIT",
-		"entrances": ["SWAMP"],
-		"boss": "King of the Swamp",
-		"encounter_rate": 0,
-		"arrival": {
-			"SWAMP": [
-				"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
+		{
+			"name": "Foggy Marsh",
+			"categories": [
+				"swamp",
+				"lost_fog"
 			],
-			"default": [
-				"You stand at the edge of the Arcmat Ruins, where the swamp fog ends and precise black geometric structures begin."
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"A thick white fog swallows the landscape as you step into the swamp, obscuring everything beyond a few steps.",
+					"You push through the mist, but nothing changes—the swamp stretches endlessly in all directions."
+				],
+				"default": [
+					"You stand in the foggy marsh, shallow water pooling around your feet and thick mist obscuring everything beyond a few steps."
+				]
+			},
+			"description": [
+				{
+					"text": "Shallow water pools around your feet, hidden beneath layers of mud."
+				},
+				{
+					"text": "The fog dulls all sound, leaving only your own movements."
+				},
+				{
+					"text": "Shapes seem to move just beyond your vision.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Wade forward",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You push forward through the fog and the shallow water, each step pulling against the mud beneath.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Turn back",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You turn and push back through the fog, retracing your steps as best you can.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
 			]
 		},
-		"description": [
-			{ "text": "You feel as though you are being watched." }
-		],
-		"exits": [
-			{ "choice": "Enter the ruins", "leads_to": "TERMINAL", "travel_text": "You step through the entrance, the fog cutting away as the black geometry of the ruins closes around you." }
-		]
+		{
+			"name": "Sunken Path",
+			"backdrop": "lost_road2.png",
+			"categories": [
+				"swamp",
+				"lost_fog"
+			],
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"Your foot finds something solid beneath the water—a submerged path, barely visible through the fog."
+				],
+				"default": [
+					"Old stones form a path just beneath the murky water here, appearing and disappearing unpredictably."
+				]
+			},
+			"description": [
+				{
+					"text": "Old stones form a path beneath the murky water."
+				},
+				{
+					"text": "The path vanishes and reappears unpredictably."
+				},
+				{
+					"text": "You are not sure if it leads anywhere at all.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the path",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You continue carefully along the submerged stones, testing each step before moving forward.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Step off into the swamp",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You leave the path and step into the murky water, the ground immediately less certain beneath you.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Twisted Trees",
+			"categories": [
+				"swamp",
+				"lost_fog"
+			],
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"Dark, twisted trees loom from the fog, their shapes barely visible.",
+					"The trees close in tighter, their forms warped and unnatural."
+				],
+				"default": [
+					"Dark, gnarled trees press close around you, their trunks bent at impossible angles and their roots rising from the water."
+				]
+			},
+			"description": [
+				{
+					"text": "The trunks bend at impossible angles."
+				},
+				{
+					"text": "Roots rise from the water like grasping fingers."
+				},
+				{
+					"text": "You feel watched.",
+					"chance": 0.6
+				}
+			],
+			"exits": [
+				{
+					"choice": "Push through the trees",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You force your way between the gnarled trunks, roots snagging at your feet as you press deeper.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Retreat carefully",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You back away through the twisted trees, moving slowly to avoid the grasping roots.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Still Water",
+			"categories": [
+				"swamp",
+				"lost_fog"
+			],
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"The ground gives way to a wide expanse of still, dark water."
+				],
+				"default": [
+					"A wide expanse of perfectly still, dark water stretches before you, its depth impossible to read."
+				]
+			},
+			"description": [
+				{
+					"text": "The surface is perfectly still, like glass."
+				},
+				{
+					"text": "You cannot see how deep it goes."
+				},
+				{
+					"text": "Something disturbs the water far from you.",
+					"chance": 0.4
+				}
+			],
+			"exits": [
+				{
+					"choice": "Skirt the edge",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You move carefully along the edge of the still water, keeping to the firmer ground.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Wade through",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You step into the dark water, its stillness broken around you as you wade forward.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Whispering Reeds",
+			"categories": [
+				"swamp",
+				"lost_fog"
+			],
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"Tall reeds emerge from the fog, swaying despite the still air.",
+					"The reeds close around you, their soft rustling forming indistinct whispers."
+				],
+				"default": [
+					"Tall reeds surround you on all sides, their rustling carrying sounds almost like voices."
+				]
+			},
+			"description": [
+				{
+					"text": "The reeds brush softly against you as you pass."
+				},
+				{
+					"text": "The sound almost resembles voices."
+				},
+				{
+					"text": "You almost understand what they're saying.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the whispers",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You let the sound draw you forward, pressing deeper through the swaying reeds.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Ignore them and move on",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You push through the reeds without listening, focusing on finding firmer ground.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Lost Shrine",
+			"categories": [
+				"swamp"
+			],
+			"backdrop": "lost_shrine2.png",
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"A crumbling shrine emerges from the fog, half-sunken into the swamp."
+				],
+				"default": [
+					"A crumbling stone shrine rises half-sunken from the swamp here, its carvings worn beyond recognition."
+				]
+			},
+			"description": [
+				{
+					"text": "Stone carvings are worn beyond recognition."
+				},
+				{
+					"text": "The structure leans, slowly sinking into the mud."
+				},
+				{
+					"text": "It feels like this place should not be found.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Leave quickly",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You turn from the shrine and move quickly back into the fog, the structure disappearing behind you.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			],
+			"action": {
+				"name": "Search the shrine",
+				"tooltip": "Circle the shrine and probe its crumbling structure.",
+				"event": "lost_shrine_search",
+				"disabled_tooltip": "You've already searched the shrine.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Endless Hollow",
+			"categories": [
+				"swamp",
+				"lost_fog"
+			],
+			"backdrop": "lost_fog2.png",
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"The fog thickens until even the ground beneath you fades from view."
+				],
+				"default": [
+					"The fog is total here—you can barely see your own hands, and every sound is swallowed by the mist."
+				]
+			},
+			"description": [
+				{
+					"text": "You can barely see your own hands."
+				},
+				{
+					"text": "Sound is completely muffled."
+				},
+				{
+					"text": "You are no longer sure which way you came from.",
+					"chance": 0.7
+				}
+			],
+			"exits": [
+				{
+					"choice": "Keep moving",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You press forward blindly, one hand outstretched, hoping the fog will thin.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				},
+				{
+					"choice": "Stand still",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You stop and wait, listening to the muffled silence until some sense of direction returns.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Half-Sunken Boat",
+			"categories": [
+				"swamp"
+			],
+			"backdrop": "lost_boat2.png",
+			"entrances": [
+				"SWAMP"
+			],
+			"arrival": {
+				"SWAMP": [
+					"The outline of a broken boat appears through the fog.",
+					"You almost miss it—a half-sunken boat drifting silently in the water."
+				],
+				"default": [
+					"A half-sunken wooden boat lists in the water nearby, its hull rotted and waterlogged."
+				]
+			},
+			"description": [
+				{
+					"text": "The wood is rotted and waterlogged."
+				},
+				{
+					"text": "It looks like it hasn't moved in years."
+				},
+				{
+					"text": "Someone must have come this way before.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Move on",
+					"leads_to": "SWAMP",
+					"value": 0,
+					"travel_text": "You leave the broken boat behind and continue through the fog.",
+					"events": [
+						{
+							"event": "swamp_lost_traversal",
+							"chance": 1
+						}
+					]
+				}
+			],
+			"action": {
+				"name": "Inspect the boat",
+				"tooltip": "Look over the waterlogged hull.",
+				"event": "half_sunken_boat_inspect",
+				"disabled_tooltip": "You've already searched the wreck.",
+				"repeatable": false
+			}
+		},
+		{
+			"name": "Arcward Gate",
+			"categories": [
+				"swamp"
+			],
+			"condition": {
+				"visit_once": true
+			},
+			"entrances": [
+				"SWAMP",
+				"TOWN"
+			],
+			"encounter_rate": 0,
+			"events": [
+				{
+					"chance": 1,
+					"event": "enter_arcward"
+				}
+			],
+			"arrival": {
+				"SWAMP": [
+					"The fog thins just enough to reveal a raised stone causeway, cutting straight and deliberate through the marsh—the first thing you've seen here that wasn't shaped by rot."
+				],
+				"TOWN": [
+					"The causeway leads you back down into the fog, the Academy's spires vanishing behind you."
+				],
+				"default": [
+					"A raised stone causeway rises out of the swamp here, leading toward the distant spires of the Magical Academy of Arcward."
+				]
+			},
+			"description": [
+				{
+					"text": "The stonework is clean and mortared—nothing else in the swamp is."
+				},
+				{
+					"text": "Lantern-posts line the causeway, still lit against the fog."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Return to the swamp",
+					"leads_to": "SWAMP",
+					"value": 1,
+					"travel_text": "You step off the causeway and back into the fog, the lantern-light fading behind you."
+				}
+			],
+			"action": {
+				"name": "Enter the Academy",
+				"tooltip": "Approach the gates of Magical Academy of Arcward.",
+				"event": "enter_arcward"
+			}
+		},
+		{
+			"name": "Ruin Threshold",
+			"type": "EXIT",
+			"entrances": [
+				"SWAMP"
+			],
+			"boss": "King of the Swamp",
+			"encounter_rate": 0,
+			"arrival": {
+				"SWAMP": [
+					"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
+				],
+				"default": [
+					"You stand at the edge of the Arcmat Ruins, where the swamp fog ends and precise black geometric structures begin."
+				]
+			},
+			"description": [
+				{
+					"text": "You feel as though you are being watched."
+				}
+			],
+			"exits": [
+				{
+					"choice": "Enter the ruins",
+					"leads_to": "TERMINAL",
+					"travel_text": "You step through the entrance, the fog cutting away as the black geometry of the ruins closes around you."
+				}
+			]
 		}
 	],
 	"Arcmat Ruins": [
-	  {
-		"name": "Fractured Hall",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"A vast hall stretches ahead, its walls partially collapsed—yet the fallen cubes hang suspended in midair."
-		  ],
-		  "default": [
-			"A vast hall surrounds you, its walls fragmented and floating, bound together by threads of violet energy."
-		  ]
+		{
+			"name": "Fractured Hall",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"A vast hall stretches ahead, its walls partially collapsed—yet the fallen cubes hang suspended in midair."
+				],
+				"default": [
+					"A vast hall surrounds you, its walls fragmented and floating, bound together by threads of violet energy."
+				]
+			},
+			"description": [
+				{
+					"text": "Onyx cubes float silently where walls once stood."
+				},
+				{
+					"text": "Energy threads bind the structure together despite its fragmentation."
+				},
+				{
+					"text": "The air vibrates faintly, like a held breath.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Move deeper",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You move through the hall, navigating between floating blocks, and press deeper into the ruins."
+				},
+				{
+					"choice": "Examine the floating blocks",
+					"leads_to": "RUINS",
+					"value": 0.9,
+					"travel_text": "You study the suspended cubes up close, then continue deeper into the ruins."
+				}
+			]
 		},
-		"description": [
-		  { "text": "Onyx cubes float silently where walls once stood." },
-		  { "text": "Energy threads bind the structure together despite its fragmentation." },
-		  { "text": "The air vibrates faintly, like a held breath.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Move deeper", "leads_to": "RUINS", "value": 1, "travel_text": "You move through the hall, navigating between floating blocks, and press deeper into the ruins." },
-		  { "choice": "Examine the floating blocks", "leads_to": "RUINS", "value": 0.9, "travel_text": "You study the suspended cubes up close, then continue deeper into the ruins." }
-		]
-	  },
-	  {
-		"name": "Glyph Corridor",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"A narrow corridor lined with glowing inscriptions stretches into the distance."
-		  ],
-		  "default": [
-			"A narrow corridor surrounds you, its walls covered in glowing symbols that shift whenever you look away."
-		  ]
+		{
+			"name": "Glyph Corridor",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"A narrow corridor lined with glowing inscriptions stretches into the distance."
+				],
+				"default": [
+					"A narrow corridor surrounds you, its walls covered in glowing symbols that shift whenever you look away."
+				]
+			},
+			"description": [
+				{
+					"text": "Symbols carved into the walls shift subtly when not directly observed."
+				},
+				{
+					"text": "The glyphs pulse with a steady violet glow."
+				},
+				{
+					"text": "You cannot decipher their meaning.",
+					"chance": 0.7
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the corridor",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You walk the length of the corridor, the glowing glyphs shifting at the edges of your vision as you pass."
+				},
+				{
+					"choice": "Trace the symbols",
+					"leads_to": "RUINS",
+					"value": 0.8,
+					"travel_text": "You run your fingers along the pulsing inscriptions, then press on through the corridor."
+				}
+			]
 		},
-		"description": [
-		  { "text": "Symbols carved into the walls shift subtly when not directly observed." },
-		  { "text": "The glyphs pulse with a steady violet glow." },
-		  { "text": "You cannot decipher their meaning.", "chance": 0.7 }
-		],
-		"exits": [
-		  { "choice": "Follow the corridor", "leads_to": "RUINS", "value": 1, "travel_text": "You walk the length of the corridor, the glowing glyphs shifting at the edges of your vision as you pass." },
-		  { "choice": "Trace the symbols", "leads_to": "RUINS", "value": 0.8, "travel_text": "You run your fingers along the pulsing inscriptions, then press on through the corridor." }
-		]
-	  },
-	  {
-		"name": "Mechanism Chamber",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"A chamber filled with intricate moving parts reveals itself, each piece rotating with silent precision."
-		  ],
-		  "default": [
-			"Interlocking mechanisms fill the chamber around you, their components turning in silent, endless motion."
-		  ]
+		{
+			"name": "Mechanism Chamber",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"A chamber filled with intricate moving parts reveals itself, each piece rotating with silent precision."
+				],
+				"default": [
+					"Interlocking mechanisms fill the chamber around you, their components turning in silent, endless motion."
+				]
+			},
+			"description": [
+				{
+					"text": "Interlocking rings and cubic components shift endlessly."
+				},
+				{
+					"text": "Energy flows through the mechanisms like blood through veins."
+				},
+				{
+					"text": "The system appears self-sustaining.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Observe the mechanisms",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You watch the intricate components turn in silence before carefully moving on."
+				},
+				{
+					"choice": "Move on carefully",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You pick your way through the moving parts and continue deeper into the ruins."
+				}
+			]
 		},
-		"description": [
-		  { "text": "Interlocking rings and cubic components shift endlessly." },
-		  { "text": "Energy flows through the mechanisms like blood through veins." },
-		  { "text": "The system appears self-sustaining.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Observe the mechanisms", "leads_to": "RUINS", "value": 1, "travel_text": "You watch the intricate components turn in silence before carefully moving on." },
-		  { "choice": "Move on carefully", "leads_to": "RUINS", "value": 1, "travel_text": "You pick your way through the moving parts and continue deeper into the ruins." }
-		]
-	  },
-	  {
-		"name": "Floating Atrium",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"The space opens upward into a vast atrium, where entire sections of structure float freely."
-		  ],
-		  "default": [
-			"An open atrium rises around you, cubic stones drifting slowly through the air, held by unseen forces."
-		  ]
+		{
+			"name": "Floating Atrium",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"The space opens upward into a vast atrium, where entire sections of structure float freely."
+				],
+				"default": [
+					"An open atrium rises around you, cubic stones drifting slowly through the air, held by unseen forces."
+				]
+			},
+			"description": [
+				{
+					"text": "Cubic stones drift slowly through the air, held by unseen forces."
+				},
+				{
+					"text": "Purple light radiates from the gaps between them."
+				},
+				{
+					"text": "Gravity feels uncertain here.",
+					"chance": 0.5
+				}
+			],
+			"exits": [
+				{
+					"choice": "Cross the atrium",
+					"leads_to": "RUINS",
+					"value": 0.8,
+					"travel_text": "You step out onto the drifting stones, moving carefully from block to block until you reach the far side."
+				},
+				{
+					"choice": "Turn back",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You pull back from the atrium and find another path through the ruins."
+				}
+			]
 		},
-		"description": [
-		  { "text": "Cubic stones drift slowly through the air, held by unseen forces." },
-		  { "text": "Purple light radiates from the gaps between them." },
-		  { "text": "Gravity feels uncertain here.", "chance": 0.5 }
-		],
-		"exits": [
-		  { "choice": "Cross the atrium", "leads_to": "RUINS", "value": 0.8, "travel_text": "You step out onto the drifting stones, moving carefully from block to block until you reach the far side." },
-		  { "choice": "Turn back", "leads_to": "RUINS", "value": 1, "travel_text": "You pull back from the atrium and find another path through the ruins." }
-		]
-	  },
-	  {
-		"name": "Arcane Conduit",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"A concentrated stream of violet energy flows through a central channel, humming with immense power."
-		  ],
-		  "default": [
-			"A channel of raw violet energy runs through the center of this space, crackling with unstable, immense power."
-		  ]
+		{
+			"name": "Arcane Conduit",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"A concentrated stream of violet energy flows through a central channel, humming with immense power."
+				],
+				"default": [
+					"A channel of raw violet energy runs through the center of this space, crackling with unstable, immense power."
+				]
+			},
+			"description": [
+				{
+					"text": "Raw mana pulses visibly between the onyx blocks."
+				},
+				{
+					"text": "The air crackles with unstable energy."
+				},
+				{
+					"text": "Standing too close makes your skin tingle painfully.",
+					"chance": 0.6
+				}
+			],
+			"exits": [
+				{
+					"choice": "Follow the conduit",
+					"leads_to": "CORE",
+					"value": 0.7,
+					"travel_text": "You follow the stream of energy as it leads you inward, the crackling power growing stronger with every step."
+				},
+				{
+					"choice": "Step away",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You move back from the conduit and continue through the ruins, the prickling sensation in your skin fading slowly."
+				}
+			]
 		},
-		"description": [
-		  { "text": "Raw mana pulses visibly between the onyx blocks." },
-		  { "text": "The air crackles with unstable energy." },
-		  { "text": "Standing too close makes your skin tingle painfully.", "chance": 0.6 }
-		],
-		"exits": [
-		  { "choice": "Follow the conduit", "leads_to": "CORE", "value": 0.7, "travel_text": "You follow the stream of energy as it leads you inward, the crackling power growing stronger with every step." },
-		  { "choice": "Step away", "leads_to": "RUINS", "value": 1, "travel_text": "You move back from the conduit and continue through the ruins, the prickling sensation in your skin fading slowly." }
-		]
-	  },
-	  {
-		"name": "Scriptorium",
-	  	"categories": ["ruin"],
-		"entrances": ["RUINS"],
-		"arrival": {
-		  "RUINS": [
-			"Rows of carved surfaces line the chamber, each filled with dense, unreadable writing."
-		  ],
-		  "default": [
-			"Dense, shifting script covers every surface of this chamber, layer upon layer of indecipherable writing."
-		  ]
+		{
+			"name": "Scriptorium",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"RUINS"
+			],
+			"arrival": {
+				"RUINS": [
+					"Rows of carved surfaces line the chamber, each filled with dense, unreadable writing."
+				],
+				"default": [
+					"Dense, shifting script covers every surface of this chamber, layer upon layer of indecipherable writing."
+				]
+			},
+			"description": [
+				{
+					"text": "The walls are covered in layers of indecipherable script."
+				},
+				{
+					"text": "Some symbols rearrange themselves slowly."
+				},
+				{
+					"text": "The knowledge here feels vast—and unreachable.",
+					"chance": 0.6
+				}
+			],
+			"exits": [
+				{
+					"choice": "Study the writings",
+					"leads_to": "RUINS",
+					"value": 0.9,
+					"travel_text": "You spend a long moment trying to decipher the shifting script, then move on through the ruins."
+				},
+				{
+					"choice": "Leave the chamber",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You step out of the scriptorium and continue deeper into the ruins."
+				}
+			]
 		},
-		"description": [
-		  { "text": "The walls are covered in layers of indecipherable script." },
-		  { "text": "Some symbols rearrange themselves slowly." },
-		  { "text": "The knowledge here feels vast—and unreachable.", "chance": 0.6 }
-		],
-		"exits": [
-		  { "choice": "Study the writings", "leads_to": "RUINS", "value": 0.9, "travel_text": "You spend a long moment trying to decipher the shifting script, then move on through the ruins." },
-		  { "choice": "Leave the chamber", "leads_to": "RUINS", "value": 1, "travel_text": "You step out of the scriptorium and continue deeper into the ruins." }
-		]
-	  },
-	  {
-		"name": "Core Nexus",
-	  	"categories": ["ruin"],
-		"entrances": ["CORE"],
-		"arrival": {
-		  "CORE": [
-			"At the heart of the ruins, a perfect geometric structure pulses with overwhelming magical energy."
-		  ],
-		  "default": [
-			"You stand before the Core Nexus—a perfect geometric structure at the heart of the ruins, pulsing with overwhelming energy."
-		  ]
-		},
-		"description": [
-		  { "text": "Cubes align and shift in precise, repeating patterns." },
-		  { "text": "Energy arcs violently between them, forming unstable shapes." },
-		  { "text": "This feels like the origin of something vast.", "chance": 0.7 }
-		],
-		"exits": [
-		  { "choice": "Approach the nexus", "leads_to": "CORE", "value": 0.6, "travel_text": "You step closer to the pulsing structure, the energy arcing around you as the air vibrates with its power." },
-		  { "choice": "Retreat", "leads_to": "RUINS", "value": 1, "travel_text": "You back away from the nexus and retreat through the ruins, the geometric patterns fading behind you." }
-		]
-	  }
+		{
+			"name": "Core Nexus",
+			"categories": [
+				"ruin"
+			],
+			"entrances": [
+				"CORE"
+			],
+			"arrival": {
+				"CORE": [
+					"At the heart of the ruins, a perfect geometric structure pulses with overwhelming magical energy."
+				],
+				"default": [
+					"You stand before the Core Nexus—a perfect geometric structure at the heart of the ruins, pulsing with overwhelming energy."
+				]
+			},
+			"description": [
+				{
+					"text": "Cubes align and shift in precise, repeating patterns."
+				},
+				{
+					"text": "Energy arcs violently between them, forming unstable shapes."
+				},
+				{
+					"text": "This feels like the origin of something vast.",
+					"chance": 0.7
+				}
+			],
+			"exits": [
+				{
+					"choice": "Approach the nexus",
+					"leads_to": "CORE",
+					"value": 0.6,
+					"travel_text": "You step closer to the pulsing structure, the energy arcing around you as the air vibrates with its power."
+				},
+				{
+					"choice": "Retreat",
+					"leads_to": "RUINS",
+					"value": 1,
+					"travel_text": "You back away from the nexus and retreat through the ruins, the geometric patterns fading behind you."
+				}
+			]
+		}
 	]
 }

@@ -1,0 +1,190 @@
+{
+	"enter_lizal_town": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You step through the carved stone entrance into Lizal-Town, the hum of the settlement filling the air around you."
+			},
+			{
+				"type": "enter_town",
+				"town": "Lizal-Town"
+			}
+		]
+	},
+	"lizal_patrol": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You hear two Lizardmen patrolling up ahead. They weren't expecting you any more than you were expecting them, and haven't noticed you yet.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Hide and wait",
+						"key": "hide"
+					},
+					{
+						"choice": "Draw your weapon",
+						"key": "fight"
+					},
+					{
+						"choice": "Try to speak to them",
+						"key": "speak"
+					},
+					{
+						"choice": "Slip in behind and follow them",
+						"key": "follow"
+					}
+				],
+				"branches": {
+					"nod": [
+						{
+							"type": "text",
+							"text": "You press behind a wall. The lead Lizardman looks around, but looks over your hiding spot.\n\nAfter a long moment, he gestures to the other. They file past."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"fight": [
+						{
+							"type": "text",
+							"text": "You step out into the open, weapon drawn.\n\nThe Lizardmen don't wait. Both draw Falchions."
+						},
+						{
+							"type": "combat",
+							"enemy": "Lizardman Patrol",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							],
+							"on_defeat": []
+						}
+					],
+					"speak": [
+						{
+							"type": "text",
+							"text": "You show yourself and tell the Lizardmen that you mean no harm.\n\nThe lead Lizardman tilts its head. The other clicks something at it. Then, slowly, the first one speaks — careful, deliberate, like it's pulling the words out of somewhere they don't usually live.\n\n\"Rrrhumansss. In ourr tunnelsss.\" A pause. \"You not belong herrre. Musst be dealt with.\"",
+							"no_wait": true
+						},
+						{
+							"type": "choice",
+							"header": "What do you say?",
+							"choices": [
+								{
+									"choice": "\"I'm just passing through.\"",
+									"key": "passing"
+								},
+								{
+									"choice": "\"I'm looking for your settlement.\"",
+									"key": "seeking"
+								}
+							],
+							"branches": {
+								"passing": [
+									{
+										"type": "random",
+										"outcomes": [
+											{
+												"weight": 6,
+												"steps": [
+													{
+														"type": "text",
+														"text": "It regards you for a long moment. \"Passsing.\" Another pause. \"Then passs.\" It steps aside. The other one doesn't move until the first taps its arm. You walk through. Nobody stabs anybody. A good outcome."
+													},
+													{
+														"type": "show_node"
+													}
+												]
+											},
+											{
+												"weight": 4,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"Passsing.\" It clicks something to the other one. \"Can't let you.\" Both falchions come out."
+													},
+													{
+														"type": "combat",
+														"enemy": "Lizardman Patrol",
+														"on_victory": [
+															{
+																"type": "show_node"
+															}
+														],
+														"on_defeat": []
+													}
+												]
+											}
+										]
+									}
+								],
+								"seeking": [
+									{
+										"type": "text",
+										"text": "A long silence. The two Lizardmen look at each other. The first one speaks again, slower.\n\n\"You know we arrre... herrre? That we have a place?\"\n\nYou say yes. Another silence. \"Mosst humansss do not know. Mosst humansss... do not arrrive.\"\n\nIt thinks about this. Then: \"You come with usss. We decide what to do with you when we arrrive.\""
+									},
+									{
+										"type": "exit_node",
+										"exit": {
+											"leads_to": "TOWN",
+											"travel_text": "They lead you through passages you'd never have found alone. The tunnels widen. Firelight flickers ahead."
+										}
+									}
+								]
+							}
+						}
+					],
+					"follow": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"agi": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You fall in behind them at a distance, keeping to the shadows."
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "TOWN",
+												"travel_text": "They lead you through a series of low tunnels, unaware. The passages widen. Firelight appears ahead."
+											}
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You make it maybe thirty paces before one of them stops, turns, and looks directly at you. There's a moment where everyone pretends this hasn't happened. Then it doesn't pretend anymore."
+										},
+										{
+											"type": "combat",
+											"enemy": "Lizardman Patrol",
+											"on_victory": [
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	}
+}

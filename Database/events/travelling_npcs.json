@@ -1,0 +1,721 @@
+{
+	"_travelling_gambler_game": {
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Name your ante.",
+				"choices": [
+					{
+						"choice": "15 gold — small stakes",
+						"key": "low",
+						"condition": {
+							"gold": {
+								"min": 15
+							}
+						},
+						"disabled_text": "15 gold (can't afford)",
+						"disabled_tooltip": "Requires at least 15G"
+					},
+					{
+						"choice": "35 gold — standard",
+						"key": "mid",
+						"condition": {
+							"gold": {
+								"min": 35
+							}
+						},
+						"disabled_text": "35 gold (can't afford)",
+						"disabled_tooltip": "Requires at least 35G"
+					},
+					{
+						"choice": "75 gold — high stakes",
+						"key": "high",
+						"condition": {
+							"gold": {
+								"min": 75
+							}
+						},
+						"disabled_text": "75 gold (can't afford)",
+						"disabled_tooltip": "Requires at least 75G"
+					},
+					{
+						"choice": "How do you play?",
+						"key": "info"
+					},
+					{
+						"choice": "Not interested",
+						"key": "leave",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"low": [
+						{
+							"type": "dice_game",
+							"wager": 15,
+							"gamblers": [
+								"travelling_gambler"
+							],
+							"community_dice": [
+								"standard",
+								"standard"
+							],
+							"on_win": [
+								{
+									"type": "text",
+									"text": "Your hand takes the pot. He slides the coins across without complaint.\n\n\"Well played.\"",
+									"no_continue": true
+								}
+							],
+							"on_tie": [
+								{
+									"type": "text",
+									"text": "A dead match. He pushes your stake back without a word.",
+									"no_continue": true
+								}
+							],
+							"on_fold": [
+								{
+									"type": "text",
+									"text": "You lay your dice down. He sweeps the pot to his side of the stump.\n\n\"Smart. Sometimes folding is the only play.\"",
+									"no_continue": true
+								}
+							],
+							"on_lose": [
+								{
+									"type": "text",
+									"text": "He lays his hand flat on the stump and sweeps the coins off with practiced calm.\n\n\"Better luck next time, friend.\"",
+									"no_continue": true
+								}
+							]
+						},
+						{
+							"type": "event",
+							"event": "_travelling_gambler_rematch"
+						}
+					],
+					"mid": [
+						{
+							"type": "dice_game",
+							"wager": 35,
+							"gamblers": [
+								"travelling_gambler"
+							],
+							"community_dice": [
+								"standard",
+								"standard"
+							],
+							"on_win": [
+								{
+									"type": "text",
+									"text": "Your hand takes the pot. He counts out the coins and sets them in front of you.\n\n\"You've played before.\"",
+									"no_continue": true
+								}
+							],
+							"on_tie": [
+								{
+									"type": "text",
+									"text": "Neither hand better. He returns your stake without a word.",
+									"no_continue": true
+								}
+							],
+							"on_fold": [
+								{
+									"type": "text",
+									"text": "You fold. He nods once and pulls the pot to his side.\n\n\"No shame in knowing when to walk.\"",
+									"no_continue": true
+								}
+							],
+							"on_lose": [
+								{
+									"type": "text",
+									"text": "He adds your coins to his purse with a dry smile.\n\n\"The bones decide, not me.\"",
+									"no_continue": true
+								}
+							]
+						},
+						{
+							"type": "event",
+							"event": "_travelling_gambler_rematch"
+						}
+					],
+					"high": [
+						{
+							"type": "dice_game",
+							"wager": 75,
+							"gamblers": [
+								"travelling_gambler"
+							],
+							"community_dice": [
+								"standard",
+								"standard"
+							],
+							"on_win": [
+								{
+									"type": "if",
+									"condition": {
+										"event_unused": "gambler_high_stakes_win"
+									},
+									"then": [
+										{
+											"type": "mark_used",
+											"event": "gambler_high_stakes_win"
+										},
+										{
+											"type": "text",
+											"text": "Your hand takes the pot. Your opponent stares at the dice for a long time — longer than he's looked at you the whole game.\n\n\"...Good game.\"\n\n\"You've got gumption, kid. Take this, too: Someone with that kind of nerve deserves a better die.\"\n\nIt's a carved bone die, just a bit heavier than it should be. The secret to Traveller's Dice is in the dice you've got, see? And sometimes, you need something with more... consistent results.\""
+										},
+										{
+											"type": "give_item",
+											"item": "weighted"
+										},
+										{
+											"type": "text",
+											"text": "The travelling gambler smiles.\n\n\"You'll encounter all sorts dice people use in road, some fairer than others, so you've stack things as far in your favor as you can, see?\"\n\n\"Make sure to check the rules often, and keep your mouth shut about what you've got, and you're gonna go far, kid.\"",
+											"no_continue": true
+										}
+									],
+									"else": [
+										{
+											"type": "text",
+											"text": "Your hand takes the pot. The man stares at the dice for a long moment, then smiles.\n\n\"...Good game, kid.\""
+										}
+									]
+								}
+							],
+							"on_tie": [
+								{
+									"type": "text",
+									"text": "Your opponent studies the table. Pushes back your stake. \"...Good game.\"",
+									"no_continue": true
+								}
+							],
+							"on_fold": [
+								{
+									"type": "text",
+									"text": "You fold. Your opponent pulls the pot to his side with both hands.\n\n\"High stakes. Wise choice.\"",
+									"no_continue": true
+								}
+							],
+							"on_lose": [
+								{
+									"type": "text",
+									"text": "He pulls the coins to his side of the stump slowly.\n\n\"High stakes, high lessons. Never gamble what you don't want Lady Luck to keep.\"",
+									"no_continue": true
+								}
+							]
+						},
+						{
+							"type": "event",
+							"event": "_travelling_gambler_rematch"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "\"Another time, then.\" He goes back to rolling the dice between his fingers as you walk away."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"info": [
+						{
+							"type": "text",
+							"text": "He leans back and rolls one of the dice across his knuckles.\n\n\"Simple enough. Each of us has three private dice. Two more go in the middle — Dealer's dice — and those belong to the table. You pick any five from the lot to build your best hand.\"\n\nHe lines three dice on the stump.\n\n\"Three chances to swap one of yours out. After the first two rounds, a middle die gets turned face-up — changes what you can work with. Third round done, everybody shows what they've got.\"\n\n\"Pairs, runs, threes-of-a-kind — runs beat pairs, threes beat runs. Longer runs beat shorter ones. There are special faces too, once you get fancier dice.\"\n\n\"Full list of hands is right there during play, so no need to memorize anything. Lady Luck handles the rest.\""
+						},
+						{
+							"type": "text",
+							"text": "The travelling gambler leans back and offers you a die.\n\n\"So? Interested in trying it out?\"",
+							"no_continue": true
+						},
+						{
+							"type": "event",
+							"event": "_travelling_gambler_game"
+						}
+					]
+				}
+			}
+		]
+	},
+	"_travelling_gambler_rematch": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "\"Now, you up for another game, kid?\"",
+				"clear": false,
+				"no_continue": false
+			},
+			{
+				"type": "event",
+				"event": "_travelling_gambler_game"
+			}
+		]
+	},
+	"travelling_bo": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A travelling weirdo appears in your path.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "A bald man in flashy clothes stands on the roadside, a long stick resting across his shoulders. His posture is relaxed but precise — the kind that doesn't come without decades of practice.\n\nHe studies you for a moment.\n\n\"You there! I am Bo, the Magical Sword Instructor!\" He slams his stick on the ground. \"You look like you need training! I'll teach you one of my techniques, right here, right now!\"",
+				"clear": true,
+				"no_continue": true
+			},
+			{
+				"type": "choice",
+				"header": "Which technique do you want to learn?",
+				"choices": [
+					{
+						"choice": "Cleave",
+						"key": "cleave",
+						"condition": {
+							"lacks_skill": "Cleave"
+						},
+						"disabled_tooltip": "Already known",
+						"tooltip": "Cleave\nTarget: [color=red]EVERYONE[/color]\nMgt: +7  Acc: 70%\nScales: STR"
+					},
+					{
+						"choice": "Armor Piercer",
+						"key": "armor_piercer",
+						"condition": {
+							"lacks_skill": "Armor Piercer"
+						},
+						"disabled_tooltip": "Already known",
+						"tooltip": "Armor Piercer\nAcc: 60%\nIgnores DEF\nScales: STR + Weapon"
+					},
+					{
+						"choice": "Flourish",
+						"key": "flourish",
+						"condition": {
+							"lacks_skill": "Flourish"
+						},
+						"disabled_tooltip": "Already known",
+						"tooltip": "Flourish\nReduces all cooldowns by 1\nWgt: 4"
+					},
+					{
+						"choice": "Pinpoint Hit",
+						"key": "pinpoint_hit",
+						"condition": {
+							"lacks_skill": "Pinpoint Hit"
+						},
+						"disabled_tooltip": "Already known",
+						"tooltip": "Pinpoint Hit\nAcc: 95%  Crit: 100%\nScales: STR + Weapon"
+					},
+					{
+						"choice": "Refuse",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"cleave": [
+						{
+							"type": "text",
+							"text": "\"Cleave.\" Bo steps back and sweeps his stick wide. \"You're not picking a target — you're attacking space itself! Trust the arc!\"\n\nYou practice the motion until the form becomes instinct.",
+							"clear": true
+						},
+						{
+							"type": "learn_skill",
+							"skill": "Cleave"
+						},
+						{
+							"type": "text",
+							"text": "Learned [color=yellow]Cleave[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"armor_piercer": [
+						{
+							"type": "text",
+							"text": "\"Armor Piercer.\" He jabs his stick at you. \"You're not hitting the armor — you're hitting the guy wearing it! Don't forget!\"\n\nYou practice until Bo is satisfied.",
+							"clear": true
+						},
+						{
+							"type": "learn_skill",
+							"skill": "Armor Piercer"
+						},
+						{
+							"type": "text",
+							"text": "Learned [color=yellow]Armor Piercer[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"flourish": [
+						{
+							"type": "text",
+							"text": "\"Flourish.\" He waves his stick around. \"It's the very essence of martial arts! Move while looking cool!\"\n\nYou feel silly copying his movements. After a while, something clicks.",
+							"clear": true
+						},
+						{
+							"type": "learn_skill",
+							"skill": "Flourish"
+						},
+						{
+							"type": "text",
+							"text": "Learned [color=yellow]Flourish[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"pinpoint_hit": [
+						{
+							"type": "text",
+							"text": "\"Pinpoint Hit.\" Bo adjusts your grip without asking. \"It's simple: Just hit where you look!\"\n\nYou do as he says, and, somehow, it just works.",
+							"clear": true
+						},
+						{
+							"type": "learn_skill",
+							"skill": "Pinpoint Hit"
+						},
+						{
+							"type": "text",
+							"text": "Learned [color=yellow]Pinpoint Hit[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"back": [
+						{
+							"type": "text",
+							"text": "You back away slowly...",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"travelling_gambler": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You spot someone up ahead.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "A weathered man sits at a stump by the roadside, three carved bone dice rolling idly between his fingers. He looks up as you approach.\n\n\"Care for a game? Wanderer's Dice — oldest game on the road.\"",
+				"no_continue": true
+			},
+			{
+				"type": "event",
+				"event": "_travelling_gambler_game"
+			}
+		]
+	},
+	"travelling_healer": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A travelling healer hails you from the roadside.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "A figure in worn green robes gives you a smile, a healer's staff leaning against their pack. The smell of dried herbs drifts ahead of them.\n\n\"Hello there, you must be tired from your travels.\"",
+				"clear": true
+			},
+			{
+				"type": "text",
+				"text": "They look you over with the practiced eye of someone used to reading injuries.\n\n\"You look like you've had a rough stretch. I can fix that — not for free, of course. Fifty gold, and you walk away good as new.\"\n\nThey tilt their head.\n\n\"What do you say?\"",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Pay 50G to be healed",
+						"key": "pay",
+						"condition": {
+							"gold": {
+								"min": 50
+							}
+						},
+						"disabled_tooltip": "Not enough gold (need 50G)"
+					},
+					{
+						"choice": "Refuse and move on",
+						"key": "refuse"
+					}
+				],
+				"branches": {
+					"pay": [
+						{
+							"type": "give_gold",
+							"amount": -50
+						},
+						{
+							"type": "text",
+							"text": "You hand over the coins. The healer tucks them away without counting and sets to work — a few steady passes of the staff, quiet words you can't quite follow.\n\nThe ache you'd stopped noticing fades completely.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "text",
+							"text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"refuse": [
+						{
+							"type": "text",
+							"text": "\"Fair enough.\" They don't press. \"Safe roads, then.\"\n\nThey step back to the road's edge and you continue on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"travelling_item_merchant": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A travelling merchant hails you from the roadside.",
+				"clear": false
+			},
+			{
+				"type": "shop",
+				"name": "Travelling Merchant Kacha",
+				"shop": {
+					"ShopType": "Item",
+					"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
+					"OtherText": [
+						"\"See anything you like?\"",
+						"\"The road's been rough — take something for the journey.\""
+					],
+					"PurchaseText": [
+						"\"Ka-ching!\"\n\n\"Can I help you with something else?\""
+					],
+					"ambience": [
+						"\"See anything you like?\"",
+						"\"The road's been rough — take something for the journey, ka-ching.\""
+					],
+					"Stock": {
+						"Potion": 40,
+						"Ether": 50,
+						"Stimulant": 40,
+						"Medicine": 30
+					}
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"travelling_trainer": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A travelling swordsman hails you from the roadside.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "A slim man in travelling clothes and a cone hat rests a hand on the pommel of his sword, watching you with an appraising eye.\n\n\"Hold on a moment. I've been on the road long enough — I could use a proper spar.\"\n\nHe tilts his head toward the flat ground off the path.\n\n\"No hard feelings either way. Just a practice bout. What do you say?\"",
+				"clear": true,
+				"no_continue": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Accept the challenge",
+						"key": "accept"
+					},
+					{
+						"choice": "Decline and move on",
+						"key": "decline"
+					}
+				],
+				"branches": {
+					"accept": [
+						{
+							"type": "text",
+							"text": "\"Good.\"\n\nHe draws his blade in one smooth motion and settles into a low stance.",
+							"clear": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Wandering Swordsman",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "He steps back and lowers his sword, breathing hard. A slow nod.\n\n\"Not bad at all. You've got good instincts.\"\n\nHe sheathes his blade and claps you on the shoulder.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							],
+							"on_defeat": [
+								{
+									"type": "text",
+									"text": "He holds out a hand and pulls you to your feet.\n\n\"Good effort. You've got the makings of something — but you've still got work to do.\"\n\nHe cleans his blade on his sleeve and nods you on your way.",
+									"clear": true
+								},
+								{
+									"type": "sfx",
+									"sound": "heal"
+								},
+								{
+									"type": "effect",
+									"effect": {
+										"type": "heal",
+										"amount": 9999
+									}
+								},
+								{
+									"type": "effect",
+									"effect": {
+										"type": "damage",
+										"amount": 9999
+									}
+								},
+								{
+									"type": "text",
+									"text": "You pick yourself up. [color=red]1 HP remaining.[/color]",
+									"clear": false
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"decline": [
+						{
+							"type": "text",
+							"text": "\"Fair enough.\" He gives a small shrug and steps aside. \"Safe travels.\"\n\nYou continue on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"travelling_wpn_merchant": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A travelling merchant hails you from the roadside.",
+				"clear": false
+			},
+			{
+				"type": "if",
+				"condition": {
+					"current_region": "Apple Woods"
+				},
+				"then": [
+					{
+						"type": "shop",
+						"name": "Travelling Merchant Kacha",
+						"shop": {
+							"ShopType": "Equip",
+							"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
+							"OtherText": [
+								"\"See anything you like?\"",
+								"\"The road's been rough — take something for the journey.\""
+							],
+							"PurchaseText": [
+								"\"Ka-ching!\"\n\n\"Can I help you with something else?\""
+							],
+							"ambience": [
+								"\"See anything you like?\"",
+								"\"The road's been rough — take something for the journey, ka-ching.\""
+							],
+							"Stock": {
+								"Iron Sword": 90,
+								"Iron Lance": 100,
+								"Iron Bow": 80,
+								"Iron Rod": 90
+							}
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "shop",
+						"name": "Travelling Merchant Kacha",
+						"shop": {
+							"ShopType": "Equip",
+							"WelcomeText": "\"A young woman with blue hair and a frilly apron smiles at you.\n\n\"Hey there, ka-ching! Check out my wares!\"\n\"You won't find better prices out here!\"\n\n\"So, what'll it be, ka-ching?\"",
+							"OtherText": [
+								"\"See anything you like?\"",
+								"\"The road's been rough — take something for the journey.\""
+							],
+							"PurchaseText": [
+								"\"Ka-ching!\"\n\n\"Can I help you with something else?\""
+							],
+							"ambience": [
+								"\"See anything you like?\"",
+								"\"The road's been rough — take something for the journey, ka-ching.\""
+							],
+							"Stock": {
+								"Iron Sword": 180,
+								"Iron Lance": 200,
+								"Iron Bow": 160,
+								"Iron Rod": 180
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	}
+}

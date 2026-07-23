@@ -1,0 +1,265 @@
+{
+	"fenwick_journal": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "mark_used",
+				"event": "fenwick_journal_found"
+			},
+			{
+				"type": "text",
+				"text": "Something catches your eye at the base of a collapsed arch — half-buried in ash, a satchel.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "The leather is cracked and pale with dust, but the buckles are different — bright steel, each one stamped with the crossed keys of Arcward. Whoever brought this here had money for good equipment. Or had it issued to them.",
+				"clear": true,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Examine the satchel",
+						"key": "examine"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"leave": [
+						{
+							"type": "show_node"
+						}
+					],
+					"examine": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_satchel"
+						}
+					]
+				}
+			}
+		]
+	},
+	"fenwick_journal_cover": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The cover reads, in careful ink:\n[i]FIELD NOTES — FENWICK, A. — ARCWARD FACULTY — CORE CAVERN EXPEDITION[/i]\n\nBelow that, in the same hand but considerably less tidy:\n[i]DO NOT TOUCH. THIS MEANS YOU.[/i]",
+				"clear": true,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "",
+				"choices": [
+					{
+						"choice": "Keep reading",
+						"key": "next"
+					},
+					{
+						"choice": "Close the journal",
+						"key": "close",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"close": [
+						{
+							"type": "show_node"
+						}
+					],
+					"next": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_day1"
+						}
+					]
+				}
+			}
+		]
+	},
+	"fenwick_journal_day1": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[i]Day 1 — Underground.\n\nLomas called this 'an embarrassment to the faculty.' Hartfield said I'd be back in a week with nothing to show. The Dean granted me a three-week leave of absence with the expression of a man expecting a funeral.\n\nI have been underground for four hours. I have already found dressed stonework of impossible age.\n\nI am vindicated.\n\nThe heat is considerable but entirely survivable. The stonework is massive — cyclopean blocks, no mortar, precisely fitted. Pre-Imperial by centuries, at minimum. The construction is familiar from the Troll artefact comparisons at the Arcward vaults, but the scale here is — I need more paper.[/i]",
+				"clear": true,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "",
+				"choices": [
+					{
+						"choice": "Continue",
+						"key": "next"
+					},
+					{
+						"choice": "Close the journal",
+						"key": "close",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"close": [
+						{
+							"type": "show_node"
+						}
+					],
+					"next": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_day4"
+						}
+					]
+				}
+			}
+		]
+	},
+	"fenwick_journal_day4": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[i]Day 4 — The City.\n\nI have found the city. I cannot convey it. I have been standing in it for three hours and I cannot convey it.\n\nThe stonework is Troll-make beyond any doubt: the proportions, the iconography, the hewn arches, the tusked figures in relief. But the remarkable thing — the finding that is going to turn history on its head — is the preservation. We are surrounded by active magma flows. These structures should be rubble. They are not. Either the Core Cavern was far more stable when these were built, or they were constructed to endure these exact conditions. Both conclusions are extraordinary.\n\nHistory records that the Troll civilisation fell approximately five thousand years ago, when humanity rose and overthrew their dominion over the continent. The Trolls were the dominant power on the land before that — older, larger, and by all accounts formidable. What became of them after the fall has always been poorly understood.\n\nI believe I am looking at the answer. This city, by material dating and comparative analysis, is consistent with that period — or older. Its location, hidden beneath Mt. Legory, isolated from the surface — this was not an outpost. This was a last stronghold. The Trolls didn't simply fall. They retreated underground. They built down here in the heat and dark, and they survived, until the Core Cavern itself swallowed them.\n\nNo one has ever found evidence of this. The historians are going to hate me. I couldn't be more pleased.[/i]",
+				"clear": true,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "",
+				"choices": [
+					{
+						"choice": "Continue",
+						"key": "next"
+					},
+					{
+						"choice": "Close the journal",
+						"key": "close",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"close": [
+						{
+							"type": "show_node"
+						}
+					],
+					"next": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_day6"
+						}
+					]
+				}
+			}
+		]
+	},
+	"fenwick_journal_day6": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[i]Day 6 — Still the City.\n\nSomething is using it.\n\nI discovered it gradually — small modifications, chambers partially cleared, passages reopened recently. I assumed scavengers. Animals.\n\nThen I saw one.\n\nA Lizardman. Large, grey-green, armed with a crude spear that is a considerable insult to the stone it was chipped from. It stared at me from across the chamber. I stared back. Then it withdrew.\n\nThey are living here. In my city — the most significant archaeological site ever uncovered on this continent — and they are using it as a den. I saw claw marks on a relief carving. I saw a cooking fire set in what I am fairly certain is a ceremonial alcove. They don't know what they're standing on. They don't care. Five thousand years of history and they're using it to store provisions and scratch their names into the walls.\n\nThe Troll civilisation built something extraordinary under impossible conditions and kept it intact for millennia.\n\nThese creatures are going to ruin it.[/i]",
+				"clear": true,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "",
+				"choices": [
+					{
+						"choice": "Continue",
+						"key": "next"
+					},
+					{
+						"choice": "Close the journal",
+						"key": "close",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"close": [
+						{
+							"type": "show_node"
+						}
+					],
+					"next": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_day9"
+						}
+					]
+				}
+			}
+		]
+	},
+	"fenwick_journal_day9": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "[i]Day 9.\n\nThey're becoming bolder. Three of them at the entrance to my base camp this afternoon, simply staring. One of them had the audacity to pick up one of my survey instruments. I shouted at it. They all scattered.\n\nI want it on record that I find the entire situation deeply undignified. I am a senior faculty member of the most prestigious academic institution on the continent. I descended alone into an active volcanic cave system, mapped a five-thousand-year-old city in nine days, and produced what will unquestionably be the definitive work on pre-Imperial Troll civilisation. The suggestion that I might be impeded on the way out by a handful of territorial lizards is frankly insulting.\n\nI will begin my ascent tomorrow. The notes are complete. Hartfield is going to be insufferable about the dating methodology, but that is a problem for next week.\n\nI'll write more once I'm back above ground.[/i]",
+				"clear": true
+			},
+			{
+				"type": "text",
+				"text": "The rest of the pages are blank.",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"fenwick_journal_satchel": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You pull it free from the ash. Heavy. Inside: survey instruments wrapped in cloth, a hand compass with a cracked face, a dried inkwell, a folded map covered in notation too small to read at a glance.\n\nAt the bottom, a coin purse.\n\nA few feet from where the satchel lay, just visible under the ash: something pale. Too regular to be stone. You don't dig further.",
+				"clear": true
+			},
+			{
+				"type": "give_gold",
+				"amount": 45
+			},
+			{
+				"type": "text",
+				"text": "You take the coin purse. [color=yellow]45G[/color].\n\nThe journal is still in the bag.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Read the journal",
+						"key": "read"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"leave": [
+						{
+							"type": "show_node"
+						}
+					],
+					"read": [
+						{
+							"type": "event",
+							"event": "fenwick_journal_cover"
+						}
+					]
+				}
+			}
+		]
+	}
+}

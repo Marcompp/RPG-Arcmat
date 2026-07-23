@@ -59,7 +59,7 @@
 	},
 	"region_treasure_chest": {
 		"steps": [
-			{"type": "text", "text": "You find a treasure chest.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "You find a treasure chest.", "clear": false},
 			{"type": "choice", "header": "Open it?",
 				"choices": [
 					{"choice": "Open the chest", "key": "open"},
@@ -118,7 +118,7 @@
 	},
 	"rickety_bridge": {
 		"steps": [
-			{"type": "text", "text": "The bridge ahead is ancient and rotting. The boards creak and sway with each gust of wind, gaps yawning between planks over a rushing river far below.\nIt feels like it could give way at any moment.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The bridge ahead is ancient and rotting. The boards creak and sway with each gust of wind, gaps yawning between planks over a rushing river far below.\nIt feels like it could give way at any moment.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Press on across the bridge", "key": "press_on"},
@@ -165,7 +165,7 @@
 					{"type":"text", "text": "Darn, you dropped your axe into the water!", "clear":false},
 					{"type":"text", "text": "As you stand around, feeling sorry for yourself, the water of the lake seems to coalesce into a figure:", "clear":false},
 					{"type":"text", "text": "\"Hail, adventurer,\" a beautiful woman with hair that flows like water appears before you. Her appearance, half-submerged into the lake and clad in naught but water, is distracting, to say the least.", "clear":false},
-					{"type":"text", "text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?", "clear":false, "no_wait": true},
+					{"type":"text", "text": "\"The axe you lost in my domain,\" she speaks. \"Was it this Silver axe? Or this Gold one?", "clear":false},
 					{"type": "choice", "header": "Which axe do you claim?",
 						"choices": [
 							{"choice": "The silver one", "key": "silver"},
@@ -271,7 +271,7 @@
 		"steps": [
 			{"type": "text", "text": "A travelling healer hails you from the roadside.", "clear": false},
 			{"type": "text", "text": "A figure in worn green robes gives you a smile, a healer's staff leaning against their pack. The smell of dried herbs drifts ahead of them.\n\n\"Hello there, you must be tired from your travels.\"", "clear": true},
-			{"type": "text", "text": "They look you over with the practiced eye of someone used to reading injuries.\n\n\"You look like you've had a rough stretch. I can fix that — not for free, of course. Fifty gold, and you walk away good as new.\"\n\nThey tilt their head.\n\n\"What do you say?\"", "clear": false, "no_wait": true},
+			{"type": "text", "text": "They look you over with the practiced eye of someone used to reading injuries.\n\n\"You look like you've had a rough stretch. I can fix that — not for free, of course. Fifty gold, and you walk away good as new.\"\n\nThey tilt their head.\n\n\"What do you say?\"", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Pay 50G to be healed", "key": "pay", "condition": {"gold": {"min": 50}}, "disabled_tooltip": "Not enough gold (need 50G)"},
@@ -814,7 +814,7 @@
 	},
 	"apple_woods_fish_b": {
 		"steps": [
-			{"type": "text", "text":"Your fishing rod is still in descent shape. The water still invitingly sparkling and full of movement.", "no_wait": true},
+			{"type": "text", "text":"Your fishing rod is still in descent shape. The water still invitingly sparkling and full of movement."},
 			{"type": "choice", "header": "What will you do?",
 				"choices": [
 					{"choice": "Keep fishing", "key": "continue"},
@@ -904,7 +904,7 @@
 	},
 	"apple_woods_fish_c": {
 		"steps": [
-			{"type": "text", "text":"Your fishing rod is creaking; it'll probably break soon. The shadows under the water seem to have somewhat dispersed.", "no_wait": true},
+			{"type": "text", "text":"Your fishing rod is creaking; it'll probably break soon. The shadows under the water seem to have somewhat dispersed."},
 			{"type": "choice", "header": "What will you do?",
 				"choices": [
 					{"choice": "Keep fishing", "key": "continue"},
@@ -1030,7 +1030,7 @@
 	},
 	"fish_river_trout": {
 		"steps": [
-			{"type": "text", "text": "A proper river trout, wide and silver. Good weight to it.", "no_wait": true},
+			{"type": "text", "text": "A proper river trout, wide and silver. Good weight to it."},
 			{"type": "choice", "header": "What will you do?",
 				"choices": [{"choice": "Eat it", "key": "eat"}, {"choice": "Release it", "key": "release"}],
 				"branches": {
@@ -1049,7 +1049,7 @@
 	},
 	"fish_apple_carp": {
 		"steps": [
-			{"type": "text", "text": "A fat, lazy carp, belly round from eating fallen apples off the surface. It hardly fought at all.", "no_wait": true},
+			{"type": "text", "text": "A fat, lazy carp, belly round from eating fallen apples off the surface. It hardly fought at all."},
 			{"type": "choice", "header": "What will you do?",
 				"choices": [{"choice": "Eat it", "key": "eat"}, {"choice": "Release it", "key": "release"}],
 				"branches": {
@@ -1523,7 +1523,7 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "You hear rustling in the bushes...", "clear": false},
-			{"type": "text", "text": "Too late — you walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You'll be much easier to rob when you're dead!\"", "no_wait": true},
+			{"type": "text", "text": "Too late — you walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You'll be much easier to rob when you're dead!\""},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Fight", "key": "fight"},
@@ -1779,7 +1779,7 @@
 						}
 					],
 					"listen": [
-						{"type": "text", "text": "You step into the chamber. The congregation parts. Orielli lowers her arms and opens her eyes.\n\nShe studies you with the unhurried attention of someone accustomed to reading people.\n\n\"Behold, a new lost soul has followed the Light here,\" she says, before addressing you. \"Indeed, your coming here is not without purpose.\"\n\nShe steps forward. \"The Light is generous to those who receive it willingly. Kneel, and I will bless you. You may rise as one of our flock.\"", "clear": true, "no_wait": true},
+						{"type": "text", "text": "You step into the chamber. The congregation parts. Orielli lowers her arms and opens her eyes.\n\nShe studies you with the unhurried attention of someone accustomed to reading people.\n\n\"Behold, a new lost soul has followed the Light here,\" she says, before addressing you. \"Indeed, your coming here is not without purpose.\"\n\nShe steps forward. \"The Light is generous to those who receive it willingly. Kneel, and I will bless you. You may rise as one of our flock.\"", "clear": true},
 						{"type": "choice", "header": "What do you do?",
 							"choices": [
 								{"choice": "Kneel", "key": "kneel"},
@@ -1868,7 +1868,7 @@
 	"cultist_patrol": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Chanting drifts through the passage ahead — low and rhythmic. A moment later, torchlight rounds the corner. Two robed figures move in step through the tunnel, eyes forward.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Chanting drifts through the passage ahead — low and rhythmic. A moment later, torchlight rounds the corner. Two robed figures move in step through the tunnel, eyes forward.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Hide and wait", "key": "hide"},
@@ -1957,7 +1957,7 @@
 						{"type": "event", "event": "cultist_talk_choices"}
 					],
 					"gamble": [
-						{"type": "text", "text": "A cultist near the fire draws three dice from a pouch — each one cut from pale, glowing crystal, faces catching the light strangely. \"Care to test what the Light provides? Watch closely — these dice don't play by the usual rules.\"", "clear": true},
+						{"type": "text", "text": "A cultist near the fire draws three dice from a pouch — each one cut from pale, glowing crystal, faces catching the light strangely. \"Care to test what the Light provides? Watch closely — these dice don't play by the usual rules.\"", "clear": true, "no_continue": true},
 						{"type": "dice_game", "wager": 20, "gamblers": ["cultist_gambler"], "community_dice": ["crystal", "crystal"],
 							"on_win":  [{"type": "text", "text": "The cultist studies the dice a long moment, then slides the coins across without complaint. \"The Light provided. Not for me, this time.\"", "no_continue": true}],
 							"on_tie":  [{"type": "text", "text": "Neither hand better. \"The Light is patient today,\" the cultist says, and pushes your stake back.", "no_continue": true}],
@@ -1987,7 +1987,7 @@
 	"altar_offering": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "You approach the altar. It radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "You approach the altar. It radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Make an offering (30G)", "key": "offer", "condition": {"gold": {"min": 30}}, "disabled_tooltip": "Not enough gold (need 30G)"},
@@ -2121,7 +2121,7 @@
 	"cave_lost": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The tunnels blur together. The same crystals. The same shadows. The same glow from every direction at once.\n\nYou've lost track of where you came from.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The tunnels blur together. The same crystals. The same shadows. The same glow from every direction at once.\n\nYou've lost track of where you came from.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Follow the light", "key": "light"},
@@ -2245,7 +2245,7 @@
 	"wounded_spirit": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Something drifts near the surface of the spring — pale and flickering, circling in the crystal light. A Restless Spirit. But it isn't moving toward you. It moves as if confused, or searching.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Something drifts near the surface of the spring — pale and flickering, circling in the crystal light. A Restless Spirit. But it isn't moving toward you. It moves as if confused, or searching.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Speak to it", "key": "speak"},
@@ -2280,7 +2280,7 @@
 	"sundown_old_bonfire": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Half-buried in dust, an old campfire sits in a shallow depression between cracked stones.\n\nSomeone camped here before you. The bedroll is still spread, the pack left open. They either moved on quickly or didn't move on at all.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Half-buried in dust, an old campfire sits in a shallow depression between cracked stones.\n\nSomeone camped here before you. The bedroll is still spread, the pack left open. They either moved on quickly or didn't move on at all.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Rest at the camp", "key": "rest"},
@@ -2353,7 +2353,7 @@
 	"sundown_scavenger_remains": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Half-buried in the cracked earth: a leather pack, a pair of boots, and what's left of whoever wore them.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Half-buried in the cracked earth: a leather pack, a pair of boots, and what's left of whoever wore them.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Search the remains", "key": "search"},
@@ -2396,7 +2396,7 @@
 	"sundown_altar_event": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Make a blood offering (10 HP)", "key": "offer"},
@@ -2521,7 +2521,7 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "One grave in the far corner has no stone — just a worn wooden stake in the ground. A pale shape drifts near it, not moving toward you.", "clear": false},
-			{"type": "text", "text": "A Ghost. But it isn't watching you. It moves as if it's looking for something it can't find.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "A Ghost. But it isn't watching you. It moves as if it's looking for something it can't find.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Speak to it", "key": "speak"},
@@ -2631,7 +2631,7 @@
 	"sundown_ledge_cache": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "A worn pack is wedged into a rocky ledge just below the rim. You can see it clearly — whoever left it didn't do so on purpose.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "A worn pack is wedged into a rocky ledge just below the rim. You can see it clearly — whoever left it didn't do so on purpose.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Reach for it carefully", "key": "reach"},
@@ -2671,7 +2671,7 @@
 	},
 	"sundown_bones_in_wall": {
 		"steps": [
-			{"type": "text", "text": "The tunnel walls here are different — the stone is shaped around them, deliberately. Bones set into the masonry. Hundreds of them.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The tunnel walls here are different — the stone is shaped around them, deliberately. Bones set into the masonry. Hundreds of them.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Examine the wall", "key": "examine"},
@@ -2721,7 +2721,7 @@
 	"sundown_tunnel_seep": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "You track a faint dripping sound to a thin seam in the stone wall — water pressing through the rock in slow, steady drops.\n\nIt collects in a shallow hollow at the base.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "You track a faint dripping sound to a thin seam in the stone wall — water pressing through the rock in slow, steady drops.\n\nIt collects in a shallow hollow at the base.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Drink from it", "key": "drink"},
@@ -2772,7 +2772,7 @@
 	"sundown_sanctum_discovery": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The chamber opens suddenly — circular, much larger than the tunnels suggested. Stone pillars ring the walls, their surfaces carved floor to ceiling in the same spiral script.\n\nIn the centre: a ring of bones, arranged with care. And within it, the floor itself pulses — a slow, dim glow pressing up through the cracks.\n\nAt the base of one pillar: a leather satchel. Inside, a bundle of journals, the covers water-warped but the pages mostly legible.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The chamber opens suddenly — circular, much larger than the tunnels suggested. Stone pillars ring the walls, their surfaces carved floor to ceiling in the same spiral script.\n\nIn the centre: a ring of bones, arranged with care. And within it, the floor itself pulses — a slow, dim glow pressing up through the cracks.\n\nAt the base of one pillar: a leather satchel. Inside, a bundle of journals, the covers water-warped but the pages mostly legible.", "clear": false},
 			{"type": "choice", "header": "Read the Journals?",
 				"choices": [
 					{"choice": "Yes", "key": "read"},
@@ -2784,7 +2784,7 @@
 						{"type": "text", "text": "[color=gray]\"Day thirteen. We have found an appropriate sanctum in my family's crypt. Plenty of room for the ritual circle, even if I had to have Bia dust the filthy place for hours before it became a marginally acceptable abode for our circle. The gaps on the floor pulse with light sometimes, but it's probably nothing.\"\n\n\"My colleagues have gone quiet. Viscount Bento said he wanted to leave. I told him that men of our station do not leave things unfinished. He said that was easy to say. I told him it was easy to say because it was correct.\"[/color]", "clear": false},
 						{"type": "text", "text": "[color=gray]\"Day sixty-six. The ritual will work this time. We redrew the circle. We made the blood offering. I spoke the words — I was the only one who had memorised them correctly; Bento always mispronounces the seventh stanza terribly. The ground shook. The bones in the ring began to move. I write as I see something was pulling itself together in the centre of the chamber, the ritual is working, I can feel i—\"[/color]\n\nThe handwriting deteriorates sharply here.", "clear": false},
 						{"type": "text", "text": "[color=gray]\"—There was no forseeing this. What rose from our ritual was a monstrosity beyond reckoning and it killed Bento and it killed Bia and it killed Brunilda and it killed everyone and I am bleeding behind this pillar and I want it on the record that this floor is filthy and I would fire Bia if she was alive and my pants are ruined and that want to be buried here so I can come back too and oh no it's coming ba- \"[/color]\n\nThat is the last entry.", "clear": false},
-						{"type": "text", "text": "You set the journal down.", "clear": false, "no_wait": true},
+						{"type": "text", "text": "You set the journal down.", "clear": false},
 						{"type": "choice", "header": "Bleed on the ritual circle?",
 							"choices": [
 								{"choice": "Yes (5 HP)", "key": "bleed"},
@@ -2820,7 +2820,7 @@
 	"sundown_rubble_dig": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The tunnel ends in a collapse — ceiling and walls giving way into a wall of loose stone and old timber.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The tunnel ends in a collapse — ceiling and walls giving way into a wall of loose stone and old timber.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Dig through the rubble", "key": "dig"},
@@ -3099,7 +3099,7 @@
 	},
 	"sundown_plateau_dig_b": {
 		"steps": [
-			{"type": "text", "text": "The soil runs deep here. The shovel is still holding.", "no_wait": true},
+			{"type": "text", "text": "The soil runs deep here. The shovel is still holding."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Keep digging", "key": "continue"},
@@ -3238,7 +3238,7 @@
 	},
 	"sundown_plateau_dig_c": {
 		"steps": [
-			{"type": "text", "text": "The handle is warm and the socket is loosening. One more bad swing and that's it.", "no_wait": true},
+			{"type": "text", "text": "The handle is warm and the socket is loosening. One more bad swing and that's it."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Keep digging", "key": "continue"},
@@ -3530,7 +3530,7 @@
 	},
 	"circus_mirrors": {
 		"steps": [
-			{"type": "text", "text": "The House of Mirrors stands before you, as if taunting. You get a strange feeling as you stand at the entrance.", "no_wait": true},
+			{"type": "text", "text": "The House of Mirrors stands before you, as if taunting. You get a strange feeling as you stand at the entrance."},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -3575,7 +3575,7 @@
 	},
 	"legory_frozen_cache": {
 		"steps": [
-			{"type": "text", "text": "A faint glint catches your eye — something is lodged in the ice face beside the path.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "A faint glint catches your eye — something is lodged in the ice face beside the path.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Chip it out", "key": "chip"},
@@ -3653,7 +3653,7 @@
 	},
 	"legory_snowdrift": {
 		"steps": [
-			{"type": "text", "text": "A shape is half-buried in a fresh snowdrift beside the path — too regular to be rock.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "A shape is half-buried in a fresh snowdrift beside the path — too regular to be rock.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Dig it out", "key": "dig"},
@@ -3705,7 +3705,7 @@
 	"legory_pegasus_patrol": {
 		"steps": [
 			{"type": "text", "text": "A shadow sweeps across the snow. You look up — a Pegasus Knight in sky blue and white armor is circling overhead, watching you.", "clear": false},
-			{"type": "text", "text": "She pulls her pegasus into a slow spiral descent, lance lowered but not leveled.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "She pulls her pegasus into a slow spiral descent, lance lowered but not leveled.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Stand your ground", "key": "stand"},
@@ -3790,7 +3790,7 @@
 	},
 	"legory_ridge_edge": {
 		"steps": [
-			{"type": "text", "text": "The path narrows to almost nothing. You find yourself looking out — the drop on either side falls away into white cloud.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The path narrows to almost nothing. You find yourself looking out — the drop on either side falls away into white cloud.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Look out over the edge", "key": "look"},
@@ -3830,7 +3830,7 @@
 	"legory_arch_inscription": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "The inner face of the arch is covered in carvings — small, deliberate marks left by climbers over years. Names, tallies, short phrases. Near the keystone, someone carved: [color=gray]\"The cold that thinks is worse than the cold that simply is.\"[/color]", "clear": false, "no_wait": true},
+			{"type": "text", "text": "The inner face of the arch is covered in carvings — small, deliberate marks left by climbers over years. Names, tallies, short phrases. Near the keystone, someone carved: [color=gray]\"The cold that thinks is worse than the cold that simply is.\"[/color]", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Study the markings", "key": "study"},
@@ -3861,7 +3861,7 @@
 		"repeatable": false,
 		"steps": [
 			{"type": "text", "text": "At the center of the summit, a nest the size of a cottage — branches thick as your arm, bones from things large enough to be unsettling — rises against the sky. Perched in it, still as carved stone, is the Great Roc.", "clear": false},
-			{"type": "text", "text": "It turns one eye toward you. Then the other. It doesn't move.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "It turns one eye toward you. Then the other. It doesn't move.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Attack", "key": "fight"},
@@ -3929,7 +3929,7 @@
 	"legory_summit_cairn": {
 		"repeatable": false,
 		"steps": [
-			{"type": "text", "text": "Near the edge, a cairn of stacked stones stands against the sky. Between the rocks, climbers have wedged small tokens — a button, a coin, a strip of cloth. A tradition. You're here now.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "Near the edge, a cairn of stacked stones stands against the sky. Between the rocks, climbers have wedged small tokens — a button, a coin, a strip of cloth. A tradition. You're here now.", "clear": false},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Add a stone", "key": "add"},
@@ -4132,7 +4132,7 @@
 			{"type": "text", "text": "You walk up to the cave and go inside."},
 			{"type": "set_backdrop", "backdrop": "legory_frozen3.png"},
 			{"type": "text", "text": "You feel a deep chill as you step into the frozen cave, a layer of ice covering every surface. The back wall is a solid sheet of it — pressed flush against the stone, running floor to ceiling."},
-			{"type": "text", "text": "There's something in it. You have to lean close to be sure, but it's there: a shape, dark against the pale blue. Arms at its sides. Nearly upright. Unmistakably shaped like a person.", "no_wait": true},
+			{"type": "text", "text": "There's something in it. You have to lean close to be sure, but it's there: a shape, dark against the pale blue. Arms at its sides. Nearly upright. Unmistakably shaped like a person."},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -4164,7 +4164,7 @@
 		"repeatable":false,
 		"steps": [
 			{"type": "text", "text": "Something dark juts from the snow ahead — too regular to be rock.", "clear": false},
-			{"type": "text", "text": "It's a boot. Attached to a leg. Half-buried under a drift that must have come down in the last storm. Young man in student's robes, pack still strapped to his back. He's been here a while.", "no_wait": true},
+			{"type": "text", "text": "It's a boot. Attached to a leg. Half-buried under a drift that must have come down in the last storm. Young man in student's robes, pack still strapped to his back. He's been here a while."},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -4217,7 +4217,7 @@
 		"repeatable":false,
 		"steps": [
 			{"type": "text", "text": "The ridge opens out ahead, and you stop.", "clear": false},
-			{"type": "text", "text": "There are eight of them, maybe nine. White against white snow, almost invisible until one shifts. A herd of pegasi, roosting along the far edge of the ridge, wings folded tight against the gale. None of them have noticed you yet.", "no_wait": true},
+			{"type": "text", "text": "There are eight of them, maybe nine. White against white snow, almost invisible until one shifts. A herd of pegasi, roosting along the far edge of the ridge, wings folded tight against the gale. None of them have noticed you yet."},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -4236,7 +4236,7 @@
 						{"type": "show_node"}
 					],
 					"approach": [
-						{"type": "text", "text": "You move slowly, keeping low. The herd notices — several heads come up at once — but you stop at the edge of their comfort and wait.\n\nOne of them separates from the group. Younger than the rest, maybe. It approaches in a way that is trying very hard to seem non-threatening, which is a strange thing to notice in an animal. It stops a few feet away and watches you.", "clear": true, "no_wait": true},
+						{"type": "text", "text": "You move slowly, keeping low. The herd notices — several heads come up at once — but you stop at the edge of their comfort and wait.\n\nOne of them separates from the group. Younger than the rest, maybe. It approaches in a way that is trying very hard to seem non-threatening, which is a strange thing to notice in an animal. It stops a few feet away and watches you.", "clear": true},
 						{
 							"type": "choice",
 							"header": "Now what?",
@@ -4301,7 +4301,7 @@
 	"legory_eagle_nest": {
 		"steps": [
 			{"type": "text", "text": "Wedged into a crack in the cliff face — barely a meter from the path — is a nest. Enormous: sticks thick as your fingers, tightly packed, with something pale and smooth at the center.", "clear": false},
-			{"type": "text", "text": "No eagle in sight. For now.", "no_wait": true},
+			{"type": "text", "text": "No eagle in sight. For now."},
 			{
 				"type": "choice",
 				"header": "What do you do?",
@@ -4605,7 +4605,7 @@
 
 	"cave_in": {
 		"steps": [
-			{"type": "text", "text": "The mountain shudders. A deep crack splits the ceiling above and a cascade of rock and dust comes down — you have about two seconds.", "no_wait": true},
+			{"type": "text", "text": "The mountain shudders. A deep crack splits the ceiling above and a cascade of rock and dust comes down — you have about two seconds."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Run for it", "key": "run"},
@@ -4659,7 +4659,7 @@
 
 	"troll_inscription": {
 		"steps": [
-			{"type": "text", "text": "One section of the stonework is more sheltered than the rest — and the carving here is actually legible. Blocky Troll script, deeply cut.", "no_wait": true},
+			{"type": "text", "text": "One section of the stonework is more sheltered than the rest — and the carving here is actually legible. Blocky Troll script, deeply cut."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Try to read it", "key": "read"},
@@ -4789,7 +4789,7 @@
 
 	"sunken_statue_vigil": {
 		"steps": [
-			{"type": "text", "text": "The statue is enormous — obvious from a distance, but up close at the ledge it becomes something else. What remains above the lava is colossal: a tusked figure, rough-hewn from basalt, its surface worn smooth in places by centuries of heat and still deeply carved in others. It has tipped — some shift in the lava's creep or the mountain's settling has pushed it to a steep angle — but it hasn't fallen. Heavy chains, old iron gone rust-orange, loop from anchors driven into the cavern walls and catch it at the shoulders and chest, holding it suspended. Someone put those chains there. It isn't clear when.\n\nThe tusked face is angled toward you by the tilt. The scale of it — the size of a single eye socket, the width of one worn hand — makes you very aware of your own dimensions. It has been looking at this cavern for a long time. It gives you the distinct, unreasonable sensation of being assessed.", "no_wait": true},
+			{"type": "text", "text": "The statue is enormous — obvious from a distance, but up close at the ledge it becomes something else. What remains above the lava is colossal: a tusked figure, rough-hewn from basalt, its surface worn smooth in places by centuries of heat and still deeply carved in others. It has tipped — some shift in the lava's creep or the mountain's settling has pushed it to a steep angle — but it hasn't fallen. Heavy chains, old iron gone rust-orange, loop from anchors driven into the cavern walls and catch it at the shoulders and chest, holding it suspended. Someone put those chains there. It isn't clear when.\n\nThe tusked face is angled toward you by the tilt. The scale of it — the size of a single eye socket, the width of one worn hand — makes you very aware of your own dimensions. It has been looking at this cavern for a long time. It gives you the distinct, unreasonable sensation of being assessed."},
 			{"type": "choice", "header": "",
 				"choices": [
 					{"choice": "Prostrate yourself", "key": "prostrate"},
@@ -4825,7 +4825,7 @@
 
 	"lizal_patrol": {
 		"steps": [
-			{"type": "text", "text": "You hear two Lizardmen patrolling up ahead. They weren't expecting you any more than you were expecting them, and haven't noticed you yet.", "no_wait": true},
+			{"type": "text", "text": "You hear two Lizardmen patrolling up ahead. They weren't expecting you any more than you were expecting them, and haven't noticed you yet."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Hide and wait", "key": "hide"},
@@ -4846,7 +4846,7 @@
 						}
 					],
 					"speak": [
-						{"type": "text", "text": "You show yourself and tell the Lizardmen that you mean no harm.\n\nThe lead Lizardman tilts its head. The other clicks something at it. Then, slowly, the first one speaks — careful, deliberate, like it's pulling the words out of somewhere they don't usually live.\n\n\"Rrrhumansss. In ourr tunnelsss.\" A pause. \"You not belong herrre. Musst be dealt with.\"", "no_wait": true},
+						{"type": "text", "text": "You show yourself and tell the Lizardmen that you mean no harm.\n\nThe lead Lizardman tilts its head. The other clicks something at it. Then, slowly, the first one speaks — careful, deliberate, like it's pulling the words out of somewhere they don't usually live.\n\n\"Rrrhumansss. In ourr tunnelsss.\" A pause. \"You not belong herrre. Musst be dealt with.\""},
 						{"type": "choice", "header": "What do you say?",
 							"choices": [
 								{"choice": "\"I'm just passing through.\"", "key": "passing"},
@@ -4908,7 +4908,7 @@
 
 	"wisp_cluster": {
 		"steps": [
-			{"type": "text", "text": "A knot of Wisps drifts through the tunnel ahead — fire spirits, or what's left of them. They move in slow, looping circles, like they've forgotten where they were going. The heat off them is noticeable even at twenty paces.", "no_wait": true},
+			{"type": "text", "text": "A knot of Wisps drifts through the tunnel ahead — fire spirits, or what's left of them. They move in slow, looping circles, like they've forgotten where they were going. The heat off them is noticeable even at twenty paces."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Watch them pass", "key": "watch"},
@@ -4940,7 +4940,7 @@
 
 	"obsidian_reflection": {
 		"steps": [
-			{"type": "text", "text": "You stop in front of the largest panel of obsidian. Your reflection stares back — warped, too dark, wrong somehow. It's a half-second behind you. Then a full second. It stops moving before you do.", "no_wait": true},
+			{"type": "text", "text": "You stop in front of the largest panel of obsidian. Your reflection stares back — warped, too dark, wrong somehow. It's a half-second behind you. Then a full second. It stops moving before you do."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Touch the surface", "key": "touch"},
@@ -4994,7 +4994,7 @@
 
 	"ash_burial": {
 		"steps": [
-			{"type": "text", "text": "Something protrudes from the ash field — a dark shape, half-buried, at about waist height. You get closer. It's a weapon handle, the blade driven straight down.", "no_wait": true},
+			{"type": "text", "text": "Something protrudes from the ash field — a dark shape, half-buried, at about waist height. You get closer. It's a weapon handle, the blade driven straight down."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Pull it out", "key": "pull"},
@@ -5045,7 +5045,7 @@
 
 	"lava_crossing": {
 		"steps": [
-			{"type": "text", "text": "There's a narrow path along the magma channel's edge — crumbling in places, but it would cut significant time off your route. The alternative is the long way around.", "no_wait": true},
+			{"type": "text", "text": "There's a narrow path along the magma channel's edge — crumbling in places, but it would cut significant time off your route. The alternative is the long way around."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Take the shortcut", "key": "risk"},
@@ -5223,7 +5223,7 @@
 
 	"core_cavern_mine_b": {
 		"steps": [
-			{"type": "text", "text": "The pickaxe is starting to feel the work. The head is still solid, but the handle's warming in your grip.", "no_wait": true},
+			{"type": "text", "text": "The pickaxe is starting to feel the work. The head is still solid, but the handle's warming in your grip."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Keep mining", "key": "continue"},
@@ -5316,7 +5316,7 @@
 
 	"core_cavern_mine_c": {
 		"steps": [
-			{"type": "text", "text": "The pickaxe is down to its last few swings. You can feel it.", "no_wait": true},
+			{"type": "text", "text": "The pickaxe is down to its last few swings. You can feel it."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Keep mining", "key": "continue"},
@@ -5407,7 +5407,7 @@
 
 	"drake_wounded": {
 		"steps": [
-			{"type": "text", "text": "A Drake is wedged into a side passage, making a sound somewhere between a growl and a wheeze. One of its legs is badly burned — lava splash, probably. It's not going anywhere. But it's watching you with the focused attention of something that can absolutely still bite.", "no_wait": true},
+			{"type": "text", "text": "A Drake is wedged into a side passage, making a sound somewhere between a growl and a wheeze. One of its legs is badly burned — lava splash, probably. It's not going anywhere. But it's watching you with the focused attention of something that can absolutely still bite."},
 			{"type": "choice", "header": "What do you do?",
 				"choices": [
 					{"choice": "Try to help it", "key": "help"},
@@ -5467,8 +5467,7 @@
 			{
 				"type": "text",
 				"text": "A shape rises beneath the surface — wide as a barrel, mud-dark. A head the size of a cooking pot breaks the water. It stares at you with one flat, indifferent eye.\n\nThe biggest catfish you've ever seen. By a considerable margin.",
-				"clear": false,
-				"no_wait": true
+				"clear": false
 			},
 			{
 				"type": "choice",

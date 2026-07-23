@@ -297,7 +297,18 @@
 		},
 		"cooldown": 1,
 		"effect": "random_status",
-		"status_pool": ["poison", "regen", "burn", "defense_up", "freeze", "stun", "blind", "break", "brace", "elusive"],
+		"status_pool": [
+			"poison",
+			"regen",
+			"burn",
+			"defense_up",
+			"freeze",
+			"stun",
+			"blind",
+			"break",
+			"brace",
+			"elusive"
+		],
 		"chance": 100,
 		"inherit_stats": false,
 		"inherit_wpn": false,
@@ -369,7 +380,7 @@
 		"nome": "Recharge",
 		"description": "Takes a brief moment to recover focus, resetting the user's skill cooldowns.",
 		"type": "self",
-		"blacklist":true,
+		"blacklist": true,
 		"stats": {
 			"wgt": 4
 		},
@@ -433,7 +444,7 @@
 			"acc": 100,
 			"wgt": 2
 		},
-		"startup":3,
+		"startup": 3,
 		"cooldown": 4,
 		"effect": "elusive",
 		"inherit_stats": false,
@@ -476,7 +487,7 @@
 		"nome": "Dive",
 		"description": "Removes the user from battle entirely.",
 		"type": "flee",
-		"blacklist":true,
+		"blacklist": true,
 		"use_text": "[b][USER][/b] dives back into the depths!",
 		"target": "self",
 		"stats": {
@@ -491,7 +502,7 @@
 		"nome": "Flee",
 		"description": "Removes the user from battle entirely.",
 		"type": "flee",
-		"blacklist":true,
+		"blacklist": true,
 		"use_text": "[b][USER][/b] fled the battle!",
 		"target": "self",
 		"stats": {
@@ -506,9 +517,11 @@
 		"nome": "Raise Zombie",
 		"description": "Calls a rotting corpse from the earth to fight.",
 		"type": "summon",
-		"blacklist":true,
+		"blacklist": true,
 		"summons": "Zombie",
-		"stats": { "wgt": 0 },
+		"stats": {
+			"wgt": 0
+		},
 		"cooldown": 4,
 		"use_text": "[b][USER][/b] raises a [color=green]Zombie[/color] from the grave!"
 	},
@@ -516,9 +529,11 @@
 		"nome": "Raise Ghost",
 		"description": "Tears the veil and drags a restless spirit into battle.",
 		"type": "summon",
-		"blacklist":true,
+		"blacklist": true,
 		"summons": "Ghost",
-		"stats": { "wgt": 0 },
+		"stats": {
+			"wgt": 0
+		},
 		"cooldown": 4,
 		"use_text": "[b][USER][/b] summons a [color=cyan]Ghost[/color] from beyond!"
 	},
@@ -526,9 +541,11 @@
 		"nome": "Raise Skeleton",
 		"description": "Animates bleached bones with fell necromantic energy.",
 		"type": "summon",
-		"blacklist":true,
+		"blacklist": true,
 		"summons": "Skeleton",
-		"stats": { "wgt": 0 },
+		"stats": {
+			"wgt": 0
+		},
 		"cooldown": 4,
 		"use_text": "[b][USER][/b] raises a [color=white]Skeleton[/color] to serve!"
 	},
@@ -536,7 +553,9 @@
 		"nome": "Wait",
 		"description": "Does nothing. Passes the turn without acting.",
 		"type": "self",
-		"stats": { "wgt": 0 },
+		"stats": {
+			"wgt": 0
+		},
 		"cooldown": 0,
 		"effect": "none",
 		"inherit_stats": false,
@@ -551,7 +570,7 @@
 			"wgt": 8
 		},
 		"cooldown": 10,
-		"magnitude":10,
+		"magnitude": 10,
 		"effect": "flying",
 		"inherit_stats": false,
 		"inherit_wpn": false
@@ -564,7 +583,7 @@
 			"acc": 100
 		},
 		"cooldown": 10,
-		"magnitude":10,
+		"magnitude": 10,
 		"effect": "ethereal",
 		"inherit_stats": false,
 		"inherit_wpn": false
@@ -574,7 +593,12 @@
 		"description": "Hurls a rapid flurry of blades at the target, striking twice in quick succession.",
 		"type": "attack",
 		"element": "Neutral",
-		"stats": { "mgt": 14, "acc": 90, "crit": 5, "wgt": 1 },
+		"stats": {
+			"mgt": 14,
+			"acc": 90,
+			"crit": 5,
+			"wgt": 1
+		},
 		"hits": 2,
 		"cooldown": 1,
 		"effect": "none",
@@ -588,7 +612,12 @@
 		"description": "A building volley — the longer the wait, the more blades in the air.",
 		"type": "attack",
 		"element": "Neutral",
-		"stats": { "mgt": 8, "acc": 80, "crit": 0, "wgt": 2 },
+		"stats": {
+			"mgt": 8,
+			"acc": 80,
+			"crit": 0,
+			"wgt": 2
+		},
 		"hits_from_idle": true,
 		"base_hits": 1,
 		"cooldown": 2,
@@ -602,8 +631,10 @@
 		"nome": "Party Trick",
 		"description": "Pick a card — any card.",
 		"type": "random_skill",
-		"exclude": ["Party Trick"],
-		"blacklist":true,
+		"exclude": [
+			"Party Trick"
+		],
+		"blacklist": true,
 		"cooldown": 1,
 		"use_text": "[b][USER][/b] grins and reaches into their hat..."
 	},
@@ -612,7 +643,12 @@
 		"description": "A snapping whip strike that leaves the target reeling with a high chance to stun.",
 		"type": "attack",
 		"element": "Neutral",
-		"stats": { "mgt": 22, "acc": 85, "crit": 0, "wgt": 3 },
+		"stats": {
+			"mgt": 22,
+			"acc": 85,
+			"crit": 0,
+			"wgt": 3
+		},
 		"cooldown": 2,
 		"effect": "stun",
 		"chance": 60,
@@ -625,9 +661,11 @@
 		"nome": "Raise Curtain",
 		"description": "Summons a Harlequin from the wings of the performance.",
 		"type": "summon",
-		"blacklist":true,
+		"blacklist": true,
 		"summons": "Harlequin",
-		"stats": { "wgt": 0 },
+		"stats": {
+			"wgt": 0
+		},
 		"cooldown": 0,
 		"use_text": "[b][USER][/b] snaps his fingers. The curtain rises."
 	},
@@ -635,8 +673,10 @@
 		"nome": "Mirror Morph",
 		"description": "Assumes the exact form of the target, copying their stats, skills, and spells.",
 		"type": "mirror_morph",
-		"blacklist":true,
-		"stats": { "wgt": 0 },
+		"blacklist": true,
+		"stats": {
+			"wgt": 0
+		},
 		"use_text": "[b][USER][/b] gazes into [b][TARGET][/b] and [color=cyan]shifts[/color]..."
 	}
 }

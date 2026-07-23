@@ -1,0 +1,998 @@
+{
+	"apple_woods_fishing": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You fashion a crude rod out of a tree branch and some string. The water is sparkling and you can see shapes moving underneath."
+			},
+			{
+				"type": "text",
+				"text": "You wedge yourself against the bank, cast as far as you can manage, and wait."
+			},
+			{
+				"type": "text",
+				"text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!",
+				"clear": false
+			},
+			{
+				"type": "sfx",
+				"sound": "water"
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 12,
+						"steps": [
+							{
+								"type": "text",
+								"text": "...Nothing. The line drifts. A leaf passes it. You wait a bit longer and still nothing."
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_red_apple"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_brown_apple"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_silverscale"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Old Boot"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_old_boot"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 0,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Sparkling Sapphire"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_sapphire"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 7,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_bitefish"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_sparkfish"
+							}
+						]
+					},
+					{
+						"weight": 7,
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_river_trout"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_apple_carp"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_minnow"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_thornfish"
+							},
+							{
+								"type": "event",
+								"event": "apple_woods_fish_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.3
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "fish_bigun"
+							}
+						]
+					},
+					{
+						"weight": 8,
+						"stat_weights": {
+							"dex": -1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The line catches on something in the current. You pull against it — the rod bends, holds, bends further, and snaps. The pieces hit the water and drift away."
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"apple_woods_fish_b": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Your fishing rod is still in descent shape. The water still invitingly sparkling and full of movement.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What will you do?",
+				"choices": [
+					{
+						"choice": "Keep fishing",
+						"key": "continue"
+					},
+					{
+						"choice": "Pack up",
+						"key": "stop"
+					}
+				],
+				"branches": {
+					"continue": [
+						{
+							"type": "text",
+							"text": "You cast your line again, and wait."
+						},
+						{
+							"type": "text",
+							"text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "water"
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 12,
+									"steps": [
+										{
+											"type": "text",
+											"text": "...Nothing. The line sits still. Nothing moving out there."
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_red_apple"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 10,
+									"stat_weights": {
+										"lck": -0.5
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_brown_apple"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 0,
+									"stat_weights": {
+										"lck": 0.5
+									},
+									"condition": {
+										"lacks_item": "Old Boot"
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_old_boot"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 0,
+									"stat_weights": {
+										"lck": 1
+									},
+									"condition": {
+										"lacks_item": "Sparkling Sapphire"
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_sapphire"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_silverscale"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 9,
+									"stat_weights": {
+										"lck": -0.5
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_bitefish"
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"stat_weights": {
+										"lck": -0.5
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_sparkfish"
+										}
+									]
+								},
+								{
+									"weight": 4,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_river_trout"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_apple_carp"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 5,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_minnow"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 4,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_thornfish"
+										},
+										{
+											"type": "event",
+											"event": "apple_woods_fish_c"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"stat_weights": {
+										"lck": 0.3
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_bigun"
+										}
+									]
+								},
+								{
+									"weight": 11,
+									"stat_weights": {
+										"dex": -0.5
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "The line snags something that doesn't give. You pull harder — the rod bends, cracks, then snaps clean. Whatever was on the line is gone."
+										}
+									]
+								}
+							]
+						}
+					],
+					"stop": [
+						{
+							"type": "text",
+							"text": "You toss the rod on the waterbank."
+						}
+					]
+				}
+			}
+		]
+	},
+	"apple_woods_fish_c": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Your fishing rod is creaking; it'll probably break soon. The shadows under the water seem to have somewhat dispersed.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What will you do?",
+				"choices": [
+					{
+						"choice": "Keep fishing",
+						"key": "continue"
+					},
+					{
+						"choice": "Pack up",
+						"key": "stop"
+					}
+				],
+				"branches": {
+					"continue": [
+						{
+							"type": "text",
+							"text": "You cast your line one last time, and wait."
+						},
+						{
+							"type": "text",
+							"text": "...[wait=0.1]\n\n...[wait=0.1]\n\n...[wait=0.1]!",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "water"
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 12,
+									"steps": [
+										{
+											"type": "text",
+											"text": "...Nothing. You sit out the stillness a while longer. The water doesn't give anything."
+										},
+										{
+											"type": "text",
+											"text": "Your improvised rod is in pretty bad shape...\n\nYou decide to move on.",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_silverscale"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": -1,
+									"stat_weights": {
+										"lck": 0.5
+									},
+									"condition": {
+										"lacks_item": "Old Boot"
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_old_boot"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": -4,
+									"stat_weights": {
+										"lck": 1
+									},
+									"condition": {
+										"lacks_item": "Sparkling Sapphire"
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_sapphire"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 12,
+									"stat_weights": {
+										"lck": -0.5
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_bitefish"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"stat_weights": {
+										"lck": -0.5
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_sparkfish"
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_river_trout"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 9,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_minnow"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 6,
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_thornfish"
+										},
+										{
+											"type": "text",
+											"text": "Your fishing rod falls apart in your hands...",
+											"clear": false
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"stat_weights": {
+										"lck": 0.3
+									},
+									"steps": [
+										{
+											"type": "event",
+											"event": "fish_bigun"
+										}
+									]
+								},
+								{
+									"weight": 15,
+									"stat_weights": {
+										"dex": -1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "The line catches deep and won't come loose. You haul hard against it — the rod bends into a full arc, holds for one second, and then the whole thing goes. Line, hook, the tip of the rod. That's enough."
+										}
+									]
+								}
+							]
+						}
+					],
+					"stop": [
+						{
+							"type": "text",
+							"text": "You toss the rod on the waterbank."
+						}
+					]
+				}
+			}
+		]
+	},
+	"fish_apple_carp": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A fat, lazy carp, belly round from eating fallen apples off the surface. It hardly fought at all.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What will you do?",
+				"choices": [
+					{
+						"choice": "Eat it",
+						"key": "eat"
+					},
+					{
+						"choice": "Release it",
+						"key": "release"
+					}
+				],
+				"branches": {
+					"eat": [
+						{
+							"type": "text",
+							"text": "You eat it on the spot. Rich and sweet — whatever those apples did to it, you're not complaining.",
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 18
+							}
+						},
+						{
+							"type": "text",
+							"text": "[instant]Healed [color=green]18[/color] HP![/instant]",
+							"clear": false
+						}
+					],
+					"release": [
+						{
+							"type": "text",
+							"text": "You toss it back. It plops into the water and sinks without much ceremony."
+						}
+					]
+				}
+			}
+		]
+	},
+	"fish_bigun": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something hits the line. Not a nibble — a yank. The rod bends nearly double."
+			},
+			{
+				"type": "text",
+				"text": "You brace your feet against the bank and pull back. Whatever's down there is pulling harder."
+			},
+			{
+				"type": "text",
+				"text": "A shape rises beneath the surface — wide as a barrel, mud-dark. A head the size of a cooking pot breaks the water. It stares at you with one flat, indifferent eye.\n\nThe biggest catfish you've ever seen. By a considerable margin.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Hold on and fight!",
+						"key": "fight"
+					},
+					{
+						"choice": "Cut the line and back away.",
+						"key": "cut"
+					}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "text",
+							"text": "You dig your heels in. The catfish surges and splashes. You're not sure how long you can hold."
+						},
+						{
+							"type": "combat",
+							"enemy": "Big'Un"
+						}
+					],
+					"cut": [
+						{
+							"type": "text",
+							"text": "You pull your knife and sever the line. The rod springs back. The shape drops beneath the surface without a sound."
+						},
+						{
+							"type": "text",
+							"text": "The biggest fish you've ever seen, and you let it go. Probably for the best.",
+							"clear": false
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"fish_bitefish": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The line goes taut hard and fast — whatever is on the other end doesn't want to be reeled in. It breaks the surface snapping."
+			},
+			{
+				"type": "combat",
+				"enemy": "Bitefish"
+			}
+		]
+	},
+	"fish_brown_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A waterlogged brown apple bobs on the hook, soft and suspect."
+			},
+			{
+				"type": "event",
+				"event": "brown_apple_aux"
+			}
+		]
+	},
+	"fish_minnow": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You reel in a minnow barely the length of your finger. You hold it a moment. You throw it back.\n\nYou sat out here for that."
+			}
+		]
+	},
+	"fish_old_boot": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something heavy comes up slow. You pull it free — a boot. An old boot. Still laced. You sit with it for a moment."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Old Boot"
+			}
+		]
+	},
+	"fish_red_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something tugs the line — but when you reel it in, it's a red apple, probably shaken loose upstream."
+			},
+			{
+				"type": "event",
+				"event": "red_apple_aux"
+			}
+		]
+	},
+	"fish_river_trout": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A proper river trout, wide and silver. Good weight to it.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What will you do?",
+				"choices": [
+					{
+						"choice": "Eat it",
+						"key": "eat"
+					},
+					{
+						"choice": "Release it",
+						"key": "release"
+					}
+				],
+				"branches": {
+					"eat": [
+						{
+							"type": "text",
+							"text": "You clean it on a flat rock and eat it right there. Not bad.",
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 12
+							}
+						},
+						{
+							"type": "text",
+							"text": "[instant]Healed [color=green]12[/color] HP![/instant]",
+							"clear": false
+						}
+					],
+					"release": [
+						{
+							"type": "text",
+							"text": "You hold it in the current a moment and let it go. It disappears into the dark water."
+						}
+					]
+				}
+			}
+		]
+	},
+	"fish_sapphire": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The line pulls tight, then goes slack — something shed the hook. You reel in to recast and find a deep blue crystal tangled in the line.\n\nNot what you were fishing for. But you sure aren't complaining."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Sparkling Sapphire"
+			}
+		]
+	},
+	"fish_silverscale": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Silver flash, real weight on the line. You land it quickly — a silverscale, broad and heavy, worth good money to the right cook."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_gold",
+				"amount": 50
+			},
+			{
+				"type": "text",
+				"text": "You got [color=yellow]50G[/color] (eventually)."
+			}
+		]
+	},
+	"fish_sparkfish": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A flash beneath the water and then the line lights up with current. You feel the shock through the rod before you see it — a sparkfish, already cresting the surface."
+			},
+			{
+				"type": "combat",
+				"enemy": "Sparkfish"
+			}
+		]
+	},
+	"fish_thornfish": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something comes up slow and heavy. You reach for it and get a spike through your palm.",
+				"no_continue": true
+			},
+			{
+				"type": "sfx",
+				"sound": "poison"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "damage",
+					"amount": 3
+				}
+			},
+			{
+				"type": "text",
+				"text": "[instant]Lost [color=red]3[/color] HP.[/instant]\n\nStill caught it, though.",
+				"clear": false
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_gold",
+				"amount": 20
+			},
+			{
+				"type": "text",
+				"text": "You sell it eventually for [color=yellow]20G[/color].",
+				"clear": false
+			}
+		]
+	}
+}

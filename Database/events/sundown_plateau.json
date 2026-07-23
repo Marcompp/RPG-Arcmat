@@ -1,0 +1,1052 @@
+{
+	"skeleton_gambler": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You spot something up ahead:\"",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "Among the headstones, a half-buried figure hunches over a flat-topped grave marker. Three dice on the stone in front of it. It doesn't have eyes anymore, but the empty sockets turn toward you when you approach.\n\n\"Sit,\" it says, in a voice like air through old stone. \"One game of Wandering Dice. That is all I ask.\"",
+				"no_continue": true
+			},
+			{
+				"type": "choice",
+				"header": "Play or leave.",
+				"choices": [
+					{
+						"choice": "50 gold — one game",
+						"key": "play",
+						"condition": {
+							"gold": {
+								"min": 50
+							}
+						},
+						"disabled_text": "50 gold (can't afford)",
+						"disabled_tooltip": "Requires at least 50G"
+					},
+					{
+						"choice": "Walk away",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"play": [
+						{
+							"type": "dice_game",
+							"wager": 50,
+							"gamblers": [
+								"skeleton_gambler"
+							],
+							"community_dice": [
+								"bone",
+								"standard"
+							],
+							"on_win": [
+								{
+									"type": "text",
+									"text": "Your hand takes it. He holds still for a moment, then counts out the coins and sets them in front of you.\n\n\"...Well played.\" He reaches behind the headstone and sets a die on the stone between you. Small, carved from bone, every face the same mark. \"Keep it. Something to remember the game by.\""
+								},
+								{
+									"type": "give_item",
+									"item": "skull"
+								}
+							],
+							"on_tie": [
+								{
+									"type": "text",
+									"text": "A dead match. He divides the pot exactly and sets your half in front of you without a word. Then he reaches behind the headstone and places a small die on the stone between you. Every face carved with the same sign.\n\n\"Even hands. Take this anyway.\""
+								},
+								{
+									"type": "give_item",
+									"item": "skull"
+								}
+							],
+							"on_fold": [
+								{
+									"type": "text",
+									"text": "You set your dice down. He pulls the pot to his side with careful hands.\n\n\"Wise, perhaps.\" He doesn't look up from the stone. \"Come back when you are ready.\""
+								}
+							],
+							"on_lose": [
+								{
+									"type": "text",
+									"text": "He sweeps the coins to his side slowly. Then reaches behind the headstone and sets a small bone die on the grave marker between you. Every face carved with the same sign.\n\n\"The game leaves something behind,\" he says. \"It always does.\""
+								},
+								{
+									"type": "give_item",
+									"item": "skull"
+								}
+							]
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You back away from the grave. The skeleton watches you go, then looks back down at its dice.\n\nIt doesn't call after you."
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"sundown_altar_event": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Make a blood offering (10 HP)",
+						"key": "offer"
+					},
+					{
+						"choice": "Smash it",
+						"key": "smash"
+					},
+					{
+						"choice": "Leave it alone",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"offer": [
+						{
+							"type": "effect",
+							"effect": {
+								"type": "damage",
+								"amount": 10
+							}
+						},
+						{
+							"type": "text",
+							"text": "You press your hand to the stone. The symbols flare cold — not warm — and something pulls at you, brief and deep.\n\nWhen it lets go, something rests on the altar that wasn't there before.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_item",
+							"item": "Lifespark Crystal"
+						},
+						{
+							"type": "text",
+							"text": "You took [color=red]10 damage[/color].\nYou found a [color=yellow]Lifespark Crystal[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"smash": [
+						{
+							"type": "text",
+							"text": "You bring your weight down on the altar. Stone chips and the spiral cracks through the centre.\n\nThe ground shifts.",
+							"clear": true,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Zombie",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The noise disturbed something. The plateau grows quiet again.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the altar as you found it and move on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"sundown_cracked_earth": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A wide crevice splits the ground ahead — deeper than it looks, a faint light coming from the bottom.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "You crouch and look down...\n[wait=0.1]...[wait=0.1]",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Nothing down there worth the trouble. Just loose stone and silence.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Old coins are wedged in the stone near the lip — scattered, as though dropped in a hurry.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 20
+							},
+							{
+								"type": "text",
+								"text": "You pry them out. [color=yellow]20G[/color].",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A hand seizes your ankle from below.\n\nA Zombie — buried just under the rim, skin grey and dry.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "combat",
+								"enemy": "Zombie",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "The grip goes slack. You pull away and steady yourself.",
+										"clear": true
+									},
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Something glints far down in the crack. You fish it out with care.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_item",
+								"item": "Potion"
+							},
+							{
+								"type": "text",
+								"text": "A [color=green]Potion[/color], still sealed.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"sundown_edge_look": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You move to the rim and look over.\n\nThe drop is sheer — the bottom, if there is one, is swallowed entirely by dark.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 4,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Wind rises from below, cold and dry. Nothing else.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "event",
+								"event": "sundown_ledge_cache"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"sundown_ledge_cache": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A worn pack is wedged into a rocky ledge just below the rim. You can see it clearly — whoever left it didn't do so on purpose.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Reach for it carefully",
+						"key": "reach"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"reach": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 2,
+									"stat_weights": {
+										"dex": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You lower yourself along the face and hook the pack with steady hands.\n\nSomething valuable inside — worth the trouble.",
+											"clear": true
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Lifespark Crystal"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=yellow]Lifespark Crystal[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Your footing slips. You catch yourself on the rim, but the jolt rattles you hard.",
+											"clear": true
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 20
+											}
+										},
+										{
+											"type": "text",
+											"text": "You took [color=red]20 damage[/color] in the fall.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "Not worth the risk. You step back from the edge.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"sundown_old_bonfire": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Half-buried in dust, an old campfire sits in a shallow depression between cracked stones.\n\nSomeone camped here before you. The bedroll is still spread, the pack left open. They either moved on quickly or didn't move on at all.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Rest at the camp",
+						"key": "rest"
+					},
+					{
+						"choice": "Move on",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"rest": [
+						{
+							"type": "text",
+							"text": "You settle in and close your eyes.\n\nSleep comes reluctantly, broken by the plateau's quiet sounds — wind, dry earth, something distant.\n\nYou wake stiff, but steadier.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "heal",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 9999
+							}
+						},
+						{
+							"type": "text",
+							"text": "[color=green]HP and MP fully restored.[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the camp undisturbed and press on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"sundown_plateau_dig": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "An old shovel stands upright in the cracked earth — broad blade, handle darkened with old sweat. It's been here long enough to be forgotten. The whole plateau is burial ground. Odds are something's under it."
+			},
+			{
+				"type": "text",
+				"text": "You get to work."
+			},
+			{
+				"type": "sfx",
+				"sound": "earth"
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You dig until the blade hits something. You clear around it with your hands. A finger bone. Not a hand — just the one."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 8,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You hit a coffin lid — intact, sealed, hinged. You consider it. You fill the hole back in."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The blade bounces off hardpan — packed earth, dry as stone. Too dense to break without a longer tool. Nothing."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The blade catches a buried stone wrong. The handle splinters clean through the grip and the head rings off into the dirt. That's the end of that."
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"stat_weights": {
+							"str": -0.5
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The shovel wrenches sideways on a root, twisting out of your grip. The handle clips you across the shin before you catch it.\n[color=red]-3 HP[/color]"
+							},
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 3
+								}
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_zombie"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_skeleton"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ghost"
+							}
+						]
+					},
+					{
+						"weight": 7,
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_grave_coins"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"stat_weights": {
+							"str": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_burial_cache"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ether"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_bone_club"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_bone_die"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Lifespark Crystal"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_lifespark_crystal"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Tough Topaz"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_tough_topaz"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Abyssal Onyx"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_abyssal_onyx"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Crumbled Epitaph"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_crumbled_epitaph"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Tally Stone"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_tally_stone"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Ferryman's Obol"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ferrymansobol"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"sundown_rubble_dig": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "The tunnel ends in a collapse — ceiling and walls giving way into a wall of loose stone and old timber.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Dig through the rubble",
+						"key": "dig"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"dig": [
+						{
+							"type": "text",
+							"text": "You work through the rubble — stone by stone, careful not to bring more down.",
+							"clear": false
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 2,
+									"stat_weights": {
+										"str": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "Behind the collapse, a small alcove. Shelved, like a storage niche — whatever it was for, someone stocked it.",
+											"clear": true
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "random",
+											"outcomes": [
+												{
+													"weight": 1,
+													"steps": [
+														{
+															"type": "give_item",
+															"item": "Bomb"
+														},
+														{
+															"type": "text",
+															"text": "You found a [color=red]Bomb[/color].",
+															"clear": false
+														},
+														{
+															"type": "show_node"
+														}
+													]
+												},
+												{
+													"weight": 1,
+													"steps": [
+														{
+															"type": "give_item",
+															"item": "Ether"
+														},
+														{
+															"type": "text",
+															"text": "You found an [color=teal]Ether[/color].",
+															"clear": false
+														},
+														{
+															"type": "show_node"
+														}
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You dig until your arms ache. Nothing back there — just more stone, and more collapse beyond.",
+											"clear": true
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You turn back.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"sundown_scavenger_remains": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Half-buried in the cracked earth: a leather pack, a pair of boots, and what's left of whoever wore them.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Search the remains",
+						"key": "search"
+					},
+					{
+						"choice": "Leave them be",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"search": [
+						{
+							"type": "text",
+							"text": "Inside the pack: a folded journal, the later pages stiff with dried water.\n\nYou can still make out a few entries:\n\n[color=gray]\"...the plateau is as desolate as they said. Found the mausoleum.\"[/color]",
+							"clear": true
+						},
+						{
+							"type": "text",
+							"text": "[color=gray]\"Descended into the catacombs this morning. There are symbols I haven't seen before — not funerary, not ceremonial. Something older.\"[/color]",
+							"clear": false
+						},
+						{
+							"type": "text",
+							"text": "[color=gray]\"Reached a circular chamber. The floor pulses. I don't think this place was a tomb.\"[/color]\n\nThe last entry trails off into nothing.",
+							"clear": false
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Potion"
+										},
+										{
+											"type": "text",
+											"text": "Beneath the journal: a [color=green]Potion[/color], still good.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 1,
+									"steps": [
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Ether"
+										},
+										{
+											"type": "text",
+											"text": "Beneath the journal: an [color=teal]Ether[/color], intact.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave them where they fell.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	}
+}

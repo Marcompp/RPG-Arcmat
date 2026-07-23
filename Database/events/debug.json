@@ -1,0 +1,1179 @@
+{
+	"debug_all": {
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Debug",
+				"choices": [
+					{
+						"choice": "Test Fight",
+						"key": "fight"
+					},
+					{
+						"choice": "Test Event",
+						"key": "event"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "text",
+							"text": "Choose a region.",
+							"no_wait": true
+						},
+						{
+							"type": "choice",
+							"header": "Which region?",
+							"choices": [
+								{
+									"choice": "Apple Woods",
+									"key": "apple_woods"
+								},
+								{
+									"choice": "Caves of Light",
+									"key": "caves_of_light"
+								},
+								{
+									"choice": "Sundown Plateau",
+									"key": "sundown_plateau"
+								},
+								{
+									"choice": "Mount Legory",
+									"key": "mount_legory"
+								},
+								{
+									"choice": "Core Cavern",
+									"key": "core_cavern"
+								},
+								{
+									"choice": "Lost Swamp",
+									"key": "lost_swamp"
+								},
+								{
+									"choice": "Arcmat Ruins",
+									"key": "arcmat_ruins"
+								},
+								{
+									"choice": "Back",
+									"key": "back",
+									"type": "back"
+								}
+							],
+							"branches": {
+								"apple_woods": [
+									{
+										"type": "event",
+										"event": "debug_apple_woods"
+									}
+								],
+								"caves_of_light": [
+									{
+										"type": "event",
+										"event": "debug_caves_of_light"
+									}
+								],
+								"sundown_plateau": [
+									{
+										"type": "event",
+										"event": "debug_sundown_plateau"
+									}
+								],
+								"mount_legory": [
+									{
+										"type": "event",
+										"event": "debug_mount_legory"
+									}
+								],
+								"core_cavern": [
+									{
+										"type": "event",
+										"event": "debug_core_cavern"
+									}
+								],
+								"lost_swamp": [
+									{
+										"type": "event",
+										"event": "debug_lost_swamp"
+									}
+								],
+								"arcmat_ruins": [
+									{
+										"type": "event",
+										"event": "debug_arcmat_ruins"
+									}
+								],
+								"back": []
+							}
+						}
+					],
+					"event": [
+						{
+							"type": "debug_event_picker"
+						}
+					]
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_apple_woods": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Slime",
+						"key": "slime"
+					},
+					{
+						"choice": "Bandit",
+						"key": "bandit"
+					},
+					{
+						"choice": "Skeleton",
+						"key": "skeleton"
+					},
+					{
+						"choice": "Slime Duo",
+						"key": "slime2"
+					},
+					{
+						"choice": "Bitefish",
+						"key": "bitefish"
+					},
+					{
+						"choice": "Bandit Brothers",
+						"key": "banditbros"
+					},
+					{
+						"choice": "Bear",
+						"key": "bear"
+					},
+					{
+						"choice": "Troll",
+						"key": "troll"
+					},
+					{
+						"choice": "Big'Un",
+						"key": "bigun"
+					},
+					{
+						"choice": "Werewolf",
+						"key": "werewolf"
+					},
+					{
+						"choice": "Agnes",
+						"key": "agnes"
+					},
+					{
+						"choice": "Borin",
+						"key": "borin"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"slime": [
+						{
+							"type": "combat",
+							"enemy": "Slime"
+						}
+					],
+					"bandit": [
+						{
+							"type": "combat",
+							"enemy": "Bandit"
+						}
+					],
+					"skeleton": [
+						{
+							"type": "combat",
+							"enemy": "Skeleton"
+						}
+					],
+					"slime2": [
+						{
+							"type": "combat",
+							"enemy": "Slime Duo"
+						}
+					],
+					"bear": [
+						{
+							"type": "combat",
+							"enemy": "Bear"
+						}
+					],
+					"bitefish": [
+						{
+							"type": "combat",
+							"enemy": "Bitefish"
+						}
+					],
+					"troll": [
+						{
+							"type": "combat",
+							"enemy": "Troll"
+						}
+					],
+					"banditbros": [
+						{
+							"type": "combat",
+							"enemy": "Bandit Brothers"
+						}
+					],
+					"bigun": [
+						{
+							"type": "combat",
+							"enemy": "Big'Un"
+						}
+					],
+					"agnes": [
+						{
+							"type": "combat",
+							"enemy": "Agnes1"
+						}
+					],
+					"borin": [
+						{
+							"type": "combat",
+							"enemy": "Borin1"
+						}
+					],
+					"werewolf": [
+						{
+							"type": "combat",
+							"enemy": "Werewolf"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_arcmat_ruins": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Gargoyle",
+						"key": "gargoyle"
+					},
+					{
+						"choice": "Treasure Hunter",
+						"key": "treasure_hunter"
+					},
+					{
+						"choice": "Wizard",
+						"key": "wizard"
+					},
+					{
+						"choice": "Guardian",
+						"key": "guardian"
+					},
+					{
+						"choice": "Carlon",
+						"key": "carlon"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"gargoyle": [
+						{
+							"type": "combat",
+							"enemy": "Gargoyle"
+						}
+					],
+					"treasure_hunter": [
+						{
+							"type": "combat",
+							"enemy": "Treasure Hunter"
+						}
+					],
+					"wizard": [
+						{
+							"type": "combat",
+							"enemy": "Wizard"
+						}
+					],
+					"guardian": [
+						{
+							"type": "combat",
+							"enemy": "Guardian"
+						}
+					],
+					"carlon": [
+						{
+							"type": "combat",
+							"enemy": "Carlon"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_caves_of_light": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Vampire Bat",
+						"key": "vampire_bat"
+					},
+					{
+						"choice": "Restless Spirit",
+						"key": "restless_spirit"
+					},
+					{
+						"choice": "Renegade",
+						"key": "renegade"
+					},
+					{
+						"choice": "Cultist",
+						"key": "cultist"
+					},
+					{
+						"choice": "Cultist Patrol",
+						"key": "cultist_patrol"
+					},
+					{
+						"choice": "Sparkfish",
+						"key": "sparkfish"
+					},
+					{
+						"choice": "Chimera",
+						"key": "chimera"
+					},
+					{
+						"choice": "Mother Orielli",
+						"key": "mother_orielli"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"vampire_bat": [
+						{
+							"type": "combat",
+							"enemy": "Vampire Bat"
+						}
+					],
+					"restless_spirit": [
+						{
+							"type": "combat",
+							"enemy": "Restless Spirit"
+						}
+					],
+					"renegade": [
+						{
+							"type": "combat",
+							"enemy": "Renegade"
+						}
+					],
+					"cultist": [
+						{
+							"type": "combat",
+							"enemy": "Cultist"
+						}
+					],
+					"cultist_patrol": [
+						{
+							"type": "combat",
+							"enemy": "Cultist Patrol"
+						}
+					],
+					"sparkfish": [
+						{
+							"type": "combat",
+							"enemy": "Sparkfish"
+						}
+					],
+					"chimera": [
+						{
+							"type": "combat",
+							"enemy": "Chimera"
+						}
+					],
+					"mother_orielli": [
+						{
+							"type": "combat",
+							"enemy": "Mother Orielli"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_core_cavern": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Wisp",
+						"key": "wisp"
+					},
+					{
+						"choice": "Wyvern",
+						"key": "wyvern"
+					},
+					{
+						"choice": "Drake",
+						"key": "drake"
+					},
+					{
+						"choice": "Lizardman",
+						"key": "lizardman"
+					},
+					{
+						"choice": "Tarvos",
+						"key": "tarvos"
+					},
+					{
+						"choice": "Lizardman Patrol",
+						"key": "lizardman_patrol"
+					},
+					{
+						"choice": "Wisp Cluster",
+						"key": "wisp_cluster"
+					},
+					{
+						"choice": "Cave Troll",
+						"key": "cave_troll"
+					},
+					{
+						"choice": "Infrit",
+						"key": "infrit"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"wisp": [
+						{
+							"type": "combat",
+							"enemy": "Wisp"
+						}
+					],
+					"wyvern": [
+						{
+							"type": "combat",
+							"enemy": "Wyvern"
+						}
+					],
+					"drake": [
+						{
+							"type": "combat",
+							"enemy": "Drake"
+						}
+					],
+					"lizardman": [
+						{
+							"type": "combat",
+							"enemy": "Lizardman"
+						}
+					],
+					"tarvos": [
+						{
+							"type": "combat",
+							"enemy": "Tarvos"
+						}
+					],
+					"lizardman_patrol": [
+						{
+							"type": "combat",
+							"enemy": "Lizardman Patrol"
+						}
+					],
+					"wisp_cluster": [
+						{
+							"type": "combat",
+							"enemy": "Wisp Cluster"
+						}
+					],
+					"cave_troll": [
+						{
+							"type": "combat",
+							"enemy": "Cave Troll"
+						}
+					],
+					"infrit": [
+						{
+							"type": "combat",
+							"enemy": "Infrit"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_give_dice": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "choice",
+				"header": "Give which die?",
+				"choices": [
+					{
+						"choice": "Standard Die",
+						"key": "standard"
+					},
+					{
+						"choice": "Weighted Die",
+						"key": "weighted"
+					},
+					{
+						"choice": "Trick Die",
+						"key": "trick"
+					},
+					{
+						"choice": "Trick Die1",
+						"key": "trick1"
+					},
+					{
+						"choice": "Trick Die2",
+						"key": "trick2"
+					},
+					{
+						"choice": "Trick Die3",
+						"key": "trick3"
+					},
+					{
+						"choice": "Circus Die",
+						"key": "circus"
+					},
+					{
+						"choice": "Circus Die3 (2)",
+						"key": "circus2"
+					},
+					{
+						"choice": "Circus Die3 (3)",
+						"key": "circus3"
+					},
+					{
+						"choice": "Bertunia Die",
+						"key": "bertunia"
+					},
+					{
+						"choice": "Lantern Die",
+						"key": "lantern"
+					},
+					{
+						"choice": "Bonecarved Die",
+						"key": "bone"
+					},
+					{
+						"choice": "Skull-Carved Die",
+						"key": "skull"
+					},
+					{
+						"choice": "Runecarved Die",
+						"key": "rune"
+					},
+					{
+						"choice": "Crown Die",
+						"key": "crown"
+					},
+					{
+						"choice": "Decadent Die",
+						"key": "decadent"
+					},
+					{
+						"choice": "Crude Die",
+						"key": "crude"
+					},
+					{
+						"choice": "Blank Die",
+						"key": "blank"
+					},
+					{
+						"choice": "Special Die",
+						"key": "special"
+					},
+					{
+						"choice": "Priest's Die",
+						"key": "priest"
+					},
+					{
+						"choice": "Dragon Die",
+						"key": "dragon"
+					},
+					{
+						"choice": "Magician's Die",
+						"key": "magician"
+					},
+					{
+						"choice": "Crystal Die",
+						"key": "crystal"
+					},
+					{
+						"choice": "Cancel",
+						"key": "cancel",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"standard": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "standard"
+						}
+					],
+					"weighted": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "weighted"
+						}
+					],
+					"trick": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "trick"
+						}
+					],
+					"trick1": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "trick1"
+						}
+					],
+					"trick2": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "trick2"
+						}
+					],
+					"trick3": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "trick3"
+						}
+					],
+					"circus": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "circus"
+						}
+					],
+					"circus2": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "circus2"
+						}
+					],
+					"circus3": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "circus3"
+						}
+					],
+					"bertunia": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "bertunia"
+						}
+					],
+					"lantern": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "lantern"
+						}
+					],
+					"bone": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "bone"
+						}
+					],
+					"skull": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "skull"
+						}
+					],
+					"rune": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "rune"
+						}
+					],
+					"crown": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "crown"
+						}
+					],
+					"decadent": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "decadent"
+						}
+					],
+					"crude": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "crude"
+						}
+					],
+					"blank": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "blank"
+						}
+					],
+					"special": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "special"
+						}
+					],
+					"priest": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "priest"
+						}
+					],
+					"dragon": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "dragon"
+						}
+					],
+					"magician": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "magician"
+						}
+					],
+					"crystal": [
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "crystal"
+						}
+					],
+					"cancel": []
+				}
+			}
+		]
+	},
+	"debug_lost_swamp": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Ent",
+						"key": "ent"
+					},
+					{
+						"choice": "Gorgon",
+						"key": "gorgon"
+					},
+					{
+						"choice": "Lost Souls",
+						"key": "lost_souls"
+					},
+					{
+						"choice": "King of the Swamp",
+						"key": "king_of_swamp"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"ent": [
+						{
+							"type": "combat",
+							"enemy": "Ent"
+						}
+					],
+					"gorgon": [
+						{
+							"type": "combat",
+							"enemy": "Gorgon"
+						}
+					],
+					"lost_souls": [
+						{
+							"type": "combat",
+							"enemy": "Lost Souls"
+						}
+					],
+					"king_of_swamp": [
+						{
+							"type": "combat",
+							"enemy": "King of the Swamp"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_mount_legory": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Frost Fairy",
+						"key": "frost_fairy"
+					},
+					{
+						"choice": "Bald Eagle",
+						"key": "bald_eagle"
+					},
+					{
+						"choice": "Pegasus Knight",
+						"key": "pegasus_knight"
+					},
+					{
+						"choice": "Icelady",
+						"key": "icelady"
+					},
+					{
+						"choice": "Great Roc",
+						"key": "great_roc"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"frost_fairy": [
+						{
+							"type": "combat",
+							"enemy": "Frost Fairy"
+						}
+					],
+					"bald_eagle": [
+						{
+							"type": "combat",
+							"enemy": "Bald Eagle"
+						}
+					],
+					"pegasus_knight": [
+						{
+							"type": "combat",
+							"enemy": "Pegasus Knight"
+						}
+					],
+					"icelady": [
+						{
+							"type": "combat",
+							"enemy": "Icelady"
+						}
+					],
+					"great_roc": [
+						{
+							"type": "combat",
+							"enemy": "Great Roc"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"debug_sundown_plateau": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Choose an enemy.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Which enemy?",
+				"choices": [
+					{
+						"choice": "Skeleton Duo",
+						"key": "skeleton_duo"
+					},
+					{
+						"choice": "Mangy Wolf",
+						"key": "mangy_wolf"
+					},
+					{
+						"choice": "Zombie",
+						"key": "zombie"
+					},
+					{
+						"choice": "Ghost",
+						"key": "ghost"
+					},
+					{
+						"choice": "Harlequin",
+						"key": "harlequin"
+					},
+					{
+						"choice": "Harlequin Duo",
+						"key": "harlequin_duo"
+					},
+					{
+						"choice": "Doppelganger",
+						"key": "doppelganger"
+					},
+					{
+						"choice": "Ringmaster",
+						"key": "ringmaster"
+					},
+					{
+						"choice": "Necromancer",
+						"key": "necromancer"
+					},
+					{
+						"choice": "Abomination",
+						"key": "abomination"
+					},
+					{
+						"choice": "Back",
+						"key": "back",
+						"type": "back"
+					}
+				],
+				"branches": {
+					"skeleton_duo": [
+						{
+							"type": "combat",
+							"enemy": "Skeleton Duo"
+						}
+					],
+					"mangy_wolf": [
+						{
+							"type": "combat",
+							"enemy": "Mangy Wolf"
+						}
+					],
+					"zombie": [
+						{
+							"type": "combat",
+							"enemy": "Zombie"
+						}
+					],
+					"ghost": [
+						{
+							"type": "combat",
+							"enemy": "Ghost"
+						}
+					],
+					"necromancer": [
+						{
+							"type": "combat",
+							"enemy": "Necromancer"
+						}
+					],
+					"abomination": [
+						{
+							"type": "combat",
+							"enemy": "Abomination"
+						}
+					],
+					"harlequin": [
+						{
+							"type": "combat",
+							"enemy": "Harlequin"
+						}
+					],
+					"harlequin_duo": [
+						{
+							"type": "combat",
+							"enemy": "Harlequin Duo"
+						}
+					],
+					"doppelganger": [
+						{
+							"type": "combat",
+							"enemy": "Doppelganger"
+						}
+					],
+					"ringmaster": [
+						{
+							"type": "combat",
+							"enemy": "Ringmaster"
+						}
+					],
+					"back": []
+				}
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	}
+}

@@ -1,1232 +1,1850 @@
 [
-  {
-	"Name": "Slime",
-	"Element": "Water",
-	"Lvl": 1,
-	"Gender": "None",
-	"Stats": {"HP":"E","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 20
-	},
-	"Drops": {
-		"Potion": 90,
-		"Slime Spear": 10
-	},
-	"Gold": 10,
-	"Startup":1,
-	"Cooldown":2,
-	"Skill_Chance": 80,
-	"Preparing": ["[SELF] ripples quietly.", "[SELF] wobbles in place.", "[SELF] oozes slowly across the ground."],
-	"Recharging": ["[SELF] ripples quietly.", "[SELF] wobbles in place.", "[SELF] oozes slowly across the ground."],
-	"Start":"Regen",
-	"Skills": [],
-	"Spells": ["Water","Poison"],
-	"Location": "Apple Woods",
-	"Rarity": 10
-  },
-  {
-	"Name":"Slime Duo",
-  	"Enemies":["Slime","Slime"],
-	"Location": "Apple Woods",
-	"Rarity":2
-	},
-  {
-	"Name": "Bandit",
-	"FName": "Bandit",
-	"Element": "Neutral",
-	"Gender": "Random",
-	"Lvl": 2,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 30
-	},
-	"Equip": {
-		"Weapon": "Hand Axe",
-		"Armor": "Tanktop"
-	},
-	"Drops": {
-		"Medicine": 60,
-		"Hand Axe": 10,
-		"Tanktop": 5
-	},
-	"Gold": 50,
-	"Startup":1,
-	"Cooldown":1,
-	"Skills": ["Poison Spit"],
-	"Spells": [],
-	"Location": "Apple Woods",
-	"Rarity": 8
-  },
-  {
-	"Name": "Bandit Brothers", 
- 	"Enemies": ["Bandit", "Bandit"], 
-	"Gender": ["Male", "Male"],
-	"Location": "Apple Woods", 
-	"Rarity": null
-  },
-  {
-	"Name": "Skeleton",
-	"Element": "Dark",
-	"Gender": "Male",
-	"Lvl": 3,
-	"Stats": {"HP":"D","MP":"D","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"D"},
-	"TrueStats":{
-		"HP": 25
-	},
-	"Equip": {
-		"Weapon": "Scimitar",
-		"Armor": "Old Armor"
-	},
-	"Drops": {
-		"Ether": 30,
-		"Scimitar": 10,
-		"Old Armor": 15
-	},
-	"Gold":30,
-	"Startup":2,
-	"Cooldown":1,
-	"Skills": ["Heavy Blow"],
-	"Spells": [],
-	"Location": "Apple Woods",
-	"Rarity": 3
-  },
-  {
-	"Name": "Skeleton Duo",
-	"Enemies": ["Skeleton", "Skeleton"],
-	"Location": "Sundown Plateau",
-	"Rarity": 3
-  },
-  {
-	"Name": "Bitefish",
-	"Element": "Water",
-	"Gender": "Male",
-	"Lvl": 1,
-	"Stats": {"HP":"D","MP":"E","Str":"D","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 20,
-		"Str": 14
-	},
-	"Equip": {
-	},
-	"Drops": {
-		"Stimulant": 10,
-		"Fishbone Dagger": 10
-	},
-	"Gold":15,
-	"Startup":1,
-	"Cooldown":1,
-	"Skills": ["Bite"],
-	"Spells": [],
-	"Location": "Apple River",
-	"Rarity": 8
-  },
-  {
-	"Name": "Bear",
-	"Element": "Earth",
-	"Gender": "Male",
-	"Lvl": 4,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
-	"TrueStats":{
-		"HP": 60,
-		"Str": 14
-	},
-	"Equip": {
-	},
-	"Drops": {
-		"Stimulant": 10
-	},
-	"Gold":25,
-	"Startup":3,
-	"Cooldown":2,
-	"Skills": ["Bite"],
-	"Spells": [],
-	"Location": "Apple Woods",
-	"Rarity": 1
-  },
-  {
-	"Name": "Vampire Bat",
-	"Element": "Wind",
-	"Gender": "Male",
-	"Lvl": 4,
-	"Stats": {"HP":"D","MP":"E","Str":"E","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 19
-	},
-	"Weapon": null,
-	"Drops": {
-		"Medicine": 60,
-		"Bloody Dagger": 5
-	},
-	"Cooldown":1,
-	"Gold":20,
-	"Skills": ["Bloodsucker"],
-	"Spells": [],
-	"Location": "Caves of Light",
-	"Rarity": 9
-  },
-  {
-	"Name": "Restless Spirit",
-	"Element": "Dark",
-	"Gender": "Male",
-	"Lvl": 5,
-	"Stats": {"HP":"E","MP":"C","Str":"F","Int":"C","Dex":"D","Agi":"B","Lck":"F","Def":"F"},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 70,
-		"Spirit Lance": 5
-	},
-	"Startup":1,
-	"Cooldown":1,
-	"Gold":40,
-	"Start":"Ethereal",
-	"Skills": ["Shiver"],
-	"Spells": ["Dark","Light"],
-	"Location": "Caves of Light",
-	"Rarity": 6
-  },
-  {
-	"Name": "Renegade",
-	"FName": "Renegade",
-	"Element": "Neutral",
-	"Gender": "Random",
-	"Lvl": 5,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"Startup":2,
-	"Cooldown":2,
-	"Equip": {
-		"Weapon": "Machete"
-	},
-	"Drops": {
-		"Ether": 70,
-		"Machete":10
-	},
-	"Gold":40,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Caves of Light",
-	"Rarity": 3
-  },
-{
-	"Name": "Sparkfish",
-	"Element": "Water",
-	"Gender": "Male",
-	"Lvl": 5,
-	"Stats": {"HP":"D","MP":"C","Str":"D","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 25,
-		"MP": 15,
-		"Str": 14
-	},
-	"Equip": {
-	},
-	"Drops": {
-		"Ether": 10,
-		"Fishbone Dagger": 10
-	},
-	"Gold":15,
-	"Startup":3,
-	"Cooldown":1,
-	"Skills": [],
-	"Spells": ["Thunder"],
-	"Location": "Spring of Light",
-	"Rarity": 8
-  },
-  {
-	"Name": "Cultist",
-	"FName": "Cultist",
-	"Element": "Light",
-	"Gender": "Random",
-	"Lvl": 6,
-	"Stats": {"HP":"D","MP":"B","Str":"E","Int":"C","Dex":"D","Agi":"E","Lck":"B","Def":"E"},
-	"TrueStats":{
-		"HP": 30,
-		"MP": 30
-	},
-	"Equip": {
-		"Weapon": "Sacrificial Knife",
-		"Armor": "Cult Robes"
-	},
-	"Trinkets":["Prayer Bead"],
-	"Startup":3,
-	"Cooldown":1,
-	"Drops": {
-		"Potion": 40,
-		"Ether": 40,
-		"Sacrificial Knife": 10,
-		"Cult Robes": 20,
-		"Prayer Bead": 20
-	},
-	"Gold":40,
-	"Skills": [],
-	"Spells": ["Light","Heal"],
-	"Location": "Caves of Light",
-	"Rarity": 5
-  },
-  {
-	"Name":"Cultist Patrol",
-  	"Enemies":["Cultist","Cultist"],
-	"Location": "N/A",
-	"Rarity":0
-	},
-  {
-	"Name": "Mangy Wolf",
-	"Element": "Earth",
-	"Gender": "Male",
-	"Lvl": 7,
-	"Stats": {"HP":"C","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP": 25
-	},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 40,
-		"Bloody Claws": 10
-	},
-	"Gold":40,
-	"Startup":1,
-	"Cooldown":1,
-	"Skills": ["Bite","Claws"],
-	"Spells": [],
-	"Location": "Sundown Plateau",
-	"Rarity": 7
-  },
-  {
-	"Name": "Zombie",
-	"FName": "Zombie",
-	"Element": "Dark",
-	"Gender": "Random",
-	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"F","Def":"F"},
-	"TrueStats":{
-		"HP": 50
-	},
-	"Equip": {
-		"Armor": "Old Rags"
-	},
-	"Drops": {
-		"Old Rags": 20,
-		"Killer Axe": 5
-	},
-	"Gold":50,
-	"Startup":3,
-	"Cooldown":3,
-	"Skills": ["Bite"],
-	"Spells": [],
-	"Location": "Sundown Plateau",
-	"Rarity": 10
-  },
-  {
-	"Name": "Ghost",
-	"FName": "Zombie",
-	"Element": "Dark",
-	"Gender": "Random",
-	"Lvl": 8,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"D","Agi":"A","Lck":"F","Def":"F"},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 30,
-		"Old Rags": 5
-	},
-	"Gold":50,
-	"Startup":1,
-	"Cooldown":2,
-	"Start":"Ethereal",
-	"Skills": ["Shiver"],
-	"Spells": ["Dark"],
-	"Location": "Sundown Plateau",
-	"Rarity": 8
-  },
-  {
-	"Name": "Frost Fairy",
-	"Element": "Ice",
-	"Gender":"Female",
-	"Lvl": 9,
-	"Stats": {"HP":"E","MP":"A","Str":"E","Int":"B","Dex":"C","Agi":"B","Lck":"C","Def":"E"},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 60,
-		"Fairy Bow": 10
-	},
-	"Gold":80,
-	"Startup":1,
-	"Cooldown":1,
-	"Skills": ["Take Flight"],
-	"Spells": ["Ice"],
-	"Location": "Mount Legory",
-	"Rarity": 7
-  },
-  {
-	"Name": "Bald Eagle",
-	"Element": "Wind",
-	"Gender": "Female",
-	"Lvl": 9,
-	"Stats": {"HP":"D","MP":"F","Str":"C","Int":"F","Dex":"D","Agi":"C","Lck":"E","Def":"E"},
-	"Weapon": null,
-	"Drops": {
-		"Medicine": 70,
-		"Javelin": 5
-	},
-	"TrueStats":{
-		"HP": 30
-	},
-	"Gold":80,
-	"Startup":1,
-	"Cooldown":1,
-	"Start":"Take Flight",
-	"Skills": [],
-	"Spells": [],
-	"Location": "Mount Legory",
-	"Rarity": 8
-  },
-  {
-	"Name": "Pegasus",
-	"Element": "Wind",
-	"Gender":"Random",
-	"Lvl": 8,
-	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"D","Dex":"C","Agi":"B","Lck":"D","Def":"D"},
-	"TrueStats":{
-		"HP": 30
-	},
-	"Equip": {
-	},
-	"Drops": {
-		"Potion": 70,
-		"Pegasus Feather": 10
-	},
-	"Gold":90,
-	"Startup":2,
-	"Cooldown":2,
-	"Start":"Take Flight",
-	"Skills": [],
-	"Spells": [],
-	"Location": "Mount Legory",
-	"Rarity": 1
-  },
-  {
-	"Name": "Pegasus Knight",
-	"Element": "Wind",
-	"Gender":"Female",
-	"Lvl": 10,
-	"Stats": {"HP":"D","MP":"D","Str":"D","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
-	"TrueStats":{
-		"HP": 35
-	},
-	"Equip": {
-		"Weapon": "Winged Spear",
-		"Armor": "Whitewing Armor"
-	},
-	"Drops": {
-		"Potion": 70,
-		"Winged Spear": 10,
-		"Whitewing Armor": 10
-	},
-	"Gold":110,
-	"Startup":2,
-	"Cooldown":2,
-	"Start":"Take Flight",
-	"Skills": [],
-	"Spells": [],
-	"Location": "Mount Legory",
-	"Rarity": 6
-  },
-  {
-	"Name": "Wisp",
-	"Element": "Fire",
-	"Gender":"None",
-	"Lvl": 11,
-	"Stats": {"HP":"E","MP":"B","Str":"F","Int":"B","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 70,
-		"Fire Staff": 5
-	},
-	"Gold":50,
-	"Start":"Ethereal",
-	"Skills": ["Shiver"],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": 7
-  },
-  {
-	"Name": "Wyvern",
-	"Element": "Fire",
-	"Gender":"Female",
-	"Lvl": 12,
-	"Stats": {"HP":"B","MP":"C","Str":"C","Int":"C","Dex":"D","Agi":"C","Lck":"E","Def":"D"},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 40,
-		"Ether": 20,
-		"Dragon Blade": 5
-	},
-	"Gold":90,
-	"Skills": ["Bite","Take Flight"],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": 5
-  },
-  {
-	"Name": "Drake",
-	"Element": "Fire",
-	"Gender": "Male",
-	"Lvl": 10,
-	"Stats": {"HP":"B","MP":"D","Str":"B","Int":"D","Dex":"D","Agi":"D","Lck":"E","Def":"D"},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 40,
-		"Ether": 20,
-		"Dragon Blade": 5
-	},
-	"Gold":90,
-	"Skills": ["Bite"],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": 5
-  },
-  {
-	"Name": "Lizardman",
-	"Element": "Water",
-	"Gender":"Male",
-	"Lvl": 11,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"D","Agi":"C","Lck":"E","Def":"C"},
-	"Equip": {
-		"Weapon": "Falchion",
-		"Armor": "Lizal Armor"
-	},
-	"Drops": {
-		"Medicine": 40,
-		"Falchion": 10,
-		"Lizal Armor": 10
-	},
-	"Gold":90,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": 7
-  },
-  {
-	"Name": "Tarvos",
-	"Element": "Earth",
-	"Gender":"Male",
-	"Lvl": 12,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
-	"Equip": {
-		"Weapon": "Battleaxe"
-	},
-	"Drops": {
-		"Potion": 40,
-		"Battleaxe": 15
-	},
-	"Gold":80,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": 6
-  },
-  {
-	"Name": "Lizardman Patrol",
-	"Enemies": ["Lizardman", "Lizardman"],
-	"Location": "Core Cavern",
-	"Rarity": null
-  },
-  {
-	"Name": "Wisp Cluster",
-	"Enemies": ["Wisp", "Wisp"],
-	"Location": "Core Cavern",
-	"Rarity": null
-  },
-  {
-	"Name": "Ent",
-	"Element": "Plant",
-	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Dex":"D","Agi":"E","Lck":"E","Def":"C"},
-	"TrueStats": {"HP": 60},
-	"Equip": {
-		"Weapon": "Ent Club"
-	},
-	"Drops": {
-		"Medicine": 50,
-		"Ent Club": 15,
-		"Forest Axe": 5
-	},
-	"Gold":40,
-	"Startup":3,
-	"Cooldown":3,
-	"Skill_Chance": 60,
-	"Start":"Regen",
-	"Preparing": [
-		"[SELF] creaks and groans, drawing back a gnarled limb.",
-		"Moss trembles as [SELF] shifts its ancient bulk.",
-		"[SELF] exhales a breath of damp, rotting bark.",
-		"Roots tear free from the mud as [SELF] turns toward you."
-	],
-	"Recharging": [
-		"[SELF] stands motionless, patient as the swamp itself.",
-		"[SELF] sways gently, rooted and unhurried.",
-		"Water drips from [SELF]'s branches in the heavy silence."
-	],
-	"Skills": ["Slam"],
-	"Spells": ["Earth"],
-	"Location": "Lost Swamp",
-	"Rarity": 8
-  },
-  {
-	"Name": "Gorgon",
-	"Element": "Water",
-	"Lvl": 14,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 40,
-		"Medicine": 90,
-		"Gorgon Sword": 10,
-		"Scale Mail": 5
-	},
-	"Gold":100,
-	"Startup":2,
-	"Cooldown":2,
-	"Skill_Chance": 75,
-	"Preparing": [
-		"[SELF] hisses, coiling low against the reeds.",
-		"[SELF]'s stony eyes fix upon you, unblinking.",
-		"A forked tongue tastes the fog as [SELF] draws near.",
-		"[SELF] bares venom-slick fangs."
-	],
-	"Recharging": [
-		"[SELF] coils in the shallows, watching.",
-		"[SELF] hisses softly, in no hurry at all.",
-		"Ripples spread where [SELF] waits beneath the water."
-	],
-	"Skills": ["Gorgon Eye","Poison Spit"],
-	"Spells": [],
-	"Location": "Lost Swamp",
-	"Rarity": 4
-  },
-  {
-	"Name": "Lost Souls",
-	"Element": "Dark",
-	"Lvl": 13,
-	"Stats": {"HP":"E","MP":"A","Str":"F","Int":"A","Dex":"B","Agi":"A","Lck":"F","Def":"F"},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 40,
-		"Spirit Rod": 10
-	},
-	"Gold":40,
-	"Startup":1,
-	"Cooldown":1,
-	"Skill_Chance": 80,
-	"Start":"Ethereal",
-	"Preparing": [
-		"[SELF] drifts closer, a silent scream frozen on its face.",
-		"The fog thickens where [SELF] passes.",
-		"[SELF] reaches for you with hands made of mist.",
-		"A chill spreads as [SELF] draws near."
-	],
-	"Recharging": [
-		"[SELF] drifts aimlessly, forgotten and unseen.",
-		"[SELF] hangs in the fog, weightless and silent.",
-		"The white mist that is [SELF] barely stirs."
-	],
-	"Skill_Weights": {
-		"Shiver": 1,
-		"Choking Fog": 1,
-		"Mournful Wail": 1
-	},
-	"Skills": ["Shiver", "Choking Fog", "Mournful Wail"],
-	"Spells": [],
-	"Location": "Lost Swamp",
-	"Rarity": 10
-  },
-  {
-	"Name": "Gargoyle",
-	"Element": "Earth",
-	"Lvl": 15,
-	"Stats": {"HP":"B","MP":"C","Str":"B","Int":"C","Dex":"C","Agi":"C","Lck":"E","Def":"B"},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 30,
-		"Watcher Spear": 10
-	},
-	"Gold":40,
-	"Skills": ["Claws"],
-	"Spells": ["Earth"],
-	"Location": "Arcmat Ruins",
-	"Rarity": 9
-  },
-  {
-	"Name": "Treasure Hunter",
-	"Element": "Neutral",
-	"Lvl": 15,
-	"Stats": {"HP":"C","MP":"E","Str":"C","Int":"E","Dex":"A","Agi":"A","Lck":"D","Def":"C"},
-	"Equip": {
-		"Weapon": "Silver Sword",
-		"Armor": "Adventure Clothes"
-	},
-	"Drops": {
-		"Potion": 70,
-		"Medicine": 70,
-		"Bomb": 30,
-		"Silver Sword": 10,
-		"Adventure Clothes": 5
-	},
-	"Gold":120,
-	"Skills": ["Poison Spit"],
-	"Spells": [],
-	"Location": "Arcmat Ruins",
-	"Rarity": 5
-  },
-  {
-	"Name": "Wizard",
-	"Element": "Dark",
-	"Lvl": 16,
-	"Stats": {"HP":"C","MP":"A","Str":"E","Int":"A","Dex":"C","Agi":"C","Lck":"E","Def":"E"},
-	"Equip": {
-		"Weapon": "Ancient Staff",
-		"Armor": "Wizard Robe"
-	},
-	"Drops": {
-		"Ether": 70,
-		"Medicine": 20,
-		"Ancient Staff": 10,
-		"Wizard Robe": 15
-	},
-	"Gold":100,
-	"Skills": [],
-	"Spells": ["Fire","Water","Wind","Earth"],
-	"Location": "Arcmat Ruins",
-	"Rarity": 4
-  }, 
-  {
-	"Name": "Guardian",
-	"Element": "Earth",
-	"Lvl": 16,
-	"Stats": {"HP":"A","MP":"C","Str":"B","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
-	"Equip": {
-		"Weapon": "Stone Axe"
-	},
-	"Drops": {
-		"Ether": 30,
-		"Stone Axe": 15
-	},
-	"Gold":90,
-	"Skills": [],
-	"Spells": ["Earth"],
-	"Location": "Arcmat Ruins",
-	"Rarity": 6
-  },
-
-  {
-	"Name": "Werewolf",
-	"Element": "Earth",
-	"Lvl": 4,
-	"Stats": {"HP":"C","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"C","Lck":"E","Def":"E"},
-	"TrueStats":{
-		"HP":60
-	},
-	"Weapon": null,
-	"Equip": {
-		"Armor": "Old Rags"
-	},
-	"Drops": {
-		"Potion": 100,
-		"Iron Claws": 15,
-		"Old Rags": 15
-	},
-	"Gold":100,
-	"Startup":1,
-	"Cooldown":2,
-	"Skill_Chance":70,
-	"Skills": ["Bite", "Claws"],
-	"Spells": [],
-	"Location": "Apple Woods",
-	"Rarity": null
-  },
-  {
-	"Name": "Troll",
-	"Element": "Earth",
-	"Lvl": 3,
-	"Stats": {"HP":"B","MP":"D","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"D","Def":"E"},
-	"TrueStats":{
-		"HP":60
-	},
-	"Weapon": null,
-	"Equip": {
-		"Weapon":"Troll Club",
-		"Armor": "Loincloth"
-	},
-	"Drops": {
-		"Potion": 100,
-		"Stimulant": 100,
-		"Troll Club": 25,
-		"Loincloth": 5
-	},
-	"Gold":100,
-	"Start":"Regen",
-	"Startup":3,
-	"Cooldown":3,
-	"Skill_Chance":70,
-	"Skills": ["Crush","Heavy Blow"],
-	"Spells": [],
-	"Location": "Apple Woods",
-	"Rarity": null
-  },
-  {
-	"Name": "Big'Un",
-	"Element": "Water",
-	"Gender": "Male",
-	"Lvl": 5,
-	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"F","Dex":"F","Agi":"E","Lck":"A","Def":"B"},
-	"TrueStats": {"HP": 80},
-	"Drops": {"River King's Whisker": 100},
-	"Gold": 120,
-	"Startup": 4,
-	"Cooldown": 0,
-	"Skill_Chance": 100,
-	"Skills": ["Flee"],
-	"Spells": [],
-	"Preparing": [
-		"thrashes against the line, nearly pulling you off your feet.",
-		"surges toward deeper water, the line biting into its jaw.",
-		"twists and rolls, water churning white around it.",
-		"slaps the surface hard — you feel the vibration through the rod.",
-		"bucks against the hook with everything it has."
-	],
-	"Location": "Apple River",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Chimera",
-	"Element": "Water",
-	"Lvl": 7,
-	"Stats": {"HP":"A","MP":"E","Str":"D","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"C"},
-	"TrueStats": {
-		"HP":65
-	},
-	"Weapon": null,
-	"Drops": {
-		"Potion": 100,
-		"Medicine": 100,
-		"Greataxe": 15
-	},
-	"Startup":3,
-	"Cooldown":2,
-	"Gold":200,
-	"Skills": ["Poison Spit"],
-	"Spells": [],
-	"Location": "Caves of Light",
-	"Rarity": null
-  },
-  {
-	"Name": "Mother Orielli",
-	"Class": "Cult Leader",
-	"Element": "Light",
-	"Lvl": 7,
-	"Stats": {"HP":"B","MP":"B","Str":"D","Int":"C","Dex":"C","Agi":"C","Lck":"B","Def":"E"},
-	"Equip": {
-		"Weapon": "Sacrificial Knife",
-		"Armor": "Cult Robes"
-	},
-	"Drops": {
-		"Ether": 100,
-		"Sacrificial Knife": 100,
-		"Cult Robes": 100
-	},
-	"Startup":4,
-	"Cooldown":1,
-	"Gold":300,
-	"Skills": [],
-	"Spells": ["Light","Heal"],
-	"Location": "Caves of Light",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Necromancer",
-	"Element": "Dark",
-	"Lvl": 9,
-	"Stats": {"HP":"C","MP":"B","Str":"C","Int":"B","Dex":"D","Agi":"E","Lck":"E","Def":"E"},
-	"TrueStats": {
-		"HP":50
-	},
-	"Equip": {
-		"Weapon": "Skull Staff",
-		"Armor": "Necromancer Robes"
-	},
-	"Drops": {
-		"Ether": 100,
-		"Skull Staff": 20,
-		"Necromancer Robes": 20
-	},
-	"Startup":1,
-	"Cooldown":2,
-	"Gold":300,
-	"Start": "Raise Ghost",
-	"Skill_Chance": 100,
-	"Skill_Weights": {
-		"Raise Zombie": 2,
-		"Raise Ghost": 1,
-		"Raise Skeleton": 3
-	},
-	"Skills": ["Raise Zombie", "Raise Ghost", "Raise Skeleton"],
-	"Spells": ["Dark"],
-	"Trinkets": ["Necromancer Cloak"],
-	"ChannelMoves": [
-		{
-			"skill": "Mana Explosion",
-			"condition": "hp_below",
-			"threshold": 50,
-			"duration": 2,
-			"channel_start": [
-				"[SELF] draws MP from the dead around it..."
-			],
-			"channel_texts": [
-				"[SELF] draws MP from the dead around it...",
-				"[SELF] trembles as dark energy builds within him."
-			],
-			"weight": 1
+	{
+		"Name": "Slime",
+		"Element": "Water",
+		"Lvl": 1,
+		"Gender": "None",
+		"Stats": {
+			"HP": "E",
+			"MP": "D",
+			"Str": "E",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 20
+		},
+		"Drops": {
+			"Potion": 90,
+			"Slime Spear": 10
+		},
+		"Gold": 10,
+		"Startup": 1,
+		"Cooldown": 2,
+		"Skill_Chance": 80,
+		"Preparing": [
+			"[SELF] ripples quietly.",
+			"[SELF] wobbles in place.",
+			"[SELF] oozes slowly across the ground."
+		],
+		"Recharging": [
+			"[SELF] ripples quietly.",
+			"[SELF] wobbles in place.",
+			"[SELF] oozes slowly across the ground."
+		],
+		"Start": "Regen",
+		"Skills": [],
+		"Spells": [
+			"Water",
+			"Poison"
+		],
+		"Location": "Apple Woods",
+		"Rarity": 10
+	},
+	{
+		"Name": "Slime Duo",
+		"Enemies": [
+			"Slime",
+			"Slime"
+		],
+		"Location": "Apple Woods",
+		"Rarity": 2
+	},
+	{
+		"Name": "Bandit",
+		"FName": "Bandit",
+		"Element": "Neutral",
+		"Gender": "Random",
+		"Lvl": 2,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 30
+		},
+		"Equip": {
+			"Weapon": "Hand Axe",
+			"Armor": "Tanktop"
+		},
+		"Drops": {
+			"Medicine": 60,
+			"Hand Axe": 10,
+			"Tanktop": 5
+		},
+		"Gold": 50,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skills": [
+			"Poison Spit"
+		],
+		"Spells": [],
+		"Location": "Apple Woods",
+		"Rarity": 8
+	},
+	{
+		"Name": "Bandit Brothers",
+		"Enemies": [
+			"Bandit",
+			"Bandit"
+		],
+		"Gender": [
+			"Male",
+			"Male"
+		],
+		"Location": "Apple Woods",
+		"Rarity": null
+	},
+	{
+		"Name": "Skeleton",
+		"Element": "Dark",
+		"Gender": "Male",
+		"Lvl": 3,
+		"Stats": {
+			"HP": "D",
+			"MP": "D",
+			"Str": "E",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "F",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 25
+		},
+		"Equip": {
+			"Weapon": "Scimitar",
+			"Armor": "Old Armor"
+		},
+		"Drops": {
+			"Ether": 30,
+			"Scimitar": 10,
+			"Old Armor": 15
+		},
+		"Gold": 30,
+		"Startup": 2,
+		"Cooldown": 1,
+		"Skills": [
+			"Heavy Blow"
+		],
+		"Spells": [],
+		"Location": "Apple Woods",
+		"Rarity": 3
+	},
+	{
+		"Name": "Skeleton Duo",
+		"Enemies": [
+			"Skeleton",
+			"Skeleton"
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": 3
+	},
+	{
+		"Name": "Bitefish",
+		"Element": "Water",
+		"Gender": "Male",
+		"Lvl": 1,
+		"Stats": {
+			"HP": "D",
+			"MP": "E",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 20,
+			"Str": 14
+		},
+		"Equip": {},
+		"Drops": {
+			"Stimulant": 10,
+			"Fishbone Dagger": 10
+		},
+		"Gold": 15,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skills": [
+			"Bite"
+		],
+		"Spells": [],
+		"Location": "Apple River",
+		"Rarity": 8
+	},
+	{
+		"Name": "Bear",
+		"Element": "Earth",
+		"Gender": "Male",
+		"Lvl": 4,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "B",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 60,
+			"Str": 14
+		},
+		"Equip": {},
+		"Drops": {
+			"Stimulant": 10
+		},
+		"Gold": 25,
+		"Startup": 3,
+		"Cooldown": 2,
+		"Skills": [
+			"Bite"
+		],
+		"Spells": [],
+		"Location": "Apple Woods",
+		"Rarity": 1
+	},
+	{
+		"Name": "Vampire Bat",
+		"Element": "Wind",
+		"Gender": "Male",
+		"Lvl": 4,
+		"Stats": {
+			"HP": "D",
+			"MP": "E",
+			"Str": "E",
+			"Int": "E",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 19
+		},
+		"Weapon": null,
+		"Drops": {
+			"Medicine": 60,
+			"Bloody Dagger": 5
+		},
+		"Cooldown": 1,
+		"Gold": 20,
+		"Skills": [
+			"Bloodsucker"
+		],
+		"Spells": [],
+		"Location": "Caves of Light",
+		"Rarity": 9
+	},
+	{
+		"Name": "Restless Spirit",
+		"Element": "Dark",
+		"Gender": "Male",
+		"Lvl": 5,
+		"Stats": {
+			"HP": "E",
+			"MP": "C",
+			"Str": "F",
+			"Int": "C",
+			"Dex": "D",
+			"Agi": "B",
+			"Lck": "F",
+			"Def": "F"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 70,
+			"Spirit Lance": 5
+		},
+		"Startup": 1,
+		"Cooldown": 1,
+		"Gold": 40,
+		"Start": "Ethereal",
+		"Skills": [
+			"Shiver"
+		],
+		"Spells": [
+			"Dark",
+			"Light"
+		],
+		"Location": "Caves of Light",
+		"Rarity": 6
+	},
+	{
+		"Name": "Renegade",
+		"FName": "Renegade",
+		"Element": "Neutral",
+		"Gender": "Random",
+		"Lvl": 5,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "C",
+			"Int": "E",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"Startup": 2,
+		"Cooldown": 2,
+		"Equip": {
+			"Weapon": "Machete"
+		},
+		"Drops": {
+			"Ether": 70,
+			"Machete": 10
+		},
+		"Gold": 40,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Caves of Light",
+		"Rarity": 3
+	},
+	{
+		"Name": "Sparkfish",
+		"Element": "Water",
+		"Gender": "Male",
+		"Lvl": 5,
+		"Stats": {
+			"HP": "D",
+			"MP": "C",
+			"Str": "D",
+			"Int": "C",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 25,
+			"MP": 15,
+			"Str": 14
+		},
+		"Equip": {},
+		"Drops": {
+			"Ether": 10,
+			"Fishbone Dagger": 10
+		},
+		"Gold": 15,
+		"Startup": 3,
+		"Cooldown": 1,
+		"Skills": [],
+		"Spells": [
+			"Thunder"
+		],
+		"Location": "Spring of Light",
+		"Rarity": 8
+	},
+	{
+		"Name": "Cultist",
+		"FName": "Cultist",
+		"Element": "Light",
+		"Gender": "Random",
+		"Lvl": 6,
+		"Stats": {
+			"HP": "D",
+			"MP": "B",
+			"Str": "E",
+			"Int": "C",
+			"Dex": "D",
+			"Agi": "E",
+			"Lck": "B",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 30,
+			"MP": 30
+		},
+		"Equip": {
+			"Weapon": "Sacrificial Knife",
+			"Armor": "Cult Robes"
+		},
+		"Trinkets": [
+			"Prayer Bead"
+		],
+		"Startup": 3,
+		"Cooldown": 1,
+		"Drops": {
+			"Potion": 40,
+			"Ether": 40,
+			"Sacrificial Knife": 10,
+			"Cult Robes": 20,
+			"Prayer Bead": 20
+		},
+		"Gold": 40,
+		"Skills": [],
+		"Spells": [
+			"Light",
+			"Heal"
+		],
+		"Location": "Caves of Light",
+		"Rarity": 5
+	},
+	{
+		"Name": "Cultist Patrol",
+		"Enemies": [
+			"Cultist",
+			"Cultist"
+		],
+		"Location": "N/A",
+		"Rarity": 0
+	},
+	{
+		"Name": "Mangy Wolf",
+		"Element": "Earth",
+		"Gender": "Male",
+		"Lvl": 7,
+		"Stats": {
+			"HP": "C",
+			"MP": "F",
+			"Str": "C",
+			"Int": "F",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 25
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 40,
+			"Bloody Claws": 10
+		},
+		"Gold": 40,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skills": [
+			"Bite",
+			"Claws"
+		],
+		"Spells": [],
+		"Location": "Sundown Plateau",
+		"Rarity": 7
+	},
+	{
+		"Name": "Zombie",
+		"FName": "Zombie",
+		"Element": "Dark",
+		"Gender": "Random",
+		"Lvl": 7,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "F",
+			"Def": "F"
+		},
+		"TrueStats": {
+			"HP": 50
+		},
+		"Equip": {
+			"Armor": "Old Rags"
+		},
+		"Drops": {
+			"Old Rags": 20,
+			"Killer Axe": 5
+		},
+		"Gold": 50,
+		"Startup": 3,
+		"Cooldown": 3,
+		"Skills": [
+			"Bite"
+		],
+		"Spells": [],
+		"Location": "Sundown Plateau",
+		"Rarity": 10
+	},
+	{
+		"Name": "Ghost",
+		"FName": "Zombie",
+		"Element": "Dark",
+		"Gender": "Random",
+		"Lvl": 8,
+		"Stats": {
+			"HP": "E",
+			"MP": "B",
+			"Str": "F",
+			"Int": "B",
+			"Dex": "D",
+			"Agi": "A",
+			"Lck": "F",
+			"Def": "F"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 30,
+			"Old Rags": 5
+		},
+		"Gold": 50,
+		"Startup": 1,
+		"Cooldown": 2,
+		"Start": "Ethereal",
+		"Skills": [
+			"Shiver"
+		],
+		"Spells": [
+			"Dark"
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": 8
+	},
+	{
+		"Name": "Frost Fairy",
+		"Element": "Ice",
+		"Gender": "Female",
+		"Lvl": 9,
+		"Stats": {
+			"HP": "E",
+			"MP": "A",
+			"Str": "E",
+			"Int": "B",
+			"Dex": "C",
+			"Agi": "B",
+			"Lck": "C",
+			"Def": "E"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 60,
+			"Fairy Bow": 10
+		},
+		"Gold": 80,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skills": [
+			"Take Flight"
+		],
+		"Spells": [
+			"Ice"
+		],
+		"Location": "Mount Legory",
+		"Rarity": 7
+	},
+	{
+		"Name": "Bald Eagle",
+		"Element": "Wind",
+		"Gender": "Female",
+		"Lvl": 9,
+		"Stats": {
+			"HP": "D",
+			"MP": "F",
+			"Str": "C",
+			"Int": "F",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Medicine": 70,
+			"Javelin": 5
+		},
+		"TrueStats": {
+			"HP": 30
+		},
+		"Gold": 80,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Start": "Take Flight",
+		"Skills": [],
+		"Spells": [],
+		"Location": "Mount Legory",
+		"Rarity": 8
+	},
+	{
+		"Name": "Pegasus",
+		"Element": "Wind",
+		"Gender": "Random",
+		"Lvl": 8,
+		"Stats": {
+			"HP": "D",
+			"MP": "D",
+			"Str": "D",
+			"Int": "D",
+			"Dex": "C",
+			"Agi": "B",
+			"Lck": "D",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 30
+		},
+		"Equip": {},
+		"Drops": {
+			"Potion": 70,
+			"Pegasus Feather": 10
+		},
+		"Gold": 90,
+		"Startup": 2,
+		"Cooldown": 2,
+		"Start": "Take Flight",
+		"Skills": [],
+		"Spells": [],
+		"Location": "Mount Legory",
+		"Rarity": 1
+	},
+	{
+		"Name": "Pegasus Knight",
+		"Element": "Wind",
+		"Gender": "Female",
+		"Lvl": 10,
+		"Stats": {
+			"HP": "D",
+			"MP": "D",
+			"Str": "D",
+			"Int": "B",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 35
+		},
+		"Equip": {
+			"Weapon": "Winged Spear",
+			"Armor": "Whitewing Armor"
+		},
+		"Drops": {
+			"Potion": 70,
+			"Winged Spear": 10,
+			"Whitewing Armor": 10
+		},
+		"Gold": 110,
+		"Startup": 2,
+		"Cooldown": 2,
+		"Start": "Take Flight",
+		"Skills": [],
+		"Spells": [],
+		"Location": "Mount Legory",
+		"Rarity": 6
+	},
+	{
+		"Name": "Wisp",
+		"Element": "Fire",
+		"Gender": "None",
+		"Lvl": 11,
+		"Stats": {
+			"HP": "E",
+			"MP": "B",
+			"Str": "F",
+			"Int": "B",
+			"Dex": "B",
+			"Agi": "A",
+			"Lck": "F",
+			"Def": "F"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 70,
+			"Fire Staff": 5
+		},
+		"Gold": 50,
+		"Start": "Ethereal",
+		"Skills": [
+			"Shiver"
+		],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": 7
+	},
+	{
+		"Name": "Wyvern",
+		"Element": "Fire",
+		"Gender": "Female",
+		"Lvl": 12,
+		"Stats": {
+			"HP": "B",
+			"MP": "C",
+			"Str": "C",
+			"Int": "C",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 40,
+			"Ether": 20,
+			"Dragon Blade": 5
+		},
+		"Gold": 90,
+		"Skills": [
+			"Bite",
+			"Take Flight"
+		],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": 5
+	},
+	{
+		"Name": "Drake",
+		"Element": "Fire",
+		"Gender": "Male",
+		"Lvl": 10,
+		"Stats": {
+			"HP": "B",
+			"MP": "D",
+			"Str": "B",
+			"Int": "D",
+			"Dex": "D",
+			"Agi": "D",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 40,
+			"Ether": 20,
+			"Dragon Blade": 5
+		},
+		"Gold": 90,
+		"Skills": [
+			"Bite"
+		],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": 5
+	},
+	{
+		"Name": "Lizardman",
+		"Element": "Water",
+		"Gender": "Male",
+		"Lvl": 11,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "C",
+			"Int": "E",
+			"Dex": "D",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "C"
+		},
+		"Equip": {
+			"Weapon": "Falchion",
+			"Armor": "Lizal Armor"
+		},
+		"Drops": {
+			"Medicine": 40,
+			"Falchion": 10,
+			"Lizal Armor": 10
+		},
+		"Gold": 90,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": 7
+	},
+	{
+		"Name": "Tarvos",
+		"Element": "Earth",
+		"Gender": "Male",
+		"Lvl": 12,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "B",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"Equip": {
+			"Weapon": "Battleaxe"
+		},
+		"Drops": {
+			"Potion": 40,
+			"Battleaxe": 15
+		},
+		"Gold": 80,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": 6
+	},
+	{
+		"Name": "Lizardman Patrol",
+		"Enemies": [
+			"Lizardman",
+			"Lizardman"
+		],
+		"Location": "Core Cavern",
+		"Rarity": null
+	},
+	{
+		"Name": "Wisp Cluster",
+		"Enemies": [
+			"Wisp",
+			"Wisp"
+		],
+		"Location": "Core Cavern",
+		"Rarity": null
+	},
+	{
+		"Name": "Ent",
+		"Element": "Plant",
+		"Lvl": 13,
+		"Stats": {
+			"HP": "A",
+			"MP": "B",
+			"Str": "C",
+			"Int": "C",
+			"Dex": "D",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "C"
+		},
+		"TrueStats": {
+			"HP": 60
+		},
+		"Equip": {
+			"Weapon": "Ent Club"
+		},
+		"Drops": {
+			"Medicine": 50,
+			"Ent Club": 15,
+			"Forest Axe": 5
+		},
+		"Gold": 40,
+		"Startup": 3,
+		"Cooldown": 3,
+		"Skill_Chance": 60,
+		"Start": "Regen",
+		"Preparing": [
+			"[SELF] creaks and groans, drawing back a gnarled limb.",
+			"Moss trembles as [SELF] shifts its ancient bulk.",
+			"[SELF] exhales a breath of damp, rotting bark.",
+			"Roots tear free from the mud as [SELF] turns toward you."
+		],
+		"Recharging": [
+			"[SELF] stands motionless, patient as the swamp itself.",
+			"[SELF] sways gently, rooted and unhurried.",
+			"Water drips from [SELF]'s branches in the heavy silence."
+		],
+		"Skills": [
+			"Slam"
+		],
+		"Spells": [
+			"Earth"
+		],
+		"Location": "Lost Swamp",
+		"Rarity": 8
+	},
+	{
+		"Name": "Gorgon",
+		"Element": "Water",
+		"Lvl": 14,
+		"Stats": {
+			"HP": "C",
+			"MP": "B",
+			"Str": "C",
+			"Int": "B",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 40,
+			"Medicine": 90,
+			"Gorgon Sword": 10,
+			"Scale Mail": 5
+		},
+		"Gold": 100,
+		"Startup": 2,
+		"Cooldown": 2,
+		"Skill_Chance": 75,
+		"Preparing": [
+			"[SELF] hisses, coiling low against the reeds.",
+			"[SELF]'s stony eyes fix upon you, unblinking.",
+			"A forked tongue tastes the fog as [SELF] draws near.",
+			"[SELF] bares venom-slick fangs."
+		],
+		"Recharging": [
+			"[SELF] coils in the shallows, watching.",
+			"[SELF] hisses softly, in no hurry at all.",
+			"Ripples spread where [SELF] waits beneath the water."
+		],
+		"Skills": [
+			"Gorgon Eye",
+			"Poison Spit"
+		],
+		"Spells": [],
+		"Location": "Lost Swamp",
+		"Rarity": 4
+	},
+	{
+		"Name": "Lost Souls",
+		"Element": "Dark",
+		"Lvl": 13,
+		"Stats": {
+			"HP": "E",
+			"MP": "A",
+			"Str": "F",
+			"Int": "A",
+			"Dex": "B",
+			"Agi": "A",
+			"Lck": "F",
+			"Def": "F"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 40,
+			"Spirit Rod": 10
+		},
+		"Gold": 40,
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skill_Chance": 80,
+		"Start": "Ethereal",
+		"Preparing": [
+			"[SELF] drifts closer, a silent scream frozen on its face.",
+			"The fog thickens where [SELF] passes.",
+			"[SELF] reaches for you with hands made of mist.",
+			"A chill spreads as [SELF] draws near."
+		],
+		"Recharging": [
+			"[SELF] drifts aimlessly, forgotten and unseen.",
+			"[SELF] hangs in the fog, weightless and silent.",
+			"The white mist that is [SELF] barely stirs."
+		],
+		"Skill_Weights": {
+			"Shiver": 1,
+			"Choking Fog": 1,
+			"Mournful Wail": 1
+		},
+		"Skills": [
+			"Shiver",
+			"Choking Fog",
+			"Mournful Wail"
+		],
+		"Spells": [],
+		"Location": "Lost Swamp",
+		"Rarity": 10
+	},
+	{
+		"Name": "Gargoyle",
+		"Element": "Earth",
+		"Lvl": 15,
+		"Stats": {
+			"HP": "B",
+			"MP": "C",
+			"Str": "B",
+			"Int": "C",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "B"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 30,
+			"Watcher Spear": 10
+		},
+		"Gold": 40,
+		"Skills": [
+			"Claws"
+		],
+		"Spells": [
+			"Earth"
+		],
+		"Location": "Arcmat Ruins",
+		"Rarity": 9
+	},
+	{
+		"Name": "Treasure Hunter",
+		"Element": "Neutral",
+		"Lvl": 15,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "C",
+			"Int": "E",
+			"Dex": "A",
+			"Agi": "A",
+			"Lck": "D",
+			"Def": "C"
+		},
+		"Equip": {
+			"Weapon": "Silver Sword",
+			"Armor": "Adventure Clothes"
+		},
+		"Drops": {
+			"Potion": 70,
+			"Medicine": 70,
+			"Bomb": 30,
+			"Silver Sword": 10,
+			"Adventure Clothes": 5
+		},
+		"Gold": 120,
+		"Skills": [
+			"Poison Spit"
+		],
+		"Spells": [],
+		"Location": "Arcmat Ruins",
+		"Rarity": 5
+	},
+	{
+		"Name": "Wizard",
+		"Element": "Dark",
+		"Lvl": 16,
+		"Stats": {
+			"HP": "C",
+			"MP": "A",
+			"Str": "E",
+			"Int": "A",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"Equip": {
+			"Weapon": "Ancient Staff",
+			"Armor": "Wizard Robe"
+		},
+		"Drops": {
+			"Ether": 70,
+			"Medicine": 20,
+			"Ancient Staff": 10,
+			"Wizard Robe": 15
+		},
+		"Gold": 100,
+		"Skills": [],
+		"Spells": [
+			"Fire",
+			"Water",
+			"Wind",
+			"Earth"
+		],
+		"Location": "Arcmat Ruins",
+		"Rarity": 4
+	},
+	{
+		"Name": "Guardian",
+		"Element": "Earth",
+		"Lvl": 16,
+		"Stats": {
+			"HP": "A",
+			"MP": "C",
+			"Str": "B",
+			"Int": "C",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "B"
+		},
+		"Equip": {
+			"Weapon": "Stone Axe"
+		},
+		"Drops": {
+			"Ether": 30,
+			"Stone Axe": 15
+		},
+		"Gold": 90,
+		"Skills": [],
+		"Spells": [
+			"Earth"
+		],
+		"Location": "Arcmat Ruins",
+		"Rarity": 6
+	},
+	{
+		"Name": "Werewolf",
+		"Element": "Earth",
+		"Lvl": 4,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 60
+		},
+		"Weapon": null,
+		"Equip": {
+			"Armor": "Old Rags"
+		},
+		"Drops": {
+			"Potion": 100,
+			"Iron Claws": 15,
+			"Old Rags": 15
+		},
+		"Gold": 100,
+		"Startup": 1,
+		"Cooldown": 2,
+		"Skill_Chance": 70,
+		"Skills": [
+			"Bite",
+			"Claws"
+		],
+		"Spells": [],
+		"Location": "Apple Woods",
+		"Rarity": null
+	},
+	{
+		"Name": "Troll",
+		"Element": "Earth",
+		"Lvl": 3,
+		"Stats": {
+			"HP": "B",
+			"MP": "D",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "D",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 60
+		},
+		"Weapon": null,
+		"Equip": {
+			"Weapon": "Troll Club",
+			"Armor": "Loincloth"
+		},
+		"Drops": {
+			"Potion": 100,
+			"Stimulant": 100,
+			"Troll Club": 25,
+			"Loincloth": 5
+		},
+		"Gold": 100,
+		"Start": "Regen",
+		"Startup": 3,
+		"Cooldown": 3,
+		"Skill_Chance": 70,
+		"Skills": [
+			"Crush",
+			"Heavy Blow"
+		],
+		"Spells": [],
+		"Location": "Apple Woods",
+		"Rarity": null
+	},
+	{
+		"Name": "Big'Un",
+		"Element": "Water",
+		"Gender": "Male",
+		"Lvl": 5,
+		"Stats": {
+			"HP": "S",
+			"MP": "A",
+			"Str": "A",
+			"Int": "F",
+			"Dex": "F",
+			"Agi": "E",
+			"Lck": "A",
+			"Def": "B"
+		},
+		"TrueStats": {
+			"HP": 80
+		},
+		"Drops": {
+			"River King's Whisker": 100
+		},
+		"Gold": 120,
+		"Startup": 4,
+		"Cooldown": 0,
+		"Skill_Chance": 100,
+		"Skills": [
+			"Flee"
+		],
+		"Spells": [],
+		"Preparing": [
+			"thrashes against the line, nearly pulling you off your feet.",
+			"surges toward deeper water, the line biting into its jaw.",
+			"twists and rolls, water churning white around it.",
+			"slaps the surface hard — you feel the vibration through the rod.",
+			"bucks against the hook with everything it has."
+		],
+		"Location": "Apple River",
+		"Rarity": "Hidden"
+	},
+	{
+		"Name": "Chimera",
+		"Element": "Water",
+		"Lvl": 7,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "C"
+		},
+		"TrueStats": {
+			"HP": 65
+		},
+		"Weapon": null,
+		"Drops": {
+			"Potion": 100,
+			"Medicine": 100,
+			"Greataxe": 15
+		},
+		"Startup": 3,
+		"Cooldown": 2,
+		"Gold": 200,
+		"Skills": [
+			"Poison Spit"
+		],
+		"Spells": [],
+		"Location": "Caves of Light",
+		"Rarity": null
+	},
+	{
+		"Name": "Mother Orielli",
+		"Class": "Cult Leader",
+		"Element": "Light",
+		"Lvl": 7,
+		"Stats": {
+			"HP": "B",
+			"MP": "B",
+			"Str": "D",
+			"Int": "C",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "B",
+			"Def": "E"
+		},
+		"Equip": {
+			"Weapon": "Sacrificial Knife",
+			"Armor": "Cult Robes"
+		},
+		"Drops": {
+			"Ether": 100,
+			"Sacrificial Knife": 100,
+			"Cult Robes": 100
+		},
+		"Startup": 4,
+		"Cooldown": 1,
+		"Gold": 300,
+		"Skills": [],
+		"Spells": [
+			"Light",
+			"Heal"
+		],
+		"Location": "Caves of Light",
+		"Rarity": "Hidden"
+	},
+	{
+		"Name": "Necromancer",
+		"Element": "Dark",
+		"Lvl": 9,
+		"Stats": {
+			"HP": "C",
+			"MP": "B",
+			"Str": "C",
+			"Int": "B",
+			"Dex": "D",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 50
+		},
+		"Equip": {
+			"Weapon": "Skull Staff",
+			"Armor": "Necromancer Robes"
+		},
+		"Drops": {
+			"Ether": 100,
+			"Skull Staff": 20,
+			"Necromancer Robes": 20
+		},
+		"Startup": 1,
+		"Cooldown": 2,
+		"Gold": 300,
+		"Start": "Raise Ghost",
+		"Skill_Chance": 100,
+		"Skill_Weights": {
+			"Raise Zombie": 2,
+			"Raise Ghost": 1,
+			"Raise Skeleton": 3
+		},
+		"Skills": [
+			"Raise Zombie",
+			"Raise Ghost",
+			"Raise Skeleton"
+		],
+		"Spells": [
+			"Dark"
+		],
+		"Trinkets": [
+			"Necromancer Cloak"
+		],
+		"ChannelMoves": [
+			{
+				"skill": "Mana Explosion",
+				"condition": "hp_below",
+				"threshold": 50,
+				"duration": 2,
+				"channel_start": [
+					"[SELF] draws MP from the dead around it..."
+				],
+				"channel_texts": [
+					"[SELF] draws MP from the dead around it...",
+					"[SELF] trembles as dark energy builds within him."
+				],
+				"weight": 1
+			}
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": null
+	},
+	{
+		"Name": "Abomination",
+		"Element": "Dark",
+		"Lvl": 9,
+		"Stats": {
+			"HP": "S",
+			"MP": "C",
+			"Str": "C",
+			"Int": "C",
+			"Dex": "F",
+			"Agi": "F",
+			"Lck": "F",
+			"Def": "E"
+		},
+		"TrueStats": {
+			"HP": 100
+		},
+		"Weapon": "Axe",
+		"Equip": {
+			"Weapon": "Killer Axe"
+		},
+		"Drops": {
+			"Lifespark Crystal": 100,
+			"Ether": 100,
+			"Killer Axe": 30
+		},
+		"Gold": 100,
+		"Startup": 4,
+		"Cooldown": 3,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Sundown Plateau",
+		"Rarity": "Hidden"
+	},
+	{
+		"Name": "Icelady",
+		"Element": "Ice",
+		"Lvl": 11,
+		"Stats": {
+			"HP": "B",
+			"MP": "A",
+			"Str": "C",
+			"Int": "B",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 60
+		},
+		"Weapon": null,
+		"Drops": {
+			"Ether": 100,
+			"Frost Staff": 20
+		},
+		"Gold": 200,
+		"Startup": 2,
+		"Cooldown": 2,
+		"Skills": [],
+		"Spells": [
+			"Ice"
+		],
+		"Location": "Mount Legory",
+		"Rarity": null
+	},
+	{
+		"Name": "Great Roc",
+		"Element": "Wind",
+		"Lvl": 11,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "C",
+			"Int": "E",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 75
+		},
+		"Weapon": null,
+		"Drops": {
+			"Medicine": 100,
+			"Javelin": 10
+		},
+		"Gold": 250,
+		"Startup": 3,
+		"Cooldown": 1,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Mount Legory",
+		"Rarity": "Hidden"
+	},
+	{
+		"Name": "Cave Troll",
+		"Element": "Earth",
+		"Gender": "Male",
+		"Lvl": 15,
+		"Stats": {
+			"HP": "A",
+			"MP": "E",
+			"Str": "B",
+			"Int": "E",
+			"Dex": "F",
+			"Agi": "F",
+			"Lck": "E",
+			"Def": "C"
+		},
+		"Equip": {
+			"Weapon": "Troll Club"
+		},
+		"Drops": {},
+		"Gold": 180,
+		"Skills": [],
+		"Spells": [],
+		"Location": "Core Cavern",
+		"Rarity": null
+	},
+	{
+		"Name": "Infrit",
+		"Element": "Fire",
+		"Lvl": 13,
+		"Stats": {
+			"HP": "A",
+			"MP": "A",
+			"Str": "B",
+			"Int": "B",
+			"Dex": "D",
+			"Agi": "D",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"Weapon": null,
+		"Drops": {
+			"Bomb": 100,
+			"Gauntlet": 10
+		},
+		"Gold": 250,
+		"Start": "Burning Wave",
+		"Skills": [],
+		"Spells": [
+			"Fire"
+		],
+		"Location": "Core Cavern",
+		"Rarity": null
+	},
+	{
+		"Name": "King of the Swamp",
+		"Element": "Plant",
+		"Lvl": 15,
+		"Stats": {
+			"HP": "S",
+			"MP": "A",
+			"Str": "A",
+			"Int": "C",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "B"
+		},
+		"TrueStats": {
+			"HP": 90
+		},
+		"Equip": {
+			"Weapon": "Ent Club"
+		},
+		"Drops": {
+			"Medicine": 100,
+			"Ent Club": 10,
+			"Forest Axe": 10
+		},
+		"Gold": 150,
+		"Startup": 4,
+		"Cooldown": 3,
+		"Skill_Chance": 70,
+		"Start": "Regen",
+		"Preparing": [
+			"[SELF] rises to its full, impossible height.",
+			"The swamp itself seems to hold its breath as [SELF] stirs.",
+			"Ancient bark groans as [SELF] turns its gaze upon you.",
+			"[SELF] raises its club, indifferent to your fate."
+		],
+		"Recharging": [
+			"[SELF] looms in silence, older than memory.",
+			"[SELF] watches, patient as the fog itself.",
+			"The swamp settles quietly around [SELF]."
+		],
+		"Skills": [
+			"Slam"
+		],
+		"Spells": [
+			"Earth"
+		],
+		"ChannelMoves": [
+			{
+				"skill": "Swamp's Embrace",
+				"condition": "hp_below",
+				"threshold": 50,
+				"duration": 2,
+				"channel_start": [
+					"[SELF] sinks its roots deep into the swamp..."
+				],
+				"channel_texts": [
+					"[SELF] sinks its roots deep into the swamp...",
+					"[SELF] draws hungrily on the swamp's ancient strength."
+				],
+				"weight": 1
+			}
+		],
+		"Location": "Lost Swamp",
+		"Rarity": null
+	},
+	{
+		"Name": "Carlon",
+		"Class": "Mathemagician",
+		"Element": "Light",
+		"Lvl": 20,
+		"Stats": {
+			"HP": "S",
+			"MP": "A",
+			"Str": "D",
+			"Int": "A",
+			"Dex": "C",
+			"Agi": "D",
+			"Lck": "E",
+			"Def": "C"
+		},
+		"Equip": {
+			"Weapon": "Geometry Staff",
+			"Armor": "Archmage Robe"
+		},
+		"Drops": {
+			"Geometry Staff": 100
+		},
+		"Gold": 150,
+		"Skills": [
+			"Integer"
+		],
+		"Spells": [
+			"Earth",
+			"Light",
+			"Thunder"
+		],
+		"Location": "Arcmat Ruins",
+		"Rarity": null
+	},
+	{
+		"Name": "Wandering Swordsman",
+		"Element": "Neutral",
+		"Lvl": 8,
+		"Stats": {
+			"HP": "B",
+			"MP": "E",
+			"Str": "B",
+			"Int": "E",
+			"Dex": "B",
+			"Agi": "C",
+			"Lck": "D",
+			"Def": "C"
+		},
+		"Startup": 1,
+		"Cooldown": 1,
+		"Equip": {
+			"Weapon": "Iron Sword",
+			"Armor": "Adventure Clothes"
+		},
+		"Drops": {},
+		"Gold": 0,
+		"Skills": [
+			"Heavy Blow",
+			"Lunge"
+		],
+		"Spells": [],
+		"Location": "",
+		"Rarity": 0
+	},
+	{
+		"Name": "Agnes1",
+		"displayName": "Agnes",
+		"Lvl": 5,
+		"Class": "Fencer",
+		"Stats": {
+			"HP": "D",
+			"MP": "D",
+			"Str": "C",
+			"Int": "C",
+			"Dex": "A",
+			"Agi": "B",
+			"Lck": "B",
+			"Def": "A"
+		},
+		"Equip": {
+			"Weapon": "Rapier",
+			"Armor": "Corset"
+		},
+		"Startup": 1,
+		"Cooldown": 1,
+		"Skills": [
+			"Armor Piercer",
+			"Lunge",
+			"Flourish"
+		],
+		"Spells": [],
+		"Gold": 100,
+		"Inventory": {
+			"Potion": 5,
+			"Medicine": 5
 		}
-	],
-	"Location": "Sundown Plateau",
-	"Rarity": null
-  },
-  {
-	"Name": "Abomination",
-	"Element": "Dark",
-	"Lvl": 9,
-	"Stats": {"HP":"S","MP":"C","Str":"C","Int":"C","Dex":"F","Agi":"F","Lck":"F","Def":"E"},
-	"TrueStats": {
-		"HP":100
 	},
-	"Weapon": "Axe",
-	"Equip": {
-		"Weapon": "Killer Axe"
+	{
+		"Name": "Borin1",
+		"displayName": "Borin",
+		"Lvl": 5,
+		"Class": "Woodcutter",
+		"Stats": {
+			"HP": "A",
+			"MP": "D",
+			"Str": "A",
+			"Int": "D",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "B",
+			"Def": "B"
+		},
+		"Startup": 2,
+		"Cooldown": 2,
+		"Equip": {
+			"Weapon": "Poleaxe",
+			"Armor": "Tanktop"
+		},
+		"Money": 40,
+		"Inventory": {
+			"Potion": 2,
+			"Medicine": 4
+		},
+		"Skills": [
+			"Cleave",
+			"Brace"
+		],
+		"Spells": []
 	},
-	"Drops": {
-		"Lifespark Crystal": 100,
-		"Ether": 100,
-		"Killer Axe": 30
+	{
+		"Name": "Harlequin",
+		"Element": "Dark",
+		"Lvl": 7,
+		"Stats": {
+			"HP": "C",
+			"MP": "E",
+			"Str": "B",
+			"Int": "F",
+			"Dex": "A",
+			"Agi": "A",
+			"Lck": "C",
+			"Def": "D"
+		},
+		"Equip": {
+			"Weapon": "Circus Dagger"
+		},
+		"Drops": {
+			"Potion": 50,
+			"Harlequin Hat": 15,
+			"Spring Glove": 20
+		},
+		"Gold": 150,
+		"Startup": 1,
+		"Cooldown": 2,
+		"Skill_Chance": 70,
+		"Skill_Weights": {
+			"Knife Throw": 2,
+			"Juggle Throw": 2,
+			"Party Trick": 1
+		},
+		"Skills": [
+			"Knife Throw",
+			"Juggle Throw",
+			"Party Trick"
+		],
+		"Spells": [],
+		"Trinkets": [
+			"Circadian Mask",
+			"Spring Glove",
+			"Harlequin Hat"
+		],
+		"Preparing": [
+			"[SELF] flicks a blade between their fingers.",
+			"[SELF] tosses a knife and catches it.",
+			"[SELF] grins beneath the mask."
+		],
+		"Recharging": [
+			"[SELF] catches their knives and grins.",
+			"[SELF] straightens their hat.",
+			"[SELF] twirls a blade idly."
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": "Hidden"
 	},
-	"Gold":100,
-	"Startup":4,
-	"Cooldown":3,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Sundown Plateau",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Icelady",
-	"Element": "Ice",
-	"Lvl": 11,
-	"Stats": {"HP":"B","MP":"A","Str":"C","Int":"B","Dex":"E","Agi":"E","Lck":"E","Def":"D"},
-	"TrueStats":{
-		"HP": 60
+	{
+		"Name": "Harlequin Duo",
+		"Enemies": [
+			"Harlequin",
+			"Harlequin"
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": "Hidden"
 	},
-	"Weapon": null,
-	"Drops": {
-		"Ether": 100,
-		"Frost Staff": 20
+	{
+		"Name": "Ringmaster",
+		"Class": "Greater Demon",
+		"Element": "Dark",
+		"Lvl": 9,
+		"Stats": {
+			"HP": "A",
+			"MP": "B",
+			"Str": "C",
+			"Int": "A",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "C",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 80
+		},
+		"Equip": {
+			"Weapon": "Ringmaster's Scepter"
+		},
+		"Drops": {
+			"Ether": 100,
+			"Ringmaster's Tophat": 100,
+			"Tailcoat": 25,
+			"Ringmaster's Scepter": 25
+		},
+		"Gold": 400,
+		"Startup": 3,
+		"Cooldown": 2,
+		"Skill_Chance": 90,
+		"Skill_Weights": {
+			"Crack the Whip": 2,
+			"Party Trick": 1
+		},
+		"Skills": [
+			"Crack the Whip",
+			"Party Trick"
+		],
+		"Spells": [
+			"Dark",
+			"Fire"
+		],
+		"Trinkets": [
+			"Circadian Mask",
+			"Tailcoat",
+			"Ringmaster's Tophat"
+		],
+		"Preparing": [
+			"[SELF] watches from behind his white mask.",
+			"[SELF] adjusts his hat and says nothing.",
+			"[SELF] taps his scepter against the ring floor."
+		],
+		"Recharging": [
+			"[SELF] straightens his coat and smiles.",
+			"[SELF] sweeps his cape back into place.",
+			"[SELF] tilts his hat and waits."
+		],
+		"ChannelMoves": [
+			{
+				"skill": "Raise Curtain",
+				"condition": "hp_below",
+				"threshold": 50,
+				"duration": 2,
+				"channel_start": [
+					"[SELF] snaps his fingers. Something stirs in the shadows."
+				],
+				"channel_texts": [
+					"[SELF] raises one hand. A silhouette appears in the tent's entrance.",
+					"[SELF] grins beneath his mask. The show must go on."
+				],
+				"weight": 1
+			}
+		],
+		"Location": "Sundown Plateau",
+		"Rarity": null
 	},
-	"Gold":200,
-	"Startup":2,
-	"Cooldown":2,
-	"Skills": [],
-	"Spells": ["Ice"],
-	"Location": "Mount Legory",
-	"Rarity": null
-  },
-  {
-	"Name": "Great Roc",
-	"Element": "Wind",
-	"Lvl": 11,
-	"Stats": {"HP":"A","MP":"E","Str":"C","Int":"E","Dex":"C","Agi":"C","Lck":"E","Def":"D"},
-	"TrueStats":{
-		"HP": 75
-	},
-	"Weapon": null,
-	"Drops": {
-		"Medicine": 100,
-		"Javelin": 10
-	},
-	"Gold":250,
-	"Startup":3,
-	"Cooldown":1,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Mount Legory",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Cave Troll",
-	"Element": "Earth",
-	"Gender":"Male",
-	"Lvl": 15,
-	"Stats": {"HP":"A","MP":"E","Str":"B","Int":"E","Dex":"F","Agi":"F","Lck":"E","Def":"C"},
-	"Equip": {"Weapon": "Troll Club"},
-	"Drops": {},
-	"Gold": 180,
-	"Skills": [],
-	"Spells": [],
-	"Location": "Core Cavern",
-	"Rarity": null
-  },
-  {
-	"Name": "Infrit",
-	"Element": "Fire",
-	"Lvl": 13,
-	"Stats": {"HP":"A","MP":"A","Str":"B","Int":"B","Dex":"D","Agi":"D","Lck":"E","Def":"D"},
-	"Weapon": null,
-	"Drops": {
-		"Bomb": 100,
-		"Gauntlet": 10
-	},
-	"Gold":250,
-	"Start": "Burning Wave",
-	"Skills": [],
-	"Spells": ["Fire"],
-	"Location": "Core Cavern",
-	"Rarity": null
-  },
-  {
-	"Name": "King of the Swamp",
-	"Element": "Plant",
-	"Lvl": 15,
-	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
-	"TrueStats": {"HP": 90},
-	"Equip": {
-		"Weapon": "Ent Club"
-	},
-	"Drops": {
-		"Medicine": 100,
-		"Ent Club": 10,
-		"Forest Axe": 10
-	},
-	"Gold":150,
-	"Startup":4,
-	"Cooldown":3,
-	"Skill_Chance": 70,
-	"Start":"Regen",
-	"Preparing": [
-		"[SELF] rises to its full, impossible height.",
-		"The swamp itself seems to hold its breath as [SELF] stirs.",
-		"Ancient bark groans as [SELF] turns its gaze upon you.",
-		"[SELF] raises its club, indifferent to your fate."
-	],
-	"Recharging": [
-		"[SELF] looms in silence, older than memory.",
-		"[SELF] watches, patient as the fog itself.",
-		"The swamp settles quietly around [SELF]."
-	],
-	"Skills": ["Slam"],
-	"Spells": ["Earth"],
-	"ChannelMoves": [
-		{
-			"skill": "Swamp's Embrace",
-			"condition": "hp_below",
-			"threshold": 50,
-			"duration": 2,
-			"channel_start": [
-				"[SELF] sinks its roots deep into the swamp..."
-			],
-			"channel_texts": [
-				"[SELF] sinks its roots deep into the swamp...",
-				"[SELF] draws hungrily on the swamp's ancient strength."
-			],
-			"weight": 1
-		}
-	],
-	"Location": "Lost Swamp",
-	"Rarity": null
-  },
-  {
-	"Name": "Carlon",
-	"Class": "Mathemagician",
-	"Element": "Light",
-	"Lvl": 20,
-	"Stats": {"HP":"S","MP":"A","Str":"D","Int":"A","Dex":"C","Agi":"D","Lck":"E","Def":"C"},
-	"Equip": {
-		"Weapon": "Geometry Staff",
-		"Armor": "Archmage Robe"
-	},
-	"Drops": {
-		"Geometry Staff": 100
-	},
-	"Gold":150,
-	"Skills": ["Integer"],
-	"Spells": ["Earth","Light","Thunder"],
-	"Location": "Arcmat Ruins",
-	"Rarity": null
-  },
-
-  {
-	"Name": "Wandering Swordsman",
-	"Element": "Earth",
-	"Lvl": 8,
-	"Stats": {"HP":"B","MP":"E","Str":"B","Int":"E","Dex":"B","Agi":"C","Lck":"D","Def":"C"},
-	"Equip": {
-		"Weapon": "Iron Sword",
-		"Armor": "Adventure Clothes"
-	},
-	"Drops": {},
-	"Gold": 0,
-	"Skills": ["Heavy Blow", "Lunge"],
-	"Spells": [],
-	"Location": "",
-	"Rarity": 0
-  },
-
-  {
-	"Name": "Agnes1",
-	"displayName": "Agnes",
-	"Lvl": 5,
-	"Class": "Fencer",
-	"Stats": {
-	  "HP": "D",
-	  "MP": "D",
-	  "Str": "C",
-	  "Int": "C",
-	  "Dex": "A",
-	  "Agi": "B",
-	  "Lck": "B",
-	  "Def": "A"
-	},
-	"Equip": {
-	  "Weapon": "Rapier",
-	  "Armor": "Corset"
-	},
-	"Startup":1,
-	"Cooldown":1,
-	"Skills": ["Armor Piercer", "Lunge", "Flourish"],
-	"Spells": [],
-	"Gold": 100,
-	"Inventory": {
-		"Potion": 5,
-		"Medicine": 5
+	{
+		"Name": "Doppelganger",
+		"Element": "Dark",
+		"Lvl": 8,
+		"Stats": {
+			"HP": "C",
+			"MP": "C",
+			"Str": "E",
+			"Int": "E",
+			"Dex": "E",
+			"Agi": "E",
+			"Lck": "E",
+			"Def": "E"
+		},
+		"Equip": {
+			"Weapon": "Circus Dagger"
+		},
+		"Startup": 2,
+		"Cooldown": 2,
+		"Skill_Chance": 65,
+		"Start": "Mirror Morph",
+		"Skills": [],
+		"Spells": [],
+		"Drops": {},
+		"Gold": 200,
+		"Trinkets": [
+			"Circadian Mask"
+		],
+		"Preparing": [
+			"The doppelganger mirrors you...",
+			"It studies your stance carefully."
+		],
+		"Recharging": [
+			"It moves like a reflection.",
+			"Every gesture — yours, mirrored."
+		],
+		"Location": "Sundown Plateau"
 	}
-  },
-  {
-	"Name": "Borin1",
-	"displayName": "Borin",
-	"Lvl": 5,
-	"Class": "Woodcutter",
-	"Stats": {
-	  "HP": "A",
-	  "MP": "D",
-	  "Str": "A",
-	  "Int": "D",
-	  "Dex": "C",
-	  "Agi": "C",
-	  "Lck": "B",
-	  "Def": "B"
-	},
-	"Startup":2,
-	"Cooldown":2,
-	"Equip": {
-	  "Weapon": "Poleaxe",
-	  "Armor": "Tanktop"
-	},
-	"Money": 40,
-	"Inventory": {
-		"Potion": 2,
-		"Medicine": 4
-	},
-	"Skills": ["Cleave", "Brace"],
-	"Spells": []
-  },
-  {
-	"Name": "Harlequin",
-	"Element": "Dark",
-	"Lvl": 7,
-	"Stats": {"HP":"C","MP":"E","Str":"B","Int":"F","Dex":"A","Agi":"A","Lck":"C","Def":"D"},
-	"Equip": {
-		"Weapon": "Circus Dagger"
-	},
-	"Drops": {
-		"Potion": 50,
-		"Harlequin Hat": 15,
-		"Spring Glove": 20
-	},
-	"Gold": 150,
-	"Startup": 1,
-	"Cooldown": 2,
-	"Skill_Chance": 70,
-	"Skill_Weights": {"Knife Throw": 2, "Juggle Throw": 2, "Party Trick": 1},
-	"Skills": ["Knife Throw", "Juggle Throw", "Party Trick"],
-	"Spells": [],
-	"Trinkets": ["Circadian Mask", "Spring Glove", "Harlequin Hat"],
-	"Preparing": ["[SELF] flicks a blade between their fingers.", "[SELF] tosses a knife and catches it.", "[SELF] grins beneath the mask."],
-	"Recharging": ["[SELF] catches their knives and grins.", "[SELF] straightens their hat.", "[SELF] twirls a blade idly."],
-	"Location": "Sundown Plateau",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Harlequin Duo",
-	"Enemies": ["Harlequin", "Harlequin"],
-	"Location": "Sundown Plateau",
-	"Rarity": "Hidden"
-  },
-  {
-	"Name": "Ringmaster",
-	"Class": "Greater Demon",
-	"Element": "Dark",
-	"Lvl": 9,
-	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"A","Dex":"C","Agi":"C","Lck":"C","Def":"D"},
-	"TrueStats": {"HP": 80},
-	"Equip": {
-		"Weapon": "Ringmaster's Scepter"
-	},
-	"Drops": {
-		"Ether": 100,
-		"Ringmaster's Tophat": 100,
-		"Tailcoat": 25,
-		"Ringmaster's Scepter": 25
-	},
-	"Gold": 400,
-	"Startup": 3,
-	"Cooldown": 2,
-	"Skill_Chance": 90,
-	"Skill_Weights": {"Crack the Whip": 2, "Party Trick": 1},
-	"Skills": ["Crack the Whip", "Party Trick"],
-	"Spells": ["Dark", "Fire"],
-	"Trinkets": ["Circadian Mask", "Tailcoat", "Ringmaster's Tophat"],
-	"Preparing": ["[SELF] watches from behind his white mask.", "[SELF] adjusts his hat and says nothing.", "[SELF] taps his scepter against the ring floor."],
-	"Recharging": ["[SELF] straightens his coat and smiles.", "[SELF] sweeps his cape back into place.", "[SELF] tilts his hat and waits."],
-	"ChannelMoves": [
-		{
-			"skill": "Raise Curtain",
-			"condition": "hp_below",
-			"threshold": 50,
-			"duration": 2,
-			"channel_start": ["[SELF] snaps his fingers. Something stirs in the shadows."],
-			"channel_texts": [
-				"[SELF] raises one hand. A silhouette appears in the tent's entrance.",
-				"[SELF] grins beneath his mask. The show must go on."
-			],
-			"weight": 1
-		}
-	],
-	"Location": "Sundown Plateau",
-	"Rarity": null
-  },
-  {
-	"Name": "Doppelganger",
-	"Element": "Dark",
-	"Lvl": 8,
-	"Stats": {"HP":"C","MP":"C","Str":"E","Int":"E","Dex":"E","Agi":"E","Lck":"E","Def":"E"},
-	"Equip": {
-		"Weapon": "Circus Dagger"
-	},
-	"Startup": 2,
-	"Cooldown": 2,
-	"Skill_Chance": 65,
-	"Start": "Mirror Morph",
-	"Skills": [],
-	"Spells": [],
-	"Drops": {},
-	"Gold": 200,
-	"Trinkets": ["Circadian Mask"],
-	"Preparing": ["The doppelganger mirrors you...", "It studies your stance carefully."],
-	"Recharging": ["It moves like a reflection.", "Every gesture — yours, mirrored."],
-	"Location": "Sundown Plateau"
-  }
 ]

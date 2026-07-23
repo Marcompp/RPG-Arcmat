@@ -1,0 +1,763 @@
+{
+	"altar_offering": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You approach the altar. It radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Make an offering (30G)",
+						"key": "offer",
+						"condition": {
+							"gold": {
+								"min": 30
+							}
+						},
+						"disabled_tooltip": "Not enough gold (need 30G)"
+					},
+					{
+						"choice": "Leave",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"offer": [
+						{
+							"type": "give_gold",
+							"amount": -30
+						},
+						{
+							"type": "text",
+							"text": "You place 30G in the basin. The coins catch the crystal light — then the glow intensifies, warm and steady, filling the chamber.\n\nWhen it fades, something rests where your offering was.",
+							"clear": true,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_item",
+							"item": "Book of Heal"
+						},
+						{
+							"type": "text",
+							"text": "You found the [color=green]Book of Heal[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the altar undisturbed and press on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"bandit_ambush": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You hear rustling in the bushes...",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "Too late — you walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You'll be much easier to rob when you're dead!\"",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Fight",
+						"key": "fight"
+					},
+					{
+						"choice": "Pay them off (100G)",
+						"key": "pay",
+						"condition": {
+							"gold": {
+								"min": 100
+							}
+						},
+						"disabled_tooltip": "Not enough gold (need 100G)"
+					},
+					{
+						"choice": "Turn them against each other",
+						"key": "trick"
+					}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "combat",
+							"enemy": "Bandit Brothers",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"pay": [
+						{
+							"type": "give_gold",
+							"amount": -100
+						},
+						{
+							"type": "text",
+							"text": "You reach into your purse and shove a fistful of coins at the nearest bandit — not counting, not stopping. You're already moving.\n\nBehind you, you hear them counting. Then arguing about the count.\n\nYou don't look back.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"trick": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You glance at the second bandit. 'You know what he said about you back there?'\n\n'What?' The first one turns. 'I never said—'\n'I'm sure you didn't.'\n'You did say something—' 'I never—'\n\nYou're around them and gone before they've finished.",
+											"clear": true
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "'Even we've heard that one.'\n\nThey both take a step forward.",
+											"clear": false,
+											"no_wait": true
+										},
+										{
+											"type": "combat",
+											"enemy": "Bandit Brothers",
+											"on_victory": [
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"gold_chest": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You spot something up ahead.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "You find a chest out in the open.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Open it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "No",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_gold",
+							"amount": 100
+						},
+						{
+							"type": "text",
+							"text": "You got 100 gold!",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it alone.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"lucky_find": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You notice something glinting in the dirt."
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "It's a gold coin! Lucky you.",
+								"clear": false
+							},
+							{
+								"type": "give_gold",
+								"amount": 50
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Just a pebble.",
+								"clear": false
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"renegade_pack": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something catches your eye near the base of the wall — a battered canvas pack, half-buried under loose stone. Whoever left it here didn't come back for it.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Search it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "Leave it",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 4,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "Beneath a torn bedroll: a battered coin pouch.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_gold",
+											"amount": 50
+										},
+										{
+											"type": "text",
+											"text": "You count out [color=yellow]50G[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Rolled inside a spare shirt: a small bottle, still sealed.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Medicine"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=green]Medicine[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Dust, torn cloth, a snapped blade. Whoever owned this left in a hurry — or didn't leave at all.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it where it is.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"region_treasure_chest": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You find a treasure chest.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Open it?",
+				"choices": [
+					{
+						"choice": "Open the chest",
+						"key": "open"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"open": [
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_region_item"
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the chest alone.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"rickety_bridge": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The bridge ahead is ancient and rotting. The boards creak and sway with each gust of wind, gaps yawning between planks over a rushing river far below.\nIt feels like it could give way at any moment.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Press on across the bridge",
+						"key": "press_on"
+					},
+					{
+						"choice": "Give up and go around",
+						"key": "give_up"
+					}
+				],
+				"branches": {
+					"give_up": [
+						{
+							"type": "exit_node",
+							"exit": {
+								"leads_to": "RIVER",
+								"travel_text": "You decide not to risk it and pick your way along the riverbank, looking for a safer crossing."
+							}
+						}
+					],
+					"press_on": [
+						{
+							"type": "text",
+							"text": "You step onto the bridge. Each board groans and flexes under your weight. The whole structure sways...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"dex": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You keep your weight balanced and move quickly from board to board. You're barely across when the final plank splinters into the water below!",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "ROAD",
+												"travel_text": "You dash the last few steps off the bridge and continue down the road, heart still pounding."
+											},
+											"value": 1.2
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Halfway across, the bridge gives way with a sickening crack. The boards vanish beneath your feet and you plunge into the rushing water below!",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "RAPIDS",
+												"travel_text": "The current drags you downstream through the rapids."
+											},
+											"enemies": [
+												"Bitefish"
+											],
+											"encounter_rate": 1,
+											"forbid_event": true,
+											"value": 0
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"stranger_encounter": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Someone is coming up the road in the opposite direction — pack on their back, head down, moving quickly. They give you a wide berth without making eye contact, and you do the same. A brief nod as you pass. Then the road is yours again.",
+				"clear": false
+			},
+			{
+				"type": "show_node_actions"
+			}
+		]
+	},
+	"troll_inscription": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "One section of the stonework is more sheltered than the rest — and the carving here is actually legible. Blocky Troll script, deeply cut.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Try to read it",
+						"key": "read"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"read": [
+						{
+							"type": "text",
+							"text": "It takes a while. Your Troll is not great. As best you can piece together: 'Here ends the shaft of Borghan the Persistent. Seventeen years. Seventeen. We found something. We left it.' Below that, a single word, carved shakily: 'DOWN.'"
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"under_bridge": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You look around under the bridge...\n[wait=0.1]...[wait=0.1]",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You find an old chest tucked into the shadows!",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 100
+							},
+							{
+								"type": "text",
+								"text": "Inside: [color=yellow]100G[/color]. Not bad.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"steps": [
+							{
+								"type": "text",
+								"text": "There's nothing down here but mud and old cobwebs.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A massive troll steps out from the shadows.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "text",
+								"text": "\"OI! THIS IS MY BRIDGE! YOU'VE GOT A LOT OF NERVE COMING DOWN HERE!\"",
+								"clear": false
+							},
+							{
+								"type": "combat",
+								"enemy": "Troll",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "The troll's bulky form sinks onto the water under the bridge...",
+										"clear": true
+									},
+									{
+										"type": "show_node",
+										"clear": false
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"wounded_spirit": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something drifts near the surface of the spring — pale and flickering, circling in the crystal light. A Restless Spirit. But it isn't moving toward you. It moves as if confused, or searching.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Speak to it",
+						"key": "speak"
+					},
+					{
+						"choice": "Strike first",
+						"key": "strike"
+					},
+					{
+						"choice": "Leave it alone",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"speak": [
+						{
+							"type": "text",
+							"text": "You speak quietly. It stops circling.\n\nFor a moment, nothing — then something passes between you. Not words. An impression of torchlight. Robed figures. A blade.\n\nThen it dissolves, scattering across the surface of the spring and vanishing into the stone.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 15
+							}
+						},
+						{
+							"type": "text",
+							"text": "Something lingers in the air — a faint warmth.\n[color=teal]MP +15[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"strike": [
+						{
+							"type": "text",
+							"text": "You don't wait to find out what it wants.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Restless Spirit",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The spirit unravels. The spring is still.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You give it a wide berth and move on. It doesn't follow.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	}
+}

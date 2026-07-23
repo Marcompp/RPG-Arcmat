@@ -1,0 +1,667 @@
+{
+	"ash_burial": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something protrudes from the ash field — a dark shape, half-buried, at about waist height. You get closer. It's a weapon handle, the blade driven straight down.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Pull it out",
+						"key": "pull"
+					},
+					{
+						"choice": "Leave it — this is someone's grave",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"pull": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 50,
+									"steps": [
+										{
+											"type": "text",
+											"text": "It comes free with effort — a Battleaxe, old but solid, the blade scorched but intact. No grave marker. No bones visible. You keep it."
+										},
+										{
+											"type": "sfx",
+											"sound": "item"
+										},
+										{
+											"type": "give_item",
+											"item": "Battleaxe"
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 30,
+									"steps": [
+										{
+											"type": "text",
+											"text": "It comes free, but the handle crumbles in your grip — too old, too far gone. The blade hits the ash and splits. Nothing left worth keeping."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 20,
+									"steps": [
+										{
+											"type": "text",
+											"text": "It comes free. A Falchion — decent condition. Then the ash moves. Something down there was holding the other end."
+										},
+										{
+											"type": "combat",
+											"enemy": "Lizardman",
+											"on_victory": [
+												{
+													"type": "give_item",
+													"item": "Falchion"
+												},
+												{
+													"type": "show_node"
+												}
+											],
+											"on_defeat": []
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You walk around it and move on. The handle is still there in the ash behind you."
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"crystal_cluster": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "A cluster of loose crystals juts from a crack in the wall — dislodged by some old tremor, glowing faintly where they broke away from the stone.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Pocket a crystal",
+						"key": "pocket"
+					},
+					{
+						"choice": "Smash it open",
+						"key": "smash"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"pocket": [
+						{
+							"type": "text",
+							"text": "You work one of the larger crystals free. It's warm in your hand, heavier than it looks.",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_gold",
+							"amount": 40
+						},
+						{
+							"type": "text",
+							"text": "Pocketed. [color=yellow]+40G[/color] when sold.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"smash": [
+						{
+							"type": "text",
+							"text": "You strike the cluster sharply. The formation shatters outward.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "A small hollow inside the crystal — something preserved within the stone.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Lifespark Crystal"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=teal]Lifespark Crystal[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "The cluster breaks open. Suspended in the hollow center — a small die, carved from the crystal itself, glowing the same color as the formation.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "crystal"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=cyan]Crystal Die[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A shard catches your hand on the way out.",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "poison"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 8
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Lost [color=red]8[/color] HP.[/instant]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the crystals where they are.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"drake_wounded": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A Drake is wedged into a side passage, making a sound somewhere between a growl and a wheeze. One of its legs is badly burned — lava splash, probably. It's not going anywhere. But it's watching you with the focused attention of something that can absolutely still bite.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Try to help it",
+						"key": "help"
+					},
+					{
+						"choice": "Back away and move on",
+						"key": "leave"
+					},
+					{
+						"choice": "Put it out of its misery",
+						"key": "fight"
+					}
+				],
+				"branches": {
+					"help": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 60,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You move slowly, hands open. It flinches when you touch the burned leg but doesn't bite. You do what you can — some cloth, wrapped tight. When you step back, it lets out a slow, low exhale. Later, in Lizal-Town, a Lizal catches your eye and places one hand flat against their chest, briefly, then looks away."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 40,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You move too fast. It lunges — more scared than vicious — and bites down on your arm before you can pull back. The Drake scrambles deeper into the passage. You stand there bleeding, reconsidering your approach to wildlife."
+										},
+										{
+											"type": "sfx",
+											"sound": "hit"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 18
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You back out carefully. The Drake's eyes track you the whole way. You leave it to work things out."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"fight": [
+						{
+							"type": "text",
+							"text": "It doesn't go down easy, wounded leg and all."
+						},
+						{
+							"type": "combat",
+							"enemy": "Drake",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "You stand over it. The passage is quiet now."
+								},
+								{
+									"type": "show_node"
+								}
+							],
+							"on_defeat": []
+						}
+					]
+				}
+			}
+		]
+	},
+	"hot_springs_rest": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You ease into one of the warm mineral pools at the edge, the heat soaking into aching muscles. The faint glow of the water and the steady bubble of steam make it easy to lose track of time."
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "heal",
+					"amount": 9999
+				}
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 9999
+				}
+			},
+			{
+				"type": "text",
+				"text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"lava_crossing": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "There's a narrow path along the magma channel's edge — crumbling in places, but it would cut significant time off your route. The alternative is the long way around.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Take the shortcut",
+						"key": "risk"
+					},
+					{
+						"choice": "Go the long way",
+						"key": "safe"
+					}
+				],
+				"branches": {
+					"risk": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 65,
+									"steps": [
+										{
+											"type": "text",
+											"text": "You move fast and keep your eyes ahead, not down. The ledge holds. You cross in under a minute, the magma roar fading behind you."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 35,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Midway, a section of ledge gives way. You keep your footing, but your leg dips into the superheated air directly above the flow. The burn is immediate."
+										},
+										{
+											"type": "sfx",
+											"sound": "hit"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 25
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"safe": [
+						{
+							"type": "text",
+							"text": "You go around. It takes longer, but your legs are unburned."
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"obsidian_reflection": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You stop in front of the largest panel of obsidian. Your reflection stares back — warped, too dark, wrong somehow. It's a half-second behind you. Then a full second. It stops moving before you do.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Touch the surface",
+						"key": "touch"
+					},
+					{
+						"choice": "Look away and move on",
+						"key": "leave"
+					},
+					{
+						"choice": "Smash it",
+						"key": "smash"
+					}
+				],
+				"branches": {
+					"touch": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 50,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The glass is warm and faintly vibrating. Your reflection presses its hand to yours from the other side. You stay there for a moment. Then it blinks — and it's just your reflection again, moving when you move. Nothing else happens."
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 30,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The glass is warm and faintly vibrating. For a moment you feel — steadied. Like something lined up inside you. You pull your hand back, oddly refreshed."
+										},
+										{
+											"type": "sfx",
+											"sound": "heal"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "restore_mp",
+												"amount": 30
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 20,
+									"steps": [
+										{
+											"type": "text",
+											"text": "The glass is scalding. You pull back immediately, the skin on your fingertips raw. Your reflection looks fine."
+										},
+										{
+											"type": "sfx",
+											"sound": "hit"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 10
+											}
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You don't look at it again. Probably wise."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"smash": [
+						{
+							"type": "text",
+							"text": "The obsidian shatters into razor-edged shards. Your reflection disappears mid-expression. One catches your arm on the way out."
+						},
+						{
+							"type": "sfx",
+							"sound": "hit"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "damage",
+								"amount": 8
+							}
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+	"wisp_cluster": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A knot of Wisps drifts through the tunnel ahead — fire spirits, or what's left of them. They move in slow, looping circles, like they've forgotten where they were going. The heat off them is noticeable even at twenty paces.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Watch them pass",
+						"key": "watch"
+					},
+					{
+						"choice": "Follow them",
+						"key": "follow"
+					},
+					{
+						"choice": "Scatter them",
+						"key": "fight"
+					}
+				],
+				"branches": {
+					"watch": [
+						{
+							"type": "text",
+							"text": "They drift past without noticing you. After a minute they disappear into a crack in the rock too narrow to follow. The air cools slightly. You move on."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"follow": [
+						{
+							"type": "text",
+							"text": "You fall in behind them. It's surprisingly calming — they drift without urgency and the heat isn't unpleasant. They lead you through two side passages and stop abruptly in a small alcove, hovering around something on the ground. A cracked leather satchel, charred around the edges. Inside: something useful."
+						},
+						{
+							"type": "sfx",
+							"sound": "item"
+						},
+						{
+							"type": "give_item",
+							"item": "Ether"
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"fight": [
+						{
+							"type": "text",
+							"text": "You wade in swinging. They're faster than they look."
+						},
+						{
+							"type": "combat",
+							"enemy": "Wisp Cluster",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							],
+							"on_defeat": []
+						}
+					]
+				}
+			}
+		]
+	}
+}

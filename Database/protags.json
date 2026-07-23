@@ -1,137 +1,179 @@
 [
-  {
-	"Name": "Agnes",
-	"Class": "Fencer",
-	"Stats": {
-	  "HP": "D",
-	  "MP": "D",
-	  "Str": "C",
-	  "Int": "C",
-	  "Dex": "A",
-	  "Agi": "B",
-	  "Lck": "B",
-	  "Def": "A"
+	{
+		"Name": "Agnes",
+		"Class": "Fencer",
+		"Stats": {
+			"HP": "D",
+			"MP": "D",
+			"Str": "C",
+			"Int": "C",
+			"Dex": "A",
+			"Agi": "B",
+			"Lck": "B",
+			"Def": "A"
+		},
+		"Equip": {
+			"Weapon": "Foil",
+			"Armor": "Corset"
+		},
+		"Trinkets": [
+			"Duelist Glove"
+		],
+		"Skills": [
+			"Armor Piercer",
+			"Lunge",
+			"Flourish"
+		],
+		"Spells": [],
+		"Money": 100,
+		"Inventory": {
+			"Potion": 5,
+			"Medicine": 5
+		},
+		"Dice": [
+			"standard",
+			"standard",
+			"standard"
+		],
+		"Relationships": {
+			"Agnes": null,
+			"Borin": "Rival",
+			"Chala": "Threat",
+			"Danil": null
+		}
 	},
-	"Equip": {
-	  "Weapon": "Foil",
-	  "Armor": "Corset"
+	{
+		"Name": "Borin",
+		"Class": "Warrior",
+		"Stats": {
+			"HP": "A",
+			"MP": "D",
+			"Str": "A",
+			"Int": "D",
+			"Dex": "C",
+			"Agi": "C",
+			"Lck": "B",
+			"Def": "B"
+		},
+		"Equip": {
+			"Weapon": "Hatchet",
+			"Armor": "Tanktop"
+		},
+		"Trinkets": [
+			"Woodcutter's Bandana"
+		],
+		"Money": 40,
+		"Inventory": {
+			"Potion": 2,
+			"Medicine": 4
+		},
+		"Skills": [
+			"Cleave",
+			"Brace"
+		],
+		"Spells": [],
+		"Dice": [
+			"standard",
+			"standard",
+			"standard"
+		],
+		"Relationships": {
+			"Agnes": "Rival",
+			"Borin": null,
+			"Chala": "Sibling",
+			"Danil": null
+		}
 	},
-	"Trinkets": ["Duelist Glove"],
-	"Skills": ["Armor Piercer", "Lunge", "Flourish"],
-	"Spells": [],
-	"Money": 100,
-	"Inventory": {
-		"Potion": 5,
-		"Medicine": 5
+	{
+		"Name": "Chala",
+		"Class": "Mage",
+		"Stats": {
+			"HP": "C",
+			"MP": "A",
+			"Str": "D",
+			"Int": "A",
+			"Dex": "B",
+			"Agi": "B",
+			"Lck": "C",
+			"Def": "D"
+		},
+		"Equip": {
+			"Weapon": "Wooden Rod",
+			"Armor": "Uniform"
+		},
+		"Trinkets": [
+			"Resonant Badge"
+		],
+		"Skills": [
+			"Meditate",
+			"Mana Explosion"
+		],
+		"Spells": [
+			"Thunder",
+			"Poison"
+		],
+		"Money": 65,
+		"Inventory": {
+			"Potion": 3,
+			"Ether": 4
+		},
+		"Dice": [
+			"standard",
+			"standard",
+			"standard"
+		],
+		"Relationships": {
+			"Agnes": null,
+			"Borin": "Sibling",
+			"Chala": null,
+			"Danil": "Crush"
+		}
 	},
-	"Dice": ["standard","standard","standard"],
-	"Relationships": {
-	  "Agnes": null,
-	  "Borin": "Rival",
-	  "Chala": "Threat",
-	  "Danil": null
+	{
+		"Name": "Danil",
+		"Class": "Rogue",
+		"Stats": {
+			"HP": "C",
+			"MP": "C",
+			"Str": "D",
+			"Int": "B",
+			"Dex": "B",
+			"Agi": "A",
+			"Lck": "A",
+			"Def": "D"
+		},
+		"Equip": {
+			"Weapon": "Sling",
+			"Armor": "Tanktop"
+		},
+		"Trinkets": [
+			"Hidden Blade"
+		],
+		"Skills": [
+			"Poison Spit",
+			"Assassinate",
+			"Low Blow",
+			"Pocket Sand"
+		],
+		"Spells": [],
+		"Money": 75,
+		"Inventory": {
+			"Potion": 3,
+			"Ether": 1,
+			"Medicine": 3,
+			"Bomb": 1,
+			"Stimulant": 2
+		},
+		"Dice": [
+			"standard",
+			"standard",
+			"weighted"
+		],
+		"Relationships": {
+			"Agnes": "Threat",
+			"Borin": null,
+			"Chala": null,
+			"Danil": null
+		}
 	}
-  },
-  {
-	"Name": "Borin",
-	"Class": "Warrior",
-	"Stats": {
-	  "HP": "A",
-	  "MP": "D",
-	  "Str": "A",
-	  "Int": "D",
-	  "Dex": "C",
-	  "Agi": "C",
-	  "Lck": "B",
-	  "Def": "B"
-	},
-	"Equip": {
-	  "Weapon": "Hatchet",
-	  "Armor": "Tanktop"
-	},
-	"Trinkets": ["Woodcutter's Bandana"],
-	"Money": 40,
-	"Inventory": {
-		"Potion": 2,
-		"Medicine": 4
-	},
-	"Skills": ["Cleave", "Brace"],
-	"Spells": [],
-	"Dice": ["standard","standard","standard"],
-	"Relationships": {
-	  "Agnes": "Rival",
-	  "Borin": null,
-	  "Chala": "Sibling",
-	  "Danil": null
-	}
-  },
-  {
-	"Name": "Chala",
-	"Class": "Mage",
-	"Stats": {
-	  "HP": "C",
-	  "MP": "A",
-	  "Str": "D",
-	  "Int": "A",
-	  "Dex": "B",
-	  "Agi": "B",
-	  "Lck": "C",
-	  "Def": "D"
-	},
-	"Equip": {
-	  "Weapon": "Wooden Rod",
-	  "Armor": "Uniform"
-	},
-	"Trinkets": ["Resonant Badge"],
-	"Skills": ["Meditate", "Mana Explosion"],
-	"Spells": ["Thunder", "Poison"],
-	"Money": 65,
-	"Inventory": {
-		"Potion": 3,
-		"Ether": 4
-	},
-	"Dice": ["standard","standard","standard"],
-	"Relationships": {
-	  "Agnes": null,
-	  "Borin": "Sibling",
-	  "Chala": null,
-	  "Danil": "Crush"
-	}
-  },
-  {
-	"Name": "Danil",
-	"Class": "Rogue",
-	"Stats": {
-	  "HP": "C",
-	  "MP": "C",
-	  "Str": "D",
-	  "Int": "B",
-	  "Dex": "B",
-	  "Agi": "A",
-	  "Lck": "A",
-	  "Def": "D"
-	},
-	"Equip": {
-	  "Weapon": "Sling",
-	  "Armor": "Tanktop"
-	},
-	"Trinkets": ["Hidden Blade"],
-	"Skills": ["Poison Spit", "Assassinate", "Low Blow", "Pocket Sand"],
-	"Spells": [],
-	"Money": 75,
-	"Inventory": {
-		"Potion": 3,
-		"Ether": 1,
-		"Medicine": 3,
-		"Bomb": 1,
-		"Stimulant":2
-	},
-	"Dice": ["standard","standard","weighted"],
-	"Relationships": {
-	  "Agnes": "Threat",
-	  "Borin": null,
-	  "Chala": null,
-	  "Danil": null
-	}
-  }
 ]
