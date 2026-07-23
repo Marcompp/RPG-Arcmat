@@ -178,6 +178,7 @@
 	"Startup":1,
 	"Cooldown":1,
 	"Gold":40,
+	"Start":"Ethereal",
 	"Skills": ["Shiver"],
 	"Spells": ["Dark","Light"],
 	"Location": "Caves of Light",
@@ -329,6 +330,7 @@
 	"Gold":50,
 	"Startup":1,
 	"Cooldown":2,
+	"Start":"Ethereal",
 	"Skills": ["Shiver"],
 	"Spells": ["Dark"],
 	"Location": "Sundown Plateau",
@@ -439,6 +441,7 @@
 		"Fire Staff": 5
 	},
 	"Gold":50,
+	"Start":"Ethereal",
 	"Skills": ["Shiver"],
 	"Spells": [],
 	"Location": "Core Cavern",
@@ -537,6 +540,7 @@
 	"Element": "Plant",
 	"Lvl": 13,
 	"Stats": {"HP":"A","MP":"B","Str":"C","Int":"C","Dex":"D","Agi":"E","Lck":"E","Def":"C"},
+	"TrueStats": {"HP": 60},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -546,7 +550,22 @@
 		"Forest Axe": 5
 	},
 	"Gold":40,
-	"Skills": [],
+	"Startup":3,
+	"Cooldown":3,
+	"Skill_Chance": 60,
+	"Start":"Regen",
+	"Preparing": [
+		"[SELF] creaks and groans, drawing back a gnarled limb.",
+		"Moss trembles as [SELF] shifts its ancient bulk.",
+		"[SELF] exhales a breath of damp, rotting bark.",
+		"Roots tear free from the mud as [SELF] turns toward you."
+	],
+	"Recharging": [
+		"[SELF] stands motionless, patient as the swamp itself.",
+		"[SELF] sways gently, rooted and unhurried.",
+		"Water drips from [SELF]'s branches in the heavy silence."
+	],
+	"Skills": ["Slam"],
 	"Spells": ["Earth"],
 	"Location": "Lost Swamp",
 	"Rarity": 8
@@ -564,6 +583,20 @@
 		"Scale Mail": 5
 	},
 	"Gold":100,
+	"Startup":2,
+	"Cooldown":2,
+	"Skill_Chance": 75,
+	"Preparing": [
+		"[SELF] hisses, coiling low against the reeds.",
+		"[SELF]'s stony eyes fix upon you, unblinking.",
+		"A forked tongue tastes the fog as [SELF] draws near.",
+		"[SELF] bares venom-slick fangs."
+	],
+	"Recharging": [
+		"[SELF] coils in the shallows, watching.",
+		"[SELF] hisses softly, in no hurry at all.",
+		"Ripples spread where [SELF] waits beneath the water."
+	],
 	"Skills": ["Gorgon Eye","Poison Spit"],
 	"Spells": [],
 	"Location": "Lost Swamp",
@@ -580,7 +613,27 @@
 		"Spirit Rod": 10
 	},
 	"Gold":40,
-	"Skills": ["Shiver"],
+	"Startup":1,
+	"Cooldown":1,
+	"Skill_Chance": 80,
+	"Start":"Ethereal",
+	"Preparing": [
+		"[SELF] drifts closer, a silent scream frozen on its face.",
+		"The fog thickens where [SELF] passes.",
+		"[SELF] reaches for you with hands made of mist.",
+		"A chill spreads as [SELF] draws near."
+	],
+	"Recharging": [
+		"[SELF] drifts aimlessly, forgotten and unseen.",
+		"[SELF] hangs in the fog, weightless and silent.",
+		"The white mist that is [SELF] barely stirs."
+	],
+	"Skill_Weights": {
+		"Shiver": 1,
+		"Choking Fog": 1,
+		"Mournful Wail": 1
+	},
+	"Skills": ["Shiver", "Choking Fog", "Mournful Wail"],
 	"Spells": [],
 	"Location": "Lost Swamp",
 	"Rarity": 10
@@ -939,6 +992,7 @@
 	"Element": "Plant",
 	"Lvl": 15,
 	"Stats": {"HP":"S","MP":"A","Str":"A","Int":"C","Dex":"E","Agi":"E","Lck":"E","Def":"B"},
+	"TrueStats": {"HP": 90},
 	"Equip": {
 		"Weapon": "Ent Club"
 	},
@@ -948,8 +1002,39 @@
 		"Forest Axe": 10
 	},
 	"Gold":150,
-	"Skills": [],
+	"Startup":4,
+	"Cooldown":3,
+	"Skill_Chance": 70,
+	"Start":"Regen",
+	"Preparing": [
+		"[SELF] rises to its full, impossible height.",
+		"The swamp itself seems to hold its breath as [SELF] stirs.",
+		"Ancient bark groans as [SELF] turns its gaze upon you.",
+		"[SELF] raises its club, indifferent to your fate."
+	],
+	"Recharging": [
+		"[SELF] looms in silence, older than memory.",
+		"[SELF] watches, patient as the fog itself.",
+		"The swamp settles quietly around [SELF]."
+	],
+	"Skills": ["Slam"],
 	"Spells": ["Earth"],
+	"ChannelMoves": [
+		{
+			"skill": "Swamp's Embrace",
+			"condition": "hp_below",
+			"threshold": 50,
+			"duration": 2,
+			"channel_start": [
+				"[SELF] sinks its roots deep into the swamp..."
+			],
+			"channel_texts": [
+				"[SELF] sinks its roots deep into the swamp...",
+				"[SELF] draws hungrily on the swamp's ancient strength."
+			],
+			"weight": 1
+		}
+	],
 	"Location": "Lost Swamp",
 	"Rarity": null
   },

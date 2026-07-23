@@ -6,7 +6,7 @@ Event writing reference for RPG-Arcmat. Consult this before writing or editing a
 
 ## Event design best practices
 
-Try to limit the amount of times the player has to press continue overall. Usually just before a `text` that clears the screen is the most appropriate place to leave `no_continue`:`false` (which is the default), or when a deliberate pause is desired.
+Try to limit the amount of times the player has to press continue overall. Usually just before a `text` that clears the screen is the most appropriate place to leave `no_continue`:`false` (which is the default), or when a deliberate pause is desired. Explicit  `no_continue`:`true` everywhere else.
 `text` commands followed by `choice` commands should have `no_wait`:`true` (which is like `no_continue`, except the next command doesn't even wait for the text to type)
 
 Whenever an event does something that affects the UI (ie: damage or giving gold, etc), the command should immediatelly preceed the text announcement, as to make them happen in synch.
@@ -25,9 +25,10 @@ Any text immediatelly preceeding a dice game should have `no_continue`:false
 Try to make events as reusable and readable as possible, by using the `event` command instead of repeating commands or making very complex inline trees
 
 **What sorts of things are events:**
-- Random Events: random occurrences that happen while travelling: meeting someone, finding something, being found by enemies, getting lost, etc
+- Arrival Events:
+Random Events: random occurrences that happen while travelling: meeting someone, finding something, being found by enemies, getting lost, etc
 They are alternatives for encountering enemies outright. Some types of random encounters include: avoidable fights with the region's enemies, quick atmospheric flourishes with no gameplay implications, optional oportunities to engage with something on the way, NPC encounters, etc
-There are also events that are guaranteed to happen in a node, IE: running into treasure in a treasure room. In this case, the event node is meant to be a setpiece/atraction by itself, turning the node into an event node -> an optional boss fight, some valuable loot, an optional town, an enemy encampment, etc.
+Guaranteed Events: Arrival events that are guaranteed to happen in a node, IE: running into treasure in a treasure room. In this case, the event is meant to be a setpiece/atraction by itself, turning the node into an event node -> an optional boss fight, some valuable loot, an optional town, an enemy encampment, etc.
 
 - Node Actions: optional interactions with the node itself's features, IE: drinking the water at a spring, etc
 By chosing the action, the player has already chosen to engage with the event, so no need for confirmation
@@ -98,9 +99,11 @@ Weights are relative — they don't need to sum to 100. A `2 / 6 / 4` split is f
 
 **Anti-patterns to avoid**
 
-- **Circular `event` references** without a `mark_used` guard will loop until the game crashes.
+- **Circular `event` references** without a `mark_used` guard will loop until the game crashes. Note that this only applies when the loop happens without player input
 - **Type inconsistency:** don't check `{"my_var": false}` in one event and `{"my_var": 0}` in another for the same variable. Use `0` throughout.
-- **Effect after announcement:** `give_gold`, `effect`, and `give_item` must immediately *precede* their text announcement, not follow it.
+- **Effect after announcement:** `give_gold` and `effect` must immediately *precede* their text announcement, not follow it.
+- **Item before announcement:** when giving an item that's a weapon, trinket, book, scroll or dice, it should go *after* the announcement, not precede it, so the item is announced before the player has to deal with the aquisition logic
+- **Continue before choices:** When a `text` immediatelly preceeds `choices` it should always have explicit `no_continue`: true or `no_wait`: true. Otherwise, it would ask for two inputs in a row from the player without any real progression or feedback in between 
 
 **Writing & tone**
 
@@ -150,7 +153,7 @@ Found objects — journals, inscriptions, tools, furnishings — should tell a s
 
 The world has layered history. Events in old places should suggest what came before: deliberate geometry, tools for an unfamiliar trade, inscriptions in a dead language. The current inhabitants don't need to explain it.
 
-Don't describe what the player already knows. Don't recap the region they're in or explain game mechanics through event text.
+Don't describe what the player already knows too much. Avoid recapping the region they're in or explain game mechanics through event text.
 
 The narration shouldn't be too omniscient, or tell things that require too much context to conclude. IE: ruins might depict carvings of Trolls, but they shouldn't be explicitly called ruins of Troll-make, unless that's already been established by something preceeding it.
 
@@ -164,7 +167,7 @@ Short events can still have voice. Two lines that are specific and grounded beat
 
 ---
 
-## Random Events
+## Arrival Events
 Usually start with a single text sentence with `clear=false`, announcing the subject of the event IE: "You see something up ahead."
 If no imediate choice is required, then `no_continue` is false, and the event will continue with a more detail text with `clear`:`true` (which is the default)
 

@@ -65,6 +65,10 @@
 #                 Marks the named event as used in game_state["used_events"].
 #                 Check with conditions as {"event_name": false} (unused) or {"event_name": true} (used).
 #
+#   mark_node  {"type":"mark_node"}
+#                 Marks the current node as "marked" in game_state["marked_nodes"].
+#                 Check with the condition {"marked": true} / {"marked": false}.
+#
 #   random  {"type":"random",  "outcomes":[steps_a, steps_b, steps_c]}
 #              Picks one outcome at random (equal probability).
 #              For weighted picks, use dicts instead of plain arrays:
@@ -210,6 +214,8 @@ func _run_step(step: Dictionary) -> void:
 			MyEventBus.emit("modify_stat", {"stats": step.get("stats", {})})
 		"mark_used":
 			MyEventBus.emit("mark_event_used", {"event": step.get("event", "")})
+		"mark_node":
+			MyEventBus.emit("mark_node", {})
 		"give_gold":
 			MyEventBus.emit("give_gold", {
 				"amount": step.get("amount", 0),

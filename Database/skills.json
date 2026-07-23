@@ -170,6 +170,22 @@
 		"inherit_stats": true,
 		"inherit_wpn": false
 	},
+	"Slam": {
+		"nome": "Slam",
+		"description": "A heavy overhead blow that can leave the target reeling.",
+		"type": "attack",
+		"stats": {
+			"mgt": 6,
+			"acc": 65,
+			"crit": 0
+		},
+		"cooldown": 3,
+		"effect": "stun",
+		"chance": 40,
+		"inherit_stats": true,
+		"inherit_wpn": true,
+		"use_text": "[b][USER][/b] brings its club down with bone-jarring force!"
+	},
 	"Mana Explosion": {
 		"nome": "Mana Explosion",
 		"description": "Releases all stored mana in a devastating explosion. Damage scales with MP consumed.",
@@ -256,7 +272,7 @@
 	},
 	"Gorgon Eye": {
 		"nome": "Gorgon Eye",
-		"description": "A paralyzing gaze that channels gorgon power, with a high chance to stun the target where they stand.",
+		"description": "A paralyzing gaze that channels gorgon power, with a high chance to turn the target to stone where they stand.",
 		"type": "attack",
 		"stats": {
 			"mgt": 0,
@@ -264,10 +280,11 @@
 			"crit": 0
 		},
 		"cooldown": 3,
-		"effect": "stun",
+		"effect": "petrified",
 		"chance": 70,
 		"inherit_stats": false,
-		"inherit_wpn": false
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] hisses, its stony gaze locking onto you..."
 	},
 	"Chaos Bell": {
 		"nome": "Chaos Bell",
@@ -300,6 +317,38 @@
 		"chance": 40,
 		"inherit_stats": true,
 		"inherit_wpn": false
+	},
+	"Choking Fog": {
+		"nome": "Choking Fog",
+		"description": "A thickening fog rolls in, stinging the eyes and swallowing the target's sight.",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 80,
+			"crit": 0
+		},
+		"cooldown": 2,
+		"effect": "blind",
+		"chance": 70,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] thickens into a choking white mist..."
+	},
+	"Mournful Wail": {
+		"nome": "Mournful Wail",
+		"description": "A wordless, grieving cry that unravels the target's resolve, leaving them open to harm.",
+		"type": "attack",
+		"stats": {
+			"mgt": 2,
+			"acc": 80,
+			"crit": 0
+		},
+		"cooldown": 2,
+		"effect": "break",
+		"chance": 70,
+		"inherit_stats": true,
+		"inherit_wpn": false,
+		"use_text": "[b][USER][/b] opens its mouth in a soundless, grief-stricken wail..."
 	},
 	"Integer": {
 		"nome": "Integer",
@@ -344,6 +393,24 @@
 		"magnitude": 0.5,
 		"inherit_stats": true,
 		"inherit_wpn": false
+	},
+	"Swamp's Embrace": {
+		"nome": "Swamp's Embrace",
+		"description": "Roots burst from the earth and coil around the target, draining their vitality into the swamp.",
+		"type": "attack",
+		"element": "Plant",
+		"stats": {
+			"mgt": 10,
+			"acc": 70,
+			"wgt": 5,
+			"crit": 0
+		},
+		"cooldown": 4,
+		"effect": "lifedrain",
+		"magnitude": 0.5,
+		"inherit_stats": true,
+		"inherit_wpn": true,
+		"use_text": "[b][USER][/b] unleashes the swamp's hunger upon you!"
 	},
 	"Block": {
 		"nome": "Block",
@@ -486,6 +553,19 @@
 		"cooldown": 10,
 		"magnitude":10,
 		"effect": "flying",
+		"inherit_stats": false,
+		"inherit_wpn": false
+	},
+	"Ethereal": {
+		"nome": "Ethereal",
+		"description": "Dissolves into intangible fog, drastically reducing incoming physical damage.",
+		"type": "self",
+		"stats": {
+			"acc": 100
+		},
+		"cooldown": 10,
+		"magnitude":10,
+		"effect": "ethereal",
 		"inherit_stats": false,
 		"inherit_wpn": false
 	},

@@ -110,6 +110,8 @@ func resolve_action(user, target, data: Dictionary) -> Dictionary:
 			dmg = max(1, int(dmg * 1.5))
 		else:
 			dmg = max(1, int(dmg * 0.5))
+	elif target.stat_multipliers.get("ethereal", 0.0) > 0.0 and not is_magic:
+		dmg = max(1, int(dmg * 0.5))
 
 	result["damage"] = dmg
 	result["text"]  += "[screenshake][instant][color=red]%d[/color] damage![/instant]" % dmg

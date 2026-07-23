@@ -1,4 +1,4 @@
-﻿{
+{
 	"Apple Woods":{
 		"Name" : "Apple Woods",
 		"Type": "Dungeon",
@@ -156,13 +156,32 @@
 		"Enemies" : ["Ent","Gorgon","Lost Souls"],
 		"Boss" : "King of the Swamp",
 		"Length" : 7,
+		"hideProgress":true,
 		"loot" : 9,
 		"Treasure" : ["Book of Water","Lost Sword"],
 		"Events" : ["Lost"],
 		"Backdrop": "lost_swamp.png",
 		"ExitTxt": "Treading through the accursed swamp, you find your final destination,\n the Arcmat Ruins, said to be the birthplace of all magic.",
 		"Next": "Arcmat Ruins",
-		"categories": {}
+		"categories": {
+			"swamp": {
+				"events": [
+					{"chance": 0.25, "event": "swamp_fog_whispers"},
+					{"chance": 0.2,  "event": "swamp_gorgon_ambush"},
+					{"chance": 0.15, "event": "swamp_ent_slumber"},
+					{"chance": 0.2,  "event": "swamp_sunken_relic"},
+					{"chance": 0.1,  "event": "swamp_academy_researcher"}
+				]
+			},
+			"lost_fog": {
+				"action": {
+					"name": "Leave a Marker",
+					"tooltip": "Mark this place so you'll recognize it if the fog brings you back.",
+					"event": "swamp_leave_marker",
+					"repeatable": true
+				}
+			}
+		}
 	},
 		"Arcmat Ruins":{
 		"Name" : "Arcmat Ruins",

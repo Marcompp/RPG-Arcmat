@@ -116,5 +116,24 @@
 		"stats": {
 			"flying": 1.0
 		}
+	},
+	"petrified": {
+		"name": "Petrified",
+		"icon": "petrified.png",
+		"description": "Turned to stone, skipping the next action. First hit shatters the stone for 1.5× damage.",
+		"duration": 4,
+		"inflict_text": "[color=cyan][TARGET] turns to stone![/color]",
+		"end_text": "[TARGET]'s stone skin crumbles away."
+	},
+	"ethereal": {
+		"name": "Ethereal",
+		"icon": "ethereal.png",
+		"description": "An intangible form takes 0.5× physical damage.",
+		"duration": 10,
+		"inflict_text": "[color=cyan][TARGET] turns intangible![/color]",
+		"end_text": "[TARGET] becomes solid again.",
+		"stats": {
+			"ethereal": 1.0
+		}
 	}
 }

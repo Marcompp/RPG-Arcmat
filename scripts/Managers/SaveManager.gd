@@ -31,6 +31,7 @@ func save(slot: int, game_manager) -> bool:
 			"flags": game_manager.game_state["flags"].duplicate(true),
 			"visited_nodes": game_manager.game_state["visited_nodes"].duplicate(true),
 			"visited_count": game_manager.game_state["visited_count"].duplicate(true),
+			"marked_nodes": game_manager.game_state["marked_nodes"].duplicate(true),
 			"used_events": game_manager.game_state["used_events"].duplicate(true),
 			"area_progress": game_manager.game_state["area_progress"].duplicate(true)
 		},

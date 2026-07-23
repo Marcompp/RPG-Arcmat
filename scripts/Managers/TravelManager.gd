@@ -93,6 +93,9 @@ func _ready():
 	MyEventBus.subscribe("exit_node", func(exit):
 		handle_exit(exit)
 	)
+	MyEventBus.subscribe("mark_node", func(_data):
+		mark_current_node()
+	)
 	MyEventBus.subscribe("open_event_shop", func(data):
 		_shop._shop_from_event = true
 		_shop.enter_shop(data.get("name", "Merchant"), data.get("data", {}))
@@ -774,6 +777,10 @@ func _try_node_event(node_data: Dictionary) -> void:
 func register_visit():
 	var key = get_node_key()
 	MyEventBus.emit("register_visit",{"key":key})
+
+func mark_current_node():
+	var key = get_node_key()
+	MyEventBus.emit("register_mark",{"key":key})
 
 # ------------------------
 # TEXT SYSTEM

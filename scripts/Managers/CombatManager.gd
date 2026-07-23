@@ -112,9 +112,10 @@ func _emit_timer_update() -> void:
 	for i in range(enemies.size()):
 		var alive = enemies[i].get_hp() > 0
 		timers.append(enemy_timers[i] if alive else -1)
-		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
-		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
-		locked.append(alive and (is_stunned or is_frozen))
+		var is_stunned   = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen    = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		var is_petrified = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "petrified")
+		locked.append(alive and (is_stunned or is_frozen or is_petrified))
 		var esys = _tsys(_ekey(i))
 		hidden.append(alive and esys != null and esys.has_circadian_mask() and enemy_timers[i] > 0)
 
@@ -231,9 +232,10 @@ func start_player_turn():
 	if turn_msg != "":
 		MyEventBus.emit("continue_text", { "text": turn_msg })
 		await wait_for_continue()
-	var is_stunned = status_effects.get("player", []).any(func(s): return s["type"] == "stun")
-	var is_frozen  = status_effects.get("player", []).any(func(s): return s["type"] == "freeze")
-	if not is_stunned and not is_frozen:
+	var is_stunned   = status_effects.get("player", []).any(func(s): return s["type"] == "stun")
+	var is_frozen    = status_effects.get("player", []).any(func(s): return s["type"] == "freeze")
+	var is_petrified = status_effects.get("player", []).any(func(s): return s["type"] == "petrified")
+	if not is_stunned and not is_frozen and not is_petrified:
 		status_sys.tick_cooldowns("player")
 	if is_stunned:
 		show_text("[b]%s[/b] is stunned and can't act!" % player.get_name())
@@ -244,6 +246,11 @@ func start_player_turn():
 		show_text("[b]%s[/b] is frozen solid and can't act!" % player.get_name())
 		await wait_for_continue()
 		await _resolve_turn_pair({ "actor": player, "who": "player", "type": "frozen" })
+		return
+	if is_petrified:
+		show_text("[b]%s[/b] has turned to stone and can't move!" % player.get_name())
+		await wait_for_continue()
+		await _resolve_turn_pair({ "actor": player, "who": "player", "type": "petrified" })
 		return
 	state = CombatState.CHOOSING_ACTION
 	render_player_turn()
@@ -390,9 +397,10 @@ func render_player_turn():
 		var n = enemy_display_names[i]
 		var esys_t = _tsys(_ekey(i))
 		var hide_timer = esys_t and esys_t.has_circadian_mask()
-		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
-		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
-		if is_stunned or is_frozen:
+		var is_stunned   = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen    = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		var is_petrified = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "petrified")
+		if is_stunned or is_frozen or is_petrified:
 			timer_lines.append("[color=cyan]%s ꩜[/color]" % n)
 		elif enemy_channeling[i] != "":
 			if t <= 0:
@@ -507,10 +515,11 @@ func _resolve_turn_pair(player_action: Dictionary):
 	var living = _living_indices()
 
 	for i in living:
-		var is_stunned = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
-		var is_frozen  = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		var is_stunned   = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "stun")
+		var is_frozen    = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "freeze")
+		var is_petrified = status_effects.get(_ekey(i), []).any(func(s): return s["type"] == "petrified")
 
-		if not is_stunned and not is_frozen:
+		if not is_stunned and not is_frozen and not is_petrified:
 			status_sys.tick_cooldowns(_ekey(i))
 
 		if enemy_timers[i] <= 0:
@@ -518,6 +527,8 @@ func _resolve_turn_pair(player_action: Dictionary):
 				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "stunned" })
 			elif is_frozen:
 				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "frozen" })
+			elif is_petrified:
+				all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "petrified" })
 			else:
 				if enemy_channeling[i] != "":
 					var skill_name      = enemy_channeling[i]
@@ -529,7 +540,7 @@ func _resolve_turn_pair(player_action: Dictionary):
 			enemy_first_actions[i] = false
 			# enemy_timers[i] -= 1
 			#enemy_timers[i]        = enemies[i].data.get("Cooldown", 0)
-		elif not is_stunned and not is_frozen:
+		elif not is_stunned and not is_frozen and not is_petrified:
 			all_actions.append({ "actor": enemies[i], "who": _ekey(i), "type": "timer_tick", "enemy_index": i, "is_first": enemy_first_actions[i] })
 
 	all_actions.sort_custom(func(a, b):
@@ -577,6 +588,9 @@ func _execute_turn_action(action: Dictionary):
 			await wait_for_writing()
 		"frozen":
 			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] is frozen solid and can't act![wait=0.1]" % _get_display_name(action["actor"]) })
+			await wait_for_writing()
+		"petrified":
+			MyEventBus.emit("continue_text", { "text": "[b]%s[/b] has turned to stone and can't move![wait=0.1]" % _get_display_name(action["actor"]) })
 			await wait_for_writing()
 		"timer_tick":
 			var phase: String
@@ -938,9 +952,9 @@ func _execute_hit(data, user, who: String, target):
 
 func _try_shatter(target) -> bool:
 	var who = _who_for(target)
-	if not status_effects.get(who, []).any(func(s): return s["type"] == "freeze"):
+	if not status_effects.get(who, []).any(func(s): return s["type"] == "freeze" or s["type"] == "petrified"):
 		return false
-	status_effects[who] = status_effects[who].filter(func(s): return s["type"] != "freeze")
+	status_effects[who] = status_effects[who].filter(func(s): return s["type"] != "freeze" and s["type"] != "petrified")
 	status_sys.apply_stat_modifiers(who)
 	status_sys.emit_status_update(who)
 	return true

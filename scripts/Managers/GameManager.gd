@@ -81,6 +81,11 @@ func _ready():
 	MyEventBus.subscribe("register_visit", func(data):
 		register_visit(data.get('key',0))
 	)
+	MyEventBus.subscribe("register_mark", func(data):
+		var key = data.get('key','')
+		if key != '':
+			game_state["marked_nodes"][key] = true
+	)
 	MyEventBus.subscribe("add_progress", func(data):
 		add_progress(data.get('progress',0),data.get('reset',false),data.get("region",""))
 	)
@@ -157,6 +162,7 @@ func _ready():
 	game_state["flags"] = {}
 	game_state["visited_nodes"] = {}
 	game_state["visited_count"] = {}
+	game_state["marked_nodes"] = {}
 	game_state["area_progress"] = {"Apple Woods":0}
 	game_state["used_events"] = {}
 	travel.game_state = game_state
@@ -693,6 +699,9 @@ func _check_dict_condition(cond, node_index):
 			print(node_key)
 			value = game_state["visited_count"].get(node_key, 0)
 			print(value)
+		elif key == "marked":
+			var node_key_marked = travel.current_region + ":" + str(node_index)
+			value = game_state["marked_nodes"].get(node_key_marked, false)
 		elif key == "no_repeat":
 			if req == true and node_index == travel.current_node:
 				return false
@@ -805,6 +814,7 @@ func load_game(slot: int):
 	game_state["flags"]         = gs.get("flags", {})
 	game_state["visited_nodes"] = gs.get("visited_nodes", {})
 	game_state["visited_count"] = gs.get("visited_count", {})
+	game_state["marked_nodes"] = gs.get("marked_nodes", {})
 	game_state["used_events"]   = gs.get("used_events", {})
 	game_state["area_progress"] = gs.get("area_progress", {})
 

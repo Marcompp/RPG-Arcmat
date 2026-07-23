@@ -437,7 +437,7 @@
 		]
 	  },
 	  "description": [
-		{ "text": "You feel as though as you are being watched." }
+		{ "text": "You feel as though you are being watched." }
 	  ],
 	  "exits": [
 		{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make for the edge of the Apple Woods." }
@@ -714,7 +714,7 @@
 			]
 		  },
 		  "description": [
-			{ "text": "You feel as though as you are being watched." }
+			{ "text": "You feel as though you are being watched." }
 		  ],
 		  "exits": [
 			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
@@ -1734,7 +1734,7 @@
 			]
 		  },
 		  "description": [
-			{ "text": "You feel as though as you are being watched." }
+			{ "text": "You feel as though you are being watched." }
 		  ],
 		  "exits": [
 			{ "choice": "Press On", "leads_to": "TERMINAL", "travel_text": "You make your way out of the Caves of Light." }
@@ -1744,13 +1744,11 @@
 	"Lost Swamp": [
 	  {
 		"name": "Foggy Marsh",
-	  	"categories": ["swamp"],
-		"entrances": ["SWAMP", "DEEP"],
+	  	"categories": ["swamp", "lost_fog"],
+		"entrances": ["SWAMP"],
 		"arrival": {
 		  "SWAMP": [
-			"A thick white fog swallows the landscape as you step into the swamp, obscuring everything beyond a few steps."
-		  ],
-		  "DEEP": [
+			"A thick white fog swallows the landscape as you step into the swamp, obscuring everything beyond a few steps.",
 			"You push through the mist, but nothing changes—the swamp stretches endlessly in all directions."
 		  ],
 		  "default": [
@@ -1763,16 +1761,17 @@
 		  { "text": "Shapes seem to move just beyond your vision.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Wade forward", "leads_to": "DEEP", "value": 0.9, "travel_text": "You push forward through the fog and the shallow water, each step pulling against the mud beneath." },
-		  { "choice": "Turn back", "leads_to": "SWAMP", "value": 1, "travel_text": "You turn and push back through the fog, retracing your steps as best you can." }
+		  { "choice": "Wade forward", "leads_to": "SWAMP", "value": 0, "travel_text": "You push forward through the fog and the shallow water, each step pulling against the mud beneath.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Turn back", "leads_to": "SWAMP", "value": 0, "travel_text": "You turn and push back through the fog, retracing your steps as best you can.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Sunken Path",
-	  	"categories": ["swamp"],
-		"entrances": ["DEEP"],
+	  	"backdrop": "lost_road2.png",
+	  	"categories": ["swamp", "lost_fog"],
+		"entrances": ["SWAMP"],
 		"arrival": {
-		  "DEEP": [
+		  "SWAMP": [
 			"Your foot finds something solid beneath the water—a submerged path, barely visible through the fog."
 		  ],
 		  "default": [
@@ -1785,19 +1784,17 @@
 		  { "text": "You are not sure if it leads anywhere at all.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Follow the path", "leads_to": "DEEP", "value": 1.1, "travel_text": "You continue carefully along the submerged stones, testing each step before moving forward." },
-		  { "choice": "Step off into the swamp", "leads_to": "SWAMP", "value": 0.8, "travel_text": "You leave the path and step into the murky water, the ground immediately less certain beneath you." }
+		  { "choice": "Follow the path", "leads_to": "SWAMP", "value": 0, "travel_text": "You continue carefully along the submerged stones, testing each step before moving forward.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Step off into the swamp", "leads_to": "SWAMP", "value": 0, "travel_text": "You leave the path and step into the murky water, the ground immediately less certain beneath you.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Twisted Trees",
-	  	"categories": ["swamp"],
-		"entrances": ["SWAMP", "DEEP"],
+	  	"categories": ["swamp", "lost_fog"],
+		"entrances": ["SWAMP"],
 		"arrival": {
 		  "SWAMP": [
-			"Dark, twisted trees loom from the fog, their shapes barely visible."
-		  ],
-		  "DEEP": [
+			"Dark, twisted trees loom from the fog, their shapes barely visible.",
 			"The trees close in tighter, their forms warped and unnatural."
 		  ],
 		  "default": [
@@ -1810,16 +1807,16 @@
 		  { "text": "You feel watched.", "chance": 0.6 }
 		],
 		"exits": [
-		  { "choice": "Push through the trees", "leads_to": "DEEP", "value": 0.9, "travel_text": "You force your way between the gnarled trunks, roots snagging at your feet as you press deeper." },
-		  { "choice": "Retreat carefully", "leads_to": "SWAMP", "value": 1, "travel_text": "You back away through the twisted trees, moving slowly to avoid the grasping roots." }
+		  { "choice": "Push through the trees", "leads_to": "SWAMP", "value": 0, "travel_text": "You force your way between the gnarled trunks, roots snagging at your feet as you press deeper.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Retreat carefully", "leads_to": "SWAMP", "value": 0, "travel_text": "You back away through the twisted trees, moving slowly to avoid the grasping roots.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Still Water",
-	  	"categories": ["swamp"],
-		"entrances": ["DEEP"],
+	  	"categories": ["swamp", "lost_fog"],
+		"entrances": ["SWAMP"],
 		"arrival": {
-		  "DEEP": [
+		  "SWAMP": [
 			"The ground gives way to a wide expanse of still, dark water."
 		  ],
 		  "default": [
@@ -1832,19 +1829,17 @@
 		  { "text": "Something disturbs the water far from you.", "chance": 0.4 }
 		],
 		"exits": [
-		  { "choice": "Skirt the edge", "leads_to": "DEEP", "value": 0.9, "travel_text": "You move carefully along the edge of the still water, keeping to the firmer ground." },
-		  { "choice": "Wade through", "leads_to": "DEEP", "value": 0.7, "travel_text": "You step into the dark water, its stillness broken around you as you wade forward." }
+		  { "choice": "Skirt the edge", "leads_to": "SWAMP", "value": 0, "travel_text": "You move carefully along the edge of the still water, keeping to the firmer ground.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Wade through", "leads_to": "SWAMP", "value": 0, "travel_text": "You step into the dark water, its stillness broken around you as you wade forward.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Whispering Reeds",
-	  	"categories": ["swamp"],
-		"entrances": ["SWAMP", "DEEP"],
+	  	"categories": ["swamp", "lost_fog"],
+		"entrances": ["SWAMP"],
 		"arrival": {
 		  "SWAMP": [
-			"Tall reeds emerge from the fog, swaying despite the still air."
-		  ],
-		  "DEEP": [
+			"Tall reeds emerge from the fog, swaying despite the still air.",
 			"The reeds close around you, their soft rustling forming indistinct whispers."
 		  ],
 		  "default": [
@@ -1857,16 +1852,17 @@
 		  { "text": "You almost understand what they're saying.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Follow the whispers", "leads_to": "DEEP", "value": 0.8, "travel_text": "You let the sound draw you forward, pressing deeper through the swaying reeds." },
-		  { "choice": "Ignore them and move on", "leads_to": "SWAMP", "value": 1, "travel_text": "You push through the reeds without listening, focusing on finding firmer ground." }
+		  { "choice": "Follow the whispers", "leads_to": "SWAMP", "value": 0, "travel_text": "You let the sound draw you forward, pressing deeper through the swaying reeds.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Ignore them and move on", "leads_to": "SWAMP", "value": 0, "travel_text": "You push through the reeds without listening, focusing on finding firmer ground.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Lost Shrine",
 	  	"categories": ["swamp"],
-		"entrances": ["DEEP"],
+	  	"backdrop": "lost_shrine2.png",
+		"entrances": ["SWAMP"],
 		"arrival": {
-		  "DEEP": [
+		  "SWAMP": [
 			"A crumbling shrine emerges from the fog, half-sunken into the swamp."
 		  ],
 		  "default": [
@@ -1879,16 +1875,23 @@
 		  { "text": "It feels like this place should not be found.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Search the shrine", "leads_to": "DEEP", "value": 1, "travel_text": "You circle the shrine carefully, probing its crumbling structure before moving on." },
-		  { "choice": "Leave quickly", "leads_to": "SWAMP", "value": 1, "travel_text": "You turn from the shrine and move quickly back into the fog, the structure disappearing behind you." }
-		]
+		  { "choice": "Leave quickly", "leads_to": "SWAMP", "value": 0, "travel_text": "You turn from the shrine and move quickly back into the fog, the structure disappearing behind you.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
+		],
+		"action": {
+		  "name": "Search the shrine",
+		  "tooltip": "Circle the shrine and probe its crumbling structure.",
+		  "event": "lost_shrine_search",
+		  "disabled_tooltip": "You've already searched the shrine.",
+		  "repeatable": false
+		}
 	  },
 	  {
 		"name": "Endless Hollow",
-	  	"categories": ["swamp"],
-		"entrances": ["DEEP"],
+	  	"categories": ["swamp", "lost_fog"],
+	  	"backdrop": "lost_fog2.png",
+		"entrances": ["SWAMP"],
 		"arrival": {
-		  "DEEP": [
+		  "SWAMP": [
 			"The fog thickens until even the ground beneath you fades from view."
 		  ],
 		  "default": [
@@ -1901,19 +1904,18 @@
 		  { "text": "You are no longer sure which way you came from.", "chance": 0.7 }
 		],
 		"exits": [
-		  { "choice": "Keep moving", "leads_to": "DEEP", "value": 0.8, "travel_text": "You press forward blindly, one hand outstretched, hoping the fog will thin." },
-		  { "choice": "Stand still", "leads_to": "SWAMP", "value": 0.6, "travel_text": "You stop and wait, listening to the muffled silence until some sense of direction returns." }
+		  { "choice": "Keep moving", "leads_to": "SWAMP", "value": 0, "travel_text": "You press forward blindly, one hand outstretched, hoping the fog will thin.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] },
+		  { "choice": "Stand still", "leads_to": "SWAMP", "value": 0, "travel_text": "You stop and wait, listening to the muffled silence until some sense of direction returns.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
 		]
 	  },
 	  {
 		"name": "Half-Sunken Boat",
 	  	"categories": ["swamp"],
-		"entrances": ["SWAMP", "DEEP"],
+	  	"backdrop": "lost_boat2.png",
+		"entrances": ["SWAMP"],
 		"arrival": {
 		  "SWAMP": [
-			"The outline of a broken boat appears through the fog."
-		  ],
-		  "DEEP": [
+			"The outline of a broken boat appears through the fog.",
 			"You almost miss it—a half-sunken boat drifting silently in the water."
 		  ],
 		  "default": [
@@ -1926,21 +1928,59 @@
 		  { "text": "Someone must have come this way before.", "chance": 0.5 }
 		],
 		"exits": [
-		  { "choice": "Inspect the boat", "leads_to": "DEEP", "value": 1, "travel_text": "You wade closer to the wreck and look it over, searching the waterlogged hull before moving on." },
-		  { "choice": "Move on", "leads_to": "SWAMP", "value": 1, "travel_text": "You leave the broken boat behind and continue through the fog." }
-		]
+		  { "choice": "Move on", "leads_to": "SWAMP", "value": 0, "travel_text": "You leave the broken boat behind and continue through the fog.", "events": [{"event": "swamp_lost_traversal", "chance": 1}] }
+		],
+		"action": {
+		  "name": "Inspect the boat",
+		  "tooltip": "Look over the waterlogged hull.",
+		  "event": "half_sunken_boat_inspect",
+		  "disabled_tooltip": "You've already searched the wreck.",
+		  "repeatable": false
+		}
+	  },
+	  {
+		"name": "Arcward Gate",
+	  	"categories": ["swamp"],
+		"condition": {
+		  "visit_once": true
+		},
+		"entrances": ["SWAMP", "TOWN"],
+		"encounter_rate": 0,
+		"events": [
+		  {"chance": 1, "event": "enter_arcward"}
+		],
+		"arrival": {
+		  "SWAMP": [
+			"The fog thins just enough to reveal a raised stone causeway, cutting straight and deliberate through the marsh—the first thing you've seen here that wasn't shaped by rot."
+		  ],
+		  "TOWN": [
+			"The causeway leads you back down into the fog, the Academy's spires vanishing behind you."
+		  ],
+		  "default": [
+			"A raised stone causeway rises out of the swamp here, leading toward the distant spires of the Magical Academy of Arcward."
+		  ]
+		},
+		"description": [
+		  { "text": "The stonework is clean and mortared—nothing else in the swamp is." },
+		  { "text": "Lantern-posts line the causeway, still lit against the fog." }
+		],
+		"exits": [
+		  { "choice": "Return to the swamp", "leads_to": "SWAMP", "value": 1, "travel_text": "You step off the causeway and back into the fog, the lantern-light fading behind you." }
+		],
+		"action": {
+		  "name": "Enter the Academy",
+		  "tooltip": "Approach the gates of Magical Academy of Arcward.",
+		  "event": "enter_arcward"
+		}
 	  },
 	  {
 		"name": "Ruin Threshold",
 		"type": "EXIT",
-		"entrances": ["SWAMP", "DEEP"],
+		"entrances": ["SWAMP"],
 		"boss": "King of the Swamp",
 		"encounter_rate": 0,
 		"arrival": {
 			"SWAMP": [
-				"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
-			],
-			"DEEP": [
 				"Through the suffocating fog, sharp geometric shapes emerge—perfect black cubes stacked into impossible structures."
 			],
 			"default": [
@@ -1948,7 +1988,7 @@
 			]
 		},
 		"description": [
-			{ "text": "You feel as though as you are being watched." }
+			{ "text": "You feel as though you are being watched." }
 		],
 		"exits": [
 			{ "choice": "Enter the ruins", "leads_to": "TERMINAL", "travel_text": "You step through the entrance, the fog cutting away as the black geometry of the ruins closes around you." }

@@ -4336,6 +4336,262 @@
 		]
 	},
 
+	"enter_arcward": {
+		"steps": [
+			{"type": "text", "text": "You follow the causeway up out of the fog, the mist thinning until the gates of Magical Academy of Arcward rise ahead of you, lantern-lit and solid."},
+			{"type": "enter_town", "town": "Magical Academy of Arcward"}
+		]
+	},
+
+	"lost_shrine_search": {
+		"steps": [
+			{"type": "text", "text": "You circle the shrine carefully, but the crumbling stone gives up nothing more for now."},
+			{"type": "show_node"}
+		]
+	},
+
+	"half_sunken_boat_inspect": {
+		"steps": [
+			{"type": "text", "text": "You search the waterlogged hull, but whatever the boat once carried is long gone."},
+			{"type": "show_node"}
+		]
+	},
+
+	"swamp_fog_whispers": {
+		"steps": [
+			{"type": "text", "text": "Voices drift through the fog—too soft to make out words, but close, as if just past your shoulder.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Listen closely", "key": "listen"},
+					{"choice": "Ignore it and keep moving", "key": "ignore"}
+				],
+				"branches": {
+					"ignore": [
+						{"type": "text", "text": "You push on without listening. The whispering falls behind, swallowed by the mist.", "clear": false},
+						{"type": "show_node"}
+					],
+					"listen": [
+						{"type": "random", "outcomes": [
+							{"weight": 5, "steps": [
+								{"type": "text", "text": "You strain to catch the words, but they dissolve the moment you focus on them, leaving only the sound of your own breathing.", "clear": false},
+								{"type": "show_node"}
+							]},
+							{"weight": 3, "stat_weights": {"int": 1}, "steps": [
+								{"type": "text", "text": "For a moment, one voice separates from the rest—a name, spoken once, gently. Not yours. Then it's gone, and the fog is only fog again.", "clear": true},
+								{"type": "show_node"}
+							]},
+							{"weight": 2, "steps": [
+								{"type": "text", "text": "The whispering sharpens into a wordless wail as pale shapes coalesce out of the mist around you.", "clear": false, "no_wait": true},
+								{"type": "combat", "enemy": "Lost Souls",
+									"on_victory": [
+										{"type": "text", "text": "The shapes unravel back into the fog, and the whispering fades with them.", "clear": true},
+										{"type": "show_node"}
+									]
+								}
+							]}
+						]}
+					]
+				}
+			}
+		]
+	},
+
+	"swamp_gorgon_ambush": {
+		"steps": [
+			{"type": "text", "text": "Something uncoils from the reeds ahead—too many shapes, moving independently of each other. A single wide eye fixes on you through the fog.", "clear": false, "no_wait": true},
+			{"type": "text", "text": "\"Yesss... another one, come to bother my watersss.\"", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Avert your eyes and back away", "key": "avert"},
+					{"choice": "Try to speak with it", "key": "speak"},
+					{"choice": "Attack", "key": "attack"}
+				],
+				"branches": {
+					"avert": [
+						{"type": "random", "outcomes": [
+							{"weight": 3, "stat_weights": {"agi": 1}, "steps": [
+								{"type": "text", "text": "You keep your gaze down and retreat, step by careful step, until the reeds close between you.", "clear": false},
+								{"type": "show_node"}
+							]},
+							{"weight": 2, "steps": [
+								{"type": "text", "text": "A root catches your heel. The Gorgon's eye snaps toward the sound.", "clear": false, "no_wait": true},
+								{"type": "combat", "enemy": "Gorgon",
+									"on_victory": [
+										{"type": "text", "text": "The coiling shapes finally go still, sinking back beneath the water.", "clear": true},
+										{"type": "show_node"}
+									]
+								}
+							]}
+						]}
+					],
+					"speak": [
+						{"type": "text", "text": "\"Sspeak? To me?\" The eye narrows, considering you the way you'd consider an insect that had just done something mildly interesting.", "clear": false},
+						{"type": "text", "text": "\"These watersss are mine. Walk on, and don't let me sssee you again.\"", "clear": false},
+						{"type": "text", "text": "You back away slowly. It doesn't follow.", "clear": false},
+						{"type": "show_node"}
+					],
+					"attack": [
+						{"type": "text", "text": "You don't wait for it to finish talking.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Gorgon",
+							"on_victory": [
+								{"type": "text", "text": "The coiling shapes finally go still, sinking back beneath the water.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"swamp_ent_slumber": {
+		"steps": [
+			{"type": "text", "text": "What you took for a cluster of dead trees shifts, slowly, and you realize it has been watching you the entire time you've been standing here.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Hold still and wait", "key": "wait"},
+					{"choice": "Try to move past quietly", "key": "sneak"},
+					{"choice": "Attack", "key": "attack"}
+				],
+				"branches": {
+					"wait": [
+						{"type": "text", "text": "Nothing about it hurries. After a long stretch of silence, the great shape loses interest and settles back into stillness, indistinguishable from the trees around it once more.", "clear": true},
+						{"type": "show_node"}
+					],
+					"sneak": [
+						{"type": "random", "outcomes": [
+							{"weight": 3, "stat_weights": {"dex": 1}, "steps": [
+								{"type": "text", "text": "You skirt around its roots without a sound. It doesn't stir.", "clear": false},
+								{"type": "show_node"}
+							]},
+							{"weight": 2, "steps": [
+								{"type": "text", "text": "Your foot sinks into a root you hadn't seen. The Ent turns, unhurried but entirely awake now.", "clear": false, "no_wait": true},
+								{"type": "combat", "enemy": "Ent",
+									"on_victory": [
+										{"type": "text", "text": "The great shape topples slowly, sinking back into the mud and the fog.", "clear": true},
+										{"type": "show_node"}
+									]
+								}
+							]}
+						]}
+					],
+					"attack": [
+						{"type": "text", "text": "You strike before it can react.", "clear": false, "no_wait": true},
+						{"type": "combat", "enemy": "Ent",
+							"on_victory": [
+								{"type": "text", "text": "The great shape topples slowly, sinking back into the mud and the fog.", "clear": true},
+								{"type": "show_node"}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+
+	"swamp_sunken_relic": {
+		"steps": [
+			{"type": "text", "text": "Something pale juts from the mud ahead—not driftwood.", "clear": false},
+			{"type": "random", "outcomes": [
+				{"weight": 5, "steps": [
+					{"type": "text", "text": "A carved stone face, worn almost featureless, stares up out of the muck. Whoever shaped it has been gone a very long time. You leave it where it lies.", "clear": true},
+					{"type": "show_node"}
+				]},
+				{"weight": 2, "steps": [
+					{"type": "text", "text": "The shape you took for stone shifts—just once—and sinks below the surface before you can see what it was.", "clear": true},
+					{"type": "show_node"}
+				]},
+				{"weight": 2, "stat_weights": {"lck": 1}, "steps": [
+					{"type": "text", "text": "Half-buried in the silt beside it, something catches the light.", "clear": false},
+					{"type": "give_region_item"},
+					{"type": "show_node"}
+				]}
+			]}
+		]
+	},
+
+	"swamp_academy_researcher": {
+		"repeatable": false,
+		"steps": [
+			{"type": "text", "text": "A figure in Academy robes stands ankle-deep in the water, turning in a slow circle, muttering directions to herself and getting them wrong every time.", "clear": false, "no_wait": true},
+			{"type": "choice", "header": "What do you do?",
+				"choices": [
+					{"choice": "Help her find the causeway", "key": "help"},
+					{"choice": "Point vaguely and keep moving", "key": "point"},
+					{"choice": "Leave her be", "key": "leave"}
+				],
+				"branches": {
+					"help": [
+						{"type": "text", "text": "\"The causeway? Oh—thank the Archmage, I've been trying to triangulate it from moss growth for an hour and I don't even know if that works.\"", "clear": false},
+						{"type": "text", "text": "She follows close behind, narrating every landmark you pass in case she needs to find it again on her own. At the causeway, she presses something into your hand before hurrying up toward the gate.", "clear": true},
+						{"type": "give_item", "item": "Ether"},
+						{"type": "text", "text": "You take the [color=teal]Ether[/color].", "clear": false},
+						{"type": "show_node"}
+					],
+					"point": [
+						{"type": "text", "text": "\"That way? Are you—thank you!\" She splashes off in the direction you indicated. You don't check if it was the right one.", "clear": false},
+						{"type": "show_node"}
+					],
+					"leave": [
+						{"type": "text", "text": "You leave her to her moss theory and keep moving. Her muttering fades behind you into the fog.", "clear": false},
+						{"type": "show_node"}
+					]
+				}
+			}
+		]
+	},
+
+	"swamp_lost_traversal": {
+		"steps": [
+			{"type": "set_backdrop", "backdrop": "lost_fog.jpg"},
+			{"type": "random", "outcomes": [
+				{"weight": 1, "steps": [
+					{"type": "text", "text": "The fog swallows the path whole. You can't see your own feet.", "clear": false, "no_wait": true}
+				]},
+				{"weight": 1, "steps": [
+					{"type": "text", "text": "White mist closes in from every side at once. There's no direction left to pick.", "clear": false, "no_wait": true}
+				]},
+				{"weight": 1, "steps": [
+					{"type": "text", "text": "You press on, but the world beyond arm's reach simply isn't there anymore.", "clear": false, "no_wait": true}
+				]},
+				{"weight": 1, "steps": [
+					{"type": "text", "text": "Somewhere close, the fog seems to shift around something solid. Then it's gone.", "clear": false, "no_wait": true}
+				]}
+			]},
+			{"type": "if", "condition": {"swamp_marks_count": {"min": 4}},
+				"then": [
+					{"type": "append", "text": " The fog feels thinner than it did.", "linebreak": false}
+				]
+			},
+			{"type": "if", "condition": {"swamp_marks_count": {"min": 6}},
+				"then": [
+					{"type": "text", "text": "The fog thins at last, and for the first time, the path ahead doesn't disappear.", "clear": false},
+					{"type": "exit_node", "exit": {"leads_to": "SWAMP", "value": 7, "travel_text": "You break free of the fog, the ground growing firmer with every step."}}
+				],
+				"else": [
+					{"type": "exit_node", "exit": {"leads_to": "SWAMP", "value": 0, "travel_text": "The fog closes back in behind you. You're still lost."}}
+				]
+			}
+		]
+	},
+
+	"swamp_leave_marker": {
+		"repeatable": true,
+		"steps": [
+			{"type": "if", "condition": {"marked": true},
+				"then": [
+					{"type": "text", "text": "You've already left your mark here.", "clear": false}
+				],
+				"else": [
+					{"type": "text", "text": "You tie a strip of cloth to a branch, low enough that you'd recognize it again.", "clear": false},
+					{"type": "mark_node"},
+					{"type": "set_var", "vars": {"swamp_marks_count": {"add": 1}}}
+				]
+			},
+			{"type": "show_node_actions"}
+		]
+	},
+
 	"hot_springs_rest": {
 		"steps": [
 			{"type": "text", "text": "You ease into one of the warm mineral pools at the edge, the heat soaking into aching muscles. The faint glow of the water and the steady bubble of steam make it easy to lose track of time."},

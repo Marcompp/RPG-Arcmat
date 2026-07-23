@@ -1,7 +1,7 @@
 extends RefCounted
 class_name TrinketSystem
 
-const NEGATIVE_STATUSES = ["poison", "burn", "freeze", "stun", "blind", "break"]
+const NEGATIVE_STATUSES = ["poison", "burn", "freeze", "stun", "blind", "break", "petrified"]
 
 var owner
 var owner_key: String = ""
