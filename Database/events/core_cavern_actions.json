@@ -1,0 +1,110 @@
+{
+    "hot_springs_rest": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You ease into one of the warm mineral pools at the edge, the heat soaking into aching muscles. The faint glow of the water and the steady bubble of steam make it easy to lose track of time."
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "heal",
+					"amount": 9999
+				}
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 9999
+				}
+			},
+			{
+				"type": "text",
+				"text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+	"sunken_statue_vigil": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The statue is enormous — obvious from a distance, but up close at the ledge it becomes something else. What remains above the lava is colossal: a tusked figure, rough-hewn from basalt, its surface worn smooth in places by centuries of heat and still deeply carved in others. It has tipped — some shift in the lava's creep or the mountain's settling has pushed it to a steep angle — but it hasn't fallen. Heavy chains, old iron gone rust-orange, loop from anchors driven into the cavern walls and catch it at the shoulders and chest, holding it suspended. Someone put those chains there. It isn't clear when.\n\nThe tusked face is angled toward you by the tilt. The scale of it — the size of a single eye socket, the width of one worn hand — makes you very aware of your own dimensions. It has been looking at this cavern for a long time. It gives you the distinct, unreasonable sensation of being assessed.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "",
+				"choices": [
+					{
+						"choice": "Prostrate yourself",
+						"key": "prostrate"
+					},
+					{
+						"choice": "Turn away",
+						"key": "leave"
+					},
+					{
+						"choice": "Say something unkind about it",
+						"key": "mock"
+					}
+				],
+				"branches": {
+					"prostrate": [
+						{
+							"type": "text",
+							"text": "You get down on one knee. The statue says nothing. The magma churns. Nothing changes. After a moment you stand back up and look around to make sure nobody saw."
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "show_node"
+						}
+					],
+					"mock": [
+						{
+							"type": "text",
+							"text": "You make a gesture at the statue and say something unflattering about its proportions and general bearing. It's good. You're pleased with it.\n\nA sound echoes from deeper in the cavern — the scuff of feet on stone, fast and deliberate. Then a voice, cracked and high with outrage.\n\n'I HEARD YOU. I HEARD ALL OF THAT.'\n\nAn old Troll emerges from a side passage at speed, pointing. He is ancient and angry and wearing what appears to be a hand-carved devotional pendant."
+						},
+						{
+							"type": "combat",
+							"enemy": "Cave Troll",
+							"overrides": {
+								"Trinkets": [
+									"Troll Amulet"
+								],
+								"Drops": {
+									"Troll Amulet": 100
+								}
+							},
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The old troll sits in the ash, wheezing. He glares at you. Then at the statue. Then at you again.\n\nA long silence. He reaches into a pouch at his belt and produces a heavy amulet on a cord — a rough-carved disc of stone, worn smooth with handling. He holds it out without looking up.\n\nYou take it."
+								},
+								{
+									"type": "sfx",
+									"sound": "item"
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	}
+}

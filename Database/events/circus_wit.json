@@ -1,0 +1,572 @@
+{
+    "circus_minigame_wit": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_wit_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_wit_wins": {
+						"min": 5
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"Perfect score,\" the clown says flatly. \"That's what I need from you now. Five for five. Impossible questions, trick questions, no easy ones left. This is the real Trial of Wit.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You've beaten me enough times that I've stopped being nice about it.\" They fan out a final, ominous-looking deck. \"Five out of five. Good luck. You'll need it.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "quiz_game",
+						"required_correct": 5,
+						"difficulties": [
+							"impossible",
+							"trick"
+						],
+						"on_win": [
+							{
+								"type": "event",
+								"event": "circus_wit_victory"
+							}
+						],
+						"on_lose": [
+							{
+								"type": "event",
+								"event": "circus_wit_defeat"
+							}
+						]
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_wit_wins": 4
+						},
+						"then": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Four wins.\" The mask stops moving for a second. \"Fine. FINE. Have the really nasty questions. Some worldbuilding you couldn't possibly know yet. Some tricks. Good luck.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"You're really doing this to me,\" they mutter, shuffling in a set of cards that seem to glow faintly with malice. \"Four of five. Go on, then.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "quiz_game",
+								"required_correct": 4,
+								"difficulties": [
+									"hard",
+									"impossible",
+									"trick"
+								],
+								"on_win": [
+									{
+										"type": "event",
+										"event": "circus_wit_victory"
+									}
+								],
+								"on_lose": [
+									{
+										"type": "event",
+										"event": "circus_wit_defeat"
+									}
+								]
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_wit_wins": 3
+								},
+								"then": [
+									{
+										"type": "random",
+										"outcomes": [
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"No more easy ones,\" the clown announces, almost offended. \"You've earned yourself the real questions. Still need four of five, though.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"Alright, alright.\" They crack their gloved knuckles. \"Let's see if you actually know things, or if you just got lucky.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											}
+										]
+									},
+									{
+										"type": "quiz_game",
+										"required_correct": 4,
+										"difficulties": [
+											"medium",
+											"hard"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_wit_victory"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_wit_defeat"
+											}
+										]
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_wit_wins": 2
+										},
+										"then": [
+											{
+												"type": "random",
+												"outcomes": [
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Ooh, someone's on a streak.\" The mask grins wider. \"Four out of five now. And I'm throwing in a few... special questions.\" They wink. Or seem to. Hard to tell with the mask.",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Getting good, aren't you.\" They produce a card with a suspiciously smug flourish. \"Some of these might not have answers at all. Have fun with that.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													}
+												]
+											},
+											{
+												"type": "quiz_game",
+												"required_correct": 4,
+												"difficulties": [
+													"easy",
+													"medium",
+													"trick"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_wit_victory"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_wit_defeat"
+													}
+												]
+											}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {
+													"circus_wit_wins": {
+														"min": 1
+													}
+												},
+												"then": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Round two of the brains department,\" the clown says, shuffling the cards. \"Slightly trickier questions this time. Still just need three of five.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"You again.\" They tilt their head. \"Fine. Let's raise the bar — just a little.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "quiz_game",
+														"required_correct": 3,
+														"difficulties": [
+															"easy",
+															"medium"
+														],
+														"on_win": [
+															{
+																"type": "event",
+																"event": "circus_wit_victory"
+															}
+														],
+														"on_lose": [
+															{
+																"type": "event",
+																"event": "circus_wit_defeat"
+															}
+														]
+													}
+												],
+												"else": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"The Trial of Wit!\" The Gamer Clown produces a stack of cards from nowhere and fans them out dramatically. \"Five questions. Three right, and you win. Simple as that — for now.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Ohhh, a thinker.\" They tap their mask. \"Let's see what's rattling around in there.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Five questions!\" they announce to nobody in particular. \"Get three right and you'll walk away a winner. Or a very lucky guesser. I won't judge — much.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "quiz_game",
+														"required_correct": 3,
+														"difficulties": [
+															"easy"
+														],
+														"on_win": [
+															{
+																"type": "event",
+																"event": "circus_wit_victory"
+															}
+														],
+														"on_lose": [
+															{
+																"type": "event",
+																"event": "circus_wit_defeat"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+
+    "circus_wit_defeat": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Ohhh, so close.\" They sweep the cards off the counter, not sounding sorry at all. \"Better luck with your books next time.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Wrong! Wrong! So very wrong!\" They cackle, pocketing the coins. \"Come back when you've read more.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Not quite,\" they say, in a tone that suggests they enjoyed saying it more than they should have. \"Try again sometime.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"That's a loss.\" They shrug theatrically. \"The questions are hard on purpose, you know. Wouldn't be fun otherwise.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Better luck next round,\" they say, already rearranging the deck. \"Or better luck knowing things. Either works.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_minigame_losses": {
+						"add": 1
+					},
+					"circus_wit_losses": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_wit_replay"
+			}
+		]
+	},
+	"circus_wit_replay": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They shuffle the cards with a flourish. \"Another round? Hundred gold, and I promise nothing about the difficulty.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Feeling smart again?\" They fan the deck out. \"Hundred gold. Prove it.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Go again?\" They tap the deck against the counter. \"Hundred gold. Try not to disappoint me. Or do. I don't actually care.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_replay"
+			}
+		]
+	},
+	"circus_wit_victory": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"...Huh.\" The clown stares at the card in their hand. \"You actually got that many right.\" They toss the coins back across the counter. \"Unbelievable. Genuinely.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Well, color me impressed.\" They clap, slow and theatrical. \"Somebody's been paying attention out there.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Ugh, fine, you win.\" They slide the coins over with two fingers, looking personally wounded by it.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Ding ding ding!\" They ring a little bell that appears from nowhere. \"We have a winner! An annoyingly smart one!\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"You know things.\" The mask tilts, unreadable. \"I don't love that about you.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_wit_wins": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_victory"
+			},
+			{
+				"type": "event",
+				"event": "circus_wit_replay"
+			}
+		]
+	}
+}

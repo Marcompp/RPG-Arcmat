@@ -1,0 +1,449 @@
+{
+    "legory_scree_search": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You crouch and work through the loose stones methodically, looking for anything out of place.",
+				"clear": true
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "A leather satchel, water-damaged, but the coin purse inside held.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 30
+							},
+							{
+								"type": "text",
+								"text": "[color=yellow]+30G[/color]",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Stones, more stones. ...You don't know what you expected.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A Frost Fairy sleeping under a flat stone. She's awake before you can apologize.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "combat",
+								"enemy": "Frost Fairy",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "She shatters into cold light. The stone sits empty.",
+										"clear": true
+									},
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A short-bladed knife wedged into a crack, blade intact. The grip is cracked from the cold, but it'll do.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_item",
+								"item": "Iron Dagger"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "A note folded inside a split stone, sealed with wax. A name, a date, a short prayer. Someone made it this far.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "text",
+								"text": "[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You accidentally disturb the cliff and trigger a small avalanche — snow falls on your head.\n[color=red]-5 HP[/color]",
+								"clear": false
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+    "legory_overlook": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You step to the very edge of the ridge.",
+				"clear": true
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"legory_int_seen": {
+						"add": 0
+					}
+				}
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Cold wind hits your face. You feel more alive than you have in days.\n[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down upon the way you came, west. The Sundown Plateau is clearly visible. It looks so small now.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down south from the cliff. Far down, you see the dark pine trees of the Vorwen Woods arrayed beneath you.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You gaze down east toward your goal. A patchwork palace stands at the foothills of Mount Legory, likely unreachable from here. Beyond it, the dull mists of the Lost Swamp. Somewhere in that shroud, your adventure's final destination awaits.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"max": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You peer down onto the valley north of Mount Legory. The verdant green of the Verdina Forest blankets the terrain, and beyond it, the snowcapped peaks of the Whitewing Mountains. Mt. Legory being one of them, yet the most apart.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You peer down the cliff, but the cloud layer prevents you from making out much beyond vague shapes on the ground.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The summit looms over your view. Nowhere near as far as it once seemed. You spot a massive winged shape, roosting at the very peak.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							}
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Your gaze sweeps west to the way you came. From here, you can see the entirety of the Sundown Plateau, and beyond it, Bertunia Castletown, surrounded by the Apple Woods. Seeing how far you've come, you regain your motivation.\n[color=teal]+5 MP[/color]",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "heal"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "restore_mp",
+									"amount": 5
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"condition": {
+							"height": {
+								"min": 4
+							},
+							"legory_int_seen": 0
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Your gaze sweeps over the distant landscape. Distances that seemed so treacherous up close are so small now. The thought gives you pause. Seeing the world from above really gives you perspective on just how small your problems are.\n[color=cyan]INT +1[/color]",
+								"clear": false
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"legory_int_seen": {
+										"set": 1
+									}
+								}
+							},
+							{
+								"type": "modify_stat",
+								"stats": {
+									"int": 1
+								}
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+    "legory_frozen_cave": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You walk up to the cave and go inside."
+			},
+			{
+				"type": "set_backdrop",
+				"backdrop": "legory_frozen3.png"
+			},
+			{
+				"type": "text",
+				"text": "You feel a deep chill as you step into the frozen cave, a layer of ice covering every surface. The back wall is a solid sheet of it — pressed flush against the stone, running floor to ceiling."
+			},
+			{
+				"type": "text",
+				"text": "There's something in it. You have to lean close to be sure, but it's there: a shape, dark against the pale blue. Arms at its sides. Nearly upright. Unmistakably shaped like a person.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Look closer",
+						"key": "look"
+					},
+					{
+						"choice": "Try to chip the ice",
+						"key": "chip"
+					},
+					{
+						"choice": "Step away",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"look": [
+						{
+							"type": "text",
+							"text": "You press close until your breath fogs the surface. The figure is dressed — or was dressed, once. You can make out the shape of a coat, stiff and dark. What might be hands, closed. What might be a face, tilted slightly downward.\n\nYou cannot make out any features. The ice is too thick, the light too dim. It could be anyone.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"chip": [
+						{
+							"type": "text",
+							"text": "You find a loose stone and try. The ice is harder than it looks — barely scuffs. You try again, harder, at the edge where it meets the wall.",
+							"clear": true
+						},
+						{
+							"type": "text",
+							"text": "A crack runs outward from where you struck, thin as a hair, then stops. The ice holds. Whatever is in there isn't coming out today.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You step back. The figure doesn't move. Of course it doesn't.\n\nYou stop looking at it.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	}
+}

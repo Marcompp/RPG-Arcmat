@@ -1,0 +1,664 @@
+{
+    "sundown_altar_event": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Up close, the altar is larger than it looked — a flat slab of dark stone, waist-high, stained with layered symbols that spiral toward the centre.\n\nThe stains are old and very dark. Something was done here regularly.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Make a blood offering (10 HP)",
+						"key": "offer"
+					},
+					{
+						"choice": "Smash it",
+						"key": "smash"
+					},
+					{
+						"choice": "Leave it alone",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"offer": [
+						{
+							"type": "effect",
+							"effect": {
+								"type": "damage",
+								"amount": 10
+							}
+						},
+						{
+							"type": "text",
+							"text": "You press your hand to the stone. The symbols flare cold — not warm — and something pulls at you, brief and deep.\n\nWhen it lets go, something rests on the altar that wasn't there before.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_item",
+							"item": "Lifespark Crystal"
+						},
+						{
+							"type": "text",
+							"text": "You took [color=red]10 damage[/color].\nYou found a [color=yellow]Lifespark Crystal[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"smash": [
+						{
+							"type": "text",
+							"text": "You bring your weight down on the altar. Stone chips and the spiral cracks through the centre.\n\nThe ground shifts.",
+							"clear": true,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Zombie",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The noise disturbed something. The plateau grows quiet again.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the altar as you found it and move on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
+    "sundown_edge_look": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You move to the rim and look over.\n\nThe drop is sheer — the bottom, if there is one, is swallowed entirely by dark.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 4,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Wind rises from below, cold and dry. Nothing else.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "event",
+								"event": "sundown_ledge_cache"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+    "sundown_grave_search": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You wander deeper into the rows, the headstones closer together here, many broken or sunk at angles into the earth.",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "You search among them...\n[wait=0.1]...[wait=0.1]",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Nothing here but old bones and silence. The ground holds its secrets.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A small offering sits on one of the graves — placed carefully, recently.\n\nSomething left it.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_item",
+								"item": "Potion"
+							},
+							{
+								"type": "text",
+								"text": "You take the [color=green]Potion[/color].",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The earth buckles.\n\nA Zombie heaves itself upright, soil raining from its frame, empty eyes fixing on you.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "combat",
+								"enemy": "Zombie",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "It collapses back into the disturbed earth. The graveyard is still.",
+										"clear": true
+									},
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "One grave sits slightly raised — the earth displaced, not by rot, but by something buried beneath the body.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_item",
+								"item": "Ether"
+							},
+							{
+								"type": "give_gold",
+								"amount": 30
+							},
+							{
+								"type": "text",
+								"text": "A hidden cache: an [color=teal]Ether[/color] and [color=yellow]30G[/color].",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"sundown_graveyard_enter": {
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"event_unused": "sundown_graveyard_first"
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "You push between the headstones. The ground is uneven, the soil freshly disturbed in places.\n\nThen the earth shifts. Something beneath it is moving — not one thing, but many things, pulling together.",
+						"clear": false
+					},
+					{
+						"type": "text",
+						"text": "It pulls itself upright between the graves: a mass of stitched limbs and fused torsos, a shape that was never one body, assembled by some madman's hand. It turns toward you.",
+						"clear": false
+					},
+					{
+						"type": "mark_used",
+						"event": "sundown_graveyard_first"
+					},
+					{
+						"type": "choice",
+						"header": "What do you do?",
+						"choices": [
+							{
+								"choice": "Fight",
+								"key": "fight"
+							},
+							{
+								"choice": "Flee",
+								"key": "flee"
+							}
+						],
+						"branches": {
+							"fight": [
+								{
+									"type": "combat",
+									"enemy": "Abomination",
+									"on_victory": [
+										{
+											"type": "text",
+											"text": "The mass collapses into the churned earth, its parts no longer holding together. The graveyard is still.",
+											"clear": true
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							],
+							"flee": [
+								{
+									"type": "text",
+									"text": "You don't wait. You back between the headstones, keeping it in sight until you're clear of the rows.\n\nIt doesn't follow.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "event",
+										"event": "sundown_grave_search"
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "event",
+										"event": "sundown_ghost_encounter"
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "event",
+										"event": "sundown_headstone"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"sundown_headstone": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "One headstone catches your eye — older than the others, its inscription still partially legible.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Here lies Aldric Voss.\nHe underestimated wolves.\nTwice.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Brother Owen.\nSpent his life feeding the hungry.\nThey eventually returned the favour.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Old Rezo.\nHe drank deeply and lived fully\nand fell off the plateau on a Tuesday.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Gretchen Fay.\nBeloved daughter, sister,\nand cautionary example.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Duran Velt.\nHe was warned this would happen.\nHe was not wrong to try.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "You lean in and read:\n\n[color=gray]\"Ser Mattis of the Eastern Hold.\nDied bravely in defence of his estate.\nHis estate burned down the following morning.\"[/color]",
+												"clear": false
+											},
+											{
+												"type": "show_node"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You touch the stone. The cold hits you sharper than the air should allow — a pulse of something wrong moves up your arm and through your chest.",
+								"clear": false
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 5
+								}
+							},
+							{
+								"type": "text",
+								"text": "[color=red]-5 HP[/color]",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The base of the stone is loose. You wiggle it free and find a small hollow carved beneath.",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 15
+							},
+							{
+								"type": "text",
+								"text": "[color=yellow]15G[/color] hidden in the stone. Someone planned ahead.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+    "sundown_search_ossuary": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You press your hands against the cold stone, feeling along the mortar for hollow spaces or loose brickwork.",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Your fingers find a gap in the mortar. You pry loose a handful of coins buried within the stone."
+							},
+							{
+								"type": "give_gold",
+								"amount": 30
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A section of wall gives way. Two Skeletons tumble out, their bones rattling as old instincts snap back into place!"
+							},
+							{
+								"type": "combat",
+								"enemy": "Skeleton Duo",
+								"on_victory": [
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A cold breath grazes your neck. You turn — a Ghost coalesces from a shadowed alcove, hollow eyes fixing on you."
+							},
+							{
+								"type": "combat",
+								"enemy": "Ghost",
+								"on_victory": [
+									{
+										"type": "show_node"
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Tucked in a crumbled niche, wrapped in tattered cloth — a small vial of shimmering blue liquid."
+							},
+							{
+								"type": "give_item",
+								"item": "Ether"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Looped around the finger bone of a long-dead penitent — a worn prayer bead, still carrying faint warmth."
+							},
+							{
+								"type": "give_item",
+								"item": "Prayer Bead"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Funny Bone"
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Deep in a sealed alcove: a humanoid bone carved into a grinning shape. It rattles even when you hold it still.\n\nYou found the [color=yellow]Funny Bone[/color]!"
+							},
+							{
+								"type": "give_item",
+								"item": "Funny Bone"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Black Skull"
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "Behind a loose stone, sealed in a small iron box — a skull carved from obsidian. Black as pitch. Smooth as glass.\n\nYou found the [color=purple]Black Skull[/color]!"
+							},
+							{
+								"type": "give_item",
+								"item": "Black Skull"
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

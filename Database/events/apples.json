@@ -1,4 +1,134 @@
 {
+	"random_apple": {
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": -2,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Rainbow Apple"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "rainbow_apple"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"event_unused": "golden_apple"
+						},
+						"steps": [
+							{
+								"type": "mark_used",
+								"event": "golden_apple"
+							},
+							{
+								"type": "event",
+								"event": "golden_apple"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "mark_used",
+								"event": "blue_apple"
+							},
+							{
+								"type": "event",
+								"event": "blue_apple"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "hearty_apple"
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "event",
+								"event": "red_apple"
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "event",
+								"event": "green_apple"
+							}
+						]
+					},
+					{
+						"weight": 12,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "brown_apple"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "purple_apple"
+							}
+						]
+					},
+					{
+						"weight": 15,
+						"stat_weights": {
+							"lck": -1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You look around but find nothing worth taking.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+
 	"blue_apple": {
 		"steps": [
 			{
@@ -442,19 +572,6 @@
 			}
 		]
 	},
-	"pick_apple": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "You look for an apple to take from the lower branches.",
-				"clear": false
-			},
-			{
-				"type": "event",
-				"event": "random_apple"
-			}
-		]
-	},
 	"purple_apple": {
 		"steps": [
 			{
@@ -543,135 +660,6 @@
 			},
 			{
 				"type": "show_node"
-			}
-		]
-	},
-	"random_apple": {
-		"steps": [
-			{
-				"type": "random",
-				"outcomes": [
-					{
-						"weight": -2,
-						"stat_weights": {
-							"lck": 1
-						},
-						"condition": {
-							"lacks_item": "Rainbow Apple"
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "rainbow_apple"
-							}
-						]
-					},
-					{
-						"weight": 1,
-						"stat_weights": {
-							"lck": 1
-						},
-						"condition": {
-							"event_unused": "golden_apple"
-						},
-						"steps": [
-							{
-								"type": "mark_used",
-								"event": "golden_apple"
-							},
-							{
-								"type": "event",
-								"event": "golden_apple"
-							}
-						]
-					},
-					{
-						"weight": 1,
-						"stat_weights": {
-							"lck": 1
-						},
-						"steps": [
-							{
-								"type": "mark_used",
-								"event": "blue_apple"
-							},
-							{
-								"type": "event",
-								"event": "blue_apple"
-							}
-						]
-					},
-					{
-						"weight": 3,
-						"stat_weights": {
-							"lck": 1
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "hearty_apple"
-							}
-						]
-					},
-					{
-						"weight": 10,
-						"steps": [
-							{
-								"type": "event",
-								"event": "red_apple"
-							}
-						]
-					},
-					{
-						"weight": 10,
-						"steps": [
-							{
-								"type": "event",
-								"event": "green_apple"
-							}
-						]
-					},
-					{
-						"weight": 12,
-						"stat_weights": {
-							"lck": -1
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "brown_apple"
-							}
-						]
-					},
-					{
-						"weight": 3,
-						"stat_weights": {
-							"lck": -1
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "purple_apple"
-							}
-						]
-					},
-					{
-						"weight": 15,
-						"stat_weights": {
-							"lck": -1
-						},
-						"steps": [
-							{
-								"type": "text",
-								"text": "You look around but find nothing worth taking.",
-								"clear": false
-							},
-							{
-								"type": "show_node"
-							}
-						]
-					}
-				]
 			}
 		]
 	},

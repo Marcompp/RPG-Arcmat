@@ -1,0 +1,1232 @@
+{
+    "circus_minigame_skill": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_skill_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_skill_wins": {
+						"min": 5
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "The mask goes very still. \"Every dart, dead center, every single time.\" They set the darts down slowly. \"No room for anything less. Go on, then. Impress me.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You again.\" They don't bother with the board this time — just point at the tiny bullseye, alone against the frame. \"You know what's needed. Let's see it.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "For a long moment, they say nothing at all. Then, quietly: \"Perfect or nothing. Same as always.\" They don't even bother explaining anymore.",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "set_var",
+						"vars": {
+							"circus_skill_threshold": {
+								"set": 45
+							},
+							"circus_skill_score": {
+								"set": 0
+							},
+							"circus_skill_progress": {
+								"set": -45
+							}
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_skill_wins": 4
+						},
+						"then": [
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "They don't bother swapping the board — it's already impossibly small, the fifteen-ring no wider than a fingertip. \"Barely any room for error left. Show me.\"",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Four.\" The mask doesn't move for a moment. \"Nobody gets this far. You understand that, right?\" They hand over the darts anyway.",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "They set the smallest board yet against the frame without comment — just a long look at you before stepping back.",
+												"clear": true,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_threshold": {
+										"set": 38
+									},
+									"circus_skill_score": {
+										"set": 0
+									},
+									"circus_skill_progress": {
+										"set": -38
+									}
+								}
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_skill_wins": 3
+								},
+								"then": [
+									{
+										"type": "random",
+										"outcomes": [
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "The board they hang this time is barely bigger than a dinner plate, every ring crowded close together. They step back, arms crossed. \"Go on, then.\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "\"Three wins.\" They exhale through the mask, a strange, hollow sound. \"Alright. Let's make this interesting.\" The board shrinks again.",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											},
+											{
+												"weight": 1,
+												"steps": [
+													{
+														"type": "text",
+														"text": "They pin up a board so small you can barely make out the rings from here. \"Still feeling confident?\"",
+														"clear": true,
+														"no_continue": true
+													}
+												]
+											}
+										]
+									},
+									{
+										"type": "set_var",
+										"vars": {
+											"circus_skill_threshold": {
+												"set": 31
+											},
+											"circus_skill_score": {
+												"set": 0
+											},
+											"circus_skill_progress": {
+												"set": -31
+											}
+										}
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_skill_wins": 2
+										},
+										"then": [
+											{
+												"type": "random",
+												"outcomes": [
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "They squint at you and swap the board again — smaller still, the bullseye barely a coin's width. They toss you the darts. \"Let's see if that was luck.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "\"Two in a row.\" They tap the mask, thoughtful. \"Either you're good, or I'm unlucky. Let's find out which.\"",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													},
+													{
+														"weight": 1,
+														"steps": [
+															{
+																"type": "text",
+																"text": "The board shrinks again, rings crowding the center. \"Getting harder to be impressed,\" they say, not sounding impressed at all.",
+																"clear": true,
+																"no_continue": true
+															}
+														]
+													}
+												]
+											},
+											{
+												"type": "set_var",
+												"vars": {
+													"circus_skill_threshold": {
+														"set": 24
+													},
+													"circus_skill_score": {
+														"set": 0
+													},
+													"circus_skill_progress": {
+														"set": -24
+													}
+												}
+											}
+										],
+										"else": [
+											{
+												"type": "if",
+												"condition": {
+													"circus_skill_wins": {
+														"min": 1
+													}
+												},
+												"then": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Round two.\" They swap the target board for a smaller one, rings drawn tighter. \"Should still be easy for someone as talented as you.\" The mask's grin looks unconvinced.",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They produce a fresh board, noticeably smaller than the last, and pin it up without a word. \"Go on. Surprise me again.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Back for another round?\" They twirl a dart between two fingers. \"Let's see if the first one was a fluke.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "set_var",
+														"vars": {
+															"circus_skill_threshold": {
+																"set": 17
+															},
+															"circus_skill_score": {
+																"set": 0
+															},
+															"circus_skill_progress": {
+																"set": -17
+															}
+														}
+													}
+												],
+												"else": [
+													{
+														"type": "random",
+														"outcomes": [
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They reach under the counter and produce three darts, each fletched in mismatched circus colors. \"Simple enough.\" They set a battered target board upright behind the booth.",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "\"Darts!\" They pull three of them from behind their back with a flourish, spinning one between gloved fingers. \"Nothing to it. Watch — no, wait, you throw. I watch.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															},
+															{
+																"weight": 1,
+																"steps": [
+																	{
+																		"type": "text",
+																		"text": "They produce three darts and a battered target board in the same motion, as if they'd been holding both the whole time. \"Three throws. That's all it takes.\"",
+																		"clear": true,
+																		"no_continue": true
+																	}
+																]
+															}
+														]
+													},
+													{
+														"type": "set_var",
+														"vars": {
+															"circus_skill_threshold": {
+																"set": 10
+															},
+															"circus_skill_score": {
+																"set": 0
+															},
+															"circus_skill_progress": {
+																"set": -10
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Score [var=\"circus_skill_threshold\"] or better, and you win.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "[var=\"circus_skill_threshold\"] points. That's the number to beat.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You'll need [var=\"circus_skill_threshold\"] or higher this time.",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_dart_game"
+			}
+		]
+	},
+
+    "circus_skill_dart_game": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "event",
+				"event": "circus_skill_throw"
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_throw"
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_throw"
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Three darts thrown. Final score: [var=\"circus_skill_score\"].",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "That's all three darts. Total: [var=\"circus_skill_score\"].",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The last dart settles. Final tally: [var=\"circus_skill_score\"].",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_skill_progress": {
+						"min": 0
+					}
+				},
+				"then": [
+					{
+						"type": "event",
+						"event": "circus_skill_victory"
+					}
+				],
+				"else": [
+					{
+						"type": "event",
+						"event": "circus_skill_defeat"
+					}
+				]
+			}
+		]
+	},
+	"circus_skill_defeat": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They collect the darts, unbothered. \"Close. Not close enough, though.\" The mask grins wider. \"Try again?\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Ohh, so close.\" They don't sound sincere. \"The board's rigged, probably. Definitely not you.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They pocket the coins with a shrug. \"Practice makes perfect. Allegedly.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"So close!\" The clown doesn't sound sorry at all. \"Really. So, so close.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They sweep the darts off the counter without a word, mask unreadable.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_minigame_losses": {
+						"add": 1
+					},
+					"circus_skill_losses": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_replay"
+			}
+		]
+	},
+	"circus_skill_replay": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Another round?\" They're already resetting the board. \"Hundred gold, same as always.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They tap the darts against the counter. \"Go again? Hundred gold, quick as you like.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Rematch?\" The mask tilts, waiting. \"Hundred gold, right now, if you're feeling brave.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Going again?\" They're already lining up a fresh board. \"Hundred gold. You know the drill.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The clown spins a dart between two fingers, waiting. \"Well? Hundred gold says you can't do it twice.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_replay"
+			}
+		]
+	},
+	"circus_skill_throw": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 14,
+						"stat_weights": {
+							"dex": -1.2
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart sails wide and thunks into the wooden frame. Zero.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It clatters off the board entirely and rolls under the booth. Zero points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The clown clicks their tongue. \"Ohh. That one doesn't count. That one very much doesn't count.\" Zero.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart bounces off the board and lands at your feet. The clown covers their mask with both hands, shoulders shaking with what might be laughter.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"weight": 10,
+						"stat_weights": {
+							"dex": -0.6
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart catches the outer ring, barely. Two points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It lands wobbling on the very edge of the board. Two.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Two,\" the clown announces, unimpressed. \"Technically a hit. Barely.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart clings to the outermost ring like it's not sure it wants to be there. Two points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 2
+									},
+									"circus_skill_progress": {
+										"add": 2
+									}
+								}
+							}
+						]
+					},
+					{
+						"weight": 8,
+						"stat_weights": {
+							"dex": -0.2
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "A clean hit, low on the board. Four points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart sinks into the middle ring, unremarkable. Four.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Four,\" the clown says, already looking elsewhere. \"Fine. Adequate.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It thunks into the board with a satisfying little thud. Four points, nothing special.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 4
+									},
+									"circus_skill_progress": {
+										"add": 4
+									}
+								}
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"stat_weights": {
+							"dex": 0.2
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "Closer to center now. Six points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart lands with a solid thunk, well inside the board. Six.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The clown raises an eyebrow — or the mask's painted approximation of one. \"Six. Not bad.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It sinks in with confidence. Six points, and the clown actually nods.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 6
+									},
+									"circus_skill_progress": {
+										"add": 6
+									}
+								}
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"stat_weights": {
+							"dex": 0.4
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "Nearly dead center. Eight points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart buries itself just shy of the bullseye. Eight.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"Ooh.\" The clown leans in. \"Eight. Now we're talking.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It lands with a sharp crack, inches from the center. Eight points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 8
+									},
+									"circus_skill_progress": {
+										"add": 8
+									}
+								}
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"stat_weights": {
+							"dex": 0.6
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "Dead on target. Ten points.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart strikes true, right on the mark. Ten.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The clown claps once, sharp. \"Ten! Look at that.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It hits with a satisfying thunk, right where it should. Ten points, and the mask actually grins wider.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 10
+									},
+									"circus_skill_progress": {
+										"add": 10
+									}
+								}
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"dex": 0.8
+						},
+						"steps": [
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "random",
+								"outcomes": [
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "The dart splits the bullseye clean down the middle. Fifteen!",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "It buries itself so precisely in the center that the board actually creaks. Fifteen — the mask actually stops moving for a second.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "\"FIFTEEN!\" The clown's voice cracks with something that might be genuine delight. \"Do that again. No — don't. It's unsettling.\"",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									},
+									{
+										"weight": 1,
+										"steps": [
+											{
+												"type": "text",
+												"text": "Dead. Center. The clown stares at the board, then at you, then back at the board. \"...Fifteen,\" they say faintly.",
+												"clear": false,
+												"no_continue": true
+											}
+										]
+									}
+								]
+							},
+							{
+								"type": "set_var",
+								"vars": {
+									"circus_skill_score": {
+										"add": 15
+									},
+									"circus_skill_progress": {
+										"add": 15
+									}
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"circus_skill_victory": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Well, well.\" The mask tilts, impressed despite itself. \"Look who can actually aim.\" They sweep the coins back across the counter.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They clap, slow and deliberate. \"Not bad. Not bad at all.\" The prize vanishes and reappears in your hands before you can blink.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"A winner!\" They spread their arms. \"Give this one a round of applause — oh wait, nobody's watching. Never mind. Well done, anyway.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Hah!\" The clown throws their hands up. \"Fine, FINE. You win. Don't let it go to your head.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The mask tilts, considering you for a long moment. \"...Good throw.\" They almost sound sincere.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_skill_wins": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_victory"
+			},
+			{
+				"type": "event",
+				"event": "circus_skill_replay"
+			}
+		]
+	}
+}

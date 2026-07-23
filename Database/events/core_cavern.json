@@ -95,171 +95,6 @@
 			}
 		]
 	},
-	"crystal_cluster": {
-		"repeatable": false,
-		"steps": [
-			{
-				"type": "text",
-				"text": "A cluster of loose crystals juts from a crack in the wall — dislodged by some old tremor, glowing faintly where they broke away from the stone.",
-				"clear": false,
-				"no_wait": true
-			},
-			{
-				"type": "choice",
-				"header": "What do you do?",
-				"choices": [
-					{
-						"choice": "Pocket a crystal",
-						"key": "pocket"
-					},
-					{
-						"choice": "Smash it open",
-						"key": "smash"
-					},
-					{
-						"choice": "Leave it",
-						"key": "leave"
-					}
-				],
-				"branches": {
-					"pocket": [
-						{
-							"type": "text",
-							"text": "You work one of the larger crystals free. It's warm in your hand, heavier than it looks.",
-							"clear": false
-						},
-						{
-							"type": "sfx",
-							"sound": "chest_open"
-						},
-						{
-							"type": "give_gold",
-							"amount": 40
-						},
-						{
-							"type": "text",
-							"text": "Pocketed. [color=yellow]+40G[/color] when sold.",
-							"clear": false
-						},
-						{
-							"type": "show_node"
-						}
-					],
-					"smash": [
-						{
-							"type": "text",
-							"text": "You strike the cluster sharply. The formation shatters outward.",
-							"clear": false,
-							"no_wait": true
-						},
-						{
-							"type": "random",
-							"outcomes": [
-								{
-									"weight": 3,
-									"stat_weights": {
-										"lck": 1
-									},
-									"steps": [
-										{
-											"type": "text",
-											"text": "A small hollow inside the crystal — something preserved within the stone.",
-											"clear": false
-										},
-										{
-											"type": "sfx",
-											"sound": "chest_open"
-										},
-										{
-											"type": "give_item",
-											"item": "Lifespark Crystal"
-										},
-										{
-											"type": "text",
-											"text": "You found a [color=teal]Lifespark Crystal[/color].",
-											"clear": false
-										},
-										{
-											"type": "show_node"
-										}
-									]
-								},
-								{
-									"weight": 2,
-									"stat_weights": {
-										"lck": 1
-									},
-									"steps": [
-										{
-											"type": "text",
-											"text": "The cluster breaks open. Suspended in the hollow center — a small die, carved from the crystal itself, glowing the same color as the formation.",
-											"clear": false
-										},
-										{
-											"type": "sfx",
-											"sound": "chest_open"
-										},
-										{
-											"type": "give_item",
-											"item": "crystal"
-										},
-										{
-											"type": "text",
-											"text": "You found a [color=cyan]Crystal Die[/color].",
-											"clear": false
-										},
-										{
-											"type": "show_node"
-										}
-									]
-								},
-								{
-									"weight": 7,
-									"steps": [
-										{
-											"type": "text",
-											"text": "A shard catches your hand on the way out.",
-											"clear": false,
-											"no_continue": true
-										},
-										{
-											"type": "sfx",
-											"sound": "poison"
-										},
-										{
-											"type": "effect",
-											"effect": {
-												"type": "damage",
-												"amount": 8
-											}
-										},
-										{
-											"type": "text",
-											"text": "[instant]Lost [color=red]8[/color] HP.[/instant]",
-											"clear": false
-										},
-										{
-											"type": "show_node"
-										}
-									]
-								}
-							]
-						}
-					],
-					"leave": [
-						{
-							"type": "text",
-							"text": "You leave the crystals where they are.",
-							"clear": false
-						},
-						{
-							"type": "show_node"
-						}
-					]
-				}
-			}
-		]
-	},
 	"drake_wounded": {
 		"steps": [
 			{
@@ -357,40 +192,6 @@
 						}
 					]
 				}
-			}
-		]
-	},
-	"hot_springs_rest": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "You ease into one of the warm mineral pools at the edge, the heat soaking into aching muscles. The faint glow of the water and the steady bubble of steam make it easy to lose track of time."
-			},
-			{
-				"type": "sfx",
-				"sound": "heal"
-			},
-			{
-				"type": "effect",
-				"effect": {
-					"type": "heal",
-					"amount": 9999
-				}
-			},
-			{
-				"type": "effect",
-				"effect": {
-					"type": "restore_mp",
-					"amount": 9999
-				}
-			},
-			{
-				"type": "text",
-				"text": "[color=green]HP fully restored.[/color]  [color=teal]MP fully restored.[/color]",
-				"clear": false
-			},
-			{
-				"type": "show_node"
 			}
 		]
 	},
@@ -658,6 +459,45 @@
 								}
 							],
 							"on_defeat": []
+						}
+					]
+				}
+			}
+		]
+	},
+	"troll_inscription": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "One section of the stonework is more sheltered than the rest — and the carving here is actually legible. Blocky Troll script, deeply cut.",
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Try to read it",
+						"key": "read"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"read": [
+						{
+							"type": "text",
+							"text": "It takes a while. Your Troll is not great. As best you can piece together: 'Here ends the shaft of Borghan the Persistent. Seventeen years. Seventeen. We found something. We left it.' Below that, a single word, carved shakily: 'DOWN.'"
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "show_node"
 						}
 					]
 				}

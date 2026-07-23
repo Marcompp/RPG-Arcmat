@@ -1,234 +1,324 @@
 {
-	"dig_abyssal_onyx": {
+	"sundown_plateau_dig": {
 		"steps": [
 			{
 				"type": "text",
-				"text": "Your blade splits a stone and the inside is different — black, smooth, no grain, no texture. Onyx, caught in the matrix. It breaks clean.\n\nYou found an [color=purple]Abyssal Onyx[/color]!"
+				"text": "An old shovel stands upright in the cracked earth — broad blade, handle darkened with old sweat. It's been here long enough to be forgotten. The whole plateau is burial ground. Odds are something's under it."
+			},
+			{
+				"type": "text",
+				"text": "You get to work."
 			},
 			{
 				"type": "sfx",
-				"sound": "item"
+				"sound": "earth"
 			},
 			{
-				"type": "give_item",
-				"item": "Abyssal Onyx"
-			}
-		]
-	},
-	"dig_bone_club": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A femur — long, dense, still solid. Not a burial artifact; someone shaped the end of it, wrapped it with cord. Someone down there was ready for a fight."
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 10,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You dig until the blade hits something. You clear around it with your hands. A finger bone. Not a hand — just the one."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 8,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You hit a coffin lid — intact, sealed, hinged. You consider it. You fill the hole back in."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The blade bounces off hardpan — packed earth, dry as stone. Too dense to break without a longer tool. Nothing."
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The blade catches a buried stone wrong. The handle splinters clean through the grip and the head rings off into the dirt. That's the end of that."
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"stat_weights": {
+							"str": -0.5
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The shovel wrenches sideways on a root, twisting out of your grip. The handle clips you across the shin before you catch it.\n[color=red]-3 HP[/color]"
+							},
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 3
+								}
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 5,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_zombie"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_skeleton"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": -0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ghost"
+							}
+						]
+					},
+					{
+						"weight": 7,
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_grave_coins"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"stat_weights": {
+							"str": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_burial_cache"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ether"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_bone_club"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_bone_die"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 1
+						},
+						"condition": {
+							"lacks_item": "Lifespark Crystal"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_lifespark_crystal"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Tough Topaz"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_tough_topaz"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Abyssal Onyx"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_abyssal_onyx"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Crumbled Epitaph"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_crumbled_epitaph"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Tally Stone"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_tally_stone"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Ferryman's Obol"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "dig_ferrymansobol"
+							},
+							{
+								"type": "event",
+								"event": "sundown_plateau_dig_b"
+							}
+						]
+					}
+				]
 			},
 			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Bone Club"
-			},
-			{
-				"type": "text",
-				"text": "You found a [color=red]Bone Club[/color]."
-			}
-		]
-	},
-	"dig_bone_die": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "Something small and light, wedged between two flat stones — a die, cut from old bone. The pips are worn near-smooth. Whoever is buried here came prepared for the long wait."
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "bone"
-			},
-			{
-				"type": "text",
-				"text": "You found a [color=red]Bonecarved Die[/color]."
-			}
-		]
-	},
-	"dig_burial_cache": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "Your blade strikes something solid. You dig around it — a small strongbox, iron-banded, the lock rusted through. Inside: coin, a few rings, compressed wax seals from someone's estate."
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_gold",
-				"amount": 100
-			},
-			{
-				"type": "text",
-				"text": "You got [color=yellow]100G[/color] worth of burial valuables."
-			}
-		]
-	},
-	"dig_crumbled_epitaph": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A stone shard, edges worn. You turn it over. An inscription, partially legible: '...AND HE DID NOT —'\n\nThe rest is gone.\n\nYou found a [color=gray]Crumbled Epitaph[/color]!"
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Crumbled Epitaph"
-			}
-		]
-	},
-	"dig_ether": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "Something hard and sealed near the bottom — a flask, still corked, still full. Someone buried their medicine with them. Their loss."
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Ether"
-			},
-			{
-				"type": "text",
-				"text": "You found an [color=teal]Ether[/color]."
-			}
-		]
-	},
-	"dig_ferrymansobol": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A coin, heavier than it should be — ancient, no denomination you recognize. Both faces worn to a faint impression of a boat. You pocket it. You figure you're covered.\n\nYou found a [color=yellow]Ferryman's Obol[/color]!"
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Ferryman's Obol"
-			}
-		]
-	},
-	"dig_ghost": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A cold bloom of air sends a shiver down your spine, before a shape phases through the dirt. Looks like your graverobbing disturbed someone's rest."
-			},
-			{
-				"type": "combat",
-				"enemy": "Ghost"
-			}
-		]
-	},
-	"dig_grave_coins": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A scatter of coins at arm's depth — burial offerings, old denomination. Most are tarnished down to copper color regardless of what they were."
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_gold",
-				"amount": 40
-			},
-			{
-				"type": "text",
-				"text": "You got [color=yellow]40G[/color] (pried from the clay)."
-			}
-		]
-	},
-	"dig_lifespark_crystal": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "Your shovel strikes something that doesn't sound like stone — hollow, crystalline. You dig it free. A glowing crystal, pulsing faintly. Below the plateau: the Caves of Light. It seeped up.\n\nYou found a [color=cyan]Lifespark Crystal[/color]!"
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Lifespark Crystal"
-			}
-		]
-	},
-	"dig_skeleton": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "You unearth a small collection of bones. It begins rattling, before coming together to attack."
-			},
-			{
-				"type": "combat",
-				"enemy": "Skeleton",
-				"level": 6
-			}
-		]
-	},
-	"dig_tally_stone": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "A smooth river stone covered in scratched tally marks — hundreds of them, all the way to the edge. Someone counted something, all the way to the end.\n\nYou found a [color=gray]Tally Stone[/color]!"
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Tally Stone"
-			}
-		]
-	},
-	"dig_tough_topaz": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "You catch a flash of yellow in the broken earth. A topaz, uncut, catching the light at an odd angle. Heavy for its size.\n\nYou found a [color=yellow]Tough Topaz[/color]!"
-			},
-			{
-				"type": "sfx",
-				"sound": "item"
-			},
-			{
-				"type": "give_item",
-				"item": "Tough Topaz"
-			}
-		]
-	},
-	"dig_zombie": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "From the hole you dug, an arm comes up first. Then the rest."
-			},
-			{
-				"type": "combat",
-				"enemy": "Zombie"
+				"type": "show_node"
 			}
 		]
 	},
@@ -820,6 +910,240 @@
 						}
 					]
 				}
+			}
+		]
+	},
+
+	"dig_abyssal_onyx": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Your blade splits a stone and the inside is different — black, smooth, no grain, no texture. Onyx, caught in the matrix. It breaks clean.\n\nYou found an [color=purple]Abyssal Onyx[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Abyssal Onyx"
+			}
+		]
+	},
+	"dig_bone_club": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A femur — long, dense, still solid. Not a burial artifact; someone shaped the end of it, wrapped it with cord. Someone down there was ready for a fight."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Bone Club"
+			},
+			{
+				"type": "text",
+				"text": "You found a [color=red]Bone Club[/color]."
+			}
+		]
+	},
+	"dig_bone_die": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something small and light, wedged between two flat stones — a die, cut from old bone. The pips are worn near-smooth. Whoever is buried here came prepared for the long wait."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "bone"
+			},
+			{
+				"type": "text",
+				"text": "You found a [color=red]Bonecarved Die[/color]."
+			}
+		]
+	},
+	"dig_burial_cache": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Your blade strikes something solid. You dig around it — a small strongbox, iron-banded, the lock rusted through. Inside: coin, a few rings, compressed wax seals from someone's estate."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_gold",
+				"amount": 100
+			},
+			{
+				"type": "text",
+				"text": "You got [color=yellow]100G[/color] worth of burial valuables."
+			}
+		]
+	},
+	"dig_crumbled_epitaph": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A stone shard, edges worn. You turn it over. An inscription, partially legible: '...AND HE DID NOT —'\n\nThe rest is gone.\n\nYou found a [color=gray]Crumbled Epitaph[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Crumbled Epitaph"
+			}
+		]
+	},
+	"dig_ether": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something hard and sealed near the bottom — a flask, still corked, still full. Someone buried their medicine with them. Their loss."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Ether"
+			},
+			{
+				"type": "text",
+				"text": "You found an [color=teal]Ether[/color]."
+			}
+		]
+	},
+	"dig_ferrymansobol": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A coin, heavier than it should be — ancient, no denomination you recognize. Both faces worn to a faint impression of a boat. You pocket it. You figure you're covered.\n\nYou found a [color=yellow]Ferryman's Obol[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Ferryman's Obol"
+			}
+		]
+	},
+	"dig_ghost": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A cold bloom of air sends a shiver down your spine, before a shape phases through the dirt. Looks like your graverobbing disturbed someone's rest."
+			},
+			{
+				"type": "combat",
+				"enemy": "Ghost"
+			}
+		]
+	},
+	"dig_grave_coins": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A scatter of coins at arm's depth — burial offerings, old denomination. Most are tarnished down to copper color regardless of what they were."
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_gold",
+				"amount": 40
+			},
+			{
+				"type": "text",
+				"text": "You got [color=yellow]40G[/color] (pried from the clay)."
+			}
+		]
+	},
+	"dig_lifespark_crystal": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Your shovel strikes something that doesn't sound like stone — hollow, crystalline. You dig it free. A glowing crystal, pulsing faintly. Below the plateau: the Caves of Light. It seeped up.\n\nYou found a [color=cyan]Lifespark Crystal[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Lifespark Crystal"
+			}
+		]
+	},
+	"dig_skeleton": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You unearth a small collection of bones. It begins rattling, before coming together to attack."
+			},
+			{
+				"type": "combat",
+				"enemy": "Skeleton",
+				"level": 6
+			}
+		]
+	},
+	"dig_tally_stone": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "A smooth river stone covered in scratched tally marks — hundreds of them, all the way to the edge. Someone counted something, all the way to the end.\n\nYou found a [color=gray]Tally Stone[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Tally Stone"
+			}
+		]
+	},
+	"dig_tough_topaz": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You catch a flash of yellow in the broken earth. A topaz, uncut, catching the light at an odd angle. Heavy for its size.\n\nYou found a [color=yellow]Tough Topaz[/color]!"
+			},
+			{
+				"type": "sfx",
+				"sound": "item"
+			},
+			{
+				"type": "give_item",
+				"item": "Tough Topaz"
+			}
+		]
+	},
+	"dig_zombie": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "From the hole you dug, an arm comes up first. Then the rest."
+			},
+			{
+				"type": "combat",
+				"enemy": "Zombie"
 			}
 		]
 	}

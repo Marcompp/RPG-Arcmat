@@ -1,0 +1,136 @@
+{
+    "pick_apple": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You look for an apple to take from the lower branches.",
+				"clear": false
+			},
+			{
+				"type": "event",
+				"event": "random_apple"
+			}
+		]
+	},
+    "spring_water": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You take a sip of the spring's crystal-clear water."
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "heal",
+					"amount": 10
+				}
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 10
+				}
+			},
+			{
+				"type": "text",
+				"text": "You drink deeply.\nHP and MP restored by [color=green]10[/color].",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+    "under_bridge": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You look around under the bridge...\n[wait=0.1]...[wait=0.1]",
+				"clear": false
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 1
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "You find an old chest tucked into the shadows!",
+								"clear": false
+							},
+							{
+								"type": "sfx",
+								"sound": "chest_open"
+							},
+							{
+								"type": "give_gold",
+								"amount": 100
+							},
+							{
+								"type": "text",
+								"text": "Inside: [color=yellow]100G[/color]. Not bad.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"steps": [
+							{
+								"type": "text",
+								"text": "There's nothing down here but mud and old cobwebs.",
+								"clear": false
+							},
+							{
+								"type": "show_node"
+							}
+						]
+					},
+					{
+						"weight": 4,
+						"steps": [
+							{
+								"type": "text",
+								"text": "A massive troll steps out from the shadows.",
+								"clear": false,
+								"no_wait": true
+							},
+							{
+								"type": "text",
+								"text": "\"OI! THIS IS MY BRIDGE! YOU'VE GOT A LOT OF NERVE COMING DOWN HERE!\"",
+								"clear": false
+							},
+							{
+								"type": "combat",
+								"enemy": "Troll",
+								"on_victory": [
+									{
+										"type": "text",
+										"text": "The troll's bulky form sinks onto the water under the bridge...",
+										"clear": true
+									},
+									{
+										"type": "show_node",
+										"clear": false
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

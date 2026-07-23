@@ -1,0 +1,782 @@
+{
+	"circus_minigame_luck": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_luck_played": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "if",
+				"condition": {
+					"circus_luck_wins": {
+						"min": 4
+					}
+				},
+				"then": [
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "They rub their hands together. \"Back for more? Back for more. You just keep coming back.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "The mask stares at you. \"I genuinely cannot tell if you're very good or very lucky. Either way.\" They shrug. \"Let's find out.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"You.\" They point. \"You are becoming a problem. A wonderful, profitable — for me — problem.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "They count on their fingers, lips moving. Then give up. \"You've come back more times than I can count. That's... well, it probably says more about me than you, no?\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "text",
+										"text": "\"I had to send for reinforcements,\" they say, entirely sincere. \"You'll see.\"",
+										"clear": true,
+										"no_continue": true
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "random",
+						"outcomes": [
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"frowny_clown",
+											"surprised_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"surprised_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							},
+							{
+								"weight": 1,
+								"steps": [
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"surprised_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				],
+				"else": [
+					{
+						"type": "if",
+						"condition": {
+							"circus_luck_wins": 3
+						},
+						"then": [
+							{
+								"type": "text",
+								"text": "The Gamer Clown goes very still for a moment.\n\n\"...I'm impressed,\" they say. \"Genuinely.\"\n\nThey tilt their head.\n\n\"You wouldn't like me when I'm surprised.\"",
+								"clear": true,
+								"no_continue": true
+							},
+							{
+								"type": "text",
+								"text": "They split into three.\n\nThe new one's mask is frozen mid-gasp — wide eyes, open mouth, arrested mid-shock.\n\n\"Get your dice out,\" they say. The other two agree, very quietly, like this happens often.",
+								"clear": false,
+								"no_continue": false
+							},
+							{
+								"type": "dice_game",
+								"wager": 0,
+								"gamblers": [
+									"smiley_clown",
+									"surprised_clown",
+									"serious_clown"
+								],
+								"community_dice": [
+									"circus",
+									"circus2"
+								],
+								"on_win": [
+									{
+										"type": "event",
+										"event": "circus_luck_victory"
+									}
+								],
+								"on_tie": [
+									{
+										"type": "event",
+										"event": "circus_luck_victory"
+									}
+								],
+								"on_fold": [
+									{
+										"type": "event",
+										"event": "circus_luck_defeat"
+									}
+								],
+								"on_lose": [
+									{
+										"type": "event",
+										"event": "circus_luck_defeat"
+									}
+								]
+							}
+						],
+						"else": [
+							{
+								"type": "if",
+								"condition": {
+									"circus_luck_wins": 2
+								},
+								"then": [
+									{
+										"type": "text",
+										"text": "The Gamer Clown leans on the counter and looks at you for a long moment.\n\n\"You're going to regret trying for a third win.\" They say it almost fondly.\n\nThen they split.\n\nThree figures, this time: the grinning one, the frowning one, and a third — flat-faced, blank-masked, completely expressionless.",
+										"clear": true,
+										"no_continue": true
+									},
+									{
+										"type": "text",
+										"text": "The Serious Clown stares at you.\n\nThe other two make noise. You focus on the Serious Clown.",
+										"clear": false,
+										"no_continue": false
+									},
+									{
+										"type": "dice_game",
+										"wager": 0,
+										"gamblers": [
+											"smiley_clown",
+											"frowny_clown",
+											"serious_clown"
+										],
+										"community_dice": [
+											"circus",
+											"circus2"
+										],
+										"on_win": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_tie": [
+											{
+												"type": "event",
+												"event": "circus_luck_victory"
+											}
+										],
+										"on_fold": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										],
+										"on_lose": [
+											{
+												"type": "event",
+												"event": "circus_luck_defeat"
+											}
+										]
+									}
+								],
+								"else": [
+									{
+										"type": "if",
+										"condition": {
+											"circus_luck_wins": {
+												"min": 1
+											}
+										},
+										"then": [
+											{
+												"type": "text",
+												"text": "\"You might've beaten me once, but that doesn't mean it'll happen again, I'm afraid.\"\n\nThe Gamer Clown steps up onto the booth counter.\n\n\"Ready for round two?\" They spread their arms wide — and then something happens.\n\nThey split.\n\nTwo figures drop to either side of the counter: one with a mask fixed in a permanent grin, one with a mask pulled into a long, deep frown.",
+												"clear": true,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "The Smiley Clown claps their hands. The Frowny Clown sighs.\n\n\"Better get your dice out,\" they say, not quite in unison.",
+												"clear": false,
+												"no_continue": false
+											},
+											{
+												"type": "dice_game",
+												"wager": 0,
+												"gamblers": [
+													"smiley_clown",
+													"frowny_clown"
+												],
+												"community_dice": [
+													"circus",
+													"circus2"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_tie": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_fold": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												]
+											}
+										],
+										"else": [
+											{
+												"type": "text",
+												"text": "\"For the Trial of Luck,\" the Gamer Clown announces, climbing atop the booth, \"you shall be facing *ME* in the most brutal, the most STRATEGIC, the most cunningly devised game ever conceived by any mind both fevered and brilliant...\"",
+												"clear": true,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "\"[wait=0.1]...[wait=0.1]WANDERER'S DICE!\"\n\nThey produce a set of dice from somewhere and set them on the counter with a flourish.",
+												"clear": false,
+												"no_continue": true
+											},
+											{
+												"type": "text",
+												"text": "They gesture at you. \"Better get your dice out!\"",
+												"clear": false,
+												"no_continue": false
+											},
+											{
+												"type": "dice_game",
+												"wager": 0,
+												"gamblers": [
+													"gamer_clown"
+												],
+												"community_dice": [
+													"circus",
+													"circus2"
+												],
+												"on_win": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_tie": [
+													{
+														"type": "event",
+														"event": "circus_luck_victory"
+													}
+												],
+												"on_fold": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												],
+												"on_lose": [
+													{
+														"type": "event",
+														"event": "circus_luck_defeat"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+    
+	"circus_luck_defeat": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They sweep the coins off the counter.\n\n\"Too bad.\" The mask grins. \"Looks like you just weren't lucky enough.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Ohhh, so close.\" They watch the result, unmoved. \"The dice decide, not me. Blame the dice.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They lean over the counter. \"Bad luck. Pure bad luck.\" A beat. \"Come back and try again.\" They do not sound sincere, and don't bother pretending otherwise.",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"The crowd gives you a solid...\" They tilt a hand side to side. \"Meeeh. Better luck next time. Maybe.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They pocket the coins without ceremony. \"Play more. Get Better. Come back. Lose again. That's the whole pitch, really.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_minigame_losses": {
+						"add": 1
+					},
+					"circus_luck_losses": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_luck_replay"
+			}
+		]
+	},
+	"circus_luck_replay": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They slap the counter. \"Rematch! One hundred gold, right now, I won't even make you wait!\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Another game?\" They're already rearranging the dice. \"Hundred gold. Quick as you like.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They stare at you. \"...Go again? Hundred gold. Yes or no.\"",
+								"clear": false,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_replay"
+			}
+		]
+	},
+	"circus_luck_victory": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Well.\" They stare at the dice. \"Well. Look at that.\" They sweep the coins across the counter toward you. \"I don't do that often. Enjoy it while it lasts.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They say nothing for a long moment. Then clap. Once. \"Okay. Fine. You win. Take your coins.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Extraordinary!\" They bounce on the spot in an almost forced movement. \"Good job! Good job!\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "They pull the coins back toward you with two fingers, slowly. \"...I'm going to need a minute.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "\"Fair and square!\" They spread their hands. \"Can't argue with it. Take your reward — this time.\"",
+								"clear": true,
+								"no_continue": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "set_var",
+				"vars": {
+					"circus_luck_wins": {
+						"add": 1
+					}
+				}
+			},
+			{
+				"type": "event",
+				"event": "circus_minigame_victory"
+			},
+			{
+				"type": "event",
+				"event": "circus_luck_replay"
+			}
+		]
+	}
+}

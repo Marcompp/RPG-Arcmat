@@ -1,4 +1,200 @@
 {
+	
+	"core_cavern_mining": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Ancient, heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."
+			},
+			{
+				"type": "text",
+				"text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."
+			},
+			{
+				"type": "sfx",
+				"sound": "earth"
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 8,
+						"stat_weights": {
+							"str": -0.5
+						},
+						"steps": [
+							{
+								"type": "text",
+								"text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it.\n[color=red]-5 HP[/color]"
+							},
+							{
+								"type": "sfx",
+								"sound": "hit"
+							},
+							{
+								"type": "effect",
+								"effect": {
+									"type": "damage",
+									"amount": 5
+								}
+							}
+						]
+					},
+					{
+						"weight": 9,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The seam runs out fast. You chase it deeper, angle after angle, until the pickaxe head snaps clean off and bounces away into the dark. You stand there with a broken handle. Nothing."
+							}
+						]
+					},
+					{
+						"weight": 15,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The rock gives nothing. A dry swing, another, a third. No vein, no pocket, nothing but dust. The pickaxe is still in one piece, at least."
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 6,
+						"stat_weights": {
+							"str": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_fool_gold"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 3,
+						"stat_weights": {
+							"str": 0.5,
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_rough_gems"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"str": 1,
+							"lck": 0.5
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_large_vein"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Amber Drop"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_amber_drop"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Brilliant Ruby"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_brilliant_ruby"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 2,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Obsidian Chunk"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_obsidian_chunk"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"stat_weights": {
+							"lck": 0.5
+						},
+						"condition": {
+							"lacks_item": "Lifespark Crystal"
+						},
+						"steps": [
+							{
+								"type": "event",
+								"event": "mine_lifespark_crystal"
+							},
+							{
+								"type": "event",
+								"event": "core_cavern_mine_b"
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
 	"core_cavern_mine_b": {
 		"steps": [
 			{
@@ -431,201 +627,7 @@
 			}
 		]
 	},
-	"core_cavern_mining": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "At the back of the shaft, propped against the wall like it was left between shifts: a pickaxe. Ancient, heavy, short-handled, the head still solid. The rock face opposite has fresh scoring and a few glittering seams left half-exposed. Whoever left this wasn't done."
-			},
-			{
-				"type": "text",
-				"text": "The pickaxe is heavier than it looks. You set your stance against the rock face and start working the seams."
-			},
-			{
-				"type": "sfx",
-				"sound": "earth"
-			},
-			{
-				"type": "random",
-				"outcomes": [
-					{
-						"weight": 8,
-						"stat_weights": {
-							"str": -0.5
-						},
-						"steps": [
-							{
-								"type": "text",
-								"text": "The rock doesn't yield. You're forcing the angle wrong and you know it, but keep going anyway. The pickaxe handle cracks, the head pings off into the dark, and you're left with a splinter in your palm and nothing to show for it.\n[color=red]-5 HP[/color]"
-							},
-							{
-								"type": "sfx",
-								"sound": "hit"
-							},
-							{
-								"type": "effect",
-								"effect": {
-									"type": "damage",
-									"amount": 5
-								}
-							}
-						]
-					},
-					{
-						"weight": 9,
-						"steps": [
-							{
-								"type": "text",
-								"text": "The seam runs out fast. You chase it deeper, angle after angle, until the pickaxe head snaps clean off and bounces away into the dark. You stand there with a broken handle. Nothing."
-							}
-						]
-					},
-					{
-						"weight": 15,
-						"steps": [
-							{
-								"type": "text",
-								"text": "The rock gives nothing. A dry swing, another, a third. No vein, no pocket, nothing but dust. The pickaxe is still in one piece, at least."
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 6,
-						"stat_weights": {
-							"str": 0.5
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_fool_gold"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 3,
-						"stat_weights": {
-							"str": 0.5,
-							"lck": 0.5
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_rough_gems"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 1,
-						"stat_weights": {
-							"str": 1,
-							"lck": 0.5
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_large_vein"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 2,
-						"stat_weights": {
-							"lck": 0.5
-						},
-						"condition": {
-							"lacks_item": "Amber Drop"
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_amber_drop"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 2,
-						"stat_weights": {
-							"lck": 0.5
-						},
-						"condition": {
-							"lacks_item": "Brilliant Ruby"
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_brilliant_ruby"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 2,
-						"stat_weights": {
-							"lck": 0.5
-						},
-						"condition": {
-							"lacks_item": "Obsidian Chunk"
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_obsidian_chunk"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					},
-					{
-						"weight": 1,
-						"stat_weights": {
-							"lck": 0.5
-						},
-						"condition": {
-							"lacks_item": "Lifespark Crystal"
-						},
-						"steps": [
-							{
-								"type": "event",
-								"event": "mine_lifespark_crystal"
-							},
-							{
-								"type": "event",
-								"event": "core_cavern_mine_b"
-							}
-						]
-					}
-				]
-			},
-			{
-				"type": "show_node"
-			}
-		]
-	},
+
 	"mine_amber_drop": {
 		"steps": [
 			{

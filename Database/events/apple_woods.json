@@ -1,4 +1,29 @@
 {
+	"find_mushroom": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You notice a small cluster of mushrooms growing at the base of a mossy rock.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "show_node_actions"
+			}
+		]
+	},
+	"stranger_encounter": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "Someone is coming up the road in the opposite direction — pack on their back, head down, moving quickly. They give you a wide berth without making eye contact, and you do the same. A brief nod as you pass. Then the road is yours again.",
+				"clear": false
+			},
+			{
+				"type": "show_node_actions"
+			}
+		]
+	},
 	"apple_orchard": {
 		"steps": [
 			{
@@ -41,16 +66,112 @@
 			}
 		]
 	},
-	"find_mushroom": {
+	"bandit_ambush": {
+		"repeatable": false,
 		"steps": [
 			{
 				"type": "text",
-				"text": "You notice a small cluster of mushrooms growing at the base of a mossy rock.",
-				"clear": false,
+				"text": "You hear rustling in the bushes...",
+				"clear": false
+			},
+			{
+				"type": "text",
+				"text": "Too late — you walked straight into an ambush!\n\nTwo bandits leap out and block the road!\n\n\"You're in our turf now, pal!\"\n\n\"You'll be much easier to rob when you're dead!\"",
 				"no_wait": true
 			},
 			{
-				"type": "show_node_actions"
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Fight",
+						"key": "fight"
+					},
+					{
+						"choice": "Pay them off (100G)",
+						"key": "pay",
+						"condition": {
+							"gold": {
+								"min": 100
+							}
+						},
+						"disabled_tooltip": "Not enough gold (need 100G)"
+					},
+					{
+						"choice": "Turn them against each other",
+						"key": "trick"
+					}
+				],
+				"branches": {
+					"fight": [
+						{
+							"type": "combat",
+							"enemy": "Bandit Brothers",
+							"on_victory": [
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"pay": [
+						{
+							"type": "give_gold",
+							"amount": -100
+						},
+						{
+							"type": "text",
+							"text": "You reach into your purse and shove a fistful of coins at the nearest bandit — not counting, not stopping. You're already moving.\n\nBehind you, you hear them counting. Then arguing about the count.\n\nYou don't look back.",
+							"clear": true
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"trick": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You glance at the second bandit. 'You know what he said about you back there?'\n\n'What?' The first one turns. 'I never said—'\n'I'm sure you didn't.'\n'You did say something—' 'I never—'\n\nYou're around them and gone before they've finished.",
+											"clear": true
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "'Even we've heard that one.'\n\nThey both take a step forward.",
+											"clear": false,
+											"no_wait": true
+										},
+										{
+											"type": "combat",
+											"enemy": "Bandit Brothers",
+											"on_victory": [
+												{
+													"type": "show_node"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
 			}
 		]
 	},
@@ -221,40 +342,6 @@
 						"type": "show_node"
 					}
 				]
-			}
-		]
-	},
-	"spring_water": {
-		"steps": [
-			{
-				"type": "text",
-				"text": "You take a sip of the spring's crystal-clear water."
-			},
-			{
-				"type": "sfx",
-				"sound": "heal"
-			},
-			{
-				"type": "effect",
-				"effect": {
-					"type": "heal",
-					"amount": 10
-				}
-			},
-			{
-				"type": "effect",
-				"effect": {
-					"type": "restore_mp",
-					"amount": 10
-				}
-			},
-			{
-				"type": "text",
-				"text": "You drink deeply.\nHP and MP restored by [color=green]10[/color].",
-				"clear": false
-			},
-			{
-				"type": "show_node"
 			}
 		]
 	},

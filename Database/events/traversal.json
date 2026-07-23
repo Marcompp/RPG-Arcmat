@@ -1,0 +1,199 @@
+{
+    "rickety_bridge": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "The bridge ahead is ancient and rotting. The boards creak and sway with each gust of wind, gaps yawning between planks over a rushing river far below.\nIt feels like it could give way at any moment.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Press on across the bridge",
+						"key": "press_on"
+					},
+					{
+						"choice": "Give up and go around",
+						"key": "give_up"
+					}
+				],
+				"branches": {
+					"give_up": [
+						{
+							"type": "exit_node",
+							"exit": {
+								"leads_to": "RIVER",
+								"travel_text": "You decide not to risk it and pick your way along the riverbank, looking for a safer crossing."
+							}
+						}
+					],
+					"press_on": [
+						{
+							"type": "text",
+							"text": "You step onto the bridge. Each board groans and flexes under your weight. The whole structure sways...[wait=0.2]\n...[wait=0.1]\n...[wait=0.1]",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"dex": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "You keep your weight balanced and move quickly from board to board. You're barely across when the final plank splinters into the water below!",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "ROAD",
+												"travel_text": "You dash the last few steps off the bridge and continue down the road, heart still pounding."
+											},
+											"value": 1.2
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Halfway across, the bridge gives way with a sickening crack. The boards vanish beneath your feet and you plunge into the rushing water below!",
+											"clear": false
+										},
+										{
+											"type": "exit_node",
+											"exit": {
+												"leads_to": "RAPIDS",
+												"travel_text": "The current drags you downstream through the rapids."
+											},
+											"enemies": [
+												"Bitefish"
+											],
+											"encounter_rate": 1,
+											"forbid_event": true,
+											"value": 0
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"swamp_lost_traversal": {
+		"steps": [
+			{
+				"type": "set_backdrop",
+				"backdrop": "lost_fog.jpg"
+			},
+			{
+				"type": "random",
+				"outcomes": [
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "The fog swallows the path whole. You can't see your own feet.",
+								"clear": false,
+								"no_wait": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "White mist closes in from every side at once. There's no direction left to pick.",
+								"clear": false,
+								"no_wait": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "You press on, but the world beyond arm's reach simply isn't there anymore.",
+								"clear": false,
+								"no_wait": true
+							}
+						]
+					},
+					{
+						"weight": 1,
+						"steps": [
+							{
+								"type": "text",
+								"text": "Somewhere close, the fog seems to shift around something solid. Then it's gone.",
+								"clear": false,
+								"no_wait": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"swamp_marks_count": {
+						"min": 4
+					}
+				},
+				"then": [
+					{
+						"type": "append",
+						"text": " The fog feels thinner than it did.",
+						"linebreak": false
+					}
+				]
+			},
+			{
+				"type": "if",
+				"condition": {
+					"swamp_marks_count": {
+						"min": 6
+					}
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "The fog thins at last, and for the first time, the path ahead doesn't disappear.",
+						"clear": false
+					},
+					{
+						"type": "exit_node",
+						"exit": {
+							"leads_to": "SWAMP",
+							"value": 7,
+							"travel_text": "You break free of the fog, the ground growing firmer with every step."
+						}
+					}
+				],
+				"else": [
+					{
+						"type": "exit_node",
+						"exit": {
+							"leads_to": "SWAMP",
+							"value": 0,
+							"travel_text": "The fog closes back in behind you. You're still lost."
+						}
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,102 @@
+{
+    "bask_light": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You bask in the light emanating from the caves...\n[wait=0.1]...[wait=0.1]",
+				"clear": true,
+				"no_continue": true
+			},
+			{
+				"type": "sfx",
+				"sound": "heal"
+			},
+			{
+				"type": "effect",
+				"effect": {
+					"type": "restore_mp",
+					"amount": 10
+				}
+			},
+			{
+				"type": "text",
+				"text": "Your mind clears.\nMP restored by [color=teal]10[/color].",
+				"clear": false
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+    "altar_offering": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "You approach the altar. It radiates a concentrated warmth — not heat exactly, but presence. Faint markings pulse in slow rhythm across the stone. A shallow basin at its centre is worn smooth by countless offerings.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Make an offering (30G)",
+						"key": "offer",
+						"condition": {
+							"gold": {
+								"min": 30
+							}
+						},
+						"disabled_tooltip": "Not enough gold (need 30G)"
+					},
+					{
+						"choice": "Leave",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"offer": [
+						{
+							"type": "give_gold",
+							"amount": -30
+						},
+						{
+							"type": "text",
+							"text": "You place 30G in the basin. The coins catch the crystal light — then the glow intensifies, warm and steady, filling the chamber.\n\nWhen it fades, something rests where your offering was.",
+							"clear": true,
+							"no_continue": true
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_item",
+							"item": "Book of Heal"
+						},
+						{
+							"type": "text",
+							"text": "You found the [color=green]Book of Heal[/color].",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the altar undisturbed and press on.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	}
+}

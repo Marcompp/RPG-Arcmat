@@ -1,0 +1,63 @@
+{
+	"half_sunken_boat_inspect": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You search the waterlogged hull, but whatever the boat once carried is long gone."
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+    "lost_shrine_search": {
+		"steps": [
+			{
+				"type": "text",
+				"text": "You circle the shrine carefully, but the crumbling stone gives up nothing more for now."
+			},
+			{
+				"type": "show_node"
+			}
+		]
+	},
+    	"swamp_leave_marker": {
+		"repeatable": true,
+		"steps": [
+			{
+				"type": "if",
+				"condition": {
+					"marked": true
+				},
+				"then": [
+					{
+						"type": "text",
+						"text": "You've already left your mark here.",
+						"clear": false
+					}
+				],
+				"else": [
+					{
+						"type": "text",
+						"text": "You tie a strip of cloth to a branch, low enough that you'd recognize it again.",
+						"clear": false
+					},
+					{
+						"type": "mark_node"
+					},
+					{
+						"type": "set_var",
+						"vars": {
+							"swamp_marks_count": {
+								"add": 1
+							}
+						}
+					}
+				]
+			},
+			{
+				"type": "show_node_actions"
+			}
+		]
+	}
+}

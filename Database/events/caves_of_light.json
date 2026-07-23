@@ -1,30 +1,166 @@
 {
-	"bask_light": {
+	"crystal_cluster": {
+		"repeatable": false,
 		"steps": [
 			{
 				"type": "text",
-				"text": "You bask in the light emanating from the caves...\n[wait=0.1]...[wait=0.1]",
-				"clear": true,
-				"no_continue": true
+				"text": "A cluster of loose crystals juts from a crack in the wall — dislodged by some old tremor, glowing faintly where they broke away from the stone.",
+				"clear": false,
+				"no_wait": true
 			},
 			{
-				"type": "sfx",
-				"sound": "heal"
-			},
-			{
-				"type": "effect",
-				"effect": {
-					"type": "restore_mp",
-					"amount": 10
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Pocket a crystal",
+						"key": "pocket"
+					},
+					{
+						"choice": "Smash it open",
+						"key": "smash"
+					},
+					{
+						"choice": "Leave it",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"pocket": [
+						{
+							"type": "text",
+							"text": "You work one of the larger crystals free. It's warm in your hand, heavier than it looks.",
+							"clear": false
+						},
+						{
+							"type": "sfx",
+							"sound": "chest_open"
+						},
+						{
+							"type": "give_gold",
+							"amount": 40
+						},
+						{
+							"type": "text",
+							"text": "Pocketed. [color=yellow]+40G[/color] when sold.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"smash": [
+						{
+							"type": "text",
+							"text": "You strike the cluster sharply. The formation shatters outward.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 3,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "A small hollow inside the crystal — something preserved within the stone.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Lifespark Crystal"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=teal]Lifespark Crystal[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 2,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "The cluster breaks open. Suspended in the hollow center — a small die, carved from the crystal itself, glowing the same color as the formation.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "crystal"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=cyan]Crystal Die[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 7,
+									"steps": [
+										{
+											"type": "text",
+											"text": "A shard catches your hand on the way out.",
+											"clear": false,
+											"no_continue": true
+										},
+										{
+											"type": "sfx",
+											"sound": "poison"
+										},
+										{
+											"type": "effect",
+											"effect": {
+												"type": "damage",
+												"amount": 8
+											}
+										},
+										{
+											"type": "text",
+											"text": "[instant]Lost [color=red]8[/color] HP.[/instant]",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You leave the crystals where they are.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
 				}
-			},
-			{
-				"type": "text",
-				"text": "Your mind clears.\nMP restored by [color=teal]10[/color].",
-				"clear": false
-			},
-			{
-				"type": "show_node"
 			}
 		]
 	},
@@ -312,6 +448,118 @@
 			}
 		]
 	},
+	"renegade_pack": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something catches your eye near the base of the wall — a battered canvas pack, half-buried under loose stone. Whoever left it here didn't come back for it.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "Search it?",
+				"choices": [
+					{
+						"choice": "Yes",
+						"key": "yes"
+					},
+					{
+						"choice": "Leave it",
+						"key": "no"
+					}
+				],
+				"branches": {
+					"yes": [
+						{
+							"type": "random",
+							"outcomes": [
+								{
+									"weight": 4,
+									"stat_weights": {
+										"lck": 1
+									},
+									"steps": [
+										{
+											"type": "text",
+											"text": "Beneath a torn bedroll: a battered coin pouch.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_gold",
+											"amount": 50
+										},
+										{
+											"type": "text",
+											"text": "You count out [color=yellow]50G[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Rolled inside a spare shirt: a small bottle, still sealed.",
+											"clear": false
+										},
+										{
+											"type": "sfx",
+											"sound": "chest_open"
+										},
+										{
+											"type": "give_item",
+											"item": "Medicine"
+										},
+										{
+											"type": "text",
+											"text": "You found a [color=green]Medicine[/color].",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								},
+								{
+									"weight": 3,
+									"steps": [
+										{
+											"type": "text",
+											"text": "Dust, torn cloth, a snapped blade. Whoever owned this left in a hurry — or didn't leave at all.",
+											"clear": false
+										},
+										{
+											"type": "show_node"
+										}
+									]
+								}
+							]
+						}
+					],
+					"no": [
+						{
+							"type": "text",
+							"text": "You leave it where it is.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					]
+				}
+			}
+		]
+	},
 	"bat_roost": {
 		"steps": [
 			{
@@ -406,6 +654,95 @@
 									"type": "show_node"
 								}
 							]
+						}
+					]
+				}
+			}
+		]
+	},
+	"wounded_spirit": {
+		"repeatable": false,
+		"steps": [
+			{
+				"type": "text",
+				"text": "Something drifts near the surface of the spring — pale and flickering, circling in the crystal light. A Restless Spirit. But it isn't moving toward you. It moves as if confused, or searching.",
+				"clear": false,
+				"no_wait": true
+			},
+			{
+				"type": "choice",
+				"header": "What do you do?",
+				"choices": [
+					{
+						"choice": "Speak to it",
+						"key": "speak"
+					},
+					{
+						"choice": "Strike first",
+						"key": "strike"
+					},
+					{
+						"choice": "Leave it alone",
+						"key": "leave"
+					}
+				],
+				"branches": {
+					"speak": [
+						{
+							"type": "text",
+							"text": "You speak quietly. It stops circling.\n\nFor a moment, nothing — then something passes between you. Not words. An impression of torchlight. Robed figures. A blade.\n\nThen it dissolves, scattering across the surface of the spring and vanishing into the stone.",
+							"clear": true
+						},
+						{
+							"type": "sfx",
+							"sound": "heal"
+						},
+						{
+							"type": "effect",
+							"effect": {
+								"type": "restore_mp",
+								"amount": 15
+							}
+						},
+						{
+							"type": "text",
+							"text": "Something lingers in the air — a faint warmth.\n[color=teal]MP +15[/color]",
+							"clear": false
+						},
+						{
+							"type": "show_node"
+						}
+					],
+					"strike": [
+						{
+							"type": "text",
+							"text": "You don't wait to find out what it wants.",
+							"clear": false,
+							"no_wait": true
+						},
+						{
+							"type": "combat",
+							"enemy": "Restless Spirit",
+							"on_victory": [
+								{
+									"type": "text",
+									"text": "The spirit unravels. The spring is still.",
+									"clear": true
+								},
+								{
+									"type": "show_node"
+								}
+							]
+						}
+					],
+					"leave": [
+						{
+							"type": "text",
+							"text": "You give it a wide berth and move on. It doesn't follow.",
+							"clear": false
+						},
+						{
+							"type": "show_node"
 						}
 					]
 				}
