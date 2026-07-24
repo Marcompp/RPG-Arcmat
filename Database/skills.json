@@ -678,5 +678,18 @@
 			"wgt": 0
 		},
 		"use_text": "[b][USER][/b] gazes into [b][TARGET][/b] and [color=cyan]shifts[/color]..."
+	},
+	"Split": {
+		"nome": "Split",
+		"description": "Splits into two Slimes.",
+		"type": "summon",
+		"blacklist": true,
+		"summons": "Slime",
+		"magnitude": 2,
+		"stats": {
+			"wgt": 0
+		},
+		"cooldown": 0,
+		"use_text": "[b][USER][/b] splits into smaller Slimes!"
 	}
 }
