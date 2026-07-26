@@ -947,6 +947,55 @@
 		"Rarity": 10
 	},
 	{
+		"Name": "Big Slime",
+		"Element": "Water",
+		"Lvl": 9,
+		"Gender": "None",
+		"Stats": {
+			"HP": "B",
+			"MP": "D",
+			"Str": "D",
+			"Int": "E",
+			"Dex": "D",
+			"Agi": "D",
+			"Lck": "E",
+			"Def": "D"
+		},
+		"TrueStats": {
+			"HP": 45
+		},
+		"Drops": {
+			"Potion": 90,
+			"Medicine": 30,
+			"Slime Spear": 20
+		},
+		"Gold": 35,
+		"Startup": 1,
+		"Cooldown": 2,
+		"Skill_Chance": 80,
+		"Preparing": [
+			"[SELF] swells, bog-water sloshing beneath its skin.",
+			"[SELF] gorges on the murky water, bloating larger.",
+			"[SELF] ripples with a slow, hungry pulse."
+		],
+		"Recharging": [
+			"[SELF] settles heavily into the mud, dripping.",
+			"[SELF] wobbles, swollen and unstable.",
+			"Fetid water seeps from [SELF]'s bulging mass."
+		],
+		"Start": "Regen",
+		"Skills": [],
+		"Spells": [
+			"Water",
+			"Poison"
+		],
+		"Trinkets": [
+			"Unstable Core"
+		],
+		"Location": "Lost Swamp",
+		"Rarity": 3
+	},
+	{
 		"Name": "Gargoyle",
 		"Element": "Earth",
 		"Lvl": 15,

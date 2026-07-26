@@ -63,6 +63,13 @@ func get_battle_start_skills() -> Array:
 				result.append(skill_name)
 	return result
 
+func get_on_death_skill() -> String:
+	for t in owner.get_trinkets():
+		var tdata = trinkets_db.get(t, {})
+		if tdata.get("effect", "") == "on_death_skill":
+			return tdata.get("skill", "")
+	return ""
+
 func is_immune_to_status(status: String) -> bool:
 	for t in owner.get_trinkets():
 		var tdata = trinkets_db.get(t, {})

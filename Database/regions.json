@@ -294,7 +294,8 @@
 		"Enemies": [
 			"Ent",
 			"Gorgon",
-			"Lost Souls"
+			"Lost Souls",
+			"Big Slime"
 		],
 		"Boss": "King of the Swamp",
 		"Length": 7,

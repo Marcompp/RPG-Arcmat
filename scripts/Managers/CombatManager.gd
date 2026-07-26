@@ -98,6 +98,19 @@ func _notify_if_died(target) -> String:
 	MyEventBus.emit("enemy_died", { "who": who })
 	return "\n[b]%s[/b] went down!" % _get_display_name(target)
 
+func _process_death_trinkets(target, down_msg: String) -> void:
+	if down_msg == "":
+		return
+	var who  = _who_for(target)
+	var tsys = _tsys(who)
+	if tsys == null:
+		return
+	var skill_name = tsys.get_on_death_skill()
+	if skill_name == "":
+		return
+	var db = skills_db if skills_db.has(skill_name) else spells_db
+	await _execute_action(target, who, skill_name, db, target)
+
 func _target_for(action: Dictionary):
 	if action["who"] == "player":
 		var living = _living_indices()
@@ -560,7 +573,8 @@ func _resolve_turn_pair(player_action: Dictionary):
 	status_sys.process_statuses("player")
 	for i in range(enemies.size()):
 		status_sys.process_statuses(_ekey(i))
-		_notify_if_died(enemies[i])
+		var down_msg = _notify_if_died(enemies[i])
+		await _process_death_trinkets(enemies[i], down_msg)
 	await wait_for_writing()
 
 	state = CombatState.PLAYER_TURN
@@ -829,6 +843,8 @@ func _execute_hit(data, user, who: String, target):
 				"TARGET": _get_display_name(target), "USER": user.get_name()
 			}), "linebreak": false })
 			await wait_for_writing()
+		
+		var went_down = ""
 
 		if result["damage"] > 0:
 			if result["critical"]:
@@ -880,6 +896,7 @@ func _execute_hit(data, user, who: String, target):
 				damage_txt = "[screenshake][instant]%s took [color=red]%d[/color] damage![/instant][wait=0.1]" % [_get_display_name(target), result["damage"]]
 			if down_msg != "":
 				damage_txt += down_msg
+				went_down = down_msg
 			if bandana_msg != "":
 				damage_txt += bandana_msg
 			MyEventBus.emit("continue_text", { "text": damage_txt, "linebreak": false })
@@ -949,6 +966,7 @@ func _execute_hit(data, user, who: String, target):
 				_emit_timer_update()
 				MyEventBus.emit("continue_text", { "text": CombatUtils.parse_action_text(inflict, { "TARGET": _get_display_name(target) }), "linebreak": false })
 				await wait_for_writing()
+		await _process_death_trinkets(target, went_down)
 
 func _try_shatter(target) -> bool:
 	var who = _who_for(target)
@@ -1023,6 +1041,7 @@ func _register_enemy_slot(e: Character, key: String) -> void:
 	cooldowns[key]      = {}
 	e.set_stat_multipliers({})
 	status_sys.emit_status_update(key)
+	trinket_systems.erase(key)
 	var trinkets = e.data.get("Trinkets", [])
 	for i in range(trinkets.size()):
 		var variants = trinkets_db.get(trinkets[i], {}).get("variants", [])

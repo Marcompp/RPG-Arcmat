@@ -932,6 +932,10 @@
 						"key": "lost_souls"
 					},
 					{
+						"choice": "Big Slime",
+						"key": "big_slime"
+					},
+					{
 						"choice": "King of the Swamp",
 						"key": "king_of_swamp"
 					},
@@ -958,6 +962,12 @@
 						{
 							"type": "combat",
 							"enemy": "Lost Souls"
+						}
+					],
+					"big_slime": [
+						{
+							"type": "combat",
+							"enemy": "Big Slime"
 						}
 					],
 					"king_of_swamp": [
